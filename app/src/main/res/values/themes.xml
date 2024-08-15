@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Kitshn" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.TextFieldFilled" parent="Widget.Material3.TextInputLayout.FilledBox" />
+
+    <style name="Theme.DialogWindow" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+
+        <item name="materialAlertDialogTheme">
+            @style/ThemeOverlay.Material3.MaterialAlertDialog.Centered
+        </item>
+    </style>
+</resources>

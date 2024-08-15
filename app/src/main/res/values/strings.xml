@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <string name="acra_comment_helper">If you\'d like, you can comment on how this crash occurred.</string>
+    <string name="acra_dialog_button_negative">Don\'t send</string>
+    <string name="acra_dialog_button_neutral">View report</string>
+    <string name="acra_dialog_button_positive">Send (via mail)</string>
+    <string name="acra_dialog_message">The app has unexpectedly closed. Please send a crash report to help fix the problem.\n\nYou can view the entire report before sending.</string>
+    <string name="acra_dialog_title">Oops!</string>
+
+    <string name="action_abort">Abort</string>
+    <string name="action_add">Add</string>
+    <string name="action_add_to_favorites">Add to favorites</string>
+    <string name="action_add_to_meal_plan">Add to meal plan</string>
+    <string name="action_add_to_recipe_books">Add to recipe books</string>
+    <string name="action_allocate_ingredients">Allocate ingredients</string>
+    <string name="action_apply">Apply</string>
+    <string name="action_back">Back</string>
+    <string name="action_click_to_upload_image">Click to upload an image.</string>
+    <string name="action_close">Close</string>
+    <string name="action_combine">Combine</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_create">Create</string>
+    <string name="action_create_entry">New entry</string>
+    <string name="action_create_recipe">New recipe</string>
+    <string name="action_create_recipe_book">New recipe book</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_delete_from_meal_plan">Delete from meal plan</string>
+    <plurals name="action_delete_recipe_book_entries">
+        <item quantity="one">Delete entry</item>
+        <item quantity="other">Delete entries</item>
+    </plurals>
+    <plurals name="action_delete_recipe_book_entries_description">
+        <item quantity="one">Do you really want to delete this entry?</item>
+        <item quantity="other">Do you really want to delete these entries?</item>
+    </plurals>
+    <plurals name="action_delete_recipe_books">
+        <item quantity="one">Delete book</item>
+        <item quantity="other">Delete books</item>
+    </plurals>
+    <plurals name="action_delete_recipe_books_description">
+        <item quantity="one">Do you really want to delete this book?</item>
+        <item quantity="other">Do you really want to delete these books?</item>
+    </plurals>
+    <string name="action_download">Download</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_edit_entry">Edit entry</string>
+    <string name="action_edit_recipe">Edit recipe</string>
+    <string name="action_edit_recipe_book">Edit recipe book</string>
+    <string name="action_expand_less">Expand less</string>
+    <string name="action_import">Import</string>
+    <string name="action_mark_as_done">Mark as done</string>
+    <string name="action_minus">Lower</string>
+    <string name="action_minus_one_week">- one week</string>
+    <string name="action_more">More</string>
+    <string name="action_move">Move</string>
+    <string name="action_next">Next</string>
+    <string name="action_open_issue">Create issue</string>
+    <string name="action_open_original">Open original</string>
+    <string name="action_open_source">View source</string>
+    <string name="action_plus">Upper</string>
+    <string name="action_plus_one_week">+ one week</string>
+    <string name="action_remove">Remove</string>
+    <string name="action_remove_from_favorites">Remove from favorites</string>
+    <string name="action_reorder">Reorder</string>
+    <string name="action_reset">Reset</string>
+    <string name="action_save">Save</string>
+    <string name="action_saving">Saving …</string>
+    <string name="action_show_all_recipes">Show all recipes</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_out">Sign out</string>
+    <string name="action_sign_out_description">Forget credentials</string>
+    <string name="action_start_cooking">Start cooking mode</string>
+    <string name="action_upload">Upload</string>
+
+    <string name="app_name">kitshn</string>
+
+    <string name="common_add_to_shopping_list">Add to shopping list</string>
+    <string name="common_allocate_ingredients">Allocate ingredients</string>
+    <string name="common_comment">Comment</string>
+    <string name="common_contact">Contact</string>
+    <string name="common_cook_book">Cookbook</string>
+    <string name="common_count">Count</string>
+    <string name="common_crash_report">Crash report</string>
+    <string name="common_create_argument">Create » %1$s «</string>
+    <string name="common_day_after_tomorrow">Day after tomorrow</string>
+    <string name="common_day_before_yesterday">Day before yesterday</string>
+    <string name="common_delete_permanently">Delete permanently</string>
+    <string name="common_delete_permanently_text">This process cannot be reversed. Do you really want to continue?</string>
+    <string name="common_description">Description</string>
+    <string name="common_details">Details</string>
+    <string name="common_done">Done</string>
+    <string name="common_end_date">End date</string>
+    <string name="common_favorites">Favorites</string>
+    <string name="common_import_recipe">Import recipe</string>
+    <string name="common_info">Information</string>
+    <string name="common_ingredients">Ingredients</string>
+    <string name="common_instance_url">Instance URL</string>
+    <string name="common_keywords">Keywords</string>
+    <string name="common_loading">Loading</string>
+    <string name="common_loading_short">Loading …</string>
+    <string name="common_meal_type">Meal type</string>
+    <string name="common_menu">Menu</string>
+    <string name="common_minute_min">min</string>
+    <string name="common_minutes">minutes</string>
+    <string name="common_name">Name</string>
+    <string name="common_new">New</string>
+    <string name="common_not_reachable">Not reachable</string>
+    <string name="common_note">Note</string>
+    <string name="common_okay">Okay</string>
+    <string name="common_password">Password</string>
+    <plurals name="common_plural_minute">
+        <item quantity="zero">keine Minuten</item>
+        <item quantity="one">eine Minute</item>
+        <item quantity="other">%d Minuten</item>
+    </plurals>
+    <plurals name="common_plural_portion">
+        <item quantity="zero">keine Portionen</item>
+        <item quantity="one">eine Portion</item>
+        <item quantity="other">%d Portionen</item>
+    </plurals>
+    <plurals name="common_plural_wo_count">
+        <item quantity="one">Portion</item>
+        <item quantity="other">Portionen</item>
+    </plurals>
+    <string name="common_portions">Servings</string>
+    <string name="common_portions_text">Servings-Text</string>
+    <string name="common_prepairing">Preparation</string>
+    <string name="common_random">Random</string>
+    <string name="common_reachable">Reachable</string>
+    <string name="common_recipe">Recipe</string>
+    <string name="common_recipe_url">Recipe URL</string>
+    <string name="common_review">Review</string>
+    <string name="common_search">Search</string>
+    <string name="common_select">Select</string>
+    <string name="common_selected">Selected</string>
+    <string name="common_shopping">Shopping</string>
+    <string name="common_sorting">Sorting</string>
+    <string name="common_source">Source</string>
+    <string name="common_start_date">Start date</string>
+    <string name="common_step">Step %1$s</string>
+    <string name="common_steps">Steps</string>
+    <string name="common_tags">Tags</string>
+    <string name="common_time_wait">Waiting time</string>
+    <string name="common_time_work">Working time</string>
+    <string name="common_title">Title</string>
+    <string name="common_title_image">Cover image</string>
+    <string name="common_today">Today</string>
+    <string name="common_tomorrow">Tomorrow</string>
+    <string name="common_unknown">Unknown</string>
+    <string name="common_unknown_meal_type">Unknown meal type</string>
+    <string name="common_unknown_recipe">Unknown recipe</string>
+    <string name="common_unsaved_changes">Unsaved changes</string>
+    <string name="common_unsaved_changes_description">If you continue, your changes will be lost. Do you want to discard your changes?</string>
+    <string name="common_username">Username</string>
+    <string name="common_version">Version</string>
+    <string name="common_welcome">Welcome</string>
+    <string name="common_yesterday">Yesterday</string>
+
+    <string name="error">Error</string>
+    <string name="error_couldnt_connect_to_tandoor">No connection to your Tandoor server could be established.</string>
+    <string name="error_recipe_could_not_be_loaded">Recipe could not be loaded.</string>
+    <string name="error_request">Faulty request</string>
+    <string name="error_request_description">The server could not be reached / The request could not be processed by the server.</string>
+    <string name="error_unallocated_ingredients">Unallocated ingredients</string>
+    <string name="error_unallocated_ingredients_description">There are still ingredients that need to be assigned to a step before you can save the changes.</string>
+
+    <string name="expand_more">Expand more</string>
+
+    <string name="form_error_description_max_512">The description may contain a maximum of 512 characters.</string>
+    <string name="form_error_field_empty">This field must be filled in.</string>
+    <string name="form_error_name_max_128">The name may contain a maximum of 128 characters.</string>
+    <string name="form_error_portions_text_max_32">The servings text may contain a maximum of 32 characters.</string>
+    <string name="form_error_source_max_1024">The source may contain a maximum of 1024 characters.</string>
+    <string name="form_error_title_max_64">The title may contain a maximum of 64 characters.</string>
+
+    <string name="greeting_christmas">Merry Christmas &#127877;&#127876;&#129420;</string>
+    <string name="greeting_good_evening">Good evening &#127749;</string>
+    <string name="greeting_good_morning">Good morning &#127774;</string>
+    <string name="greeting_good_night">Good night &#127770;</string>
+    <string name="greeting_noon">Howdy &#129312;</string>
+
+    <string name="home_meal_plan_promotion_title">Up next today</string>
+    <string name="home_search_empty">The whole of Tandoor was examined - no suitable recipe could be found.</string>
+    <string name="home_search_empty_query">Enter a query to search Tandoor.</string>
+    <string name="home_search_tandoor">Search Tandoor</string>
+    <string name="home_section_american">&#127482;&#127480; &#129413; &#128509;</string>
+    <string name="home_section_asian">&#127982;&#129511;&#128009;&#129512;&#127879;⛩️&#127886;</string>
+    <string name="home_section_austrian">&#127462;&#127481;&#128247;&#127984;</string>
+    <string name="home_section_baking">Baking</string>
+    <string name="home_section_burger">&#127828;</string>
+    <string name="home_section_chinese">&#127464;&#127475; &#127982;&#129511;&#128009;&#129512;&#127879;⛩️&#127886;</string>
+    <string name="home_section_dinner">Ideas for your dinner</string>
+    <string name="home_section_enjoy_breakfast">Enjoy your breakfast</string>
+    <string name="home_section_fast_food">Quickly made</string>
+    <string name="home_section_five_stars">⭐⭐⭐⭐⭐</string>
+    <string name="home_section_german">&#127465;&#127466;&#127866;&#129384;✨&#127984;</string>
+    <string name="home_section_indian">&#127470;&#127475;&#129719;&#128332;&#129434;&#129685;</string>
+    <string name="home_section_lunch_time">Lunch time</string>
+    <string name="home_section_mexican">&#127474;&#127485;&#127790;&#129312;&#129361;</string>
+    <string name="home_section_never_cooked">Never cooked before</string>
+    <string name="home_section_new_recipes">New recipes</string>
+    <string name="home_section_noodles">&#127836; Noodles</string>
+    <string name="home_section_vegan">Vegan ideas</string>
+    <string name="home_section_vegetarian">Vegetarian meals</string>
+
+    <string name="internal_favorites_recipe_book_description">Automatically created by kitshn</string>
+    <string name="internal_favorites_recipe_book_name">Favorites from kitshn</string>
+
+    <string name="lorem_ipsum_medium">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</string>
+    <string name="lorem_ipsum_short">Lorem ipsum</string>
+    <string name="lorem_ipsum_title">Lorem ipsum dolor sit amet</string>
+
+    <string name="meal_plan_form_add_to_shopping_list_description">Automatically add the required ingredients to the shopping list.</string>
+    <string name="meal_plan_form_error_entry_needs_title_or_recipe">The entry needs either a title or a specified recipe.</string>
+    <string name="meal_plan_no_recipes_for_this_day">No recipes added for this day</string>
+
+    <string name="navigation_books">Books</string>
+    <string name="navigation_home">Home</string>
+    <string name="navigation_list">All recipes</string>
+    <string name="navigation_meal_plan">Meal plan</string>
+    <string name="navigation_settings">Settings</string>
+    <string name="navigation_shopping">Shopping</string>
+
+    <string name="onboarding_introduction">Welcome to kitshn (for Tandoor). Please log in to your Tandoor instance to continue.</string>
+    <string name="onboarding_sign_in_error_instance_not_reachable">The specified instance URL cannot be reached.</string>
+    <string name="onboarding_sign_in_error_sign_in_failed">Login failed. Please check your inputs!</string>
+    <string name="onboarding_sign_in_title">Log in to Tandoor</string>
+    <string name="onboarding_welcome">Have fun cooking with kitshn. Please note that the app is currently in alpha phase. For bugs, feedback, and feature ideas, please check the » About « page in the settings for contact options.</string>
+
+    <string name="recipe_book_empty">No recipes have been added to this cookery book yet.</string>
+    <string name="recipe_book_favorites_description">Collection of your favourite recipes</string>
+    <string name="recipe_books_empty">No cookbooks have been created yet — create your first cookbook!</string>
+    <string name="recipe_cook_done_description">Yummy? Leave a review and keep a record of the cooking.</string>
+    <string name="recipe_cook_done_title">Bon appétit &#129292;</string>
+    <string name="recipe_edit_no_keywords_added">No keywords have been added to this recipe yet.</string>
+    <string name="recipe_edit_no_steps_added">No steps have been added to this recipe yet.</string>
+    <string name="recipe_import_divide_steps">Divide steps</string>
+    <string name="recipe_import_divide_steps_description">Divide steps by line breaks</string>
+    <string name="recipe_not_found">This recipe could not be found.</string>
+    <string name="recipe_sorting_cooking_frequency">Cooking frequency</string>
+    <string name="recipe_sorting_creation_date">Date of creation</string>
+    <string name="recipe_sorting_last_cooked">Last time cooked</string>
+    <string name="recipe_sorting_last_viewed">Last time viewed</string>
+    <string name="recipe_sorting_relevance">Relevance</string>
+    <string name="recipe_step_timer_created">Timer has been created.</string>
+
+    <string name="search_food_including_all_description">The recipes must include all ingredients</string>
+    <string name="search_food_including_all_label">All ingredients included</string>
+    <string name="search_ingredients">Search ingredients</string>
+    <string name="search_ingredients_filter">Filter by ingredients</string>
+    <string name="search_ingredients_filter_empty">Select the ingredients you want to search for.</string>
+    <string name="search_keyword_including_all_description">The recipes must include all keywords</string>
+    <string name="search_keyword_including_all_label">All keywords included</string>
+    <string name="search_rating_filter">Filter by rating</string>
+    <string name="search_recipe_books">Search recipe books</string>
+    <string name="search_recipes">Search recipes</string>
+    <string name="search_tags">Search tags</string>
+    <string name="search_tags_filter">Filter by tags</string>
+    <string name="search_tags_filter_empty">Select the tags you want to search for.</string>
+
+    <string name="select_recipe">Select recipe</string>
+    <string name="select_recipe_book">Select recipe book</string>
+
+    <string name="settings_section_about_description">Information about this app</string>
+    <string name="settings_section_about_item_freepik">Origin of the app icon</string>
+    <string name="settings_section_about_item_new_issue_description">Report bugs, suggest features and get help</string>
+    <string name="settings_section_about_item_review_description">Rate kitshn in the Play Store</string>
+    <string name="settings_section_about_label">About</string>
+    <string name="settings_section_appearance_dark_mode_description">Use dark color scheme</string>
+    <string name="settings_section_appearance_dark_mode_label">Dark mode</string>
+    <string name="settings_section_appearance_description">Change color scheme and dynamic theming</string>
+    <string name="settings_section_appearance_dynamic_color_description">Use the dynamic color scheme of your operating system</string>
+    <string name="settings_section_appearance_dynamic_color_label">Dynamic color scheme</string>
+    <string name="settings_section_appearance_follow_system_description">Use the color scheme of the operating system</string>
+    <string name="settings_section_appearance_follow_system_label">Follow system</string>
+    <string name="settings_section_appearance_label">Appearance</string>
+    <string name="settings_section_server_description">Information about your instance</string>
+    <string name="settings_section_server_label">Server</string>
+
+    <string name="shopping_list_empty">There are currently no items on the shopping list.</string>
+    <string name="shopping_list_entry_create_placeholder_amount">250</string>
+    <string name="shopping_list_entry_create_placeholder_food">Mushrooms</string>
+    <string name="shopping_list_entry_create_placeholder_unit">g</string>
+
+    <string name="tandoor_compatibility_full_compatibility_description">The app is fully compatible with your Tandoor server!</string>
+    <string name="tandoor_compatibility_full_compatibility_label">Compatible</string>
+    <string name="tandoor_compatibility_incompatible_description">Your Tandoor server is not compatible with this app. Please update your server to one of the following versions.</string>
+    <string name="tandoor_compatibility_incompatible_label">Incompatible</string>
+    <string name="tandoor_compatibility_mixed_compatibility_description">Some functions of your Tandoor server may not be supported by this app. To use all functions of the app, update your server to one of the following versions.</string>
+    <string name="tandoor_compatibility_mixed_compatibility_label">Partially compatible</string>
+    <string name="tandoor_compatibility_not_checkable_description">The version of your Tandoor server cannot be queried. Please make sure that the version number of your server is available in the following list so that all functions can be used.</string>
+    <string name="tandoor_compatibility_not_checkable_label">Compatibility cannot be checked</string>
+    <string name="tandoor_compatibility_unknown_description">The version of your Tandoor server has not yet been checked. The functionality of the app may be impaired.</string>
+    <string name="tandoor_compatibility_unknown_label">Compatibility unknown</string>
+</resources>

@@ -1,0 +1,42 @@
+Built with <b>Jetpack Compose</b> and <b>Material You</b> to deliver a modern, intuitive and responsive user experience.
+
+<b>Supported features:</b>
+<ul>
+    <li>Dynamic home screen with suggestions</li>
+    <li>Recipes</li>
+    <ul>
+        <li>Adding, importing, editing and deleting</li>
+        <ul>
+            <li>Steps combining tool</li>
+            <li>Share receiver for recipe imports via URL</li>
+        </ul>
+        <li>Extensive search</li>
+        <li>Cooking mode</li>
+        <li>Step-ingredient allocation tool</li>
+    </ul>
+    <li>Meal plan</li>
+    <ul>
+        <li>Overview</li>
+        <li>Adding, editing and deleting</li>
+    </ul>
+    <li>Shopping list</li>
+    <ul>
+        <li>Adding and deleting</li>
+        <li>Auto-Sync</li>
+    </ul>
+    <li>Recipe books</li>
+    <ul>
+        <li>Adding and deleting</li>
+        <li>Favorites feature</li>
+    </ul>
+    <li>UI</li>
+    <ul>
+        <li>Built with Jetpack Compose</li>
+        <li>Material You dynamic colors</li>
+        <li>Responsive two pane layouts for tablets and foldables</li>
+    </ul>
+</ul>
+
+Please note that the app is currently in alpha phase. You can of course open issues on Github for bugs, feedback, and feature ideas.
+
+Icon made by Freepik from www.flaticon.com
