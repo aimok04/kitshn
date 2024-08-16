@@ -84,6 +84,7 @@ import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorClient
+import de.kitshn.android.api.tandoor.TandoorRequestState
 import de.kitshn.android.api.tandoor.model.TandoorIngredient
 import de.kitshn.android.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.android.api.tandoor.model.TandoorStep
@@ -194,7 +195,7 @@ fun ViewRecipeDetails(
     val recipe = p.vm.tandoorClient!!.container.recipe.getOrElse(recipeOverview.id) { null }
     LaunchedEffect(recipeOverview) {
         pageLoadingState = ErrorLoadingSuccessState.LOADING
-        p.vm.tandoorClient?.recipe?.get(recipeOverview.id)
+        TandoorRequestState().wrapRequest { p.vm.tandoorClient?.recipe?.get(recipeOverview.id) }
     }
 
     val recipeLinkBottomSheetState = rememberRecipeLinkBottomSheetState()

@@ -86,11 +86,17 @@ fun BaseMealTypeSearchField(
         content(
             if(selectedMealType != null) {
                 {
+                    val color = if(selectedMealType!!.color.isNotBlank()) {
+                        Color(android.graphics.Color.parseColor(selectedMealType!!.color))
+                    } else {
+                        Color.Gray
+                    }
+
                     Box(
                         Modifier
                             .size(36.dp)
                             .clip(RoundedCornerShape(8.dp))
-                            .background(Color(android.graphics.Color.parseColor(selectedMealType!!.color)))
+                            .background(color)
                     )
                 }
             } else null,

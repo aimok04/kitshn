@@ -80,8 +80,11 @@ fun HorizontalMealPlanCard(
                         )
                     },
                     supportingContent = {
-                        val color = mealPlan?.meal_type?.color ?: "#FFFFFF"
-                        val textColor = Color(android.graphics.Color.parseColor(color))
+                        val textColor = if(mealPlan?.meal_type?.color?.isNotBlank() == true) {
+                            Color(android.graphics.Color.parseColor(mealPlan.meal_type.color))
+                        } else {
+                            Color.Gray
+                        }
 
                         FilterChip(
                             modifier = Modifier.loadingPlaceHolder(loadingState),
@@ -107,7 +110,11 @@ fun HorizontalMealPlanCard(
             colors = colors,
             recipeOverview = mealPlan.recipe,
             supportingContent = {
-                val textColor = Color(android.graphics.Color.parseColor(mealPlan.meal_type.color))
+                val textColor = if(mealPlan.meal_type.color.isNotBlank()) {
+                    Color(android.graphics.Color.parseColor(mealPlan.meal_type.color))
+                } else {
+                    Color.Gray
+                }
 
                 FilterChip(
                     onClick = { },
