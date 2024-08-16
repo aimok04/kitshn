@@ -1,0 +1,2 @@
+- fix(build.gradle): removed kotlinCompilerExtensionVersion
+- fix(build.gradle): added dependenciesInfo
