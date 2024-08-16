@@ -40,6 +40,13 @@ android {
         resValue("string", "acra_mailto", prop.getProperty("acra.mailto"))
     }
 
+    dependenciesInfo {
+        // Disables dependency metadata when building APKs.
+        includeInApk = false
+        // Disables dependency metadata when building Android App Bundles.
+        includeInBundle = false
+    }
+
     aboutLibraries {
         excludeFields = arrayOf("generated")
     }
