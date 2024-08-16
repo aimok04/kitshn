@@ -48,14 +48,7 @@ android {
         debug {
             applicationIdSuffix = ".debug"
         }
-        release {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
+        release { }
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
