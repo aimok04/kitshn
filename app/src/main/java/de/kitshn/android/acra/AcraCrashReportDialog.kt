@@ -16,6 +16,7 @@ class AcraCrashReportDialog : CrashReportDialog() {
 
     private lateinit var myHelper: CrashReportDialogHelper
     private var doNotFinish = false
+    private var doNotCancel = false
 
     private var text: String = ""
 
@@ -39,13 +40,13 @@ class AcraCrashReportDialog : CrashReportDialog() {
             .setView(commentLayout)
             .setPositiveButton(getString(R.string.acra_dialog_button_positive)) { dialog, _ ->
                 this.myHelper.sendCrash(text, null)
+                this.doNotCancel = true
                 dialog.dismiss()
             }
             .setNeutralButton(getString(R.string.acra_dialog_button_neutral)) { _, _ ->
                 showReportDetailsDialog()
             }
             .setNegativeButton(getString(R.string.acra_dialog_button_negative)) { dialog, _ ->
-                myHelper.cancelReports()
                 dialog.dismiss()
             }
             .create()
@@ -57,6 +58,8 @@ class AcraCrashReportDialog : CrashReportDialog() {
                 doNotFinish = false
                 return@setOnDismissListener
             }
+
+            if(!doNotCancel) myHelper.cancelReports()
 
             Handler(Looper.getMainLooper()).postDelayed({
                 finish()

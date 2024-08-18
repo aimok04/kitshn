@@ -1,8 +1,9 @@
 package de.kitshn.android.acra
 
 import android.app.Application
+import de.kitshn.android.R
 import org.acra.config.dialog
-import org.acra.config.mailSender
+import org.acra.config.httpSender
 import org.acra.data.StringFormat
 import org.acra.ktx.initAcra
 
@@ -11,12 +12,10 @@ fun Application.initKitshnAcra() {
         buildConfigClass = de.kitshn.android.BuildConfig::class.java
         reportFormat = StringFormat.JSON
 
-        mailSender {
-            mailTo = getString(de.kitshn.android.R.string.acra_mailto)
-            subject =
-                "[ ACRA ${de.kitshn.android.BuildConfig.BUILD_TYPE.uppercase()} ] ${de.kitshn.android.BuildConfig.APPLICATION_ID} ${de.kitshn.android.BuildConfig.VERSION_NAME} Crash report"
-            body = "The attached file contains crash report data."
-            reportFileName = "acra-report.json"
+        httpSender {
+            uri = getString(R.string.acra_http_uri)
+            basicAuthLogin = getString(R.string.acra_http_basic_auth_login)
+            basicAuthPassword = getString(R.string.acra_http_basic_auth_password)
         }
 
         dialog {

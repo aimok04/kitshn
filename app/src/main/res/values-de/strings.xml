@@ -3,7 +3,7 @@
     <string name="acra_comment_helper">Wenn du möchtest kannst du beschreiben, wie der Crash entstanden ist.</string>
     <string name="acra_dialog_button_negative">Nicht senden</string>
     <string name="acra_dialog_button_neutral">Bericht ansehen</string>
-    <string name="acra_dialog_button_positive">Senden (per E-Mail)</string>
+    <string name="acra_dialog_button_positive">Senden</string>
     <string name="acra_dialog_message">Die App ist unerwarteter Weise abgestürzt. Bitte sende den Absturzbericht, damit die App verbessert werden kann.\n\nDu kannst den Bericht natürlich vorher ansehen.</string>
     <string name="acra_dialog_title">Ups!</string>
 

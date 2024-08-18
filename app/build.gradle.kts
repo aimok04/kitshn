@@ -37,7 +37,17 @@ android {
         resValue("string", "about_github_new_issue", prop.getProperty("about.github.new.issue"))
         resValue("string", "about_contact_mailto", prop.getProperty("about.contact.mailto"))
 
-        resValue("string", "acra_mailto", prop.getProperty("acra.mailto"))
+        resValue("string", "acra_http_uri", prop.getProperty("acra.http.uri"))
+        resValue(
+            "string",
+            "acra_http_basic_auth_login",
+            prop.getProperty("acra.http.basic.auth.login")
+        )
+        resValue(
+            "string",
+            "acra_http_basic_auth_password",
+            prop.getProperty("acra.http.basic.auth.password")
+        )
     }
 
     dependenciesInfo {
@@ -117,7 +127,7 @@ dependencies {
     implementation(libs.volley)
     implementation(libs.androidx.browser)
 
-    implementation(libs.acra.mail)
+    implementation(libs.acra.http)
     implementation(libs.acra.dialog)
 
     implementation(libs.aboutlibraries.core)

@@ -1,7 +1,7 @@
 [versions]
 aboutlibraries = "11.2.2"
 accompanistPlaceholderMaterial = "0.34.0"
-acraMail = "5.11.3"
+acra = "5.11.3"
 adaptive = "1.0.0-beta04"
 agp = "8.5.2"
 coil = "2.7.0"
@@ -29,8 +29,8 @@ aboutlibraries-compose-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3",
 aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "aboutlibraries" }
 accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder", version.ref = "accompanistPlaceholderMaterial" }
 accompanist-placeholder-material = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "accompanistPlaceholderMaterial" }
-acra-dialog = { module = "ch.acra:acra-dialog", version.ref = "acraMail" }
-acra-mail = { module = "ch.acra:acra-mail", version.ref = "acraMail" }
+acra-dialog = { module = "ch.acra:acra-dialog", version.ref = "acra" }
+acra-http = { module = "ch.acra:acra-http", version.ref = "acra" }
 androidx-adaptive = { module = "androidx.compose.material3.adaptive:adaptive", version.ref = "adaptive" }
 androidx-adaptive-layout = { module = "androidx.compose.material3.adaptive:adaptive-layout", version.ref = "adaptive" }
 androidx-adaptive-navigation = { module = "androidx.compose.material3.adaptive:adaptive-navigation", version.ref = "adaptive" }

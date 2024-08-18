@@ -3,7 +3,7 @@
     <string name="acra_comment_helper">If you\'d like, you can comment on how this crash occurred.</string>
     <string name="acra_dialog_button_negative">Don\'t send</string>
     <string name="acra_dialog_button_neutral">View report</string>
-    <string name="acra_dialog_button_positive">Send (via mail)</string>
+    <string name="acra_dialog_button_positive">Send</string>
     <string name="acra_dialog_message">The app has unexpectedly closed. Please send a crash report to help fix the problem.\n\nYou can view the entire report before sending.</string>
     <string name="acra_dialog_title">Oops!</string>
 
