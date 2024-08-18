@@ -1,0 +1,6 @@
+- feat(acra): switched to acra-http
+- feat(home): improved list performance
+- feat(requests): improved error dialog
+- fix(requests): fixed crashes
+- fix(vm): crash when unable to parse version
+- fix(build.gradle): added minifying back
