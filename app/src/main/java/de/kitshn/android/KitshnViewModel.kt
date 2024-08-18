@@ -66,6 +66,8 @@ class KitshnViewModel(
                 tandoorClient!!.system.retrieveSystemData()
             } catch(e: TandoorRequestsError) {
                 e.printStackTrace()
+            } catch(e: Exception) {
+                e.printStackTrace()
             }
 
             if(settings.getOnboardingCompleted.first()) {
