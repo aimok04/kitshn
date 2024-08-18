@@ -119,7 +119,7 @@ fun RouteRecipeCookPageStep(
                 onClick = {
                     context.startActivity(
                         Intent().apply {
-                            setAction(AlarmClock.ACTION_SET_TIMER)
+                            action = AlarmClock.ACTION_SET_TIMER
                             putExtra(AlarmClock.EXTRA_LENGTH, step.time * 60)
                             putExtra(AlarmClock.EXTRA_MESSAGE, step.name)
                             putExtra(AlarmClock.EXTRA_SKIP_UI, true)
