@@ -74,7 +74,7 @@ class AcraCrashReportDialog : CrashReportDialog() {
 
         val dialog = MaterialAlertDialogBuilder(this)
             .setIcon(R.drawable.rounded_data_object_24)
-            .setTitle(getString(R.string.common_crash_report))
+            .setTitle(getString(R.string.common_error_report))
             .setMessage(reportString)
             .setPositiveButton(getString(R.string.action_back)) { dialog, _ ->
                 dialog.dismiss()

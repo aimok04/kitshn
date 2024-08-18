@@ -4,7 +4,7 @@
     <string name="acra_dialog_button_negative">Nicht senden</string>
     <string name="acra_dialog_button_neutral">Bericht ansehen</string>
     <string name="acra_dialog_button_positive">Senden</string>
-    <string name="acra_dialog_message">Die App ist unerwarteter Weise abgestürzt. Bitte sende den Absturzbericht, damit die App verbessert werden kann.\n\nDu kannst den Bericht natürlich vorher ansehen.</string>
+    <string name="acra_dialog_message">Die App hat einen unerwarteten Fehler erfahren. Bitte sende den Fehlerbericht, damit die App verbessert werden kann.\n\nDu kannst den Bericht natürlich vorher ansehen.</string>
     <string name="acra_dialog_title">Ups!</string>
 
     <string name="action_abort">Abbrechen</string>
@@ -66,6 +66,7 @@
     <string name="action_reset">Zurücksetzen</string>
     <string name="action_save">Speichern</string>
     <string name="action_saving">Wird gespeichert …</string>
+    <string name="action_share">Teilen</string>
     <string name="action_show_all_recipes">Alle Rezepte anzeigen</string>
     <string name="action_sign_in">Anmelden</string>
     <string name="action_sign_out">Abmelden</string>
@@ -81,7 +82,7 @@
     <string name="common_contact">Kontakt</string>
     <string name="common_cook_book">Kochbuch</string>
     <string name="common_count">Anzahl</string>
-    <string name="common_crash_report">Absturzbericht</string>
+    <string name="common_error_report">Fehlerbericht</string>
     <string name="common_create_argument">» %1$s « erstellen</string>
     <string name="common_day_after_tomorrow">Übermorgen</string>
     <string name="common_day_before_yesterday">Vorgestern</string>

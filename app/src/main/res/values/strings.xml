@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
-    <string name="acra_comment_helper">If you\'d like, you can comment on how this crash occurred.</string>
+    <string name="acra_comment_helper">If you\'d like, you can comment on how this error occurred.</string>
     <string name="acra_dialog_button_negative">Don\'t send</string>
     <string name="acra_dialog_button_neutral">View report</string>
     <string name="acra_dialog_button_positive">Send</string>
-    <string name="acra_dialog_message">The app has unexpectedly closed. Please send a crash report to help fix the problem.\n\nYou can view the entire report before sending.</string>
+    <string name="acra_dialog_message">The app has experienced an unexpected error. Please send an error report to help fix the problem.\n\nYou can view the entire report before sending.</string>
     <string name="acra_dialog_title">Oops!</string>
 
     <string name="action_abort">Abort</string>
@@ -66,6 +66,7 @@
     <string name="action_reset">Reset</string>
     <string name="action_save">Save</string>
     <string name="action_saving">Saving …</string>
+    <string name="action_share">Share</string>
     <string name="action_show_all_recipes">Show all recipes</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_out">Sign out</string>
@@ -81,7 +82,7 @@
     <string name="common_contact">Contact</string>
     <string name="common_cook_book">Cookbook</string>
     <string name="common_count">Count</string>
-    <string name="common_crash_report">Crash report</string>
+    <string name="common_error_report">Error report</string>
     <string name="common_create_argument">Create » %1$s «</string>
     <string name="common_day_after_tomorrow">Day after tomorrow</string>
     <string name="common_day_before_yesterday">Day before yesterday</string>
