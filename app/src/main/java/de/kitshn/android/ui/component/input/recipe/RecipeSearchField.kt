@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorClient
+import de.kitshn.android.api.tandoor.TandoorRequestState
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.android.api.tandoor.route.TandoorRecipeQueryParameters
 import kotlinx.coroutines.delay
@@ -69,9 +70,9 @@ fun BaseRecipeSearchField(
 
     val recipeOverviewList = remember { mutableStateListOf<TandoorRecipeOverview>() }
     LaunchedEffect(searchText) {
-        try {
-            delay(300)
+        delay(300)
 
+        TandoorRequestState().wrapRequest {
             client.recipe.list(
                 parameters = TandoorRecipeQueryParameters(query = searchText),
                 pageSize = 5
@@ -79,8 +80,6 @@ fun BaseRecipeSearchField(
                 recipeOverviewList.clear()
                 recipeOverviewList.addAll(it)
             }
-        } catch(e: Exception) {
-            e.printStackTrace()
         }
     }
 

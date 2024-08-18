@@ -48,6 +48,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import de.kitshn.android.R
+import de.kitshn.android.api.tandoor.TandoorRequestState
 import de.kitshn.android.api.tandoor.TandoorRequestStateState
 import de.kitshn.android.api.tandoor.rememberTandoorRequestState
 import de.kitshn.android.formatAmount
@@ -253,16 +254,20 @@ fun RouteMainSubrouteShopping(
                                             if(client == null) return@clickable
 
                                             coroutineScope.launch {
-                                                if(entry.recipe_mealplan.mealplan != null) {
-                                                    val mealplan =
-                                                        client.mealPlan.get(entry.recipe_mealplan.mealplan)
-                                                    mealPlanDetailsBottomSheetState.open(mealplan)
-                                                } else {
-                                                    val recipe = client.recipe.get(
-                                                        entry.recipe_mealplan.recipe,
-                                                        true
-                                                    )
-                                                    recipeLinkBottomSheetState.open(recipe.toOverview())
+                                                TandoorRequestState().wrapRequest {
+                                                    if(entry.recipe_mealplan.mealplan != null) {
+                                                        val mealplan =
+                                                            client.mealPlan.get(entry.recipe_mealplan.mealplan)
+                                                        mealPlanDetailsBottomSheetState.open(
+                                                            mealplan
+                                                        )
+                                                    } else {
+                                                        val recipe = client.recipe.get(
+                                                            entry.recipe_mealplan.recipe,
+                                                            true
+                                                        )
+                                                        recipeLinkBottomSheetState.open(recipe.toOverview())
+                                                    }
                                                 }
                                             }
                                         },

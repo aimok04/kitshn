@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import de.kitshn.android.KitshnViewModel
 import de.kitshn.android.R
+import de.kitshn.android.api.tandoor.TandoorRequestState
 import de.kitshn.android.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.android.ui.view.ViewParameters
 import de.kitshn.android.ui.view.recipe.details.ViewRecipeDetails
@@ -37,11 +38,13 @@ fun KitshnRecipeListRecipeDetailPaneScaffold(
         listContent = listContent
     ) { selectId, supportsMultiplePanes, expandDetailPane, toggleExpandedDetailPane, back ->
         LaunchedEffect(selectId) {
-            if(vm.tandoorClient?.container?.recipeOverview?.containsKey(selectId.toInt()) == true) return@LaunchedEffect
-            vm.tandoorClient?.container?.recipeOverview?.put(
-                selectId.toInt(),
-                vm.tandoorClient?.recipe?.get(selectId.toInt())?.toOverview()
-            )
+            TandoorRequestState().wrapRequest {
+                if(vm.tandoorClient?.container?.recipeOverview?.containsKey(selectId.toInt()) == true) return@wrapRequest
+                vm.tandoorClient?.container?.recipeOverview?.put(
+                    selectId.toInt(),
+                    vm.tandoorClient?.recipe?.get(selectId.toInt())?.toOverview()
+                )
+            }
         }
 
         ViewRecipeDetails(

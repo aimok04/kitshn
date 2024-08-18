@@ -108,7 +108,7 @@ class TandoorStep(
 
         try {
             return client!!.recipe.get(step_recipe!!)
-        } catch(e: Exception) {
+        } catch(e: TandoorRequestsError) {
             e.printStackTrace()
             return null
         }

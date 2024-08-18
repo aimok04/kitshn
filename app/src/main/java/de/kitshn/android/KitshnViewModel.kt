@@ -11,6 +11,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import de.kitshn.android.api.tandoor.TandoorClient
+import de.kitshn.android.api.tandoor.TandoorRequestsError
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -63,7 +64,7 @@ class KitshnViewModel(
 
             try {
                 tandoorClient!!.system.retrieveSystemData()
-            } catch(e: Exception) {
+            } catch(e: TandoorRequestsError) {
                 e.printStackTrace()
             }
 

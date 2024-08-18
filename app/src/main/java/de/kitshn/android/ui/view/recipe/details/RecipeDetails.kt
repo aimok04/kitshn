@@ -646,8 +646,10 @@ fun ViewRecipeDetails(
     ) {
         // refresh recipe after ingredient allocation
         coroutineScope.launch {
-            client.recipe.get(recipeOverview.id).toOverview().let {
-                client.container.recipeOverview[it.id] = it
+            TandoorRequestState().wrapRequest {
+                client.recipe.get(recipeOverview.id).toOverview().let {
+                    client.container.recipeOverview[it.id] = it
+                }
             }
         }
     }
@@ -661,8 +663,10 @@ fun ViewRecipeDetails(
             onRefresh = {
                 // refresh recipe after edit
                 coroutineScope.launch {
-                    client.recipe.get(recipeOverview.id).toOverview().let {
-                        client.container.recipeOverview[it.id] = it
+                    TandoorRequestState().wrapRequest {
+                        client.recipe.get(recipeOverview.id).toOverview().let {
+                            client.container.recipeOverview[it.id] = it
+                        }
                     }
                 }
             }

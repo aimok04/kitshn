@@ -36,6 +36,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorClient
+import de.kitshn.android.api.tandoor.TandoorRequestsError
 import de.kitshn.android.api.tandoor.model.TandoorMealType
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,7 +73,7 @@ fun BaseMealTypeSearchField(
                 mealTypeList.clear()
                 mealTypeList.addAll(it)
             }
-        } catch(e: Exception) {
+        } catch(e: TandoorRequestsError) {
             e.printStackTrace()
         }
     }

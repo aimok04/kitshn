@@ -21,6 +21,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
+import de.kitshn.android.api.tandoor.TandoorRequestState
+import de.kitshn.android.api.tandoor.TandoorRequestStateState
 import de.kitshn.android.api.tandoor.model.TandoorStep
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.android.ui.component.buttons.BackButton
@@ -50,10 +52,16 @@ fun RouteRecipeCook(
 
     var recipe by remember { mutableStateOf<TandoorRecipe?>(null) }
     LaunchedEffect(recipeId) {
-        recipe = p.vm.tandoorClient?.recipe?.get(recipeId.toInt(), cached = true)
-        p.vm.tandoorClient?.recipe?.get(recipeId.toInt())
+        TandoorRequestState().apply {
+            wrapRequest {
+                recipe = p.vm.tandoorClient?.recipe?.get(recipeId.toInt(), cached = true)
+                p.vm.tandoorClient?.recipe?.get(recipeId.toInt())
 
-        recipe = p.vm.tandoorClient?.recipe?.get(recipeId.toInt(), cached = true)
+                recipe = p.vm.tandoorClient?.recipe?.get(recipeId.toInt(), cached = true)
+            }
+
+            if(state == TandoorRequestStateState.ERROR) p.onBack?.let { it() }
+        }
     }
 
     if(recipe == null) return
