@@ -33,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import de.kitshn.android.R
@@ -58,7 +57,6 @@ import de.kitshn.android.ui.route.RouteParameters
 import de.kitshn.android.ui.selectionMode.model.RecipeSelectionModeTopAppBar
 import de.kitshn.android.ui.selectionMode.rememberSelectionModeState
 import de.kitshn.android.ui.state.ErrorLoadingSuccessState
-import de.kitshn.android.ui.state.foreverRememberIntState
 import de.kitshn.android.ui.state.foreverRememberNotSavable
 import de.kitshn.android.ui.state.rememberErrorLoadingSuccessState
 import de.kitshn.android.ui.state.rememberForeverScrollState
@@ -74,7 +72,6 @@ fun RouteMainSubrouteHome(
     p: RouteParameters
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val density = LocalDensity.current
 
     var pageLoadingState by rememberErrorLoadingSuccessState()
     val homeSearchState by rememberHomeSearchState(key = "RouteMainSubrouteHome/homeSearch")
@@ -91,11 +88,6 @@ fun RouteMainSubrouteHome(
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val scrollState = rememberForeverScrollState(key = "RouteMainSubrouteHome/columnScrollState")
-
-    var tallestColumnHeight by foreverRememberIntState(
-        key = "RouteMainSubrouteHome/tallestColumnHeight",
-        initialValue = 0
-    )
 
     var homePage by foreverRememberNotSavable<HomePage?>(
         key = "RouteMainSubrouteHome/homePage",
@@ -131,6 +123,11 @@ fun RouteMainSubrouteHome(
 
         homePageSectionList.clear()
         homePageSectionList.addAll(homePage!!.sections)
+
+        // remove deleted recipes
+        homePageSectionList.forEach { section ->
+            section.recipeIds.removeIf { !p.vm.tandoorClient!!.container.recipeOverview.contains(it) }
+        }
     }
 
     KitshnRecipeListRecipeDetailPaneScaffold(
@@ -237,11 +234,6 @@ fun RouteMainSubrouteHome(
                             HomePageSectionView(
                                 client = p.vm.tandoorClient,
                                 loadingState = pageLoadingState,
-                                minHeight = with(density) { tallestColumnHeight.toDp() },
-                                onHeightChanged = {
-                                    if(tallestColumnHeight >= it) return@HomePageSectionView
-                                    tallestColumnHeight = it
-                                },
                                 onClickKeyword = {
                                     coroutineScope.launch {
                                         homeSearchState.openWithKeyword(p.vm.tandoorClient!!, it)
@@ -255,11 +247,6 @@ fun RouteMainSubrouteHome(
                             section = section,
                             loadingState = pageLoadingState,
                             selectionState = selectionModeState,
-                            minHeight = with(density) { tallestColumnHeight.toDp() },
-                            onHeightChanged = {
-                                if(tallestColumnHeight >= it) return@HomePageSectionView
-                                tallestColumnHeight = it
-                            },
                             onClickKeyword = {
                                 coroutineScope.launch {
                                     homeSearchState.openWithKeyword(p.vm.tandoorClient!!, it)

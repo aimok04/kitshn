@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
@@ -49,6 +50,7 @@ import dev.chrisbanes.haze.haze
 @Composable
 fun RecipeCard(
     modifier: Modifier = Modifier,
+    fillChipRow: Boolean = false,
     recipeOverview: TandoorRecipeOverview? = null,
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
     selectionState: SelectionModeState<Int>? = null,
@@ -159,7 +161,16 @@ fun RecipeCard(
             }
 
             LazyRow(
-                Modifier.padding(bottom = 16.dp)
+                Modifier
+                    .padding(bottom = 16.dp)
+                    .run {
+                        if(fillChipRow) {
+                            weight(1f, true)
+                        } else {
+                            this
+                        }
+                    },
+                verticalAlignment = Alignment.Bottom
             ) {
                 item {
                     Spacer(Modifier.width(16.dp))
