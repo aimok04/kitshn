@@ -15,11 +15,15 @@ user experience.
 > I'm just a hobbyist developing this app in my spare time. This app not only might, but is
 > guaranteed to contain spaghetti code and actively ignores best practices.
 
-## Installation
+## 📦 Installation
 
 [<img src="/images/badge_github.png"
 alt="Get it on GitHub"
 height="80">](https://github.com/aimok04/kitshn/releases)
+
+[<img src="/images/badge_google.png"
+alt="Get it on Google Play"
+height="80">](https://play.google.com/store/apps/details?id=de.kitshn.android)
 
 ## 💪 Features
 
