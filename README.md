@@ -20,7 +20,6 @@ user experience.
 [<img src="/images/badge_github.png"
 alt="Get it on GitHub"
 height="80">](https://github.com/aimok04/kitshn/releases)
-
 [<img src="/images/badge_google.png"
 alt="Get it on Google Play"
 height="80">](https://play.google.com/store/apps/details?id=de.kitshn.android)
