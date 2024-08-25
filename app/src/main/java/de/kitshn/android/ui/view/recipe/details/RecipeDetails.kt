@@ -277,7 +277,7 @@ fun ViewRecipeDetails(
                                 context.getString(R.string.share_incentive) + "\n" + link
                             )
 
-                            type = "message/rfc822"
+                            type = "text/plain"
                         }, null)
                     )
                 }
