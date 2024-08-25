@@ -87,13 +87,20 @@ class TandoorRecipeRoute(client: TandoorClient) : TandoorBaseRoute(client) {
     @Throws(TandoorRequestsError::class)
     suspend fun get(
         id: Int,
-        cached: Boolean = false
+        cached: Boolean = false,
+        share: String? = null
     ): TandoorRecipe {
         if(cached && client.container.recipe.contains(id)) return client.container.recipe[id]!!
 
         val recipe = TandoorRecipe.parse(
             this.client,
-            client.getObject("/recipe/${id}/").toString()
+            client.getObject("/recipe/${id}/".let {
+                if(share != null) {
+                    "$it?share=$share"
+                } else {
+                    it
+                }
+            }).toString()
         )
 
         client.container.recipe[recipe.id] = recipe

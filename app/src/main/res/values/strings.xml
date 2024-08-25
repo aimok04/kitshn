@@ -82,7 +82,6 @@
     <string name="common_contact">Contact</string>
     <string name="common_cook_book">Cookbook</string>
     <string name="common_count">Count</string>
-    <string name="common_error_report">Error report</string>
     <string name="common_create_argument">Create » %1$s «</string>
     <string name="common_day_after_tomorrow">Day after tomorrow</string>
     <string name="common_day_before_yesterday">Day before yesterday</string>
@@ -92,6 +91,7 @@
     <string name="common_details">Details</string>
     <string name="common_done">Done</string>
     <string name="common_end_date">End date</string>
+    <string name="common_error_report">Error report</string>
     <string name="common_favorites">Favorites</string>
     <string name="common_import_recipe">Import recipe</string>
     <string name="common_info">Information</string>
@@ -160,6 +160,7 @@
 
     <string name="error">Error</string>
     <string name="error_couldnt_connect_to_tandoor">No connection to your Tandoor server could be established.</string>
+    <string name="error_instance_inaccessible">The instance you are trying to connect to is not configured inside of this app.</string>
     <string name="error_recipe_could_not_be_loaded">Recipe could not be loaded.</string>
     <string name="error_request">Faulty request</string>
     <string name="error_request_description">The server could not be reached / The request could not be processed by the server.</string>

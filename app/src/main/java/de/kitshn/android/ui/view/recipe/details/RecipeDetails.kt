@@ -129,8 +129,10 @@ fun ViewRecipeDetails(
 
     client: TandoorClient?,
     recipeId: Int,
+    shareToken: String? = null,
 
     navigationIcon: @Composable (() -> Unit)? = null,
+    prependContent: @Composable () -> Unit = { },
 
     dialogMode: Boolean = false,
     ignoreWindowInsets: Boolean = dialogMode,
@@ -195,7 +197,12 @@ fun ViewRecipeDetails(
     val recipe = p.vm.tandoorClient!!.container.recipe.getOrElse(recipeOverview.id) { null }
     LaunchedEffect(recipeOverview) {
         pageLoadingState = ErrorLoadingSuccessState.LOADING
-        TandoorRequestState().wrapRequest { p.vm.tandoorClient?.recipe?.get(recipeOverview.id) }
+        TandoorRequestState().wrapRequest {
+            p.vm.tandoorClient?.recipe?.get(
+                id = recipeOverview.id,
+                share = shareToken
+            )
+        }
     }
 
     val recipeLinkBottomSheetState = rememberRecipeLinkBottomSheetState()
@@ -307,6 +314,9 @@ fun ViewRecipeDetails(
                     )
                 },
                 actions = {
+                    // hide if recipe is shared
+                    if(shareToken != null) return@TopAppBar
+
                     var isMenuExpanded by rememberSaveable { mutableStateOf(false) }
 
                     FilledIconButton(
@@ -396,7 +406,8 @@ fun ViewRecipeDetails(
                         }
                 )
 
-                if(dialogMode) {
+                // don't show if recipe is shared
+                if(dialogMode && shareToken == null) {
                     var isMenuExpanded by rememberSaveable { mutableStateOf(false) }
 
                     SmallFloatingActionButton(
@@ -496,6 +507,8 @@ fun ViewRecipeDetails(
                             Spacer(Modifier.width(16.dp))
                         }
                     }
+
+                    prependContent()
 
                     FlowRow(
                         Modifier

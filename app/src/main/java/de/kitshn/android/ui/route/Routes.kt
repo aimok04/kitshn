@@ -13,19 +13,35 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
+import de.kitshn.android.ui.route.alerts.RouteAlertInaccessibleInstance
 import de.kitshn.android.ui.route.main.RouteMain
 import de.kitshn.android.ui.route.onboarding.RouteOnboarding
 import de.kitshn.android.ui.route.onboarding.RouteOnboardingSignIn
 import de.kitshn.android.ui.route.onboarding.RouteOnboardingWelcome
+import de.kitshn.android.ui.route.recipe.RouteRecipePublic
+import de.kitshn.android.ui.route.recipe.RouteRecipeView
 import de.kitshn.android.ui.route.recipe.cook.RouteRecipeCook
 
 val routes = listOf(
+    Route(
+        "alert/inaccessibleInstance",
+        Animation.SLIDE_VERTICAL
+    ) { RouteAlertInaccessibleInstance(p = it) },
+
     Route("main", Animation.SLIDE_HORIZONTAL) { RouteMain(p = it) },
 
     Route(
         "recipe/{recipeId}/cook/{servings}",
         Animation.SLIDE_VERTICAL
     ) { RouteRecipeCook(p = it) },
+    Route(
+        "recipe/{recipeId}/view",
+        Animation.SLIDE_VERTICAL
+    ) { RouteRecipeView(p = it) },
+    Route(
+        "recipe/{recipeId}/public/{shareToken}",
+        Animation.SLIDE_HORIZONTAL
+    ) { RouteRecipePublic(p = it) },
 
     Route("onboarding", Animation.SLIDE_HORIZONTAL) { RouteOnboarding(p = it) },
     Route("onboarding/signIn", Animation.SLIDE_HORIZONTAL) { RouteOnboardingSignIn(p = it) },

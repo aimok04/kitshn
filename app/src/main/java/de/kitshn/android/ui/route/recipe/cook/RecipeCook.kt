@@ -60,7 +60,7 @@ fun RouteRecipeCook(
                 recipe = p.vm.tandoorClient?.recipe?.get(recipeId.toInt(), cached = true)
             }
 
-            if(state == TandoorRequestStateState.ERROR) p.onBack?.let { it() }
+            if(state == TandoorRequestStateState.ERROR && recipe == null) p.onBack?.let { it() }
         }
     }
 

@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import de.kitshn.android.api.tandoor.TandoorClient
 
 class UiStateLink<T> {
 
@@ -34,5 +35,7 @@ class UiStateModel : ViewModel() {
     var importRecipeUrl = UiStateLink<String>()
     var searchKeyword = UiStateLink<Int>()
     var viewRecipe = UiStateLink<Int>()
+
+    var shareClient: TandoorClient? = null
 
 }

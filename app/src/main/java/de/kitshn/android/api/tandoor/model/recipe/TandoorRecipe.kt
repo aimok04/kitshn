@@ -30,7 +30,7 @@ import org.json.JSONObject
 
 @Serializable
 class TandoorRecipe(
-    val id: Int,
+    var id: Int,
     // lower than 128 characters
     val name: String,
     // lower than 512 characters

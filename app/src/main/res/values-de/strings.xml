@@ -82,7 +82,6 @@
     <string name="common_contact">Kontakt</string>
     <string name="common_cook_book">Kochbuch</string>
     <string name="common_count">Anzahl</string>
-    <string name="common_error_report">Fehlerbericht</string>
     <string name="common_create_argument">» %1$s « erstellen</string>
     <string name="common_day_after_tomorrow">Übermorgen</string>
     <string name="common_day_before_yesterday">Vorgestern</string>
@@ -92,6 +91,7 @@
     <string name="common_details">Details</string>
     <string name="common_done">Fertig</string>
     <string name="common_end_date">End-Datum</string>
+    <string name="common_error_report">Fehlerbericht</string>
     <string name="common_favorites">Favoriten</string>
     <string name="common_import_recipe">Rezept importieren</string>
     <string name="common_info">Information</string>
@@ -160,6 +160,7 @@
 
     <string name="error">Fehler</string>
     <string name="error_couldnt_connect_to_tandoor">Es konnte keine Verbindung zu deinem Tandoor-Server hergestellt werden.</string>
+    <string name="error_instance_inaccessible">Die Instanz, mit der du dich verbinden möchtest, ist nicht in dieser App eingerichtet.</string>
     <string name="error_recipe_could_not_be_loaded">Rezept konnte nicht geladen werden.</string>
     <string name="error_request">Fehlerhafte Anfrage</string>
     <string name="error_request_description">Der Server konnte nicht erreicht werden / Die Anfrage konnte vom Server nicht verarbeitet werden.</string>

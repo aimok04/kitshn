@@ -12,6 +12,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import de.kitshn.android.actions.handleIntent
 import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.ui.route.navigation.PrimaryNavigation
 import de.kitshn.android.ui.theme.KitshnTheme
