@@ -12,7 +12,6 @@ data class TandoorFood(
     val properties_food_amount: Double? = null,
     val properties_food_unit: TandoorUnit? = null,
     val fdc_id: Int? = null,
-    val food_onhand: Boolean? = null,
     val full_name: String,
     val ignore_shopping: Boolean = false,
     val open_data_slug: String? = null
