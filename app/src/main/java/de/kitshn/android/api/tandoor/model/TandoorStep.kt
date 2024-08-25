@@ -34,10 +34,10 @@ data class TandoorStepFile(
 class TandoorStep(
     val id: Int,
     var name: String,
-    var instruction: String,
+    var instruction: String = "",
     @SerialName("ingredients")
     val ingredientsRaw: JsonArray,
-    var instructions_markdown: String,
+    var instructions_markdown: String = "",
     var time: Int,
     val order: Int,
     val show_as_header: Boolean,
