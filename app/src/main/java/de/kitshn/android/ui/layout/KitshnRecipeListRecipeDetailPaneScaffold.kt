@@ -13,6 +13,7 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import de.kitshn.android.KitshnViewModel
 import de.kitshn.android.R
@@ -31,6 +32,8 @@ fun KitshnRecipeListRecipeDetailPaneScaffold(
     onClickKeyword: (keyword: TandoorKeywordOverview) -> Unit = {},
     listContent: @Composable (pv: PaddingValues, selectedId: String?, supportsMultiplePages: Boolean, background: Color, select: (id: String) -> Unit) -> Unit,
 ) {
+    val focusManager = LocalFocusManager.current
+
     KitshnListDetailPaneScaffold(
         key = key,
         topBar = topBar,
@@ -38,6 +41,9 @@ fun KitshnRecipeListRecipeDetailPaneScaffold(
         listContent = listContent
     ) { selectId, supportsMultiplePanes, expandDetailPane, toggleExpandedDetailPane, back ->
         LaunchedEffect(selectId) {
+            // hide keyboard in search layout
+            focusManager.clearFocus()
+
             TandoorRequestState().wrapRequest {
                 if(vm.tandoorClient?.container?.recipeOverview?.containsKey(selectId.toInt()) == true) return@wrapRequest
                 vm.tandoorClient?.container?.recipeOverview?.put(
