@@ -51,6 +51,12 @@ class TandoorRequestState {
             e.printStackTrace()
             error = e
             state = TandoorRequestStateState.ERROR
+        } catch(e: Error) {
+            e.printStackTrace()
+            state = TandoorRequestStateState.ERROR
+        } catch(e: Exception) {
+            e.printStackTrace()
+            state = TandoorRequestStateState.ERROR
         }
 
         return null

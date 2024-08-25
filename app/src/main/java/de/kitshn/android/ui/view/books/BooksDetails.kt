@@ -82,8 +82,12 @@ fun ViewBooksDetails(
         recipes.clear()
         recipes.addAll(book.entries)
 
-        val favoritesRecipeBookId = p.vm.favorites.getFavoritesRecipeBookId()
-        if(book.id == favoritesRecipeBookId) recipes.reverse()
+        try {
+            val favoritesRecipeBookId = p.vm.favorites.getFavoritesRecipeBookId()
+            if(book.id == favoritesRecipeBookId) recipes.reverse()
+        } catch(e: Error) {
+            e.printStackTrace()
+        }
     }
 
     Scaffold(

@@ -72,7 +72,15 @@ fun RouteMainSubrouteBooks(
             books.clear()
             books.addAll(p.vm.tandoorClient!!.recipeBook.list())
 
-            favoritesBook = books.firstOrNull { it.id == p.vm.favorites.getFavoritesRecipeBookId() }
+            val favoriteRecipeBookId = try {
+                p.vm.favorites.getFavoritesRecipeBookId()
+            } catch(e: Error) {
+                e.printStackTrace()
+
+                -1
+            }
+
+            favoritesBook = books.firstOrNull { it.id == favoriteRecipeBookId }
             books.remove(favoritesBook)
 
             pageLoadingState = ErrorLoadingSuccessState.SUCCESS

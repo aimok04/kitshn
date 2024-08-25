@@ -24,8 +24,8 @@ class FavoritesViewModel(
     fun init(client: TandoorClient) {
         this.client = client
         viewModelScope.launch {
-            val requestState = TandoorRequestState()
-            requestState.wrapRequest { getFavoritesRecipeBook() }
+            TandoorRequestState()
+                .wrapRequest { getFavoritesRecipeBook() }
         }
     }
 
@@ -42,8 +42,9 @@ class FavoritesViewModel(
             return it
         }
 
-        val recipeBooks = client?.recipeBook?.list()
-        var favoritesBook = recipeBooks?.firstOrNull {
+        val recipeBooks = client?.recipeBook?.list() ?: throw Error("COULD_NOT_FETCH_BOOKS")
+
+        var favoritesBook = recipeBooks.firstOrNull {
             it.description.endsWith(KITSHN_FAVORITE_RECIPE_BOOK_DESCRIPTION_TAG)
         }
         if(favoritesBook == null) favoritesBook = createNewFavoritesRecipeBook()
