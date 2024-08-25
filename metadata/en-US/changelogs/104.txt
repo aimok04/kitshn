@@ -1,0 +1,6 @@
+- feat(recipes): added markdown support for step instructions (#1)
+- feat(recipes): added app links
+- feat(recipes): added share button
+- l10n(strings.xml): added Turkish (tr) (#3) (by @mikropsoft)
+- chore(libs): version bumps
+- multiple bug fixes and design improvements
