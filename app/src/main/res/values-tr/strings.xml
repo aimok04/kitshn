@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="acra_comment_helper">İsterseniz, bu hatanın nasıl meydana geldiğine dair bir yorum ekleyebilirsiniz.</string>
     <string name="acra_dialog_button_negative">Gönderme</string>
     <string name="acra_dialog_button_neutral">Raporu görüntüle</string>
@@ -55,6 +55,7 @@
     <string name="action_more">Daha fazla</string>
     <string name="action_move">Taşı</string>
     <string name="action_next">Sonraki</string>
+    <string name="action_no">Hayır</string>
     <string name="action_open_issue">Sorun oluştur</string>
     <string name="action_open_original">Orijinali aç</string>
     <string name="action_open_source">Kaynağı görüntüle</string>
@@ -73,6 +74,7 @@
     <string name="action_sign_out_description">Kimlik bilgilerini unut</string>
     <string name="action_start_cooking">Yemek moduna başla</string>
     <string name="action_upload">Yükle</string>
+    <string name="action_yes">Evet</string>
 
     <string name="app_name">kitshn</string>
 
@@ -110,12 +112,12 @@
     <string name="common_note">Not</string>
     <string name="common_okay">Tamam</string>
     <string name="common_password">Şifre</string>
-    <plurals name="common_plural_minute">
+    <plurals name="common_plural_minute" tools:ignore="UnusedQuantity">
         <item quantity="zero">dakika yok</item>
         <item quantity="one">bir dakika</item>
         <item quantity="other">%d dakika</item>
     </plurals>
-    <plurals name="common_plural_portion">
+    <plurals name="common_plural_portion" tools:ignore="UnusedQuantity">
         <item quantity="zero">porsiyon yok</item>
         <item quantity="one">bir porsiyon</item>
         <item quantity="other">%d porsiyon</item>
