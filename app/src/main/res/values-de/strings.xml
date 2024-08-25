@@ -279,6 +279,10 @@
     <string name="settings_section_appearance_follow_system_description">Das Farbschema des Betriebssystems verwenden</string>
     <string name="settings_section_appearance_follow_system_label">System folgen</string>
     <string name="settings_section_appearance_label">Erscheinung</string>
+    <string name="settings_section_behavior_description">Ändere Optionen zum Teilen</string>
+    <string name="settings_section_behavior_label">Verhalten</string>
+    <string name="settings_section_behavior_use_share_wrapper_description">Geteilte Tandoor Links können direkt in der App geöffnet werden</string>
+    <string name="settings_section_behavior_use_share_wrapper_label">Share-Wrapper</string>
     <string name="settings_section_server_description">Informationen über deinen Server</string>
     <string name="settings_section_server_label">Server</string>
 

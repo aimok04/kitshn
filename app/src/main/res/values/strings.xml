@@ -279,6 +279,10 @@
     <string name="settings_section_appearance_follow_system_description">Use the color scheme of the operating system</string>
     <string name="settings_section_appearance_follow_system_label">Follow system</string>
     <string name="settings_section_appearance_label">Appearance</string>
+    <string name="settings_section_behavior_description">Change share options</string>
+    <string name="settings_section_behavior_label">Behavior</string>
+    <string name="settings_section_behavior_use_share_wrapper_description">Makes shared Tandoor links openable in this app</string>
+    <string name="settings_section_behavior_use_share_wrapper_label">Share wrapper</string>
     <string name="settings_section_server_description">Information about your instance</string>
     <string name="settings_section_server_label">Server</string>
 

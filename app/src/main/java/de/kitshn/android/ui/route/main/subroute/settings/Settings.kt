@@ -7,6 +7,7 @@ import androidx.compose.material.icons.rounded.Cloud
 import androidx.compose.material.icons.rounded.DeveloperBoard
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Palette
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -31,6 +32,7 @@ import de.kitshn.android.ui.route.RouteParameters
 import de.kitshn.android.ui.view.ViewParameters
 import de.kitshn.android.ui.view.settings.ViewSettingsAbout
 import de.kitshn.android.ui.view.settings.ViewSettingsAppearance
+import de.kitshn.android.ui.view.settings.ViewSettingsBehavior
 import de.kitshn.android.ui.view.settings.ViewSettingsDebug
 import de.kitshn.android.ui.view.settings.ViewSettingsServer
 
@@ -59,6 +61,14 @@ fun RouteMainSubrouteSettings(
                 label = context.getString(R.string.settings_section_appearance_label),
                 description = context.getString(R.string.settings_section_appearance_description),
                 content = { ViewSettingsAppearance(ViewParameters(p.vm, it)) }
+            ),
+            SettingsItemModel(
+                id = "BEHAVIOR",
+                icon = Icons.Rounded.Tune,
+                contentDescription = context.getString(R.string.settings_section_behavior_description),
+                label = context.getString(R.string.settings_section_behavior_label),
+                description = context.getString(R.string.settings_section_behavior_description),
+                content = { ViewSettingsBehavior(ViewParameters(p.vm, it)) }
             ),
             SettingsItemModel(
                 id = "ABOUT",
