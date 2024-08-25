@@ -1,5 +1,6 @@
 package de.kitshn.android.api.tandoor.model
 
+import androidx.compose.ui.graphics.Color
 import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.TandoorRequestsError
 import de.kitshn.android.api.tandoor.delete
@@ -8,6 +9,7 @@ import de.kitshn.android.api.tandoor.patchObject
 import de.kitshn.android.json
 import de.kitshn.android.parseTandoorDate
 import de.kitshn.android.toTandoorDate
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.encodeToString
@@ -19,10 +21,18 @@ data class TandoorMealType(
     val id: Int,
     val name: String,
     val order: Int,
-    val color: String,
+    @SerialName("color")
+    val colorStr: String? = null,
     val default: Boolean,
     val created_by: Int
-)
+) {
+    @Transient
+    val color = if((colorStr ?: "").isBlank()) {
+        Color.Gray
+    } else {
+        Color(android.graphics.Color.parseColor(colorStr))
+    }
+}
 
 @Serializable
 class TandoorMealPlan(

@@ -28,7 +28,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -87,17 +86,11 @@ fun BaseMealTypeSearchField(
         content(
             if(selectedMealType != null) {
                 {
-                    val color = if(selectedMealType!!.color.isNotBlank()) {
-                        Color(android.graphics.Color.parseColor(selectedMealType!!.color))
-                    } else {
-                        Color.Gray
-                    }
-
                     Box(
                         Modifier
                             .size(36.dp)
                             .clip(RoundedCornerShape(8.dp))
-                            .background(color)
+                            .background(selectedMealType!!.color)
                     )
                 }
             } else null,

@@ -80,12 +80,6 @@ fun HorizontalMealPlanCard(
                         )
                     },
                     supportingContent = {
-                        val textColor = if(mealPlan?.meal_type?.color?.isNotBlank() == true) {
-                            Color(android.graphics.Color.parseColor(mealPlan.meal_type.color))
-                        } else {
-                            Color.Gray
-                        }
-
                         FilterChip(
                             modifier = Modifier.loadingPlaceHolder(loadingState),
                             onClick = { },
@@ -96,8 +90,9 @@ fun HorizontalMealPlanCard(
                                 )
                             },
                             colors = FilterChipDefaults.filterChipColors(
-                                selectedLabelColor = textColor,
-                                selectedContainerColor = textColor.copy(alpha = 0.2f)
+                                selectedLabelColor = mealPlan?.meal_type?.color ?: Color.Gray,
+                                selectedContainerColor = (mealPlan?.meal_type?.color
+                                    ?: Color.Gray).copy(alpha = 0.2f)
                             ),
                             selected = true
                         )
@@ -110,18 +105,12 @@ fun HorizontalMealPlanCard(
             colors = colors,
             recipeOverview = mealPlan.recipe,
             supportingContent = {
-                val textColor = if(mealPlan.meal_type.color.isNotBlank()) {
-                    Color(android.graphics.Color.parseColor(mealPlan.meal_type.color))
-                } else {
-                    Color.Gray
-                }
-
                 FilterChip(
                     onClick = { },
                     label = { Text(text = mealPlan.meal_type_name) },
                     colors = FilterChipDefaults.filterChipColors(
-                        selectedLabelColor = textColor,
-                        selectedContainerColor = textColor.copy(alpha = 0.2f)
+                        selectedLabelColor = mealPlan.meal_type.color,
+                        selectedContainerColor = mealPlan.meal_type.color.copy(alpha = 0.2f)
                     ),
                     selected = true
                 )
