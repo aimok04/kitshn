@@ -40,6 +40,7 @@ import de.kitshn.android.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.android.ui.modifier.loadingPlaceHolder
 import de.kitshn.android.ui.state.ErrorLoadingSuccessState
 import de.kitshn.android.ui.theme.Typography
+import dev.jeziellago.compose.markdowntext.MarkdownText
 
 @Composable
 fun RecipeStepCard(
@@ -127,11 +128,11 @@ fun RecipeStepCard(
                 }
             }
 
-            Text(
+            MarkdownText(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                     .loadingPlaceHolder(loadingState),
-                text = step?.instruction ?: stringResource(id = R.string.lorem_ipsum_medium),
+                markdown = step?.instruction ?: stringResource(id = R.string.lorem_ipsum_medium)
             )
         }
 

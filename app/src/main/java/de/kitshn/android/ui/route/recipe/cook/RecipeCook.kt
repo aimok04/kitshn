@@ -32,6 +32,7 @@ import de.kitshn.android.ui.route.RouteParameters
 import de.kitshn.android.ui.route.recipe.cook.page.RouteRecipeCookPageDone
 import de.kitshn.android.ui.route.recipe.cook.page.RouteRecipeCookPageStep
 import de.kitshn.android.ui.state.foreverRememberPagerState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,8 +75,20 @@ fun RouteRecipeCook(
         sortedSteps.addAll(recipe!!.sortSteps())
     }
 
+    var pagerStationary by remember { mutableStateOf(true) }
+
     val pagerState =
         foreverRememberPagerState(key = "RouteRecipeCook/pagerState/${recipe!!.id}") { sortedSteps.size + 1 }
+
+    LaunchedEffect(pagerState.currentPageOffsetFraction) {
+        if(pagerState.currentPageOffsetFraction != 0f) {
+            pagerStationary = false
+            return@LaunchedEffect
+        }
+
+        delay(50)
+        pagerStationary = true
+    }
 
     Scaffold(
         topBar = {
@@ -113,7 +126,8 @@ fun RouteRecipeCook(
                     RouteRecipeCookPageStep(
                         vm = p.vm,
                         step = step,
-                        servingsFactor = servingsFactor
+                        servingsFactor = servingsFactor,
+                        pagerStationary = pagerStationary
                     )
                 }
             }

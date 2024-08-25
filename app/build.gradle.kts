@@ -122,6 +122,7 @@ dependencies {
     implementation(libs.material)
 
     implementation(libs.haze)
+    implementation(libs.compose.markdown)
 
     implementation(libs.accompanist.placeholder.material)
     implementation(libs.accompanist.placeholder)

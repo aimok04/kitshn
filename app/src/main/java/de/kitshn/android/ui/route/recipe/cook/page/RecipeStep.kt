@@ -3,6 +3,7 @@ package de.kitshn.android.ui.route.recipe.cook.page
 import android.content.Intent
 import android.provider.AlarmClock
 import android.widget.Toast
+import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -24,9 +25,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -44,14 +47,18 @@ import de.kitshn.android.ui.dialog.recipe.RecipeLinkBottomSheet
 import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkBottomSheetState
 import de.kitshn.android.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.android.ui.view.ViewParameters
+import dev.jeziellago.compose.markdowntext.MarkdownText
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @Composable
 fun RouteRecipeCookPageStep(
     vm: KitshnViewModel,
     step: TandoorStep,
-    servingsFactor: Double
+    servingsFactor: Double,
+    pagerStationary: Boolean
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
     @Composable
@@ -90,12 +97,46 @@ fun RouteRecipeCookPageStep(
                 fontSize = newFontSize.sp
             }
 
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text = step.instruction,
-                fontSize = fontSize,
-                lineHeight = fontSize
-            )
+            // dirty fix for weird layout issue in compose-markdown
+            val firstAlpha = remember { Animatable(1f) }
+            val secondAlpha = remember { Animatable(1f) }
+            LaunchedEffect(pagerStationary) {
+                if(firstAlpha.value != 0f) {
+                    coroutineScope.launch { firstAlpha.animateTo(0f) }
+                    secondAlpha.animateTo(1f)
+                } else {
+                    coroutineScope.launch { secondAlpha.animateTo(0f) }
+                    firstAlpha.animateTo(1f)
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
+                    .fillMaxSize()
+            ) {
+                if(firstAlpha.value != 0f) MarkdownText(
+                    modifier = Modifier
+                        .alpha(firstAlpha.value)
+                        .fillMaxSize(),
+                    markdown = step.instruction,
+                    style = TextStyle(
+                        fontSize = fontSize,
+                        lineHeight = fontSize
+                    )
+                )
+
+                if(secondAlpha.value != 0f) MarkdownText(
+                    modifier = Modifier
+                        .alpha(secondAlpha.value)
+                        .fillMaxSize(),
+                    markdown = step.instruction,
+                    style = TextStyle(
+                        fontSize = fontSize,
+                        lineHeight = fontSize
+                    )
+                )
+            }
         }
     }
 

@@ -62,6 +62,7 @@ import de.kitshn.android.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.android.ui.state.foreverRememberNotSavable
 import de.kitshn.android.ui.state.foreverRememberPagerState
 import de.kitshn.android.ui.theme.Typography
+import dev.jeziellago.compose.markdowntext.MarkdownText
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
@@ -345,9 +346,9 @@ fun RecipeIngredientAllocationDialog(
                             )
                         }
 
-                        Text(
+                        MarkdownText(
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                            text = step.instruction,
+                            markdown = step.instruction,
                         )
                     }
                 ) { enoughSpace ->
