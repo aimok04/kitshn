@@ -277,6 +277,14 @@ fun RecipeImportDialog(
                                     stringResource(R.string.action_download)
                                 )
                             }
+
+                            LaunchedEffect(Unit) {
+                                try {
+                                    focusRequester.requestFocus()
+                                } catch(e: Exception) {
+                                    e.printStackTrace()
+                                }
+                            }
                         }
                     }
 
@@ -415,8 +423,6 @@ fun RecipeImportDialog(
             }
         }
     }
-
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
     TandoorRequestErrorHandler(state = recipeImportRequestState)
 }
