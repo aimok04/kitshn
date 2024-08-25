@@ -20,7 +20,7 @@ class TandoorRecipeBook(
     val id: Int,
     val name: String,
     val description: String,
-    val order: Int
+    val order: Int = 0
 ) {
 
     @Transient
