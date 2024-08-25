@@ -9,6 +9,7 @@ import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Reorder
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -31,6 +32,7 @@ fun RecipeDetailsDropdown(
     expanded: Boolean,
     onEdit: () -> Unit,
     onDelete: () -> Unit,
+    onShare: () -> Unit,
     onAddToRecipeBook: () -> Unit,
     onAddToMealPlan: () -> Unit,
     onAllocateIngredients: () -> Unit,
@@ -48,6 +50,7 @@ fun RecipeDetailsDropdown(
             recipeOverview = recipeOverview,
             onEdit = onEdit,
             onDelete = onDelete,
+            onShare = onShare,
             onAddToRecipeBook = onAddToRecipeBook,
             onAddToMealPlan = onAddToMealPlan,
             onAllocateIngredients = onAllocateIngredients,
@@ -62,6 +65,7 @@ fun ColumnScope.RecipeDetailsDropdownContent(
     recipeOverview: TandoorRecipeOverview,
     onEdit: () -> Unit,
     onDelete: () -> Unit,
+    onShare: () -> Unit,
     onAddToRecipeBook: () -> Unit,
     onAddToMealPlan: () -> Unit,
     onAllocateIngredients: () -> Unit,
@@ -91,6 +95,15 @@ fun ColumnScope.RecipeDetailsDropdownContent(
             }
         ) {
             Icon(Icons.Rounded.Delete, stringResource(id = R.string.action_delete))
+        }
+
+        IconButton(
+            onClick = {
+                onDismiss()
+                onShare()
+            }
+        ) {
+            Icon(Icons.Rounded.Share, stringResource(id = R.string.action_share))
         }
     }
 

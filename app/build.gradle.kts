@@ -48,6 +48,8 @@ android {
             "acra_http_basic_auth_password",
             prop.getProperty("acra.http.basic.auth.password")
         )
+
+        resValue("string", "share_wrapper_url", prop.getProperty("share.wrapper.url"))
     }
 
     dependenciesInfo {

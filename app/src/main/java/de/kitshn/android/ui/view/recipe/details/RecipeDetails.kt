@@ -1,5 +1,6 @@
 package de.kitshn.android.ui.view.recipe.details
 
+import android.content.Intent
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -99,6 +100,7 @@ import de.kitshn.android.ui.component.model.ingredient.IngredientsList
 import de.kitshn.android.ui.component.model.recipe.RecipeInfoBlob
 import de.kitshn.android.ui.component.model.recipe.step.RecipeStepCard
 import de.kitshn.android.ui.component.model.servings.ServingsSelector
+import de.kitshn.android.ui.dialog.UseShareWrapperDialog
 import de.kitshn.android.ui.dialog.common.CommonDeletionDialog
 import de.kitshn.android.ui.dialog.common.rememberCommonDeletionDialogState
 import de.kitshn.android.ui.dialog.mealplan.MealPlanCreationAndEditDefaultValues
@@ -110,6 +112,7 @@ import de.kitshn.android.ui.dialog.recipe.creationandedit.RecipeCreationAndEditD
 import de.kitshn.android.ui.dialog.recipe.creationandedit.rememberRecipeEditDialogState
 import de.kitshn.android.ui.dialog.recipe.rememberRecipeIngredientAllocationDialogState
 import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkBottomSheetState
+import de.kitshn.android.ui.dialog.rememberUseShareWrapperDialogState
 import de.kitshn.android.ui.dialog.select.SelectRecipeBookDialog
 import de.kitshn.android.ui.dialog.select.rememberSelectRecipeBookDialogState
 import de.kitshn.android.ui.layout.ResponsiveSideBySideLayout
@@ -250,6 +253,38 @@ fun ViewRecipeDetails(
         }
     }
 
+    val useShareWrapperDialogState = rememberUseShareWrapperDialogState(vm = p.vm)
+
+    fun share() = coroutineScope.launch {
+        useShareWrapperDialogState.open { useShareWrapper ->
+            coroutineScope.launch {
+                TandoorRequestState().wrapRequest {
+                    if(recipe == null) return@wrapRequest
+
+                    val link = if(useShareWrapper) {
+                        context.getString(R.string.share_wrapper_url)
+                    } else {
+                        ""
+                    } + recipe.retrieveShareLink()
+
+                    context.startActivity(
+                        Intent.createChooser(Intent().apply {
+                            action = Intent.ACTION_SEND
+
+                            putExtra(Intent.EXTRA_TITLE, context.getString(R.string.share_title))
+                            putExtra(
+                                Intent.EXTRA_TEXT,
+                                context.getString(R.string.share_incentive) + "\n" + link
+                            )
+
+                            type = "message/rfc822"
+                        }, null)
+                    )
+                }
+            }
+        }
+    }
+
     @Composable
     fun SourceButton() {
         var showSourceDialog by remember { mutableStateOf(false) }
@@ -336,6 +371,7 @@ fun ViewRecipeDetails(
                         expanded = isMenuExpanded,
                         onEdit = { recipe?.let { recipeEditDialogState.open(it) } },
                         onDelete = { recipe?.let { recipeDeleteDialogState.open(it) } },
+                        onShare = { share() },
                         onAddToRecipeBook = { addRecipeToBookSelectDialogState.open() },
                         onAddToMealPlan = {
                             mealPlanCreationDialogState.open(
@@ -438,6 +474,7 @@ fun ViewRecipeDetails(
                                     recipeOverview = recipeOverview,
                                     onEdit = { recipe?.let { recipeEditDialogState.open(it) } },
                                     onDelete = { recipe?.let { recipeDeleteDialogState.open(it) } },
+                                    onShare = { share() },
                                     onAddToRecipeBook = { addRecipeToBookSelectDialogState.open() },
                                     onAddToMealPlan = {
                                         mealPlanCreationDialogState.open(
@@ -714,5 +751,9 @@ fun ViewRecipeDetails(
     RecipeLinkBottomSheet(
         p = p,
         state = recipeLinkBottomSheetState
+    )
+
+    UseShareWrapperDialog(
+        state = useShareWrapperDialogState
     )
 }

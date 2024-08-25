@@ -55,6 +55,7 @@
     <string name="action_more">More</string>
     <string name="action_move">Move</string>
     <string name="action_next">Next</string>
+    <string name="action_no">No</string>
     <string name="action_open_issue">Create issue</string>
     <string name="action_open_original">Open original</string>
     <string name="action_open_source">View source</string>
@@ -73,6 +74,7 @@
     <string name="action_sign_out_description">Forget credentials</string>
     <string name="action_start_cooking">Start cooking mode</string>
     <string name="action_upload">Upload</string>
+    <string name="action_yes">Yes</string>
 
     <string name="app_name">kitshn</string>
 
@@ -279,6 +281,11 @@
     <string name="settings_section_appearance_label">Appearance</string>
     <string name="settings_section_server_description">Information about your instance</string>
     <string name="settings_section_server_label">Server</string>
+
+    <string name="share_incentive">Hey! Check out this recipe I\'ve found on Tandoor:</string>
+    <string name="share_title">"Share this recipe on Tandoor</string>
+    <string name="share_wrapper_dialog_message">Adding %1$s in front of the share URL enables other kitshn-Users to open the link directly inside the app.</string>
+    <string name="share_wrapper_dialog_title">Use share wrapper?</string>
 
     <string name="shopping_list_empty">There are currently no items on the shopping list.</string>
     <string name="shopping_list_entry_create_placeholder_amount">250</string>

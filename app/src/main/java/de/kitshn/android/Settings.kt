@@ -19,6 +19,11 @@ val KEY_SETTINGS_APPEARANCE_SYSTEM_THEME = booleanPreferencesKey("appearance_sys
 val KEY_SETTINGS_APPEARANCE_DARK_THEME = booleanPreferencesKey("appearance_dark_theme")
 val KEY_SETTINGS_APPEARANCE_DYNAMIC_COLORS = booleanPreferencesKey("appearance_dynamic_colors")
 
+val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER =
+    booleanPreferencesKey("behavior_use_share_wrapper")
+val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN =
+    booleanPreferencesKey("behavior_use_share_wrapper_hint_shown")
+
 val KEY_SETTINGS_ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
 val KEY_SETTINGS_TANDOOR_CREDENTIALS = stringPreferencesKey("tandoor_credentials")
 
@@ -80,6 +85,23 @@ class SettingsViewModel(
 
     suspend fun setEnableDarkTheme(enable: Boolean) = context.dataStore.edit {
         it[KEY_SETTINGS_APPEARANCE_DARK_THEME] = enable
+    }
+
+    //behavior
+    val getUseShareWrapper: Flow<Boolean> = context.dataStore.data
+        .map { preferences -> preferences[KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER] ?: true }
+
+    suspend fun setUseShareWrapper(use: Boolean) = context.dataStore.edit {
+        it[KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER] = use
+    }
+
+    val getUseShareWrapperHintShown: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN] ?: false
+        }
+
+    suspend fun setUseShareWrapperHintShown(use: Boolean) = context.dataStore.edit {
+        it[KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN] = use
     }
 
 }

@@ -55,6 +55,7 @@
     <string name="action_more">Mehr</string>
     <string name="action_move">Verschieben</string>
     <string name="action_next">Weiter</string>
+    <string name="action_no">Nein</string>
     <string name="action_open_issue">Issue eröffnen</string>
     <string name="action_open_original">Original öffnen</string>
     <string name="action_open_source">Quelle öffnen</string>
@@ -73,6 +74,7 @@
     <string name="action_sign_out_description">Alle Anmeldedaten vergessen</string>
     <string name="action_start_cooking">Kochmodus starten</string>
     <string name="action_upload">Hochladen</string>
+    <string name="action_yes">Ja</string>
 
     <string name="app_name">kitshn</string>
 
@@ -279,6 +281,11 @@
     <string name="settings_section_appearance_label">Erscheinung</string>
     <string name="settings_section_server_description">Informationen über deinen Server</string>
     <string name="settings_section_server_label">Server</string>
+
+    <string name="share_incentive">Hey! Schau dir dieses Rezept in Tandoor an:</string>
+    <string name="share_title">"Teile dieses Rezept von Tandoor</string>
+    <string name="share_wrapper_dialog_message">Wenn %1$s vor der geteilten URL steht, können andere kitshn-Nutzer den Link direkt in der App öffnen.</string>
+    <string name="share_wrapper_dialog_title">Share-Wrapper nutzen?</string>
 
     <string name="shopping_list_empty">Es gibt im Moment keine Einträge auf der Einkaufsliste.</string>
     <string name="shopping_list_entry_create_placeholder_amount">250</string>

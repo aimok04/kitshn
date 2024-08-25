@@ -13,6 +13,7 @@ import de.kitshn.android.JsonAsStringSerializer
 import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.TandoorRequestsError
 import de.kitshn.android.api.tandoor.delete
+import de.kitshn.android.api.tandoor.getObject
 import de.kitshn.android.api.tandoor.model.TandoorKeyword
 import de.kitshn.android.api.tandoor.model.TandoorStep
 import de.kitshn.android.api.tandoor.patchObject
@@ -193,6 +194,12 @@ class TandoorRecipe(
         client?.putMultipart("/recipe/${id}/image/", mutableMapOf<String, String>().apply {
             put("image_url", imageUrl)
         })
+    }
+
+    @Throws(TandoorRequestsError::class)
+    suspend fun retrieveShareLink(): String? {
+        if(this.client == null) return null
+        return client!!.getObject("/share-link/${id}")!!.getString("link")
     }
 
     fun sortSteps(): List<TandoorStep> {
