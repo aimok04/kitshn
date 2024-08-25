@@ -13,6 +13,8 @@ Mit <b>Jetpack Compose</b> und <b>Material You</b> gebaut um eine moderne, intui
         <li>Umfangreiche Suche</li>
         <li>Kochmodus</li>
         <li>Schritt-Zutaten-Zuordnungs-Tool</li>
+        <li>App-Links</li>
+        <li>Markdown-Unterstützung</li>
     </ul>
     <li>Essensplan</li>
     <ul>

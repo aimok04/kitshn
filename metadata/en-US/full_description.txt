@@ -13,6 +13,8 @@ Built with <b>Jetpack Compose</b> and <b>Material You</b> to deliver a modern, i
         <li>Extensive search</li>
         <li>Cooking mode</li>
         <li>Step-ingredient allocation tool</li>
+        <li>App links</li>
+        <li>Markdown supported</li>
     </ul>
     <li>Meal plan</li>
     <ul>
