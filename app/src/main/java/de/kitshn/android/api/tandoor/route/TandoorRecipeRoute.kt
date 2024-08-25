@@ -73,6 +73,7 @@ class TandoorRecipeRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             put("name", "New recipe")
             put("description", "This recipe is currently being created within the kitshn app.")
             put("steps", JSONArray())
+            put("internal", true)
         }
 
         val recipe = TandoorRecipe.parse(
