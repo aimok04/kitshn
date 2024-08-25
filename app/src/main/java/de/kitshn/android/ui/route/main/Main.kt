@@ -19,6 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import de.kitshn.android.R
@@ -68,7 +69,13 @@ fun RouteMain(p: RouteParameters) {
                             contentDescription = stringResource(id = it.label)
                         )
                     },
-                    label = { Text(text = stringResource(id = it.label)) },
+                    label = {
+                        Text(
+                            text = stringResource(id = it.label),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    },
                     selected = it == currentDestination,
                     onClick = {
                         currentDestination = it
