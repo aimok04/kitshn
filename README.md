@@ -38,6 +38,8 @@ height="80">](https://play.google.com/store/apps/details?id=de.kitshn.android)
     - [x] Extensive search
     - [x] Cooking mode
     - [x] Step-ingredient allocation tool
+  - [x] App links
+  - [x] Markdown supported
 - [x] Meal plan
     - [x] Overview
     - [x] Adding, editing and deleting
