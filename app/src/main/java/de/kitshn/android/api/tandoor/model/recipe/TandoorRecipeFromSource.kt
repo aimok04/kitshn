@@ -11,6 +11,20 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 @Serializable
+data class TandoorRecipeImportResponse(
+    val link: String? = null,
+    val recipeFromSource: TandoorRecipeFromSource? = null
+) {
+    companion object {
+        fun parse(client: TandoorClient, data: String): TandoorRecipeImportResponse {
+            val obj = json.decodeFromString<TandoorRecipeImportResponse>(data)
+            obj.recipeFromSource?.let { it.client = client }
+            return obj
+        }
+    }
+}
+
+@Serializable
 class TandoorRecipeFromSource(
     @SerialName("recipe_json")
     val recipeJson: TandoorRecipeFromSourceRecipeJson,
@@ -74,15 +88,6 @@ class TandoorRecipeFromSource(
 
         return client!!.recipe.create(data = data)
     }
-
-    companion object {
-        fun parse(client: TandoorClient, data: String): TandoorRecipeFromSource {
-            val obj = json.decodeFromString<TandoorRecipeFromSource>(data)
-            obj.client = client
-            return obj
-        }
-    }
-
 }
 
 @Serializable

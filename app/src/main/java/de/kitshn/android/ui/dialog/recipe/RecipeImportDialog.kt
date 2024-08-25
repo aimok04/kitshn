@@ -1,5 +1,6 @@
 package de.kitshn.android.ui.dialog.recipe
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -54,6 +55,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.coerceAtLeast
@@ -139,6 +141,7 @@ fun RecipeImportDialog(
     state: RecipeImportDialogState,
     onViewRecipe: (recipe: TandoorRecipe) -> Unit = { }
 ) {
+    val context = LocalContext.current
     val client = vm.tandoorClient ?: return
 
     // handle import recipe url passing
@@ -155,9 +158,24 @@ fun RecipeImportDialog(
 
     val fetchRequestState = rememberTandoorRequestState()
     fun fetch() = coroutineScope.launch {
+        val url = state.data.url.replaceFirst(context.getString(R.string.share_wrapper_url), "")
+
         fetchRequestState.wrapRequest {
-            state.data.recipeFromSource = client.recipeFromSource.fetch(state.data.url)
-            state.data.populate()
+            val response = client.recipeFromSource.fetch(url)
+            if(response.link != null) {
+                val uri = Uri.parse(response.link)
+                val pathArgs = (uri.path ?: "").split("/").toMutableList().apply {
+                    removeFirstOrNull()
+                }
+
+                if(pathArgs.size > 2 && pathArgs[0] == "view" && pathArgs[1] == "recipe") {
+                    state.dismiss()
+                    vm.viewRecipe(pathArgs[2].toInt())
+                }
+            } else if(response.recipeFromSource != null) {
+                state.data.recipeFromSource = response.recipeFromSource
+                state.data.populate()
+            }
         }
     }
 
