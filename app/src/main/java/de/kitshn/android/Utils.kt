@@ -292,3 +292,7 @@ fun Context.launchMarketPage(packageName: String) {
         )
     }
 }
+
+fun String.extractUrl(delimiters: String = "") = this
+    .split(delimiters)
+    .firstOrNull { it.startsWith("http://") || it.startsWith("https://") }
