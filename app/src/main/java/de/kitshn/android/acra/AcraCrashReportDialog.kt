@@ -18,7 +18,8 @@ class AcraCrashReportDialog : CrashReportDialog() {
     private var doNotFinish = false
     private var doNotCancel = false
 
-    private var text: String = ""
+    private var commentText: String = ""
+    private var emailText: String = ""
 
     override fun buildAndShowDialog(savedInstanceState: Bundle?) {
         this.myHelper = CrashReportDialogHelper(this, intent)
@@ -26,20 +27,25 @@ class AcraCrashReportDialog : CrashReportDialog() {
     }
 
     private fun showBaseDialog() {
-        val commentLayout: View = layoutInflater.inflate(R.layout.acra_crash_report_comment, null)
+        val formLayout: View = layoutInflater.inflate(R.layout.acra_crash_report_form, null)
 
-        val editText =
-            commentLayout.findViewById<TextInputEditText>(R.id.acra_crash_report_comment_edittext)
-        editText.setText(text)
-        editText.doOnTextChanged { it, _, _, _ -> this.text = it.toString() }
+        val commentEditText =
+            formLayout.findViewById<TextInputEditText>(R.id.acra_crash_report_comment_edittext)
+        commentEditText.setText(commentText)
+        commentEditText.doOnTextChanged { it, _, _, _ -> this.commentText = it.toString() }
+
+        val emailEditText =
+            formLayout.findViewById<TextInputEditText>(R.id.acra_crash_report_email_edittext)
+        emailEditText.setText(emailText)
+        emailEditText.doOnTextChanged { it, _, _, _ -> this.emailText = it.toString() }
 
         val dialog = MaterialAlertDialogBuilder(this)
             .setIcon(R.drawable.rounded_bug_report_24)
             .setTitle(getString(R.string.acra_dialog_title))
             .setMessage(getString(R.string.acra_dialog_message))
-            .setView(commentLayout)
+            .setView(formLayout)
             .setPositiveButton(getString(R.string.acra_dialog_button_positive)) { dialog, _ ->
-                this.myHelper.sendCrash(text, null)
+                this.myHelper.sendCrash(commentText.ifBlank { null }, emailText.ifBlank { null })
                 this.doNotCancel = true
                 dialog.dismiss()
             }
