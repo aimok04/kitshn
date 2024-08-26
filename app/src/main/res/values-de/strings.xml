@@ -93,6 +93,7 @@
     <string name="common_description">Beschreibung</string>
     <string name="common_details">Details</string>
     <string name="common_done">Fertig</string>
+    <string name="common_email_address">E-Mail Adressef</string>
     <string name="common_end_date">End-Datum</string>
     <string name="common_error_report">Fehlerbericht</string>
     <string name="common_favorites">Favoriten</string>
