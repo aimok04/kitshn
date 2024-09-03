@@ -13,6 +13,7 @@ import androidx.compose.material.icons.automirrored.rounded.Login
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.Key
 import androidx.compose.material.icons.rounded.Password
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Web
@@ -48,6 +49,10 @@ import androidx.compose.ui.unit.dp
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.TandoorCredentials
+import de.kitshn.android.api.tandoor.TandoorCredentialsToken
+import de.kitshn.android.api.tandoor.TandoorRequestStateState
+import de.kitshn.android.api.tandoor.rememberTandoorRequestState
+import de.kitshn.android.ui.component.HorizontalDividerWithLabel
 import de.kitshn.android.ui.component.buttons.LoadingExtendedFloatingActionButton
 import de.kitshn.android.ui.modifier.autofill
 import de.kitshn.android.ui.route.RouteParameters
@@ -85,39 +90,65 @@ fun RouteOnboardingSignIn(
 
     var usernameValue by rememberSaveable { mutableStateOf("") }
     var passwordValue by rememberSaveable { mutableStateOf("") }
-    var loginState by rememberSaveable { mutableStateOf<ErrorLoadingSuccessState?>(null) }
+    var tokenValue by rememberSaveable { mutableStateOf("") }
 
-    LaunchedEffect(usernameValue, passwordValue) {
-        loginState = null
-    }
+    val loginState = rememberTandoorRequestState()
+    LaunchedEffect(usernameValue, passwordValue, tokenValue) { loginState.reset() }
 
     fun done() {
         coroutineScope.launch {
-            loginState = ErrorLoadingSuccessState.LOADING
+            loginState.wrapRequest {
+                if(tokenValue.isNotBlank()) {
+                    val credentials = TandoorCredentials(
+                        instanceUrl = instanceUrlValue,
+                        username = "",
+                        password = "",
+                        token = TandoorCredentialsToken(
+                            token = tokenValue,
+                            scope = "undefined",
+                            expires = "undefined"
+                        )
+                    )
 
-            val credentials = TandoorCredentials(
-                instanceUrl = instanceUrlValue,
-                username = usernameValue,
-                password = passwordValue
-            )
+                    p.vm.tandoorClient = TandoorClient(
+                        context,
+                        credentials
+                    )
 
-            p.vm.tandoorClient = TandoorClient(
-                context,
-                credentials
-            )
+                    val user = p.vm.tandoorClient!!.user.get()
+                    if(user != null) {
+                        credentials.username = user.display_name
+                        p.vm.settings.saveTandoorCredentials(credentials)
 
-            val token = p.vm.tandoorClient!!.login()
-            if(token != null) {
-                credentials.token = token
+                        p.vm.navHostController?.navigate("onboarding/welcome")
+                        return@wrapRequest
+                    }
 
-                loginState = ErrorLoadingSuccessState.SUCCESS
-                p.vm.settings.saveTandoorCredentials(credentials)
+                    throw Error("UNDEFINED_USER")
+                } else {
+                    val credentials = TandoorCredentials(
+                        instanceUrl = instanceUrlValue,
+                        username = usernameValue,
+                        password = passwordValue
+                    )
 
-                p.vm.navHostController?.navigate("onboarding/welcome")
-                return@launch
+                    p.vm.tandoorClient = TandoorClient(
+                        context,
+                        credentials
+                    )
+
+                    val token = p.vm.tandoorClient!!.login()
+                    if(token != null) {
+                        credentials.token = token
+                        p.vm.settings.saveTandoorCredentials(credentials)
+
+                        p.vm.navHostController?.navigate("onboarding/welcome")
+                        return@wrapRequest
+                    }
+
+                    throw Error("UNDEFINED_TOKEN")
+                }
             }
-
-            loginState = ErrorLoadingSuccessState.ERROR
         }
     }
 
@@ -129,7 +160,7 @@ fun RouteOnboardingSignIn(
         },
         floatingActionButton = {
             LoadingExtendedFloatingActionButton(
-                loading = loginState == ErrorLoadingSuccessState.LOADING,
+                loading = loginState.state == TandoorRequestStateState.LOADING,
                 text = { Text(text = stringResource(R.string.action_sign_in)) },
                 icon = {
                     Icon(
@@ -233,9 +264,9 @@ fun RouteOnboardingSignIn(
                             )
                         },
 
-                        isError = loginState == ErrorLoadingSuccessState.ERROR,
+                        isError = loginState.state == TandoorRequestStateState.ERROR,
                         supportingText = {
-                            if(loginState == ErrorLoadingSuccessState.ERROR)
+                            if(loginState.state == TandoorRequestStateState.ERROR)
                                 Text(stringResource(R.string.onboarding_sign_in_error_sign_in_failed))
                         },
 
@@ -270,9 +301,9 @@ fun RouteOnboardingSignIn(
                             )
                         },
 
-                        isError = loginState == ErrorLoadingSuccessState.ERROR,
+                        isError = loginState.state == TandoorRequestStateState.ERROR,
                         supportingText = {
-                            if(loginState == ErrorLoadingSuccessState.ERROR)
+                            if(loginState.state == TandoorRequestStateState.ERROR)
                                 Text(stringResource(R.string.onboarding_sign_in_error_sign_in_failed))
                         },
 
@@ -291,6 +322,49 @@ fun RouteOnboardingSignIn(
                         value = passwordValue,
                         onValueChange = { value ->
                             passwordValue = value
+                        }
+                    )
+
+                    HorizontalDividerWithLabel(text = stringResource(id = R.string.common_or_upper))
+
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .autofill(
+                                autofillTypes = listOf(AutofillType.Password),
+                                onFill = { v -> tokenValue = v }
+                            ),
+
+                        enabled = instanceUrlState == ErrorLoadingSuccessState.SUCCESS,
+                        label = { Text(stringResource(id = R.string.common_api_token)) },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Rounded.Key,
+                                stringResource(id = R.string.common_api_token)
+                            )
+                        },
+
+                        isError = loginState.state == TandoorRequestStateState.ERROR,
+                        supportingText = {
+                            if(loginState.state == TandoorRequestStateState.ERROR)
+                                Text(stringResource(R.string.onboarding_sign_in_error_sign_in_failed))
+                        },
+
+                        visualTransformation = PasswordVisualTransformation(),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                done()
+                                focusManager.clearFocus()
+                            }
+                        ),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Password,
+                            imeAction = ImeAction.Done
+                        ),
+
+                        value = tokenValue,
+                        onValueChange = { value ->
+                            tokenValue = value
                         }
                     )
                 }

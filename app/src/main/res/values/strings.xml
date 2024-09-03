@@ -81,6 +81,7 @@
 
     <string name="common_add_to_shopping_list">Add to shopping list</string>
     <string name="common_allocate_ingredients">Allocate ingredients</string>
+    <string name="common_api_token">API token</string>
     <string name="common_comment">Comment</string>
     <string name="common_contact">Contact</string>
     <string name="common_cook_book">Cookbook</string>
@@ -113,6 +114,7 @@
     <string name="common_not_reachable">Not reachable</string>
     <string name="common_note">Note</string>
     <string name="common_okay">Okay</string>
+    <string name="common_or_upper">OR</string>
     <string name="common_password">Password</string>
     <plurals name="common_plural_minute">
         <item quantity="zero">keine Minuten</item>
