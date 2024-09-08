@@ -28,8 +28,8 @@ class TandoorShoppingListEntry(
     val order: Long,
     val checked: Boolean,
     val recipe_mealplan: TandoorShoppingListEntryRecipeMealplan? = null,
-    val created_at: String,
-    val updated_at: String,
+    /*val created_at: String,
+    val updated_at: String,*/
     /*val completed_at: Any?,
     val delay_until: Any?*/
 ) {
