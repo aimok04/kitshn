@@ -1,0 +1,4 @@
+- feat(onboarding): added API token sign in (#9)
+- feat(recipes): added auto timer links in instructions
+- feat(acra): added mail address field to AcraCrashReportDialog.kt
+- multiple bug fixes
