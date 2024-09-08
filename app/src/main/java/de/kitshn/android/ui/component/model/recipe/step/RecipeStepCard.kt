@@ -35,12 +35,12 @@ import androidx.compose.ui.unit.dp
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.model.TandoorStep
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.android.ui.component.MarkdownTextWithTimerSupport
 import de.kitshn.android.ui.component.model.ingredient.IngredientsList
 import de.kitshn.android.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.android.ui.modifier.loadingPlaceHolder
 import de.kitshn.android.ui.state.ErrorLoadingSuccessState
 import de.kitshn.android.ui.theme.Typography
-import dev.jeziellago.compose.markdowntext.MarkdownText
 
 @Composable
 fun RecipeStepCard(
@@ -128,10 +128,11 @@ fun RecipeStepCard(
                 }
             }
 
-            MarkdownText(
+            MarkdownTextWithTimerSupport(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                     .loadingPlaceHolder(loadingState),
+                timerName = stepName,
                 markdown = step?.instruction ?: stringResource(id = R.string.lorem_ipsum_medium)
             )
         }

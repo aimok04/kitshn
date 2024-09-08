@@ -41,13 +41,13 @@ import androidx.compose.ui.unit.sp
 import de.kitshn.android.KitshnViewModel
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.model.TandoorStep
+import de.kitshn.android.ui.component.MarkdownTextWithTimerSupport
 import de.kitshn.android.ui.component.model.ingredient.IngredientsList
 import de.kitshn.android.ui.component.model.recipe.step.RecipeStepRecipeLink
 import de.kitshn.android.ui.dialog.recipe.RecipeLinkBottomSheet
 import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkBottomSheetState
 import de.kitshn.android.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.android.ui.view.ViewParameters
-import dev.jeziellago.compose.markdowntext.MarkdownText
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -115,10 +115,11 @@ fun RouteRecipeCookPageStep(
                     .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
                     .fillMaxSize()
             ) {
-                if(firstAlpha.value != 0f) MarkdownText(
+                if(firstAlpha.value != 0f) MarkdownTextWithTimerSupport(
                     modifier = Modifier
                         .alpha(firstAlpha.value)
                         .fillMaxSize(),
+                    timerName = step.name,
                     markdown = step.instruction,
                     style = TextStyle(
                         fontSize = fontSize,
@@ -126,10 +127,11 @@ fun RouteRecipeCookPageStep(
                     )
                 )
 
-                if(secondAlpha.value != 0f) MarkdownText(
+                if(secondAlpha.value != 0f) MarkdownTextWithTimerSupport(
                     modifier = Modifier
                         .alpha(secondAlpha.value)
                         .fillMaxSize(),
+                    timerName = step.name,
                     markdown = step.instruction,
                     style = TextStyle(
                         fontSize = fontSize,
