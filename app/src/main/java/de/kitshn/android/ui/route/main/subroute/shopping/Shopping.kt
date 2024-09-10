@@ -165,6 +165,9 @@ fun RouteMainSubrouteShopping(
                                 imeAction = ImeAction.Next
                             ),
 
+                            singleLine = true,
+                            maxLines = 1,
+
                             value = unit ?: "",
                             onValueChange = {
                                 unit = it
@@ -185,6 +188,9 @@ fun RouteMainSubrouteShopping(
                             keyboardOptions = KeyboardOptions(
                                 imeAction = ImeAction.Go
                             ),
+
+                            singleLine = true,
+                            maxLines = 1,
 
                             value = food ?: "",
                             onValueChange = {
