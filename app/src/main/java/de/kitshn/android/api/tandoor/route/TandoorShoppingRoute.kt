@@ -13,9 +13,9 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
     @Throws(TandoorRequestsError::class)
     suspend fun add(amount: Double?, food: String?, unit: String?): TandoorShoppingListEntry {
         val data = JSONObject().apply {
-            put("amount", amount)
-            put("food", JSONObject().apply { put("name", food) })
-            put("unit", JSONObject().apply { put("name", unit) })
+            put("amount", amount ?: 0.0)
+            put("food", food?.let { JSONObject().apply { put("name", food) } })
+            put("unit", unit?.let { JSONObject().apply { put("name", unit) } })
         }
 
         val response = TandoorShoppingListEntry.parse(
