@@ -289,7 +289,10 @@ fun RouteOnboardingSignIn(
                             .fillMaxSize()
                             .autofill(
                                 autofillTypes = listOf(AutofillType.Password),
-                                onFill = { v -> passwordValue = v }
+                                onFill = { v ->
+                                    if(!v.startsWith("tda_"))
+                                        passwordValue = v
+                                }
                             ),
 
                         enabled = instanceUrlState == ErrorLoadingSuccessState.SUCCESS,
@@ -332,7 +335,10 @@ fun RouteOnboardingSignIn(
                             .fillMaxSize()
                             .autofill(
                                 autofillTypes = listOf(AutofillType.Password),
-                                onFill = { v -> tokenValue = v }
+                                onFill = { v ->
+                                    if(v.startsWith("tda_"))
+                                        tokenValue = v
+                                }
                             ),
 
                         enabled = instanceUrlState == ErrorLoadingSuccessState.SUCCESS,
