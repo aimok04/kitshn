@@ -52,7 +52,12 @@ fun MarkdownTextWithTimerSupport(
 
     var md by remember { mutableStateOf("") }
     LaunchedEffect(markdown) {
-        md = markdown.replace(Regex("[0-9]+ (minuten|min|minutes|mins)", RegexOption.IGNORE_CASE)) {
+        md = markdown.replace(
+            Regex(
+                "[0-9]+ (minute|minuten|min|minutes|mins)",
+                RegexOption.IGNORE_CASE
+            )
+        ) {
             "[**⏲ ${it.value}**](timer://${it.value.split(" ")[0]})"
         }
     }
