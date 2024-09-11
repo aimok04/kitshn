@@ -55,7 +55,7 @@ import de.kitshn.android.api.tandoor.model.TandoorStep
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.android.api.tandoor.rememberTandoorRequestState
 import de.kitshn.android.ui.TandoorRequestErrorHandler
-import de.kitshn.android.ui.component.MarkdownTextWithTimerSupport
+import de.kitshn.android.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.android.ui.component.model.ingredient.IngredientsList
 import de.kitshn.android.ui.component.model.recipe.step.RecipeStepIndicator
 import de.kitshn.android.ui.dialog.AdaptiveFullscreenDialog
@@ -346,7 +346,7 @@ fun RecipeIngredientAllocationDialog(
                             )
                         }
 
-                        MarkdownTextWithTimerSupport(
+                        MarkdownRichTextWithTimerDetection(
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                             timerName = step.name,
                             markdown = step.instruction

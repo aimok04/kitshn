@@ -122,7 +122,9 @@ dependencies {
     implementation(libs.material)
 
     implementation(libs.haze)
-    implementation(libs.compose.markdown)
+
+    implementation(libs.richtext.ui.material3)
+    implementation(libs.richtext.commonmark)
 
     implementation(libs.accompanist.placeholder.material)
     implementation(libs.accompanist.placeholder)

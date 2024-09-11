@@ -5,13 +5,13 @@ acra = "5.11.3"
 adaptive = "1.0.0-rc01"
 agp = "8.5.2"
 coil = "2.7.0"
-composeMarkdown = "0.5.3"
 desugar_jdk_libs = "2.0.4"
 haze = "0.7.2"
 kotlin = "2.0.0"
 material = "1.12.0"
 modernstoragePhotopicker = "1.0.0-alpha06"
 reorderable = "2.3.0"
+richtext = "1.0.0-alpha01"
 serialization = "2.0.0"
 coreKtx = "1.13.1"
 lifecycleRuntimeKtx = "2.8.4"
@@ -38,7 +38,6 @@ androidx-adaptive-navigation = { module = "androidx.compose.material3.adaptive:a
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
-compose-markdown = { module = "com.github.jeziellago:compose-markdown", version.ref = "composeMarkdown" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
@@ -56,6 +55,8 @@ androidx-datastore-preferences = { group = "androidx.datastore", name = "datasto
 material = { module = "com.google.android.material:material", version.ref = "material" }
 modernstorage-photopicker = { module = "com.google.modernstorage:modernstorage-photopicker", version.ref = "modernstoragePhotopicker" }
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
+richtext-commonmark = { module = "com.halilibo.compose-richtext:richtext-commonmark", version.ref = "richtext" }
+richtext-ui-material3 = { module = "com.halilibo.compose-richtext:richtext-ui-material3", version.ref = "richtext" }
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 androidx-material3-adaptive-navigation-suite-android = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite-android", version.ref = "material3AdaptiveNavigationSuiteAndroid" }

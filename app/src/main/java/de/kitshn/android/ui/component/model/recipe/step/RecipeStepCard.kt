@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.model.TandoorStep
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipe
-import de.kitshn.android.ui.component.MarkdownTextWithTimerSupport
+import de.kitshn.android.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.android.ui.component.model.ingredient.IngredientsList
 import de.kitshn.android.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.android.ui.modifier.loadingPlaceHolder
@@ -128,7 +128,7 @@ fun RecipeStepCard(
                 }
             }
 
-            MarkdownTextWithTimerSupport(
+            MarkdownRichTextWithTimerDetection(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                     .loadingPlaceHolder(loadingState),
