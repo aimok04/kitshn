@@ -67,8 +67,10 @@ height="80">](https://play.google.com/store/apps/details?id=de.kitshn.android)
 
 - [ ] Localize home screen queries
 - [ ] Recipes
-    - [ ] Add step editing
-  - [x] Add individual step cover images
+  - [ ] Add step editing
+- [ ] Shopping
+  - [ ] Dialog for shopping list entries
+  - [ ] Categories and supermarkets
 - [ ] Go stable
 
 ## 📜 License & Credits
