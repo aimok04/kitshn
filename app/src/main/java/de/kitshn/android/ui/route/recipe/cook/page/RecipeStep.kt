@@ -120,6 +120,8 @@ fun RouteRecipeCookPageStep(
         val density = LocalDensity.current
         val maxHeightPx = with(density) { maxWidth.roundToPx() }
 
+        val maxHeight = maxHeight
+
         Column(
             Modifier
                 .fillMaxSize()
@@ -167,6 +169,7 @@ fun RouteRecipeCookPageStep(
                     rightMinWidth = 300.dp,
                     rightMaxWidth = 300.dp,
                     leftMinWidth = 300.dp,
+                    disable = maxHeight > 800.dp,
                     leftLayout = {
                         InstructionText(
                             if(it) (maxHeightPx / 2.5f).roundToInt() else maxHeightPx,

@@ -22,6 +22,8 @@ fun ResponsiveSideBySideLayout(
 
     maxHeight: Dp = Dp.Unspecified,
 
+    disable: Boolean = false,
+
     showDivider: Boolean = false,
 
     leftLayout: @Composable (enoughSpace: Boolean) -> Unit,
@@ -35,6 +37,7 @@ fun ResponsiveSideBySideLayout(
     ) {
         if(this@BoxWithConstraints.maxWidth >= minWidth
             && (maxHeight == Dp.Unspecified || this@BoxWithConstraints.maxHeight < maxHeight)
+            && !disable
         ) {
             Row {
                 Column(
