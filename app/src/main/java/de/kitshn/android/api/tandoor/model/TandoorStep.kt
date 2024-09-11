@@ -1,8 +1,10 @@
 package de.kitshn.android.api.tandoor.model
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import coil.request.ImageRequest
 import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.TandoorRequestsError
 import de.kitshn.android.api.tandoor.delete
@@ -58,6 +60,17 @@ class TandoorStep(
 
     @Transient
     var client: TandoorClient? = null
+
+    @Composable
+    fun loadFilePreview(): ImageRequest? {
+        return if(file?.preview == null || client == null) {
+            null
+        } else {
+            return client!!.media.createImageBuilder(file.preview)
+                .crossfade(true)
+                .build()
+        }
+    }
 
     @Throws(TandoorRequestsError::class)
     suspend fun partialUpdate(

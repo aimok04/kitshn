@@ -3,12 +3,17 @@ package de.kitshn.android.ui.route.recipe.cook.page
 import android.content.Intent
 import android.provider.AlarmClock
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -27,12 +32,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.kitshn.android.KitshnViewModel
@@ -40,6 +47,7 @@ import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.model.TandoorStep
 import de.kitshn.android.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.android.ui.component.model.ingredient.IngredientsList
+import de.kitshn.android.ui.component.model.recipe.step.RecipeStepMultimediaBox
 import de.kitshn.android.ui.component.model.recipe.step.RecipeStepRecipeLink
 import de.kitshn.android.ui.dialog.recipe.RecipeLinkBottomSheet
 import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkBottomSheetState
@@ -49,6 +57,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun RouteRecipeCookPageStep(
+    topPadding: Dp,
     vm: KitshnViewModel,
     step: TandoorStep,
     servingsFactor: Double
@@ -115,15 +124,27 @@ fun RouteRecipeCookPageStep(
             .fillMaxSize()
     ) {
         val density = LocalDensity.current
-        val maxHeightPx = with(density) { maxWidth.roundToPx() }
 
+        val maxHeightPx = with(density) { maxWidth.roundToPx() }
         val maxHeight = maxHeight
+
+        val statusBarHeight = with(density) {
+            WindowInsets.statusBars
+                .getTop(density)
+                .toDp()
+        }
 
         Column(
             Modifier
                 .fillMaxSize()
                 .verticalScroll(verticalScroll)
         ) {
+            RecipeStepMultimediaBox(
+                step = step
+            ) {
+                Spacer(Modifier.height(topPadding))
+            }
+
             if(step.time > 0) AssistChip(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                 onClick = {
@@ -205,6 +226,14 @@ fun RouteRecipeCookPageStep(
                 }
             }
         }
+
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .alpha((verticalScroll.value / 200f).coerceIn(0f, 1f))
+                .height(statusBarHeight)
+                .background(MaterialTheme.colorScheme.background)
+        )
     }
 
     RecipeLinkBottomSheet(

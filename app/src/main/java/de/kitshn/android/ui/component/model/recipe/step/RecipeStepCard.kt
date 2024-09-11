@@ -140,6 +140,10 @@ fun RecipeStepCard(
         Column(
             columnModifier
         ) {
+            if(step != null) RecipeStepMultimediaBox(
+                step = step
+            )
+
             if(showIngredientsTable && step != null) {
                 ResponsiveSideBySideLayout(
                     rightMinWidth = 300.dp,

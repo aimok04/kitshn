@@ -31,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import de.kitshn.android.R
@@ -45,6 +46,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun RouteRecipeCookPageDone(
+    topPadding: Dp,
     recipe: TandoorRecipe,
     servings: Int
 ) {
@@ -56,7 +58,7 @@ fun RouteRecipeCookPageDone(
     Box(
         Modifier
             .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 32.dp),
+            .padding(start = 16.dp, end = 16.dp, top = topPadding, bottom = 32.dp),
         contentAlignment = Alignment.Center
     ) {
         ResponsiveSideBySideLayout(

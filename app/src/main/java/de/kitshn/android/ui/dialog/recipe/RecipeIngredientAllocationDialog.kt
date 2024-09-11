@@ -58,6 +58,7 @@ import de.kitshn.android.ui.TandoorRequestErrorHandler
 import de.kitshn.android.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.android.ui.component.model.ingredient.IngredientsList
 import de.kitshn.android.ui.component.model.recipe.step.RecipeStepIndicator
+import de.kitshn.android.ui.component.model.recipe.step.RecipeStepMultimediaBox
 import de.kitshn.android.ui.dialog.AdaptiveFullscreenDialog
 import de.kitshn.android.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.android.ui.state.foreverRememberNotSavable
@@ -317,6 +318,10 @@ fun RecipeIngredientAllocationDialog(
                     .verticalScroll(rememberScrollState())
                     .nestedScroll(nsc)
             ) {
+                RecipeStepMultimediaBox(
+                    step = step
+                )
+
                 ResponsiveSideBySideLayout(
                     rightMinWidth = 300.dp,
                     rightMaxWidth = 500.dp,
