@@ -1,6 +1,8 @@
 package de.kitshn.android.ui.route.main.subroute.shopping
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -35,21 +38,28 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorRequestState
 import de.kitshn.android.api.tandoor.TandoorRequestStateState
+import de.kitshn.android.api.tandoor.model.TandoorFood
+import de.kitshn.android.api.tandoor.model.shopping.TandoorShoppingListEntry
+import de.kitshn.android.api.tandoor.model.shopping.TandoorShoppingListEntryRecipeMealplan
 import de.kitshn.android.api.tandoor.rememberTandoorRequestState
 import de.kitshn.android.formatAmount
 import de.kitshn.android.parseTandoorDate
@@ -99,7 +109,23 @@ fun RouteMainSubrouteShopping(
     val recipeLinkBottomSheetState = rememberRecipeLinkBottomSheetState()
 
     val client = p.vm.tandoorClient
-    val entries = client?.container?.shoppingListEntries ?: listOf()
+
+    val foods = remember { mutableStateListOf<TandoorFood>() }
+    val foodMap = remember { mutableStateMapOf<Int, MutableList<TandoorShoppingListEntry>>() }
+
+    LaunchedEffect(client?.container?.shoppingListEntries?.toList()) {
+        foods.clear()
+        foodMap.clear()
+
+        client?.container?.shoppingListEntries?.forEach {
+            if(!foodMap.contains(it.food.id)) {
+                foods.add(it.food)
+                foodMap[it.food.id] = mutableListOf()
+            }
+
+            foodMap[it.food.id]?.add(it)
+        }
+    }
 
     var amount by remember { mutableStateOf<Int?>(null) }
     var unit by remember { mutableStateOf<String?>(null) }
@@ -230,7 +256,7 @@ fun RouteMainSubrouteShopping(
                     )
             )
 
-            if(entries.isEmpty() && loaded) {
+            if(foods.isEmpty() && loaded) {
                 FullSizeAlertPane(
                     imageVector = Icons.Rounded.RemoveShoppingCart,
                     contentDescription = stringResource(R.string.shopping_list_empty),
@@ -242,57 +268,91 @@ fun RouteMainSubrouteShopping(
                         .fillMaxSize()
                         .nestedScroll(scrollBehavior.nestedScrollConnection)
                 ) {
-                    items(entries.size) { entryIndex ->
-                        val entry = entries[entryIndex]
+                    items(foods.size) { foodIndex ->
+                        val currentFood = foods[foodIndex]
+                        val currentEntries = foodMap[currentFood.id]
+
+                        val mealplans =
+                            remember { mutableStateListOf<TandoorShoppingListEntryRecipeMealplan>() }
+                        LaunchedEffect(currentEntries) {
+                            mealplans.clear()
+                            mealplans.addAll(
+                                currentEntries!!.filter { it.recipe_mealplan != null }
+                                    .map { it.recipe_mealplan!! }
+                            )
+                        }
 
                         ListItem(
                             colors = ListItemDefaults.colors(
                                 supportingColor = MaterialTheme.colorScheme.primary
                             ),
-                            headlineContent = {
-                                Text(text = entry.amount.formatAmount() + " " + (entry.unit?.name?.let { "$it " }
-                                    ?: "") + entry.food.name)
-                            },
-                            supportingContent = if(entry.recipe_mealplan != null) {
+                            supportingContent = if(mealplans.size > 0) {
                                 {
-                                    Text(
-                                        modifier = Modifier.clickable {
-                                            if(client == null) return@clickable
+                                    Row(
+                                        modifier = Modifier.horizontalScroll(rememberScrollState()),
+                                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                                    ) {
+                                        mealplans.forEach { mealplan ->
+                                            Text(
+                                                modifier = Modifier.clickable {
+                                                    if(client == null) return@clickable
 
-                                            coroutineScope.launch {
-                                                TandoorRequestState().wrapRequest {
-                                                    if(entry.recipe_mealplan.mealplan != null) {
-                                                        val mealplan =
-                                                            client.mealPlan.get(entry.recipe_mealplan.mealplan)
-                                                        mealPlanDetailsBottomSheetState.open(
-                                                            mealplan
-                                                        )
-                                                    } else {
-                                                        val recipe = client.recipe.get(
-                                                            entry.recipe_mealplan.recipe,
-                                                            true
-                                                        )
-                                                        recipeLinkBottomSheetState.open(recipe.toOverview())
+                                                    coroutineScope.launch {
+                                                        TandoorRequestState().wrapRequest {
+                                                            if(mealplan.mealplan != null) {
+                                                                mealPlanDetailsBottomSheetState.open(
+                                                                    client.mealPlan.get(mealplan.mealplan)
+                                                                )
+                                                            } else {
+                                                                val recipe = client.recipe.get(
+                                                                    mealplan.recipe,
+                                                                    true
+                                                                )
+                                                                recipeLinkBottomSheetState.open(
+                                                                    recipe.toOverview()
+                                                                )
+                                                            }
+                                                        }
                                                     }
-                                                }
-                                            }
-                                        },
-                                        text = if(entry.recipe_mealplan.mealplan != null) {
-                                            entry.recipe_mealplan.mealplan_from_date?.parseTandoorDate()
-                                                ?.toHumanReadableDateLabel() + " — "
-                                        } else {
-                                            ""
-                                        } + entry.recipe_mealplan.name
-                                    )
+                                                },
+                                                text = if(mealplan.mealplan != null) {
+                                                    mealplan.mealplan_from_date?.parseTandoorDate()
+                                                        ?.toHumanReadableDateLabel() + " — "
+                                                } else {
+                                                    ""
+                                                } + mealplan.name
+                                            )
+                                        }
+                                    }
                                 }
                             } else {
                                 null
+                            },
+                            headlineContent = {
+                                Row(
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    if(currentEntries?.firstOrNull { it.amount != 0.0 && it.unit != null } != null) Column {
+                                        currentEntries.forEach { entry ->
+                                            Text(
+                                                fontWeight = FontWeight.SemiBold,
+                                                text = entry.amount.formatAmount() + " " + (entry.unit?.name?.let { "$it " }
+                                                    ?: "")
+                                            )
+                                        }
+                                    }
+
+                                    Text(text = currentFood.name)
+                                }
                             },
                             trailingContent = {
                                 IconButton(
                                     onClick = {
                                         coroutineScope.launch {
-                                            entry.check()
+                                            currentEntries?.forEach {
+                                                it.check()
+                                            }
                                         }
                                     }
                                 ) {
