@@ -118,14 +118,14 @@
     <string name="common_or_upper">OR</string>
     <string name="common_password">Password</string>
     <plurals name="common_plural_minute">
-        <item quantity="zero">keine Minuten</item>
-        <item quantity="one">eine Minute</item>
-        <item quantity="other">%d Minuten</item>
+        <item quantity="zero">no minutes</item>
+        <item quantity="one">one minute</item>
+        <item quantity="other">%d minutes</item>
     </plurals>
     <plurals name="common_plural_portion">
-        <item quantity="zero">keine Portionen</item>
-        <item quantity="one">eine Portion</item>
-        <item quantity="other">%d Portionen</item>
+        <item quantity="zero">no servings</item>
+        <item quantity="one">one serving</item>
+        <item quantity="other">%d servings</item>
     </plurals>
     <plurals name="common_plural_wo_count">
         <item quantity="one">Portion</item>
