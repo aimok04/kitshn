@@ -13,6 +13,7 @@
     <string name="action_add_to_favorites">zu Favoriten hinzufügen</string>
     <string name="action_add_to_meal_plan">zum Essensplan hinzufügen</string>
     <string name="action_add_to_recipe_books">zu Rezeptbüchern hinzufügen</string>
+    <string name="action_add_to_shopping">zur Einkaufsliste hinzufügen</string>
     <string name="action_allocate_ingredients">Zutaten zuordnen</string>
     <string name="action_apply">Anwenden</string>
     <string name="action_back">Zurück</string>

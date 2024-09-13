@@ -23,20 +23,22 @@ class TandoorRequestsError(
 ) : Throwable()
 
 @Throws(TandoorRequestsError::class)
-suspend fun TandoorClient.delete(
-    endpoint: String
+suspend fun TandoorClient.req(
+    endpoint: String,
+    method: Int,
+    data: JSONObject? = null
 ) = suspendCoroutine { cont ->
     val queue = Volley.newRequestQueue(context)
     val token = this.credentials.token
 
     Log.d(
         "TandoorRequests",
-        "Method: DELETE, URL: ${credentials.instanceUrl.redactForRelease()}/api${endpoint}"
+        "Method: $method, URL: ${credentials.instanceUrl.redactForRelease()}/api${endpoint}"
     )
     val url = "${credentials.instanceUrl}/api${endpoint}"
 
-    val jsonArrayRequest = object : StringRequest(
-        Method.DELETE,
+    val request = object : StringRequest(
+        method,
         url,
         { response: String ->
             cont.resume(response)
@@ -47,6 +49,16 @@ suspend fun TandoorClient.delete(
             cont.resumeWithException(TandoorRequestsError(error))
         }
     ) {
+        override fun getBody(): ByteArray {
+            if(data != null) return data.toString().encodeToByteArray()
+            return super.getBody()
+        }
+
+        override fun getBodyContentType(): String {
+            if(data != null) return "application/json"
+            return super.getBodyContentType()
+        }
+
         override fun getHeaders(): MutableMap<String, String> {
             val headers = super.getHeaders().toMutableMap()
             headers["Authorization"] = "Bearer ${token?.token ?: ""}"
@@ -54,7 +66,7 @@ suspend fun TandoorClient.delete(
         }
     }
 
-    queue.add(jsonArrayRequest)
+    queue.add(request)
 }
 
 @Throws(TandoorRequestsError::class)
@@ -241,6 +253,10 @@ suspend fun TandoorClient.postMultipart(endpoint: String, data: MutableMap<Strin
     reqMultipart(endpoint, Request.Method.POST, data)
 
 @Throws(TandoorRequestsError::class)
+suspend fun TandoorClient.put(endpoint: String, data: JSONObject) =
+    req(endpoint, Request.Method.PUT, data)
+
+@Throws(TandoorRequestsError::class)
 suspend fun TandoorClient.putObject(endpoint: String, data: JSONObject) =
     reqObject(endpoint, Request.Method.PUT, data)
 
@@ -263,3 +279,7 @@ suspend fun TandoorClient.patchObject(endpoint: String, data: JSONObject) =
 @Throws(TandoorRequestsError::class)
 suspend fun TandoorClient.patchArray(endpoint: String, data: JSONArray) =
     reqArray(endpoint, Request.Method.PATCH, data)
+
+@Throws(TandoorRequestsError::class)
+suspend fun TandoorClient.delete(endpoint: String) =
+    req(endpoint, Request.Method.DELETE)

@@ -115,6 +115,8 @@ import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkBottomSheetState
 import de.kitshn.android.ui.dialog.rememberUseShareWrapperDialogState
 import de.kitshn.android.ui.dialog.select.SelectRecipeBookDialog
 import de.kitshn.android.ui.dialog.select.rememberSelectRecipeBookDialogState
+import de.kitshn.android.ui.dialog.servings.ServingsChangeDialog
+import de.kitshn.android.ui.dialog.servings.rememberServingsChangeDialogState
 import de.kitshn.android.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.android.ui.state.ErrorLoadingSuccessState
 import de.kitshn.android.ui.state.rememberErrorLoadingSuccessState
@@ -160,6 +162,7 @@ fun ViewRecipeDetails(
     val mealPlanCreationDialogState =
         rememberMealPlanCreationDialogState(key = "ViewRecipeDetails/mealPlanCreationDialogState")
     val addRecipeToBookSelectDialogState = rememberSelectRecipeBookDialogState()
+    val addRecipeToShoppingServingsSelectionDialogState = rememberServingsChangeDialogState()
 
     val recipeDeleteDialogState = rememberCommonDeletionDialogState<TandoorRecipe>()
 
@@ -380,6 +383,9 @@ fun ViewRecipeDetails(
                                 )
                             )
                         },
+                        onAddToShopping = {
+                            addRecipeToShoppingServingsSelectionDialogState.open(servingsValue)
+                        },
                         onAllocateIngredients = {
                             recipe?.let {
                                 recipeIngredientAllocationDialogState.open(
@@ -481,6 +487,11 @@ fun ViewRecipeDetails(
                                             MealPlanCreationAndEditDefaultValues(
                                                 recipeId = recipeOverview.id
                                             )
+                                        )
+                                    },
+                                    onAddToShopping = {
+                                        addRecipeToShoppingServingsSelectionDialogState.open(
+                                            servingsValue
                                         )
                                     },
                                     onAllocateIngredients = {
@@ -745,6 +756,17 @@ fun ViewRecipeDetails(
             state = addRecipeToBookSelectDialogState
         ) {
             coroutineScope.launch { it.createEntry(recipeOverview.id) }
+        }
+
+        ServingsChangeDialog(
+            portionText = (recipe?.servings_text ?: "").ifBlank {
+                stringResource(R.string.common_portions)
+            },
+            state = addRecipeToShoppingServingsSelectionDialogState
+        ) { servings ->
+            coroutineScope.launch {
+                recipe?.shopping(servings)
+            }
         }
     }
 

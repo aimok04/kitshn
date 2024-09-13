@@ -13,6 +13,7 @@
     <string name="action_add_to_favorites">Add to favorites</string>
     <string name="action_add_to_meal_plan">Add to meal plan</string>
     <string name="action_add_to_recipe_books">Add to recipe books</string>
+    <string name="action_add_to_shopping">Add to shopping</string>
     <string name="action_allocate_ingredients">Allocate ingredients</string>
     <string name="action_apply">Apply</string>
     <string name="action_back">Back</string>

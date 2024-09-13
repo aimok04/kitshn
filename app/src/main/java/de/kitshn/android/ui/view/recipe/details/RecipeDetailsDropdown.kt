@@ -10,6 +10,7 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Reorder
 import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -35,6 +36,7 @@ fun RecipeDetailsDropdown(
     onShare: () -> Unit,
     onAddToRecipeBook: () -> Unit,
     onAddToMealPlan: () -> Unit,
+    onAddToShopping: () -> Unit,
     onAllocateIngredients: () -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -53,6 +55,7 @@ fun RecipeDetailsDropdown(
             onShare = onShare,
             onAddToRecipeBook = onAddToRecipeBook,
             onAddToMealPlan = onAddToMealPlan,
+            onAddToShopping = onAddToShopping,
             onAllocateIngredients = onAllocateIngredients,
             onDismiss = onDismiss
         )
@@ -68,6 +71,7 @@ fun ColumnScope.RecipeDetailsDropdownContent(
     onShare: () -> Unit,
     onAddToRecipeBook: () -> Unit,
     onAddToMealPlan: () -> Unit,
+    onAddToShopping: () -> Unit,
     onAllocateIngredients: () -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -130,6 +134,19 @@ fun ColumnScope.RecipeDetailsDropdownContent(
         onClick = {
             onDismiss()
             onAddToMealPlan()
+        }
+    )
+
+    DropdownMenuItem(
+        leadingIcon = {
+            Icon(Icons.Rounded.ShoppingCart, stringResource(R.string.action_add_to_shopping))
+        },
+        text = {
+            Text(stringResource(R.string.action_add_to_shopping))
+        },
+        onClick = {
+            onDismiss()
+            onAddToShopping()
         }
     )
 

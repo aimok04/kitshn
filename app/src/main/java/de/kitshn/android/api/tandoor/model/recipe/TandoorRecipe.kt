@@ -17,6 +17,7 @@ import de.kitshn.android.api.tandoor.getObject
 import de.kitshn.android.api.tandoor.model.TandoorKeyword
 import de.kitshn.android.api.tandoor.model.TandoorStep
 import de.kitshn.android.api.tandoor.patchObject
+import de.kitshn.android.api.tandoor.put
 import de.kitshn.android.api.tandoor.putBitmap
 import de.kitshn.android.api.tandoor.putMultipart
 import de.kitshn.android.json
@@ -126,6 +127,15 @@ class TandoorRecipe(
         remainingSteps.forEach {
             deleteStep(it)
         }
+    }
+
+    @Throws(TandoorRequestsError::class)
+    suspend fun shopping(servings: Int) {
+        if(client == null) return
+
+        client!!.put("/recipe/${id}/shopping/", JSONObject().apply {
+            put("servings", servings)
+        })
     }
 
     @Throws(TandoorRequestsError::class)
