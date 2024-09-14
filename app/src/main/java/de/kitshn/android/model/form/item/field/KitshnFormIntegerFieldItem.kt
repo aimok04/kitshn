@@ -136,6 +136,7 @@ class KitshnFormIntegerFieldItem(
                         val newValue = value?.let { it - 1 } ?: min() ?: 1
                         if(min != null && newValue < min) return@SmallFloatingActionButton
 
+                        focusManager.clearFocus(force = true)
                         checkValueChange(newValue)
                     }
                 ) {
@@ -151,6 +152,7 @@ class KitshnFormIntegerFieldItem(
                         val newValue = value?.let { it + 1 } ?: min() ?: 1
                         if(max != null && newValue > max) return@SmallFloatingActionButton
 
+                        focusManager.clearFocus(force = true)
                         checkValueChange(newValue)
                     }
                 ) {
