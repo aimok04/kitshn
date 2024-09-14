@@ -91,11 +91,30 @@ fun RouteMainSubrouteShopping(
 
     var loaded by remember { mutableStateOf(false) }
     val shoppingListEntriesFetchRequest = rememberTandoorRequestState()
+
+    val client = p.vm.tandoorClient
+    var blockUpdate by remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         while(true) {
-            shoppingListEntriesFetchRequest.wrapRequest {
-                p.vm.tandoorClient?.shopping?.fetch()
-                loaded = true
+            if(client != null) {
+                if(blockUpdate) {
+                    blockUpdate = false
+                } else {
+                    shoppingListEntriesFetchRequest.wrapRequest {
+                        val items = client.shopping.fetch()
+                        if(blockUpdate) {
+                            blockUpdate = false
+                            return@wrapRequest
+                        }
+
+                        client.container.shoppingListEntries.clear()
+                        client.container.shoppingListEntries.addAll(items)
+                        client.container.shoppingListEntries.reverse()
+
+                        loaded = true
+                    }
+                }
             }
 
             delay(5000)
@@ -106,8 +125,6 @@ fun RouteMainSubrouteShopping(
     val mealPlanEditDialogState =
         rememberMealPlanEditDialogState(key = "RouteMainSubrouteShopping/mealPlanEditDialogState")
     val recipeLinkBottomSheetState = rememberRecipeLinkBottomSheetState()
-
-    val client = p.vm.tandoorClient
 
     val foods = remember { mutableStateListOf<TandoorFood>() }
     val foodMap = remember { mutableStateMapOf<Int, MutableList<TandoorShoppingListEntry>>() }
@@ -364,6 +381,8 @@ fun RouteMainSubrouteShopping(
                             trailingContent = {
                                 IconButton(
                                     onClick = {
+                                        blockUpdate = true
+
                                         coroutineScope.launch {
                                             currentEntries?.forEach {
                                                 it.check()

@@ -34,11 +34,6 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         )
 
         response.forEach { it.client = client }
-
-        client.container.shoppingListEntries.clear()
-        client.container.shoppingListEntries.addAll(response)
-        client.container.shoppingListEntries.reverse()
-
         return response
     }
 
