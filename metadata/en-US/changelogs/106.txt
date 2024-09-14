@@ -1,0 +1,12 @@
+- feat(recipes): added support for step image files (resolved #14)
+- feat(shopping): grouping shopping list entries by food (resolved #13)
+- feat(manifest): added support for self-signed certificates (resolved #11)
+- feat(app): added "new instance" shortcut
+- feat(recipes): added "add to shopping" item to dropdown menu
+- feat(recipes): added recipe book management dialog
+- feat(utils): improved human readable date labels
+- feat(recipes): improved horizontal layout for tablets in cook mode
+- chore(libs): version bumps
+- fix(recipes): migrated to different markdown library
+- fix(shopping): text fields are now single line
+- fix(onboarding): checking token/password prefix before autofill
