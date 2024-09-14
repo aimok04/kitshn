@@ -13,11 +13,15 @@ import org.json.JSONObject
 @Serializable
 data class TandoorRecipeImportResponse(
     val link: String? = null,
-    val recipeFromSource: TandoorRecipeFromSource? = null
+    var recipeFromSource: TandoorRecipeFromSource? = null
 ) {
     companion object {
         fun parse(client: TandoorClient, data: String): TandoorRecipeImportResponse {
             val obj = json.decodeFromString<TandoorRecipeImportResponse>(data)
+
+            if(obj.link == null)
+                obj.recipeFromSource = json.decodeFromString<TandoorRecipeFromSource>(data)
+
             obj.recipeFromSource?.let { it.client = client }
             return obj
         }
