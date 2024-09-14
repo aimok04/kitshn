@@ -51,6 +51,7 @@
     <string name="action_edit_recipe_book">Rezeptbuch bearbeiten</string>
     <string name="action_expand_less">Verkleinern</string>
     <string name="action_import">Importieren</string>
+    <string name="action_manage_recipe_books">Rezeptbücher verwalten</string>
     <string name="action_mark_as_done">Als fertig markieren</string>
     <string name="action_minus">Minus</string>
     <string name="action_minus_one_week">- eine Woche</string>
@@ -219,6 +220,8 @@
     <string name="lorem_ipsum_medium">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</string>
     <string name="lorem_ipsum_short">Lorem ipsum</string>
     <string name="lorem_ipsum_title">Lorem ipsum dolor sit amet</string>
+
+    <string name="manage_recipe_books_empty">Dieses Rezept wurde noch zu keinem Buch hinzugefügt.</string>
 
     <string name="meal_plan_form_add_to_shopping_list_description">Die benötigten Zutaten automatisch zur Einkaufsliste hinzufügen.</string>
     <string name="meal_plan_form_error_entry_needs_title_or_recipe">Der Eintrag braucht entweder einen Titel oder ein angegebenes Rezept.</string>

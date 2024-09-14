@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -50,6 +51,8 @@ fun HorizontalRecipeBookCard(
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
     selectionState: SelectionModeState<Int>? = null,
 
+    leadingContent: @Composable () -> Unit = {},
+
     onClick: (recipeBook: TandoorRecipeBook) -> Unit = {}
 ) {
     val hapticFeedback = LocalHapticFeedback.current
@@ -92,41 +95,45 @@ fun HorizontalRecipeBookCard(
                 containerColor = colors.containerColor,
                 headlineColor = colors.contentColor
             ),
-            leadingContent = if(isFavoritesBook) {
-                {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                MaterialTheme.colorScheme.errorContainer,
-                                RoundedCornerShape(16.dp)
+            leadingContent = {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    leadingContent()
+
+                    if(isFavoritesBook) {
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    MaterialTheme.colorScheme.errorContainer,
+                                    RoundedCornerShape(16.dp)
+                                )
+                                .height(42.dp)
+                                .width(42.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Favorite,
+                                contentDescription = stringResource(R.string.common_favorites),
+                                tint = MaterialTheme.colorScheme.error
                             )
-                            .height(42.dp)
-                            .width(42.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Favorite,
-                            contentDescription = stringResource(R.string.common_favorites),
-                            tint = MaterialTheme.colorScheme.error
+                        }
+                    } else {
+                        AsyncImage(
+                            model = recipeBook?.loadThumbnail(),
+                            contentDescription = recipeBook?.name,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .height(42.dp)
+                                .width(42.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .loadingPlaceHolder(
+                                    ErrorLoadingSuccessState.bool(
+                                        (recipeBook?.entries?.size ?: 0) > 0
+                                    )
+                                )
                         )
                     }
-                }
-            } else {
-                {
-                    AsyncImage(
-                        model = recipeBook?.loadThumbnail(),
-                        contentDescription = recipeBook?.name,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .height(42.dp)
-                            .width(42.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .loadingPlaceHolder(
-                                ErrorLoadingSuccessState.bool(
-                                    (recipeBook?.entries?.size ?: 0) > 0
-                                )
-                            )
-                    )
                 }
             },
             headlineContent = {

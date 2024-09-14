@@ -34,7 +34,7 @@ fun RecipeDetailsDropdown(
     onEdit: () -> Unit,
     onDelete: () -> Unit,
     onShare: () -> Unit,
-    onAddToRecipeBook: () -> Unit,
+    onManageRecipeBooks: () -> Unit,
     onAddToMealPlan: () -> Unit,
     onAddToShopping: () -> Unit,
     onAllocateIngredients: () -> Unit,
@@ -53,7 +53,7 @@ fun RecipeDetailsDropdown(
             onEdit = onEdit,
             onDelete = onDelete,
             onShare = onShare,
-            onAddToRecipeBook = onAddToRecipeBook,
+            onManageRecipeBooks = onManageRecipeBooks,
             onAddToMealPlan = onAddToMealPlan,
             onAddToShopping = onAddToShopping,
             onAllocateIngredients = onAllocateIngredients,
@@ -69,7 +69,7 @@ fun ColumnScope.RecipeDetailsDropdownContent(
     onEdit: () -> Unit,
     onDelete: () -> Unit,
     onShare: () -> Unit,
-    onAddToRecipeBook: () -> Unit,
+    onManageRecipeBooks: () -> Unit,
     onAddToMealPlan: () -> Unit,
     onAddToShopping: () -> Unit,
     onAllocateIngredients: () -> Unit,
@@ -113,14 +113,14 @@ fun ColumnScope.RecipeDetailsDropdownContent(
 
     DropdownMenuItem(
         leadingIcon = {
-            Icon(Icons.Rounded.Book, stringResource(id = R.string.action_add_to_recipe_books))
+            Icon(Icons.Rounded.Book, stringResource(id = R.string.action_manage_recipe_books))
         },
         text = {
-            Text(stringResource(id = R.string.action_add_to_recipe_books))
+            Text(stringResource(id = R.string.action_manage_recipe_books))
         },
         onClick = {
             onDismiss()
-            onAddToRecipeBook()
+            onManageRecipeBooks()
         }
     )
 

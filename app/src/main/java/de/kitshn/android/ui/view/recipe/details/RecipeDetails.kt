@@ -112,9 +112,9 @@ import de.kitshn.android.ui.dialog.recipe.creationandedit.RecipeCreationAndEditD
 import de.kitshn.android.ui.dialog.recipe.creationandedit.rememberRecipeEditDialogState
 import de.kitshn.android.ui.dialog.recipe.rememberRecipeIngredientAllocationDialogState
 import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkBottomSheetState
+import de.kitshn.android.ui.dialog.recipeBook.ManageRecipeInRecipeBooksDialog
+import de.kitshn.android.ui.dialog.recipeBook.rememberManageRecipeInRecipeBooksDialogState
 import de.kitshn.android.ui.dialog.rememberUseShareWrapperDialogState
-import de.kitshn.android.ui.dialog.select.SelectRecipeBookDialog
-import de.kitshn.android.ui.dialog.select.rememberSelectRecipeBookDialogState
 import de.kitshn.android.ui.dialog.servings.ServingsChangeDialog
 import de.kitshn.android.ui.dialog.servings.rememberServingsChangeDialogState
 import de.kitshn.android.ui.layout.ResponsiveSideBySideLayout
@@ -161,7 +161,7 @@ fun ViewRecipeDetails(
         rememberRecipeEditDialogState(key = "ViewRecipeDetails/recipeEditDialogState")
     val mealPlanCreationDialogState =
         rememberMealPlanCreationDialogState(key = "ViewRecipeDetails/mealPlanCreationDialogState")
-    val addRecipeToBookSelectDialogState = rememberSelectRecipeBookDialogState()
+    val manageRecipeInRecipeBooksDialogState = rememberManageRecipeInRecipeBooksDialogState()
     val addRecipeToShoppingServingsSelectionDialogState = rememberServingsChangeDialogState()
 
     val recipeDeleteDialogState = rememberCommonDeletionDialogState<TandoorRecipe>()
@@ -375,7 +375,7 @@ fun ViewRecipeDetails(
                         onEdit = { recipe?.let { recipeEditDialogState.open(it) } },
                         onDelete = { recipe?.let { recipeDeleteDialogState.open(it) } },
                         onShare = { share() },
-                        onAddToRecipeBook = { addRecipeToBookSelectDialogState.open() },
+                        onManageRecipeBooks = { manageRecipeInRecipeBooksDialogState.open(recipeId) },
                         onAddToMealPlan = {
                             mealPlanCreationDialogState.open(
                                 MealPlanCreationAndEditDefaultValues(
@@ -481,7 +481,11 @@ fun ViewRecipeDetails(
                                     onEdit = { recipe?.let { recipeEditDialogState.open(it) } },
                                     onDelete = { recipe?.let { recipeDeleteDialogState.open(it) } },
                                     onShare = { share() },
-                                    onAddToRecipeBook = { addRecipeToBookSelectDialogState.open() },
+                                    onManageRecipeBooks = {
+                                        manageRecipeInRecipeBooksDialogState.open(
+                                            recipeId
+                                        )
+                                    },
                                     onAddToMealPlan = {
                                         mealPlanCreationDialogState.open(
                                             MealPlanCreationAndEditDefaultValues(
@@ -750,13 +754,11 @@ fun ViewRecipeDetails(
             p.vm.mainSubNavHostController?.navigate("mealplan")
         }
 
-        SelectRecipeBookDialog(
+        ManageRecipeInRecipeBooksDialog(
             client = p.vm.tandoorClient!!,
             favoritesRecipeBookId = p.vm.favorites.getFavoritesRecipeBookIdSync(),
-            state = addRecipeToBookSelectDialogState
-        ) {
-            coroutineScope.launch { it.createEntry(recipeOverview.id) }
-        }
+            state = manageRecipeInRecipeBooksDialogState
+        )
 
         ServingsChangeDialog(
             portionText = (recipe?.servings_text ?: "").ifBlank {
