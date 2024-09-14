@@ -191,23 +191,28 @@ fun Long.toLocalDate(): LocalDate {
 @Composable
 fun LocalDate.toHumanReadableDateLabel(): String {
     val today = LocalDate.now()
+    val diff = this.toEpochDay() - LocalDate.now().toEpochDay()
 
-    return if(this.isEqual(today.plusDays(2L))) {
-        stringResource(R.string.common_day_after_tomorrow)
-    } else if(this.isEqual(today.plusDays(1L))) {
-        stringResource(R.string.common_tomorrow)
-    } else if(this.isEqual(today)) {
-        stringResource(R.string.common_today)
-    } else if(this.isEqual(today.minusDays(1L))) {
-        stringResource(R.string.common_yesterday)
-    } else if(this.isEqual(today.minusDays(2L))) {
-        stringResource(R.string.common_day_before_yesterday)
-    } else if(this.year == today.year) {
-        val dateFormat = DateTimeFormatter.ofPattern("dd. MMMM")
-        this.format(dateFormat)
-    } else {
-        val dateFormat = DateTimeFormatter.ofPattern("dd. MMMM yyyy")
-        this.format(dateFormat)
+    return when(diff) {
+        in 3L..6L -> {
+            val dateFormat = DateTimeFormatter.ofPattern("EEEE")
+            this.format(dateFormat)
+        }
+
+        2L -> stringResource(R.string.common_day_after_tomorrow)
+        1L -> stringResource(R.string.common_tomorrow)
+        0L -> stringResource(R.string.common_today)
+        -1L -> stringResource(R.string.common_yesterday)
+        -2L -> stringResource(R.string.common_day_before_yesterday)
+        else -> {
+            if(this.year == today.year) {
+                val dateFormat = DateTimeFormatter.ofPattern("EE, dd. MMM.")
+                this.format(dateFormat)
+            } else {
+                val dateFormat = DateTimeFormatter.ofPattern("dd. MMMM yyyy")
+                this.format(dateFormat)
+            }
+        }
     }
 }
 
