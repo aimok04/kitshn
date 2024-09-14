@@ -304,6 +304,9 @@
     <string name="shopping_list_entry_create_placeholder_food">Pilze</string>
     <string name="shopping_list_entry_create_placeholder_unit">g</string>
 
+    <string name="shortcuts_new_instance_label_long">Neue Instanz öffnen</string>
+    <string name="shortcuts_new_instance_label_short">Neue Instanz</string>
+
     <string name="tandoor_compatibility_full_compatibility_description">Die App ist mit vollständig mit deinem Tandoor-Server kompatibel!</string>
     <string name="tandoor_compatibility_full_compatibility_label">Kompatibel</string>
     <string name="tandoor_compatibility_incompatible_description">Dein Tandoor-Server ist nicht mit dieser App kompatibel. Bitte aktualisiere deinen Server auf eine der folgenen Versionen.</string>

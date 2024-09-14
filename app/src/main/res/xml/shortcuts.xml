@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="new_instance"
+        android:enabled="true"
+        android:icon="@drawable/round_add_24"
+        android:shortcutShortLabel="@string/shortcuts_new_instance_label_short"
+        android:shortcutLongLabel="@string/shortcuts_new_instance_label_long">
+
+        <!-- does not work in debug builds because of targetPackage -->
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="new_instance"
+            android:targetPackage="de.kitshn.android"
+            android:targetClass="de.kitshn.android.NewInstanceActivity" />
+    </shortcut>
+</shortcuts>

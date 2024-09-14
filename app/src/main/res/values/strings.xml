@@ -304,6 +304,9 @@
     <string name="shopping_list_entry_create_placeholder_food">Mushrooms</string>
     <string name="shopping_list_entry_create_placeholder_unit">g</string>
 
+    <string name="shortcuts_new_instance_label_long">Create new instance</string>
+    <string name="shortcuts_new_instance_label_short">New instance</string>
+
     <string name="tandoor_compatibility_full_compatibility_description">The app is fully compatible with your Tandoor server!</string>
     <string name="tandoor_compatibility_full_compatibility_label">Compatible</string>
     <string name="tandoor_compatibility_incompatible_description">Your Tandoor server is not compatible with this app. Please update your server to one of the following versions.</string>

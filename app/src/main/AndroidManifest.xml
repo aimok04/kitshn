@@ -28,6 +28,7 @@
             android:theme="@style/Theme.DialogWindow" />
 
         <activity
+            android:taskAffinity=""
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Kitshn">
@@ -64,7 +65,16 @@
 
                 <data android:scheme="kitshn" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
+
+        <activity
+            android:excludeFromRecents="true"
+            android:name=".NewInstanceActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
