@@ -65,9 +65,15 @@ android {
 
     buildTypes {
         debug {
+            manifestPlaceholders["appIcon"] = "@mipmap/ic_debug_launcher"
+            manifestPlaceholders["appIconRound"] = "@mipmap/ic_debug_launcher_round"
+
             applicationIdSuffix = ".debug"
         }
         release {
+            manifestPlaceholders["appIcon"] = "@mipmap/ic_launcher"
+            manifestPlaceholders["appIconRound"] = "@mipmap/ic_launcher_round"
+
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
