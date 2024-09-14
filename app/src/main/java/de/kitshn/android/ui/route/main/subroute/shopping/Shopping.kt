@@ -284,7 +284,7 @@ fun RouteMainSubrouteShopping(
                         .fillMaxSize()
                         .nestedScroll(scrollBehavior.nestedScrollConnection)
                 ) {
-                    items(foods.size) { foodIndex ->
+                    items(foods.size, key = { foods[it].id }) { foodIndex ->
                         val currentFood = foods[foodIndex]
                         val currentEntries = foodMap[currentFood.id]
 
