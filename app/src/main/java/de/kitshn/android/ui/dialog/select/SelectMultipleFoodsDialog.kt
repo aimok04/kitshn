@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -117,7 +118,9 @@ fun SelectMultipleFoodsDialog(
                                 ),
                             ) {
                                 FoodSearchBar(
-                                    modifier = Modifier.fillMaxHeight(),
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .fillMaxWidth(),
                                     client = client,
                                     selectedFoods = state.selectedFoods
                                 ) { food, value ->
