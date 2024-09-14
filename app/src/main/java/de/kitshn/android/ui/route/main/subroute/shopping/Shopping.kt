@@ -44,7 +44,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusDirection
@@ -274,11 +273,28 @@ fun RouteMainSubrouteShopping(
 
                         val mealplans =
                             remember { mutableStateListOf<TandoorShoppingListEntryRecipeMealplan>() }
+
+                        val leadingLabels = remember { mutableStateListOf<String>() }
+
                         LaunchedEffect(currentEntries) {
                             mealplans.clear()
                             mealplans.addAll(
                                 currentEntries!!.filter { it.recipe_mealplan != null }
                                     .map { it.recipe_mealplan!! }
+                            )
+
+                            leadingLabels.clear()
+                            leadingLabels.addAll(
+                                currentEntries.filter { it.amount != 0.0 || it.unit != null }
+                                    .groupBy { it.unit?.id ?: -100 }
+                                    .values
+                                    .map { entryList ->
+                                        val sharedAmount = entryList.sumOf { it.amount }
+                                        val sharedUnit = entryList[0].unit
+
+                                        sharedAmount.formatAmount() + " " + (sharedUnit?.name?.let { "$it " }
+                                            ?: "")
+                                    }
                             )
                         }
 
@@ -328,23 +344,22 @@ fun RouteMainSubrouteShopping(
                             } else {
                                 null
                             },
-                            headlineContent = {
-                                Row(
-                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    if(currentEntries?.firstOrNull { it.amount != 0.0 && it.unit != null } != null) Column {
-                                        currentEntries.forEach { entry ->
+                            leadingContent = if(leadingLabels.size > 0) {
+                                {
+                                    Column {
+                                        leadingLabels.forEach {
                                             Text(
                                                 fontWeight = FontWeight.SemiBold,
-                                                text = entry.amount.formatAmount() + " " + (entry.unit?.name?.let { "$it " }
-                                                    ?: "")
+                                                text = it
                                             )
                                         }
                                     }
-
-                                    Text(text = currentFood.name)
                                 }
+                            } else {
+                                null
+                            },
+                            headlineContent = {
+                                Text(text = currentFood.name)
                             },
                             trailingContent = {
                                 IconButton(
