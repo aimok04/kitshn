@@ -16,6 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import de.kitshn.android.KitshnViewModel
 import de.kitshn.android.R
 import kotlinx.coroutines.flow.first
@@ -33,12 +34,15 @@ fun rememberUseShareWrapperDialogState(
 class UseShareWrapperDialogState(
     val vm: KitshnViewModel,
     val shown: MutableState<Boolean> = mutableStateOf(false),
-    val callback: MutableState<(decision: Boolean) -> Unit> = mutableStateOf({ })
+    private val callback: MutableState<(decision: Boolean) -> Unit> = mutableStateOf({ })
 ) {
+    private var shareWrapper: String =
+        ContextCompat.getString(vm.context, R.string.share_wrapper_url)
+
     suspend fun open(
         callback: (decision: Boolean) -> Unit
     ) {
-        if(vm.settings.getUseShareWrapperHintShown.first()) {
+        if(vm.settings.getUseShareWrapperHintShown.first() == shareWrapper) {
             callback(vm.settings.getUseShareWrapper.first())
             return
         }
@@ -48,7 +52,7 @@ class UseShareWrapperDialogState(
     }
 
     suspend fun submit(decision: Boolean) {
-        vm.settings.setUseShareWrapperHintShown(true)
+        vm.settings.setUseShareWrapperHintShown(shareWrapper)
         vm.settings.setUseShareWrapper(decision)
 
         callback.value(decision)

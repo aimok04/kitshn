@@ -22,7 +22,7 @@ val KEY_SETTINGS_APPEARANCE_DYNAMIC_COLORS = booleanPreferencesKey("appearance_d
 val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER =
     booleanPreferencesKey("behavior_use_share_wrapper")
 val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN =
-    booleanPreferencesKey("behavior_use_share_wrapper_hint_shown")
+    stringPreferencesKey("behavior_use_share_wrapper_hint_shown")
 
 val KEY_SETTINGS_ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
 val KEY_SETTINGS_TANDOOR_CREDENTIALS = stringPreferencesKey("tandoor_credentials")
@@ -95,13 +95,13 @@ class SettingsViewModel(
         it[KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER] = use
     }
 
-    val getUseShareWrapperHintShown: Flow<Boolean> = context.dataStore.data
+    val getUseShareWrapperHintShown: Flow<String> = context.dataStore.data
         .map { preferences ->
-            preferences[KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN] ?: false
+            preferences[KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN] ?: ""
         }
 
-    suspend fun setUseShareWrapperHintShown(use: Boolean) = context.dataStore.edit {
-        it[KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN] = use
+    suspend fun setUseShareWrapperHintShown(url: String) = context.dataStore.edit {
+        it[KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN] = url
     }
 
 }
