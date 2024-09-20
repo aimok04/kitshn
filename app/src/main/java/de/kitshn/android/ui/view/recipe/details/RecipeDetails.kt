@@ -264,11 +264,16 @@ fun ViewRecipeDetails(
                 TandoorRequestState().wrapRequest {
                     if(recipe == null) return@wrapRequest
 
+                    val shareLink = recipe.retrieveShareLink() ?: ""
                     val link = if(useShareWrapper) {
-                        context.getString(R.string.share_wrapper_url)
+                        context.getString(R.string.share_wrapper_url) + if(shareLink.startsWith("https://")) {
+                            shareLink.substring(8)
+                        } else {
+                            shareLink
+                        }
                     } else {
-                        ""
-                    } + recipe.retrieveShareLink()
+                        shareLink
+                    }
 
                     context.startActivity(
                         Intent.createChooser(Intent().apply {
