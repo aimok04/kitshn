@@ -163,6 +163,7 @@
     <string name="common_unsaved_changes_description">Wenn du fortfährst, gehen deine Änderungen verloren. Möchtest deine Änderungen verwerfen?</string>
     <string name="common_username">Nutzername</string>
     <string name="common_version">Version</string>
+    <string name="common_website">Webseite</string>
     <string name="common_welcome">Willkommen</string>
     <string name="common_yesterday">Gestern</string>
 

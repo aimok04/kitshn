@@ -14,6 +14,7 @@ import androidx.compose.material.icons.rounded.Copyright
 import androidx.compose.material.icons.rounded.Mail
 import androidx.compose.material.icons.rounded.RateReview
 import androidx.compose.material.icons.rounded.Report
+import androidx.compose.material.icons.rounded.Web
 import androidx.compose.material3.Badge
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -114,6 +115,23 @@ fun ViewSettingsAbout(
                         contentDescription = stringResource(R.string.action_open_issue),
                         onClick = {
                             context.launchCustomTabs(context.getString(R.string.about_github_new_issue))
+                        }
+                    )
+                }
+
+                item {
+                    SettingsListItem(
+                        label = { Text(stringResource(R.string.common_website)) },
+                        description = { Text(stringResource(id = R.string.about_contact_website)) },
+                        icon = Icons.Rounded.Web,
+                        contentDescription = stringResource(R.string.common_website),
+                        onClick = {
+                            Intent(Intent.ACTION_VIEW).apply {
+                                data = Uri.parse(context.getString(R.string.about_contact_website))
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            }.let {
+                                context.startActivity(it)
+                            }
                         }
                     )
                 }

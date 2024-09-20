@@ -163,6 +163,7 @@
     <string name="common_unsaved_changes_description">If you continue, your changes will be lost. Do you want to discard your changes?</string>
     <string name="common_username">Username</string>
     <string name="common_version">Version</string>
+    <string name="common_website">Website</string>
     <string name="common_welcome">Welcome</string>
     <string name="common_yesterday">Yesterday</string>
 

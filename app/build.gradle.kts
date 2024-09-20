@@ -35,6 +35,7 @@ android {
 
         resValue("string", "about_github", prop.getProperty("about.github"))
         resValue("string", "about_github_new_issue", prop.getProperty("about.github.new.issue"))
+        resValue("string", "about_contact_website", prop.getProperty("about.contact.website"))
         resValue("string", "about_contact_mailto", prop.getProperty("about.contact.mailto"))
 
         resValue("string", "acra_http_uri", prop.getProperty("acra.http.uri"))
