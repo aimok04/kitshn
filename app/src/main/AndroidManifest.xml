@@ -54,7 +54,7 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
 
-                <data android:host="kshli.github.io" />
+                <data android:host="x.kitshn.app" />
             </intent-filter>
 
             <intent-filter>
