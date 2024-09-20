@@ -51,7 +51,13 @@ private fun KitshnViewModel.handleAppLinkImpl(
             else -> null
         } ?: return false
 
-        val linkUri = Uri.parse(linkUrl)
+        val linkUri = Uri.parse(linkUrl.let {
+            if(it.startsWith("http://") || it.startsWith("https://")) {
+                it
+            } else {
+                "https://$it"
+            }
+        })
 
         val linkArgs = linkUri.path?.split("/")?.toMutableList() ?: mutableListOf()
         if(linkArgs.firstOrNull()?.isBlank() == true) linkArgs.removeFirstOrNull()
