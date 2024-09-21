@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -51,6 +52,7 @@ fun BaseMealTypeSearchField(
     ) -> Unit
 ) {
     val context = LocalContext.current
+    val focus = LocalFocusManager.current
 
     var selectedMealType by remember { mutableStateOf<TandoorMealType?>(null) }
     LaunchedEffect(selectedMealType) { onValueChange(selectedMealType?.id) }
@@ -81,6 +83,7 @@ fun BaseMealTypeSearchField(
         expanded = isExpanded,
         onExpandedChange = {
             isExpanded = it
+            focus.clearFocus()
         }
     ) {
         content(
@@ -104,6 +107,7 @@ fun BaseMealTypeSearchField(
             expanded = isExpanded,
             onDismissRequest = {
                 isExpanded = false
+                focus.clearFocus()
             }
         ) {
             mealTypeList.forEach {
@@ -112,6 +116,8 @@ fun BaseMealTypeSearchField(
                     onClick = {
                         selectedMealType = it
                         isExpanded = false
+
+                        focus.clearFocus()
                     }
                 )
             }
