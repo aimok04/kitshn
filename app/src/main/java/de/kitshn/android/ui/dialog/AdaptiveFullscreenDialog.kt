@@ -30,13 +30,16 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.Dp
@@ -46,6 +49,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
 import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import de.kitshn.android.ui.component.buttons.BackButton
 import de.kitshn.android.ui.component.buttons.BackButtonType
 
@@ -134,6 +138,22 @@ fun AdaptiveFullscreenDialog(
                     parentView.layoutParams = FrameLayout.LayoutParams(
                         activityWindow.decorView.width,
                         activityWindow.decorView.height
+                    )
+                }
+            }
+
+            if(MaterialTheme.colorScheme.background.luminance() > 0.8f) {
+                val systemUiController = rememberSystemUiController(activityWindow)
+                val dialogSystemUiController = rememberSystemUiController(dialogWindow)
+
+                LaunchedEffect(Unit) {
+                    systemUiController.setSystemBarsColor(
+                        color = Color.Transparent,
+                        darkIcons = true
+                    )
+                    dialogSystemUiController.setSystemBarsColor(
+                        color = Color.Transparent,
+                        darkIcons = true
                     )
                 }
             }

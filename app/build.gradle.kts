@@ -135,6 +135,7 @@ dependencies {
 
     implementation(libs.accompanist.placeholder.material)
     implementation(libs.accompanist.placeholder)
+    implementation(libs.accompanist.systemuicontroller)
 
     implementation(libs.modernstorage.photopicker)
 
