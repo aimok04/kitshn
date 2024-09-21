@@ -1,23 +1,23 @@
 package de.kitshn.android.ui.dialog.mealplan
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
-import androidx.compose.material3.BottomSheetDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.rounded.LocalDining
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -27,9 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import de.kitshn.android.R
@@ -38,22 +36,22 @@ import de.kitshn.android.api.tandoor.rememberTandoorRequestState
 import de.kitshn.android.ui.TandoorRequestErrorHandler
 import de.kitshn.android.ui.component.icons.IconWithState
 import de.kitshn.android.ui.component.model.mealplan.MealPlanDetailsCard
-import de.kitshn.android.ui.dialog.recipe.RecipeLinkBottomSheet
-import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkBottomSheetState
+import de.kitshn.android.ui.dialog.AdaptiveFullscreenDialog
+import de.kitshn.android.ui.dialog.recipe.RecipeLinkDialog
+import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.android.ui.state.foreverRememberNotSavable
-import de.kitshn.android.ui.theme.Typography
 import de.kitshn.android.ui.view.ViewParameters
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @Composable
-fun rememberMealPlanDetailsBottomSheetState(): MealPlanDetailsBottomSheetState {
+fun rememberMealPlanDetailsDialogState(): MealPlanDetailsDialogState {
     return remember {
-        MealPlanDetailsBottomSheetState()
+        MealPlanDetailsDialogState()
     }
 }
 
-class MealPlanDetailsBottomSheetState(
+class MealPlanDetailsDialogState(
     val shown: MutableState<Boolean> = mutableStateOf(false),
     val linkContent: MutableState<TandoorMealPlan?> = mutableStateOf(null)
 ) {
@@ -68,11 +66,10 @@ class MealPlanDetailsBottomSheetState(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MealPlanDetailsBottomSheet(
+fun MealPlanDetailsDialog(
     p: ViewParameters,
-    state: MealPlanDetailsBottomSheetState,
+    state: MealPlanDetailsDialogState,
     reopenOnLaunchKey: String? = null,
     onUpdateList: () -> Unit,
     onEdit: (mealPlan: TandoorMealPlan) -> Unit
@@ -104,27 +101,43 @@ fun MealPlanDetailsBottomSheet(
     if(state.linkContent.value == null) return
     val mealPlan = state.linkContent.value!!
 
-    val dragHandle = @Composable {
-        Box(
-            Modifier.fillMaxWidth()
-        ) {
-            BottomSheetDefaults.DragHandle(
-                Modifier.align(Alignment.TopCenter)
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = mealPlan.meal_type_name,
-                    style = Typography.headlineSmall
+    val bottomBar = @Composable {
+        BottomAppBar(
+            floatingActionButton = {
+                if(mealPlan.recipe != null) FloatingActionButton(
+                    onClick = {
+                        p.vm.navHostController?.navigate("recipe/${mealPlan.recipe.id}/cook/${mealPlan.servings.roundToInt()}")
+                    },
+                    elevation = FloatingActionButtonDefaults.elevation(
+                        0.dp, 0.dp, 0.dp, 0.dp
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.LocalDining,
+                        contentDescription = stringResource(R.string.action_start_cooking)
+                    )
+                }
+            },
+            actions = {
+                FilterChip(
+                    modifier = Modifier.padding(start = 16.dp),
+                    onClick = { },
+                    label = {
+                        Text(
+                            text = mealPlan.meal_type_name
+                        )
+                    },
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedLabelColor = mealPlan.meal_type.color,
+                        selectedContainerColor = mealPlan.meal_type.color.copy(alpha = 0.2f)
+                    ),
+                    selected = true
                 )
 
-                Row {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
                     IconButton(
                         onClick = {
                             onEdit(mealPlan)
@@ -158,71 +171,57 @@ fun MealPlanDetailsBottomSheet(
                             state = requestMealPlanDeleteState.state.toIconWithState()
                         )
                     }
+
+                    if(mealPlan.recipe != null) Spacer(Modifier.width(16.dp))
                 }
             }
-        }
+        )
     }
 
     if(mealPlan.recipe != null) {
-        val recipeLinkBottomSheetState = rememberRecipeLinkBottomSheetState()
+        val recipeLinkDialogState = rememberRecipeLinkDialogState()
 
         LaunchedEffect(state.shown.value) {
             if(state.shown.value) {
-                recipeLinkBottomSheetState.open(
+                recipeLinkDialogState.open(
                     linkContent = mealPlan.recipe,
                     overrideServings = mealPlan.servings.roundToInt()
                 )
             } else {
-                recipeLinkBottomSheetState.dismiss()
+                recipeLinkDialogState.dismiss()
             }
         }
 
-        LaunchedEffect(recipeLinkBottomSheetState.shown.value) {
-            state.shown.value = recipeLinkBottomSheetState.shown.value
+        LaunchedEffect(recipeLinkDialogState.shown.value) {
+            state.shown.value = recipeLinkDialogState.shown.value
         }
 
-        RecipeLinkBottomSheet(
+        RecipeLinkDialog(
             p = p,
-            state = recipeLinkBottomSheetState,
-            dragHandle = dragHandle,
+            state = recipeLinkDialogState,
             leadingContent = {
                 MealPlanDetailsCard(
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
                     mealPlan = mealPlan
                 )
-            }
+            },
+            bottomBar = {
+                bottomBar()
+            },
+            hideFab = true
         ) {
             state.dismiss()
         }
     } else {
-        val density = LocalDensity.current
-        val modalBottomSheetState = rememberModalBottomSheetState()
-
-        LaunchedEffect(
-            state.shown.value
-        ) {
-            if(state.shown.value) {
-                modalBottomSheetState.show()
-            } else {
-                modalBottomSheetState.hide()
-            }
-        }
-
-        ModalBottomSheet(
-            modifier = Modifier.padding(
-                top = with(density) {
-                    WindowInsets.statusBars
-                        .getTop(density)
-                        .toDp() * 2
-                }
-            ),
-            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-            onDismissRequest = {
+        AdaptiveFullscreenDialog(
+            onDismiss = {
                 state.dismiss()
             },
-            sheetState = modalBottomSheetState,
-            dragHandle = dragHandle
-        ) {
+            title = { },
+            bottomBar = {
+                bottomBar()
+            }
+        ) { _, _, _ ->
             MealPlanDetailsCard(
                 modifier = Modifier.padding(16.dp),
                 mealPlan = mealPlan

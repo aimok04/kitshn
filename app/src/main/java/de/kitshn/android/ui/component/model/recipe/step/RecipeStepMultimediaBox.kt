@@ -98,7 +98,7 @@ fun RecipeStepMultimediaBox(
                 Icon(Icons.Rounded.Download, stringResource(R.string.action_download))
             }
         }
-    ) { _, _ ->
+    ) { _, _, _ ->
         AsyncImage(
             model = step.loadFilePreview(),
             onState = {

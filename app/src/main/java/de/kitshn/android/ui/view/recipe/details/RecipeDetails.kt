@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.areStatusBarsVisible
@@ -20,21 +21,17 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.OpenInNew
 import androidx.compose.material.icons.rounded.Link
 import androidx.compose.material.icons.rounded.LocalDining
-import androidx.compose.material.icons.rounded.MoreHoriz
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Reviews
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.AlertDialogDefaults
-import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,9 +44,6 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScaffoldDefaults
-import androidx.compose.material3.SmallFloatingActionButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -70,7 +64,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
@@ -81,7 +74,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorClient
@@ -107,11 +99,11 @@ import de.kitshn.android.ui.dialog.mealplan.MealPlanCreationAndEditDefaultValues
 import de.kitshn.android.ui.dialog.mealplan.MealPlanCreationAndEditDialog
 import de.kitshn.android.ui.dialog.mealplan.rememberMealPlanCreationDialogState
 import de.kitshn.android.ui.dialog.recipe.RecipeIngredientAllocationDialog
-import de.kitshn.android.ui.dialog.recipe.RecipeLinkBottomSheet
+import de.kitshn.android.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.android.ui.dialog.recipe.creationandedit.RecipeCreationAndEditDialog
 import de.kitshn.android.ui.dialog.recipe.creationandedit.rememberRecipeEditDialogState
 import de.kitshn.android.ui.dialog.recipe.rememberRecipeIngredientAllocationDialogState
-import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkBottomSheetState
+import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.android.ui.dialog.recipeBook.ManageRecipeInRecipeBooksDialog
 import de.kitshn.android.ui.dialog.recipeBook.rememberManageRecipeInRecipeBooksDialogState
 import de.kitshn.android.ui.dialog.rememberUseShareWrapperDialogState
@@ -139,10 +131,8 @@ fun ViewRecipeDetails(
     navigationIcon: @Composable (() -> Unit)? = null,
     prependContent: @Composable () -> Unit = { },
 
-    dialogMode: Boolean = false,
-    ignoreWindowInsets: Boolean = dialogMode,
-    hideStatusBarBackground: Boolean = dialogMode,
-    hideBackButton: Boolean = dialogMode,
+    overridePaddingValues: PaddingValues? = null,
+    hideFab: Boolean = false,
 
     onClickKeyword: (keyword: TandoorKeywordOverview) -> Unit = {},
 
@@ -211,7 +201,7 @@ fun ViewRecipeDetails(
         }
     }
 
-    val recipeLinkBottomSheetState = rememberRecipeLinkBottomSheetState()
+    val recipeLinkDialogState = rememberRecipeLinkDialogState()
 
     // calculate ingredients list
     val sortedStepsList = remember { mutableStateListOf<TandoorStep>() }
@@ -337,7 +327,7 @@ fun ViewRecipeDetails(
 
     Scaffold(
         topBar = {
-            if(!dialogMode) TopAppBar(
+            TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent
                 ),
@@ -345,7 +335,7 @@ fun ViewRecipeDetails(
                     if(navigationIcon != null) {
                         navigationIcon()
                     } else {
-                        if(!hideBackButton) BackButton(p.back, true)
+                        BackButton(p.back, true)
                     }
                 },
                 title = {
@@ -406,24 +396,21 @@ fun ViewRecipeDetails(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                p.vm.navHostController?.navigate("recipe/${recipeOverview.id}/cook/${servingsValue}")
-            }) {
+            if(!hideFab) FloatingActionButton(
+                onClick = {
+                    p.vm.navHostController?.navigate("recipe/${recipeOverview.id}/cook/${servingsValue}")
+                }
+            ) {
                 Icon(
                     imageVector = Icons.Rounded.LocalDining,
                     contentDescription = stringResource(R.string.action_start_cooking)
                 )
             }
         },
-        containerColor = if(dialogMode)
-            MaterialTheme.colorScheme.surfaceContainerLow
-        else
-            MaterialTheme.colorScheme.background,
-        contentWindowInsets = if(ignoreWindowInsets)
-            WindowInsets(0.dp)
-        else
-            ScaffoldDefaults.contentWindowInsets
-    ) { pv ->
+        containerColor = MaterialTheme.colorScheme.background
+    ) { pvOg ->
+        val pv = overridePaddingValues ?: pvOg
+
         Column(
             Modifier
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
@@ -442,81 +429,7 @@ fun ViewRecipeDetails(
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(16f / 9f)
-                        .run {
-                            if(dialogMode) {
-                                this
-                                    .padding(bottom = 8.dp)
-                                    .clip(RoundedCornerShape(24.dp))
-                            } else {
-                                this
-                            }
-                        }
                 )
-
-                // don't show if recipe is shared
-                if(dialogMode && shareToken == null) {
-                    var isMenuExpanded by rememberSaveable { mutableStateOf(false) }
-
-                    SmallFloatingActionButton(
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(bottom = 24.dp, end = 16.dp),
-                        onClick = { isMenuExpanded = !isMenuExpanded }
-                    ) {
-                        Icon(Icons.Rounded.MoreHoriz, stringResource(R.string.action_more))
-                    }
-
-                    if(isMenuExpanded) BasicAlertDialog(
-                        onDismissRequest = { isMenuExpanded = false },
-                        properties = DialogProperties(
-                            usePlatformDefaultWidth = false
-                        )
-                    ) {
-                        Surface(
-                            shape = AlertDialogDefaults.shape,
-                            color = AlertDialogDefaults.containerColor,
-                            tonalElevation = AlertDialogDefaults.TonalElevation
-                        ) {
-                            Column(
-                                Modifier.padding(16.dp)
-                            ) {
-                                RecipeDetailsDropdownContent(
-                                    vm = p.vm,
-                                    recipeOverview = recipeOverview,
-                                    onEdit = { recipe?.let { recipeEditDialogState.open(it) } },
-                                    onDelete = { recipe?.let { recipeDeleteDialogState.open(it) } },
-                                    onShare = { share() },
-                                    onManageRecipeBooks = {
-                                        manageRecipeInRecipeBooksDialogState.open(
-                                            recipeId
-                                        )
-                                    },
-                                    onAddToMealPlan = {
-                                        mealPlanCreationDialogState.open(
-                                            MealPlanCreationAndEditDefaultValues(
-                                                recipeId = recipeOverview.id
-                                            )
-                                        )
-                                    },
-                                    onAddToShopping = {
-                                        addRecipeToShoppingServingsSelectionDialogState.open(
-                                            servingsValue
-                                        )
-                                    },
-                                    onAllocateIngredients = {
-                                        recipe?.let {
-                                            recipeIngredientAllocationDialogState.open(
-                                                it
-                                            )
-                                        }
-                                    }
-                                ) {
-                                    isMenuExpanded = false
-                                }
-                            }
-                        }
-                    }
-                }
             }
 
             ResponsiveSideBySideLayout(
@@ -639,8 +552,8 @@ fun ViewRecipeDetails(
 
                     Card(
                         Modifier.padding(
-                            start = if(dialogMode) 0.dp else 16.dp,
-                            end = if(dialogMode) 0.dp else 16.dp,
+                            start = 16.dp,
+                            end = 16.dp,
                             bottom = 16.dp
                         )
                     ) {
@@ -689,7 +602,7 @@ fun ViewRecipeDetails(
                         servingsFactor = servingsFactor
                     ) { recipe ->
                         // show recipe link bottom sheet
-                        recipeLinkBottomSheetState.open(recipe.toOverview())
+                        recipeLinkDialogState.open(recipe.toOverview())
                     }
 
                     index++
@@ -699,7 +612,7 @@ fun ViewRecipeDetails(
             if(notEnoughSpace && recipe?.source_url != null) SourceButton()
         }
 
-        if(WindowInsets.areStatusBarsVisible && !hideStatusBarBackground) Box(
+        if(WindowInsets.areStatusBarsVisible) Box(
             Modifier
                 .height(with(density) {
                     WindowInsets.statusBars
@@ -777,9 +690,9 @@ fun ViewRecipeDetails(
         }
     }
 
-    RecipeLinkBottomSheet(
+    RecipeLinkDialog(
         p = p,
-        state = recipeLinkBottomSheetState
+        state = recipeLinkDialogState
     )
 
     UseShareWrapperDialog(

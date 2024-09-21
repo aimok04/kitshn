@@ -260,7 +260,7 @@ fun RecipeIngredientAllocationDialog(
                 }
             }
         }
-    ) { nsc, _ ->
+    ) { nsc, _, _ ->
         HorizontalPager(
             modifier = Modifier.fillMaxSize(),
             state = pagerState,

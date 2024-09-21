@@ -13,6 +13,7 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -71,13 +72,15 @@ private tailrec fun Context.getActivityWindow(): Window? =
 @Composable
 fun AdaptiveFullscreenDialog(
     onDismiss: () -> Unit,
-    title: @Composable () -> Unit,
+    forceDismiss: Boolean = false,
+    title: @Composable () -> Unit = {},
     topAppBarActions: @Composable (RowScope.() -> Unit) = { },
     actions: @Composable (RowScope.() -> Unit)? = null,
     topBar: @Composable (() -> Unit)? = null,
     topBarWrapper: @Composable (topBar: @Composable () -> Unit) -> Unit = { it() },
     bottomBar: @Composable ((isFullscreen: Boolean) -> Unit)? = null,
-    content: @Composable (nestedScrollConnection: NestedScrollConnection, isFullscreen: Boolean) -> Unit
+    applyPaddingValues: Boolean = true,
+    content: @Composable (nestedScrollConnection: NestedScrollConnection, isFullscreen: Boolean, pv: PaddingValues) -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
@@ -94,7 +97,7 @@ fun AdaptiveFullscreenDialog(
     /* animate visibility of fullscreen dialog */
     var dismissOnPostExit by remember { mutableStateOf(false) }
     val animVisibleState = remember {
-        MutableTransitionState(false)
+        MutableTransitionState(!fullscreenDialog)
             .apply { targetState = true }
     }
 
@@ -115,6 +118,7 @@ fun AdaptiveFullscreenDialog(
         }
     }
 
+    LaunchedEffect(forceDismiss) { if(forceDismiss) dismiss() }
     BackHandler { dismiss() }
 
     Dialog(
@@ -223,9 +227,13 @@ fun AdaptiveFullscreenDialog(
                         containerColor = containerColor
                     ) {
                         Box(
-                            Modifier.padding(it)
+                            if(applyPaddingValues) {
+                                Modifier.padding(it)
+                            } else {
+                                Modifier
+                            }
                         ) {
-                            content(scrollBehavior.nestedScrollConnection, true)
+                            content(scrollBehavior.nestedScrollConnection, true, it)
                         }
                     }
                 } else {
@@ -239,7 +247,11 @@ fun AdaptiveFullscreenDialog(
                                 Box(
                                     Modifier.heightIn(max = maxHeight - 80.dp)
                                 ) {
-                                    content(scrollBehavior.nestedScrollConnection, false)
+                                    content(
+                                        scrollBehavior.nestedScrollConnection,
+                                        false,
+                                        PaddingValues()
+                                    )
                                 }
 
                                 internalBottomBar()

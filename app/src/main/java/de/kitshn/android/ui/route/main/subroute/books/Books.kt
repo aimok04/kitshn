@@ -23,8 +23,8 @@ import de.kitshn.android.api.tandoor.rememberTandoorRequestState
 import de.kitshn.android.isScrollingUp
 import de.kitshn.android.ui.TandoorRequestErrorHandler
 import de.kitshn.android.ui.component.alert.LoadingErrorAlertPaneWrapper
-import de.kitshn.android.ui.dialog.recipe.RecipeLinkBottomSheet
-import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkBottomSheetState
+import de.kitshn.android.ui.dialog.recipe.RecipeLinkDialog
+import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.android.ui.dialog.recipeBook.RecipeBookCreationAndEditDialog
 import de.kitshn.android.ui.dialog.recipeBook.rememberRecipeBookCreationDialogState
 import de.kitshn.android.ui.dialog.recipeBook.rememberRecipeBookEditDialogState
@@ -54,7 +54,7 @@ fun RouteMainSubrouteBooks(
         rememberRecipeBookCreationDialogState(key = "RouteMainSubrouteBooks/creationDialogState")
     val editDialogState =
         rememberRecipeBookEditDialogState(key = "RouteMainSubrouteBooks/editDialogState")
-    val recipeLinkBottomSheetState = rememberRecipeLinkBottomSheetState()
+    val recipeLinkDialogState = rememberRecipeLinkDialogState()
 
     val mainFetchRequestState = rememberTandoorRequestState()
     mainFetchRequestState.LoadingStateAdapter { pageLoadingState = it }
@@ -150,17 +150,17 @@ fun RouteMainSubrouteBooks(
                     p.vm.searchKeyword(keyword.id)
                 }
             ) {
-                recipeLinkBottomSheetState.open(it)
+                recipeLinkDialogState.open(it)
             }
         }
     }
 
-    RecipeLinkBottomSheet(
+    RecipeLinkDialog(
         p = ViewParameters(
             vm = p.vm,
             back = null
         ),
-        state = recipeLinkBottomSheetState
+        state = recipeLinkDialogState
     )
 
     if(p.vm.tandoorClient != null) {

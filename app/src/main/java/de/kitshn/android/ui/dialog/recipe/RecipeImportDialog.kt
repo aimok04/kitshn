@@ -217,7 +217,7 @@ fun RecipeImportDialog(
                 )
             }
         }
-    ) { nsc, _ ->
+    ) { nsc, _, _ ->
         Column {
             LinearProgressIndicator(
                 Modifier

@@ -45,7 +45,7 @@ import de.kitshn.android.ui.component.LoadingGradientWrapper
 import de.kitshn.android.ui.component.model.mealplan.MealPlanDayCard
 import de.kitshn.android.ui.dialog.mealplan.MealPlanCreationAndEditDefaultValues
 import de.kitshn.android.ui.dialog.mealplan.MealPlanCreationDialogState
-import de.kitshn.android.ui.dialog.mealplan.MealPlanDetailsBottomSheetState
+import de.kitshn.android.ui.dialog.mealplan.MealPlanDetailsDialogState
 import de.kitshn.android.ui.selectionMode.SelectionModeState
 import de.kitshn.android.ui.state.ErrorLoadingSuccessState
 import de.kitshn.android.ui.theme.Typography
@@ -65,7 +65,7 @@ fun RouteMainSubrouteMealplanScaffoldContent(
     pageLoadingState: ErrorLoadingSuccessState,
     selectionModeState: SelectionModeState<Int>,
 
-    detailsBottomSheetState: MealPlanDetailsBottomSheetState,
+    detailsDialogState: MealPlanDetailsDialogState,
     creationDialogState: MealPlanCreationDialogState,
 
     onChangeMealPlanStartDate: (day: LocalDate) -> Unit
@@ -171,7 +171,7 @@ fun RouteMainSubrouteMealplanScaffoldContent(
                         selectionState = selectionModeState,
 
                         onClick = { mealPlan ->
-                            detailsBottomSheetState.open(
+                            detailsDialogState.open(
                                 linkContent = mealPlan
                             )
                         }

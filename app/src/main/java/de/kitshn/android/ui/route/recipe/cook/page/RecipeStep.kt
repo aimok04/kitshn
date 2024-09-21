@@ -49,8 +49,8 @@ import de.kitshn.android.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.android.ui.component.model.ingredient.IngredientsList
 import de.kitshn.android.ui.component.model.recipe.step.RecipeStepMultimediaBox
 import de.kitshn.android.ui.component.model.recipe.step.RecipeStepRecipeLink
-import de.kitshn.android.ui.dialog.recipe.RecipeLinkBottomSheet
-import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkBottomSheetState
+import de.kitshn.android.ui.dialog.recipe.RecipeLinkDialog
+import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.android.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.android.ui.view.ViewParameters
 import kotlin.math.roundToInt
@@ -117,7 +117,7 @@ fun RouteRecipeCookPageStep(
     }
 
     val verticalScroll = rememberScrollState()
-    val recipeLinkBottomSheetState = rememberRecipeLinkBottomSheetState()
+    val recipeLinkDialogState = rememberRecipeLinkDialogState()
 
     BoxWithConstraints(
         Modifier
@@ -178,7 +178,7 @@ fun RouteRecipeCookPageStep(
                         .padding(16.dp),
                     step = step
                 ) {
-                    recipeLinkBottomSheetState.open(it.toOverview())
+                    recipeLinkDialogState.open(it.toOverview())
                 }
 
                 InstructionText(maxHeightPx, false)
@@ -205,7 +205,7 @@ fun RouteRecipeCookPageStep(
                                 modifier = Modifier.fillMaxWidth(),
                                 step = step
                             ) {
-                                recipeLinkBottomSheetState.open(it.toOverview())
+                                recipeLinkDialogState.open(it.toOverview())
                             }
                         }
 
@@ -236,10 +236,10 @@ fun RouteRecipeCookPageStep(
         )
     }
 
-    RecipeLinkBottomSheet(
+    RecipeLinkDialog(
         p = ViewParameters(
             vm, null
         ),
-        state = recipeLinkBottomSheetState
+        state = recipeLinkDialogState
     )
 }

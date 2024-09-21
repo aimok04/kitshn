@@ -232,7 +232,7 @@ fun RecipeBookCreationAndEditDialog(
         actions = {
             form.RenderSubmitButton()
         }
-    ) { it, _ ->
+    ) { it, _, _ ->
         form.Render(it)
     }
 

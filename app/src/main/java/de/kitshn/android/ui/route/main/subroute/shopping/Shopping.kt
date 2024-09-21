@@ -67,11 +67,11 @@ import de.kitshn.android.ui.component.alert.FullSizeAlertPane
 import de.kitshn.android.ui.component.icons.IconWithState
 import de.kitshn.android.ui.component.input.OutlinedNumberField
 import de.kitshn.android.ui.dialog.mealplan.MealPlanCreationAndEditDialog
-import de.kitshn.android.ui.dialog.mealplan.MealPlanDetailsBottomSheet
-import de.kitshn.android.ui.dialog.mealplan.rememberMealPlanDetailsBottomSheetState
+import de.kitshn.android.ui.dialog.mealplan.MealPlanDetailsDialog
+import de.kitshn.android.ui.dialog.mealplan.rememberMealPlanDetailsDialogState
 import de.kitshn.android.ui.dialog.mealplan.rememberMealPlanEditDialogState
-import de.kitshn.android.ui.dialog.recipe.RecipeLinkBottomSheet
-import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkBottomSheetState
+import de.kitshn.android.ui.dialog.recipe.RecipeLinkDialog
+import de.kitshn.android.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.android.ui.route.RouteParameters
 import de.kitshn.android.ui.view.ViewParameters
 import kotlinx.coroutines.delay
@@ -121,10 +121,10 @@ fun RouteMainSubrouteShopping(
         }
     }
 
-    val mealPlanDetailsBottomSheetState = rememberMealPlanDetailsBottomSheetState()
+    val mealPlanDetailsDialogState = rememberMealPlanDetailsDialogState()
     val mealPlanEditDialogState =
         rememberMealPlanEditDialogState(key = "RouteMainSubrouteShopping/mealPlanEditDialogState")
-    val recipeLinkBottomSheetState = rememberRecipeLinkBottomSheetState()
+    val recipeLinkDialogState = rememberRecipeLinkDialogState()
 
     val foods = remember { mutableStateListOf<TandoorFood>() }
     val foodMap = remember { mutableStateMapOf<Int, MutableList<TandoorShoppingListEntry>>() }
@@ -333,7 +333,7 @@ fun RouteMainSubrouteShopping(
                                                     coroutineScope.launch {
                                                         TandoorRequestState().wrapRequest {
                                                             if(mealplan.mealplan != null) {
-                                                                mealPlanDetailsBottomSheetState.open(
+                                                                mealPlanDetailsDialogState.open(
                                                                     client.mealPlan.get(mealplan.mealplan)
                                                                 )
                                                             } else {
@@ -341,7 +341,7 @@ fun RouteMainSubrouteShopping(
                                                                     mealplan.recipe,
                                                                     true
                                                                 )
-                                                                recipeLinkBottomSheetState.open(
+                                                                recipeLinkDialogState.open(
                                                                     recipe.toOverview()
                                                                 )
                                                             }
@@ -410,22 +410,22 @@ fun RouteMainSubrouteShopping(
         ) { }
     }
 
-    MealPlanDetailsBottomSheet(
+    MealPlanDetailsDialog(
         p = ViewParameters(
             vm = p.vm,
             back = null
         ),
-        state = mealPlanDetailsBottomSheetState,
+        state = mealPlanDetailsDialogState,
         onUpdateList = { }
     ) {
         mealPlanEditDialogState.open(it)
     }
 
-    RecipeLinkBottomSheet(
+    RecipeLinkDialog(
         p = ViewParameters(
             vm = p.vm,
             back = null
         ),
-        state = recipeLinkBottomSheetState
+        state = recipeLinkDialogState
     )
 }

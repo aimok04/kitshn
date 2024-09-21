@@ -422,7 +422,7 @@ fun RecipeCreationAndEditDialog(
                 }
             }
         }
-    ) { nsc, _ ->
+    ) { nsc, _, _ ->
         HorizontalPager(
             state = pagerState,
             pageNestedScrollConnection = nsc

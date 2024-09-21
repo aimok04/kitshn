@@ -19,9 +19,9 @@ import de.kitshn.android.api.tandoor.rememberTandoorRequestState
 import de.kitshn.android.ui.TandoorRequestErrorHandler
 import de.kitshn.android.ui.component.alert.LoadingErrorAlertPaneWrapper
 import de.kitshn.android.ui.dialog.mealplan.MealPlanCreationAndEditDialog
-import de.kitshn.android.ui.dialog.mealplan.MealPlanDetailsBottomSheet
+import de.kitshn.android.ui.dialog.mealplan.MealPlanDetailsDialog
 import de.kitshn.android.ui.dialog.mealplan.rememberMealPlanCreationDialogState
-import de.kitshn.android.ui.dialog.mealplan.rememberMealPlanDetailsBottomSheetState
+import de.kitshn.android.ui.dialog.mealplan.rememberMealPlanDetailsDialogState
 import de.kitshn.android.ui.dialog.mealplan.rememberMealPlanEditDialogState
 import de.kitshn.android.ui.route.RouteParameters
 import de.kitshn.android.ui.selectionMode.rememberSelectionModeState
@@ -43,7 +43,7 @@ fun RouteMainSubrouteMealplan(
     var pageLoadingState by rememberErrorLoadingSuccessState()
     val selectionModeState = rememberSelectionModeState<Int>()
 
-    val detailsBottomSheetState = rememberMealPlanDetailsBottomSheetState()
+    val detailsDialogState = rememberMealPlanDetailsDialogState()
     val creationDialogState =
         rememberMealPlanCreationDialogState(key = "RouteMainSubrouteMealplan/mealPlanCreationDialogState")
     val editDialogState =
@@ -103,7 +103,7 @@ fun RouteMainSubrouteMealplan(
                 list = mealPlanList,
                 pageLoadingState = pageLoadingState,
                 selectionModeState = selectionModeState,
-                detailsBottomSheetState = detailsBottomSheetState,
+                detailsDialogState = detailsDialogState,
                 creationDialogState = creationDialogState
             ) { date ->
                 coroutineScope.launch {
@@ -123,12 +123,12 @@ fun RouteMainSubrouteMealplan(
         ) { lastMealPlanUpdate = System.currentTimeMillis() }
     }
 
-    MealPlanDetailsBottomSheet(
+    MealPlanDetailsDialog(
         p = ViewParameters(
             vm = p.vm,
             back = p.onBack
         ),
-        state = detailsBottomSheetState,
+        state = detailsDialogState,
         reopenOnLaunchKey = "RouteMainSubrouteMealplan/mealPlanDetailsBottomSheet",
         onUpdateList = { lastMealPlanUpdate = System.currentTimeMillis() }
     ) {
