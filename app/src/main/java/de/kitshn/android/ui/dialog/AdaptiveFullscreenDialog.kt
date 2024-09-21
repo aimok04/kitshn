@@ -8,6 +8,8 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -29,6 +31,10 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
@@ -81,14 +87,34 @@ fun AdaptiveFullscreenDialog(
         MaterialTheme.colorScheme.surfaceContainerHigh
     }
 
-    BackHandler {
-        onDismiss()
+    /* animate visibility of fullscreen dialog */
+    var dismissOnPostExit by remember { mutableStateOf(false) }
+    val animVisibleState = remember {
+        MutableTransitionState(false)
+            .apply { targetState = true }
     }
 
-    Dialog(
-        onDismissRequest = {
+    /* dismiss fullscreen dialog after animation */
+    if(!animVisibleState.targetState && !animVisibleState.currentState) {
+        if(dismissOnPostExit) {
             onDismiss()
-        },
+            return
+        }
+    }
+
+    fun dismiss() {
+        if(fullscreenDialog) {
+            dismissOnPostExit = true
+            animVisibleState.targetState = false
+        } else {
+            onDismiss()
+        }
+    }
+
+    BackHandler { dismiss() }
+
+    Dialog(
+        onDismissRequest = { dismiss() },
         properties = DialogProperties(
             usePlatformDefaultWidth = true,
             decorFitsSystemWindows = false
@@ -113,87 +139,91 @@ fun AdaptiveFullscreenDialog(
             }
         }
 
-        Surface(
-            Modifier
-                .widthIn(
-                    max = if(fullscreenDialog) {
-                        Dp.Unspecified
-                    } else {
-                        600.dp
-                    }
-                )
-                .run {
-                    if(fullscreenDialog) {
-                        this.fillMaxSize()
-                    } else {
-                        this.padding(16.dp)
-                    }
-                },
-            color = containerColor,
-            shape = if(fullscreenDialog) {
-                RectangleShape
-            } else {
-                AlertDialogDefaults.shape
-            }
+        AnimatedVisibility(
+            animVisibleState
         ) {
-            val mTopBar = topBar ?: {
-                TopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = containerColor
-                    ),
-                    navigationIcon = {
-                        BackButton(
-                            onBack = onDismiss,
-                            type = BackButtonType.CLOSE
-                        )
+            Surface(
+                Modifier
+                    .widthIn(
+                        max = if(fullscreenDialog) {
+                            Dp.Unspecified
+                        } else {
+                            600.dp
+                        }
+                    )
+                    .run {
+                        if(fullscreenDialog) {
+                            this.fillMaxSize()
+                        } else {
+                            this.padding(16.dp)
+                        }
                     },
-                    title = title,
-                    actions = topAppBarActions,
-                    scrollBehavior = scrollBehavior
-                )
-            }
+                color = containerColor,
+                shape = if(fullscreenDialog) {
+                    RectangleShape
+                } else {
+                    AlertDialogDefaults.shape
+                }
+            ) {
+                val mTopBar = topBar ?: {
+                    TopAppBar(
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = containerColor
+                        ),
+                        navigationIcon = {
+                            BackButton(
+                                onBack = { dismiss() },
+                                type = BackButtonType.CLOSE
+                            )
+                        },
+                        title = title,
+                        actions = topAppBarActions,
+                        scrollBehavior = scrollBehavior
+                    )
+                }
 
-            val internalBottomBar = @Composable {
-                if(bottomBar != null) {
-                    bottomBar(fullscreenDialog)
-                } else if(actions != null) BottomAppBar(
-                    containerColor = containerColor,
-                    actions = {},
-                    floatingActionButton = {
-                        Row {
-                            actions()
+                val internalBottomBar = @Composable {
+                    if(bottomBar != null) {
+                        bottomBar(fullscreenDialog)
+                    } else if(actions != null) BottomAppBar(
+                        containerColor = containerColor,
+                        actions = {},
+                        floatingActionButton = {
+                            Row {
+                                actions()
+                            }
+                        }
+                    )
+                }
+
+                if(fullscreenDialog) {
+                    Scaffold(
+                        topBar = { topBarWrapper(mTopBar) },
+                        bottomBar = internalBottomBar,
+                        containerColor = containerColor
+                    ) {
+                        Box(
+                            Modifier.padding(it)
+                        ) {
+                            content(scrollBehavior.nestedScrollConnection, true)
                         }
                     }
-                )
-            }
+                } else {
+                    Column {
+                        topBarWrapper(mTopBar)
 
-            if(fullscreenDialog) {
-                Scaffold(
-                    topBar = { topBarWrapper(mTopBar) },
-                    bottomBar = internalBottomBar,
-                    containerColor = containerColor
-                ) {
-                    Box(
-                        Modifier.padding(it)
-                    ) {
-                        content(scrollBehavior.nestedScrollConnection, true)
-                    }
-                }
-            } else {
-                Column {
-                    topBarWrapper(mTopBar)
+                        BoxWithConstraints {
+                            val maxHeight = this.maxHeight
 
-                    BoxWithConstraints {
-                        val maxHeight = this.maxHeight
+                            Column {
+                                Box(
+                                    Modifier.heightIn(max = maxHeight - 80.dp)
+                                ) {
+                                    content(scrollBehavior.nestedScrollConnection, false)
+                                }
 
-                        Column {
-                            Box(
-                                Modifier.heightIn(max = maxHeight - 80.dp)
-                            ) {
-                                content(scrollBehavior.nestedScrollConnection, false)
+                                internalBottomBar()
                             }
-
-                            internalBottomBar()
                         }
                     }
                 }
