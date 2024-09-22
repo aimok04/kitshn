@@ -22,7 +22,7 @@ val KEY_SETTINGS_APPEARANCE_DYNAMIC_COLORS = booleanPreferencesKey("appearance_d
 val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER =
     booleanPreferencesKey("behavior_use_share_wrapper")
 val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN =
-    stringPreferencesKey("behavior_use_share_wrapper_hint_shown")
+    stringPreferencesKey("behavior_use_share_wrapper_hint_shown_str")
 val KEY_SETTINGS_BEHAVIOR_HIDE_INGREDIENT_ALLOCATION_ACTION_CHIPS =
     booleanPreferencesKey("behavior_hide_ingredient_allocation_action_chips")
 
