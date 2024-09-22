@@ -72,6 +72,7 @@ private tailrec fun Context.getActivityWindow(): Window? =
 @Composable
 fun AdaptiveFullscreenDialog(
     onDismiss: () -> Unit,
+    onPreDismiss: () -> Boolean = { true },
     forceDismiss: Boolean = false,
     title: @Composable () -> Unit = {},
     topAppBarActions: @Composable (RowScope.() -> Unit) = { },
@@ -110,6 +111,8 @@ fun AdaptiveFullscreenDialog(
     }
 
     fun dismiss() {
+        if(!onPreDismiss()) return
+
         if(fullscreenDialog) {
             dismissOnPostExit = true
             animVisibleState.targetState = false

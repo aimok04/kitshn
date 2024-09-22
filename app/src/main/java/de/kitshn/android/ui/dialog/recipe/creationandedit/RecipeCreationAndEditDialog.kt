@@ -284,11 +284,12 @@ fun RecipeCreationAndEditDialog(
 
     AdaptiveFullscreenDialog(
         onDismiss = {
-            if(areThereUnsavedChanges()) {
-                showUnsavedChangesDialog = true
-            } else {
-                dismiss()
-            }
+            dismiss()
+        },
+        onPreDismiss = {
+            !(areThereUnsavedChanges().also {
+                if(it) showUnsavedChangesDialog = true
+            })
         },
         topBarWrapper = {
             SelectionModeTopAppBar(
