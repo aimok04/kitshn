@@ -1,0 +1,17 @@
+Hotfix
+- fix(settings): resolved #17 (Crash when trying to share recipe)
+
+Changes for v1.0.0-alpha.8
+- feat(ui): changed recipe and meal plan bottom sheets to dialogs
+- feat(ui): added animation to fullscreen dialog
+- feat(recipes): added ability to hide ingredient allocation action chip (#16)
+- feat(settings): added toggle to ignore unallocated ingredients (resolved #16)
+- chore(libs): version bumps
+- feat(manifest): changed app link host
+- feat(share): shortened share wrapper links
+- feat(about): added website
+- feat(about): changed contact mail
+- feat(acra): changed acra report url
+- feat(share): changed share wrapper url
+- fix(ui): status bar icon color in fullscreen dialog
+- fix(mealplan): hide keyboard after selecting meal type
