@@ -173,7 +173,7 @@
     <string name="error_recipe_could_not_be_loaded">Rezept konnte nicht geladen werden.</string>
     <string name="error_request">Fehlerhafte Anfrage</string>
     <string name="error_request_description">Der Server konnte nicht erreicht werden / Die Anfrage konnte vom Server nicht verarbeitet werden.</string>
-    <string name="error_unallocated_ingredients">"Unsortierte Zutaten</string>
+    <string name="error_unallocated_ingredients">Unsortierte Zutaten</string>
     <string name="error_unallocated_ingredients_description">Es gibt noch Zutaten, die einem Schritt zugeordnet werden müssen, bevor du die Änderungen speichern kannst.</string>
 
     <string name="expand_more">Vergrößern</string>
@@ -289,6 +289,8 @@
     <string name="settings_section_appearance_follow_system_label">System folgen</string>
     <string name="settings_section_appearance_label">Erscheinung</string>
     <string name="settings_section_behavior_description">Ändere Optionen zum Teilen</string>
+    <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_description">Alle „Unsortierte Zutaten”-Warnungen verstecken</string>
+    <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_label">Unsortierte Zutaten ignorieren</string>
     <string name="settings_section_behavior_label">Verhalten</string>
     <string name="settings_section_behavior_use_share_wrapper_description">Geteilte Tandoor Links können direkt in der App geöffnet werden</string>
     <string name="settings_section_behavior_use_share_wrapper_label">Share-Wrapper</string>

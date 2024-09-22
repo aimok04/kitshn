@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material.icons.rounded.WarningAmber
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -41,6 +42,8 @@ fun ViewSettingsBehavior(
         }
     ) {
         val useShareWrapper = p.vm.settings.getUseShareWrapper.collectAsState(initial = true)
+        val hideIngredientAllocationActionChips =
+            p.vm.settings.getHideIngredientAllocationActionChips.collectAsState(initial = false)
 
         LazyColumn(
             modifier = Modifier
@@ -57,6 +60,20 @@ fun ViewSettingsBehavior(
                 ) {
                     coroutineScope.launch {
                         p.vm.settings.setUseShareWrapper(it)
+                    }
+                }
+            }
+
+            item {
+                SettingsSwitchListItem(
+                    label = { Text(stringResource(R.string.settings_section_behavior_hide_ingredient_allocation_action_chip_label)) },
+                    description = { Text(stringResource(R.string.settings_section_behavior_hide_ingredient_allocation_action_chip_description)) },
+                    icon = Icons.Rounded.WarningAmber,
+                    contentDescription = stringResource(R.string.settings_section_behavior_hide_ingredient_allocation_action_chip_label),
+                    checked = hideIngredientAllocationActionChips.value
+                ) {
+                    coroutineScope.launch {
+                        p.vm.settings.setHideIngredientAllocationActionChips(it)
                     }
                 }
             }

@@ -55,6 +55,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableFloatStateOf
@@ -151,6 +152,9 @@ fun ViewRecipeDetails(
     val density = LocalDensity.current
 
     val coroutineScope = rememberCoroutineScope()
+
+    val hideIngredientAllocationActionChips =
+        p.vm.settings.getHideIngredientAllocationActionChips.collectAsState(initial = false)
 
     var pageLoadingState by rememberErrorLoadingSuccessState()
 
@@ -553,7 +557,7 @@ fun ViewRecipeDetails(
                         servingsValue = value
                     }
 
-                    if(recipe?.showIngredientAllocationActionChip() == true) {
+                    if(recipe?.showIngredientAllocationActionChip() == true && !hideIngredientAllocationActionChips.value) {
                         val addFlagRequestState = rememberTandoorRequestState()
 
                         Row(

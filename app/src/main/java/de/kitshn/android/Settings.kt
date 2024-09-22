@@ -23,6 +23,8 @@ val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER =
     booleanPreferencesKey("behavior_use_share_wrapper")
 val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN =
     stringPreferencesKey("behavior_use_share_wrapper_hint_shown")
+val KEY_SETTINGS_BEHAVIOR_HIDE_INGREDIENT_ALLOCATION_ACTION_CHIPS =
+    booleanPreferencesKey("behavior_hide_ingredient_allocation_action_chips")
 
 val KEY_SETTINGS_ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
 val KEY_SETTINGS_TANDOOR_CREDENTIALS = stringPreferencesKey("tandoor_credentials")
@@ -102,6 +104,15 @@ class SettingsViewModel(
 
     suspend fun setUseShareWrapperHintShown(url: String) = context.dataStore.edit {
         it[KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN] = url
+    }
+
+    val getHideIngredientAllocationActionChips: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[KEY_SETTINGS_BEHAVIOR_HIDE_INGREDIENT_ALLOCATION_ACTION_CHIPS] ?: false
+        }
+
+    suspend fun setHideIngredientAllocationActionChips(hide: Boolean) = context.dataStore.edit {
+        it[KEY_SETTINGS_BEHAVIOR_HIDE_INGREDIENT_ALLOCATION_ACTION_CHIPS] = hide
     }
 
 }
