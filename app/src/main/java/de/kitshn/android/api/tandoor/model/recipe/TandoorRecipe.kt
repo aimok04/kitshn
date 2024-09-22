@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import coil.request.ImageRequest
 import de.kitshn.android.JsonAsStringSerializer
+import de.kitshn.android.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP
 import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.TandoorRequestsError
 import de.kitshn.android.api.tandoor.delete
@@ -63,11 +64,15 @@ class TandoorRecipe(
 
     var destroyed = false
 
+    private var hideIngredientAllocationWarning by mutableStateOf(false)
+
     @Transient
     var steps = mutableListOf<TandoorStep>()
 
     init {
         steps = json.decodeFromJsonElement(stepsRaw)
+        hideIngredientAllocationWarning =
+            keywords.firstOrNull { it.name == KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP } != null
     }
 
     @Transient
@@ -194,6 +199,32 @@ class TandoorRecipe(
         client!!.patchObject("/recipe/${id}/", data)
     }
 
+    /**
+     * Helper function which adds a "flag" keyword to the recipe.
+     * Used to extend Tandoor with custom functionality for kitshn.
+     */
+    @Throws(TandoorRequestsError::class)
+    suspend fun addFlag(
+        name: String,
+        description: String
+    ) {
+        partialUpdate(
+            keywords = keywords.toMutableList().apply {
+                add(
+                    TandoorKeyword(
+                        id = -1,
+                        name = name,
+                        description = description,
+                        created_at = "",
+                        updated_at = ""
+                    )
+                )
+            }
+        )
+
+        hideIngredientAllocationWarning = true
+    }
+
     @Throws(TandoorRequestsError::class)
     suspend fun uploadImage(image: Bitmap) {
         client?.putBitmap("/recipe/${id}/image/", image)
@@ -227,6 +258,7 @@ class TandoorRecipe(
     }
 
     fun showIngredientAllocationActionChipSync(): Boolean {
+        if(hideIngredientAllocationWarning) return false
         if(steps.size < 2) return false
         if(steps.first().ingredients.isEmpty()) return false
 
@@ -240,6 +272,8 @@ class TandoorRecipe(
 
     @Composable
     fun showIngredientAllocationActionChip(): Boolean {
+        if(hideIngredientAllocationWarning) return false
+
         var value by remember { mutableStateOf(showIngredientAllocationActionChipSync()) }
         LaunchedEffect(steps.toList()) { value = showIngredientAllocationActionChipSync() }
         return value

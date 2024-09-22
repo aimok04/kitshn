@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.areStatusBarsVisible
@@ -24,6 +25,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.OpenInNew
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Link
 import androidx.compose.material.icons.rounded.LocalDining
 import androidx.compose.material.icons.rounded.MoreVert
@@ -38,12 +40,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -75,6 +79,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import de.kitshn.android.KITSHN_KEYWORD_FLAG_PREFIX
+import de.kitshn.android.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP
+import de.kitshn.android.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP_DESC
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.TandoorRequestState
@@ -82,12 +89,14 @@ import de.kitshn.android.api.tandoor.model.TandoorIngredient
 import de.kitshn.android.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.android.api.tandoor.model.TandoorStep
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.android.api.tandoor.rememberTandoorRequestState
 import de.kitshn.android.launchCustomTabs
 import de.kitshn.android.ui.component.alert.FullSizeAlertPane
 import de.kitshn.android.ui.component.buttons.BackButton
 import de.kitshn.android.ui.component.buttons.WideActionChip
 import de.kitshn.android.ui.component.buttons.WideActionChipType
 import de.kitshn.android.ui.component.icons.FiveStarIconRow
+import de.kitshn.android.ui.component.icons.IconWithState
 import de.kitshn.android.ui.component.model.ingredient.IngredientsList
 import de.kitshn.android.ui.component.model.recipe.RecipeInfoBlob
 import de.kitshn.android.ui.component.model.recipe.step.RecipeStepCard
@@ -465,8 +474,10 @@ fun ViewRecipeDetails(
 
                         items(
                             recipeOverview.keywords.size,
-                            key = { recipeOverview.keywords[it].id }) { index ->
+                            key = { recipeOverview.keywords[it].id })
+                        { index ->
                             val keywordOverview = recipeOverview.keywords[index]
+                            if(keywordOverview.label.startsWith(KITSHN_KEYWORD_FLAG_PREFIX)) return@items
 
                             FilterChip(onClick = {
                                 onClickKeyword(keywordOverview)
@@ -542,12 +553,52 @@ fun ViewRecipeDetails(
                         servingsValue = value
                     }
 
-                    if(recipe?.showIngredientAllocationActionChip() == true) WideActionChip(
-                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
-                        type = WideActionChipType.INFO,
-                        actionLabel = stringResource(id = R.string.error_unallocated_ingredients)
-                    ) {
-                        recipeIngredientAllocationDialogState.open(recipe)
+                    if(recipe?.showIngredientAllocationActionChip() == true) {
+                        val addFlagRequestState = rememberTandoorRequestState()
+
+                        Row(
+                            Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            SmallFloatingActionButton(
+                                containerColor = MaterialTheme.colorScheme.errorContainer,
+                                contentColor = MaterialTheme.colorScheme.error,
+                                elevation = FloatingActionButtonDefaults.elevation(
+                                    0.dp,
+                                    0.dp,
+                                    0.dp,
+                                    0.dp
+                                ),
+                                onClick = {
+                                    coroutineScope.launch {
+                                        addFlagRequestState.wrapRequest {
+                                            // add HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP flag to recipe
+
+                                            recipe.addFlag(
+                                                name = KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP,
+                                                description = KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP_DESC
+                                            )
+                                        }
+                                    }
+                                }
+                            ) {
+                                IconWithState(
+                                    imageVector = Icons.Rounded.Close,
+                                    contentDescription = stringResource(R.string.action_close),
+                                    state = addFlagRequestState.state.toIconWithState()
+                                )
+                            }
+
+                            Spacer(Modifier.width(8.dp))
+
+                            WideActionChip(
+                                modifier = Modifier.fillMaxWidth(),
+                                type = WideActionChipType.INFO,
+                                actionLabel = stringResource(id = R.string.error_unallocated_ingredients)
+                            ) {
+                                recipeIngredientAllocationDialogState.open(recipe)
+                            }
+                        }
                     }
 
                     Card(

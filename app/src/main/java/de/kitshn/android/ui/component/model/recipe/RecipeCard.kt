@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
+import de.kitshn.android.KITSHN_KEYWORD_FLAG_PREFIX
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipeOverview
@@ -190,6 +191,7 @@ fun RecipeCard(
                 } else {
                     items(recipeOverview.keywords.size, key = { recipeOverview.keywords[it].id }) {
                         val keywordOverview = recipeOverview.keywords[it]
+                        if(keywordOverview.label.startsWith(KITSHN_KEYWORD_FLAG_PREFIX)) return@items
 
                         FilterChip(
                             onClick = {

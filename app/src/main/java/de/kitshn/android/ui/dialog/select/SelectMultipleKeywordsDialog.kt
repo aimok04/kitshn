@@ -39,12 +39,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import de.kitshn.android.KITSHN_KEYWORD_FLAG_PREFIX
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.TandoorRequestStateState
@@ -201,6 +203,13 @@ fun KeywordCheckedListItem(
 ) {
     ListItem(
         modifier = modifier
+            .alpha(
+                if(keyword.name.startsWith(KITSHN_KEYWORD_FLAG_PREFIX)) {
+                    0.5f
+                } else {
+                    1f
+                }
+            )
             .clickable {
                 onCheckedChange(!checked)
             },
