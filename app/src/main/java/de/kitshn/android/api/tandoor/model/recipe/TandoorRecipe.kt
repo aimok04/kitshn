@@ -177,7 +177,7 @@ class TandoorRecipe(
                 val keywordArray = JSONArray()
                 keywords.forEach {
                     val keywordObject = JSONObject()
-                    keywordObject.put("name", it.label)
+                    keywordObject.put("name", it.name)
                     keywordObject.put("description", it.description)
                     keywordArray.put(keywordObject)
                 }
