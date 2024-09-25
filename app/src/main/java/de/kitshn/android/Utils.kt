@@ -1,21 +1,29 @@
 package de.kitshn.android
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
+import android.view.Window
+import android.view.WindowManager
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.window.DialogWindowProvider
 import de.kitshn.android.api.tandoor.model.TandoorFood
 import de.kitshn.android.api.tandoor.model.TandoorKeyword
 import kotlinx.serialization.InternalSerializationApi
@@ -90,6 +98,33 @@ fun Double.formatAmount(): String {
 fun Context.launchCustomTabs(url: String) {
     CustomTabsIntent.Builder().build()
         .launchUrl(this, Uri.parse(url))
+}
+
+tailrec fun Context.getActivityWindow(): Window? =
+    when(this) {
+        is Activity -> window
+        is ContextWrapper -> baseContext.getActivityWindow()
+        else -> null
+    }
+
+@Composable
+fun getDialogWindow(): Window? = (LocalView.current.parent as? DialogWindowProvider)?.window
+
+@Composable
+fun getActivityWindow(): Window? = LocalView.current.context.getActivityWindow()
+
+@Composable
+fun KeepScreenOn() {
+    val context = LocalContext.current
+
+    DisposableEffect(Unit) {
+        val window = context.getActivityWindow()
+        window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        onDispose {
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
 }
 
 @Composable

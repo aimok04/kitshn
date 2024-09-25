@@ -1,10 +1,6 @@
 package de.kitshn.android.ui.dialog
 
-import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.activity.compose.BackHandler
@@ -47,26 +43,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.compose.ui.window.DialogWindowProvider
 import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import de.kitshn.android.getActivityWindow
+import de.kitshn.android.getDialogWindow
 import de.kitshn.android.ui.component.buttons.BackButton
 import de.kitshn.android.ui.component.buttons.BackButtonType
-
-// Window utils
-@Composable
-fun getDialogWindow(): Window? = (LocalView.current.parent as? DialogWindowProvider)?.window
-
-@Composable
-fun getActivityWindow(): Window? = LocalView.current.context.getActivityWindow()
-
-private tailrec fun Context.getActivityWindow(): Window? =
-    when(this) {
-        is Activity -> window
-        is ContextWrapper -> baseContext.getActivityWindow()
-        else -> null
-    }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

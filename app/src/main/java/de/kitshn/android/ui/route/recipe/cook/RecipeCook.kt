@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
+import de.kitshn.android.KeepScreenOn
 import de.kitshn.android.api.tandoor.TandoorRequestState
 import de.kitshn.android.api.tandoor.TandoorRequestStateState
 import de.kitshn.android.api.tandoor.model.TandoorStep
@@ -78,6 +79,9 @@ fun RouteRecipeCook(
 
     val pagerState =
         foreverRememberPagerState(key = "RouteRecipeCook/pagerState/${recipe!!.id}") { sortedSteps.size + 1 }
+
+    // ensure that the screen stays on, during the cooking
+    KeepScreenOn()
 
     Scaffold(
         topBar = {
