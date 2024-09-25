@@ -27,6 +27,11 @@ height="80">](https://f-droid.org/packages/de.kitshn.android/)
 alt="Get it on Google Play"
 height="80">](https://play.google.com/store/apps/details?id=de.kitshn.android)
 
+## 🌍 l10n
+
+You can help translate kitshn on [Transifex](https://app.transifex.com/kitshn/kitshn-android/).
+Contributions are very welcome 😊
+
 ## 💪 Features
 
 - [x] Dynamic home screen with suggestions
