@@ -288,7 +288,7 @@
     <string name="settings_section_appearance_follow_system_description">Use the color scheme of the operating system</string>
     <string name="settings_section_appearance_follow_system_label">Follow system</string>
     <string name="settings_section_appearance_label">Appearance</string>
-    <string name="settings_section_behavior_description">Change share options</string>
+    <string name="settings_section_behavior_description">Change kitshn\'s behavior</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_description">Hide all “Unallocated ingredients” warnings</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_label">Ignore unallocated ingredients</string>
     <string name="settings_section_behavior_label">Behavior</string>
