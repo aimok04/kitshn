@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -66,6 +67,7 @@ fun AdaptiveFullscreenDialog(
     applyPaddingValues: Boolean = true,
     content: @Composable (nestedScrollConnection: NestedScrollConnection, isFullscreen: Boolean, pv: PaddingValues) -> Unit
 ) {
+    val configuration = LocalConfiguration.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
@@ -119,7 +121,7 @@ fun AdaptiveFullscreenDialog(
             val dialogWindow = getDialogWindow()
             val parentView = LocalView.current.parent as View
 
-            SideEffect {
+            fun apply() {
                 if(activityWindow != null && dialogWindow != null) {
                     val attributes = WindowManager.LayoutParams()
                     attributes.copyFrom(activityWindow.attributes)
@@ -132,11 +134,14 @@ fun AdaptiveFullscreenDialog(
                 }
             }
 
+            SideEffect { apply() }
+            LaunchedEffect(configuration) { apply() }
+
             if(MaterialTheme.colorScheme.background.luminance() > 0.8f) {
                 val systemUiController = rememberSystemUiController(activityWindow)
                 val dialogSystemUiController = rememberSystemUiController(dialogWindow)
 
-                LaunchedEffect(Unit) {
+                LaunchedEffect(configuration) {
                     systemUiController.setSystemBarsColor(
                         color = Color.Transparent,
                         darkIcons = true
