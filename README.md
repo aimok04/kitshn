@@ -29,7 +29,7 @@ height="80">](https://play.google.com/store/apps/details?id=de.kitshn.android)
 
 ## 🌍 l10n
 
-You can help translate kitshn on [Transifex](https://app.transifex.com/kitshn/kitshn-android/).
+You can help translate kitshn on [Transifex](https://kitshn.app/translate).
 Contributions are very welcome 😊
 
 ## 💪 Features
