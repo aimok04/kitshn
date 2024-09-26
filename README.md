@@ -1,4 +1,5 @@
-![kitshn (for Tandoor)](/images/title.png)
+![kitshn (for Tandoor)](/images/title_light.png#gh-light-mode-only)
+![kitshn (for Tandoor)](/images/title_dark.png#gh-dark-mode-only)
 ---
 ![GitHub](https://img.shields.io/github/license/aimok04/kitshn?style=for-the-badge) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/aimok04/kitshn?style=for-the-badge)
 
