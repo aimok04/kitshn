@@ -88,7 +88,7 @@ class TandoorStep(
         val filesDir = File(context.filesDir, "file-downloads")
         filesDir.mkdirs()
 
-        val downloadedFile = File(filesDir, "${file.id}_${file.name}")
+        val downloadedFile = File(filesDir, "${file.id}_${file.name.hashCode()}")
         if(downloadedFile.exists()) return downloadedFile
 
         val zipFile = File(cacheDir, UUID.randomUUID().toString())
