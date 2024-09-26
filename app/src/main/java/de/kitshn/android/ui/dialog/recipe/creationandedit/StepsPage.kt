@@ -130,6 +130,7 @@ fun StepsPage(
                             ),
                             interactionSource = interactionSource,
                             servingsFactor = 1.0,
+                            recipe = recipe,
                             step = step,
                             stepIndex = index,
                             appendAction = {

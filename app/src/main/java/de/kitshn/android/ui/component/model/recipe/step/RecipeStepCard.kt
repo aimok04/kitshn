@@ -48,6 +48,7 @@ fun RecipeStepCard(
     columnModifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource? = null,
     colors: CardColors = CardDefaults.cardColors(),
+    recipe: TandoorRecipe? = null,
     step: TandoorStep? = null,
     stepIndex: Int = 0,
     hideIngredients: Boolean = false,
@@ -140,7 +141,8 @@ fun RecipeStepCard(
         Column(
             columnModifier
         ) {
-            if(step != null) RecipeStepMultimediaBox(
+            if(recipe != null && step != null) RecipeStepMultimediaBox(
+                recipe = recipe,
                 step = step
             )
 

@@ -651,6 +651,7 @@ fun ViewRecipeDetails(
                                 bottom = 16.dp
                             )
                             .fillMaxWidth(),
+                        recipe = recipe,
                         step = step,
                         stepIndex = index,
                         hideIngredients = step.ingredients.size == sortedIngredientsList.size,

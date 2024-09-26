@@ -125,6 +125,7 @@ fun RouteRecipeCook(
                     RouteRecipeCookPageStep(
                         topPadding = topPadding,
                         vm = p.vm,
+                        recipe = recipe!!,
                         step = step,
                         servingsFactor = servingsFactor
                     )

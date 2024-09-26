@@ -1,5 +1,6 @@
 package de.kitshn.android.api.tandoor.model
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -8,6 +9,7 @@ import coil.request.ImageRequest
 import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.TandoorRequestsError
 import de.kitshn.android.api.tandoor.delete
+import de.kitshn.android.api.tandoor.getInputStream
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.android.api.tandoor.model.recipe.TandoorStepRecipeData
 import de.kitshn.android.api.tandoor.patchObject
@@ -23,6 +25,10 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
+import java.io.FileOutputStream
+import java.util.UUID
+import java.util.zip.ZipFile
 
 @Serializable
 data class TandoorStepFile(
@@ -70,6 +76,39 @@ class TandoorStep(
                 .crossfade(true)
                 .build()
         }
+    }
+
+    @Throws(TandoorRequestsError::class)
+    suspend fun loadFile(
+        context: Context
+    ): File? {
+        if(client == null || file == null) return null
+
+        val cacheDir = context.cacheDir
+        val filesDir = File(context.filesDir, "file-downloads")
+        filesDir.mkdirs()
+
+        val downloadedFile = File(filesDir, "${file.id}_${file.name}")
+        if(downloadedFile.exists()) return downloadedFile
+
+        val zipFile = File(cacheDir, UUID.randomUUID().toString())
+
+        // Downloading file
+        FileOutputStream(zipFile).use {
+            it.write(client!!.getInputStream("/download-file/${file.id}"))
+        }
+
+        // Tandoor serves files in .zip containers
+        ZipFile(zipFile).use { zipFile ->
+            val folderStream = zipFile.getInputStream(zipFile.entries().asSequence().first())
+
+            FileOutputStream(downloadedFile).use { os ->
+                folderStream.copyTo(os)
+            }
+        }
+
+        zipFile.delete()
+        return downloadedFile
     }
 
     @Throws(TandoorRequestsError::class)

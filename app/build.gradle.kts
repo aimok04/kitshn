@@ -147,6 +147,11 @@ dependencies {
     implementation(libs.volley)
     implementation(libs.androidx.browser)
 
+    implementation(libs.compose.video)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.session)
+    implementation(libs.androidx.media3.ui)
+
     implementation(libs.acra.http)
     implementation(libs.acra.dialog)
 

@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import de.kitshn.android.KitshnViewModel
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.model.TandoorStep
+import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.android.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.android.ui.component.model.ingredient.IngredientsList
 import de.kitshn.android.ui.component.model.recipe.step.RecipeStepMultimediaBox
@@ -59,6 +60,7 @@ import kotlin.math.roundToInt
 fun RouteRecipeCookPageStep(
     topPadding: Dp,
     vm: KitshnViewModel,
+    recipe: TandoorRecipe,
     step: TandoorStep,
     servingsFactor: Double
 ) {
@@ -140,6 +142,7 @@ fun RouteRecipeCookPageStep(
                 .verticalScroll(verticalScroll)
         ) {
             RecipeStepMultimediaBox(
+                recipe = recipe,
                 step = step
             ) {
                 Spacer(Modifier.height(topPadding))

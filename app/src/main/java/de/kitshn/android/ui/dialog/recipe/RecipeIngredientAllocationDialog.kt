@@ -319,6 +319,7 @@ fun RecipeIngredientAllocationDialog(
                     .nestedScroll(nsc)
             ) {
                 RecipeStepMultimediaBox(
+                    recipe = recipe,
                     step = step
                 )
 

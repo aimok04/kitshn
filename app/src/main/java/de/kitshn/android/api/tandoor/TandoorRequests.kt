@@ -10,6 +10,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import de.kitshn.android.redactForRelease
+import de.kitshn.android.volley.VolleyInputStreamRequest
 import de.kitshn.android.volley.VolleyMultipartRequest
 import org.json.JSONArray
 import org.json.JSONObject
@@ -235,10 +236,52 @@ suspend fun TandoorClient.reqMultipart(
 }
 
 @Throws(TandoorRequestsError::class)
+suspend fun TandoorClient.reqInputStream(
+    endpoint: String,
+    method: Int,
+    params: HashMap<String, String> = hashMapOf()
+) = suspendCoroutine { cont ->
+    val queue = Volley.newRequestQueue(context)
+    val token = this.credentials.token
+
+    Log.d(
+        "TandoorRequests",
+        "Method: $method, URL: ${credentials.instanceUrl.redactForRelease()}/api${endpoint}"
+    )
+    val url = "${credentials.instanceUrl}/api${endpoint}"
+
+    val request = object : VolleyInputStreamRequest(
+        method,
+        url,
+        { response ->
+            cont.resume(response)
+        },
+        { error: VolleyError? ->
+            Log.e("TandoorRequests", "Exception for request \"$endpoint\" ($method) (jsonObject)")
+            error?.printStackTrace()
+            cont.resumeWithException(TandoorRequestsError(error))
+        },
+        params
+    ) {
+        override fun getHeaders(): MutableMap<String, String> {
+            val headers = super.getHeaders().toMutableMap()
+            headers["Authorization"] = "Bearer ${token?.token ?: ""}"
+            return headers
+        }
+    }
+
+    queue.add(request)
+}
+
+@Throws(TandoorRequestsError::class)
 suspend fun TandoorClient.getObject(endpoint: String) = reqObject(endpoint, Request.Method.GET)
 
 @Throws(TandoorRequestsError::class)
 suspend fun TandoorClient.getArray(endpoint: String) = reqArray(endpoint, Request.Method.GET)
+
+@Throws(TandoorRequestsError::class)
+suspend fun TandoorClient.getInputStream(endpoint: String): ByteArray =
+    reqInputStream(endpoint, Request.Method.GET)
 
 @Throws(TandoorRequestsError::class)
 suspend fun TandoorClient.postObject(endpoint: String, data: JSONObject) =
