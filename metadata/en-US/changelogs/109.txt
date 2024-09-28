@@ -1,0 +1,4 @@
+- feat(recipes): added support for step video files (resolved #15)
+- feat(recipes): keep screen on (#18) (by @FineFindus)
+- feat(ui): intercepting configuration changes
+- fix(strings.xml): corrected behavior description
