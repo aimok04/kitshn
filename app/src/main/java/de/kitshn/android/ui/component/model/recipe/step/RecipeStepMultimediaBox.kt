@@ -5,10 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.PlayArrow
@@ -177,32 +180,7 @@ private fun VideoDialog(
         onDismiss = {
             onDismiss()
         },
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
-                ),
-                navigationIcon = {
-                    BackButton(
-                        onBack = onDismiss,
-                        overlay = true,
-                        type = BackButtonType.CLOSE
-                    )
-                },
-                title = { },
-                actions = {
-                    val uriHandler = LocalUriHandler.current
-
-                    IconButton(
-                        onClick = {
-                            uriHandler.openUri(step.file!!.file_download)
-                        }
-                    ) {
-                        Icon(Icons.Rounded.Download, stringResource(R.string.action_download))
-                    }
-                }
-            )
-        },
+        topBar = { },
         applyPaddingValues = false
     ) { _, _ ->
         Box(
@@ -246,6 +224,36 @@ private fun VideoDialog(
                     Modifier.align(Alignment.Center)
                 )
             }
+
+            TopAppBar(
+                modifier = Modifier
+                    .padding(
+                        WindowInsets.safeContent.asPaddingValues()
+                    )
+                    .fillMaxWidth(),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent
+                ),
+                navigationIcon = {
+                    BackButton(
+                        onBack = onDismiss,
+                        overlay = true,
+                        type = BackButtonType.CLOSE
+                    )
+                },
+                title = { },
+                actions = {
+                    val uriHandler = LocalUriHandler.current
+
+                    IconButton(
+                        onClick = {
+                            uriHandler.openUri(step.file!!.file_download)
+                        }
+                    ) {
+                        Icon(Icons.Rounded.Download, stringResource(R.string.action_download))
+                    }
+                }
+            )
         }
     }
 }
