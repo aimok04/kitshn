@@ -71,12 +71,18 @@ Contributions are very welcome 😊
 
 ## 🚧 Roadmap
 
-- [ ] Localize home screen queries
+- [ ] Home
+  - [ ] Localize queries
+  - [ ] Season-based recommendations
+  - [ ] Commonly used keywords
 - [ ] Recipes
   - [ ] Add step editing
 - [ ] Shopping
   - [ ] Dialog for shopping list entries
   - [ ] Categories and supermarkets
+  - [ ] Shopping mode
+     - Bigger text and touch targets
+  - [ ] Better layout
 - [ ] Go stable
 
 ## 📜 License & Credits
