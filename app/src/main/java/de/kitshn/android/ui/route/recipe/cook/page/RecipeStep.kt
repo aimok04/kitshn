@@ -111,7 +111,7 @@ fun RouteRecipeCookPageStep(
                     modifier = Modifier
                         .fillMaxSize(),
                     timerName = step.name,
-                    markdown = step.instruction,
+                    markdown = step.instructionsWithTemplating(servingsFactor),
                     fontSize = fontSize
                 )
             }

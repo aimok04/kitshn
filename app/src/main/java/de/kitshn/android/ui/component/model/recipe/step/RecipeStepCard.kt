@@ -134,7 +134,8 @@ fun RecipeStepCard(
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                     .loadingPlaceHolder(loadingState),
                 timerName = stepName,
-                markdown = step?.instruction ?: stringResource(id = R.string.lorem_ipsum_medium)
+                markdown = step?.instructionsWithTemplating(servingsFactor)
+                    ?: stringResource(id = R.string.lorem_ipsum_medium)
             )
         }
 

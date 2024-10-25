@@ -32,4 +32,20 @@ class TandoorIngredient(
         if(unit?.name != null) return unit.name
         return ""
     }
+
+    fun toString(
+        scale: Double
+    ): String {
+        val builder = StringBuilder()
+
+        if(!no_amount && amount > 0.0) builder.append(formatAmount(amount * scale))
+            .append(" ")
+
+        if(!no_amount && unit != null) builder.append(getUnitLabel(amount * scale))
+            .append(" ")
+
+        builder.append(getLabel(amount * scale))
+
+        return builder.toString()
+    }
 }

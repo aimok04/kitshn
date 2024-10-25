@@ -2,8 +2,10 @@ package de.kitshn.android.api.tandoor.model
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import coil.request.ImageRequest
 import de.kitshn.android.api.tandoor.TandoorClient
@@ -13,6 +15,7 @@ import de.kitshn.android.api.tandoor.getInputStream
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.android.api.tandoor.model.recipe.TandoorStepRecipeData
 import de.kitshn.android.api.tandoor.patchObject
+import de.kitshn.android.formatAmount
 import de.kitshn.android.json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -29,6 +32,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
 import java.util.zip.ZipFile
+
 
 @Serializable
 data class TandoorStepFile(
@@ -166,9 +170,32 @@ class TandoorStep(
         }
     }
 
+    @Composable
+    fun instructionsWithTemplating(
+        scale: Double = 1.0
+    ): String {
+        var value by rememberSaveable { mutableStateOf("") }
+        LaunchedEffect(scale) {
+            value =
+                instruction.replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\] *\\}\\}")) { // replaces ingredient templates
+                    val index = it.destructured.component1().toInt()
+                    ingredients.getOrNull(index)?.toString(scale) ?: "Invalid ingredient template"
+                }
+                    .replace(Regex("\\{\\{ *scale\\(((\\d|\\.)+)\\) *\\}\\}")) { // replaces scale templates
+                        val number = it.destructured.component1().toDoubleOrNull()
+
+                        if(number == null) {
+                            "Invalid scale template"
+                        } else {
+                            (number * scale).formatAmount()
+                        }
+                    }.replace(Regex("\\{#.*#\\}"), "") // replaces template comments
+        }
+
+        return value
+    }
+
     override fun toString(): String {
         return "TandoorStep(id=$id, name='$name', instruction='$instruction', ingredientsRaw=$ingredientsRaw, instructions_markdown='$instructions_markdown', time=$time, order=$order, show_as_header=$show_as_header, file=$file, step_recipe=$step_recipe, step_recipe_data=$step_recipe_data, show_ingredients_table=$show_ingredients_table, ingredients=$ingredients, client=$client)"
     }
-
-
 }
