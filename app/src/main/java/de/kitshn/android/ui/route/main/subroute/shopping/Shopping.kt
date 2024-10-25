@@ -61,7 +61,7 @@ import de.kitshn.android.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.android.api.tandoor.model.shopping.TandoorShoppingListEntryRecipeMealplan
 import de.kitshn.android.api.tandoor.rememberTandoorRequestState
 import de.kitshn.android.formatAmount
-import de.kitshn.android.parseTandoorDate
+import de.kitshn.android.parseUtcTandoorDate
 import de.kitshn.android.toHumanReadableDateLabel
 import de.kitshn.android.ui.component.alert.FullSizeAlertPane
 import de.kitshn.android.ui.component.icons.IconWithState
@@ -349,7 +349,7 @@ fun RouteMainSubrouteShopping(
                                                     }
                                                 },
                                                 text = if(mealplan.mealplan != null) {
-                                                    mealplan.mealplan_from_date?.parseTandoorDate()
+                                                    mealplan.mealplan_from_date?.parseUtcTandoorDate()
                                                         ?.toHumanReadableDateLabel() + " — "
                                                 } else {
                                                     ""

@@ -207,6 +207,12 @@ fun String.parseTandoorDate(): LocalDate {
     return LocalDate.parse(this, dateFormatter)
 }
 
+fun String.parseUtcTandoorDate(): LocalDate {
+    return Instant.parse(this)
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate()
+}
+
 fun String.parseIsoTime(): LocalDateTime {
     val timeFormatter = DateTimeFormatter.ISO_DATE_TIME
     return LocalDateTime.parse(this, timeFormatter)
