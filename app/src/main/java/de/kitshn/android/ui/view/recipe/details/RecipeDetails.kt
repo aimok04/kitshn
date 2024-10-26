@@ -41,6 +41,7 @@ import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ListItemDefaults
@@ -100,6 +101,7 @@ import de.kitshn.android.ui.component.icons.FiveStarIconRow
 import de.kitshn.android.ui.component.icons.IconWithState
 import de.kitshn.android.ui.component.model.ingredient.IngredientsList
 import de.kitshn.android.ui.component.model.recipe.RecipeInfoBlob
+import de.kitshn.android.ui.component.model.recipe.RecipePropertiesCard
 import de.kitshn.android.ui.component.model.recipe.step.RecipeStepCard
 import de.kitshn.android.ui.component.model.servings.ServingsSelector
 import de.kitshn.android.ui.dialog.UseShareWrapperDialog
@@ -664,6 +666,27 @@ fun ViewRecipeDetails(
                     index++
                 }
             }
+
+            RecipePropertiesCard(
+                Modifier
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        bottom = 16.dp
+                    )
+                    .fillMaxWidth(),
+                recipe = recipe,
+                servingsFactor = servingsFactor,
+                prependContent = {
+                    HorizontalDivider(
+                        Modifier.padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = 16.dp
+                        )
+                    )
+                }
+            )
 
             if(notEnoughSpace && recipe?.source_url != null) SourceButton()
         }

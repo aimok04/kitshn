@@ -118,6 +118,7 @@
     <string name="common_okay">Okay</string>
     <string name="common_or_upper">ODER</string>
     <string name="common_password">Passwort</string>
+    <string name="common_per_serving">pro Portion</string>
     <plurals name="common_plural_minute" tools:ignore="UnusedQuantity">
         <item quantity="zero">keine Minuten</item>
         <item quantity="one">eine Minute</item>
@@ -135,6 +136,7 @@
     <string name="common_portions">Portionen</string>
     <string name="common_portions_text">Portions-Text</string>
     <string name="common_prepairing">Vorbereitung</string>
+    <string name="common_properties">Eigenschaften</string>
     <string name="common_random">Zufällig</string>
     <string name="common_reachable">Erreichbar</string>
     <string name="common_recipe">Rezept</string>
@@ -156,6 +158,7 @@
     <string name="common_title_image">Titelbild</string>
     <string name="common_today">Heute</string>
     <string name="common_tomorrow">Morgen</string>
+    <string name="common_total">Total</string>
     <string name="common_unknown">Unbekannt</string>
     <string name="common_unknown_meal_type">Unbekannte Mahlzeit</string>
     <string name="common_unknown_recipe">Unbekanntes Rezept</string>

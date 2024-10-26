@@ -118,6 +118,7 @@
     <string name="common_okay">Okay</string>
     <string name="common_or_upper">OR</string>
     <string name="common_password">Password</string>
+    <string name="common_per_serving">per serving</string>
     <plurals name="common_plural_minute">
         <item quantity="zero">no minutes</item>
         <item quantity="one">one minute</item>
@@ -135,6 +136,7 @@
     <string name="common_portions">Servings</string>
     <string name="common_portions_text">Servings-Text</string>
     <string name="common_prepairing">Preparation</string>
+    <string name="common_properties">Properties</string>
     <string name="common_random">Random</string>
     <string name="common_reachable">Reachable</string>
     <string name="common_recipe">Recipe</string>
@@ -156,6 +158,7 @@
     <string name="common_title_image">Cover image</string>
     <string name="common_today">Today</string>
     <string name="common_tomorrow">Tomorrow</string>
+    <string name="common_total">total</string>
     <string name="common_unknown">Unknown</string>
     <string name="common_unknown_meal_type">Unknown meal type</string>
     <string name="common_unknown_recipe">Unknown recipe</string>

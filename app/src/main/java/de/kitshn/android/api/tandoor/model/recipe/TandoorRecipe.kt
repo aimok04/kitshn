@@ -15,6 +15,7 @@ import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.TandoorRequestsError
 import de.kitshn.android.api.tandoor.delete
 import de.kitshn.android.api.tandoor.getObject
+import de.kitshn.android.api.tandoor.model.TandoorFoodProperty
 import de.kitshn.android.api.tandoor.model.TandoorKeyword
 import de.kitshn.android.api.tandoor.model.TandoorStep
 import de.kitshn.android.api.tandoor.patchObject
@@ -27,6 +28,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import org.json.JSONArray
 import org.json.JSONObject
@@ -51,6 +53,9 @@ class TandoorRecipe(
     val source_url: String? = null,
     val internal: Boolean,
     val show_ingredient_overview: Boolean = true,
+    val properties: List<TandoorRecipeProperty>,
+    @SerialName("food_properties")
+    val foodPropertiesRaw: JsonObject,
     val servings: Int,
     // lower or equal than 32 characters
     val servings_text: String,
@@ -69,10 +74,17 @@ class TandoorRecipe(
     @Transient
     var steps = mutableListOf<TandoorStep>()
 
+    @Transient
+    var food_properties = mutableListOf<TandoorFoodProperty>()
+
     init {
         steps = json.decodeFromJsonElement(stepsRaw)
         hideIngredientAllocationWarning =
             keywords.firstOrNull { it.name == KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP } != null
+
+        foodPropertiesRaw.values.forEach {
+            food_properties.add(json.decodeFromJsonElement(it))
+        }
     }
 
     @Transient
@@ -277,6 +289,19 @@ class TandoorRecipe(
         var value by remember { mutableStateOf(showIngredientAllocationActionChipSync()) }
         LaunchedEffect(steps.toList()) { value = showIngredientAllocationActionChipSync() }
         return value
+    }
+
+    fun getRelevantFoodProperties(): List<TandoorFoodProperty> {
+        return food_properties.toMutableList().filter {
+            (it.food_values?.size ?: 0) != 0
+                    && it.total_value > 0.0
+        }
+    }
+
+    fun getRelevantRecipeProperties(): List<TandoorRecipeProperty> {
+        return properties.toMutableList().filter {
+            it.property_amount > 0.0
+        }
     }
 
     companion object {
