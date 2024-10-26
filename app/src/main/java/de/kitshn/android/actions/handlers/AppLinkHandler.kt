@@ -2,8 +2,10 @@ package de.kitshn.android.actions.handlers
 
 import android.content.Intent
 import android.net.Uri
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewModelScope
 import de.kitshn.android.KitshnViewModel
+import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.TandoorCredentials
 import kotlinx.coroutines.delay
@@ -45,9 +47,11 @@ private fun KitshnViewModel.handleAppLinkImpl(
     if(intent.action == Intent.ACTION_VIEW && intent.dataString != null) {
         val data = intent.dataString!!
 
+        val shareWrappingUrl = ContextCompat.getString(context, R.string.share_wrapper_url)
+
         val linkUrl = when {
             data.startsWith("kitshn://") -> data.substring(9)
-            data.startsWith("https://kshli.github.io/#") -> data.substring(25)
+            data.startsWith(shareWrappingUrl) -> data.substring(shareWrappingUrl.length)
             else -> null
         } ?: return false
 
