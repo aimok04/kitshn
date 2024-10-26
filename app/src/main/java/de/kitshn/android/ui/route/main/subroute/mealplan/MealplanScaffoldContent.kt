@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Remove
@@ -60,6 +60,8 @@ fun RouteMainSubrouteMealplanScaffoldContent(
     startDate: LocalDate,
     endDate: LocalDate,
 
+    shownItems: Int = 7,
+
     list: List<TandoorMealPlan>,
 
     pageLoadingState: ErrorLoadingSuccessState,
@@ -95,17 +97,17 @@ fun RouteMainSubrouteMealplanScaffoldContent(
         Modifier.padding(pv),
         loadingState = pageLoadingState
     ) {
-        LazyVerticalStaggeredGrid(
+        LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxSize()
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
-            columns = StaggeredGridCells.Adaptive(250.dp),
-            verticalItemSpacing = 8.dp,
+            columns = GridCells.Adaptive(300.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(16.dp)
         ) {
             item(
-                span = StaggeredGridItemSpan.FullLine
+                span = { GridItemSpan(maxCurrentLineSpan) }
             ) {
                 Row(
                     Modifier.padding(8.dp),
@@ -154,7 +156,16 @@ fun RouteMainSubrouteMealplanScaffoldContent(
                 }
             }
 
-            items(7) { index ->
+            items(
+                count = shownItems,
+                span = { index ->
+                    if((index + 1) == shownItems) {
+                        GridItemSpan(maxCurrentLineSpan)
+                    } else {
+                        GridItemSpan(1)
+                    }
+                }
+            ) { index ->
                 val day = startDate.plusDays(index.toLong())
 
                 Column {

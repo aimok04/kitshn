@@ -55,8 +55,10 @@ fun RouteMainSubrouteMealplan(
     val moveRequestState = rememberTandoorRequestState()
     val deleteRequestState = rememberTandoorRequestState()
 
+    val shownItems = 7
+
     var startDate by rememberSaveable { mutableStateOf(LocalDate.now()) }
-    val endDate = startDate.plusDays(6)
+    val endDate = startDate.plusDays((shownItems - 1).toLong())
 
     val mealPlanList = remember { mutableStateListOf<TandoorMealPlan>() }
     var lastMealPlanUpdate by remember { mutableLongStateOf(0L) }
@@ -67,7 +69,7 @@ fun RouteMainSubrouteMealplan(
         mainFetchRequestState.wrapRequest {
             p.vm.tandoorClient?.mealPlan?.fetch(
                 startDate,
-                startDate.plusDays(7)
+                startDate.plusDays(shownItems.toLong())
             )?.let {
                 pageLoadingState = ErrorLoadingSuccessState.SUCCESS
 
@@ -101,6 +103,7 @@ fun RouteMainSubrouteMealplan(
                 startDate = startDate,
                 endDate = endDate,
                 list = mealPlanList,
+                shownItems = shownItems,
                 pageLoadingState = pageLoadingState,
                 selectionModeState = selectionModeState,
                 detailsDialogState = detailsDialogState,
