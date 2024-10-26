@@ -1,8 +1,11 @@
 package de.kitshn.android.ui.view.recipe.details
 
 import android.content.Intent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -340,6 +343,8 @@ fun ViewRecipeDetails(
         }
     }
 
+    val scrollState = rememberScrollState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -411,15 +416,24 @@ fun ViewRecipeDetails(
             )
         },
         floatingActionButton = {
-            if(!hideFab) FloatingActionButton(
-                onClick = {
-                    p.vm.navHostController?.navigate("recipe/${recipeOverview.id}/cook/${servingsValue}")
-                }
+            if(hideFab) return@Scaffold
+
+            // hide FAB when reaching bottom for legibility
+            AnimatedVisibility(
+                visible = scrollState.value < (scrollState.maxValue - 300),
+                enter = fadeIn(),
+                exit = fadeOut()
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.LocalDining,
-                    contentDescription = stringResource(R.string.action_start_cooking)
-                )
+                FloatingActionButton(
+                    onClick = {
+                        p.vm.navHostController?.navigate("recipe/${recipeOverview.id}/cook/${servingsValue}")
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.LocalDining,
+                        contentDescription = stringResource(R.string.action_start_cooking)
+                    )
+                }
             }
         },
         containerColor = MaterialTheme.colorScheme.background
@@ -432,7 +446,7 @@ fun ViewRecipeDetails(
                 .padding(
                     bottom = pv.calculateBottomPadding()
                 )
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
         ) {
             var notEnoughSpace by remember { mutableStateOf(false) }
 
