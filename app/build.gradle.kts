@@ -25,8 +25,8 @@ android {
         applicationId = "de.kitshn.android"
         minSdk = 24
         targetSdk = 35
-        versionCode = 110
-        versionName = "1.0.0-alpha.10"
+        versionCode = 1101
+        versionName = "1.0.0-alpha.10.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

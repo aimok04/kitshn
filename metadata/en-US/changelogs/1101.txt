@@ -1,0 +1,13 @@
+Hotfix
+- fix(dialog): ugly layout/animations in fullscreen dialog
+
+Changes for v1.0.0-alpha.10
+- feat(recipes): added templating support for step instructions (#25)
+- feat(recipes): added properties card (#24)
+- feat(mealplan): improved ui for tablets/foldables
+- feat(dialog): improved adaptive fullscreen dialog size
+- feat(recipes): hiding FAB when reaching bottom for legibility
+- fix(recipes): prevent truncated ingredient text
+- fix(share): replaced hard coded url (resolved #22)
+- chore(libs): version bumps
+- multiple bug fixes
