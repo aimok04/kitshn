@@ -186,11 +186,13 @@ fun RouteRecipeCookPageStep(
 
                 InstructionText(maxHeightPx, false)
             } else {
+                var disableSideBySideLayout by remember { mutableStateOf(false) }
+
                 ResponsiveSideBySideLayout(
                     rightMinWidth = 300.dp,
                     rightMaxWidth = 300.dp,
                     leftMinWidth = 300.dp,
-                    disable = maxHeight > 800.dp,
+                    disable = maxHeight > 800.dp || disableSideBySideLayout,
                     leftLayout = {
                         InstructionText(
                             if(it) (maxHeightPx / 2.5f).roundToInt() else maxHeightPx,
@@ -221,7 +223,10 @@ fun RouteRecipeCookPageStep(
                                     factor = servingsFactor,
                                     colors = ListItemDefaults.colors(
                                         containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                                    )
+                                    ),
+                                    onNotEnoughSpace = {
+                                        disableSideBySideLayout = true
+                                    }
                                 )
                             }
                         }

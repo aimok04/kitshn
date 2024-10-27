@@ -461,10 +461,13 @@ fun ViewRecipeDetails(
                 )
             }
 
+            var disableSideBySideLayout by remember { mutableStateOf(false) }
+
             ResponsiveSideBySideLayout(
                 rightMinWidth = 300.dp,
                 rightMaxWidth = 500.dp,
                 leftMinWidth = 300.dp,
+                disable = disableSideBySideLayout,
                 leftLayout = { enoughSpace ->
                     notEnoughSpace = !enoughSpace
 
@@ -635,7 +638,10 @@ fun ViewRecipeDetails(
                                 loadingState = pageLoadingState,
                                 colors = ListItemDefaults.colors(
                                     containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                                )
+                                ),
+                                onNotEnoughSpace = {
+                                    disableSideBySideLayout = true
+                                }
                             )
                         }
                     }

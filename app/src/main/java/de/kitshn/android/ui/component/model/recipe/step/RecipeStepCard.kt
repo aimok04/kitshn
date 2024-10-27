@@ -148,10 +148,13 @@ fun RecipeStepCard(
             )
 
             if(showIngredientsTable && step != null) {
+                var disableSideBySideLayout by remember { mutableStateOf(false) }
+
                 ResponsiveSideBySideLayout(
                     rightMinWidth = 300.dp,
                     rightMaxWidth = 500.dp,
                     leftMinWidth = 300.dp,
+                    disable = disableSideBySideLayout,
                     leftLayout = {
                         Instructions()
                     }
@@ -164,7 +167,10 @@ fun RecipeStepCard(
                             factor = servingsFactor,
                             colors = ListItemDefaults.colors(
                                 containerColor = colors.containerColor
-                            )
+                            ),
+                            onNotEnoughSpace = {
+                                disableSideBySideLayout = true
+                            }
                         )
                     }
                 }

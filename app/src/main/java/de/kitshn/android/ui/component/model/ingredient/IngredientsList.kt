@@ -1,5 +1,6 @@
 package de.kitshn.android.ui.component.model.ingredient
 
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItemColors
@@ -26,7 +27,9 @@ fun IngredientsList(
 
     factor: Double = 1.0,
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
-    colors: ListItemColors = ListItemDefaults.colors()
+    colors: ListItemColors = ListItemDefaults.colors(),
+
+    onNotEnoughSpace: () -> Unit
 ) {
     val density = LocalDensity.current
 
@@ -61,42 +64,47 @@ fun IngredientsList(
         minUnitWidth += 8.dp
     }
 
-    Column {
-        if(loadingState == ErrorLoadingSuccessState.LOADING) {
-            repeat(10) {
-                if(it != 0) HorizontalDivider()
+    BoxWithConstraints {
+        // try to gain more space when amount and unit fields are to wide
+        if(maxWidth - minAmountWidth - minUnitWidth < 150.dp) onNotEnoughSpace()
 
-                IngredientItem(
-                    ingredient = null,
-                    servingsFactor = factor,
+        Column {
+            if(loadingState == ErrorLoadingSuccessState.LOADING) {
+                repeat(10) {
+                    if(it != 0) HorizontalDivider()
 
-                    colors = colors,
+                    IngredientItem(
+                        ingredient = null,
+                        servingsFactor = factor,
 
-                    minAmountWidth = minAmountWidth,
-                    minUnitWidth = minUnitWidth,
+                        colors = colors,
 
-                    loadingState = loadingState
-                )
-            }
-        } else {
-            repeat(list.size) {
-                if(it != 0) HorizontalDivider()
+                        minAmountWidth = minAmountWidth,
+                        minUnitWidth = minUnitWidth,
 
-                val ingredient = list[it]
-                IngredientItem(
-                    modifier = itemModifier(ingredient),
-                    trailingContent = { itemTrailingContent(ingredient) },
+                        loadingState = loadingState
+                    )
+                }
+            } else {
+                repeat(list.size) {
+                    if(it != 0) HorizontalDivider()
 
-                    ingredient = ingredient,
-                    servingsFactor = factor,
+                    val ingredient = list[it]
+                    IngredientItem(
+                        modifier = itemModifier(ingredient),
+                        trailingContent = { itemTrailingContent(ingredient) },
 
-                    colors = colors,
+                        ingredient = ingredient,
+                        servingsFactor = factor,
 
-                    minAmountWidth = minAmountWidth,
-                    minUnitWidth = minUnitWidth,
+                        colors = colors,
 
-                    loadingState = loadingState
-                )
+                        minAmountWidth = minAmountWidth,
+                        minUnitWidth = minUnitWidth,
+
+                        loadingState = loadingState
+                    )
+                }
             }
         }
     }

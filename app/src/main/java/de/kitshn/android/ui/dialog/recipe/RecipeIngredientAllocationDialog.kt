@@ -323,10 +323,13 @@ fun RecipeIngredientAllocationDialog(
                     step = step
                 )
 
+                var disableSideBySideLayout by remember { mutableStateOf(false) }
+
                 ResponsiveSideBySideLayout(
                     rightMinWidth = 300.dp,
                     rightMaxWidth = 500.dp,
                     leftMinWidth = 300.dp,
+                    disable = disableSideBySideLayout,
                     leftLayout = {
                         Row(
                             Modifier.fillMaxWidth(),
@@ -399,7 +402,10 @@ fun RecipeIngredientAllocationDialog(
                             factor = 1.0,
                             colors = ListItemDefaults.colors(
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
-                            )
+                            ),
+                            onNotEnoughSpace = {
+                                disableSideBySideLayout = true
+                            }
                         )
                     }
                 }
