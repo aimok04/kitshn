@@ -112,7 +112,7 @@ fun AdaptiveFullscreenDialog(
     Dialog(
         onDismissRequest = { dismiss() },
         properties = DialogProperties(
-            usePlatformDefaultWidth = true,
+            usePlatformDefaultWidth = false,
             decorFitsSystemWindows = false
         )
     ) {
@@ -163,14 +163,14 @@ fun AdaptiveFullscreenDialog(
                         max = if(fullscreenDialog) {
                             Dp.Unspecified
                         } else {
-                            600.dp
+                            900.dp
                         }
                     )
                     .run {
                         if(fullscreenDialog) {
                             this.fillMaxSize()
                         } else {
-                            this.padding(16.dp)
+                            this.padding(40.dp)
                         }
                     },
                 color = containerColor,
