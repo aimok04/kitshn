@@ -112,7 +112,7 @@ fun AdaptiveFullscreenDialog(
     Dialog(
         onDismissRequest = { dismiss() },
         properties = DialogProperties(
-            usePlatformDefaultWidth = false,
+            usePlatformDefaultWidth = fullscreenDialog,
             decorFitsSystemWindows = false
         )
     ) {
