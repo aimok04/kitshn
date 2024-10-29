@@ -196,7 +196,7 @@ fun RecipePropertiesCard(
                             )
 
                             TableTextBox(
-                                text = it.unit,
+                                text = it.unit ?: "",
                                 weight = 0.15f,
                                 contentAlignment = Alignment.CenterStart
                             )
@@ -229,7 +229,7 @@ fun RecipePropertiesCard(
                             )
 
                             TableTextBox(
-                                text = it.property_type.unit,
+                                text = it.property_type.unit ?: "",
                                 weight = 0.15f,
                                 contentAlignment = Alignment.CenterStart
                             )

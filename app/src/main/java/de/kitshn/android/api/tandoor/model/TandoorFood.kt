@@ -22,8 +22,8 @@ data class TandoorFood(
 data class TandoorFoodProperty(
     val id: Long,
     val name: String = "",
-    val description: String = "",
-    val unit: String = "",
+    val description: String? = "",
+    val unit: String? = "",
     val order: Long = 0L,
     val food_values: JsonObject? = null,
     val total_value: Double = 0.0,

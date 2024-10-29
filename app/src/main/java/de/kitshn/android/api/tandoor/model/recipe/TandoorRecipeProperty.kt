@@ -13,7 +13,7 @@ data class TandoorRecipeProperty(
 data class TandoorRecipePropertyType(
     val id: Long,
     val name: String,
-    val unit: String = "",
-    val description: String = "",
+    val unit: String? = "",
+    val description: String? = "",
     val order: Long = 0L
 )
