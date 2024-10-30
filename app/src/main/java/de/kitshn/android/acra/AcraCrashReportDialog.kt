@@ -1,9 +1,13 @@
 package de.kitshn.android.acra
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
+import android.provider.MediaStore
 import android.view.View
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -11,6 +15,9 @@ import de.kitshn.android.R
 import org.acra.dialog.CrashReportDialog
 import org.acra.dialog.CrashReportDialogHelper
 import org.json.JSONObject
+import java.io.OutputStreamWriter
+import java.time.LocalDateTime
+
 
 class AcraCrashReportDialog : CrashReportDialog() {
 
@@ -77,6 +84,7 @@ class AcraCrashReportDialog : CrashReportDialog() {
         this.doNotFinish = true
 
         val reportString = JSONObject(this.myHelper.reportData.toJSON()).toString(4)
+        var showBaseDialogOnDismiss = true
 
         val dialog = MaterialAlertDialogBuilder(this)
             .setIcon(R.drawable.rounded_data_object_24)
@@ -85,9 +93,36 @@ class AcraCrashReportDialog : CrashReportDialog() {
             .setPositiveButton(getString(R.string.action_back)) { dialog, _ ->
                 dialog.dismiss()
             }
+            .setNeutralButton(getString(R.string.action_download)) { dialog, _ ->
+                val displayName = "kitshn_report_" + LocalDateTime.now().toString() + ".json"
+
+                val contentValues = ContentValues().apply {
+                    put(
+                        MediaStore.MediaColumns.DISPLAY_NAME,
+                        "kitshn_report_" + LocalDateTime.now().toString() + ".json"
+                    )
+                    put(MediaStore.MediaColumns.MIME_TYPE, "application/json")
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+                }
+
+                val uri =
+                    contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+                if(uri != null) {
+                    contentResolver.openOutputStream(uri).use { out ->
+                        OutputStreamWriter(out, "UTF-8").use { w ->
+                            w.write(reportString)
+                        }
+                    }
+                }
+
+                Toast.makeText(this, "Download/$displayName", Toast.LENGTH_LONG).show()
+
+                showBaseDialogOnDismiss = false
+                dialog.dismiss()
+            }
             .create()
 
-        dialog.setOnDismissListener { showBaseDialog() }
+        dialog.setOnDismissListener { if(showBaseDialogOnDismiss) showBaseDialog() }
         dialog.show()
     }
 
