@@ -3,6 +3,7 @@ package de.kitshn.android.ui.route.main.subroute.settings
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Cloud
 import androidx.compose.material.icons.rounded.DeveloperBoard
 import androidx.compose.material.icons.rounded.Info
@@ -10,6 +11,8 @@ import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -35,6 +38,7 @@ import de.kitshn.android.ui.view.settings.ViewSettingsAppearance
 import de.kitshn.android.ui.view.settings.ViewSettingsBehavior
 import de.kitshn.android.ui.view.settings.ViewSettingsDebug
 import de.kitshn.android.ui.view.settings.ViewSettingsServer
+import org.acra.ACRA
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -96,6 +100,15 @@ fun RouteMainSubrouteSettings(
             TopAppBar(
                 title = { Text(stringResource(R.string.navigation_settings)) },
                 colors = it,
+                actions = {
+                    IconButton(
+                        onClick = {
+                            ACRA.errorReporter.handleException(null)
+                        }
+                    ) {
+                        Icon(Icons.Rounded.BugReport, stringResource(R.string.common_error_report))
+                    }
+                },
                 scrollBehavior = scrollBehavior
             )
         },
