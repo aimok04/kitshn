@@ -30,6 +30,8 @@ fun IngredientItem(
     minAmountWidth: Dp = 0.dp,
     minUnitWidth: Dp = 0.dp,
 
+    showFractionalValues: Boolean,
+
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS
 ) {
     val amount = (ingredient?.amount ?: 1.0) * servingsFactor
@@ -50,7 +52,7 @@ fun IngredientItem(
                         .widthIn(minAmountWidth)
                 ) {
                     if(!ingredient.no_amount && amount > 0.0) Text(
-                        text = ingredient.formatAmount(amount)
+                        text = ingredient.formatAmount(amount, fractional = showFractionalValues)
                     )
 
                     Spacer(Modifier.width(8.dp))

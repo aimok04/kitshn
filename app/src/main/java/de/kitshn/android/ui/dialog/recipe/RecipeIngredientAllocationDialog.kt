@@ -108,6 +108,7 @@ class RecipeIngredientAllocationDialogState(
 @Composable
 fun RecipeIngredientAllocationDialog(
     state: RecipeIngredientAllocationDialogState,
+    showFractionalValues: Boolean,
     onRefresh: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -403,6 +404,7 @@ fun RecipeIngredientAllocationDialog(
                             colors = ListItemDefaults.colors(
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
                             ),
+                            showFractionalValues = showFractionalValues,
                             onNotEnoughSpace = {
                                 disableSideBySideLayout = true
                             }

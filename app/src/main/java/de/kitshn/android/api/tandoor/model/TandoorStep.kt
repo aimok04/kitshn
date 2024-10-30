@@ -172,7 +172,8 @@ class TandoorStep(
 
     @Composable
     fun instructionsWithTemplating(
-        scale: Double = 1.0
+        scale: Double = 1.0,
+        fractional: Boolean = true
     ): String {
         var value by rememberSaveable { mutableStateOf("") }
         LaunchedEffect(scale) {
@@ -187,7 +188,7 @@ class TandoorStep(
                         if(number == null) {
                             "Invalid scale template"
                         } else {
-                            (number * scale).formatAmount()
+                            (number * scale).formatAmount(fractional)
                         }
                     }.replace(Regex("\\{#.*#\\}"), "") // replaces template comments
         }

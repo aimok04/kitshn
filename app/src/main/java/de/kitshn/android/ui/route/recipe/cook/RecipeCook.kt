@@ -14,6 +14,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -52,6 +53,9 @@ fun RouteRecipeCook(
         p.onBack?.let { it() }
         return
     }
+
+    val ingredientsShowFractionalValues =
+        p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
 
     var recipe by remember { mutableStateOf<TandoorRecipe?>(null) }
     LaunchedEffect(recipeId) {
@@ -127,7 +131,8 @@ fun RouteRecipeCook(
                         vm = p.vm,
                         recipe = recipe!!,
                         step = step,
-                        servingsFactor = servingsFactor
+                        servingsFactor = servingsFactor,
+                        showFractionalValues = ingredientsShowFractionalValues.value
                     )
                 }
             }

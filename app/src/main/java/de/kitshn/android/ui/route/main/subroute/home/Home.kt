@@ -25,6 +25,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
@@ -284,10 +285,14 @@ fun RouteMainSubrouteHome(
     )
 
     if(p.vm.tandoorClient != null) {
+        val ingredientsShowFractionalValues =
+            p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
+
         RecipeCreationAndEditDialog(
             client = p.vm.tandoorClient!!,
             creationState = recipeCreationDialogState,
             editState = recipeEditDialogState,
+            showFractionalValues = ingredientsShowFractionalValues.value,
             onRefresh = { },
             onViewRecipe = { p.vm.viewRecipe(it.id) }
         )

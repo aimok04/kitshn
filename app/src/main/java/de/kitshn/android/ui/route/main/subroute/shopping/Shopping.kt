@@ -37,6 +37,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
@@ -83,6 +84,9 @@ fun RouteMainSubrouteShopping(
     p: RouteParameters
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+
+    val ingredientsShowFractionalValues =
+        p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
 
     val focusManager = LocalFocusManager.current
     val coroutineScope = rememberCoroutineScope()
@@ -309,7 +313,7 @@ fun RouteMainSubrouteShopping(
                                         val sharedAmount = entryList.sumOf { it.amount }
                                         val sharedUnit = entryList[0].unit
 
-                                        sharedAmount.formatAmount() + " " + (sharedUnit?.name?.let { "$it " }
+                                        sharedAmount.formatAmount(ingredientsShowFractionalValues.value) + " " + (sharedUnit?.name?.let { "$it " }
                                             ?: "")
                                     }
                             )

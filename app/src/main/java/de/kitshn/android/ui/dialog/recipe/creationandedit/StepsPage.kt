@@ -53,7 +53,8 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 fun StepsPage(
     selectionState: SelectionModeState<Int>,
     recipe: TandoorRecipe?,
-    values: RecipeCreationAndEditDialogValue
+    values: RecipeCreationAndEditDialogValue,
+    showFractionalValues: Boolean
 ) {
     val hapticFeedback = LocalHapticFeedback.current
 
@@ -175,6 +176,7 @@ fun StepsPage(
                                     }
                                 }
                             },
+                            showFractionalValues = showFractionalValues,
                             onClickRecipeLink = { }
                         )
                     }

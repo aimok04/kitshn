@@ -62,7 +62,8 @@ fun RouteRecipeCookPageStep(
     vm: KitshnViewModel,
     recipe: TandoorRecipe,
     step: TandoorStep,
-    servingsFactor: Double
+    servingsFactor: Double,
+    showFractionalValues: Boolean
 ) {
     val context = LocalContext.current
 
@@ -111,7 +112,10 @@ fun RouteRecipeCookPageStep(
                     modifier = Modifier
                         .fillMaxSize(),
                     timerName = step.name,
-                    markdown = step.instructionsWithTemplating(servingsFactor),
+                    markdown = step.instructionsWithTemplating(
+                        servingsFactor,
+                        showFractionalValues
+                    ),
                     fontSize = fontSize
                 )
             }
@@ -226,7 +230,8 @@ fun RouteRecipeCookPageStep(
                                     ),
                                     onNotEnoughSpace = {
                                         disableSideBySideLayout = true
-                                    }
+                                    },
+                                    showFractionalValues = showFractionalValues
                                 )
                             }
                         }

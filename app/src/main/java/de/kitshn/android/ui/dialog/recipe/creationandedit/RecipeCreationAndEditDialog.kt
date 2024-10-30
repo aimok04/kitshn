@@ -189,6 +189,7 @@ fun RecipeCreationAndEditDialog(
     client: TandoorClient,
     creationState: RecipeCreationDialogState? = null,
     editState: RecipeEditDialogState? = null,
+    showFractionalValues: Boolean,
     onRefresh: () -> Unit,
     onViewRecipe: (recipe: TandoorRecipe) -> Unit = { }
 ) {
@@ -232,7 +233,8 @@ fun RecipeCreationAndEditDialog(
             StepsPage(
                 selectionState = stepsSelectionModeState,
                 recipe = editState?.recipe ?: creationState?.recipe,
-                values = values
+                values = values,
+                showFractionalValues = showFractionalValues
             )
         },
         { KeywordsPage(client = client, values = values) }

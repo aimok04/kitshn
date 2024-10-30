@@ -25,6 +25,10 @@ val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN =
     stringPreferencesKey("behavior_use_share_wrapper_hint_shown_str")
 val KEY_SETTINGS_BEHAVIOR_HIDE_INGREDIENT_ALLOCATION_ACTION_CHIPS =
     booleanPreferencesKey("behavior_hide_ingredient_allocation_action_chips")
+val KEY_SETTINGS_BEHAVIOR_INGREDIENTS_SHOW_FRACTIONAL_VALUES =
+    booleanPreferencesKey("behavior_ingredients_show_fractional_values")
+val KEY_SETTINGS_BEHAVIOR_PROPERTIES_SHOW_FRACTIONAL_VALUES =
+    booleanPreferencesKey("behavior_properties_show_fractional_values")
 
 val KEY_SETTINGS_ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
 val KEY_SETTINGS_TANDOOR_CREDENTIALS = stringPreferencesKey("tandoor_credentials")
@@ -113,6 +117,24 @@ class SettingsViewModel(
 
     suspend fun setHideIngredientAllocationActionChips(hide: Boolean) = context.dataStore.edit {
         it[KEY_SETTINGS_BEHAVIOR_HIDE_INGREDIENT_ALLOCATION_ACTION_CHIPS] = hide
+    }
+
+    val getIngredientsShowFractionalValues: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[KEY_SETTINGS_BEHAVIOR_INGREDIENTS_SHOW_FRACTIONAL_VALUES] ?: true
+        }
+
+    suspend fun setIngredientsShowFractionalValues(show: Boolean) = context.dataStore.edit {
+        it[KEY_SETTINGS_BEHAVIOR_INGREDIENTS_SHOW_FRACTIONAL_VALUES] = show
+    }
+
+    val getPropertiesShowFractionalValues: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[KEY_SETTINGS_BEHAVIOR_PROPERTIES_SHOW_FRACTIONAL_VALUES] ?: true
+        }
+
+    suspend fun setPropertiesShowFractionalValues(show: Boolean) = context.dataStore.edit {
+        it[KEY_SETTINGS_BEHAVIOR_PROPERTIES_SHOW_FRACTIONAL_VALUES] = show
     }
 
 }

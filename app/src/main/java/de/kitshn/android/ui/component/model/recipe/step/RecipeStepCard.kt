@@ -55,6 +55,7 @@ fun RecipeStepCard(
     servingsFactor: Double,
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
     appendAction: @Composable () -> Unit = {},
+    showFractionalValues: Boolean,
     onClickRecipeLink: (recipe: TandoorRecipe) -> Unit
 ) {
     val context = LocalContext.current
@@ -134,7 +135,7 @@ fun RecipeStepCard(
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                     .loadingPlaceHolder(loadingState),
                 timerName = stepName,
-                markdown = step?.instructionsWithTemplating(servingsFactor)
+                markdown = step?.instructionsWithTemplating(servingsFactor, showFractionalValues)
                     ?: stringResource(id = R.string.lorem_ipsum_medium)
             )
         }
@@ -170,7 +171,8 @@ fun RecipeStepCard(
                             ),
                             onNotEnoughSpace = {
                                 disableSideBySideLayout = true
-                            }
+                            },
+                            showFractionalValues = showFractionalValues
                         )
                     }
                 }

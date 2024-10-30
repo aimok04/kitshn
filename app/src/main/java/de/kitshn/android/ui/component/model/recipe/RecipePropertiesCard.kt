@@ -51,6 +51,7 @@ fun RecipePropertiesCard(
     colors: CardColors = CardDefaults.cardColors(),
     recipe: TandoorRecipe? = null,
     servingsFactor: Double? = 1.0,
+    showFractionalValues: Boolean,
     prependContent: @Composable () -> Unit = { }
 ) {
     if(recipe == null) return
@@ -184,13 +185,17 @@ fun RecipePropertiesCard(
                             )
 
                             TableTextBox(
-                                text = (it.total_value / recipe.servings).formatAmount()
+                                text = (it.total_value / recipe.servings).formatAmount(
+                                    showFractionalValues
+                                )
                                     .ifBlank { "—" },
                                 weight = 0.3f
                             )
 
                             TableTextBox(
-                                text = (it.total_value * (servingsFactor ?: 1.0)).formatAmount()
+                                text = (it.total_value * (servingsFactor ?: 1.0)).formatAmount(
+                                    showFractionalValues
+                                )
                                     .ifBlank { "—" },
                                 weight = 0.15f
                             )
@@ -216,14 +221,14 @@ fun RecipePropertiesCard(
                             )
 
                             TableTextBox(
-                                text = (it.property_amount).formatAmount()
+                                text = (it.property_amount).formatAmount(showFractionalValues)
                                     .ifBlank { "—" },
                                 weight = 0.3f
                             )
 
                             TableTextBox(
                                 text = (it.property_amount * (servingsFactor
-                                    ?: 1.0) * recipe.servings).formatAmount()
+                                    ?: 1.0) * recipe.servings).formatAmount(showFractionalValues)
                                     .ifBlank { "—" },
                                 weight = 0.15f
                             )

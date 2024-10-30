@@ -17,8 +17,8 @@ class TandoorIngredient(
     val always_use_plural_unit: Boolean,
     val always_use_plural_food: Boolean
 ) {
-    fun formatAmount(amount: Double = this.amount): String {
-        return amount.formatAmount()
+    fun formatAmount(amount: Double = this.amount, fractional: Boolean = true): String {
+        return amount.formatAmount(fractional)
     }
 
     fun getLabel(amount: Double = this.amount): String {

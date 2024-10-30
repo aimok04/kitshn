@@ -29,6 +29,8 @@ fun IngredientsList(
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
     colors: ListItemColors = ListItemDefaults.colors(),
 
+    showFractionalValues: Boolean,
+
     onNotEnoughSpace: () -> Unit
 ) {
     val density = LocalDensity.current
@@ -46,7 +48,14 @@ fun IngredientsList(
 
             if(!ingredient.no_amount && ingredient.amount > 0.0) {
                 val widthDp =
-                    with(density) { textMeasure.measure(ingredient.formatAmount(amount)).size.width.toDp() }
+                    with(density) {
+                        textMeasure.measure(
+                            ingredient.formatAmount(
+                                amount,
+                                showFractionalValues
+                            )
+                        ).size.width.toDp()
+                    }
                 if(widthDp > minAmountWidth) minAmountWidth = widthDp
             }
 
@@ -82,6 +91,8 @@ fun IngredientsList(
                         minAmountWidth = minAmountWidth,
                         minUnitWidth = minUnitWidth,
 
+                        showFractionalValues = showFractionalValues,
+
                         loadingState = loadingState
                     )
                 }
@@ -101,6 +112,8 @@ fun IngredientsList(
 
                         minAmountWidth = minAmountWidth,
                         minUnitWidth = minUnitWidth,
+
+                        showFractionalValues = showFractionalValues,
 
                         loadingState = loadingState
                     )

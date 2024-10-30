@@ -294,7 +294,11 @@
     <string name="settings_section_behavior_description">Change kitshn\'s behavior</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_description">Hide all “Unallocated ingredients” warnings</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_label">Ignore unallocated ingredients</string>
+    <string name="settings_section_behavior_ingredients_show_fractional_values_description">Might be easier to read but also less accurate</string>
+    <string name="settings_section_behavior_ingredients_show_fractional_values_label">Fractional values for ingredients</string>
     <string name="settings_section_behavior_label">Behavior</string>
+    <string name="settings_section_behavior_properties_show_fractional_values_description">Might be easier to read but also less accurate</string>
+    <string name="settings_section_behavior_properties_show_fractional_values_label">Fractional values for custom properties</string>
     <string name="settings_section_behavior_use_share_wrapper_description">Makes shared Tandoor links openable in this app</string>
     <string name="settings_section_behavior_use_share_wrapper_label">Share wrapper</string>
     <string name="settings_section_server_description">Information about your instance</string>

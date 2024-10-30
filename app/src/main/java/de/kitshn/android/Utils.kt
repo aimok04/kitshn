@@ -34,6 +34,7 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.JsonTransformingSerializer
 import kotlinx.serialization.json.internal.FormatLanguage
 import kotlinx.serialization.json.jsonPrimitive
+import java.text.NumberFormat
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -87,12 +88,16 @@ fun formatDecimalToFraction(decimal: Double): String {
     return ""
 }
 
-fun Double.formatAmount(): String {
-    val int = floor(this).toInt()
-    val decimal = this - int
+fun Double.formatAmount(fractional: Boolean = true): String {
+    if(fractional) {
+        val int = floor(this).toInt()
+        val decimal = this - int
 
-    val value = if(int == 0) "" else "$int "
-    return "$value${formatDecimalToFraction(decimal)}"
+        val value = if(int == 0) "" else "$int "
+        return "$value${formatDecimalToFraction(decimal)}"
+    } else {
+        return NumberFormat.getNumberInstance().format(this)
+    }
 }
 
 fun Context.launchCustomTabs(url: String) {

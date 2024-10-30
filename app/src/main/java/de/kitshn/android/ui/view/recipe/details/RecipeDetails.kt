@@ -158,8 +158,13 @@ fun ViewRecipeDetails(
 
     val coroutineScope = rememberCoroutineScope()
 
+    // settings
     val hideIngredientAllocationActionChips =
         p.vm.settings.getHideIngredientAllocationActionChips.collectAsState(initial = false)
+    val ingredientsShowFractionalValues =
+        p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
+    val propertiesShowFractionalValues =
+        p.vm.settings.getPropertiesShowFractionalValues.collectAsState(initial = true)
 
     var pageLoadingState by rememberErrorLoadingSuccessState()
 
@@ -639,6 +644,7 @@ fun ViewRecipeDetails(
                                 colors = ListItemDefaults.colors(
                                     containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                                 ),
+                                showFractionalValues = ingredientsShowFractionalValues.value,
                                 onNotEnoughSpace = {
                                     disableSideBySideLayout = true
                                 }
@@ -659,7 +665,8 @@ fun ViewRecipeDetails(
                             )
                             .fillMaxWidth(),
                         loadingState = pageLoadingState,
-                        servingsFactor = servingsFactor
+                        servingsFactor = servingsFactor,
+                        showFractionalValues = ingredientsShowFractionalValues.value
                     ) { }
                 }
             } else {
@@ -677,7 +684,8 @@ fun ViewRecipeDetails(
                         step = step,
                         stepIndex = index,
                         hideIngredients = step.ingredients.size == sortedIngredientsList.size,
-                        servingsFactor = servingsFactor
+                        servingsFactor = servingsFactor,
+                        showFractionalValues = ingredientsShowFractionalValues.value
                     ) { recipe ->
                         // show recipe link bottom sheet
                         recipeLinkDialogState.open(recipe.toOverview())
@@ -705,7 +713,8 @@ fun ViewRecipeDetails(
                             bottom = 16.dp
                         )
                     )
-                }
+                },
+                showFractionalValues = propertiesShowFractionalValues.value
             )
 
             if(notEnoughSpace && recipe?.source_url != null) SourceButton()
@@ -724,7 +733,8 @@ fun ViewRecipeDetails(
     }
 
     RecipeIngredientAllocationDialog(
-        state = recipeIngredientAllocationDialogState
+        state = recipeIngredientAllocationDialogState,
+        showFractionalValues = ingredientsShowFractionalValues.value
     ) {
         // refresh recipe after ingredient allocation
         coroutineScope.launch {
@@ -741,6 +751,7 @@ fun ViewRecipeDetails(
     if(p.vm.tandoorClient != null) {
         RecipeCreationAndEditDialog(
             client = p.vm.tandoorClient!!,
+            showFractionalValues = ingredientsShowFractionalValues.value,
             editState = recipeEditDialogState,
             onRefresh = {
                 // refresh recipe after edit
