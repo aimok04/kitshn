@@ -1,0 +1,4 @@
+- feat(behavior): added toggles for showing fractional values (#24)
+- feat(settings): added bug report button
+- feat(acra): added download button
+- chore(api): marked v1.5.20 as compatible
