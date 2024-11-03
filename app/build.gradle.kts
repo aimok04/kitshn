@@ -67,6 +67,14 @@ android {
         excludeFields = arrayOf("generated")
     }
 
+    signingConfigs {
+        create("nightly") {
+            storeFile = file("keystore.jks")
+            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+        }
+    }
     buildTypes {
         debug {
             manifestPlaceholders["appIcon"] = "@mipmap/ic_debug_launcher"
@@ -80,6 +88,8 @@ android {
 
             applicationIdSuffix = ".nightly"
             versionNameSuffix = "-nightly-$date"
+
+            signingConfig = signingConfigs["nightly"]
         }
         release {
             manifestPlaceholders["appIcon"] = "@mipmap/ic_launcher"
@@ -93,6 +103,7 @@ android {
             )
         }
     }
+
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
 
