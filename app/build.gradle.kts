@@ -1,4 +1,5 @@
 import java.io.FileInputStream
+import java.time.LocalDate
 import java.util.Properties
 
 plugins {
@@ -12,6 +13,8 @@ plugins {
 val prop = Properties().apply {
     load(FileInputStream(File(rootProject.rootDir, "kitshn.properties")))
 }
+
+val date = LocalDate.now().toString()
 
 android {
     namespace = "de.kitshn.android"
@@ -70,6 +73,13 @@ android {
             manifestPlaceholders["appIconRound"] = "@mipmap/ic_debug_launcher_round"
 
             applicationIdSuffix = ".debug"
+        }
+        create("nightly") {
+            manifestPlaceholders["appIcon"] = "@mipmap/ic_nightly_launcher"
+            manifestPlaceholders["appIconRound"] = "@mipmap/ic_nightly_launcher_round"
+
+            applicationIdSuffix = ".nightly"
+            versionNameSuffix = "-nightly-$date"
         }
         release {
             manifestPlaceholders["appIcon"] = "@mipmap/ic_launcher"

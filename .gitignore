@@ -16,3 +16,4 @@ local.properties
 
 /app/release
 /app/debug
+/app/nightly
