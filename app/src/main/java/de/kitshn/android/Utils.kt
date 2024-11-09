@@ -96,7 +96,9 @@ fun Double.formatAmount(fractional: Boolean = true): String {
         val value = if(int == 0) "" else "$int "
         return "$value${formatDecimalToFraction(decimal)}"
     } else {
-        return NumberFormat.getNumberInstance().format(this)
+        return NumberFormat.getNumberInstance().apply {
+            maximumFractionDigits = 2
+        }.format(this)
     }
 }
 
