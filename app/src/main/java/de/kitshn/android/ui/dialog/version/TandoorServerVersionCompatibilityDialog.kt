@@ -56,10 +56,10 @@ fun TandoorServerVersionCompatibilityDialog(
     var mShown by remember { mutableStateOf(false) }
 
     val latestVersionCheck by vm.settings.getLatestVersionCheck.collectAsState(initial = null)
-    LaunchedEffect(latestVersionCheck, vm.tandoorClient, vm.tandoorClient?.container?.systemData) {
-        if(vm.tandoorClient?.container?.systemData == null) return@LaunchedEffect
+    LaunchedEffect(latestVersionCheck, vm.tandoorClient, vm.tandoorClient?.container?.openapiData) {
+        if(vm.tandoorClient?.container?.openapiData == null) return@LaunchedEffect
 
-        val mCurrentVersion = vm.tandoorClient?.container?.systemData?.version
+        val mCurrentVersion = vm.tandoorClient?.container?.openapiData?.version
         val mCompatibilityState =
             TandoorServerVersionCompatibility.getCompatibilityStateOfVersion(mCurrentVersion!!)
 
@@ -69,7 +69,7 @@ fun TandoorServerVersionCompatibilityDialog(
         if(autoDisplay) {
             if(mCompatibilityState == TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY) return@LaunchedEffect
             if(latestVersionCheck == null) return@LaunchedEffect
-            if(latestVersionCheck == vm.tandoorClient?.container?.systemData?.version) return@LaunchedEffect
+            if(latestVersionCheck == vm.tandoorClient?.container?.openapiData?.version) return@LaunchedEffect
 
             mShown = true
             sheetState.expand()

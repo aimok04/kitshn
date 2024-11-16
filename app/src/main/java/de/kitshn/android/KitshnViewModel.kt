@@ -68,7 +68,7 @@ class KitshnViewModel(
             favorites.init(tandoorClient!!)
 
             try {
-                tandoorClient!!.system.retrieveSystemData()
+                tandoorClient!!.openapi.get()
             } catch(e: TandoorRequestsError) {
                 e.printStackTrace()
             } catch(e: Exception) {

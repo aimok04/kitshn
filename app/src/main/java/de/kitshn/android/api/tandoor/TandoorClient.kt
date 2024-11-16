@@ -6,11 +6,11 @@ import de.kitshn.android.api.tandoor.route.TandoorFoodRoute
 import de.kitshn.android.api.tandoor.route.TandoorKeywordRoute
 import de.kitshn.android.api.tandoor.route.TandoorMealPlanRoute
 import de.kitshn.android.api.tandoor.route.TandoorMealTypeRoute
+import de.kitshn.android.api.tandoor.route.TandoorOpenApiRoute
 import de.kitshn.android.api.tandoor.route.TandoorRecipeBookRoute
 import de.kitshn.android.api.tandoor.route.TandoorRecipeFromSourceRoute
 import de.kitshn.android.api.tandoor.route.TandoorRecipeRoute
 import de.kitshn.android.api.tandoor.route.TandoorShoppingRoute
-import de.kitshn.android.api.tandoor.route.TandoorSystemRoute
 import de.kitshn.android.api.tandoor.route.TandoorUserRoute
 import de.kitshn.android.json
 import kotlinx.serialization.Serializable
@@ -48,8 +48,8 @@ class TandoorClient(
     val recipeBook = TandoorRecipeBookRoute(this)
     val recipeFromSource = TandoorRecipeFromSourceRoute(this)
     val shopping = TandoorShoppingRoute(this)
-    val system = TandoorSystemRoute(this)
     val user = TandoorUserRoute(this)
+    val openapi = TandoorOpenApiRoute(this)
 
     suspend fun login(): TandoorCredentialsToken? {
         val obj = JSONObject()

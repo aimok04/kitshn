@@ -70,12 +70,12 @@ fun ViewSettingsServer(
                     label = { Text(stringResource(R.string.common_version)) },
                     description = {
                         Text(
-                            p.vm.tandoorClient?.container?.systemData?.version
+                            p.vm.tandoorClient?.container?.openapiData?.version
                                 ?: stringResource(id = R.string.common_unknown)
                         )
                     },
                     icon = Icons.Rounded.Numbers,
-                    enabled = p.vm.tandoorClient?.container?.systemData?.version != null,
+                    enabled = p.vm.tandoorClient?.container?.openapiData?.version != null,
                     contentDescription = stringResource(R.string.common_version)
                 ) {
                     coroutineScope.launch {

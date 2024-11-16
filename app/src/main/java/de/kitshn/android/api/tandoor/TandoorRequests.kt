@@ -121,7 +121,11 @@ suspend fun TandoorClient.reqObject(
         "TandoorRequests",
         "Method: $method, URL: ${credentials.instanceUrl.redactForRelease()}/api${endpoint}"
     )
-    val url = "${credentials.instanceUrl}/api${endpoint}"
+    val url = if(endpoint.startsWith("@")) {
+        "${credentials.instanceUrl}/${endpoint.substring(1)}"
+    } else {
+        "${credentials.instanceUrl}/api${endpoint}"
+    }
 
     val jsonObjectRequest = object : JsonObjectRequest(
         method,
