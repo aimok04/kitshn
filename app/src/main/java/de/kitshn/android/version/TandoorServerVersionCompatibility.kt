@@ -57,6 +57,8 @@ enum class TandoorServerVersionCompatibility(
     val state: TandoorServerVersionCompatibilityState,
     val notes: String? = ""
 ) {
+    V1_5_22(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
+    V1_5_21(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
     V1_5_20(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
     V1_5_19(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
     V1_5_18(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
