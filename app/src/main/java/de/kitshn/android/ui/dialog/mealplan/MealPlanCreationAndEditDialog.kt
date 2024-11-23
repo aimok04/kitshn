@@ -384,6 +384,8 @@ fun MealPlanCreationAndEditDialog(
                         editState?.dismiss()
                     } else {
                         val mealPlan = requestMealPlanState.wrapRequest {
+                            val userPreference = client.userPreference.fetch()
+
                             client.mealPlan.create(
                                 title = title,
                                 recipe = client.container.recipeOverview[recipeId],
@@ -392,7 +394,8 @@ fun MealPlanCreationAndEditDialog(
                                 from_date = startDate!!,
                                 to_date = endDate,
                                 meal_type = client.container.mealType[mealTypeId]!!,
-                                addshopping = addToShopping
+                                addshopping = addToShopping,
+                                shared = userPreference.plan_share
                             )
                         }
 

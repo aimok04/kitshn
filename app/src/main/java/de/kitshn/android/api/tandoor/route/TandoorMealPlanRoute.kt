@@ -12,6 +12,7 @@ import de.kitshn.android.api.tandoor.postObject
 import de.kitshn.android.json
 import de.kitshn.android.toTandoorDate
 import kotlinx.serialization.encodeToString
+import org.json.JSONArray
 import org.json.JSONObject
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -27,7 +28,8 @@ class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         from_date: LocalDate,
         to_date: LocalDate? = null,
         meal_type: TandoorMealType,
-        addshopping: Boolean = false
+        addshopping: Boolean = false,
+        shared: List<TandoorUser>? = null
     ): TandoorMealPlan {
         val data = JSONObject().apply {
             put("title", title)
@@ -46,6 +48,10 @@ class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
                 )
             )
             put("addshopping", addshopping)
+            shared?.let {
+                val sharedObj = JSONArray(json.encodeToString(shared))
+                put("shared", sharedObj)
+            }
         }
 
         val mealPlan = TandoorMealPlan.parse(
