@@ -36,7 +36,7 @@ enum class HomePageSectionEnum(
                 keywords = listOf(
                     "christmas", "xmas", "winter", "weihnachten", "festtag", "deftig"
                 ),
-                sortOrder = TandoorRecipeQueryParametersSortOrder.RATING
+                sortOrder = TandoorRecipeQueryParametersSortOrder.NEGATIVE_RATING
             )
         )
     ),
@@ -110,6 +110,15 @@ enum class HomePageSectionEnum(
         )
     ),
 
+    GO_TOS(
+        title = R.string.home_section_go_tos,
+        weight = 0.8f,
+        queryParameters = listOf(
+            HomePageQueryParameters(
+                sortOrder = TandoorRecipeQueryParametersSortOrder.NEGATIVE_TIMES_COOKED
+            )
+        )
+    ),
     NEW(
         title = R.string.home_section_new_recipes,
         weight = 0.8f,
@@ -291,7 +300,7 @@ enum class HomePageSectionEnum(
             val foodList = qp.foods?.mapNotNull { foodNameIdMapCache.retrieve(it) } ?: listOf()
 
             // don't add empty query parameters (empty qps will just list all recipes)
-            if(qp.query == null && qp.new == null && qp.random == null && qp.rating == null && qp.timescooked == null)
+            if(qp.query == null && qp.new == null && qp.random == null && qp.rating == null && qp.timescooked == null && qp.sortOrder == null)
                 if(keywordList.isEmpty() && foodList.isEmpty()) return@forEach
 
             queryParametersList.add(

@@ -209,13 +209,14 @@
     <string name="home_section_fast_food">Quickly made</string>
     <string name="home_section_five_stars">⭐⭐⭐⭐⭐</string>
     <string name="home_section_german">&#127465;&#127466;&#127866;&#129384;✨&#127984;</string>
+    <string name="home_section_go_tos">Go-Tos</string>
     <string name="home_section_indian">&#127470;&#127475;&#129719;&#128332;&#129434;&#129685;</string>
     <string name="home_section_lunch_time">Lunch time</string>
     <string name="home_section_mexican">&#127474;&#127485;&#127790;&#129312;&#129361;</string>
     <string name="home_section_never_cooked">Never cooked before</string>
     <string name="home_section_new_recipes">New recipes</string>
     <string name="home_section_noodles">&#127836; Noodles</string>
-    <string name="home_section_seasonal_christmas">Festive Favorites ☃️🎄</string>
+    <string name="home_section_seasonal_christmas">Festive Favorites ☃️&#127876;</string>
     <string name="home_section_vegan">Vegan ideas</string>
     <string name="home_section_vegetarian">Vegetarian meals</string>
 
