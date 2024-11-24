@@ -4,6 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import de.kitshn.android.api.tandoor.TandoorClient
+import de.kitshn.android.cache.FoodNameIdMapCache
+import de.kitshn.android.cache.KeywordNameIdMapCache
 import de.kitshn.android.homepage.model.HomePage
 import de.kitshn.android.homepage.model.HomePageSection
 import java.time.LocalDateTime
@@ -19,13 +21,13 @@ class HomePageBuilder(
         )
     )
 
-    suspend fun build() {
+    suspend fun build(
+        keywordNameIdMapCache: KeywordNameIdMapCache,
+        foodNameIdMapCache: FoodNameIdMapCache
+    ) {
         val checkData = HomePageSectionEnumCheckData(
             LocalDateTime.now()
         )
-
-        client.keyword.retrieve()
-        client.food.retrieve()
 
         val byWeight = mutableMapOf<Float, MutableList<HomePageSectionEnum>>()
         HomePageSectionEnum.entries.forEach {
@@ -44,7 +46,10 @@ class HomePageBuilder(
             val childSectionList = mutableListOf<HomePageSection>()
 
             for(sectionEnum in it.value) {
-                val section = sectionEnum.toHomePageSection(client)
+                val section = sectionEnum.toHomePageSection(
+                    keywordNameIdMapCache,
+                    foodNameIdMapCache
+                )
 
                 val recipeIdList = mutableListOf<Int>()
                 section.queryParameters.forEach { qp ->

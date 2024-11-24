@@ -1,8 +1,9 @@
 package de.kitshn.android.homepage.builder
 
 import de.kitshn.android.R
-import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.route.TandoorRecipeQueryParameters
+import de.kitshn.android.cache.FoodNameIdMapCache
+import de.kitshn.android.cache.KeywordNameIdMapCache
 import de.kitshn.android.homepage.model.HomePageSection
 import java.time.LocalDateTime
 
@@ -254,40 +255,30 @@ enum class HomePageSectionEnum(
         )
     );
 
-    fun toHomePageSection(client: TandoorClient): HomePageSection {
+    fun toHomePageSection(
+        keywordNameIdMapCache: KeywordNameIdMapCache,
+        foodNameIdMapCache: FoodNameIdMapCache
+    ): HomePageSection {
         val queryParametersList = mutableListOf<TandoorRecipeQueryParameters>()
 
-        queryParameters.forEach {
-            val keywordList = mutableListOf<Int>()
-            val foodList = mutableListOf<Int>()
-
-            it.keywords?.forEach { keywordName ->
-                client.container.keywordByName.getOrDefault(keywordName.lowercase(), null)
-                    ?.let { keyword ->
-                        keywordList.add(keyword.id)
-                    }
-            }
-
-            it.foods?.forEach { foodName ->
-                client.container.foodByName.getOrDefault(foodName.lowercase(), null)
-                    ?.let { food ->
-                        foodList.add(food.id)
-                    }
-            }
+        queryParameters.forEach { qp ->
+            val keywordList =
+                qp.keywords?.mapNotNull { keywordNameIdMapCache.retrieve(it) } ?: listOf()
+            val foodList = qp.foods?.mapNotNull { foodNameIdMapCache.retrieve(it) } ?: listOf()
 
             // don't add empty query parameters (empty qps will just list all recipes)
-            if(it.query == null && it.new == null && it.random == null && it.rating == null && it.timescooked == null)
-                if(keywordList.size == 0 && foodList.size == 0) return@forEach
+            if(qp.query == null && qp.new == null && qp.random == null && qp.rating == null && qp.timescooked == null)
+                if(keywordList.isEmpty() && foodList.isEmpty()) return@forEach
 
             queryParametersList.add(
                 TandoorRecipeQueryParameters(
-                    query = it.query,
-                    new = it.new,
-                    random = it.random,
+                    query = qp.query,
+                    new = qp.new,
+                    random = qp.random,
                     keywords = keywordList,
                     foods = foodList,
-                    rating = it.rating,
-                    timescooked = it.timescooked
+                    rating = qp.rating,
+                    timescooked = qp.timescooked
                 )
             )
         }

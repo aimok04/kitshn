@@ -39,6 +39,8 @@ import androidx.compose.ui.unit.dp
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorRequestState
 import de.kitshn.android.api.tandoor.TandoorRequestStateState
+import de.kitshn.android.cache.FoodNameIdMapCache
+import de.kitshn.android.cache.KeywordNameIdMapCache
 import de.kitshn.android.homepage.builder.HomePageBuilder
 import de.kitshn.android.homepage.model.HomePage
 import de.kitshn.android.homepage.model.HomePageSection
@@ -101,10 +103,19 @@ fun RouteMainSubrouteHome(
         if(homePage != null) return@LaunchedEffect
 
         HomePageBuilder(p.vm.tandoorClient!!).apply {
+            val keywordNameIdMapCache = KeywordNameIdMapCache(client.context, client)
+            val foodNameIdMapCache = FoodNameIdMapCache(client.context, client)
+
+            // retrieve keywords and foods to map names to ids
+            TandoorRequestState().wrapRequest {
+                if(!keywordNameIdMapCache.isValid()) keywordNameIdMapCache.update(coroutineScope)
+                if(!foodNameIdMapCache.isValid()) foodNameIdMapCache.update(coroutineScope)
+            }
+
             val requestState = TandoorRequestState()
             requestState.wrapRequest {
                 homePage = this.homePage
-                build()
+                build(keywordNameIdMapCache, foodNameIdMapCache)
 
                 pageLoadingState = ErrorLoadingSuccessState.SUCCESS
             }
