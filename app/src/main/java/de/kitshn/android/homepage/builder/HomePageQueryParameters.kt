@@ -1,5 +1,6 @@
 package de.kitshn.android.homepage.builder
 
+import de.kitshn.android.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -11,4 +12,5 @@ data class HomePageQueryParameters(
     val foods: List<String>? = null,
     val rating: Int? = null,
     val timescooked: Int? = null,
+    var sortOrder: TandoorRecipeQueryParametersSortOrder? = null
 )

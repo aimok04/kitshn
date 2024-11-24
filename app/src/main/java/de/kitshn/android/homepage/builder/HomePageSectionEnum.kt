@@ -2,6 +2,7 @@ package de.kitshn.android.homepage.builder
 
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.route.TandoorRecipeQueryParameters
+import de.kitshn.android.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
 import de.kitshn.android.cache.FoodNameIdMapCache
 import de.kitshn.android.cache.KeywordNameIdMapCache
 import de.kitshn.android.homepage.model.HomePageSection
@@ -17,6 +18,29 @@ enum class HomePageSectionEnum(
     val check: (d: HomePageSectionEnumCheckData) -> Boolean = { true },
     val queryParameters: List<HomePageQueryParameters>
 ) {
+    SEASONAL_CHRISTMAS(
+        title = R.string.home_section_seasonal_christmas,
+        weight = 2f,
+        check = {
+            it.dateTime.hour in 12..24
+
+                    &&
+
+                    (
+                            it.dateTime.month == java.time.Month.NOVEMBER && it.dateTime.dayOfMonth > 20
+                                    || it.dateTime.month == java.time.Month.DECEMBER
+                            )
+        },
+        queryParameters = listOf(
+            HomePageQueryParameters(
+                keywords = listOf(
+                    "christmas", "xmas", "winter", "weihnachten", "festtag", "deftig"
+                ),
+                sortOrder = TandoorRecipeQueryParametersSortOrder.RATING
+            )
+        )
+    ),
+
     BREAKFAST(
         title = R.string.home_section_enjoy_breakfast,
         weight = 1f,
@@ -278,7 +302,8 @@ enum class HomePageSectionEnum(
                     keywords = keywordList,
                     foods = foodList,
                     rating = qp.rating,
-                    timescooked = qp.timescooked
+                    timescooked = qp.timescooked,
+                    sortOrder = qp.sortOrder
                 )
             )
         }
