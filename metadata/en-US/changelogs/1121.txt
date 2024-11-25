@@ -1,0 +1,12 @@
+Hotfix
+- fix(recipes): issue with regex for template comments (resolved #27)
+
+Changes for v1.0.0-alpha.12
+- feat(utils): set max decimal numbers to 2 (#24)
+- feat(home): improved dynamic home screen by caching foods and keywords
+- feat(home): added go-tos section
+- feat(home): added christmas section
+- feat(api): now retrieving version from openapi endpoint
+- fix(mealplan): respecting default mealplan share settings (resolved #19)
+- chore(api): marked v1.5.23 as compatible
+- chore(api): marked v1.5.21/22 as compatible
