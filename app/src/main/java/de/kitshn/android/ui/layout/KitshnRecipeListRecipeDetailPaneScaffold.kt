@@ -1,7 +1,9 @@
 package de.kitshn.android.ui.layout
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Fullscreen
 import androidx.compose.material.icons.rounded.FullscreenExit
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,7 +41,7 @@ fun KitshnRecipeListRecipeDetailPaneScaffold(
         topBar = topBar,
         floatingActionButton = floatingActionButton,
         listContent = listContent
-    ) { selectId, supportsMultiplePanes, expandDetailPane, toggleExpandedDetailPane, back ->
+    ) { selectId, supportsMultiplePanes, expandDetailPane, toggleExpandedDetailPane, close, back ->
         LaunchedEffect(selectId) {
             // hide keyboard in search layout
             focusManager.clearFocus()
@@ -58,22 +60,36 @@ fun KitshnRecipeListRecipeDetailPaneScaffold(
 
             navigationIcon = if(supportsMultiplePanes || expandDetailPane) {
                 {
-                    FilledIconButton(
-                        onClick = toggleExpandedDetailPane,
-                        colors = IconButtonDefaults.filledIconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceContainer
-                        )
-                    ) {
-                        when(expandDetailPane) {
-                            true -> Icon(
-                                Icons.Rounded.FullscreenExit,
-                                stringResource(R.string.action_expand_less)
+                    Row {
+                        FilledIconButton(
+                            onClick = close,
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainer
                             )
+                        ) {
+                            Icon(
+                                Icons.Rounded.Close,
+                                stringResource(R.string.action_close)
+                            )
+                        }
 
-                            else -> Icon(
-                                Icons.Rounded.Fullscreen,
-                                stringResource(R.string.expand_more)
+                        FilledIconButton(
+                            onClick = toggleExpandedDetailPane,
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainer
                             )
+                        ) {
+                            when(expandDetailPane) {
+                                true -> Icon(
+                                    Icons.Rounded.FullscreenExit,
+                                    stringResource(R.string.action_expand_less)
+                                )
+
+                                else -> Icon(
+                                    Icons.Rounded.Fullscreen,
+                                    stringResource(R.string.expand_more)
+                                )
+                            }
                         }
                     }
                 }

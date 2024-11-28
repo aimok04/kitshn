@@ -50,7 +50,7 @@ fun KitshnListDetailPaneScaffold(
     topBar: @Composable (colors: TopAppBarColors) -> Unit,
     floatingActionButton: @Composable () -> Unit = {},
     listContent: @Composable (pv: PaddingValues, selectedId: String?, supportsMultiplePanes: Boolean, background: Color, select: (id: String) -> Unit) -> Unit,
-    content: @Composable (id: String, supportsMultiplePanes: Boolean, expandDetailPane: Boolean, toggleExpandedDetailPane: () -> Unit, back: (() -> Unit)?) -> Unit
+    content: @Composable (id: String, supportsMultiplePanes: Boolean, expandDetailPane: Boolean, toggleExpandedDetailPane: () -> Unit, close: () -> Unit, back: (() -> Unit)?) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -94,6 +94,10 @@ fun KitshnListDetailPaneScaffold(
         } else {
             navigator.navigateBack()
         }
+    }
+
+    BackHandler(supportsMultiplePanes && navigator.currentDestination?.content != null) {
+        navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, null)
     }
 
     ListDetailPaneScaffold(
@@ -170,7 +174,10 @@ fun KitshnListDetailPaneScaffold(
                         content(
                             currentSelection!!, supportsMultiplePanes, expandDetailPane, {
                                 expandDetailPane = !expandDetailPane
-                            }, (if(supportsMultiplePanes) null else {
+                            }, {
+                                navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, null)
+                            },
+                            (if(supportsMultiplePanes) null else {
                                 {
                                     coroutineScope.launch {
                                         listPaneAnim.snapTo(1f)
@@ -179,7 +186,8 @@ fun KitshnListDetailPaneScaffold(
                                         navigator.navigateBack()
                                     }
                                 }
-                            }))
+                            })
+                        )
                     }
                 } else {
                     Box(
