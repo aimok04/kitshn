@@ -1,5 +1,6 @@
 package de.kitshn.android.ui.view.home.search
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
@@ -34,6 +35,8 @@ import kotlinx.coroutines.delay
 fun ViewHomeSearch(
     vm: KitshnViewModel,
     state: HomeSearchState,
+    handleBack: Boolean = false,
+    onBack: () -> Unit = {},
     onClick: (recipe: TandoorRecipeOverview) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -109,6 +112,12 @@ fun ViewHomeSearch(
                 state = selectionModeState
             )
         }
+
+        // needed because system back is consumed by most inner handler
+        BackHandler(
+            handleBack,
+            onBack
+        )
     }
 
     if(state.defaultValues.autoFocusSearchField) LaunchedEffect(state.shown.value) {

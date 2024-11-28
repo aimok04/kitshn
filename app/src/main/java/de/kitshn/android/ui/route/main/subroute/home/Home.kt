@@ -202,7 +202,7 @@ fun RouteMainSubrouteHome(
                 }
             }
         }
-    ) { pv, _, supportsMultiplePages, background, onSelect ->
+    ) { pv, value, supportsMultiplePages, background, onSelect ->
         // handle recipe passing
         p.vm.uiState.viewRecipe.WatchAndConsume {
             onSelect(it.toString())
@@ -210,7 +210,13 @@ fun RouteMainSubrouteHome(
 
         ViewHomeSearch(
             vm = p.vm,
-            state = homeSearchState
+            state = homeSearchState,
+
+            handleBack = supportsMultiplePages && value != null,
+            onBack = {
+                // needed for back gesture to work correctly in search view
+                onSelect(null)
+            }
         ) {
             onSelect(it.id.toString())
         }

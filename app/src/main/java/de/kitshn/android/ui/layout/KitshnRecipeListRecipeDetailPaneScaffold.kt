@@ -32,7 +32,7 @@ fun KitshnRecipeListRecipeDetailPaneScaffold(
     topBar: @Composable (colors: TopAppBarColors) -> Unit,
     floatingActionButton: @Composable () -> Unit = {},
     onClickKeyword: (keyword: TandoorKeywordOverview) -> Unit = {},
-    listContent: @Composable (pv: PaddingValues, selectedId: String?, supportsMultiplePages: Boolean, background: Color, select: (id: String) -> Unit) -> Unit,
+    listContent: @Composable (pv: PaddingValues, selectedId: String?, supportsMultiplePages: Boolean, background: Color, select: (id: String?) -> Unit) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
 

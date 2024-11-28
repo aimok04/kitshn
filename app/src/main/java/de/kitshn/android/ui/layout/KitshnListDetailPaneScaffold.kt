@@ -49,7 +49,7 @@ fun KitshnListDetailPaneScaffold(
     key: String,
     topBar: @Composable (colors: TopAppBarColors) -> Unit,
     floatingActionButton: @Composable () -> Unit = {},
-    listContent: @Composable (pv: PaddingValues, selectedId: String?, supportsMultiplePanes: Boolean, background: Color, select: (id: String) -> Unit) -> Unit,
+    listContent: @Composable (pv: PaddingValues, selectedId: String?, supportsMultiplePanes: Boolean, background: Color, select: (id: String?) -> Unit) -> Unit,
     content: @Composable (id: String, supportsMultiplePanes: Boolean, expandDetailPane: Boolean, toggleExpandedDetailPane: () -> Unit, close: () -> Unit, back: (() -> Unit)?) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
