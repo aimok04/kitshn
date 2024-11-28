@@ -114,7 +114,7 @@ fun KitshnListDetailPaneScaffold(
 
             AnimatedPane(
                 modifier = Modifier
-                    .preferredWidth(450.dp)
+                    .preferredWidth(550.dp)
                     .background(background)
             ) {
                 Scaffold(
