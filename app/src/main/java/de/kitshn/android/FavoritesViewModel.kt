@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.TandoorRequestState
+import de.kitshn.android.api.tandoor.TandoorRequestsError
 import de.kitshn.android.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipeOverview
 import kotlinx.coroutines.launch
@@ -37,22 +38,26 @@ class FavoritesViewModel(
     }
 
     private var _favoritesBookId: Int? = null
-    private suspend fun getFavoritesRecipeBook(): TandoorRecipeBook {
-        this.client?.container?.recipeBook?.get(_favoritesBookId)?.let {
-            return it
+    private suspend fun getFavoritesRecipeBook(): TandoorRecipeBook? {
+        try {
+            this.client?.container?.recipeBook?.get(_favoritesBookId)?.let {
+                return it
+            }
+
+            val recipeBooks = client?.recipeBook?.list() ?: throw Error("COULD_NOT_FETCH_BOOKS")
+
+            var favoritesBook = recipeBooks.firstOrNull {
+                it.description.endsWith(KITSHN_FAVORITE_RECIPE_BOOK_DESCRIPTION_TAG)
+            }
+            if(favoritesBook == null) favoritesBook = createNewFavoritesRecipeBook()
+
+            TandoorRequestState().wrapRequest { favoritesBook.listEntries() }
+            _favoritesBookId = favoritesBook.id
+
+            return favoritesBook
+        } catch(e: TandoorRequestsError) {
+            return null
         }
-
-        val recipeBooks = client?.recipeBook?.list() ?: throw Error("COULD_NOT_FETCH_BOOKS")
-
-        var favoritesBook = recipeBooks.firstOrNull {
-            it.description.endsWith(KITSHN_FAVORITE_RECIPE_BOOK_DESCRIPTION_TAG)
-        }
-        if(favoritesBook == null) favoritesBook = createNewFavoritesRecipeBook()
-
-        TandoorRequestState().wrapRequest { favoritesBook.listEntries() }
-        _favoritesBookId = favoritesBook.id
-
-        return favoritesBook
     }
 
     @Composable
@@ -72,7 +77,7 @@ class FavoritesViewModel(
     suspend fun addToFavorites(recipe: TandoorRecipeOverview) = addToFavorites(recipeId = recipe.id)
     suspend fun addToFavorites(recipeId: Int) {
         val favoritesBook = getFavoritesRecipeBook()
-        favoritesBook.createEntry(recipeId)
+        favoritesBook?.createEntry(recipeId)
     }
 
     suspend fun removeFromFavorites(recipe: TandoorRecipeOverview) =
@@ -80,7 +85,7 @@ class FavoritesViewModel(
 
     suspend fun removeFromFavorites(recipeId: Int) {
         val favoritesBook = getFavoritesRecipeBook()
-        favoritesBook.entryByRecipeId[recipeId]?.delete()
+        favoritesBook?.entryByRecipeId?.get(recipeId)?.delete()
     }
 
     suspend fun toggleFavorite(recipe: TandoorRecipeOverview) = toggleFavorite(recipeId = recipe.id)
@@ -97,7 +102,7 @@ class FavoritesViewModel(
     }
 
     suspend fun getFavoritesRecipeBookId(): Int {
-        return getFavoritesRecipeBook().id
+        return getFavoritesRecipeBook()?.id ?: -1
     }
 
 }
