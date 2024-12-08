@@ -188,6 +188,8 @@ fun RecipeImportDialog(
 
     val recipeImportRequestState = rememberTandoorRequestState()
     fun import() = coroutineScope.launch {
+        if(recipeImportRequestState.state == TandoorRequestStateState.LOADING) return@launch
+
         recipeImportRequestState.wrapRequest {
             val recipe = state.data.recipeFromSource!!.create(
                 imageUrl = state.data.selectedImageUrl,
