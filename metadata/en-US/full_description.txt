@@ -1,3 +1,5 @@
+Info: GrapheneOS users might need to disable the "Hardened memory allocator" or enable the "Exploit protection compatibility mode" for the app to run.
+
 Built with <b>Jetpack Compose</b> and <b>Material You</b> to deliver a modern, intuitive and responsive user experience.
 
 <b>Supported features:</b>

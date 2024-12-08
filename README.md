@@ -16,6 +16,10 @@ user experience.
 > I'm just a hobbyist developing this app in my spare time. This app not only might, but is
 > guaranteed to contain spaghetti code and actively ignores best practices.
 
+> [!TIP]
+> GrapheneOS users might need to disable the "Hardened memory allocator" or
+> enable the "Exploit protection compatibility mode" for the app to run.
+
 ## 📦 Installation
 
 [<img src="/images/badge_github.png"
