@@ -64,6 +64,7 @@ import de.kitshn.android.api.tandoor.rememberTandoorRequestState
 import de.kitshn.android.formatAmount
 import de.kitshn.android.parseUtcTandoorDate
 import de.kitshn.android.toHumanReadableDateLabel
+import de.kitshn.android.ui.TandoorRequestErrorHandler
 import de.kitshn.android.ui.component.alert.FullSizeAlertPane
 import de.kitshn.android.ui.component.icons.IconWithState
 import de.kitshn.android.ui.component.input.OutlinedNumberField
@@ -94,7 +95,9 @@ fun RouteMainSubrouteShopping(
     val shoppingListAddEntryRequest = rememberTandoorRequestState()
 
     var loaded by remember { mutableStateOf(false) }
+
     val shoppingListEntriesFetchRequest = rememberTandoorRequestState()
+    val shoppingListEntriesCheckRequest = rememberTandoorRequestState()
 
     val client = p.vm.tandoorClient
     var blockUpdate by remember { mutableStateOf(false) }
@@ -388,8 +391,10 @@ fun RouteMainSubrouteShopping(
                                         blockUpdate = true
 
                                         coroutineScope.launch {
-                                            currentEntries?.forEach {
-                                                it.check()
+                                            shoppingListEntriesCheckRequest.wrapRequest {
+                                                currentEntries?.forEach {
+                                                    it.check()
+                                                }
                                             }
                                         }
                                     }
@@ -432,4 +437,7 @@ fun RouteMainSubrouteShopping(
         ),
         state = recipeLinkDialogState
     )
+
+    TandoorRequestErrorHandler(shoppingListEntriesFetchRequest)
+    TandoorRequestErrorHandler(shoppingListEntriesCheckRequest)
 }

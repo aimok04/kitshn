@@ -38,7 +38,9 @@ import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.TandoorRequestState
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipeOverview
+import de.kitshn.android.api.tandoor.rememberTandoorRequestState
 import de.kitshn.android.api.tandoor.route.TandoorRecipeQueryParameters
+import de.kitshn.android.ui.TandoorRequestErrorHandler
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,16 +71,20 @@ fun BaseRecipeSearchField(
     }
 
     val recipeOverviewList = remember { mutableStateListOf<TandoorRecipeOverview>() }
+
+    val searchRequestState = rememberTandoorRequestState()
     LaunchedEffect(searchText) {
         delay(300)
 
-        TandoorRequestState().wrapRequest {
-            client.recipe.list(
-                parameters = TandoorRecipeQueryParameters(query = searchText),
-                pageSize = 5
-            ).results.let {
-                recipeOverviewList.clear()
-                recipeOverviewList.addAll(it)
+        searchRequestState.wrapRequest {
+            TandoorRequestState().wrapRequest {
+                client.recipe.list(
+                    parameters = TandoorRecipeQueryParameters(query = searchText),
+                    pageSize = 5
+                ).results.let {
+                    recipeOverviewList.clear()
+                    recipeOverviewList.addAll(it)
+                }
             }
         }
     }
@@ -125,6 +131,8 @@ fun BaseRecipeSearchField(
             }
         }
     }
+
+    TandoorRequestErrorHandler(state = searchRequestState)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

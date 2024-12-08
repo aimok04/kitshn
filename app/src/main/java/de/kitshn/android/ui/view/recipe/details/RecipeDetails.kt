@@ -89,7 +89,6 @@ import de.kitshn.android.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_
 import de.kitshn.android.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP_DESC
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorClient
-import de.kitshn.android.api.tandoor.TandoorRequestState
 import de.kitshn.android.api.tandoor.model.TandoorIngredient
 import de.kitshn.android.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.android.api.tandoor.model.TandoorStep
@@ -275,10 +274,11 @@ fun ViewRecipeDetails(
 
     val useShareWrapperDialogState = rememberUseShareWrapperDialogState(vm = p.vm)
 
+    val shareRequestState = rememberTandoorRequestState()
     fun share() = coroutineScope.launch {
         useShareWrapperDialogState.open { useShareWrapper ->
             coroutineScope.launch {
-                TandoorRequestState().wrapRequest {
+                shareRequestState.wrapRequest {
                     if(recipe == null) return@wrapRequest
 
                     val shareLink = recipe.retrieveShareLink() ?: ""
@@ -819,4 +819,5 @@ fun ViewRecipeDetails(
     )
 
     TandoorRequestErrorHandler(fetchRequestState)
+    TandoorRequestErrorHandler(shareRequestState)
 }

@@ -43,9 +43,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorClient
-import de.kitshn.android.api.tandoor.TandoorRequestState
 import de.kitshn.android.api.tandoor.model.TandoorRecipeBook
+import de.kitshn.android.api.tandoor.rememberTandoorRequestState
 import de.kitshn.android.scoreMatch
+import de.kitshn.android.ui.TandoorRequestErrorHandler
 import de.kitshn.android.ui.component.alert.FullSizeAlertPane
 import de.kitshn.android.ui.component.model.recipebook.HorizontalRecipeBookCard
 import kotlinx.coroutines.delay
@@ -84,10 +85,11 @@ fun ManageRecipeInRecipeBooksDialog(
     val coroutineScope = rememberCoroutineScope()
     if(!state.shown.value) return
 
+    val fetchRequestState = rememberTandoorRequestState()
     LaunchedEffect(state.recipeId, state.shown) {
         if(!state.shown.value) return@LaunchedEffect
 
-        TandoorRequestState().wrapRequest {
+        fetchRequestState.wrapRequest {
             state.selectedRecipeBooks.clear()
             state.selectedRecipeBooks.addAll(
                 client.recipeBook.list().filter {
@@ -208,6 +210,8 @@ fun ManageRecipeInRecipeBooksDialog(
             dismissOnClickOutside = true
         )
     )
+
+    TandoorRequestErrorHandler(fetchRequestState)
 }
 
 

@@ -140,4 +140,6 @@ fun RouteMainSubrouteMealplan(
 
     TandoorRequestErrorHandler(state = moveRequestState)
     TandoorRequestErrorHandler(state = deleteRequestState)
+
+    TandoorRequestErrorHandler(state = mainFetchRequestState)
 }
