@@ -39,6 +39,7 @@ import coil.request.SuccessResult
 import de.kitshn.android.R
 import de.kitshn.android.api.tandoor.TandoorClient
 import de.kitshn.android.api.tandoor.TandoorRequestStateState
+import de.kitshn.android.api.tandoor.TandoorRequestsError
 import de.kitshn.android.api.tandoor.model.TandoorKeyword
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.android.api.tandoor.rememberTandoorRequestState
@@ -245,7 +246,11 @@ fun RecipeCreationAndEditDialog(
         if(creationState == null) return@LaunchedEffect
         if(creationState.recipe != null && !creationState.recipe!!.destroyed) return@LaunchedEffect
 
-        creationState.recipe = client.recipe.create()
+        try {
+            creationState.recipe = client.recipe.create()
+        } catch(e: TandoorRequestsError) {
+            creationState.dismiss()
+        }
     }
 
     var showUnsavedChangesDialog by remember { mutableStateOf(false) }
