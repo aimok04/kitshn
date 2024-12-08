@@ -96,6 +96,7 @@ import de.kitshn.android.api.tandoor.model.TandoorStep
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.android.api.tandoor.rememberTandoorRequestState
 import de.kitshn.android.launchCustomTabs
+import de.kitshn.android.ui.TandoorRequestErrorHandler
 import de.kitshn.android.ui.component.alert.FullSizeAlertPane
 import de.kitshn.android.ui.component.buttons.BackButton
 import de.kitshn.android.ui.component.buttons.WideActionChip
@@ -788,6 +789,7 @@ fun ViewRecipeDetails(
             state = manageRecipeInRecipeBooksDialogState
         )
 
+        val addRecipeToShoppingRequestState = TandoorRequestState()
         ServingsChangeDialog(
             portionText = (recipe?.servings_text ?: "").ifBlank {
                 stringResource(R.string.common_portions)
@@ -795,9 +797,13 @@ fun ViewRecipeDetails(
             state = addRecipeToShoppingServingsSelectionDialogState
         ) { servings ->
             coroutineScope.launch {
-                recipe?.shopping(servings)
+                addRecipeToShoppingRequestState.wrapRequest {
+                    recipe?.shopping(servings)
+                }
             }
         }
+
+        TandoorRequestErrorHandler(addRecipeToShoppingRequestState)
     }
 
     RecipeLinkDialog(
