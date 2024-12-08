@@ -1,0 +1,11 @@
+- feat(recipes): added close functionality to list detail layout (resolved #28)
+- feat(ui): improved list detail pane size ratio
+- feat(various): added more TandoorRequestErrorHandlers
+- fix(import): added check to rule out double imports (resolved #29)
+- fix(home): issue with back gesture in search view
+- fix(recipes): several crash fixes and error handle improvements
+- fix(favorites): crash when retrieving favorites book
+- fix(recipes): crash when adding recipe to shopping list
+- fix(recipes): crash in RecipeCreationAndEditDialog
+- fix(api): added more information to TandoorRequestsError
+- chore(api): marked v1.5.24 as compatible
