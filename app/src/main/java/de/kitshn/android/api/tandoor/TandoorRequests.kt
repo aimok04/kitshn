@@ -20,8 +20,14 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class TandoorRequestsError(
-    val volleyError: VolleyError?
-) : Throwable()
+    val volleyError: VolleyError?,
+    private val method: Int,
+    val url: String
+) : Throwable() {
+    override fun getLocalizedMessage(): String {
+        return "at $url ($method) / " + volleyError?.localizedMessage + " / TandoorRequestsError / " + volleyError?.stackTraceToString()
+    }
+}
 
 @Throws(TandoorRequestsError::class)
 suspend fun TandoorClient.req(
@@ -47,7 +53,13 @@ suspend fun TandoorClient.req(
         { error: VolleyError? ->
             Log.e("TandoorRequests", "Exception for request \"$endpoint\" (delete)")
             error?.printStackTrace()
-            cont.resumeWithException(TandoorRequestsError(error))
+            cont.resumeWithException(
+                TandoorRequestsError(
+                    error,
+                    method,
+                    "${credentials.instanceUrl.redactForRelease()}/api${endpoint}"
+                )
+            )
         }
     ) {
         override fun getBody(): ByteArray {
@@ -95,7 +107,13 @@ suspend fun TandoorClient.reqArray(
         { error: VolleyError? ->
             Log.e("TandoorRequests", "Exception for request \"$endpoint\" ($method) (jsonArray)")
             error?.printStackTrace()
-            cont.resumeWithException(TandoorRequestsError(error))
+            cont.resumeWithException(
+                TandoorRequestsError(
+                    error,
+                    method,
+                    "${credentials.instanceUrl.redactForRelease()}/api${endpoint}"
+                )
+            )
         }
     ) {
         override fun getHeaders(): MutableMap<String, String> {
@@ -137,7 +155,13 @@ suspend fun TandoorClient.reqObject(
         { error: VolleyError? ->
             Log.e("TandoorRequests", "Exception for request \"$endpoint\" ($method) (jsonObject)")
             error?.printStackTrace()
-            cont.resumeWithException(TandoorRequestsError(error))
+            cont.resumeWithException(
+                TandoorRequestsError(
+                    error,
+                    method,
+                    "${credentials.instanceUrl.redactForRelease()}/api${endpoint}"
+                )
+            )
         }
     ) {
         override fun getHeaders(): MutableMap<String, String> {
@@ -174,7 +198,13 @@ suspend fun TandoorClient.reqBitmap(
         { error: VolleyError? ->
             Log.e("TandoorRequests", "Exception for request \"$endpoint\" ($method) (jsonObject)")
             error?.printStackTrace()
-            cont.resumeWithException(TandoorRequestsError(error))
+            cont.resumeWithException(
+                TandoorRequestsError(
+                    error,
+                    method,
+                    "${credentials.instanceUrl.redactForRelease()}/api${endpoint}"
+                )
+            )
         }
     ) {
         override fun getHeaders(): MutableMap<String, String> {
@@ -222,7 +252,13 @@ suspend fun TandoorClient.reqMultipart(
         { error: VolleyError? ->
             Log.e("TandoorRequests", "Exception for request \"$endpoint\" ($method) (jsonObject)")
             error?.printStackTrace()
-            cont.resumeWithException(TandoorRequestsError(error))
+            cont.resumeWithException(
+                TandoorRequestsError(
+                    error,
+                    method,
+                    "${credentials.instanceUrl.redactForRelease()}/api${endpoint}"
+                )
+            )
         }
     ) {
         override fun getHeaders(): MutableMap<String, String> {
@@ -263,7 +299,13 @@ suspend fun TandoorClient.reqInputStream(
         { error: VolleyError? ->
             Log.e("TandoorRequests", "Exception for request \"$endpoint\" ($method) (jsonObject)")
             error?.printStackTrace()
-            cont.resumeWithException(TandoorRequestsError(error))
+            cont.resumeWithException(
+                TandoorRequestsError(
+                    error,
+                    method,
+                    "${credentials.instanceUrl.redactForRelease()}/api${endpoint}"
+                )
+            )
         },
         params
     ) {
