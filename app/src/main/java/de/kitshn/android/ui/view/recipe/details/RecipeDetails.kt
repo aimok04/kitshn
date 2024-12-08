@@ -215,9 +215,12 @@ fun ViewRecipeDetails(
     }
 
     val recipe = p.vm.tandoorClient!!.container.recipe.getOrElse(recipeOverview.id) { null }
+
+    val fetchRequestState = rememberTandoorRequestState()
     LaunchedEffect(recipeOverview) {
         pageLoadingState = ErrorLoadingSuccessState.LOADING
-        TandoorRequestState().wrapRequest {
+
+        fetchRequestState.wrapRequest {
             p.vm.tandoorClient?.recipe?.get(
                 id = recipeOverview.id,
                 share = shareToken
@@ -739,7 +742,7 @@ fun ViewRecipeDetails(
     ) {
         // refresh recipe after ingredient allocation
         coroutineScope.launch {
-            TandoorRequestState().wrapRequest {
+            fetchRequestState.wrapRequest {
                 client.recipe.get(recipeOverview.id).toOverview().let {
                     client.container.recipeOverview[it.id] = it
                 }
@@ -757,7 +760,7 @@ fun ViewRecipeDetails(
             onRefresh = {
                 // refresh recipe after edit
                 coroutineScope.launch {
-                    TandoorRequestState().wrapRequest {
+                    fetchRequestState.wrapRequest {
                         client.recipe.get(recipeOverview.id).toOverview().let {
                             client.container.recipeOverview[it.id] = it
                         }
@@ -789,7 +792,7 @@ fun ViewRecipeDetails(
             state = manageRecipeInRecipeBooksDialogState
         )
 
-        val addRecipeToShoppingRequestState = TandoorRequestState()
+        val addRecipeToShoppingRequestState = rememberTandoorRequestState()
         ServingsChangeDialog(
             portionText = (recipe?.servings_text ?: "").ifBlank {
                 stringResource(R.string.common_portions)
@@ -814,4 +817,6 @@ fun ViewRecipeDetails(
     UseShareWrapperDialog(
         state = useShareWrapperDialogState
     )
+
+    TandoorRequestErrorHandler(fetchRequestState)
 }

@@ -12,6 +12,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import de.kitshn.android.R
+import de.kitshn.android.api.tandoor.rememberTandoorRequestState
+import de.kitshn.android.ui.TandoorRequestErrorHandler
 import de.kitshn.android.ui.component.alert.FullSizeAlertPane
 import de.kitshn.android.ui.component.buttons.BackButton
 import de.kitshn.android.ui.component.buttons.BackButtonType
@@ -42,20 +44,23 @@ fun RouteRecipePublic(
     val client = p.vm.uiState.shareClient ?: return
 
     // retrieve shared recipe
+    val requestState = rememberTandoorRequestState()
     LaunchedEffect(recipeId, shareToken) {
-        val recipe = client.recipe.get(id = recipeId.toInt(), share = shareToken)
+        requestState.wrapRequest {
+            val recipe = client.recipe.get(id = recipeId.toInt(), share = shareToken)
 
-        // change id to avoid conflicts
-        recipe.id = -recipe.id
+            // change id to avoid conflicts
+            recipe.id = -recipe.id
 
-        client.container.recipe[recipe.id] = recipe
-        client.container.recipeOverview[recipe.id] = recipe.toOverview()
+            client.container.recipe[recipe.id] = recipe
+            client.container.recipeOverview[recipe.id] = recipe.toOverview()
 
-        if(p.vm.tandoorClient == null) {
-            p.vm.tandoorClient = client
-        } else {
-            p.vm.tandoorClient!!.container.recipe[recipe.id] = recipe
-            p.vm.tandoorClient!!.container.recipeOverview[recipe.id] = recipe.toOverview()
+            if(p.vm.tandoorClient == null) {
+                p.vm.tandoorClient = client
+            } else {
+                p.vm.tandoorClient!!.container.recipe[recipe.id] = recipe
+                p.vm.tandoorClient!!.container.recipeOverview[recipe.id] = recipe.toOverview()
+            }
         }
     }
 
@@ -91,4 +96,6 @@ fun RouteRecipePublic(
 
         onClickKeyword = { }
     )
+
+    TandoorRequestErrorHandler(requestState)
 }

@@ -10,8 +10,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.stringResource
 import de.kitshn.android.FavoritesViewModel
 import de.kitshn.android.R
-import de.kitshn.android.api.tandoor.TandoorRequestState
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipeOverview
+import de.kitshn.android.api.tandoor.rememberTandoorRequestState
 import de.kitshn.android.ui.TandoorRequestErrorHandler
 import kotlinx.coroutines.launch
 
@@ -23,7 +23,7 @@ fun RecipeFavoriteButton(
     val coroutineScope = rememberCoroutineScope()
     val isFavorite = favoritesViewModel.isFavorite(recipeOverview)
 
-    val toggleFavoriteRequestState = TandoorRequestState()
+    val toggleFavoriteRequestState = rememberTandoorRequestState()
 
     IconButton(onClick = {
         coroutineScope.launch {

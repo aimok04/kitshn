@@ -10,6 +10,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import de.kitshn.android.api.tandoor.model.TandoorStep
 import de.kitshn.android.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.android.api.tandoor.rememberTandoorRequestState
+import de.kitshn.android.ui.TandoorRequestErrorHandler
 import de.kitshn.android.ui.component.model.recipe.HorizontalRecipeCardLink
 
 @Composable
@@ -19,7 +21,13 @@ fun RecipeStepRecipeLink(
     onClick: (recipe: TandoorRecipe) -> Unit
 ) {
     var recipe by remember { mutableStateOf<TandoorRecipe?>(null) }
-    LaunchedEffect(step) { recipe = step.fetchStepRecipe() }
+
+    val fetchStepRecipeRequestState = rememberTandoorRequestState()
+    LaunchedEffect(step) {
+        fetchStepRecipeRequestState.wrapRequest {
+            recipe = step.fetchStepRecipe()
+        }
+    }
 
     if(recipe == null) return
 
@@ -28,4 +36,6 @@ fun RecipeStepRecipeLink(
         recipeOverview = recipe!!.toOverview(),
         onClick = { onClick(recipe!!) }
     )
+
+    TandoorRequestErrorHandler(fetchStepRecipeRequestState)
 }
