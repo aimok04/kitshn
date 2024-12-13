@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeChild
@@ -18,13 +19,14 @@ import dev.chrisbanes.haze.hazeChild
 @Composable
 fun RecipeCardInfoTag(
     hazeState: HazeState,
+    shape: Shape = RoundedCornerShape(12.dp),
     content: @Composable () -> Unit
 ) {
     Surface(
         Modifier
             .padding(4.dp)
-            .hazeChild(hazeState),
-        shape = RoundedCornerShape(12.dp),
+            .hazeChild(hazeState, shape = shape),
+        shape = shape,
         color = Color.White.copy(alpha = 0.5f),
         contentColor = MaterialTheme.colorScheme.contentColorFor(Color.White.copy(alpha = 0.5f))
     ) {
