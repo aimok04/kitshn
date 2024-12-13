@@ -89,7 +89,9 @@ suspend fun TandoorClient.reqArray(
     data: JSONArray? = null
 ) = suspendCoroutine { cont ->
     val queue = Volley.newRequestQueue(context)
+
     val token = this.credentials.token
+    val cookie = this.credentials.cookie
 
     Log.d(
         "TandoorRequests",
@@ -118,7 +120,8 @@ suspend fun TandoorClient.reqArray(
     ) {
         override fun getHeaders(): MutableMap<String, String> {
             val headers = super.getHeaders().toMutableMap()
-            headers["Authorization"] = "Bearer ${token?.token ?: ""}"
+            if(token != null) headers["Authorization"] = "Bearer ${token.token}"
+            if(cookie != null) headers["Cookie"] = cookie
             return headers
         }
     }
@@ -133,7 +136,9 @@ suspend fun TandoorClient.reqObject(
     data: JSONObject? = null
 ) = suspendCoroutine { cont ->
     val queue = Volley.newRequestQueue(context)
+
     val token = this.credentials.token
+    val cookie = this.credentials.cookie
 
     Log.d(
         "TandoorRequests",
@@ -166,7 +171,8 @@ suspend fun TandoorClient.reqObject(
     ) {
         override fun getHeaders(): MutableMap<String, String> {
             val headers = super.getHeaders().toMutableMap()
-            headers["Authorization"] = "Bearer ${token?.token ?: ""}"
+            if(token != null) headers["Authorization"] = "Bearer ${token.token}"
+            if(cookie != null) headers["Cookie"] = cookie
             return headers
         }
     }
@@ -181,7 +187,9 @@ suspend fun TandoorClient.reqBitmap(
     bitmap: Bitmap
 ) = suspendCoroutine { cont ->
     val queue = Volley.newRequestQueue(context)
+
     val token = this.credentials.token
+    val cookie = this.credentials.cookie
 
     Log.d(
         "TandoorRequests",
@@ -209,7 +217,8 @@ suspend fun TandoorClient.reqBitmap(
     ) {
         override fun getHeaders(): MutableMap<String, String> {
             val headers = super.getHeaders().toMutableMap()
-            headers["Authorization"] = "Bearer ${token?.token ?: ""}"
+            if(token != null) headers["Authorization"] = "Bearer ${token.token}"
+            if(cookie != null) headers["Cookie"] = cookie
             return headers
         }
 
@@ -235,7 +244,9 @@ suspend fun TandoorClient.reqMultipart(
     data: MutableMap<String, String>
 ) = suspendCoroutine { cont ->
     val queue = Volley.newRequestQueue(context)
+
     val token = this.credentials.token
+    val cookie = this.credentials.cookie
 
     Log.d(
         "TandoorRequests",
@@ -263,7 +274,8 @@ suspend fun TandoorClient.reqMultipart(
     ) {
         override fun getHeaders(): MutableMap<String, String> {
             val headers = super.getHeaders().toMutableMap()
-            headers["Authorization"] = "Bearer ${token?.token ?: ""}"
+            if(token != null) headers["Authorization"] = "Bearer ${token.token}"
+            if(cookie != null) headers["Cookie"] = cookie
             return headers
         }
 
@@ -282,7 +294,9 @@ suspend fun TandoorClient.reqInputStream(
     params: HashMap<String, String> = hashMapOf()
 ) = suspendCoroutine { cont ->
     val queue = Volley.newRequestQueue(context)
+
     val token = this.credentials.token
+    val cookie = this.credentials.cookie
 
     Log.d(
         "TandoorRequests",
@@ -311,7 +325,8 @@ suspend fun TandoorClient.reqInputStream(
     ) {
         override fun getHeaders(): MutableMap<String, String> {
             val headers = super.getHeaders().toMutableMap()
-            headers["Authorization"] = "Bearer ${token?.token ?: ""}"
+            if(token != null) headers["Authorization"] = "Bearer ${token.token}"
+            if(cookie != null) headers["Cookie"] = cookie
             return headers
         }
     }

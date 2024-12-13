@@ -29,8 +29,13 @@ class TandoorMedia(
     }
 
     fun getImageBuilderByContext(context: Context): ImageRequest.Builder {
-        return ImageRequest.Builder(context)
-            .addHeader("Authorization", "Bearer ${client.credentials.token?.token ?: ""}")
+        return ImageRequest.Builder(context).run {
+            if(client.credentials.token != null) {
+                addHeader("Authorization", "Bearer ${client.credentials.token?.token ?: ""}")
+            } else {
+                addHeader("Cookie", client.credentials.cookie ?: "")
+            }
+        }
     }
 
     @Composable
