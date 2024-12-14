@@ -25,7 +25,9 @@ class TandoorRequestsError(
     val url: String
 ) : Throwable() {
     override fun getLocalizedMessage(): String {
-        return "at $url ($method) / " + volleyError?.localizedMessage + " / TandoorRequestsError / " + volleyError?.stackTraceToString()
+        val message = volleyError?.networkResponse?.data?.decodeToString()
+
+        return "at $url ($method) / $message / " + volleyError?.localizedMessage + " / TandoorRequestsError / " + volleyError?.stackTraceToString()
     }
 }
 
@@ -36,7 +38,9 @@ suspend fun TandoorClient.req(
     data: JSONObject? = null
 ) = suspendCoroutine { cont ->
     val queue = Volley.newRequestQueue(context)
+
     val token = this.credentials.token
+    val cookie = this.credentials.cookie
 
     Log.d(
         "TandoorRequests",
@@ -74,7 +78,13 @@ suspend fun TandoorClient.req(
 
         override fun getHeaders(): MutableMap<String, String> {
             val headers = super.getHeaders().toMutableMap()
-            headers["Authorization"] = "Bearer ${token?.token ?: ""}"
+            if(token != null) headers["Authorization"] = "Bearer ${token.token}"
+            if(cookie != null) {
+                val csrfToken = cookie.replace(Regex(".*csrftoken="), "").replace(Regex(";.*"), "")
+                headers["X-CSRFTOKEN"] = csrfToken
+                headers["Cookie"] = cookie
+            }
+            headers["Referer"] = credentials.instanceUrl
             return headers
         }
     }
@@ -121,7 +131,12 @@ suspend fun TandoorClient.reqArray(
         override fun getHeaders(): MutableMap<String, String> {
             val headers = super.getHeaders().toMutableMap()
             if(token != null) headers["Authorization"] = "Bearer ${token.token}"
-            if(cookie != null) headers["Cookie"] = cookie
+            if(cookie != null) {
+                val csrfToken = cookie.replace(Regex(".*csrftoken="), "").replace(Regex(";.*"), "")
+                headers["X-CSRFTOKEN"] = csrfToken
+                headers["Cookie"] = cookie
+            }
+            headers["Referer"] = credentials.instanceUrl
             return headers
         }
     }
@@ -172,7 +187,12 @@ suspend fun TandoorClient.reqObject(
         override fun getHeaders(): MutableMap<String, String> {
             val headers = super.getHeaders().toMutableMap()
             if(token != null) headers["Authorization"] = "Bearer ${token.token}"
-            if(cookie != null) headers["Cookie"] = cookie
+            if(cookie != null) {
+                val csrfToken = cookie.replace(Regex(".*csrftoken="), "").replace(Regex(";.*"), "")
+                headers["X-CSRFTOKEN"] = csrfToken
+                headers["Cookie"] = cookie
+            }
+            headers["Referer"] = credentials.instanceUrl
             return headers
         }
     }
@@ -218,7 +238,12 @@ suspend fun TandoorClient.reqBitmap(
         override fun getHeaders(): MutableMap<String, String> {
             val headers = super.getHeaders().toMutableMap()
             if(token != null) headers["Authorization"] = "Bearer ${token.token}"
-            if(cookie != null) headers["Cookie"] = cookie
+            if(cookie != null) {
+                val csrfToken = cookie.replace(Regex(".*csrftoken="), "").replace(Regex(";.*"), "")
+                headers["X-CSRFTOKEN"] = csrfToken
+                headers["Cookie"] = cookie
+            }
+            headers["Referer"] = credentials.instanceUrl
             return headers
         }
 
@@ -275,7 +300,12 @@ suspend fun TandoorClient.reqMultipart(
         override fun getHeaders(): MutableMap<String, String> {
             val headers = super.getHeaders().toMutableMap()
             if(token != null) headers["Authorization"] = "Bearer ${token.token}"
-            if(cookie != null) headers["Cookie"] = cookie
+            if(cookie != null) {
+                val csrfToken = cookie.replace(Regex(".*csrftoken="), "").replace(Regex(";.*"), "")
+                headers["X-CSRFTOKEN"] = csrfToken
+                headers["Cookie"] = cookie
+            }
+            headers["Referer"] = credentials.instanceUrl
             return headers
         }
 
@@ -326,7 +356,12 @@ suspend fun TandoorClient.reqInputStream(
         override fun getHeaders(): MutableMap<String, String> {
             val headers = super.getHeaders().toMutableMap()
             if(token != null) headers["Authorization"] = "Bearer ${token.token}"
-            if(cookie != null) headers["Cookie"] = cookie
+            if(cookie != null) {
+                val csrfToken = cookie.replace(Regex(".*csrftoken="), "").replace(Regex(";.*"), "")
+                headers["X-CSRFTOKEN"] = csrfToken
+                headers["Cookie"] = cookie
+            }
+            headers["Referer"] = credentials.instanceUrl
             return headers
         }
     }
