@@ -28,8 +28,8 @@ android {
         applicationId = "de.kitshn.android"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1130
-        versionName = "1.0.0-alpha.13"
+        versionCode = 1140
+        versionName = "1.0.0-alpha.14"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
