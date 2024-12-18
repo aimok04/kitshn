@@ -141,6 +141,8 @@ fun RouteMainSubrouteShopping(
         foodMap.clear()
 
         client?.container?.shoppingListEntries?.forEach {
+            if(it.checked) return@forEach
+
             if(!foodMap.contains(it.food.id)) {
                 foods.add(it.food)
                 foodMap[it.food.id] = mutableListOf()
