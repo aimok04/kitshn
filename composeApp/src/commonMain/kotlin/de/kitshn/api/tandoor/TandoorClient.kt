@@ -1,6 +1,6 @@
 package de.kitshn.api.tandoor
 
-import android.content.Context
+import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.route.TandoorCookLogRoute
 import de.kitshn.api.tandoor.route.TandoorFoodRoute
 import de.kitshn.api.tandoor.route.TandoorKeywordRoute
@@ -14,8 +14,12 @@ import de.kitshn.api.tandoor.route.TandoorShoppingRoute
 import de.kitshn.api.tandoor.route.TandoorUserPreferenceRoute
 import de.kitshn.api.tandoor.route.TandoorUserRoute
 import de.kitshn.json
+import io.ktor.client.HttpClient
+import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.Serializable
-import org.json.JSONObject
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.put
 
 @Serializable
 data class TandoorCredentialsToken(
@@ -29,14 +33,16 @@ data class TandoorCredentials(
     val instanceUrl: String,
     var username: String = "",
     val password: String = "",
-    var token: TandoorCredentialsToken? = null,
-    val cookie: String? = null
+    var token: TandoorCredentialsToken? = null
 )
 
 class TandoorClient(
-    val context: Context,
     val credentials: TandoorCredentials
 ) {
+
+    val httpClient = HttpClient {
+        followRedirects = true
+    }
 
     val container = TandoorContainer(this)
     val media = TandoorMedia(this)
@@ -55,13 +61,13 @@ class TandoorClient(
     val openapi = TandoorOpenApiRoute(this)
 
     suspend fun login(): TandoorCredentialsToken? {
-        val obj = JSONObject()
-        obj.put("username", credentials.username)
-        obj.put("password", credentials.password)
+        val obj = buildJsonObject {
+            put("username", credentials.username)
+            put("password", credentials.password)
+        }
 
         try {
-            val data = postObject("-token-auth/", obj)
-            return json.decodeFromString<TandoorCredentialsToken>(data.toString())
+            return json.decodeFromJsonElement<TandoorCredentialsToken>(postObject("-token-auth/", obj))
         } catch(_: TandoorRequestsError) {
         }
 
@@ -73,7 +79,7 @@ class TandoorClient(
             getObject("")
             return true
         } catch(e: TandoorRequestsError) {
-            if(ignoreAuth) return e.volleyError?.networkResponse?.statusCode == 403
+            if(ignoreAuth) return e.response?.status == HttpStatusCode.Forbidden
             return false
         }
     }

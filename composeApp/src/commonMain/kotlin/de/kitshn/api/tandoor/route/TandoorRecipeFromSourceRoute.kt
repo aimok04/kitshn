@@ -1,18 +1,17 @@
 package de.kitshn.api.tandoor.route
 
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeImportResponse
 import de.kitshn.api.tandoor.postObject
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
 
 class TandoorRecipeFromSourceRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
-    @Throws(TandoorRequestsError::class)
     suspend fun fetch(url: String): TandoorRecipeImportResponse {
-        val data = JSONObject().apply {
-            put("url", url)
-            put("data", "")
+        val data = buildJsonObject {
+            put("url", JsonPrimitive(url))
+            put("data", JsonPrimitive(""))
         }
 
         return TandoorRecipeImportResponse.parse(

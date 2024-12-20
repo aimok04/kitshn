@@ -9,45 +9,56 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import de.kitshn.R
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.tandoor_compatibility_full_compatibility_description
+import kitshn.composeapp.generated.resources.tandoor_compatibility_full_compatibility_label
+import kitshn.composeapp.generated.resources.tandoor_compatibility_incompatible_description
+import kitshn.composeapp.generated.resources.tandoor_compatibility_incompatible_label
+import kitshn.composeapp.generated.resources.tandoor_compatibility_mixed_compatibility_description
+import kitshn.composeapp.generated.resources.tandoor_compatibility_mixed_compatibility_label
+import kitshn.composeapp.generated.resources.tandoor_compatibility_not_checkable_description
+import kitshn.composeapp.generated.resources.tandoor_compatibility_not_checkable_label
+import kitshn.composeapp.generated.resources.tandoor_compatibility_unknown_description
+import kitshn.composeapp.generated.resources.tandoor_compatibility_unknown_label
+import org.jetbrains.compose.resources.StringResource
 
 enum class TandoorServerVersionCompatibilityState(
-    val label: Int,
-    val description: Int,
+    val label: StringResource,
+    val description: StringResource,
     val icon: ImageVector,
     val iconTint: @Composable () -> Color,
     val hideCompatibleVersionsList: Boolean = false,
     val disableDismiss: Boolean = false
 ) {
     INCOMPATIBLE(
-        label = R.string.tandoor_compatibility_incompatible_label,
-        description = R.string.tandoor_compatibility_incompatible_description,
+        label = Res.string.tandoor_compatibility_incompatible_label,
+        description = Res.string.tandoor_compatibility_incompatible_description,
         icon = Icons.Rounded.Block,
         iconTint = { MaterialTheme.colorScheme.error },
         disableDismiss = true
     ),
     MIXED_COMPATIBILITY(
-        label = R.string.tandoor_compatibility_mixed_compatibility_label,
-        description = R.string.tandoor_compatibility_mixed_compatibility_description,
+        label = Res.string.tandoor_compatibility_mixed_compatibility_label,
+        description = Res.string.tandoor_compatibility_mixed_compatibility_description,
         icon = Icons.Rounded.WarningAmber,
         iconTint = { Color.Yellow }
     ),
     FULL_COMPATIBILITY(
-        label = R.string.tandoor_compatibility_full_compatibility_label,
-        description = R.string.tandoor_compatibility_full_compatibility_description,
+        label = Res.string.tandoor_compatibility_full_compatibility_label,
+        description = Res.string.tandoor_compatibility_full_compatibility_description,
         icon = Icons.Rounded.Check,
         iconTint = { Color.Green },
         hideCompatibleVersionsList = true
     ),
     UNKNOWN(
-        label = R.string.tandoor_compatibility_unknown_label,
-        description = R.string.tandoor_compatibility_unknown_description,
+        label = Res.string.tandoor_compatibility_unknown_label,
+        description = Res.string.tandoor_compatibility_unknown_description,
         icon = Icons.Rounded.QuestionMark,
         iconTint = { Color.Gray }
     ),
     NOT_CHECKABLE(
-        label = R.string.tandoor_compatibility_not_checkable_label,
-        description = R.string.tandoor_compatibility_not_checkable_description,
+        label = Res.string.tandoor_compatibility_not_checkable_label,
+        description = Res.string.tandoor_compatibility_not_checkable_description,
         icon = Icons.Rounded.QuestionMark,
         iconTint = { Color.Gray }
     )

@@ -1,7 +1,6 @@
 package de.kitshn.api.tandoor.route
 
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.json
 import kotlinx.serialization.Serializable
@@ -28,14 +27,12 @@ data class TandoorUser(
 
 class TandoorUserRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
-    @Throws(TandoorRequestsError::class)
     suspend fun getUsers(): List<TandoorUser> {
         return json.decodeFromString<List<TandoorUser>>(
             client.getObject("/user/").toString()
         )
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun get(): TandoorUser? {
         val resp = json.decodeFromString<TandoorUserSpaceResponse>(
             client.getObject("/user-space/").toString()

@@ -1,8 +1,7 @@
 package de.kitshn.api.tandoor.route
 
-import android.net.Uri
+import com.eygraber.uri.Uri
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.getArray
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorMealPlan
@@ -11,15 +10,15 @@ import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
 import de.kitshn.toTandoorDate
-import kotlinx.serialization.encodeToString
-import org.json.JSONArray
-import org.json.JSONObject
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.format.FormatStringsInDatetimeFormats
+import kotlinx.datetime.format.byUnicodePattern
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.encodeToJsonElement
 
 class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
-    @Throws(TandoorRequestsError::class)
     suspend fun create(
         title: String = "",
         recipe: TandoorRecipeOverview? = null,
@@ -31,25 +30,17 @@ class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         addshopping: Boolean = false,
         shared: List<TandoorUser>? = null
     ): TandoorMealPlan {
-        val data = JSONObject().apply {
-            put("title", title)
-            if(recipe != null) put(
-                "recipe", JSONObject(
-                    json.encodeToString(recipe)
-                )
-            )
-            put("servings", servings)
-            put("note", note)
-            put("from_date", from_date.toTandoorDate())
-            if(to_date != null) put("to_date", to_date.toTandoorDate())
-            put(
-                "meal_type", JSONObject(
-                    json.encodeToString(meal_type)
-                )
-            )
-            put("addshopping", addshopping)
+        val data = buildJsonObject {
+            put("title", JsonPrimitive(title))
+            if(recipe != null) put("recipe", json.encodeToJsonElement(recipe))
+            put("servings", JsonPrimitive(servings))
+            put("note", JsonPrimitive(note))
+            put("from_date", JsonPrimitive(from_date.toTandoorDate()))
+            if(to_date != null) put("to_date", JsonPrimitive(to_date.toTandoorDate()))
+            put("meal_type", json.encodeToJsonElement(meal_type))
+            put("addshopping", JsonPrimitive(addshopping))
             shared?.let {
-                val sharedObj = JSONArray(json.encodeToString(shared))
+                val sharedObj = json.encodeToJsonElement(shared)
                 put("shared", sharedObj)
             }
         }
@@ -65,17 +56,19 @@ class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return mealPlan
     }
 
-    @Throws(TandoorRequestsError::class)
+    @OptIn(FormatStringsInDatetimeFormats::class)
     suspend fun fetch(
         from: LocalDate? = null,
         to: LocalDate? = null,
         meal_type: Int? = null
     ): List<TandoorMealPlan> {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val dateTimeFormat = LocalDate.Format {
+            byUnicodePattern("yyyy-MM-dd")
+        }
 
         val builder = Uri.Builder().appendPath("meal-plan")
-        if(from != null) builder.appendQueryParameter("from_date", formatter.format(from))
-        if(to != null) builder.appendQueryParameter("to_date", formatter.format(to))
+        if(from != null) builder.appendQueryParameter("from_date", dateTimeFormat.format(from))
+        if(to != null) builder.appendQueryParameter("to_date", dateTimeFormat.format(to))
         if(meal_type != null) builder.appendQueryParameter("meal_type", meal_type.toString())
 
         val response = json.decodeFromString<List<TandoorMealPlan>>(
@@ -93,7 +86,6 @@ class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return response
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun get(
         id: Int
     ): TandoorMealPlan {

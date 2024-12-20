@@ -1,14 +1,15 @@
 package de.kitshn.api.tandoor.model.recipe
 
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.encodeToString
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.json.jsonObject
 
 @Serializable
 data class TandoorRecipeImportResponse(
@@ -39,7 +40,6 @@ class TandoorRecipeFromSource(
     @Transient
     var client: TandoorClient? = null
 
-    @Throws(TandoorRequestsError::class)
     suspend fun create(
         imageUrl: String = recipeJson.image,
         keywords: List<String> = recipeJson.keywords.map { it.name ?: "" },
@@ -57,38 +57,36 @@ class TandoorRecipeFromSource(
             }
         }
 
-        val data = JSONObject(json.encodeToString(recipeJson)).apply {
-            put("image", imageUrl)
+        val data = JsonObject(json.encodeToJsonElement(recipeJson).jsonObject.toMutableMap().apply {
+            put("image", JsonPrimitive(imageUrl))
 
-            put("keywords", JSONArray().apply {
+            put("keywords", buildJsonArray {
                 recipeJson.keywords.filter { keywords.contains(it.name) }
-                    .forEach { put(JSONObject(json.encodeToString(it))) }
+                    .forEach { add(json.encodeToJsonElement(it)) }
             })
 
-            if(splitSteps && recipeJson.steps.size == 1) put("steps", JSONArray().apply {
+            if(splitSteps && recipeJson.steps.size == 1) put("steps", buildJsonArray {
                 val instructions = recipeJson.steps[0].instruction.split("\n")
 
                 instructions.forEachIndexed { index, s ->
                     if(index == 0) {
-                        put(JSONObject(json.encodeToString(recipeJson.steps[0].apply {
-                            instruction = s
-                        })))
+                        add(
+                            json.encodeToJsonElement(recipeJson.steps[0].apply {
+                                instruction = s
+                            })
+                        )
                     } else {
-                        put(
-                            JSONObject(
-                                json.encodeToString(
-                                    TandoorRecipeFromSourceStep(
-                                        instruction = s,
-                                        ingredients = listOf(),
-                                        showIngredientsTable = true
-                                    )
-                                )
-                            )
+                        add(
+                            json.encodeToJsonElement(TandoorRecipeFromSourceStep(
+                                instruction = s,
+                                ingredients = listOf(),
+                                showIngredientsTable = true
+                            ))
                         )
                     }
                 }
             })
-        }
+        })
 
         return client!!.recipe.create(data = data)
     }

@@ -1,18 +1,17 @@
 package de.kitshn.api.tandoor.model.recipe
 
-import android.graphics.Bitmap
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import coil.request.ImageRequest
+import co.touchlab.kermit.Logger
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import de.kitshn.JsonAsStringSerializer
 import de.kitshn.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorFoodProperty
@@ -20,18 +19,23 @@ import de.kitshn.api.tandoor.model.TandoorKeyword
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.patchObject
 import de.kitshn.api.tandoor.put
-import de.kitshn.api.tandoor.putBitmap
 import de.kitshn.api.tandoor.putMultipart
 import de.kitshn.json
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
+import io.ktor.utils.io.InternalAPI
+import kotlinx.datetime.Clock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.put
 
 @Serializable
 class TandoorRecipe(
@@ -101,12 +105,11 @@ class TandoorRecipe(
         }
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun combineSteps(steps: List<TandoorStep>) {
         val base = steps[0]
         val remainingSteps = steps.drop(1)
 
-        val ingredientsRaw = JSONArray(base.ingredientsRaw.toString())
+        val ingredientsRaw = base.ingredientsRaw.toMutableList()
 
         remainingSteps.forEach {
             if(it.name.isNotBlank()) {
@@ -119,7 +122,7 @@ class TandoorRecipe(
 
             base.instruction += " " + it.instruction
             base.instructions_markdown += " " + it.instructions_markdown
-            it.ingredientsRaw.forEach { i -> ingredientsRaw.put(JSONObject(i.toString())) }
+            it.ingredientsRaw.forEach { i -> ingredientsRaw.add(i) }
             base.ingredients.addAll(it.ingredients)
             base.time += it.time
 
@@ -134,7 +137,7 @@ class TandoorRecipe(
             name = base.name,
             instruction = base.instruction,
             instructions_markdown = base.instructions_markdown,
-            ingredientsRaw = ingredientsRaw,
+            ingredientsRaw = JsonArray(ingredientsRaw),
             time = base.time,
             show_ingredients_table = base.show_ingredients_table,
             step_recipe = base.step_recipe
@@ -146,16 +149,14 @@ class TandoorRecipe(
         }
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun shopping(servings: Int) {
         if(client == null) return
 
-        client!!.put("/recipe/${id}/shopping/", JSONObject().apply {
+        client!!.put("/recipe/${id}/shopping/", buildJsonObject {
             put("servings", servings)
         })
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun delete() {
         if(client == null) return
 
@@ -168,13 +169,11 @@ class TandoorRecipe(
         return
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun deleteStep(step: TandoorStep) {
         step.delete()
         steps = steps.filter { it.id != step.id }.toMutableList()
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun partialUpdate(
         name: String? = null,
         description: String? = null,
@@ -187,18 +186,18 @@ class TandoorRecipe(
     ) {
         if(this.client == null) return
 
-        val data = JSONObject().apply {
+        val data = buildJsonObject {
             if(name != null) put("name", name)
             if(description != null) put("description", description)
             if(keywords != null) {
-                val keywordArray = JSONArray()
-                keywords.forEach {
-                    val keywordObject = JSONObject()
-                    keywordObject.put("name", it.name)
-                    keywordObject.put("description", it.description)
-                    keywordArray.put(keywordObject)
-                }
-                put("keywords", keywordArray)
+                put("keywords", buildJsonArray {
+                    keywords.forEach {
+                        add(buildJsonObject {
+                            put("name", it.name)
+                            put("description", it.description)
+                        })
+                    }
+                })
             }
             if(working_time != null) put("working_time", working_time)
             if(waiting_time != null) put("waiting_time", waiting_time)
@@ -207,7 +206,7 @@ class TandoorRecipe(
             if(servings_text != null) put("servings_text", servings_text)
         }
 
-        Log.d("TandoorRecipe / Edit", data.toString(4))
+        Logger.d("TandoorRecipe / Edit") { data.toString() }
         client!!.patchObject("/recipe/${id}/", data)
     }
 
@@ -215,7 +214,6 @@ class TandoorRecipe(
      * Helper function which adds a "flag" keyword to the recipe.
      * Used to extend Tandoor with custom functionality for kitshn.
      */
-    @Throws(TandoorRequestsError::class)
     suspend fun addFlag(
         name: String,
         description: String
@@ -237,22 +235,24 @@ class TandoorRecipe(
         hideIngredientAllocationWarning = true
     }
 
-    @Throws(TandoorRequestsError::class)
-    suspend fun uploadImage(image: Bitmap) {
-        client?.putBitmap("/recipe/${id}/image/", image)
+    suspend fun uploadImage(image: ByteArray) {
+        client?.putMultipart("/recipe/${id}/image/") {
+            append("image", value = image, headers = Headers.build {
+                append(HttpHeaders.ContentType, "image/png")
+                append(HttpHeaders.ContentDisposition, "filename=test.png")
+            })
+        }
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun setImageUrl(imageUrl: String) {
-        client?.putMultipart("/recipe/${id}/image/", mutableMapOf<String, String>().apply {
-            put("image_url", imageUrl)
-        })
+        client?.putMultipart("/recipe/${id}/image/") {
+            append("image_url", imageUrl)
+        }
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun retrieveShareLink(): String? {
         if(this.client == null) return null
-        return client!!.getObject("/share-link/${id}")!!.getString("link")
+        return client!!.getObject("/share-link/${id}")["link"]?.jsonPrimitive?.content
     }
 
     fun sortSteps(): List<TandoorStep> {

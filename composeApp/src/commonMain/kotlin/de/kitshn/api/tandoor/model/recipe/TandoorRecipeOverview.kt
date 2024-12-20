@@ -1,14 +1,16 @@
 package de.kitshn.api.tandoor.model.recipe
 
 import androidx.compose.runtime.Composable
-import coil.request.ImageRequest
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import de.kitshn.JsonAsStringSerializer
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.decodeFromJsonElement
 
 @Serializable
 class TandoorRecipeOverview(
@@ -50,8 +52,8 @@ class TandoorRecipeOverview(
     }
 
     companion object {
-        fun parse(client: TandoorClient, data: JSONObject): TandoorRecipeOverview {
-            val obj = json.decodeFromString<TandoorRecipeOverview>(data.toString())
+        fun parse(client: TandoorClient, data: JsonObject): TandoorRecipeOverview {
+            val obj = json.decodeFromJsonElement<TandoorRecipeOverview>(data)
             obj.client = client
             return obj
         }

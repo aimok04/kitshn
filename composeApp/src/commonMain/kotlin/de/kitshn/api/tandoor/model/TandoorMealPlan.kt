@@ -2,19 +2,20 @@ package de.kitshn.api.tandoor.model
 
 import androidx.compose.ui.graphics.Color
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.patchObject
 import de.kitshn.json
 import de.kitshn.parseTandoorDate
+import de.kitshn.toColorInt
 import de.kitshn.toTandoorDate
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.encodeToString
-import org.json.JSONObject
-import java.time.LocalDate
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.encodeToJsonElement
 
 @Serializable
 data class TandoorMealType(
@@ -30,7 +31,7 @@ data class TandoorMealType(
     val color = if((colorStr ?: "").isBlank()) {
         Color.Gray
     } else {
-        Color(android.graphics.Color.parseColor(colorStr))
+        Color(colorStr?.toColorInt()?: -1)
     }
 }
 
@@ -62,9 +63,8 @@ class TandoorMealPlan(
         }
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun delete(): String {
-        return client?.delete("/meal-plan/${id}/") ?: "unknown"
+        return client?.delete("/meal-plan/${id}/")?.status?.value?.toString() ?: "unknown"
     }
 
     suspend fun partialUpdate(
@@ -79,29 +79,21 @@ class TandoorMealPlan(
     ) {
         if(this.client == null) return
 
-        val data = JSONObject().apply {
-            if(title != null) put("title", title)
-            if(recipe != null) put(
-                "recipe", JSONObject(
-                    json.encodeToString(recipe)
-                )
-            )
-            if(servings != null) put("servings", servings)
-            if(note != null) put("note", note)
-            if(meal_type != null) put(
-                "meal_type", JSONObject(
-                    json.encodeToString(meal_type)
-                )
-            )
-            if(addshopping != null) put("addshopping", addshopping)
+        val data = buildJsonObject {
+            if(title != null) put("title", JsonPrimitive(title))
+            if(recipe != null) put("recipe", json.encodeToJsonElement(recipe))
+            if(servings != null) put("servings", JsonPrimitive(servings))
+            if(note != null) put("note", JsonPrimitive(note))
+            if(meal_type != null) put("meal_type", json.encodeToJsonElement(meal_type))
+            if(addshopping != null) put("addshopping", JsonPrimitive(addshopping))
 
-            if(to_date != null) put("to_date", to_date.toTandoorDate())
+            if(to_date != null) put("to_date", JsonPrimitive(to_date.toTandoorDate()))
             if(from_date != null) {
-                put("from_date", from_date.toTandoorDate())
+                put("from_date", JsonPrimitive(from_date.toTandoorDate()))
 
                 if(to_date == null) {
                     val originalToDate = this@TandoorMealPlan.to_date.parseTandoorDate()
-                    if(originalToDate.isBefore(from_date)) put("to_date", from_date.toTandoorDate())
+                    if(originalToDate < from_date) put("to_date", JsonPrimitive(from_date.toTandoorDate()))
                 }
             }
         }

@@ -3,9 +3,8 @@ package de.kitshn.api.tandoor.model
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
-import coil.request.ImageRequest
+import coil3.request.ImageRequest
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.patchObject
@@ -13,7 +12,8 @@ import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
 
 @Serializable
 class TandoorRecipeBook(
@@ -38,39 +38,35 @@ class TandoorRecipeBook(
         return entries.firstOrNull { (it.recipe_content.image ?: "").isNotBlank() }?.loadThumbnail()
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun listEntries(): List<TandoorRecipeBookEntry>? {
         if(client == null) return null
         return client!!.recipeBook.listEntries(id)
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun delete(): String {
         client?.container?.recipeBook?.remove(id)
-        return client?.delete("/recipe-book/${id}/") ?: "unknown"
+        return client?.delete("/recipe-book/${id}/")?.status?.value?.toString() ?: "unknown"
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun partialUpdate(
         name: String? = null,
         description: String? = null
     ) {
         if(this.client == null) return
 
-        val data = JSONObject().apply {
-            if(name != null) put("name", name)
-            if(description != null) put("description", description)
+        val data = buildJsonObject {
+            if(name != null) put("name", JsonPrimitive(name))
+            if(description != null) put("description", JsonPrimitive(description))
         }
 
         client!!.patchObject("/recipe-book/${id}/", data)
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun createEntry(recipeId: Int): TandoorRecipeBookEntry {
-        val data = JSONObject().apply {
-            put("book", id)
-            put("recipe", recipeId)
-            put("order", 0)
+        val data = buildJsonObject {
+            put("book", JsonPrimitive(id))
+            put("recipe", JsonPrimitive(recipeId))
+            put("order", JsonPrimitive(0))
         }
 
         val response = json.decodeFromString<TandoorRecipeBookEntry>(
@@ -113,15 +109,14 @@ class TandoorRecipeBookEntry(
         return recipe_content.loadThumbnail()
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun delete(): String {
         // remove from entry lists
         client?.container?.recipeBook?.get(book)?.let {
-            it.entries.removeIf { entry -> entry.id == id }
+            it.entries.forEach { entry -> if(entry.id == id) it.entries.remove(entry) }
             it.entryByRecipeId.remove(recipe)
         }
 
-        return client?.delete("/recipe-book-entry/${id}/") ?: "unknown"
+        return client?.delete("/recipe-book-entry/${id}/")?.status?.value?.toString() ?: "unknown"
     }
 
     fun populate(book: TandoorRecipeBook?, client: TandoorClient?) {

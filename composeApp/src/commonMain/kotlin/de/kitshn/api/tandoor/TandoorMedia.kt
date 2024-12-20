@@ -1,9 +1,11 @@
 package de.kitshn.api.tandoor
 
-import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import coil.request.ImageRequest
+import coil3.PlatformContext
+import coil3.compose.LocalPlatformContext
+import coil3.network.NetworkHeaders
+import coil3.network.httpHeaders
+import coil3.request.ImageRequest
 
 class TandoorMedia(
     val client: TandoorClient
@@ -11,10 +13,10 @@ class TandoorMedia(
 
     @Composable
     fun createImageBuilder(endpoint: String): ImageRequest.Builder {
-        return createImageBuilder(LocalContext.current, endpoint)
+        return createImageBuilder(LocalPlatformContext.current, endpoint)
     }
 
-    fun createImageBuilder(context: Context, mEndpoint: String): ImageRequest.Builder {
+    fun createImageBuilder(context: PlatformContext, mEndpoint: String): ImageRequest.Builder {
         var endpoint = mEndpoint
 
         val builder =
@@ -28,19 +30,18 @@ class TandoorMedia(
         return builder.data(endpoint)
     }
 
-    fun getImageBuilderByContext(context: Context): ImageRequest.Builder {
-        return ImageRequest.Builder(context).run {
-            if(client.credentials.token != null) {
-                addHeader("Authorization", "Bearer ${client.credentials.token?.token ?: ""}")
-            } else {
-                addHeader("Cookie", client.credentials.cookie ?: "")
-            }
-        }
+    fun getImageBuilderByContext(context: PlatformContext): ImageRequest.Builder {
+        return ImageRequest.Builder(context)
+            .httpHeaders(
+                NetworkHeaders.Builder()
+                    .set("Authorization", "Bearer ${client.credentials.token?.token ?: ""}")
+                    .build()
+            )
     }
 
     @Composable
     fun getImageBuilder(): ImageRequest.Builder {
-        return getImageBuilderByContext(LocalContext.current)
+        return getImageBuilderByContext(LocalPlatformContext.current)
     }
 
 }

@@ -1,14 +1,14 @@
 package de.kitshn.api.tandoor.route
 
-import android.net.Uri
+import com.eygraber.uri.Uri
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorKeyword
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
 import kotlinx.serialization.Serializable
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
 
 @Serializable
 data class TandoorKeywordRouteListResponse(
@@ -20,11 +20,10 @@ data class TandoorKeywordRouteListResponse(
 
 class TandoorKeywordRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
-    @Throws(TandoorRequestsError::class)
     suspend fun create(name: String, description: String): TandoorKeyword {
-        val data = JSONObject().apply {
-            put("name", name)
-            put("description", description)
+        val data = buildJsonObject {
+            put("name", JsonPrimitive(name))
+            put("description", JsonPrimitive(description))
         }
 
         val response = json.decodeFromString<TandoorKeyword>(
@@ -36,7 +35,6 @@ class TandoorKeywordRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return response
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun retrieve(
         id: Int
     ): TandoorKeyword {
@@ -50,7 +48,6 @@ class TandoorKeywordRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return response
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun list(
         query: String? = null,
         page: Int = 1,
@@ -73,7 +70,6 @@ class TandoorKeywordRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return response
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun retrieve(): TandoorKeywordRouteListResponse {
         return list(
             pageSize = 10000000

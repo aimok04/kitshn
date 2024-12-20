@@ -8,7 +8,6 @@ import de.kitshn.json
 
 class TandoorUserPreferenceRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
-    @Throws(TandoorRequestsError::class)
     suspend fun fetch(userId: Long? = null): TandoorUserPreference {
         val response = json.decodeFromString<TandoorUserPreference>(
             client.getArray("/user-preference/${if(userId != null) "$userId/" else ""}")?.get(0)

@@ -1,8 +1,7 @@
 package de.kitshn.api.tandoor.route
 
-import android.net.Uri
+import com.eygraber.uri.Uri
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.json
@@ -18,7 +17,6 @@ data class TandoorFoodRouteListResponse(
 
 class TandoorFoodRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
-    @Throws(TandoorRequestsError::class)
     suspend fun list(
         query: String? = null,
         page: Int = 1,
@@ -41,7 +39,6 @@ class TandoorFoodRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return response
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun retrieve(): TandoorFoodRouteListResponse {
         return list(
             pageSize = 10000000

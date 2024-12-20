@@ -25,7 +25,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import de.kitshn.KitshnViewModel
@@ -33,6 +32,7 @@ import de.kitshn.ui.theme.Typography
 import de.kitshn.version.TandoorServerVersionCompatibility
 import de.kitshn.version.TandoorServerVersionCompatibilityState
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -118,12 +118,12 @@ fun TandoorServerVersionCompatibilityDialog(
                     .size(48.dp),
                 imageVector = compatibilityState!!.icon,
                 tint = compatibilityState!!.iconTint(),
-                contentDescription = stringResource(id = compatibilityState!!.label)
+                contentDescription = stringResource(compatibilityState!!.label)
             )
 
             Text(
-                text = stringResource(id = compatibilityState!!.label),
-                style = Typography.displaySmall,
+                text = stringResource(compatibilityState!!.label),
+                style = Typography().displaySmall,
                 textAlign = TextAlign.Center
             )
 
@@ -131,7 +131,7 @@ fun TandoorServerVersionCompatibilityDialog(
 
             Text(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                text = stringResource(id = compatibilityState!!.description),
+                text = stringResource(compatibilityState!!.description),
                 textAlign = TextAlign.Center
             )
 

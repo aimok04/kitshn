@@ -7,8 +7,9 @@ import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
 
 @Serializable
 data class TandoorParsedIngredient(
@@ -37,9 +38,11 @@ class TandoorShoppingListEntry(
     var client: TandoorClient? = null
 
     suspend fun check() {
-        val data = JSONObject().apply {
-            put("ids", JSONArray().apply { put(id) })
-            put("checked", true)
+        val data = buildJsonObject {
+            put("ids", buildJsonArray {
+                add(JsonPrimitive(id))
+            })
+            put("checked", JsonPrimitive(true))
         }
 
         client!!.postObject("/shopping-list-entry/bulk/", data)

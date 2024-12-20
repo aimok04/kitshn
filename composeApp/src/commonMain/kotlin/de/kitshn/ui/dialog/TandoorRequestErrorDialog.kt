@@ -26,17 +26,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
-import org.acra.ktx.sendWithAcra
+import de.kitshn.crash.crashReportHandler
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_share
+import kitshn.composeapp.generated.resources.common_okay
+import kitshn.composeapp.generated.resources.error
+import kitshn.composeapp.generated.resources.error_request
+import kitshn.composeapp.generated.resources.error_request_description
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TandoorRequestErrorDialog(
     state: TandoorRequestState,
-    title: String = stringResource(R.string.error_request),
+    title: String = stringResource(Res.string.error_request),
     onDismiss: () -> Unit = { }
 ) {
     var shown by remember { mutableStateOf(false) }
@@ -48,6 +53,8 @@ fun TandoorRequestErrorDialog(
 
     if(!shown) return
 
+    val crashReportHandler = crashReportHandler()
+
     AlertDialog(
         onDismissRequest = {
             shown = false
@@ -56,7 +63,7 @@ fun TandoorRequestErrorDialog(
         icon = {
             Icon(
                 imageVector = Icons.Rounded.ErrorOutline,
-                contentDescription = stringResource(R.string.error),
+                contentDescription = stringResource(Res.string.error),
                 tint = MaterialTheme.colorScheme.error
             )
         },
@@ -67,7 +74,7 @@ fun TandoorRequestErrorDialog(
         title = { Text(title) },
         text = {
             Column {
-                Text(stringResource(R.string.error_request_description))
+                Text(stringResource(Res.string.error_request_description))
 
                 if(state.error != null) {
                     Spacer(Modifier.height(16.dp))
@@ -82,15 +89,15 @@ fun TandoorRequestErrorDialog(
                             contentPadding = PaddingValues(8.dp),
                             verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-                            if(state.error?.volleyError?.message != null) item {
+                            if(state.error?.message != null) item {
                                 Text(
-                                    text = state.error?.volleyError?.message ?: ""
+                                    text = state.error?.message ?: ""
                                 )
                             }
 
-                            if(state.error?.volleyError != null) item {
+                            if(state.error != null) item {
                                 Text(
-                                    text = state.error?.volleyError?.stackTraceToString() ?: ""
+                                    text = state.error?.stackTraceToString() ?: ""
                                 )
                             }
                         }
@@ -99,14 +106,14 @@ fun TandoorRequestErrorDialog(
             }
         },
         dismissButton = {
-            IconButton(
+            if(crashReportHandler != null) IconButton(
                 onClick = {
-                    state.error?.sendWithAcra()
+                    state.error?.let { crashReportHandler(it) }
                 },
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Share,
-                    contentDescription = stringResource(R.string.action_share),
+                    contentDescription = stringResource(Res.string.action_share),
                     tint = MaterialTheme.colorScheme.onErrorContainer
                 )
             }
@@ -122,7 +129,7 @@ fun TandoorRequestErrorDialog(
                     onDismiss()
                 }
             ) {
-                Text(stringResource(id = R.string.common_okay))
+                Text(stringResource(Res.string.common_okay))
             }
         }
     )

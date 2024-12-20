@@ -1,21 +1,21 @@
 package de.kitshn.api.tandoor.route
 
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.getArray
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
 
 class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
-    @Throws(TandoorRequestsError::class)
     suspend fun add(amount: Double?, food: String?, unit: String?): TandoorShoppingListEntry {
-        val data = JSONObject().apply {
-            put("amount", amount ?: 0.0)
-            put("food", food?.let { JSONObject().apply { put("name", food) } })
-            put("unit", unit?.let { JSONObject().apply { put("name", unit) } })
+        val data = buildJsonObject {
+            put("amount", JsonPrimitive(amount ?: 0.0))
+            put("food", food?.let { buildJsonObject { put("name", JsonPrimitive(food)) } }?: JsonNull)
+            put("unit", unit?.let { buildJsonObject { put("name", JsonPrimitive(unit)) } }?: JsonNull)
         }
 
         val response = TandoorShoppingListEntry.parse(
@@ -27,7 +27,6 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return response
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun fetch(): List<TandoorShoppingListEntry> {
         val response = json.decodeFromString<List<TandoorShoppingListEntry>>(
             client.getArray("/shopping-list-entry/").toString()

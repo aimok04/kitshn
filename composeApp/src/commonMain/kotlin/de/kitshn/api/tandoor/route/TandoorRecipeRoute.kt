@@ -1,45 +1,54 @@
 package de.kitshn.api.tandoor.route
 
-import android.net.Uri
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
+import com.eygraber.uri.Uri
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
 import de.kitshn.toTFString
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_name
+import kitshn.composeapp.generated.resources.common_review
+import kitshn.composeapp.generated.resources.recipe_sorting_cooking_frequency
+import kitshn.composeapp.generated.resources.recipe_sorting_creation_date
+import kitshn.composeapp.generated.resources.recipe_sorting_last_cooked
+import kitshn.composeapp.generated.resources.recipe_sorting_last_viewed
+import kitshn.composeapp.generated.resources.recipe_sorting_relevance
 import kotlinx.serialization.Serializable
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 @Serializable
 enum class TandoorRecipeQueryParametersSortOrder(
     val id: String,
-    val label: Int,
+    val label: StringResource,
     private val symbol: String
 ) {
-    RELEVANCE("score", R.string.recipe_sorting_relevance, "1-9"),
-    NEGATIVE_RELEVANCE("-score", R.string.recipe_sorting_relevance, "9-1"),
-    NAME("name", R.string.common_name, "A-z"),
-    NEGATIVE_NAME("-name", R.string.common_name, "Z-a"),
-    LAST_COOKED("lastcooked", R.string.recipe_sorting_last_cooked, "↑"),
-    NEGATIVE_LAST_COOKED("-lastcooked", R.string.recipe_sorting_last_cooked, "↓"),
-    RATING("rating", R.string.common_review, "1-5"),
-    NEGATIVE_RATING("-rating", R.string.common_review, "5-1"),
-    TIMES_COOKED("favorite", R.string.recipe_sorting_cooking_frequency, "x-X"),
-    NEGATIVE_TIMES_COOKED("-favorite", R.string.recipe_sorting_cooking_frequency, "X-x"),
-    DATE_CREATED("created_at", R.string.recipe_sorting_creation_date, "↑"),
-    NEGATIVE_DATE_CREATED("-created_at", R.string.recipe_sorting_creation_date, "↓"),
-    LAST_VIEWED("lastviewed", R.string.recipe_sorting_last_viewed, "↑"),
-    NEGATIVE_LAST_VIEWED("-lastviewed", R.string.recipe_sorting_last_viewed, "↓");
+    RELEVANCE("score", Res.string.recipe_sorting_relevance, "1-9"),
+    NEGATIVE_RELEVANCE("-score", Res.string.recipe_sorting_relevance, "9-1"),
+    NAME("name", Res.string.common_name, "A-z"),
+    NEGATIVE_NAME("-name", Res.string.common_name, "Z-a"),
+    LAST_COOKED("lastcooked", Res.string.recipe_sorting_last_cooked, "↑"),
+    NEGATIVE_LAST_COOKED("-lastcooked", Res.string.recipe_sorting_last_cooked, "↓"),
+    RATING("rating", Res.string.common_review, "1-5"),
+    NEGATIVE_RATING("-rating", Res.string.common_review, "5-1"),
+    TIMES_COOKED("favorite", Res.string.recipe_sorting_cooking_frequency, "x-X"),
+    NEGATIVE_TIMES_COOKED("-favorite", Res.string.recipe_sorting_cooking_frequency, "X-x"),
+    DATE_CREATED("created_at", Res.string.recipe_sorting_creation_date, "↑"),
+    NEGATIVE_DATE_CREATED("-created_at", Res.string.recipe_sorting_creation_date, "↓"),
+    LAST_VIEWED("lastviewed", Res.string.recipe_sorting_last_viewed, "↑"),
+    NEGATIVE_LAST_VIEWED("-lastviewed", Res.string.recipe_sorting_last_viewed, "↓");
 
     @Composable
     fun itemLabel(): String {
-        return "${stringResource(id = this.label)} (${this.symbol})"
+        return "${stringResource(this.label)} (${this.symbol})"
     }
 }
 
@@ -67,13 +76,12 @@ data class TandoorRecipeRouteListResponse(
 
 class TandoorRecipeRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
-    @Throws(TandoorRequestsError::class)
-    suspend fun create(data: JSONObject? = null): TandoorRecipe {
-        val mData = data ?: JSONObject().apply {
-            put("name", "New recipe")
-            put("description", "This recipe is currently being created within the kitshn app.")
-            put("steps", JSONArray())
-            put("internal", true)
+    suspend fun create(data: JsonObject? = null): TandoorRecipe {
+        val mData = data ?: buildJsonObject {
+            put("name", JsonPrimitive("New recipe"))
+            put("description", JsonPrimitive("This recipe is currently being created within the kitshn app."))
+            put("steps", buildJsonArray {  })
+            put("internal", JsonPrimitive(true))
         }
 
         val recipe = TandoorRecipe.parse(
@@ -85,7 +93,6 @@ class TandoorRecipeRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return recipe
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun get(
         id: Int,
         cached: Boolean = false,
@@ -108,7 +115,6 @@ class TandoorRecipeRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return recipe
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun list(
         parameters: TandoorRecipeQueryParameters,
         page: Int = 1,

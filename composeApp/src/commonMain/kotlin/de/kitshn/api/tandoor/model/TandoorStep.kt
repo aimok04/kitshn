@@ -1,17 +1,17 @@
 package de.kitshn.api.tandoor.model
 
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import coil.request.ImageRequest
+import coil3.PlatformContext
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.delete
-import de.kitshn.api.tandoor.getInputStream
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorStepRecipeData
 import de.kitshn.api.tandoor.patchObject
@@ -22,17 +22,12 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.File
-import java.io.FileOutputStream
-import java.util.UUID
-import java.util.zip.ZipFile
-
 
 @Serializable
 data class TandoorStepFile(
@@ -82,67 +77,32 @@ class TandoorStep(
         }
     }
 
-    @Throws(TandoorRequestsError::class)
-    suspend fun loadFile(
-        context: Context
-    ): File? {
-        if(client == null || file == null) return null
-
-        val cacheDir = context.cacheDir
-        val filesDir = File(context.filesDir, "file-downloads")
-        filesDir.mkdirs()
-
-        val downloadedFile = File(filesDir, "${file.id}_${file.name.hashCode()}")
-        if(downloadedFile.exists()) return downloadedFile
-
-        val zipFile = File(cacheDir, UUID.randomUUID().toString())
-
-        // Downloading file
-        FileOutputStream(zipFile).use {
-            it.write(client!!.getInputStream("/download-file/${file.id}"))
-        }
-
-        // Tandoor serves files in .zip containers
-        ZipFile(zipFile).use { zipFile ->
-            val folderStream = zipFile.getInputStream(zipFile.entries().asSequence().first())
-
-            FileOutputStream(downloadedFile).use { os ->
-                folderStream.copyTo(os)
-            }
-        }
-
-        zipFile.delete()
-        return downloadedFile
-    }
-
-    @Throws(TandoorRequestsError::class)
     suspend fun partialUpdate(
         name: String? = null,
         instruction: String? = null,
         instructions_markdown: String? = null,
         order: Int? = null,
         time: Int? = null,
-        ingredientsRaw: JSONArray? = null,
+        ingredientsRaw: JsonArray? = null,
         step_recipe: Int? = null,
         show_ingredients_table: Boolean? = null
     ) {
         if(this.client == null) return
 
-        val data = JSONObject().apply {
-            if(name != null) put("name", name)
-            if(instruction != null) put("instruction", instruction)
-            if(instructions_markdown != null) put("instructions_markdown", instructions_markdown)
-            if(order != null) put("order", order)
-            if(time != null) put("time", time)
+        val data = buildJsonObject {
+            if(name != null) put("name", JsonPrimitive(name))
+            if(instruction != null) put("instruction", JsonPrimitive(instruction))
+            if(instructions_markdown != null) put("instructions_markdown", JsonPrimitive(instructions_markdown))
+            if(order != null) put("order", JsonPrimitive(order))
+            if(time != null) put("time", JsonPrimitive(time))
             if(ingredientsRaw != null) put("ingredients", ingredientsRaw)
-            if(step_recipe != null) put("step_recipe", step_recipe)
-            if(show_ingredients_table != null) put("show_ingredients_table", show_ingredients_table)
+            if(step_recipe != null) put("step_recipe", JsonPrimitive(step_recipe))
+            if(show_ingredients_table != null) put("show_ingredients_table", JsonPrimitive(show_ingredients_table))
         }
 
         client!!.patchObject("/step/${id}/", data)
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun delete() {
         if(client == null) return
 
@@ -159,7 +119,7 @@ class TandoorStep(
     suspend fun fetchStepRecipe(): TandoorRecipe? {
         if(step_recipe == null) return null
 
-        val recipe = client!!.container.recipe.getOrDefault(step_recipe, null)
+        val recipe = client!!.container.recipe[step_recipe]
         if(recipe != null) return recipe
 
         try {

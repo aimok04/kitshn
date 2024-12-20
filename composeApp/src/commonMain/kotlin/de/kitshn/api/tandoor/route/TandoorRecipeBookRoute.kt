@@ -1,28 +1,28 @@
 package de.kitshn.api.tandoor.route
 
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.getArray
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.model.TandoorRecipeBookEntry
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
 
 class TandoorRecipeBookRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
-    @Throws(TandoorRequestsError::class)
     suspend fun create(
         name: String = "",
         description: String = "",
     ): TandoorRecipeBook {
-        val data = JSONObject().apply {
-            put("name", name)
-            put("description", description)
-            put("order", 0)
-            put("filter", null)
-            put("shared", JSONArray())
+        val data = buildJsonObject {
+            put("name", JsonPrimitive(name))
+            put("description", JsonPrimitive(description))
+            put("order", JsonPrimitive(0))
+            put("filter", JsonNull)
+            put("shared", buildJsonArray {  })
         }
 
         val recipeBook = TandoorRecipeBook.parse(
@@ -34,7 +34,6 @@ class TandoorRecipeBookRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return recipeBook
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun list(): List<TandoorRecipeBook> {
         val response = json.decodeFromString<List<TandoorRecipeBook>>(
             client.getArray("/recipe-book/").toString()
@@ -44,7 +43,6 @@ class TandoorRecipeBookRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return response
     }
 
-    @Throws(TandoorRequestsError::class)
     suspend fun listEntries(bookId: Int): List<TandoorRecipeBookEntry> {
         val response = json.decodeFromString<List<TandoorRecipeBookEntry>>(
             client.getArray("/recipe-book-entry/?book=$bookId").toString()
