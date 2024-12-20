@@ -12,6 +12,6 @@
             android:action="android.intent.action.VIEW"
             android:data="new_instance"
             android:targetPackage="de.kitshn.android"
-            android:targetClass="de.kitshn.android.NewInstanceActivity" />
+            android:targetClass="de.kitshn.NewInstanceActivity" />
     </shortcut>
 </shortcuts>

@@ -1,0 +1,34 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="380dp"
+            android:height="380dp"
+            android:viewportWidth="380"
+            android:viewportHeight="380">
+            <path
+                android:name="path_1"
+                android:fillAlpha="0"
+                android:pathData="M 326.73 106.095 C 313.715 84.456 288.323 72.044 257.005 72.044 C 234.629 72.044 214.579 81.866 198.158 94.304 C 183.506 78.086 155.204 63.279 124.981 64.069 C 105.463 64.578 77.773 71.808 56.706 103.415 C 45.851 119.695 42.524 136.894 46.814 154.536 C 54.923 187.912 88.876 212.714 103.147 221.861 L 103.147 304.467 C 103.147 311.211 108.616 316.676 115.35 316.676 L 276.668 316.676 C 283.41 316.676 288.876 311.211 288.876 304.467 L 288.876 215.6 C 303.586 208.209 315.97 198.033 323.37 184.126 C 338.587 155.518 339.775 127.811 326.733 106.094 Z M 301.827 172.679 C 281.617 210.7 195.351 212.235 163.806 209.627 C 157.117 209.024 151.195 214.063 150.64 220.771 C 150.077 227.487 155.068 233.395 161.779 233.945 C 163.132 234.06 172.337 234.78 185.809 234.78 C 206.343 234.78 236.783 233.085 264.475 225.002 L 264.475 292.279 L 127.546 292.279 L 127.546 215.003 C 127.546 210.575 125.138 206.494 121.269 204.338 C 120.843 204.099 78.062 179.945 70.513 148.733 C 67.877 137.855 70.003 127.453 76.998 116.962 C 89.263 98.571 105.605 88.989 125.603 88.47 C 147.38 87.96 169.347 98.802 179.895 110.437 C 163.26 127.272 153.213 143.561 152.365 144.972 C 148.879 150.721 150.715 158.209 156.464 161.713 C 162.213 165.209 169.719 163.395 173.228 157.632 C 173.596 157.024 211.062 96.464 257.017 96.464 C 279.543 96.464 297.332 104.568 305.813 118.679 C 314.269 132.741 312.849 151.918 301.822 172.679 Z"
+                android:strokeWidth="20"
+                android:strokeColor="#000000"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"
+                android:trimPathEnd="0.03" />
+        </vector>
+    </aapt:attr>
+    <target android:name="path_1">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="651"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"
+                    android:propertyName="trimPathEnd"
+                    android:valueFrom="0.03"
+                    android:valueTo="0.9999999"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>
