@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".App"
+        android:name=".AndroidApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,10 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kitshn"
         android:usesCleartextTraffic="true"
-        android:networkSecurityConfig="@xml/network_security_config"
-        tools:targetApi="31">
+        android:networkSecurityConfig="@xml/network_security_config">
+
         <activity
-            android:name=".acra.AcraCrashReportDialog"
+            android:name="de.kitshn.crash.acra.AcraCrashReportDialog"
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="true"
             android:launchMode="singleInstance"
@@ -29,13 +28,13 @@
 
         <activity
             android:taskAffinity=""
-            android:name=".MainActivity"
+            android:name=".AppActivity"
             android:exported="true"
             android:configChanges="density|fontScale|keyboard|keyboardHidden|layoutDirection|locale|mcc|mnc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|touchscreen|uiMode"
-            android:theme="@style/Theme.Kitshn">
+            android:theme="@style/Theme.Kitshn"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -74,7 +73,7 @@
 
         <activity
             android:excludeFromRecents="true"
-            android:name=".NewInstanceActivity"
+            android:name="de.kitshn.NewInstanceActivity"
             android:exported="true" />
     </application>
 
