@@ -17,7 +17,7 @@ val prop = Properties().apply {
 val date = LocalDate.now().toString()
 
 android {
-    namespace = "de.kitshn.android"
+    namespace = "de.kitshn"
     compileSdk = 35
 
     androidResources {
