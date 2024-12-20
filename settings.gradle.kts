@@ -1,3 +1,5 @@
+rootProject.name = "kitshn"
+
 pluginManagement {
     repositories {
         google {
@@ -5,23 +7,25 @@ pluginManagement {
                 includeGroupByRegex("com\\.android.*")
                 includeGroupByRegex("com\\.google.*")
                 includeGroupByRegex("androidx.*")
+                includeGroupByRegex("android.*")
             }
         }
-        mavenCentral()
         gradlePluginPortal()
-    }
-}
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
         mavenCentral()
-        maven {
-            setUrl("https://jitpack.io")
-        }
     }
 }
 
-rootProject.name = "kitshn"
-include(":app")
- 
+dependencyResolutionManagement {
+    repositories {
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+                includeGroupByRegex("android.*")
+            }
+        }
+        mavenCentral()
+    }
+}
+include(":composeApp")
