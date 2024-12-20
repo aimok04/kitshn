@@ -26,3 +26,5 @@ Pods/
 /composeApp/release
 /composeApp/debug
 /composeApp/nightly
+
+/composeApp/src/commonMain/composeResources/files/aboutlibraries.json
