@@ -18,25 +18,31 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import de.kitshn.R
 import de.kitshn.ui.dialog.version.TandoorServerVersionCompatibilityDialog
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.route.main.subroute.MainSubrouteNavigation
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.navigation_books
+import kitshn.composeapp.generated.resources.navigation_home
+import kitshn.composeapp.generated.resources.navigation_meal_plan
+import kitshn.composeapp.generated.resources.navigation_settings
+import kitshn.composeapp.generated.resources.navigation_shopping
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 enum class AppDestinations(
-    val label: Int,
+    val label: StringResource,
     val icon: ImageVector,
     val route: String
 ) {
-    HOME(R.string.navigation_home, Icons.Default.Home, "home"),
-    MEAL_PLAN(R.string.navigation_meal_plan, Icons.Default.CalendarMonth, "mealplan"),
-    SHOPPING(R.string.navigation_shopping, Icons.Default.ShoppingCart, "shopping"),
-    BOOKS(R.string.navigation_books, Icons.Default.Book, "books"),
-    SETTINGS(R.string.navigation_settings, Icons.Default.Settings, "settings"),
+    HOME(Res.string.navigation_home, Icons.Default.Home, "home"),
+    MEAL_PLAN(Res.string.navigation_meal_plan, Icons.Default.CalendarMonth, "mealplan"),
+    SHOPPING(Res.string.navigation_shopping, Icons.Default.ShoppingCart, "shopping"),
+    BOOKS(Res.string.navigation_books, Icons.Default.Book, "books"),
+    SETTINGS(Res.string.navigation_settings, Icons.Default.Settings, "settings"),
 }
 
 @Composable
@@ -66,12 +72,12 @@ fun RouteMain(p: RouteParameters) {
                     icon = {
                         Icon(
                             imageVector = it.icon,
-                            contentDescription = stringResource(id = it.label)
+                            contentDescription = stringResource(it.label)
                         )
                     },
                     label = {
                         Text(
-                            text = stringResource(id = it.label),
+                            text = stringResource(it.label),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )

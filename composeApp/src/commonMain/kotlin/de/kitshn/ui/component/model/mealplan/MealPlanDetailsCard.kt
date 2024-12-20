@@ -12,11 +12,12 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.ui.theme.Typography
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_plural_portion
+import org.jetbrains.compose.resources.pluralStringResource
 import kotlin.math.roundToInt
 
 @Composable
@@ -42,7 +43,7 @@ fun MealPlanDetailsCard(
                             .padding(end = 8.dp)
                             .weight(1f, true),
                         text = mealPlan.title,
-                        style = Typography.titleLarge
+                        style = Typography().titleLarge
                     )
 
                     if(mealPlan.recipe == null) Text(
@@ -50,11 +51,11 @@ fun MealPlanDetailsCard(
                             .weight(1f, false)
                             .padding(top = 6.dp),
                         text = pluralStringResource(
-                            R.plurals.common_plural_portion,
+                            Res.plurals.common_plural_portion,
                             mealPlan.servings.roundToInt(),
                             mealPlan.servings.roundToInt()
                         ),
-                        style = Typography.labelMedium,
+                        style = Typography().labelMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
                 }

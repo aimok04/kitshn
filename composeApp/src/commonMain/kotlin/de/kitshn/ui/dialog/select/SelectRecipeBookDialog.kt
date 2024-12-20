@@ -27,15 +27,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.scoreMatch
 import de.kitshn.ui.component.model.recipebook.HorizontalRecipeBookCard
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_abort
+import kitshn.composeapp.generated.resources.search_recipe_books
+import kitshn.composeapp.generated.resources.select_recipe_book
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun rememberSelectRecipeBookDialogState(): SelectRecipeBookDialogState {
@@ -76,10 +79,10 @@ fun SelectRecipeBookDialog(
             state.dismiss()
         },
         icon = {
-            Icon(Icons.Rounded.Receipt, stringResource(R.string.select_recipe_book))
+            Icon(Icons.Rounded.Receipt, stringResource(Res.string.select_recipe_book))
         },
         title = {
-            Text(stringResource(R.string.select_recipe_book))
+            Text(stringResource(Res.string.select_recipe_book))
         },
         text = {
             RecipeBookSearchBar(
@@ -92,7 +95,7 @@ fun SelectRecipeBookDialog(
             FilledTonalButton(onClick = {
                 submit(null)
             }) {
-                Text(stringResource(id = R.string.action_abort))
+                Text(stringResource(Res.string.action_abort))
             }
         },
         properties = DialogProperties(
@@ -131,7 +134,7 @@ fun RecipeBookSearchBar(
             client.container.recipeBook.values.sortedBy { it.name.scoreMatch(search) }
         )
 
-        searchResults.removeIf { it.id == favoritesRecipeBookId }
+        searchResults.forEach { if(it.id == favoritesRecipeBookId) searchResults.remove(it) }
     }
 
     DockedSearchBar(
@@ -150,10 +153,10 @@ fun RecipeBookSearchBar(
                 leadingIcon = {
                     Icon(
                         Icons.Rounded.Search,
-                        stringResource(R.string.search_recipe_books)
+                        stringResource(Res.string.search_recipe_books)
                     )
                 },
-                placeholder = { Text(stringResource(R.string.search_recipe_books)) },
+                placeholder = { Text(stringResource(Res.string.search_recipe_books)) },
                 expanded = true,
                 onExpandedChange = { }
             )

@@ -6,7 +6,7 @@ import kotlinx.serialization.Transient
 
 @Serializable
 class HomePageSection(
-    val title: Int,
+    val title: String,
     val queryParameters: List<TandoorRecipeQueryParameters>
 ) {
 

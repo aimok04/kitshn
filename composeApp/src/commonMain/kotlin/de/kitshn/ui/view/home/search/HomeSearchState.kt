@@ -76,7 +76,7 @@ class HomeSearchState(
 
     suspend fun openWithKeywordId(client: TandoorClient, keywordId: Int) {
         TandoorRequestState().wrapRequest {
-            val keyword = client.container.keyword.getOrDefault(keywordId, null)
+            val keyword = client.container.keyword[keywordId]
                 ?: client.keyword.retrieve(keywordId)
 
             open(

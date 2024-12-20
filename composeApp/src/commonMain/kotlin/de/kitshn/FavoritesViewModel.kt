@@ -1,24 +1,22 @@
 package de.kitshn
 
-import android.app.Application
-import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.internal_favorites_recipe_book_description
+import kitshn.composeapp.generated.resources.internal_favorites_recipe_book_name
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 
 const val KITSHN_FAVORITE_RECIPE_BOOK_DESCRIPTION_TAG = "#KTSHNFAV"
 
-@SuppressWarnings("StaticFieldLeak")
-class FavoritesViewModel(
-    app: Application,
-    val context: Context
-) : AndroidViewModel(app) {
+class FavoritesViewModel : ViewModel() {
 
     var client: TandoorClient? = null
 
@@ -32,8 +30,8 @@ class FavoritesViewModel(
 
     private suspend fun createNewFavoritesRecipeBook(): TandoorRecipeBook {
         return client!!.recipeBook.create(
-            name = context.getString(R.string.internal_favorites_recipe_book_name),
-            description = context.getString(R.string.internal_favorites_recipe_book_description) + " — " + KITSHN_FAVORITE_RECIPE_BOOK_DESCRIPTION_TAG
+            name = getString(Res.string.internal_favorites_recipe_book_name),
+            description = getString(Res.string.internal_favorites_recipe_book_description) + " — " + KITSHN_FAVORITE_RECIPE_BOOK_DESCRIPTION_TAG
         )
     }
 

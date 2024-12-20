@@ -34,9 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.parseTandoorDate
 import de.kitshn.toHumanReadableDateLabel
@@ -49,7 +47,15 @@ import de.kitshn.ui.dialog.mealplan.MealPlanDetailsDialogState
 import de.kitshn.ui.selectionMode.SelectionModeState
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.theme.Typography
-import java.time.LocalDate
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_minus_one_week
+import kitshn.composeapp.generated.resources.action_plus_one_week
+import kitshn.composeapp.generated.resources.common_okay
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.minus
+import kotlinx.datetime.plus
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -86,7 +92,7 @@ fun RouteMainSubrouteMealplanScaffoldContent(
                     onChangeMealPlanStartDate(datePickerState.selectedDateMillis!!.toLocalDate())
                 }
             ) {
-                Text(stringResource(id = R.string.common_okay))
+                Text(stringResource(Res.string.common_okay))
             }
         }
     ) {
@@ -116,13 +122,13 @@ fun RouteMainSubrouteMealplanScaffoldContent(
                 ) {
                     SmallFloatingActionButton(
                         onClick = {
-                            onChangeMealPlanStartDate(startDate.minusDays(7))
+                            onChangeMealPlanStartDate(startDate.minus(7, DateTimeUnit.DAY))
                         },
                         elevation = FloatingActionButtonDefaults.elevation(
                             defaultElevation = 0.dp
                         )
                     ) {
-                        Icon(Icons.Rounded.Remove, stringResource(R.string.action_minus_one_week))
+                        Icon(Icons.Rounded.Remove, stringResource(Res.string.action_minus_one_week))
                     }
 
                     Spacer(Modifier.width(4.dp))
@@ -134,7 +140,7 @@ fun RouteMainSubrouteMealplanScaffoldContent(
                         label = {
                             Text(
                                 modifier = Modifier.padding(12.dp),
-                                style = Typography.labelMedium,
+                                style = Typography().labelMedium,
                                 color = MaterialTheme.colorScheme.primary,
                                 text = "${startDate.toHumanReadableDateLabel()} — ${endDate.toHumanReadableDateLabel()}"
                             )
@@ -145,13 +151,13 @@ fun RouteMainSubrouteMealplanScaffoldContent(
 
                     SmallFloatingActionButton(
                         onClick = {
-                            onChangeMealPlanStartDate(startDate.plusDays(7))
+                            onChangeMealPlanStartDate(startDate.plus(7, DateTimeUnit.DAY))
                         },
                         elevation = FloatingActionButtonDefaults.elevation(
                             defaultElevation = 0.dp
                         )
                     ) {
-                        Icon(Icons.Rounded.Add, stringResource(R.string.action_plus_one_week))
+                        Icon(Icons.Rounded.Add, stringResource(Res.string.action_plus_one_week))
                     }
                 }
             }
@@ -166,14 +172,13 @@ fun RouteMainSubrouteMealplanScaffoldContent(
                     }
                 }
             ) { index ->
-                val day = startDate.plusDays(index.toLong())
+                val day = startDate.plus(index.toLong(), DateTimeUnit.DAY)
 
                 Column {
                     MealPlanDayCard(
                         day = day,
                         mealPlanItems = list.toMutableList().filter { mealPlan ->
-                            mealPlan.from_date.parseTandoorDate()
-                                .isEqual(day) || mealPlan.to_date.parseTandoorDate().isEqual(day)
+                            mealPlan.from_date.parseTandoorDate() == day || mealPlan.to_date.parseTandoorDate() == day
                         }.sortedBy { mealPlan ->
                             mealPlan.meal_type.order
                         },

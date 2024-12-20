@@ -1,25 +1,47 @@
 package de.kitshn.homepage.builder
 
-import de.kitshn.R
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
 import de.kitshn.cache.FoodNameIdMapCache
 import de.kitshn.cache.KeywordNameIdMapCache
 import de.kitshn.homepage.model.HomePageSection
-import java.time.LocalDateTime
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.home_section_american
+import kitshn.composeapp.generated.resources.home_section_asian
+import kitshn.composeapp.generated.resources.home_section_austrian
+import kitshn.composeapp.generated.resources.home_section_baking
+import kitshn.composeapp.generated.resources.home_section_burger
+import kitshn.composeapp.generated.resources.home_section_chinese
+import kitshn.composeapp.generated.resources.home_section_dinner
+import kitshn.composeapp.generated.resources.home_section_enjoy_breakfast
+import kitshn.composeapp.generated.resources.home_section_fast_food
+import kitshn.composeapp.generated.resources.home_section_five_stars
+import kitshn.composeapp.generated.resources.home_section_german
+import kitshn.composeapp.generated.resources.home_section_go_tos
+import kitshn.composeapp.generated.resources.home_section_indian
+import kitshn.composeapp.generated.resources.home_section_lunch_time
+import kitshn.composeapp.generated.resources.home_section_mexican
+import kitshn.composeapp.generated.resources.home_section_never_cooked
+import kitshn.composeapp.generated.resources.home_section_new_recipes
+import kitshn.composeapp.generated.resources.home_section_noodles
+import kitshn.composeapp.generated.resources.home_section_seasonal_christmas
+import kitshn.composeapp.generated.resources.home_section_vegan
+import kitshn.composeapp.generated.resources.home_section_vegetarian
+import kotlinx.datetime.LocalDateTime
+import org.jetbrains.compose.resources.StringResource
 
 data class HomePageSectionEnumCheckData(
     val dateTime: LocalDateTime
 )
 
 enum class HomePageSectionEnum(
-    val title: Int,
+    val title: StringResource,
     val weight: Float,
     val check: (d: HomePageSectionEnumCheckData) -> Boolean = { true },
     val queryParameters: List<HomePageQueryParameters>
 ) {
     SEASONAL_CHRISTMAS(
-        title = R.string.home_section_seasonal_christmas,
+        title = Res.string.home_section_seasonal_christmas,
         weight = 2f,
         check = {
             it.dateTime.hour in 12..24
@@ -27,8 +49,8 @@ enum class HomePageSectionEnum(
                     &&
 
                     (
-                            it.dateTime.month == java.time.Month.NOVEMBER && it.dateTime.dayOfMonth > 20
-                                    || it.dateTime.month == java.time.Month.DECEMBER
+                            it.dateTime.month == kotlinx.datetime.Month.NOVEMBER && it.dateTime.dayOfMonth > 20
+                                    || it.dateTime.month == kotlinx.datetime.Month.DECEMBER
                             )
         },
         queryParameters = listOf(
@@ -42,7 +64,7 @@ enum class HomePageSectionEnum(
     ),
 
     BREAKFAST(
-        title = R.string.home_section_enjoy_breakfast,
+        title = Res.string.home_section_enjoy_breakfast,
         weight = 1f,
         check = {
             it.dateTime.hour in 5..11
@@ -54,7 +76,7 @@ enum class HomePageSectionEnum(
         )
     ),
     LUNCH(
-        title = R.string.home_section_lunch_time,
+        title = Res.string.home_section_lunch_time,
         weight = 1f,
         check = {
             it.dateTime.hour in 11..13
@@ -66,7 +88,7 @@ enum class HomePageSectionEnum(
         )
     ),
     AFTERNOON(
-        title = R.string.home_section_baking,
+        title = Res.string.home_section_baking,
         weight = 1f,
         check = {
             it.dateTime.hour in 14..16
@@ -78,7 +100,7 @@ enum class HomePageSectionEnum(
         )
     ),
     DINNER(
-        title = R.string.home_section_dinner,
+        title = Res.string.home_section_dinner,
         weight = 1f,
         check = {
             it.dateTime.hour in 17..21
@@ -97,7 +119,7 @@ enum class HomePageSectionEnum(
         )
     ),
     FAST(
-        title = R.string.home_section_fast_food,
+        title = Res.string.home_section_fast_food,
         weight = 1f,
         check = {
             it.dateTime.hour in 22..24
@@ -111,7 +133,7 @@ enum class HomePageSectionEnum(
     ),
 
     GO_TOS(
-        title = R.string.home_section_go_tos,
+        title = Res.string.home_section_go_tos,
         weight = 0.8f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -120,7 +142,7 @@ enum class HomePageSectionEnum(
         )
     ),
     NEW(
-        title = R.string.home_section_new_recipes,
+        title = Res.string.home_section_new_recipes,
         weight = 0.8f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -129,7 +151,7 @@ enum class HomePageSectionEnum(
         )
     ),
     UNCOOKED(
-        title = R.string.home_section_never_cooked,
+        title = Res.string.home_section_never_cooked,
         weight = 0.8f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -138,7 +160,7 @@ enum class HomePageSectionEnum(
         )
     ),
     FIVE_STARS(
-        title = R.string.home_section_five_stars,
+        title = Res.string.home_section_five_stars,
         weight = 0.8f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -148,7 +170,7 @@ enum class HomePageSectionEnum(
     ),
 
     MEXICAN(
-        title = R.string.home_section_mexican,
+        title = Res.string.home_section_mexican,
         weight = 0.5f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -157,7 +179,7 @@ enum class HomePageSectionEnum(
         )
     ),
     AMERICAN(
-        title = R.string.home_section_american,
+        title = Res.string.home_section_american,
         weight = 0.5f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -175,7 +197,7 @@ enum class HomePageSectionEnum(
         )
     ),
     CHINESE(
-        title = R.string.home_section_chinese,
+        title = Res.string.home_section_chinese,
         weight = 0.5f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -184,7 +206,7 @@ enum class HomePageSectionEnum(
         )
     ),
     INDIAN(
-        title = R.string.home_section_indian,
+        title = Res.string.home_section_indian,
         weight = 0.5f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -193,7 +215,7 @@ enum class HomePageSectionEnum(
         )
     ),
     ASIAN(
-        title = R.string.home_section_asian,
+        title = Res.string.home_section_asian,
         weight = 0.5f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -202,7 +224,7 @@ enum class HomePageSectionEnum(
         )
     ),
     GERMAN(
-        title = R.string.home_section_german,
+        title = Res.string.home_section_german,
         weight = 0.5f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -211,7 +233,7 @@ enum class HomePageSectionEnum(
         )
     ),
     AUSTRIAN(
-        title = R.string.home_section_austrian,
+        title = Res.string.home_section_austrian,
         weight = 0.5f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -220,7 +242,7 @@ enum class HomePageSectionEnum(
         )
     ),
     VEGAN(
-        title = R.string.home_section_vegan,
+        title = Res.string.home_section_vegan,
         weight = 0.5f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -232,7 +254,7 @@ enum class HomePageSectionEnum(
         )
     ),
     VEGETARIAN(
-        title = R.string.home_section_vegetarian,
+        title = Res.string.home_section_vegetarian,
         weight = 0.5f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -251,7 +273,7 @@ enum class HomePageSectionEnum(
     ),
 
     BURGER(
-        title = R.string.home_section_burger,
+        title = Res.string.home_section_burger,
         weight = 0.2f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -263,7 +285,7 @@ enum class HomePageSectionEnum(
         )
     ),
     NOODLES(
-        title = R.string.home_section_noodles,
+        title = Res.string.home_section_noodles,
         weight = 0.2f,
         queryParameters = listOf(
             HomePageQueryParameters(
@@ -318,7 +340,7 @@ enum class HomePageSectionEnum(
         }
 
         return HomePageSection(
-            this.title,
+            this.title.key,
             queryParametersList
         )
     }

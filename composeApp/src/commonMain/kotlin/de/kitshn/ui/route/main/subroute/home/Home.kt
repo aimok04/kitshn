@@ -34,14 +34,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
+import coil3.compose.LocalPlatformContext
+import de.kitshn.android.homepage.builder.HomePageBuilder
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.cache.FoodNameIdMapCache
 import de.kitshn.cache.KeywordNameIdMapCache
-import de.kitshn.homepage.builder.HomePageBuilder
 import de.kitshn.homepage.model.HomePage
 import de.kitshn.homepage.model.HomePageSection
 import de.kitshn.isScrollingUp
@@ -66,7 +65,13 @@ import de.kitshn.ui.state.rememberForeverScrollState
 import de.kitshn.ui.view.home.search.ViewHomeSearch
 import de.kitshn.ui.view.home.search.rememberHomeSearchState
 import de.kitshn.ui.view.recipe.details.RecipeServingsAmountSaveMap
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_add
+import kitshn.composeapp.generated.resources.action_import
+import kitshn.composeapp.generated.resources.action_show_all_recipes
+import kitshn.composeapp.generated.resources.common_search
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,6 +80,8 @@ fun RouteMainSubrouteHome(
     p: RouteParameters
 ) {
     val coroutineScope = rememberCoroutineScope()
+
+    val context = LocalPlatformContext.current
 
     var pageLoadingState by rememberErrorLoadingSuccessState()
     val homeSearchState by rememberHomeSearchState(key = "RouteMainSubrouteHome/homeSearch")
@@ -103,8 +110,8 @@ fun RouteMainSubrouteHome(
         if(homePage != null) return@LaunchedEffect
 
         HomePageBuilder(p.vm.tandoorClient!!).apply {
-            val keywordNameIdMapCache = KeywordNameIdMapCache(client.context, client)
-            val foodNameIdMapCache = FoodNameIdMapCache(client.context, client)
+            val keywordNameIdMapCache = KeywordNameIdMapCache(context, client)
+            val foodNameIdMapCache = FoodNameIdMapCache(context, client)
 
             // retrieve keywords and foods to map names to ids
             TandoorRequestState().wrapRequest {
@@ -138,7 +145,7 @@ fun RouteMainSubrouteHome(
 
         // remove deleted recipes
         homePageSectionList.forEach { section ->
-            section.recipeIds.removeIf { !p.vm.tandoorClient!!.container.recipeOverview.contains(it) }
+            section.recipeIds.forEach { if(!p.vm.tandoorClient!!.container.recipeOverview.contains(it)) section.recipeIds.remove(it) }
         }
     }
 
@@ -157,7 +164,7 @@ fun RouteMainSubrouteHome(
                             IconButton(onClick = {
                                 homeSearchState.open()
                             }) {
-                                Icon(Icons.Rounded.Search, stringResource(R.string.common_search))
+                                Icon(Icons.Rounded.Search, stringResource(Res.string.common_search))
                             }
                         },
                         colors = it,
@@ -182,15 +189,15 @@ fun RouteMainSubrouteHome(
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.SaveAlt,
-                            contentDescription = stringResource(id = R.string.action_import)
+                            contentDescription = stringResource(Res.string.action_import)
                         )
                     }
                 }
 
                 ExtendedFloatingActionButton(
                     expanded = scrollState.isScrollingUp(),
-                    icon = { Icon(Icons.Rounded.Add, stringResource(id = R.string.action_add)) },
-                    text = { Text(stringResource(id = R.string.action_add)) },
+                    icon = { Icon(Icons.Rounded.Add, stringResource(Res.string.action_add)) },
+                    text = { Text(stringResource(Res.string.action_add)) },
                     onClick = { recipeCreationDialogState.open() }
                 )
             }
@@ -281,7 +288,7 @@ fun RouteMainSubrouteHome(
                             end = 16.dp,
                             bottom = 16.dp
                         ),
-                        label = { Text(text = stringResource(R.string.action_show_all_recipes)) },
+                        label = { Text(text = stringResource(Res.string.action_show_all_recipes)) },
                         description = { },
                         icon = Icons.AutoMirrored.Rounded.List,
                         contentDescription = "",

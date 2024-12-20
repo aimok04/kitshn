@@ -20,13 +20,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.dialog.version.TandoorServerVersionCompatibilityDialog
 import de.kitshn.ui.view.ViewParameters
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_sign_out
+import kitshn.composeapp.generated.resources.action_sign_out_description
+import kitshn.composeapp.generated.resources.common_instance_url
+import kitshn.composeapp.generated.resources.common_unknown
+import kitshn.composeapp.generated.resources.common_version
+import kitshn.composeapp.generated.resources.settings_section_server_label
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,7 +49,7 @@ fun ViewSettingsServer(
         topBar = {
             TopAppBar(
                 navigationIcon = { BackButton(p.back) },
-                title = { Text(stringResource(id = R.string.settings_section_server_label)) },
+                title = { Text(stringResource(Res.string.settings_section_server_label)) },
                 scrollBehavior = scrollBehavior
             )
         }
@@ -55,28 +61,28 @@ fun ViewSettingsServer(
         ) {
             item {
                 SettingsListItem(
-                    label = { Text(stringResource(id = R.string.common_instance_url)) },
+                    label = { Text(stringResource(Res.string.common_instance_url)) },
                     description = {
                         Text(
                             p.vm.tandoorClient?.credentials?.instanceUrl
-                                ?: stringResource(id = R.string.common_unknown)
+                                ?: stringResource(Res.string.common_unknown)
                         )
                     },
                     icon = Icons.Rounded.Web,
-                    contentDescription = stringResource(id = R.string.common_instance_url)
+                    contentDescription = stringResource(Res.string.common_instance_url)
                 )
 
                 SettingsListItem(
-                    label = { Text(stringResource(R.string.common_version)) },
+                    label = { Text(stringResource(Res.string.common_version)) },
                     description = {
                         Text(
                             p.vm.tandoorClient?.container?.openapiData?.version
-                                ?: stringResource(id = R.string.common_unknown)
+                                ?: stringResource(Res.string.common_unknown)
                         )
                     },
                     icon = Icons.Rounded.Numbers,
                     enabled = p.vm.tandoorClient?.container?.openapiData?.version != null,
-                    contentDescription = stringResource(R.string.common_version)
+                    contentDescription = stringResource(Res.string.common_version)
                 ) {
                     coroutineScope.launch {
                         showVersionCompatibilityBottomSheet = true
@@ -84,10 +90,10 @@ fun ViewSettingsServer(
                 }
 
                 SettingsListItem(
-                    label = { Text(stringResource(R.string.action_sign_out)) },
-                    description = { Text(stringResource(R.string.action_sign_out_description)) },
+                    label = { Text(stringResource(Res.string.action_sign_out)) },
+                    description = { Text(stringResource(Res.string.action_sign_out_description)) },
                     icon = Icons.AutoMirrored.Rounded.Logout,
-                    contentDescription = stringResource(R.string.action_sign_out)
+                    contentDescription = stringResource(Res.string.action_sign_out)
                 ) {
                     coroutineScope.launch {
                         p.vm.settings.getOnboardingCompleted

@@ -1,23 +1,24 @@
 package de.kitshn.cache
 
-import android.content.Context
-import android.content.SharedPreferences
+import coil3.PlatformContext
+import com.russhwolf.settings.Settings
 import de.kitshn.api.tandoor.TandoorClient
+import kotlinx.datetime.Clock
 
 open class BaseCache(
     val id: String,
-    val context: Context,
+    platformContext: PlatformContext,
     val client: TandoorClient
 ) {
 
-    val sp: SharedPreferences = context.getSharedPreferences("CACHE_$id", Context.MODE_PRIVATE)
+    val settings = createCache(platformContext, id)
 
     fun validUntil(time: Long) {
-        sp.edit()
-            .putLong("VALID_UNTIL", time)
-            .apply()
+        settings.putLong("VALID_UNTIL", time)
     }
 
-    fun isValid() = System.currentTimeMillis() < sp.getLong("VALID_UNTIL", 0L)
+    fun isValid() = Clock.System.now().toEpochMilliseconds() < settings.getLong("VALID_UNTIL", 0L)
 
 }
+
+expect fun createCache(context: PlatformContext, id: String): Settings

@@ -18,13 +18,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
 import de.kitshn.ui.view.ViewParameters
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.settings_section_behavior_hide_ingredient_allocation_action_chip_description
+import kitshn.composeapp.generated.resources.settings_section_behavior_hide_ingredient_allocation_action_chip_label
+import kitshn.composeapp.generated.resources.settings_section_behavior_ingredients_show_fractional_values_description
+import kitshn.composeapp.generated.resources.settings_section_behavior_ingredients_show_fractional_values_label
+import kitshn.composeapp.generated.resources.settings_section_behavior_label
+import kitshn.composeapp.generated.resources.settings_section_behavior_properties_show_fractional_values_description
+import kitshn.composeapp.generated.resources.settings_section_behavior_properties_show_fractional_values_label
+import kitshn.composeapp.generated.resources.settings_section_behavior_use_share_wrapper_description
+import kitshn.composeapp.generated.resources.settings_section_behavior_use_share_wrapper_label
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,7 +48,7 @@ fun ViewSettingsBehavior(
         topBar = {
             TopAppBar(
                 navigationIcon = { BackButton(p.back) },
-                title = { Text(stringResource(id = R.string.settings_section_behavior_label)) },
+                title = { Text(stringResource(Res.string.settings_section_behavior_label)) },
                 scrollBehavior = scrollBehavior
             )
         }
@@ -60,10 +69,10 @@ fun ViewSettingsBehavior(
         ) {
             item {
                 SettingsSwitchListItem(
-                    label = { Text(stringResource(R.string.settings_section_behavior_use_share_wrapper_label)) },
-                    description = { Text(stringResource(R.string.settings_section_behavior_use_share_wrapper_description)) },
+                    label = { Text(stringResource(Res.string.settings_section_behavior_use_share_wrapper_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_behavior_use_share_wrapper_description)) },
                     icon = Icons.Rounded.Share,
-                    contentDescription = stringResource(R.string.settings_section_behavior_use_share_wrapper_label),
+                    contentDescription = stringResource(Res.string.settings_section_behavior_use_share_wrapper_label),
                     checked = useShareWrapper.value
                 ) {
                     coroutineScope.launch {
@@ -74,10 +83,10 @@ fun ViewSettingsBehavior(
 
             item {
                 SettingsSwitchListItem(
-                    label = { Text(stringResource(R.string.settings_section_behavior_hide_ingredient_allocation_action_chip_label)) },
-                    description = { Text(stringResource(R.string.settings_section_behavior_hide_ingredient_allocation_action_chip_description)) },
+                    label = { Text(stringResource(Res.string.settings_section_behavior_hide_ingredient_allocation_action_chip_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_behavior_hide_ingredient_allocation_action_chip_description)) },
                     icon = Icons.Rounded.WarningAmber,
-                    contentDescription = stringResource(R.string.settings_section_behavior_hide_ingredient_allocation_action_chip_label),
+                    contentDescription = stringResource(Res.string.settings_section_behavior_hide_ingredient_allocation_action_chip_label),
                     checked = hideIngredientAllocationActionChips.value
                 ) {
                     coroutineScope.launch {
@@ -94,10 +103,10 @@ fun ViewSettingsBehavior(
 
             item {
                 SettingsSwitchListItem(
-                    label = { Text(stringResource(R.string.settings_section_behavior_ingredients_show_fractional_values_label)) },
-                    description = { Text(stringResource(R.string.settings_section_behavior_ingredients_show_fractional_values_description)) },
+                    label = { Text(stringResource(Res.string.settings_section_behavior_ingredients_show_fractional_values_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_behavior_ingredients_show_fractional_values_description)) },
                     icon = Icons.Rounded.Numbers,
-                    contentDescription = stringResource(R.string.settings_section_behavior_ingredients_show_fractional_values_label),
+                    contentDescription = stringResource(Res.string.settings_section_behavior_ingredients_show_fractional_values_label),
                     checked = ingredientsShowFractionalValues.value
                 ) {
                     coroutineScope.launch {
@@ -108,10 +117,10 @@ fun ViewSettingsBehavior(
 
             item {
                 SettingsSwitchListItem(
-                    label = { Text(stringResource(R.string.settings_section_behavior_properties_show_fractional_values_label)) },
-                    description = { Text(stringResource(R.string.settings_section_behavior_properties_show_fractional_values_description)) },
+                    label = { Text(stringResource(Res.string.settings_section_behavior_properties_show_fractional_values_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_behavior_properties_show_fractional_values_description)) },
                     icon = Icons.Rounded.Numbers,
-                    contentDescription = stringResource(R.string.settings_section_behavior_properties_show_fractional_values_label),
+                    contentDescription = stringResource(Res.string.settings_section_behavior_properties_show_fractional_values_label),
                     checked = propertiesShowFractionalValues.value
                 ) {
                     coroutineScope.launch {

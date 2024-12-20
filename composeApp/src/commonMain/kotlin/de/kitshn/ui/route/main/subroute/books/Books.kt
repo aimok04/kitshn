@@ -16,8 +16,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.isScrollingUp
@@ -36,6 +34,10 @@ import de.kitshn.ui.state.rememberErrorLoadingSuccessState
 import de.kitshn.ui.state.rememberForeverLazyListState
 import de.kitshn.ui.view.ViewParameters
 import de.kitshn.ui.view.books.ViewBooksDetails
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_add
+import kotlinx.datetime.Clock
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -102,7 +104,7 @@ fun RouteMainSubrouteBooks(
                 editDialogState = editDialogState,
                 deleteRequestState = deleteRequestState
             ) {
-                lastUpdate = System.currentTimeMillis()
+                lastUpdate = Clock.System.now().toEpochMilliseconds()
             }
         },
         listContent = { pv, _, _, background, onSelect ->
@@ -129,10 +131,10 @@ fun RouteMainSubrouteBooks(
             ExtendedFloatingActionButton(
                 expanded = lazyListState.isScrollingUp(),
                 icon = {
-                    Icon(Icons.Rounded.Add, stringResource(id = R.string.action_add))
+                    Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
                 },
                 text = {
-                    Text(stringResource(id = R.string.action_add))
+                    Text(stringResource(Res.string.action_add))
                 },
                 onClick = {
                     creationDialogState.open()
@@ -168,7 +170,7 @@ fun RouteMainSubrouteBooks(
             client = p.vm.tandoorClient!!,
             creationState = creationDialogState,
             editState = editDialogState
-        ) { lastUpdate = System.currentTimeMillis() }
+        ) { lastUpdate = Clock.System.now().toEpochMilliseconds() }
     }
 
     TandoorRequestErrorHandler(state = deleteRequestState)

@@ -30,7 +30,11 @@ import de.kitshn.ui.state.rememberErrorLoadingSuccessState
 import de.kitshn.ui.view.ViewParameters
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,8 +61,9 @@ fun RouteMainSubrouteMealplan(
 
     val shownItems = 7
 
-    var startDate by rememberSaveable { mutableStateOf(LocalDate.now()) }
-    val endDate = startDate.plusDays((shownItems - 1).toLong())
+    var startDate by remember { mutableStateOf(
+        Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date) }
+    val endDate = startDate.plus((shownItems - 1), DateTimeUnit.DAY)
 
     val mealPlanList = remember { mutableStateListOf<TandoorMealPlan>() }
     var lastMealPlanUpdate by remember { mutableLongStateOf(0L) }
@@ -69,7 +74,7 @@ fun RouteMainSubrouteMealplan(
         mainFetchRequestState.wrapRequest {
             p.vm.tandoorClient?.mealPlan?.fetch(
                 startDate,
-                startDate.plusDays(shownItems.toLong())
+                startDate.plus(shownItems.toLong(), DateTimeUnit.DAY)
             )?.let {
                 pageLoadingState = ErrorLoadingSuccessState.SUCCESS
 
@@ -91,7 +96,7 @@ fun RouteMainSubrouteMealplan(
                 mealPlanEditDialogState = editDialogState,
                 mealPlanMoveRequestState = moveRequestState,
                 mealPlanDeleteRequestState = deleteRequestState
-            ) { lastMealPlanUpdate = System.currentTimeMillis() }
+            ) { lastMealPlanUpdate = Clock.System.now().toEpochMilliseconds() }
         }
     ) {
         LoadingErrorAlertPaneWrapper(
@@ -123,7 +128,7 @@ fun RouteMainSubrouteMealplan(
             client = p.vm.tandoorClient!!,
             creationState = creationDialogState,
             editState = editDialogState
-        ) { lastMealPlanUpdate = System.currentTimeMillis() }
+        ) { lastMealPlanUpdate = Clock.System.now().toEpochMilliseconds() }
     }
 
     MealPlanDetailsDialog(
@@ -133,7 +138,7 @@ fun RouteMainSubrouteMealplan(
         ),
         state = detailsDialogState,
         reopenOnLaunchKey = "RouteMainSubrouteMealplan/mealPlanDetailsBottomSheet",
-        onUpdateList = { lastMealPlanUpdate = System.currentTimeMillis() }
+        onUpdateList = { lastMealPlanUpdate = Clock.System.now().toEpochMilliseconds() }
     ) {
         editDialogState.open(it)
     }

@@ -1,6 +1,5 @@
 package de.kitshn.model.form.item.field
 
-import android.content.Context
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -9,10 +8,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
-import de.kitshn.R
 import de.kitshn.ui.component.input.DateField
-import java.time.LocalDate
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.form_error_field_empty
+import kotlinx.datetime.LocalDate
+import org.jetbrains.compose.resources.getString
 
 class KitshnFormDateFieldItem(
     val value: () -> LocalDate?,
@@ -41,14 +41,10 @@ class KitshnFormDateFieldItem(
     optional = optional
 ) {
 
-    var context: Context? = null
-
     @Composable
     override fun Render() {
         var error by rememberSaveable { mutableStateOf<String?>(null) }
         val value = value()
-
-        context = LocalContext.current
 
         DateField(
             value = value,
@@ -90,12 +86,12 @@ class KitshnFormDateFieldItem(
         )
     }
 
-    override fun submit(): Boolean {
+    override suspend fun submit(): Boolean {
         val value = value()
         val checkResult = check(value)
 
         if(!optional && value == null) {
-            generalError = context?.getString(R.string.form_error_field_empty)
+            generalError = getString(Res.string.form_error_field_empty)
             return false
         } else if(checkResult != null) {
             generalError = checkResult

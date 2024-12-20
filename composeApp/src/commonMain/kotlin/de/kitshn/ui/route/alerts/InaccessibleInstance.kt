@@ -10,12 +10,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.buttons.BackButtonType
 import de.kitshn.ui.route.RouteParameters
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.error_instance_inaccessible
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,8 +40,8 @@ fun RouteAlertInaccessibleInstance(
         ) {
             FullSizeAlertPane(
                 imageVector = Icons.Rounded.KeyOff,
-                contentDescription = stringResource(id = R.string.error_instance_inaccessible),
-                text = stringResource(id = R.string.error_instance_inaccessible)
+                contentDescription = stringResource(Res.string.error_instance_inaccessible),
+                text = stringResource(Res.string.error_instance_inaccessible)
             )
         }
     }

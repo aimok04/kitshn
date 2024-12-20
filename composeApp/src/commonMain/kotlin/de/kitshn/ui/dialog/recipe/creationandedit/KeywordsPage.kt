@@ -16,14 +16,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.dialog.select.KeywordCheckedListItem
 import de.kitshn.ui.dialog.select.KeywordSearchBar
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.recipe_edit_no_keywords_added
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun KeywordsPage(
@@ -67,7 +68,7 @@ fun KeywordsPage(
                             if(value) {
                                 values.keywords.add(0, keyword)
                             } else {
-                                values.keywords.removeIf { it.id == keywordId }
+                                values.keywords.forEach { if(it.id == keywordId) values.keywords.remove(it) }
                             }
                         }
                     }
@@ -79,8 +80,8 @@ fun KeywordsPage(
                     if(values.keywords.size == 0) {
                         FullSizeAlertPane(
                             imageVector = Icons.Rounded.Search,
-                            contentDescription = stringResource(R.string.recipe_edit_no_keywords_added),
-                            text = stringResource(R.string.recipe_edit_no_keywords_added)
+                            contentDescription = stringResource(Res.string.recipe_edit_no_keywords_added),
+                            text = stringResource(Res.string.recipe_edit_no_keywords_added)
                         )
                     } else {
                         LazyColumn(

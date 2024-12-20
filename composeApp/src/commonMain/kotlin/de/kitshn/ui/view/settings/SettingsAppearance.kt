@@ -1,6 +1,5 @@
 package de.kitshn.ui.view.settings
 
-import android.os.Build
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -19,13 +18,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
+import de.kitshn.ui.theme.isDynamicColorSupported
 import de.kitshn.ui.view.ViewParameters
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.settings_section_appearance_dark_mode_description
+import kitshn.composeapp.generated.resources.settings_section_appearance_dark_mode_label
+import kitshn.composeapp.generated.resources.settings_section_appearance_dynamic_color_description
+import kitshn.composeapp.generated.resources.settings_section_appearance_dynamic_color_label
+import kitshn.composeapp.generated.resources.settings_section_appearance_follow_system_description
+import kitshn.composeapp.generated.resources.settings_section_appearance_follow_system_label
+import kitshn.composeapp.generated.resources.settings_section_appearance_label
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,7 +47,7 @@ fun ViewSettingsAppearance(
         topBar = {
             TopAppBar(
                 navigationIcon = { BackButton(p.back) },
-                title = { Text(stringResource(id = R.string.settings_section_appearance_label)) },
+                title = { Text(stringResource(Res.string.settings_section_appearance_label)) },
                 scrollBehavior = scrollBehavior
             )
         }
@@ -54,10 +61,10 @@ fun ViewSettingsAppearance(
         ) {
             item {
                 SettingsSwitchListItem(
-                    label = { Text(stringResource(R.string.settings_section_appearance_follow_system_label)) },
-                    description = { Text(stringResource(R.string.settings_section_appearance_follow_system_description)) },
+                    label = { Text(stringResource(Res.string.settings_section_appearance_follow_system_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_appearance_follow_system_description)) },
                     icon = Icons.Rounded.AutoAwesome,
-                    contentDescription = stringResource(R.string.settings_section_appearance_follow_system_label),
+                    contentDescription = stringResource(Res.string.settings_section_appearance_follow_system_label),
                     checked = enableSystemTheme.value
                 ) {
                     coroutineScope.launch {
@@ -70,10 +77,10 @@ fun ViewSettingsAppearance(
                 val checked = p.vm.settings.getEnableDarkTheme.collectAsState(initial = false)
 
                 SettingsSwitchListItem(
-                    label = { Text(stringResource(R.string.settings_section_appearance_dark_mode_label)) },
-                    description = { Text(stringResource(R.string.settings_section_appearance_dark_mode_description)) },
+                    label = { Text(stringResource(Res.string.settings_section_appearance_dark_mode_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_appearance_dark_mode_description)) },
                     icon = Icons.Rounded.DarkMode,
-                    contentDescription = stringResource(R.string.settings_section_appearance_dark_mode_label),
+                    contentDescription = stringResource(Res.string.settings_section_appearance_dark_mode_label),
                     enabled = !enableSystemTheme.value,
                     checked = checked.value
                 ) {
@@ -83,7 +90,7 @@ fun ViewSettingsAppearance(
                 }
             }
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if(isDynamicColorSupported()) {
                 item {
                     HorizontalDivider(
                         Modifier.padding(top = 8.dp, bottom = 8.dp)
@@ -95,10 +102,10 @@ fun ViewSettingsAppearance(
                         p.vm.settings.getEnableDynamicColors.collectAsState(initial = true)
 
                     SettingsSwitchListItem(
-                        label = { Text(stringResource(R.string.settings_section_appearance_dynamic_color_label)) },
-                        description = { Text(stringResource(R.string.settings_section_appearance_dynamic_color_description)) },
+                        label = { Text(stringResource(Res.string.settings_section_appearance_dynamic_color_label)) },
+                        description = { Text(stringResource(Res.string.settings_section_appearance_dynamic_color_description)) },
                         icon = Icons.Rounded.Palette,
-                        contentDescription = stringResource(R.string.settings_section_appearance_dynamic_color_label),
+                        contentDescription = stringResource(Res.string.settings_section_appearance_dynamic_color_label),
                         checked = checked.value
                     ) {
                         coroutineScope.launch {

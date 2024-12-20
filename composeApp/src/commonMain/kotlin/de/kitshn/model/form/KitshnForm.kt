@@ -7,10 +7,12 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 class KitshnForm(
     private val sections: List<KitshnFormSection> = listOf(),
@@ -60,7 +62,7 @@ class KitshnForm(
         }
     }
 
-    fun checkSubmit(): Boolean {
+    suspend fun checkSubmit(): Boolean {
         var successful = true
         for(section in sections)
             for(item in section.items)
@@ -71,8 +73,12 @@ class KitshnForm(
 
     @Composable
     fun RenderSubmitButton() {
+        val coroutine = rememberCoroutineScope()
+
         submitButton {
-            if(checkSubmit()) onSubmit()
+            coroutine.launch {
+                if(checkSubmit()) onSubmit()
+            }
         }
     }
 

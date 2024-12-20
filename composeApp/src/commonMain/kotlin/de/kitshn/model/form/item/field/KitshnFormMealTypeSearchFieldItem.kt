@@ -1,6 +1,5 @@
 package de.kitshn.model.form.item.field
 
-import android.content.Context
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
@@ -14,12 +13,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.ui.component.input.MealTypeSearchField
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.form_error_field_empty
+import org.jetbrains.compose.resources.getString
 
 class KitshnFormMealTypeSearchFieldItem(
     val client: TandoorClient,
@@ -46,16 +46,12 @@ class KitshnFormMealTypeSearchFieldItem(
     optional = optional
 ) {
 
-    var context: Context? = null
-
     @Composable
     override fun Render() {
         val focusManager = LocalFocusManager.current
 
         var error by rememberSaveable { mutableStateOf<String?>(null) }
         val value = value()
-
-        context = LocalContext.current
 
         MealTypeSearchField(
             modifier = Modifier.fillMaxWidth(),
@@ -103,12 +99,12 @@ class KitshnFormMealTypeSearchFieldItem(
         )
     }
 
-    override fun submit(): Boolean {
+    override suspend fun submit(): Boolean {
         val value = value()
         val checkResult = check(value)
 
         if(!optional && value == null) {
-            generalError = context?.getString(R.string.form_error_field_empty)
+            generalError = getString(Res.string.form_error_field_empty)
             return false
         } else if(checkResult != null) {
             generalError = checkResult

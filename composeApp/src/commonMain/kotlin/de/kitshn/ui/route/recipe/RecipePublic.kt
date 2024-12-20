@@ -1,6 +1,5 @@
 package de.kitshn.ui.route.recipe
 
-import android.app.Activity
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.SearchOff
@@ -8,11 +7,9 @@ import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.closeAppHandler
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.buttons.BackButton
@@ -21,12 +18,17 @@ import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.view.ViewParameters
 import de.kitshn.ui.view.recipe.details.ViewRecipeDetails
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_shared_recipe
+import kitshn.composeapp.generated.resources.common_source
+import kitshn.composeapp.generated.resources.recipe_not_found
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RouteRecipePublic(
     p: RouteParameters
 ) {
-    val context = LocalContext.current
+    val closeAppHandler = closeAppHandler()
 
     val recipeId = p.bse.arguments?.getString("recipeId")
     val shareToken = p.bse.arguments?.getString("shareToken")
@@ -34,8 +36,8 @@ fun RouteRecipePublic(
     if(recipeId == null || shareToken == null) {
         FullSizeAlertPane(
             imageVector = Icons.Rounded.SearchOff,
-            contentDescription = stringResource(R.string.recipe_not_found),
-            text = stringResource(R.string.recipe_not_found)
+            contentDescription = stringResource(Res.string.recipe_not_found),
+            text = stringResource(Res.string.recipe_not_found)
         )
 
         return
@@ -70,7 +72,7 @@ fun RouteRecipePublic(
         navigationIcon = {
             BackButton(
                 onBack = {
-                    (context as? Activity)?.finish()
+                    closeAppHandler()
                 },
                 overlay = true,
                 type = BackButtonType.CLOSE
@@ -79,9 +81,9 @@ fun RouteRecipePublic(
         prependContent = {
             SettingsListItem(
                 icon = Icons.Rounded.Share,
-                label = { Text(text = "Geteiltes Rezept") },
-                description = { Text(text = "Quelle: ${client.credentials.instanceUrl}") },
-                contentDescription = "Geteiltes Rezept",
+                label = { Text(text = stringResource(Res.string.common_shared_recipe)) },
+                description = { Text(text = "${ stringResource(Res.string.common_source) }: ${client.credentials.instanceUrl}") },
+                contentDescription = stringResource(Res.string.common_shared_recipe),
                 contentPadding = PaddingValues(
                     start = 16.dp,
                     end = 16.dp,

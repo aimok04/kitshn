@@ -32,16 +32,21 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.TandoorFoodProperty
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeProperty
 import de.kitshn.formatAmount
 import de.kitshn.ui.theme.Typography
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_ingredients
+import kitshn.composeapp.generated.resources.common_per_serving
+import kitshn.composeapp.generated.resources.common_properties
+import kitshn.composeapp.generated.resources.common_recipe
+import kitshn.composeapp.generated.resources.common_total
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RecipePropertiesCard(
@@ -87,10 +92,10 @@ fun RecipePropertiesCard(
             Text(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
-                text = stringResource(R.string.common_properties),
+                text = stringResource(Res.string.common_properties),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                style = Typography.titleLarge
+                style = Typography().titleLarge
             )
 
             if(foodProperties.size > 0 && recipeProperties.size > 0) {
@@ -149,13 +154,13 @@ fun RecipePropertiesCard(
                     )
 
                     TableTextBox(
-                        text = stringResource(R.string.common_per_serving),
+                        text = stringResource(Res.string.common_per_serving),
                         bold = true,
                         weight = 0.3f
                     )
 
                     TableTextBox(
-                        text = stringResource(R.string.common_total),
+                        text = stringResource(Res.string.common_total),
                         bold = true,
                         weight = 0.15f
                     )
@@ -268,7 +273,7 @@ fun RecipePropertiesCardFoodRecipeToggle(
             },
             checked = foodActive
         ) {
-            Text(stringResource(R.string.common_ingredients))
+            Text(stringResource(Res.string.common_ingredients))
         }
 
         SegmentedButton(
@@ -287,7 +292,7 @@ fun RecipePropertiesCardFoodRecipeToggle(
             },
             checked = !foodActive
         ) {
-            Text(stringResource(R.string.common_recipe))
+            Text(stringResource(Res.string.common_recipe))
         }
     }
 }

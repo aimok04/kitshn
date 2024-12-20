@@ -21,11 +21,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
 import de.kitshn.ui.component.search.AdditionalSearchSettingsChipRowState
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_remove
+import kitshn.composeapp.generated.resources.common_select
+import kitshn.composeapp.generated.resources.common_sorting
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SortingSearchSettingChip(
@@ -38,9 +41,9 @@ fun SortingSearchSettingChip(
         onClick = {
             showDialog = true
         },
-        label = { Text(state.sortOrder?.itemLabel() ?: stringResource(R.string.common_sorting)) },
+        label = { Text(state.sortOrder?.itemLabel() ?: stringResource(Res.string.common_sorting)) },
         trailingIcon = {
-            Icon(Icons.Rounded.ArrowDropDown, stringResource(R.string.common_select))
+            Icon(Icons.Rounded.ArrowDropDown, stringResource(Res.string.common_select))
         }
     )
 
@@ -49,10 +52,10 @@ fun SortingSearchSettingChip(
             showDialog = false
         },
         icon = {
-            Icon(Icons.Rounded.SyncAlt, stringResource(R.string.common_sorting))
+            Icon(Icons.Rounded.SyncAlt, stringResource(Res.string.common_sorting))
         },
         title = {
-            Text(text = stringResource(R.string.common_sorting))
+            Text(text = stringResource(Res.string.common_sorting))
         },
         text = {
             Column(
@@ -82,7 +85,7 @@ fun SortingSearchSettingChip(
 
                 state.update()
             }) {
-                Text(text = stringResource(id = R.string.action_remove))
+                Text(text = stringResource(Res.string.action_remove))
             }
         },
         confirmButton = { }

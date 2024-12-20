@@ -11,9 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
 import de.kitshn.ui.selectionMode.SelectionModeState
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_close
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +34,7 @@ fun <T> SelectionModeTopAppBar(
                 IconButton(onClick = {
                     state.disable()
                 }) {
-                    Icon(Icons.Rounded.Close, stringResource(id = R.string.action_close))
+                    Icon(Icons.Rounded.Close, stringResource(Res.string.action_close))
                 }
             },
             title = {

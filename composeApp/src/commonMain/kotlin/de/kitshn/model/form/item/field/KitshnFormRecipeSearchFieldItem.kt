@@ -1,6 +1,5 @@
 package de.kitshn.model.form.item.field
 
-import android.content.Context
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
@@ -10,16 +9,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.ui.component.input.recipe.RecipeSearchField
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.form_error_field_empty
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 
 class KitshnFormRecipeSearchFieldItem(
     val client: TandoorClient,
@@ -35,7 +37,7 @@ class KitshnFormRecipeSearchFieldItem(
 
     optional: Boolean = false,
 
-    val check: (data: Int?) -> String?
+    val check: suspend (data: Int?) -> String?
 ) : KitshnFormBaseFieldItem(
     label = label,
     leadingIcon = leadingIcon,
@@ -46,8 +48,6 @@ class KitshnFormRecipeSearchFieldItem(
     optional = optional
 ) {
 
-    var context: Context? = null
-
     @Composable
     override fun Render() {
         val focusManager = LocalFocusManager.current
@@ -55,7 +55,7 @@ class KitshnFormRecipeSearchFieldItem(
         var error by rememberSaveable { mutableStateOf<String?>(null) }
         val value = value()
 
-        context = LocalContext.current
+        val coroutineScope = rememberCoroutineScope()
 
         RecipeSearchField(
             modifier = Modifier.fillMaxWidth(),
@@ -92,23 +92,25 @@ class KitshnFormRecipeSearchFieldItem(
             ),
 
             onValueChange = {
-                generalError = null
-                onValueChange(it)
+                coroutineScope.launch {
+                    generalError = null
+                    onValueChange(it)
 
-                error = if(it == null)
-                    null
-                else
-                    check(it)
+                    error = if(it == null)
+                        null
+                    else
+                        check(it)
+                }
             }
         )
     }
 
-    override fun submit(): Boolean {
+    override suspend fun submit(): Boolean {
         val value = value()
         val checkResult = check(value)
 
         if(!optional && value == null) {
-            generalError = context?.getString(R.string.form_error_field_empty)
+            generalError = getString(Res.string.form_error_field_empty)
             return false
         } else if(checkResult != null) {
             generalError = checkResult

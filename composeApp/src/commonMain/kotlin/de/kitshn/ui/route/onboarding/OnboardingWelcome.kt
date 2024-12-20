@@ -22,15 +22,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.ui.component.onboarding.KitshnLogoAnimationWrapper
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.theme.KitshnYellowBright
 import de.kitshn.ui.theme.KitshnYellowDark
 import de.kitshn.ui.theme.Typography
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_next
+import kitshn.composeapp.generated.resources.common_welcome
+import kitshn.composeapp.generated.resources.onboarding_welcome
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -54,7 +57,7 @@ fun RouteOnboardingWelcome(
             }) {
                 Icon(
                     Icons.AutoMirrored.Rounded.KeyboardArrowRight,
-                    stringResource(id = R.string.action_next)
+                    stringResource(Res.string.action_next)
                 )
             }
         }
@@ -77,7 +80,7 @@ fun RouteOnboardingWelcome(
                         Text(
                             modifier = modifier,
                             text = "\uD83D\uDE03",
-                            style = Typography.displayLarge
+                            style = Typography().displayLarge
                         )
                     }
 
@@ -86,15 +89,15 @@ fun RouteOnboardingWelcome(
                     Column {
                         FlowRow {
                             Text(
-                                text = stringResource(R.string.common_welcome),
-                                style = Typography.displaySmall
+                                text = stringResource(Res.string.common_welcome),
+                                style = Typography().displaySmall
                             )
 
                             Spacer(Modifier.width(8.dp))
 
                             Text(
                                 text = p.vm.tandoorClient?.credentials?.username ?: "",
-                                style = Typography.displaySmall.copy(
+                                style = Typography().displaySmall.copy(
                                     brush = Brush.horizontalGradient(
                                         colors = listOf(
                                             KitshnYellowBright,
@@ -106,7 +109,7 @@ fun RouteOnboardingWelcome(
                         }
 
                         Text(
-                            text = stringResource(R.string.onboarding_welcome)
+                            text = stringResource(Res.string.onboarding_welcome)
                         )
                     }
                 }

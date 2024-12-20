@@ -4,8 +4,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
@@ -13,6 +11,9 @@ import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.view.ViewParameters
 import de.kitshn.ui.view.recipe.details.ViewRecipeDetails
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.recipe_not_found
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RouteRecipeView(
@@ -22,8 +23,8 @@ fun RouteRecipeView(
     if(recipeId == null) {
         FullSizeAlertPane(
             imageVector = Icons.Rounded.SearchOff,
-            contentDescription = stringResource(R.string.recipe_not_found),
-            text = stringResource(R.string.recipe_not_found)
+            contentDescription = stringResource(Res.string.recipe_not_found),
+            text = stringResource(Res.string.recipe_not_found)
         )
 
         return

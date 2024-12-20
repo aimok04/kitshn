@@ -18,17 +18,16 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import de.kitshn.BuildConfig
-import de.kitshn.R
+import de.kitshn.crash.crashReportHandler
 import de.kitshn.model.SettingsBaseModel
 import de.kitshn.model.SettingsDividerModel
 import de.kitshn.model.SettingsItemModel
+import de.kitshn.platformDetails
 import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.layout.KitshnListDetailPaneScaffold
 import de.kitshn.ui.route.RouteParameters
@@ -38,52 +37,33 @@ import de.kitshn.ui.view.settings.ViewSettingsAppearance
 import de.kitshn.ui.view.settings.ViewSettingsBehavior
 import de.kitshn.ui.view.settings.ViewSettingsDebug
 import de.kitshn.ui.view.settings.ViewSettingsServer
-import org.acra.ACRA
+import kitshn.composeApp.BuildConfig
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_error_report
+import kitshn.composeapp.generated.resources.navigation_settings
+import kitshn.composeapp.generated.resources.settings_section_about_description
+import kitshn.composeapp.generated.resources.settings_section_about_label
+import kitshn.composeapp.generated.resources.settings_section_appearance_description
+import kitshn.composeapp.generated.resources.settings_section_appearance_label
+import kitshn.composeapp.generated.resources.settings_section_behavior_description
+import kitshn.composeapp.generated.resources.settings_section_behavior_label
+import kitshn.composeapp.generated.resources.settings_section_server_description
+import kitshn.composeapp.generated.resources.settings_section_server_label
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RouteMainSubrouteSettings(
     p: RouteParameters
 ) {
-    val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     val settingsModelList = remember {
         mutableStateListOf<SettingsBaseModel>(
-            SettingsItemModel(
-                id = "SERVER",
-                icon = Icons.Rounded.Cloud,
-                contentDescription = context.getString(R.string.settings_section_server_description),
-                label = context.getString(R.string.settings_section_server_label),
-                description = context.getString(R.string.settings_section_server_description),
-                content = { ViewSettingsServer(ViewParameters(p.vm, it)) }
-            ),
-            SettingsItemModel(
-                id = "APPEARANCE",
-                icon = Icons.Rounded.Palette,
-                contentDescription = context.getString(R.string.settings_section_appearance_description),
-                label = context.getString(R.string.settings_section_appearance_label),
-                description = context.getString(R.string.settings_section_appearance_description),
-                content = { ViewSettingsAppearance(ViewParameters(p.vm, it)) }
-            ),
-            SettingsItemModel(
-                id = "BEHAVIOR",
-                icon = Icons.Rounded.Tune,
-                contentDescription = context.getString(R.string.settings_section_behavior_description),
-                label = context.getString(R.string.settings_section_behavior_label),
-                description = context.getString(R.string.settings_section_behavior_description),
-                content = { ViewSettingsBehavior(ViewParameters(p.vm, it)) }
-            ),
-            SettingsItemModel(
-                id = "ABOUT",
-                icon = Icons.Rounded.Info,
-                contentDescription = context.getString(R.string.settings_section_about_description),
-                label = context.getString(R.string.settings_section_about_label),
-                description = context.getString(R.string.settings_section_about_description),
-                content = { ViewSettingsAbout(ViewParameters(p.vm, it)) }
-            )
+            
         ).apply {
-            if(BuildConfig.DEBUG) add(SettingsItemModel(
+            if(platformDetails.debug) add(SettingsItemModel(
                 id = "DEBUG",
                 icon = Icons.Rounded.DeveloperBoard,
                 contentDescription = "Test experimental settings",
@@ -94,19 +74,58 @@ fun RouteMainSubrouteSettings(
         }
     }
 
+    val crashReportHandler = crashReportHandler()
+    
+    LaunchedEffect(Unit) {
+        settingsModelList.addAll(listOf(
+            SettingsItemModel(
+                id = "SERVER",
+                icon = Icons.Rounded.Cloud,
+                contentDescription = getString(Res.string.settings_section_server_description),
+                label = getString(Res.string.settings_section_server_label),
+                description = getString(Res.string.settings_section_server_description),
+                content = { ViewSettingsServer(ViewParameters(p.vm, it)) }
+            ),
+            SettingsItemModel(
+                id = "APPEARANCE",
+                icon = Icons.Rounded.Palette,
+                contentDescription = getString(Res.string.settings_section_appearance_description),
+                label = getString(Res.string.settings_section_appearance_label),
+                description = getString(Res.string.settings_section_appearance_description),
+                content = { ViewSettingsAppearance(ViewParameters(p.vm, it)) }
+            ),
+            SettingsItemModel(
+                id = "BEHAVIOR",
+                icon = Icons.Rounded.Tune,
+                contentDescription = getString(Res.string.settings_section_behavior_description),
+                label = getString(Res.string.settings_section_behavior_label),
+                description = getString(Res.string.settings_section_behavior_description),
+                content = { ViewSettingsBehavior(ViewParameters(p.vm, it)) }
+            ),
+            SettingsItemModel(
+                id = "ABOUT",
+                icon = Icons.Rounded.Info,
+                contentDescription = getString(Res.string.settings_section_about_description),
+                label = getString(Res.string.settings_section_about_label),
+                description = getString(Res.string.settings_section_about_description),
+                content = { ViewSettingsAbout(ViewParameters(p.vm, it)) }
+            )
+        ))
+    }
+
     KitshnListDetailPaneScaffold(
         key = "RouteMainSubrouteSettings",
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.navigation_settings)) },
+                title = { Text(stringResource(Res.string.navigation_settings)) },
                 colors = it,
                 actions = {
-                    IconButton(
+                    if(crashReportHandler != null) IconButton(
                         onClick = {
-                            ACRA.errorReporter.handleException(null)
+                            crashReportHandler(null)
                         }
                     ) {
-                        Icon(Icons.Rounded.BugReport, stringResource(R.string.common_error_report))
+                        Icon(Icons.Rounded.BugReport, stringResource(Res.string.common_error_report))
                     }
                 },
                 scrollBehavior = scrollBehavior

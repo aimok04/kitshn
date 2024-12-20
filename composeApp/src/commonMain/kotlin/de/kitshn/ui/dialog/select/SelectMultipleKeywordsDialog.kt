@@ -43,11 +43,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import de.kitshn.KITSHN_KEYWORD_FLAG_PREFIX
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.TandoorKeyword
@@ -57,8 +55,16 @@ import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_add
+import kitshn.composeapp.generated.resources.action_apply
+import kitshn.composeapp.generated.resources.common_create_argument
+import kitshn.composeapp.generated.resources.search_tags
+import kitshn.composeapp.generated.resources.search_tags_filter
+import kitshn.composeapp.generated.resources.search_tags_filter_empty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun rememberSelectMultipleKeywordsDialogState(): SelectMultipleKeywordsDialogState {
@@ -100,10 +106,10 @@ fun SelectMultipleKeywordsDialog(
             state.dismiss()
         },
         icon = {
-            Icon(Icons.Rounded.Tag, stringResource(R.string.search_tags_filter))
+            Icon(Icons.Rounded.Tag, stringResource(Res.string.search_tags_filter))
         },
         title = {
-            Text(stringResource(R.string.search_tags_filter))
+            Text(stringResource(Res.string.search_tags_filter))
         },
         text = {
             Column {
@@ -140,7 +146,7 @@ fun SelectMultipleKeywordsDialog(
                                     if(value) {
                                         state.selectedKeywords.add(0, keyword)
                                     } else {
-                                        state.selectedKeywords.removeIf { it.id == keywordId }
+                                        state.selectedKeywords.forEach { if(it.id == keywordId) state.selectedKeywords.remove(it) }
                                     }
                                 }
                             }
@@ -152,8 +158,8 @@ fun SelectMultipleKeywordsDialog(
                             if(state.selectedKeywords.size == 0) {
                                 FullSizeAlertPane(
                                     imageVector = Icons.Rounded.Search,
-                                    contentDescription = stringResource(R.string.search_tags_filter_empty),
-                                    text = stringResource(R.string.search_tags_filter_empty)
+                                    contentDescription = stringResource(Res.string.search_tags_filter_empty),
+                                    text = stringResource(Res.string.search_tags_filter_empty)
                                 )
                             } else {
                                 LazyColumn(
@@ -183,7 +189,7 @@ fun SelectMultipleKeywordsDialog(
                 state.dismiss()
                 onSubmit(state.selectedKeywords)
             }) {
-                Text(stringResource(id = R.string.action_apply))
+                Text(stringResource(Res.string.action_apply))
             }
         },
         properties = DialogProperties(
@@ -339,8 +345,8 @@ fun KeywordSearchBar(
                     keyboardController?.hide()
                     search = it
                 },
-                leadingIcon = { Icon(Icons.Rounded.Search, stringResource(R.string.search_tags)) },
-                placeholder = { Text(stringResource(R.string.search_tags)) },
+                leadingIcon = { Icon(Icons.Rounded.Search, stringResource(Res.string.search_tags)) },
+                placeholder = { Text(stringResource(Res.string.search_tags)) },
                 expanded = true,
                 onExpandedChange = { }
             )
@@ -361,11 +367,11 @@ fun KeywordSearchBar(
                             IconButton(onClick = {
                                 createKeyword(query)
                             }) {
-                                Icon(Icons.Rounded.Add, stringResource(id = R.string.action_add))
+                                Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
                             }
                         },
                         headlineContent = {
-                            Text(stringResource(R.string.common_create_argument, query))
+                            Text(stringResource(Res.string.common_create_argument, query))
                         }
                     )
                 }

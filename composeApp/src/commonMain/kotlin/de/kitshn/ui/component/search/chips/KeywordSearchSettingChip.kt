@@ -6,14 +6,17 @@ import androidx.compose.material.icons.rounded.AllInclusive
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.ui.component.search.AdditionalSearchSettingsChipRowState
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
 import de.kitshn.ui.dialog.select.SelectMultipleKeywordsDialog
 import de.kitshn.ui.dialog.select.rememberSelectMultipleKeywordsDialogState
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_tags
+import kitshn.composeapp.generated.resources.search_keyword_including_all_description
+import kitshn.composeapp.generated.resources.search_keyword_including_all_label
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun KeywordSearchSettingChip(
@@ -29,10 +32,10 @@ fun KeywordSearchSettingChip(
             SettingsSwitchListItem(
                 contentPadding = PaddingValues(bottom = 8.dp),
                 label = {
-                    Text(text = stringResource(R.string.search_keyword_including_all_label))
+                    Text(text = stringResource(Res.string.search_keyword_including_all_label))
                 },
                 description = {
-                    Text(text = stringResource(R.string.search_keyword_including_all_description))
+                    Text(text = stringResource(Res.string.search_keyword_including_all_description))
                 },
                 icon = Icons.Rounded.AllInclusive,
                 checked = state.keywordsAnd,
@@ -58,7 +61,7 @@ fun KeywordSearchSettingChip(
             )
         },
         label = {
-            Text(stringResource(R.string.common_tags) + if(selected) " (${state.selectedKeywords.size})" else "")
+            Text(stringResource(Res.string.common_tags) + if(selected) " (${state.selectedKeywords.size})" else "")
         }
     )
 }

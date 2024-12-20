@@ -1,9 +1,5 @@
 package de.kitshn.ui.dialog
 
-import android.view.View
-import android.view.WindowManager
-import android.widget.FrameLayout
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.layout.Box
@@ -20,26 +16,19 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import de.kitshn.getActivityWindow
-import de.kitshn.getDialogWindow
+import de.kitshn.BackHandler
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.buttons.BackButtonType
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImmersiveFullscreenDialog(
     onDismiss: () -> Unit,
@@ -54,7 +43,65 @@ fun ImmersiveFullscreenDialog(
     applyPaddingValues: Boolean = true,
     content: @Composable (nestedScrollConnection: NestedScrollConnection, pv: PaddingValues) -> Unit
 ) {
-    val configuration = LocalConfiguration.current
+    if(immersiveFullscreenDialogImpl(
+        onDismiss = onDismiss,
+        onPreDismiss = onPreDismiss,
+        forceDismiss = forceDismiss,
+        title = title,
+        topAppBarActions = topAppBarActions,
+        actions = actions,
+        topBar = topBar,
+        topBarWrapper = topBarWrapper,
+        bottomBar = bottomBar,
+        applyPaddingValues = applyPaddingValues,
+        content = content
+    )) return
+
+    CommonImmersiveFullscreenDialog(
+        onDismiss = onDismiss,
+        onPreDismiss = onPreDismiss,
+        forceDismiss = forceDismiss,
+        title = title,
+        topAppBarActions = topAppBarActions,
+        actions = actions,
+        topBar = topBar,
+        topBarWrapper = topBarWrapper,
+        bottomBar = bottomBar,
+        applyPaddingValues = applyPaddingValues,
+        content = content
+    )
+}
+
+@Composable
+expect fun immersiveFullscreenDialogImpl(
+    onDismiss: () -> Unit,
+    onPreDismiss: () -> Boolean = { true },
+    forceDismiss: Boolean = false,
+    title: @Composable () -> Unit = {},
+    topAppBarActions: @Composable (RowScope.() -> Unit) = { },
+    actions: @Composable (RowScope.() -> Unit)? = null,
+    topBar: @Composable (() -> Unit)? = null,
+    topBarWrapper: @Composable (topBar: @Composable () -> Unit) -> Unit = { it() },
+    bottomBar: @Composable (() -> Unit)? = null,
+    applyPaddingValues: Boolean = true,
+    content: @Composable (nestedScrollConnection: NestedScrollConnection, pv: PaddingValues) -> Unit
+): Boolean
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CommonImmersiveFullscreenDialog(
+    onDismiss: () -> Unit,
+    onPreDismiss: () -> Boolean = { true },
+    forceDismiss: Boolean = false,
+    title: @Composable () -> Unit = {},
+    topAppBarActions: @Composable (RowScope.() -> Unit) = { },
+    actions: @Composable (RowScope.() -> Unit)? = null,
+    topBar: @Composable (() -> Unit)? = null,
+    topBarWrapper: @Composable (topBar: @Composable () -> Unit) -> Unit = { it() },
+    bottomBar: @Composable (() -> Unit)? = null,
+    applyPaddingValues: Boolean = true,
+    content: @Composable (nestedScrollConnection: NestedScrollConnection, pv: PaddingValues) -> Unit
+) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     /* animate visibility of fullscreen dialog */
@@ -85,44 +132,9 @@ fun ImmersiveFullscreenDialog(
     Dialog(
         onDismissRequest = { dismiss() },
         properties = DialogProperties(
-            usePlatformDefaultWidth = true,
-            decorFitsSystemWindows = false
+            usePlatformDefaultWidth = true
         )
     ) {
-        val activityWindow = getActivityWindow()
-        val dialogWindow = getDialogWindow()
-
-        val systemUiController = rememberSystemUiController(activityWindow)
-        val dialogSystemUiController = rememberSystemUiController(dialogWindow)
-
-        val parentView = LocalView.current.parent as View
-
-        fun apply() {
-            if(activityWindow != null && dialogWindow != null) {
-                val attributes = WindowManager.LayoutParams()
-                attributes.copyFrom(activityWindow.attributes)
-                attributes.type = dialogWindow.attributes.type
-                dialogWindow.attributes = attributes
-                parentView.layoutParams = FrameLayout.LayoutParams(
-                    activityWindow.decorView.width,
-                    activityWindow.decorView.height
-                )
-            }
-        }
-
-        SideEffect { apply() }
-        LaunchedEffect(configuration) { apply() }
-
-        DisposableEffect(configuration) {
-            systemUiController.isSystemBarsVisible = false
-            dialogSystemUiController.isSystemBarsVisible = false
-
-            onDispose {
-                systemUiController.isSystemBarsVisible = true
-                dialogSystemUiController.isSystemBarsVisible = true
-            }
-        }
-
         AnimatedVisibility(
             animVisibleState
         ) {

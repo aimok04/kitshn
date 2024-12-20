@@ -36,17 +36,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_apply
+import kitshn.composeapp.generated.resources.search_ingredients
+import kitshn.composeapp.generated.resources.search_ingredients_filter
+import kitshn.composeapp.generated.resources.search_ingredients_filter_empty
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun rememberSelectMultipleFoodsDialogState(): SelectMultipleFoodsDialogState {
@@ -88,10 +92,10 @@ fun SelectMultipleFoodsDialog(
             state.dismiss()
         },
         icon = {
-            Icon(Icons.Rounded.RestaurantMenu, stringResource(R.string.search_ingredients_filter))
+            Icon(Icons.Rounded.RestaurantMenu, stringResource(Res.string.search_ingredients_filter))
         },
         title = {
-            Text(stringResource(R.string.search_ingredients_filter))
+            Text(stringResource(Res.string.search_ingredients_filter))
         },
         text = {
             Column {
@@ -139,8 +143,8 @@ fun SelectMultipleFoodsDialog(
                             if(state.selectedFoods.size == 0) {
                                 FullSizeAlertPane(
                                     imageVector = Icons.Rounded.Search,
-                                    contentDescription = stringResource(R.string.search_ingredients_filter_empty),
-                                    text = stringResource(R.string.search_ingredients_filter_empty)
+                                    contentDescription = stringResource(Res.string.search_ingredients_filter_empty),
+                                    text = stringResource(Res.string.search_ingredients_filter_empty)
                                 )
                             } else {
                                 LazyColumn(
@@ -171,7 +175,7 @@ fun SelectMultipleFoodsDialog(
                 state.dismiss()
                 onSubmit(state.selectedFoods)
             }) {
-                Text(stringResource(id = R.string.action_apply))
+                Text(stringResource(Res.string.action_apply))
             }
         },
         properties = DialogProperties(
@@ -256,10 +260,10 @@ fun FoodSearchBar(
                 leadingIcon = {
                     Icon(
                         Icons.Rounded.Search,
-                        stringResource(R.string.search_ingredients)
+                        stringResource(Res.string.search_ingredients)
                     )
                 },
-                placeholder = { Text(stringResource(R.string.search_ingredients)) },
+                placeholder = { Text(stringResource(Res.string.search_ingredients)) },
                 expanded = true,
                 onExpandedChange = { }
             )

@@ -18,18 +18,21 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.toHumanReadableDateLabel
 import de.kitshn.ui.modifier.loadingPlaceHolder
 import de.kitshn.ui.selectionMode.SelectionModeState
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.theme.Typography
-import java.time.LocalDate
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_add
+import kitshn.composeapp.generated.resources.lorem_ipsum_title
+import kitshn.composeapp.generated.resources.meal_plan_no_recipes_for_this_day
+import kotlinx.datetime.LocalDate
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MealPlanDayCard(
@@ -60,14 +63,14 @@ fun MealPlanDayCard(
                 Text(
                     modifier = Modifier.loadingPlaceHolder(loadingState),
                     text = day?.toHumanReadableDateLabel()
-                        ?: stringResource(id = R.string.lorem_ipsum_title),
+                        ?: stringResource(Res.string.lorem_ipsum_title),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    style = Typography.titleLarge
+                    style = Typography().titleLarge
                 )
 
                 IconButton(onClick = onClickCreate) {
-                    Icon(Icons.Rounded.Add, stringResource(R.string.action_add))
+                    Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
                 }
             }
 
@@ -94,7 +97,7 @@ fun MealPlanDayCard(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(16.dp),
-                                text = stringResource(R.string.meal_plan_no_recipes_for_this_day),
+                                text = stringResource(Res.string.meal_plan_no_recipes_for_this_day),
                                 textAlign = TextAlign.Center
                             )
                         }

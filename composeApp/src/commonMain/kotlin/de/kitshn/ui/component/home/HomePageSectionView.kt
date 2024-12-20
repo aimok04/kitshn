@@ -12,9 +12,7 @@ import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
@@ -25,7 +23,13 @@ import de.kitshn.ui.selectionMode.SelectionModeState
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.rememberForeverLazyGridState
 import de.kitshn.ui.theme.Typography
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.allStringResources
+import kitshn.composeapp.generated.resources.lorem_ipsum_title
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun HomePageSectionView(
     client: TandoorClient?,
@@ -43,8 +47,9 @@ fun HomePageSectionView(
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                 .loadingPlaceHolder(loadingState),
-            text = stringResource(id = section?.title ?: R.string.lorem_ipsum_title),
-            style = Typography.titleLarge
+            text = Res.allStringResources[section?.title]?.let { stringResource(it) }
+                ?: stringResource(Res.string.lorem_ipsum_title),
+            style = Typography().titleLarge
         )
 
         LazyHorizontalGrid(
@@ -58,12 +63,12 @@ fun HomePageSectionView(
             if(section != null) {
                 items(section.recipeIds.size, key = { index ->
                     val recipeId = section.recipeIds[index]
-                    val recipe = client?.container?.recipeOverview?.getOrDefault(recipeId, null)
+                    val recipe = client?.container?.recipeOverview?.get(recipeId)
 
                     recipe?.let { "recipe-$it" } ?: "index-$index"
                 }) { index ->
                     val recipeId = section.recipeIds[index]
-                    val recipe = client?.container?.recipeOverview?.getOrDefault(recipeId, null)
+                    val recipe = client?.container?.recipeOverview?.get(recipeId)
                         ?: return@items
 
                     Box {

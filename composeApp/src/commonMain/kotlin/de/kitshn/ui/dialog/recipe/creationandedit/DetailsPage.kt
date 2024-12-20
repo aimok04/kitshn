@@ -10,23 +10,34 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.model.form.KitshnForm
 import de.kitshn.model.form.KitshnFormSection
 import de.kitshn.model.form.item.KitshnFormImageUploadItem
 import de.kitshn.model.form.item.field.KitshnFormIntegerFieldItem
 import de.kitshn.model.form.item.field.KitshnFormTextFieldItem
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_description
+import kitshn.composeapp.generated.resources.common_minute_min
+import kitshn.composeapp.generated.resources.common_name
+import kitshn.composeapp.generated.resources.common_portions
+import kitshn.composeapp.generated.resources.common_portions_text
+import kitshn.composeapp.generated.resources.common_prepairing
+import kitshn.composeapp.generated.resources.common_source
+import kitshn.composeapp.generated.resources.common_time_wait
+import kitshn.composeapp.generated.resources.common_title_image
+import kitshn.composeapp.generated.resources.form_error_description_max_512
+import kitshn.composeapp.generated.resources.form_error_name_max_128
+import kitshn.composeapp.generated.resources.form_error_portions_text_max_32
+import kitshn.composeapp.generated.resources.form_error_source_max_1024
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun detailsPage(
     recipe: TandoorRecipe?,
     values: RecipeCreationAndEditDialogValue
 ): KitshnForm {
-    val context = LocalContext.current
-
     val form = remember {
         KitshnForm(
             sections = listOf(
@@ -35,10 +46,9 @@ fun detailsPage(
                         KitshnFormImageUploadItem(
                             currentImage = { recipe?.loadThumbnail() },
 
-                            value = { values.imageUploadUri },
-                            onValueChange = { values.imageUploadUri = it },
-
-                            label = context.getString(R.string.common_title_image)
+                            value = { values.imageUploadByteArray },
+                            onValueChange = { values.imageUploadByteArray = it },
+                            label = { stringResource(Res.string.common_title_image) }
                         )
                     )
                 ),
@@ -50,11 +60,11 @@ fun detailsPage(
                                 values.name = it
                             },
 
-                            label = { Text(stringResource(R.string.common_name)) },
+                            label = { Text(stringResource(Res.string.common_name)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.AutoMirrored.Rounded.Label,
-                                    stringResource(R.string.common_name)
+                                    stringResource(Res.string.common_name)
                                 )
                             },
 
@@ -63,7 +73,7 @@ fun detailsPage(
 
                             check = {
                                 if(it.length > 128) {
-                                    context.getString(R.string.form_error_name_max_128)
+                                    getString(Res.string.form_error_name_max_128)
                                 } else {
                                     null
                                 }
@@ -79,11 +89,11 @@ fun detailsPage(
                                 values.description = it
                             },
 
-                            label = { Text(stringResource(R.string.common_description)) },
+                            label = { Text(stringResource(Res.string.common_description)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.AutoMirrored.Rounded.Notes,
-                                    stringResource(R.string.common_description)
+                                    stringResource(Res.string.common_description)
                                 )
                             },
 
@@ -95,7 +105,7 @@ fun detailsPage(
 
                             check = {
                                 if(it.length > 512) {
-                                    context.getString(R.string.form_error_description_max_512)
+                                    getString(Res.string.form_error_description_max_512)
                                 } else {
                                     null
                                 }
@@ -109,11 +119,11 @@ fun detailsPage(
                             value = { values.servings },
                             onValueChange = { values.servings = it },
 
-                            label = { Text(stringResource(id = R.string.common_portions)) },
+                            label = { Text(stringResource(Res.string.common_portions)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.Rounded.Numbers,
-                                    stringResource(id = R.string.common_portions)
+                                    stringResource(Res.string.common_portions)
                                 )
                             },
 
@@ -133,11 +143,11 @@ fun detailsPage(
                                 values.servingsText = it
                             },
 
-                            label = { Text(stringResource(R.string.common_portions_text)) },
+                            label = { Text(stringResource(Res.string.common_portions_text)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.Rounded.Numbers,
-                                    stringResource(R.string.common_portions_text)
+                                    stringResource(Res.string.common_portions_text)
                                 )
                             },
 
@@ -147,7 +157,7 @@ fun detailsPage(
 
                             check = {
                                 if(it.length > 32) {
-                                    context.getString(R.string.form_error_portions_text_max_32)
+                                    getString(Res.string.form_error_portions_text_max_32)
                                 } else {
                                     null
                                 }
@@ -161,14 +171,14 @@ fun detailsPage(
                             value = { values.workingTime },
                             onValueChange = { values.workingTime = it },
 
-                            label = { Text(stringResource(R.string.common_prepairing)) },
+                            label = { Text(stringResource(Res.string.common_prepairing)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.Rounded.Timer,
-                                    stringResource(R.string.common_prepairing)
+                                    stringResource(Res.string.common_prepairing)
                                 )
                             },
-                            suffix = { Text(stringResource(id = R.string.common_minute_min)) },
+                            suffix = { Text(stringResource(Res.string.common_minute_min)) },
 
                             min = { 0 },
 
@@ -180,14 +190,14 @@ fun detailsPage(
                             value = { values.waitingTime },
                             onValueChange = { values.waitingTime = it },
 
-                            label = { Text(stringResource(R.string.common_time_wait)) },
+                            label = { Text(stringResource(Res.string.common_time_wait)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.Rounded.Timer,
-                                    stringResource(R.string.common_time_wait)
+                                    stringResource(Res.string.common_time_wait)
                                 )
                             },
-                            suffix = { Text(stringResource(id = R.string.common_minute_min)) },
+                            suffix = { Text(stringResource(Res.string.common_minute_min)) },
 
                             min = { 0 },
 
@@ -205,11 +215,11 @@ fun detailsPage(
                                 values.sourceUrl = it
                             },
 
-                            label = { Text(stringResource(R.string.common_source)) },
+                            label = { Text(stringResource(Res.string.common_source)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.Rounded.AttachFile,
-                                    stringResource(R.string.common_source)
+                                    stringResource(Res.string.common_source)
                                 )
                             },
 
@@ -218,7 +228,7 @@ fun detailsPage(
 
                             check = {
                                 if(it.length > 1024) {
-                                    context.getString(R.string.form_error_source_max_1024)
+                                    getString(Res.string.form_error_source_max_1024)
                                 } else {
                                     null
                                 }

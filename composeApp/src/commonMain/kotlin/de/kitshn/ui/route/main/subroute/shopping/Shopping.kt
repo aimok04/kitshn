@@ -50,11 +50,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.TandoorFood
@@ -76,8 +74,17 @@ import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.view.ViewParameters
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_add
+import kitshn.composeapp.generated.resources.action_mark_as_done
+import kitshn.composeapp.generated.resources.navigation_shopping
+import kitshn.composeapp.generated.resources.shopping_list_empty
+import kitshn.composeapp.generated.resources.shopping_list_entry_create_placeholder_amount
+import kitshn.composeapp.generated.resources.shopping_list_entry_create_placeholder_food
+import kitshn.composeapp.generated.resources.shopping_list_entry_create_placeholder_unit
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -141,8 +148,6 @@ fun RouteMainSubrouteShopping(
         foodMap.clear()
 
         client?.container?.shoppingListEntries?.forEach {
-            if(it.checked) return@forEach
-
             if(!foodMap.contains(it.food.id)) {
                 foods.add(it.food)
                 foodMap[it.food.id] = mutableListOf()
@@ -173,7 +178,7 @@ fun RouteMainSubrouteShopping(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.navigation_shopping)) },
+                title = { Text(stringResource(Res.string.navigation_shopping)) },
                 scrollBehavior = scrollBehavior
             )
         },
@@ -187,7 +192,7 @@ fun RouteMainSubrouteShopping(
                         OutlinedNumberField(
                             modifier = Modifier.weight(0.25f),
 
-                            placeholder = { Text(text = stringResource(R.string.shopping_list_entry_create_placeholder_amount)) },
+                            placeholder = { Text(text = stringResource(Res.string.shopping_list_entry_create_placeholder_amount)) },
 
                             keyboardActions = KeyboardActions(
                                 onNext = { focusManager.moveFocus(FocusDirection.Next) }
@@ -207,7 +212,7 @@ fun RouteMainSubrouteShopping(
                         OutlinedTextField(
                             modifier = Modifier.weight(0.25f),
 
-                            placeholder = { Text(text = stringResource(R.string.shopping_list_entry_create_placeholder_unit)) },
+                            placeholder = { Text(text = stringResource(Res.string.shopping_list_entry_create_placeholder_unit)) },
 
                             keyboardActions = KeyboardActions(
                                 onNext = { focusManager.moveFocus(FocusDirection.Next) }
@@ -231,7 +236,7 @@ fun RouteMainSubrouteShopping(
                         OutlinedTextField(
                             modifier = Modifier.weight(0.5f),
 
-                            placeholder = { Text(text = stringResource(R.string.shopping_list_entry_create_placeholder_food)) },
+                            placeholder = { Text(text = stringResource(Res.string.shopping_list_entry_create_placeholder_food)) },
 
                             keyboardActions = KeyboardActions(
                                 onGo = { add() }
@@ -262,7 +267,7 @@ fun RouteMainSubrouteShopping(
                     ) {
                         IconWithState(
                             imageVector = Icons.Rounded.Add,
-                            contentDescription = stringResource(id = R.string.action_add),
+                            contentDescription = stringResource(Res.string.action_add),
                             state = shoppingListAddEntryRequest.state.toIconWithState()
                         )
                     }
@@ -284,8 +289,8 @@ fun RouteMainSubrouteShopping(
             if(foods.isEmpty() && loaded) {
                 FullSizeAlertPane(
                     imageVector = Icons.Rounded.RemoveShoppingCart,
-                    contentDescription = stringResource(R.string.shopping_list_empty),
-                    text = stringResource(R.string.shopping_list_empty)
+                    contentDescription = stringResource(Res.string.shopping_list_empty),
+                    text = stringResource(Res.string.shopping_list_empty)
                 )
             } else {
                 LazyColumn(
@@ -403,7 +408,7 @@ fun RouteMainSubrouteShopping(
                                 ) {
                                     Icon(
                                         Icons.Rounded.Check,
-                                        stringResource(R.string.action_mark_as_done)
+                                        stringResource(Res.string.action_mark_as_done)
                                     )
                                 }
                             }

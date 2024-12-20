@@ -82,7 +82,7 @@ fun SectionStepIndicator(
                                 .padding(start = 4.dp, end = 4.dp)
                                 .widthIn(min = itemWidth),
                             text = items[it],
-                            style = Typography.headlineSmall,
+                            style = Typography().headlineSmall,
                             textAlign = TextAlign.Center
                         )
                     }

@@ -8,9 +8,7 @@ import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.res.stringResource
 import de.kitshn.KitshnViewModel
-import de.kitshn.R
 import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.ui.component.icons.IconWithState
@@ -20,7 +18,13 @@ import de.kitshn.ui.dialog.select.SelectRecipeBookDialog
 import de.kitshn.ui.dialog.select.rememberSelectRecipeBookDialogState
 import de.kitshn.ui.selectionMode.SelectionModeState
 import de.kitshn.ui.selectionMode.component.SelectionModeTopAppBar
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_add_to_favorites
+import kitshn.composeapp.generated.resources.action_add_to_recipe_books
+import kitshn.composeapp.generated.resources.action_delete
+import kitshn.composeapp.generated.resources.action_remove_from_favorites
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RecipeSelectionModeTopAppBar(
@@ -72,8 +76,8 @@ fun RecipeSelectionModeTopAppBar(
                         else -> Icons.Rounded.FavoriteBorder
                     },
                     contentDescription = when(isFavorite) {
-                        true -> stringResource(R.string.action_remove_from_favorites)
-                        else -> stringResource(R.string.action_add_to_favorites)
+                        true -> stringResource(Res.string.action_remove_from_favorites)
+                        else -> stringResource(Res.string.action_add_to_favorites)
                     },
                     state = addRecipesToFavoritesRequestState.state.toIconWithState()
                 )
@@ -84,7 +88,7 @@ fun RecipeSelectionModeTopAppBar(
             ) {
                 IconWithState(
                     imageVector = Icons.Rounded.Book,
-                    contentDescription = stringResource(id = R.string.action_add_to_recipe_books),
+                    contentDescription = stringResource(Res.string.action_add_to_recipe_books),
                     state = addRecipesToBookRequestState.state.toIconWithState()
                 )
             }
@@ -94,7 +98,7 @@ fun RecipeSelectionModeTopAppBar(
             ) {
                 IconWithState(
                     imageVector = Icons.Rounded.Delete,
-                    contentDescription = stringResource(id = R.string.action_delete),
+                    contentDescription = stringResource(Res.string.action_delete),
                     state = recipesDeleteRequestState.state.toIconWithState()
                 )
             }

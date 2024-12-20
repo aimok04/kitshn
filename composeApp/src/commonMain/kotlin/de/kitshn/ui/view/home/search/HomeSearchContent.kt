@@ -20,9 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
@@ -37,6 +35,10 @@ import de.kitshn.ui.component.search.AdditionalSearchSettingsChipRow
 import de.kitshn.ui.component.search.rememberAdditionalSearchSettingsChipRowState
 import de.kitshn.ui.selectionMode.SelectionModeState
 import de.kitshn.ui.state.foreverRememberNotSavable
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.home_search_empty
+import kitshn.composeapp.generated.resources.home_search_empty_query
+import org.jetbrains.compose.resources.stringResource
 
 const val HOME_SEARCH_PAGING_SIZE = 36
 
@@ -172,15 +174,15 @@ fun ViewHomeSearchContent(
             } else {
                 FullSizeAlertPane(
                     imageVector = Icons.Rounded.NoMeals,
-                    contentDescription = stringResource(R.string.home_search_empty),
-                    text = stringResource(R.string.home_search_empty)
+                    contentDescription = stringResource(Res.string.home_search_empty),
+                    text = stringResource(Res.string.home_search_empty)
                 )
             }
         } else if(state.searchRequestState.state == TandoorRequestStateState.IDLE) {
             FullSizeAlertPane(
                 imageVector = Icons.Rounded.DinnerDining,
-                contentDescription = stringResource(R.string.home_search_empty_query),
-                text = stringResource(R.string.home_search_empty_query)
+                contentDescription = stringResource(Res.string.home_search_empty_query),
+                text = stringResource(Res.string.home_search_empty_query)
             )
         }
     }

@@ -18,20 +18,24 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import de.kitshn.R
 import de.kitshn.toHumanReadableDateLabel
 import de.kitshn.toLocalDate
-import java.time.LocalDate
-import java.time.ZoneId
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_okay
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,39 +49,36 @@ fun BaseDateField(
         onClick: () -> Unit
     ) -> Unit
 ) {
-    val todayMillis = rememberSaveable {
-        (LocalDate.now().atStartOfDay(ZoneId.systemDefault())
-            .toInstant().toEpochMilli())
+    val todayEpochDays = remember {
+        (Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date.toEpochDays())
     }
 
-    var minDateMillis by rememberSaveable { mutableLongStateOf(0L) }
-    var maxDateMillis by rememberSaveable { mutableLongStateOf(0L) }
+    var minDateEpochDays by rememberSaveable { mutableIntStateOf(0) }
+    var maxDateEpochDays by rememberSaveable { mutableIntStateOf(0) }
 
     LaunchedEffect(minDate) {
-        val zoneId = ZoneId.systemDefault()
-        minDateMillis = minDate?.atStartOfDay(zoneId)?.toInstant()?.toEpochMilli() ?: 0L
+        minDateEpochDays = minDate?.toEpochDays() ?: 0
 
         if(minDate == null || value == null) return@LaunchedEffect
-        if(!value.isBefore(minDate)) return@LaunchedEffect
-        onValueChange(minDate)
+        if(value < minDate) onValueChange(minDate)
     }
 
     LaunchedEffect(maxDate) {
-        val zoneId = ZoneId.systemDefault()
-        maxDateMillis =
-            maxDate?.plusDays(1)?.atStartOfDay(zoneId)?.toInstant()?.toEpochMilli() ?: 0L
+        maxDateEpochDays = maxDate?.toEpochDays() ?: 0
 
         if(maxDate == null || value == null) return@LaunchedEffect
-        if(!value.isAfter(maxDate)) return@LaunchedEffect
-        onValueChange(maxDate)
+        if(value > maxDate) onValueChange(minDate)
     }
 
     var showDatePickerDialog by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState(selectableDates = object : SelectableDates {
         override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-            if(utcTimeMillis < todayMillis) return false
-            if(minDateMillis != 0L && utcTimeMillis < minDateMillis) return false
-            if(maxDateMillis != 0L && utcTimeMillis > maxDateMillis) return false
+            val epochDays = Instant.fromEpochMilliseconds(utcTimeMillis).toLocalDateTime(TimeZone.currentSystemDefault())
+                .date.toEpochDays()
+
+            if(utcTimeMillis < todayEpochDays) return false
+            if(minDateEpochDays != 0 && epochDays < minDateEpochDays) return false
+            if(maxDateEpochDays != 0 && epochDays > maxDateEpochDays) return false
 
             return true
         }
@@ -96,7 +97,7 @@ fun BaseDateField(
                 showDatePickerDialog = false
                 onValueChange(datePickerState.selectedDateMillis?.toLocalDate())
             }) {
-                Text(stringResource(R.string.common_okay))
+                Text(stringResource(Res.string.common_okay))
             }
         }
     ) {

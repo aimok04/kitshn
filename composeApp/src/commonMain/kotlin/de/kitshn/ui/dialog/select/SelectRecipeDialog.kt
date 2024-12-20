@@ -27,17 +27,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
 import de.kitshn.ui.component.model.recipe.HorizontalRecipeCardLink
 import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_abort
+import kitshn.composeapp.generated.resources.search_recipes
+import kitshn.composeapp.generated.resources.select_recipe
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun rememberSelectRecipeDialogState(): SelectRecipeDialogState {
@@ -77,10 +80,10 @@ fun SelectRecipeDialog(
             state.dismiss()
         },
         icon = {
-            Icon(Icons.Rounded.Receipt, stringResource(R.string.select_recipe))
+            Icon(Icons.Rounded.Receipt, stringResource(Res.string.select_recipe))
         },
         title = {
-            Text(stringResource(R.string.select_recipe))
+            Text(stringResource(Res.string.select_recipe))
         },
         text = {
             RecipeSearchBar(
@@ -92,7 +95,7 @@ fun SelectRecipeDialog(
             FilledTonalButton(onClick = {
                 submit(null)
             }) {
-                Text(stringResource(R.string.action_abort))
+                Text(stringResource(Res.string.action_abort))
             }
         },
         properties = DialogProperties(
@@ -151,10 +154,10 @@ fun RecipeSearchBar(
                 leadingIcon = {
                     Icon(
                         Icons.Rounded.Search,
-                        stringResource(R.string.search_recipes)
+                        stringResource(Res.string.search_recipes)
                     )
                 },
-                placeholder = { Text(stringResource(R.string.search_recipes)) },
+                placeholder = { Text(stringResource(Res.string.search_recipes)) },
                 expanded = true,
                 onExpandedChange = { }
             )

@@ -1,7 +1,5 @@
 package de.kitshn.ui.view.settings
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -9,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Copyright
 import androidx.compose.material.icons.rounded.Mail
@@ -25,23 +24,22 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.mikepenz.aboutlibraries.Libs
+import com.mikepenz.aboutlibraries.ui.compose.m3.rememberLibraries
 import com.mikepenz.aboutlibraries.ui.compose.m3.util.author
-import com.mikepenz.aboutlibraries.util.withContext
-import de.kitshn.BuildConfig
-import de.kitshn.R
-import de.kitshn.launchCustomTabs
-import de.kitshn.launchMarketPage
+import de.kitshn.launchMarketPageHandler
+import de.kitshn.launchWebsiteHandler
+import de.kitshn.platformDetails
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.dialog.AboutLibraryBottomSheet
@@ -49,21 +47,38 @@ import de.kitshn.ui.dialog.rememberAboutLibraryBottomSheetState
 import de.kitshn.ui.theme.KitshnYellow
 import de.kitshn.ui.theme.Typography
 import de.kitshn.ui.view.ViewParameters
+import kitshn.composeApp.BuildConfig
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_open_issue
+import kitshn.composeapp.generated.resources.app_name
+import kitshn.composeapp.generated.resources.common_contact
+import kitshn.composeapp.generated.resources.common_review
+import kitshn.composeapp.generated.resources.common_version
+import kitshn.composeapp.generated.resources.common_website
+import kitshn.composeapp.generated.resources.github_mark
+import kitshn.composeapp.generated.resources.ic_logo_ico
+import kitshn.composeapp.generated.resources.settings_section_about_item_freepik
+import kitshn.composeapp.generated.resources.settings_section_about_item_new_issue_description
+import kitshn.composeapp.generated.resources.settings_section_about_item_review_description
+import kitshn.composeapp.generated.resources.settings_section_about_label
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+    ExperimentalResourceApi::class
+)
 @Composable
 fun ViewSettingsAbout(
     p: ViewParameters
 ) {
-    val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(state = rememberTopAppBarState())
 
-    val libs by remember {
-        mutableStateOf<Libs?>(
-            Libs.Builder()
-                .withContext(context)
-                .build()
-        )
+    val launchWebsite = launchWebsiteHandler()
+    val uriHandler = LocalUriHandler.current
+
+    val libs by rememberLibraries {
+        Res.readBytes("files/aboutlibraries.json").decodeToString()
     }
 
     val aboutLibraryBottomSheetState = rememberAboutLibraryBottomSheetState()
@@ -72,7 +87,7 @@ fun ViewSettingsAbout(
         topBar = {
             TopAppBar(
                 navigationIcon = { BackButton(p.back) },
-                title = { Text(stringResource(id = R.string.settings_section_about_label)) },
+                title = { Text(stringResource(Res.string.settings_section_about_label)) },
                 scrollBehavior = scrollBehavior
             )
         }
@@ -87,84 +102,63 @@ fun ViewSettingsAbout(
             ) {
                 item {
                     SettingsListItem(
-                        label = { Text("${stringResource(R.string.app_name)} (${BuildConfig.BUILD_TYPE})") },
-                        description = { Text("${stringResource(id = R.string.common_version)} ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})") },
-                        icon = ImageVector.vectorResource(id = R.drawable.ic_logo_ico),
+                        label = { Text("${ stringResource(Res.string.app_name) } (${ platformDetails.buildType }) (${ platformDetails.platform.displayName })") },
+                        description = { Text("${ stringResource(Res.string.common_version) } ${ platformDetails.packageExtendedVersion }") },
+                        icon = vectorResource(Res.drawable.ic_logo_ico),
                         iconTint = KitshnYellow,
-                        contentDescription = stringResource(R.string.app_name)
+                        contentDescription = stringResource(Res.string.app_name)
                     )
                 }
 
                 item {
                     SettingsListItem(
                         label = { Text("Github") },
-                        description = { Text(stringResource(id = R.string.about_github)) },
-                        icon = ImageVector.vectorResource(id = R.drawable.github_mark),
+                        description = { Text(BuildConfig.ABOUT_GITHUB) },
+                        icon = vectorResource(Res.drawable.github_mark),
                         contentDescription = "Github",
                         onClick = {
-                            context.launchCustomTabs(context.getString(R.string.about_github))
+                            launchWebsite(BuildConfig.ABOUT_GITHUB)
                         }
                     )
                 }
 
                 item {
                     SettingsListItem(
-                        label = { Text(stringResource(R.string.action_open_issue)) },
-                        description = { Text(stringResource(R.string.settings_section_about_item_new_issue_description)) },
+                        label = { Text(stringResource(Res.string.action_open_issue)) },
+                        description = { Text(stringResource(Res.string.settings_section_about_item_new_issue_description)) },
                         icon = Icons.Rounded.Report,
-                        contentDescription = stringResource(R.string.action_open_issue),
+                        contentDescription = stringResource(Res.string.action_open_issue),
                         onClick = {
-                            context.launchCustomTabs(context.getString(R.string.about_github_new_issue))
+                            launchWebsite(BuildConfig.ABOUT_GITHUB_NEW_ISSUE)
                         }
                     )
                 }
 
                 item {
                     SettingsListItem(
-                        label = { Text(stringResource(R.string.common_website)) },
-                        description = { Text(stringResource(id = R.string.about_contact_website)) },
+                        label = { Text(stringResource(Res.string.common_website)) },
+                        description = { Text(BuildConfig.ABOUT_CONTACT_WEBSITE) },
                         icon = Icons.Rounded.Web,
-                        contentDescription = stringResource(R.string.common_website),
+                        contentDescription = stringResource(Res.string.common_website),
                         onClick = {
-                            Intent(Intent.ACTION_VIEW).apply {
-                                data = Uri.parse(context.getString(R.string.about_contact_website))
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            }.let {
-                                context.startActivity(it)
-                            }
+                            launchWebsite(BuildConfig.ABOUT_CONTACT_WEBSITE)
                         }
                     )
                 }
 
                 item {
                     SettingsListItem(
-                        label = { Text(stringResource(R.string.common_contact)) },
-                        description = { Text(stringResource(id = R.string.about_contact_mailto)) },
+                        label = { Text(stringResource(Res.string.common_contact)) },
+                        description = { Text(BuildConfig.ABOUT_CONTACT_MAILTO) },
                         icon = Icons.Rounded.Mail,
-                        contentDescription = stringResource(R.string.common_contact),
+                        contentDescription = stringResource(Res.string.common_contact),
                         onClick = {
-                            Intent(Intent.ACTION_SENDTO).apply {
-                                data =
-                                    Uri.parse("mailto:${context.getString(R.string.about_contact_mailto)}")
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            }.let {
-                                context.startActivity(it)
-                            }
+                            uriHandler.openUri("mailto:${ BuildConfig.ABOUT_CONTACT_MAILTO }")
                         }
                     )
                 }
 
-                item {
-                    SettingsListItem(
-                        label = { Text(stringResource(R.string.common_review)) },
-                        description = { Text(stringResource(R.string.settings_section_about_item_review_description)) },
-                        icon = Icons.Rounded.RateReview,
-                        contentDescription = stringResource(R.string.common_review),
-                        onClick = {
-                            context.launchMarketPage(BuildConfig.APPLICATION_ID)
-                        }
-                    )
-                }
+                platformSpecificItems()
 
                 item {
                     HorizontalDivider(
@@ -174,12 +168,12 @@ fun ViewSettingsAbout(
 
                 item {
                     SettingsListItem(
-                        label = { Text(stringResource(R.string.settings_section_about_item_freepik)) },
+                        label = { Text(stringResource(Res.string.settings_section_about_item_freepik)) },
                         description = { Text("Icon made by Freepik from www.flaticon.com") },
                         icon = Icons.Rounded.Copyright,
-                        contentDescription = stringResource(R.string.settings_section_about_item_freepik),
+                        contentDescription = stringResource(Res.string.settings_section_about_item_freepik),
                         onClick = {
-                            context.launchCustomTabs("https://www.flaticon.com/free-icon/chef-hat-outline-symbol_45582")
+                            launchWebsite("https://www.flaticon.com/free-icon/chef-hat-outline-symbol_45582")
                         }
                     )
                 }
@@ -215,7 +209,7 @@ fun ViewSettingsAbout(
                         trailingContent = {
                             Text(
                                 library.artifactVersion ?: "",
-                                style = Typography.labelMedium
+                                style = Typography().labelMedium
                             )
                         },
                         contentDescription = library.name,
@@ -232,3 +226,5 @@ fun ViewSettingsAbout(
 
     AboutLibraryBottomSheet(state = aboutLibraryBottomSheetState)
 }
+
+expect fun LazyListScope.platformSpecificItems()

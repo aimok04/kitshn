@@ -19,17 +19,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.pluralStringResource
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.dialog.recipeBook.RecipeBookEditDialogState
 import de.kitshn.ui.selectionMode.SelectionModeState
 import de.kitshn.ui.selectionMode.component.SelectionModeTopAppBar
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_abort
+import kitshn.composeapp.generated.resources.action_delete
+import kitshn.composeapp.generated.resources.action_delete_recipe_books
+import kitshn.composeapp.generated.resources.action_delete_recipe_books_description
+import kitshn.composeapp.generated.resources.action_edit
+import kitshn.composeapp.generated.resources.navigation_books
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.pluralStringResource
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,7 +57,7 @@ fun RouteMainSubrouteBooksTopAppBar(
     SelectionModeTopAppBar(
         topAppBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.navigation_books)) },
+                title = { Text(stringResource(Res.string.navigation_books)) },
                 colors = colors,
                 scrollBehavior = scrollBehavior
             )
@@ -71,27 +77,27 @@ fun RouteMainSubrouteBooksTopAppBar(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Edit,
-                    contentDescription = stringResource(id = R.string.action_edit)
+                    contentDescription = stringResource(Res.string.action_edit)
                 )
             }
 
             var showDeleteDialog by remember { mutableStateOf(false) }
             if(showDeleteDialog) AlertDialog(
                 onDismissRequest = { showDeleteDialog = false },
-                icon = { Icon(Icons.Rounded.Delete, stringResource(id = R.string.action_delete)) },
+                icon = { Icon(Icons.Rounded.Delete, stringResource(Res.string.action_delete)) },
                 title = {
                     Text(
                         text = pluralStringResource(
-                            id = R.plurals.action_delete_recipe_books,
-                            count = selectionModeState.selectedItems.size
+                            Res.plurals.action_delete_recipe_books,
+                            quantity = selectionModeState.selectedItems.size
                         )
                     )
                 },
                 text = {
                     Text(
                         text = pluralStringResource(
-                            id = R.plurals.action_delete_recipe_books_description,
-                            count = selectionModeState.selectedItems.size
+                            Res.plurals.action_delete_recipe_books_description,
+                            quantity = selectionModeState.selectedItems.size
                         )
                     )
                 },
@@ -102,7 +108,7 @@ fun RouteMainSubrouteBooksTopAppBar(
                             selectionModeState.disable()
                         }
                     ) {
-                        Text(text = stringResource(id = R.string.action_abort))
+                        Text(text = stringResource(Res.string.action_abort))
                     }
                 },
                 confirmButton = {
@@ -124,7 +130,7 @@ fun RouteMainSubrouteBooksTopAppBar(
                             }
                         }
                     ) {
-                        Text(text = stringResource(id = R.string.action_delete))
+                        Text(text = stringResource(Res.string.action_delete))
                     }
                 }
             )
@@ -134,7 +140,7 @@ fun RouteMainSubrouteBooksTopAppBar(
             ) {
                 IconWithState(
                     imageVector = Icons.Rounded.Delete,
-                    contentDescription = stringResource(id = R.string.action_delete),
+                    contentDescription = stringResource(Res.string.action_delete),
                     state = deleteRequestState.state.toIconWithState()
                 )
             }

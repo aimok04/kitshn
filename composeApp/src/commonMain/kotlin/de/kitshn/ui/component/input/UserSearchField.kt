@@ -24,13 +24,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.route.TandoorUser
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_unknown
+import org.jetbrains.compose.resources.getString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,7 +44,6 @@ fun BaseUserSearchField(
         onValueChange: (value: String) -> Unit
     ) -> Unit
 ) {
-    val context = LocalContext.current
     val focus = LocalFocusManager.current
 
     val users = remember { mutableStateListOf<TandoorUser>() }
@@ -62,7 +62,7 @@ fun BaseUserSearchField(
         if(value == null) return@LaunchedEffect
         if(selectedUser?.id != value) selectedUser = users.find { it.id == value }
 
-        searchText = selectedUser?.display_name ?: context.getString(R.string.common_unknown)
+        searchText = selectedUser?.display_name ?: getString(Res.string.common_unknown)
     }
 
     ExposedDropdownMenuBox(

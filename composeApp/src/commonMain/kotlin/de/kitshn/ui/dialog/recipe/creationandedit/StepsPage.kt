@@ -1,7 +1,5 @@
 package de.kitshn.ui.dialog.recipe.creationandedit
 
-import android.os.Build
-import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -31,10 +29,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
+import de.kitshn.HapticFeedbackHandler
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.ui.component.alert.FullSizeAlertPane
@@ -43,8 +39,13 @@ import de.kitshn.ui.dialog.common.CommonDeletionDialog
 import de.kitshn.ui.dialog.common.rememberCommonDeletionDialogState
 import de.kitshn.ui.selectionMode.SelectionModeState
 import de.kitshn.ui.selectionMode.values.selectionModeCardColors
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_delete
+import kitshn.composeapp.generated.resources.action_reorder
+import kitshn.composeapp.generated.resources.recipe_edit_no_steps_added
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
@@ -57,25 +58,22 @@ fun StepsPage(
     showFractionalValues: Boolean
 ) {
     val hapticFeedback = LocalHapticFeedback.current
+    val hapticFeedbackHandler = HapticFeedbackHandler()
 
     val coroutineScope = rememberCoroutineScope()
-    val view = LocalView.current
 
     val stepById = remember { mutableStateMapOf<Int, TandoorStep>() }
     LaunchedEffect(recipe, values._stepsUpdate) {
         stepById.clear()
         recipe?.steps?.forEach { stepById[it.id] = it }
 
-        values.stepsOrder.removeIf { stepById[it]?._destroyed != false }
+        values.stepsOrder.forEach { if(stepById[it]?._destroyed != false) values.stepsOrder.remove(it) }
     }
 
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
         values.stepsOrder.apply { add(to.index, removeAt(from.index)) }
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            view.performHapticFeedback(HapticFeedbackConstants.SEGMENT_FREQUENT_TICK)
-        }
+        hapticFeedbackHandler(de.kitshn.HapticFeedbackType.SHORT_TICK)
     }
 
     val stepDeletionDialogState = rememberCommonDeletionDialogState<TandoorStep>()
@@ -97,8 +95,8 @@ fun StepsPage(
         if(values.stepsOrder.size == 0) {
             FullSizeAlertPane(
                 imageVector = Icons.Rounded.QuestionMark,
-                contentDescription = stringResource(R.string.recipe_edit_no_steps_added),
-                text = stringResource(R.string.recipe_edit_no_steps_added)
+                contentDescription = stringResource(Res.string.recipe_edit_no_steps_added),
+                text = stringResource(Res.string.recipe_edit_no_steps_added)
             )
         } else {
             LazyColumn(
@@ -142,25 +140,17 @@ fun StepsPage(
                                         onClick = { },
                                         modifier = Modifier.longPressDraggableHandle(
                                             onDragStarted = {
-                                                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                                                    view.performHapticFeedback(
-                                                        HapticFeedbackConstants.DRAG_START
-                                                    )
-                                                }
+                                                hapticFeedbackHandler(de.kitshn.HapticFeedbackType.DRAG_START)
                                             },
                                             onDragStopped = {
-                                                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                                    view.performHapticFeedback(
-                                                        HapticFeedbackConstants.GESTURE_END
-                                                    )
-                                                }
+                                                hapticFeedbackHandler(de.kitshn.HapticFeedbackType.GESTURE_END)
                                             },
                                             interactionSource = interactionSource
                                         )
                                     ) {
                                         Icon(
                                             Icons.Rounded.DragHandle,
-                                            contentDescription = stringResource(R.string.action_reorder)
+                                            contentDescription = stringResource(Res.string.action_reorder)
                                         )
                                     }
 
@@ -171,7 +161,7 @@ fun StepsPage(
                                     ) {
                                         Icon(
                                             Icons.Rounded.Delete,
-                                            stringResource(id = R.string.action_delete)
+                                            stringResource(Res.string.action_delete)
                                         )
                                     }
                                 }

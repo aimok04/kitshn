@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.app_name
+import kitshn.composeapp.generated.resources.ic_logo
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun KitshnLogoAnimation(
@@ -20,8 +22,8 @@ fun KitshnLogoAnimation(
             modifier = modifier
                 .height(100.dp)
                 .width(100.dp),
-            painter = painterResource(id = R.drawable.ic_logo),
-            contentDescription = stringResource(id = R.string.app_name),
+            painter = painterResource(Res.drawable.ic_logo),
+            contentDescription = stringResource(Res.string.app_name),
             tint = tint
         )
     }

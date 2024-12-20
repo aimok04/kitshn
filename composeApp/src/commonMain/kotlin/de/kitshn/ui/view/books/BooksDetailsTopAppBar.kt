@@ -18,10 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.pluralStringResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.ui.component.buttons.BackButton
@@ -29,8 +26,17 @@ import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.dialog.recipeBook.RecipeBookEditDialogState
 import de.kitshn.ui.selectionMode.SelectionModeState
 import de.kitshn.ui.selectionMode.component.SelectionModeTopAppBar
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_abort
+import kitshn.composeapp.generated.resources.action_delete
+import kitshn.composeapp.generated.resources.action_delete_recipe_book_entries
+import kitshn.composeapp.generated.resources.action_delete_recipe_book_entries_description
+import kitshn.composeapp.generated.resources.action_edit
+import kitshn.composeapp.generated.resources.common_favorites
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.pluralStringResource
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,7 +62,7 @@ fun ViewBooksDetailsTopAppBar(
                 },
                 title = {
                     Text(
-                        text = if(isFavoriteBook) stringResource(id = R.string.common_favorites) else book.name,
+                        text = if(isFavoriteBook) stringResource(Res.string.common_favorites) else book.name,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1
                     )
@@ -71,7 +77,7 @@ fun ViewBooksDetailsTopAppBar(
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Edit,
-                            contentDescription = stringResource(id = R.string.action_edit)
+                            contentDescription = stringResource(Res.string.action_edit)
                         )
                     }
                 },
@@ -82,20 +88,20 @@ fun ViewBooksDetailsTopAppBar(
             var showDeleteDialog by remember { mutableStateOf(false) }
             if(showDeleteDialog) AlertDialog(
                 onDismissRequest = { showDeleteDialog = false },
-                icon = { Icon(Icons.Rounded.Delete, stringResource(id = R.string.action_delete)) },
+                icon = { Icon(Icons.Rounded.Delete, stringResource(Res.string.action_delete)) },
                 title = {
                     Text(
                         text = pluralStringResource(
-                            id = R.plurals.action_delete_recipe_book_entries,
-                            count = selectionModeState.selectedItems.size
+                            Res.plurals.action_delete_recipe_book_entries,
+                            quantity = selectionModeState.selectedItems.size
                         )
                     )
                 },
                 text = {
                     Text(
                         text = pluralStringResource(
-                            id = R.plurals.action_delete_recipe_book_entries_description,
-                            count = selectionModeState.selectedItems.size
+                            Res.plurals.action_delete_recipe_book_entries_description,
+                            quantity = selectionModeState.selectedItems.size
                         )
                     )
                 },
@@ -105,7 +111,7 @@ fun ViewBooksDetailsTopAppBar(
                             showDeleteDialog = false
                             selectionModeState.disable()
                         }
-                    ) { Text(text = stringResource(id = R.string.action_abort)) }
+                    ) { Text(text = stringResource(Res.string.action_abort)) }
                 },
                 confirmButton = {
                     Button(
@@ -126,7 +132,7 @@ fun ViewBooksDetailsTopAppBar(
                             }
                         }
                     ) {
-                        Text(text = stringResource(id = R.string.action_delete))
+                        Text(text = stringResource(Res.string.action_delete))
                     }
                 }
             )
@@ -136,7 +142,7 @@ fun ViewBooksDetailsTopAppBar(
             ) {
                 IconWithState(
                     imageVector = Icons.Rounded.Delete,
-                    contentDescription = stringResource(id = R.string.action_delete),
+                    contentDescription = stringResource(Res.string.action_delete),
                     state = deleteRequestState.state.toIconWithState()
                 )
             }

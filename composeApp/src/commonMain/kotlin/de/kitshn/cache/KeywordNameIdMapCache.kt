@@ -1,14 +1,15 @@
 package de.kitshn.cache
 
-import android.content.Context
+import coil3.PlatformContext
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorKeyword
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 
 class KeywordNameIdMapCache(
-    context: Context,
+    context: PlatformContext,
     client: TandoorClient
 ) : BaseCache("KEYWORD_NAME_ID_MAP", context, client) {
 
@@ -34,15 +35,13 @@ class KeywordNameIdMapCache(
     }
 
     fun apply(keywords: List<TandoorKeyword>) {
-        sp.edit().apply {
-            keywords.forEach {
-                putInt("keyword_${it.name.lowercase()}", it.id)
-            }
-        }.apply()
+        keywords.forEach {
+            settings.putInt("keyword_${it.name.lowercase().hashCode().hashCode()}", it.id)
+        }
 
-        validUntil(System.currentTimeMillis() + 259200000 /* 3 days in millis */)
+        validUntil(Clock.System.now().toEpochMilliseconds() + 259200000 /* 3 days in millis */)
     }
 
-    fun retrieve(name: String) = sp.getInt("keyword_${name.lowercase()}", -1).takeIf { it != -1 }
+    fun retrieve(name: String) = settings.getInt("keyword_${name.lowercase().hashCode()}", -1).takeIf { it != -1 }
 
 }

@@ -17,12 +17,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.ui.component.onboarding.KitshnLogoAnimation
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.theme.Typography
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_next
+import kitshn.composeapp.generated.resources.app_name
+import kitshn.composeapp.generated.resources.onboarding_introduction
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RouteOnboarding(
@@ -35,7 +38,7 @@ fun RouteOnboarding(
             }) {
                 Icon(
                     Icons.AutoMirrored.Rounded.KeyboardArrowRight,
-                    stringResource(R.string.action_next)
+                    stringResource(Res.string.action_next)
                 )
             }
         }
@@ -60,12 +63,12 @@ fun RouteOnboarding(
 
                     Column {
                         Text(
-                            text = stringResource(id = R.string.app_name),
-                            style = Typography.displayMedium
+                            text = stringResource(Res.string.app_name),
+                            style = Typography().displayMedium
                         )
 
                         Text(
-                            text = stringResource(R.string.onboarding_introduction)
+                            text = stringResource(Res.string.onboarding_introduction)
                         )
                     }
                 }

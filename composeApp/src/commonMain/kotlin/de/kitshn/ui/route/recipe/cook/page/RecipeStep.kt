@@ -1,8 +1,5 @@
 package de.kitshn.ui.route.recipe.cook.page
 
-import android.content.Intent
-import android.provider.AlarmClock
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -33,19 +30,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.ImageLoader
+import coil3.compose.LocalPlatformContext
 import de.kitshn.KitshnViewModel
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.launchTimerHandler
 import de.kitshn.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.ui.component.model.ingredient.IngredientsList
 import de.kitshn.ui.component.model.recipe.step.RecipeStepMultimediaBox
@@ -54,6 +51,9 @@ import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.view.ViewParameters
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_minute_min
+import org.jetbrains.compose.resources.stringResource
 import kotlin.math.roundToInt
 
 @Composable
@@ -65,7 +65,7 @@ fun RouteRecipeCookPageStep(
     servingsFactor: Double,
     showFractionalValues: Boolean
 ) {
-    val context = LocalContext.current
+    val launchTimerHandler = launchTimerHandler()
 
     @Composable
     fun InstructionText(
@@ -155,27 +155,15 @@ fun RouteRecipeCookPageStep(
             if(step.time > 0) AssistChip(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                 onClick = {
-                    context.startActivity(
-                        Intent().apply {
-                            action = AlarmClock.ACTION_SET_TIMER
-                            putExtra(AlarmClock.EXTRA_LENGTH, step.time * 60)
-                            putExtra(AlarmClock.EXTRA_MESSAGE, step.name)
-                            putExtra(AlarmClock.EXTRA_SKIP_UI, true)
-                        }
-                    )
-
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.recipe_step_timer_created), Toast.LENGTH_SHORT
-                    ).show()
+                    launchTimerHandler(step.time * 60, step.name)
                 },
                 leadingIcon = {
                     Icon(
                         Icons.Rounded.Timer,
-                        stringResource(id = R.string.common_minute_min)
+                        stringResource(Res.string.common_minute_min)
                     )
                 },
-                label = { Text("${step.time} ${stringResource(id = R.string.common_minute_min)}") }
+                label = { Text("${step.time} ${stringResource(Res.string.common_minute_min)}") }
             )
 
             if(step.ingredients.isEmpty()) {

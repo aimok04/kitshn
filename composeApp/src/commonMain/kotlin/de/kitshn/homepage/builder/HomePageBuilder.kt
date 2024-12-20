@@ -1,4 +1,4 @@
-package de.kitshn.homepage.builder
+package de.kitshn.android.homepage.builder
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -6,9 +6,13 @@ import androidx.compose.runtime.setValue
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.cache.FoodNameIdMapCache
 import de.kitshn.cache.KeywordNameIdMapCache
+import de.kitshn.homepage.builder.HomePageSectionEnum
+import de.kitshn.homepage.builder.HomePageSectionEnumCheckData
 import de.kitshn.homepage.model.HomePage
 import de.kitshn.homepage.model.HomePageSection
-import java.time.LocalDateTime
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 class HomePageBuilder(
     val client: TandoorClient
@@ -17,7 +21,7 @@ class HomePageBuilder(
     var homePage by mutableStateOf(
         HomePage(
             mutableListOf(),
-            System.currentTimeMillis() + (1000L * 60L * 15L)
+            Clock.System.now().toEpochMilliseconds() + (1000L * 60L * 15L)
         )
     )
 
@@ -26,7 +30,7 @@ class HomePageBuilder(
         foodNameIdMapCache: FoodNameIdMapCache
     ) {
         val checkData = HomePageSectionEnumCheckData(
-            LocalDateTime.now()
+            Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
         )
 
         val byWeight = mutableMapOf<Float, MutableList<HomePageSectionEnum>>()

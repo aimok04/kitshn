@@ -28,9 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -41,7 +39,12 @@ import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.ui.state.foreverRememberNotSavable
 import de.kitshn.ui.view.ViewParameters
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_delete_from_meal_plan
+import kitshn.composeapp.generated.resources.action_edit
+import kitshn.composeapp.generated.resources.action_start_cooking
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import kotlin.math.roundToInt
 
 @Composable
@@ -114,7 +117,7 @@ fun MealPlanDetailsDialog(
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.LocalDining,
-                        contentDescription = stringResource(R.string.action_start_cooking)
+                        contentDescription = stringResource(Res.string.action_start_cooking)
                     )
                 }
             },
@@ -145,7 +148,7 @@ fun MealPlanDetailsDialog(
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Edit,
-                            contentDescription = stringResource(R.string.action_edit)
+                            contentDescription = stringResource(Res.string.action_edit)
                         )
                     }
 
@@ -167,7 +170,7 @@ fun MealPlanDetailsDialog(
                     ) {
                         IconWithState(
                             imageVector = Icons.Rounded.Delete,
-                            contentDescription = stringResource(R.string.action_delete_from_meal_plan),
+                            contentDescription = stringResource(Res.string.action_delete_from_meal_plan),
                             state = requestMealPlanDeleteState.state.toIconWithState()
                         )
                     }

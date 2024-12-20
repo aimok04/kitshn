@@ -16,15 +16,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.ui.component.LoadingGradientWrapper
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.model.recipebook.HorizontalRecipeBookCard
 import de.kitshn.ui.selectionMode.SelectionModeState
 import de.kitshn.ui.state.ErrorLoadingSuccessState
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.recipe_books_empty
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,8 +51,8 @@ fun RouteMainSubrouteBooksListContent(
         ) {
             FullSizeAlertPane(
                 imageVector = Icons.Rounded.Draw,
-                contentDescription = stringResource(R.string.recipe_books_empty),
-                text = stringResource(R.string.recipe_books_empty)
+                contentDescription = stringResource(Res.string.recipe_books_empty),
+                text = stringResource(Res.string.recipe_books_empty)
             )
         }
 

@@ -13,9 +13,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_info
+import org.jetbrains.compose.resources.stringResource
 
 enum class WideActionChipType {
     INFO,
@@ -39,7 +40,7 @@ fun WideActionChip(
         leadingContent = {
             Icon(
                 imageVector = Icons.Rounded.Info,
-                contentDescription = stringResource(R.string.common_info)
+                contentDescription = stringResource(Res.string.common_info)
             )
         },
         headlineContent = {

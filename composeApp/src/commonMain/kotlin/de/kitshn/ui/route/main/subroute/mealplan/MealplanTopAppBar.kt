@@ -20,8 +20,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.toLocalDate
@@ -29,8 +27,14 @@ import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.dialog.mealplan.MealPlanEditDialogState
 import de.kitshn.ui.selectionMode.SelectionModeState
 import de.kitshn.ui.selectionMode.component.SelectionModeTopAppBar
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_delete
+import kitshn.composeapp.generated.resources.action_edit
+import kitshn.composeapp.generated.resources.action_move
+import kitshn.composeapp.generated.resources.navigation_meal_plan
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,7 +54,7 @@ fun RouteMainSubrouteMealplanTopAppBar(
     SelectionModeTopAppBar(
         topAppBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.navigation_meal_plan)) },
+                title = { Text(stringResource(Res.string.navigation_meal_plan)) },
                 scrollBehavior = scrollBehavior
             )
         },
@@ -70,7 +74,7 @@ fun RouteMainSubrouteMealplanTopAppBar(
             }) {
                 Icon(
                     imageVector = Icons.Rounded.Edit,
-                    contentDescription = stringResource(id = R.string.action_edit)
+                    contentDescription = stringResource(Res.string.action_edit)
                 )
             }
 
@@ -100,7 +104,7 @@ fun RouteMainSubrouteMealplanTopAppBar(
                             mealPlanMoveRequestState.reset()
                         }
                     }) {
-                        Text(stringResource(R.string.action_move))
+                        Text(stringResource(Res.string.action_move))
                     }
                 }
             ) {
@@ -112,7 +116,7 @@ fun RouteMainSubrouteMealplanTopAppBar(
             }) {
                 IconWithState(
                     imageVector = Icons.Rounded.MoveDown,
-                    contentDescription = stringResource(id = R.string.action_move),
+                    contentDescription = stringResource(Res.string.action_move),
                     state = mealPlanMoveRequestState.state.toIconWithState()
                 )
             }
@@ -133,7 +137,7 @@ fun RouteMainSubrouteMealplanTopAppBar(
             }) {
                 IconWithState(
                     imageVector = Icons.Rounded.Delete,
-                    contentDescription = stringResource(id = R.string.action_delete),
+                    contentDescription = stringResource(Res.string.action_delete),
                     state = mealPlanDeleteRequestState.state.toIconWithState()
                 )
             }

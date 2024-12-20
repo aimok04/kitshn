@@ -14,9 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.rememberTandoorRequestState
@@ -26,7 +23,16 @@ import de.kitshn.model.form.item.field.KitshnFormTextFieldItem
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
 import de.kitshn.ui.state.foreverRememberNotSavable
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_create
+import kitshn.composeapp.generated.resources.action_create_recipe_book
+import kitshn.composeapp.generated.resources.action_edit_recipe_book
+import kitshn.composeapp.generated.resources.action_save
+import kitshn.composeapp.generated.resources.common_description
+import kitshn.composeapp.generated.resources.common_name
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 
 data class RecipeBookCreationAndEditDefaultValues(
     val name: String = "",
@@ -105,7 +111,6 @@ fun RecipeBookCreationAndEditDialog(
 ) {
     if(creationState?.shown?.value != true && editState?.shown?.value != true) return
 
-    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
     val defaultValues =
@@ -131,11 +136,11 @@ fun RecipeBookCreationAndEditDialog(
                                 name = it
                             },
 
-                            label = { Text(stringResource(id = R.string.common_name)) },
+                            label = { Text(stringResource(Res.string.common_name)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.AutoMirrored.Rounded.Label,
-                                    stringResource(id = R.string.common_name)
+                                    stringResource(Res.string.common_name)
                                 )
                             },
 
@@ -143,7 +148,7 @@ fun RecipeBookCreationAndEditDialog(
 
                             check = {
                                 if(it.length > 128) {
-                                    context.getString(R.string.common_name)
+                                    getString(Res.string.common_name)
                                 } else {
                                     null
                                 }
@@ -159,11 +164,11 @@ fun RecipeBookCreationAndEditDialog(
                                 description = it
                             },
 
-                            label = { Text(stringResource(id = R.string.common_description)) },
+                            label = { Text(stringResource(Res.string.common_description)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.AutoMirrored.Rounded.Notes,
-                                    stringResource(id = R.string.common_description)
+                                    stringResource(Res.string.common_description)
                                 )
                             },
 
@@ -178,9 +183,9 @@ fun RecipeBookCreationAndEditDialog(
                 Button(onClick = it) {
                     Text(
                         text = if(isEditDialog) {
-                            stringResource(id = R.string.action_save)
+                            stringResource(Res.string.action_save)
                         } else {
-                            stringResource(id = R.string.action_create)
+                            stringResource(Res.string.action_create)
                         }
                     )
                 }
@@ -223,9 +228,9 @@ fun RecipeBookCreationAndEditDialog(
         title = {
             Text(
                 text = if(isEditDialog) {
-                    stringResource(R.string.action_edit_recipe_book)
+                    stringResource(Res.string.action_edit_recipe_book)
                 } else {
-                    stringResource(R.string.action_create_recipe_book)
+                    stringResource(Res.string.action_create_recipe_book)
                 }
             )
         },

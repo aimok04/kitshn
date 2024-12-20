@@ -55,7 +55,7 @@ fun RecipeInfoBlob(
 
             Text(
                 modifier = Modifier.loadingPlaceHolder(loadingState),
-                style = Typography.labelMedium,
+                style = Typography().labelMedium,
                 color = MaterialTheme.colorScheme.primary,
                 text = label
             )

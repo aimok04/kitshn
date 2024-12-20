@@ -1,12 +1,10 @@
 package de.kitshn.ui.view.recipe.details
 
-import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,13 +13,9 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.areStatusBarsVisible
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
@@ -78,23 +72,23 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import coil3.ImageLoader
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
 import de.kitshn.KITSHN_KEYWORD_FLAG_PREFIX
 import de.kitshn.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP
 import de.kitshn.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP_DESC
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorIngredient
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
-import de.kitshn.launchCustomTabs
+import de.kitshn.launchWebsiteHandler
+import de.kitshn.shareContentHandler
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.buttons.BackButton
@@ -129,8 +123,30 @@ import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.rememberErrorLoadingSuccessState
 import de.kitshn.ui.theme.Typography
 import de.kitshn.ui.view.ViewParameters
+import kitshn.composeApp.BuildConfig
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_close
+import kitshn.composeapp.generated.resources.action_more
+import kitshn.composeapp.generated.resources.action_open_original
+import kitshn.composeapp.generated.resources.action_open_source
+import kitshn.composeapp.generated.resources.action_start_cooking
+import kitshn.composeapp.generated.resources.common_minute_min
+import kitshn.composeapp.generated.resources.common_okay
+import kitshn.composeapp.generated.resources.common_portions
+import kitshn.composeapp.generated.resources.common_review
+import kitshn.composeapp.generated.resources.common_source
+import kitshn.composeapp.generated.resources.common_time_wait
+import kitshn.composeapp.generated.resources.common_time_work
+import kitshn.composeapp.generated.resources.common_unknown
+import kitshn.composeapp.generated.resources.error_unallocated_ingredients
+import kitshn.composeapp.generated.resources.recipe_not_found
+import kitshn.composeapp.generated.resources.share_incentive
+import kitshn.composeapp.generated.resources.share_title
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 
 val RecipeServingsAmountSaveMap = mutableMapOf<Int, Int>()
 
@@ -153,8 +169,11 @@ fun ViewRecipeDetails(
 
     overrideServings: Int? = null
 ) {
-    val context = LocalContext.current
-    val density = LocalDensity.current
+    val context = LocalPlatformContext.current
+    val imageLoader = remember { ImageLoader(context) }
+
+    val websiteHandler = launchWebsiteHandler()
+    val shareContentHandler = shareContentHandler()
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -183,8 +202,8 @@ fun ViewRecipeDetails(
     if(recipeOverview == null) {
         FullSizeAlertPane(
             imageVector = Icons.Rounded.SearchOff,
-            contentDescription = stringResource(R.string.recipe_not_found),
-            text = stringResource(R.string.recipe_not_found)
+            contentDescription = stringResource(Res.string.recipe_not_found),
+            text = stringResource(Res.string.recipe_not_found)
         )
 
         return
@@ -235,7 +254,7 @@ fun ViewRecipeDetails(
 
     // sort steps and ingredients
     LaunchedEffect(recipe) {
-        val beginLoading = System.currentTimeMillis()
+        val beginLoading = Clock.System.now().toEpochMilliseconds()
 
         sortedIngredientsList.clear()
         if(recipe == null) return@LaunchedEffect
@@ -247,7 +266,7 @@ fun ViewRecipeDetails(
             sortedIngredientsList.addAll(it.ingredients)
         }
 
-        val delay = 400 - (System.currentTimeMillis() - beginLoading)
+        val delay = 400 - (Clock.System.now().toEpochMilliseconds() - beginLoading)
         if(delay > 0L) delay(delay)
 
         pageLoadingState = ErrorLoadingSuccessState.SUCCESS
@@ -283,7 +302,7 @@ fun ViewRecipeDetails(
 
                     val shareLink = recipe.retrieveShareLink() ?: ""
                     val link = if(useShareWrapper) {
-                        context.getString(R.string.share_wrapper_url) + if(shareLink.startsWith("https://")) {
+                        BuildConfig.SHARE_WRAPPER_URL + if(shareLink.startsWith("https://")) {
                             shareLink.substring(8)
                         } else {
                             shareLink
@@ -292,18 +311,9 @@ fun ViewRecipeDetails(
                         shareLink
                     }
 
-                    context.startActivity(
-                        Intent.createChooser(Intent().apply {
-                            action = Intent.ACTION_SEND
-
-                            putExtra(Intent.EXTRA_TITLE, context.getString(R.string.share_title))
-                            putExtra(
-                                Intent.EXTRA_TEXT,
-                                context.getString(R.string.share_incentive) + "\n" + link
-                            )
-
-                            type = "text/plain"
-                        }, null)
+                    shareContentHandler(
+                        getString(Res.string.share_title),
+                        getString(Res.string.share_incentive) + "\n" + link
                     )
                 }
             }
@@ -315,14 +325,14 @@ fun ViewRecipeDetails(
         var showSourceDialog by remember { mutableStateOf(false) }
         if(showSourceDialog) AlertDialog(
             onDismissRequest = { showSourceDialog = false },
-            icon = { Icon(Icons.Rounded.Link, stringResource(R.string.common_source)) },
-            title = { Text(text = stringResource(R.string.common_source)) },
-            text = { Text(text = recipe?.source_url ?: stringResource(R.string.common_unknown)) },
+            icon = { Icon(Icons.Rounded.Link, stringResource(Res.string.common_source)) },
+            title = { Text(text = stringResource(Res.string.common_source)) },
+            text = { Text(text = recipe?.source_url ?: stringResource(Res.string.common_unknown)) },
             confirmButton = {
                 Button(
                     onClick = { showSourceDialog = false }
                 ) {
-                    Text(text = stringResource(id = R.string.common_okay))
+                    Text(text = stringResource(Res.string.common_okay))
                 }
             }
         )
@@ -334,7 +344,7 @@ fun ViewRecipeDetails(
             if(recipe?.source_url != null) OutlinedButton(
                 onClick = {
                     try {
-                        context.launchCustomTabs(recipe.source_url)
+                        websiteHandler(recipe.source_url)
                     } catch(e: Exception) {
                         showSourceDialog = true
                     }
@@ -342,12 +352,12 @@ fun ViewRecipeDetails(
             ) {
                 Icon(
                     Icons.AutoMirrored.Rounded.OpenInNew,
-                    stringResource(R.string.action_open_source)
+                    stringResource(Res.string.action_open_source)
                 )
 
                 Spacer(Modifier.width(8.dp))
 
-                Text(stringResource(R.string.action_open_original))
+                Text(stringResource(Res.string.action_open_original))
             }
         }
     }
@@ -389,7 +399,7 @@ fun ViewRecipeDetails(
                             containerColor = MaterialTheme.colorScheme.surfaceContainer
                         )
                     ) {
-                        Icon(Icons.Rounded.MoreVert, stringResource(R.string.action_more))
+                        Icon(Icons.Rounded.MoreVert, stringResource(Res.string.action_more))
                     }
 
                     RecipeDetailsDropdown(
@@ -440,7 +450,7 @@ fun ViewRecipeDetails(
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.LocalDining,
-                        contentDescription = stringResource(R.string.action_start_cooking)
+                        contentDescription = stringResource(Res.string.action_start_cooking)
                     )
                 }
             }
@@ -464,6 +474,7 @@ fun ViewRecipeDetails(
                     model = recipeOverview.loadThumbnail(),
                     contentDescription = recipeOverview.name,
                     contentScale = ContentScale.Crop,
+                    imageLoader = imageLoader,
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(16f / 9f)
@@ -493,7 +504,7 @@ fun ViewRecipeDetails(
                             Modifier.onGloballyPositioned { lc ->
                                 titleCheckpointX = lc.boundsInRoot().bottom
                             },
-                            style = Typography.titleLarge
+                            style = Typography().titleLarge
                         )
                     }
 
@@ -532,17 +543,17 @@ fun ViewRecipeDetails(
                         val workingTime = recipe?.working_time ?: 1
                         if(workingTime > 0) RecipeInfoBlob(
                             icon = Icons.Rounded.Person,
-                            label = stringResource(id = R.string.common_time_work),
+                            label = stringResource(Res.string.common_time_work),
                             loadingState = pageLoadingState
                         ) {
                             Text(
-                                text = "$workingTime ${stringResource(id = R.string.common_minute_min)}"
+                                text = "$workingTime ${stringResource(Res.string.common_minute_min)}"
                             )
                         }
 
                         if(recipe == null || recipe.rating != null) RecipeInfoBlob(
                             icon = Icons.Rounded.Reviews,
-                            label = stringResource(id = R.string.common_review),
+                            label = stringResource(Res.string.common_review),
                             loadingState = pageLoadingState
                         ) {
                             FiveStarIconRow(
@@ -553,11 +564,11 @@ fun ViewRecipeDetails(
                         val waitingTime = recipe?.waiting_time ?: 1
                         if(waitingTime > 0) RecipeInfoBlob(
                             icon = Icons.Rounded.Pause,
-                            label = stringResource(id = R.string.common_time_wait),
+                            label = stringResource(Res.string.common_time_wait),
                             loadingState = pageLoadingState
                         ) {
                             Text(
-                                text = "$waitingTime ${stringResource(id = R.string.common_minute_min)}"
+                                text = "$waitingTime ${stringResource(Res.string.common_minute_min)}"
                             )
                         }
                     }
@@ -616,7 +627,7 @@ fun ViewRecipeDetails(
                             ) {
                                 IconWithState(
                                     imageVector = Icons.Rounded.Close,
-                                    contentDescription = stringResource(R.string.action_close),
+                                    contentDescription = stringResource(Res.string.action_close),
                                     state = addFlagRequestState.state.toIconWithState()
                                 )
                             }
@@ -626,7 +637,7 @@ fun ViewRecipeDetails(
                             WideActionChip(
                                 modifier = Modifier.fillMaxWidth(),
                                 type = WideActionChipType.INFO,
-                                actionLabel = stringResource(id = R.string.error_unallocated_ingredients)
+                                actionLabel = stringResource(Res.string.error_unallocated_ingredients)
                             ) {
                                 recipeIngredientAllocationDialogState.open(recipe)
                             }
@@ -724,16 +735,7 @@ fun ViewRecipeDetails(
             if(notEnoughSpace && recipe?.source_url != null) SourceButton()
         }
 
-        if(WindowInsets.areStatusBarsVisible) Box(
-            Modifier
-                .height(with(density) {
-                    WindowInsets.statusBars
-                        .getTop(density)
-                        .toDp()
-                })
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background.copy(alpha = 0.35f))
-        )
+        StatusBarBackground()
     }
 
     RecipeIngredientAllocationDialog(
@@ -795,7 +797,7 @@ fun ViewRecipeDetails(
         val addRecipeToShoppingRequestState = rememberTandoorRequestState()
         ServingsChangeDialog(
             portionText = (recipe?.servings_text ?: "").ifBlank {
-                stringResource(R.string.common_portions)
+                stringResource(Res.string.common_portions)
             },
             state = addRecipeToShoppingServingsSelectionDialogState
         ) { servings ->
@@ -821,3 +823,6 @@ fun ViewRecipeDetails(
     TandoorRequestErrorHandler(fetchRequestState)
     TandoorRequestErrorHandler(shareRequestState)
 }
+
+@Composable
+expect fun StatusBarBackground()

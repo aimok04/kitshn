@@ -14,13 +14,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import de.kitshn.KitshnViewModel
-import de.kitshn.R
+import kitshn.composeApp.BuildConfig
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_no
+import kitshn.composeapp.generated.resources.action_yes
+import kitshn.composeapp.generated.resources.share_wrapper_dialog_message
+import kitshn.composeapp.generated.resources.share_wrapper_dialog_title
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun rememberUseShareWrapperDialogState(
@@ -36,8 +40,7 @@ class UseShareWrapperDialogState(
     val shown: MutableState<Boolean> = mutableStateOf(false),
     private val callback: MutableState<(decision: Boolean) -> Unit> = mutableStateOf({ })
 ) {
-    private var shareWrapper: String =
-        ContextCompat.getString(vm.context, R.string.share_wrapper_url)
+    private var shareWrapper: String = BuildConfig.SHARE_WRAPPER_URL
 
     suspend fun open(
         callback: (decision: Boolean) -> Unit
@@ -77,16 +80,16 @@ fun UseShareWrapperDialog(
             state.dismiss()
         },
         icon = {
-            Icon(Icons.Rounded.Share, stringResource(R.string.share_wrapper_dialog_title))
+            Icon(Icons.Rounded.Share, stringResource(Res.string.share_wrapper_dialog_title))
         },
         title = {
-            Text(stringResource(R.string.share_wrapper_dialog_title))
+            Text(stringResource(Res.string.share_wrapper_dialog_title))
         },
         text = {
             Text(
                 stringResource(
-                    id = R.string.share_wrapper_dialog_message,
-                    stringResource(id = R.string.share_wrapper_url)
+                    Res.string.share_wrapper_dialog_message,
+                    BuildConfig.SHARE_WRAPPER_URL
                 )
             )
         },
@@ -98,7 +101,7 @@ fun UseShareWrapperDialog(
                     }
                 }
             ) {
-                Text(stringResource(R.string.action_yes))
+                Text(stringResource(Res.string.action_yes))
             }
         },
         dismissButton = {
@@ -109,7 +112,7 @@ fun UseShareWrapperDialog(
                     }
                 }
             ) {
-                Text(stringResource(R.string.action_no))
+                Text(stringResource(Res.string.action_no))
             }
         }
     )

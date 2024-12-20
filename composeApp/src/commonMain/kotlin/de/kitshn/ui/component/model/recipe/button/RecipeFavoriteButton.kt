@@ -7,13 +7,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.res.stringResource
 import de.kitshn.FavoritesViewModel
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_add_to_favorites
+import kitshn.composeapp.generated.resources.action_remove_from_favorites
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RecipeFavoriteButton(
@@ -35,12 +37,12 @@ fun RecipeFavoriteButton(
         when(isFavorite) {
             true -> Icon(
                 Icons.Rounded.Favorite,
-                stringResource(R.string.action_remove_from_favorites)
+                stringResource(Res.string.action_remove_from_favorites)
             )
 
             else -> Icon(
                 Icons.Rounded.FavoriteBorder,
-                stringResource(R.string.action_add_to_favorites)
+                stringResource(Res.string.action_add_to_favorites)
             )
         }
     }

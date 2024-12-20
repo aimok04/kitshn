@@ -13,7 +13,7 @@ abstract class KitshnFormBaseItem {
     open fun Render() {
     }
 
-    open fun submit(): Boolean {
+    open suspend fun submit(): Boolean {
         return true
     }
 

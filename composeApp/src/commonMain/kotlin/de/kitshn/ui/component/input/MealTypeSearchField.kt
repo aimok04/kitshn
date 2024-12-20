@@ -29,15 +29,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.model.TandoorMealType
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_unknown_meal_type
+import org.jetbrains.compose.resources.getString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,7 +52,6 @@ fun BaseMealTypeSearchField(
         onValueChange: (value: String) -> Unit
     ) -> Unit
 ) {
-    val context = LocalContext.current
     val focus = LocalFocusManager.current
 
     var selectedMealType by remember { mutableStateOf<TandoorMealType?>(null) }
@@ -64,7 +64,7 @@ fun BaseMealTypeSearchField(
         if(value == null) return@LaunchedEffect
         if(selectedMealType?.id != value) selectedMealType = client.container.mealType[value]
 
-        searchText = selectedMealType?.name ?: context.getString(R.string.common_unknown_meal_type)
+        searchText = selectedMealType?.name ?: getString(Res.string.common_unknown_meal_type)
     }
 
     val mealTypeList = remember { mutableStateListOf<TandoorMealType>() }

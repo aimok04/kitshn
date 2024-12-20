@@ -16,13 +16,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.stringResource
 import de.kitshn.KitshnViewModel
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.ui.view.ViewParameters
 import de.kitshn.ui.view.recipe.details.ViewRecipeDetails
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_close
+import kitshn.composeapp.generated.resources.action_expand_less
+import kitshn.composeapp.generated.resources.expand_more
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,7 +72,7 @@ fun KitshnRecipeListRecipeDetailPaneScaffold(
                         ) {
                             Icon(
                                 Icons.Rounded.Close,
-                                stringResource(R.string.action_close)
+                                stringResource(Res.string.action_close)
                             )
                         }
 
@@ -82,12 +85,12 @@ fun KitshnRecipeListRecipeDetailPaneScaffold(
                             when(expandDetailPane) {
                                 true -> Icon(
                                     Icons.Rounded.FullscreenExit,
-                                    stringResource(R.string.action_expand_less)
+                                    stringResource(Res.string.action_expand_less)
                                 )
 
                                 else -> Icon(
                                     Icons.Rounded.Fullscreen,
-                                    stringResource(R.string.expand_more)
+                                    stringResource(Res.string.expand_more)
                                 )
                             }
                         }

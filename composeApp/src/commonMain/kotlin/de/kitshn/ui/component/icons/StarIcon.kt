@@ -7,8 +7,9 @@ import androidx.compose.material.icons.rounded.StarBorder
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_review
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun StarIcon(
@@ -19,6 +20,6 @@ fun StarIcon(
     Icon(
         modifier = modifier,
         imageVector = if(enabled) if(half) Icons.AutoMirrored.Rounded.StarHalf else Icons.Rounded.Star else Icons.Rounded.StarBorder,
-        contentDescription = stringResource(R.string.common_review)
+        contentDescription = stringResource(Res.string.common_review)
     )
 }

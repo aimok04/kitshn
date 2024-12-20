@@ -15,9 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.ui.component.model.recipe.HorizontalRecipeCard
 import de.kitshn.ui.modifier.loadingPlaceHolder
@@ -26,6 +24,10 @@ import de.kitshn.ui.selectionMode.values.selectionModeCardColors
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.theme.Typography
 import de.kitshn.ui.theme.playfairDisplay
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.lorem_ipsum_short
+import kitshn.composeapp.generated.resources.lorem_ipsum_title
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -71,9 +73,9 @@ fun HorizontalMealPlanCard(
                         Text(
                             modifier = Modifier.loadingPlaceHolder(loadingState),
                             text = mealPlan?.title
-                                ?: stringResource(id = R.string.lorem_ipsum_title),
-                            style = Typography.bodyLarge.copy(
-                                fontFamily = playfairDisplay
+                                ?: stringResource(Res.string.lorem_ipsum_title),
+                            style = Typography().bodyLarge.copy(
+                                fontFamily = playfairDisplay()
                             ),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
@@ -86,7 +88,7 @@ fun HorizontalMealPlanCard(
                             label = {
                                 Text(
                                     text = mealPlan?.meal_type_name
-                                        ?: stringResource(id = R.string.lorem_ipsum_short)
+                                        ?: stringResource(Res.string.lorem_ipsum_short)
                                 )
                             },
                             colors = FilterChipDefaults.filterChipColors(

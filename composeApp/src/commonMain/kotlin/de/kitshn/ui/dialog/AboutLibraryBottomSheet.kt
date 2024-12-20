@@ -32,15 +32,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mikepenz.aboutlibraries.entity.Library
 import com.mikepenz.aboutlibraries.ui.compose.m3.util.author
-import de.kitshn.R
-import de.kitshn.launchCustomTabs
+import de.kitshn.launchWebsiteHandler
 import de.kitshn.ui.theme.Typography
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_open_source
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun rememberAboutLibraryBottomSheetState(): AboutLibraryBottomSheetState {
@@ -69,7 +69,8 @@ class AboutLibraryBottomSheetState(
 fun AboutLibraryBottomSheet(
     state: AboutLibraryBottomSheetState
 ) {
-    val context = LocalContext.current
+    val launchWebsite = launchWebsiteHandler()
+
     val density = LocalDensity.current
 
     val modalBottomSheetState = rememberModalBottomSheetState()
@@ -105,7 +106,7 @@ fun AboutLibraryBottomSheet(
             item {
                 Text(
                     text = library.author,
-                    style = Typography.bodySmall
+                    style = Typography().bodySmall
                 )
             }
 
@@ -116,7 +117,7 @@ fun AboutLibraryBottomSheet(
             item {
                 Text(
                     text = library.name,
-                    style = Typography.titleLarge
+                    style = Typography().titleLarge
                 )
             }
 
@@ -127,7 +128,7 @@ fun AboutLibraryBottomSheet(
             item {
                 if(library.description != null) Text(
                     text = library.description!!,
-                    style = Typography.bodyLarge
+                    style = Typography().bodyLarge
                 )
             }
 
@@ -168,17 +169,17 @@ fun AboutLibraryBottomSheet(
                     ) {
                         OutlinedButton(
                             onClick = {
-                                context.launchCustomTabs(library.website!!)
+                                launchWebsite(library.website!!)
                             }
                         ) {
                             Icon(
                                 Icons.AutoMirrored.Rounded.OpenInNew,
-                                stringResource(R.string.action_open_source)
+                                stringResource(Res.string.action_open_source)
                             )
 
                             Spacer(Modifier.width(8.dp))
 
-                            Text(stringResource(id = R.string.action_open_source))
+                            Text(stringResource(Res.string.action_open_source))
                         }
                     }
                 }
@@ -197,25 +198,25 @@ fun AboutLibraryBottomSheet(
                         Column {
                             Text(
                                 text = it.year ?: "",
-                                style = Typography.bodySmall
+                                style = Typography().bodySmall
                             )
 
                             Spacer(Modifier.height(4.dp))
 
                             Text(
                                 text = it.name,
-                                style = Typography.titleMedium
+                                style = Typography().titleMedium
                             )
                         }
 
                         if(it.url != null) IconButton(
                             onClick = {
-                                context.launchCustomTabs(it.url!!)
+                                launchWebsite(it.url!!)
                             }
                         ) {
                             Icon(
                                 Icons.AutoMirrored.Rounded.OpenInNew,
-                                stringResource(id = R.string.action_open_source)
+                                stringResource(Res.string.action_open_source)
                             )
                         }
                     }

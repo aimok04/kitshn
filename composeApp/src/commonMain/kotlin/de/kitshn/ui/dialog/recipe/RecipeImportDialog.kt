@@ -1,6 +1,5 @@
 package de.kitshn.ui.dialog.recipe
 
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -55,14 +54,14 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import coil3.ImageLoader
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
+import com.eygraber.uri.Uri
 import de.kitshn.KitshnViewModel
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeFromSource
@@ -73,8 +72,22 @@ import de.kitshn.ui.component.settings.SettingsSwitchListItem
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
 import de.kitshn.ui.state.foreverRememberNotSavable
 import de.kitshn.ui.theme.Typography
+import kitshn.composeApp.BuildConfig
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_download
+import kitshn.composeapp.generated.resources.action_import
+import kitshn.composeapp.generated.resources.common_import_recipe
+import kitshn.composeapp.generated.resources.common_recipe_url
+import kitshn.composeapp.generated.resources.common_selected
+import kitshn.composeapp.generated.resources.common_steps
+import kitshn.composeapp.generated.resources.common_tags
+import kitshn.composeapp.generated.resources.common_title_image
+import kitshn.composeapp.generated.resources.error_recipe_could_not_be_loaded
+import kitshn.composeapp.generated.resources.recipe_import_divide_steps
+import kitshn.composeapp.generated.resources.recipe_import_divide_steps_description
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun rememberRecipeImportDialogState(
@@ -141,7 +154,9 @@ fun RecipeImportDialog(
     state: RecipeImportDialogState,
     onViewRecipe: (recipe: TandoorRecipe) -> Unit = { }
 ) {
-    val context = LocalContext.current
+    val context = LocalPlatformContext.current
+    val imageLoader = remember { ImageLoader(context) }
+
     val client = vm.tandoorClient ?: return
 
     // handle import recipe url passing
@@ -158,7 +173,7 @@ fun RecipeImportDialog(
 
     val fetchRequestState = rememberTandoorRequestState()
     fun fetch() = coroutineScope.launch {
-        val url = state.data.url.replaceFirst(context.getString(R.string.share_wrapper_url), "")
+        val url = state.data.url.replaceFirst(BuildConfig.SHARE_WRAPPER_URL, "")
 
         fetchRequestState.wrapRequest {
             val response = client.recipeFromSource.fetch(url)
@@ -206,7 +221,7 @@ fun RecipeImportDialog(
 
     AdaptiveFullscreenDialog(
         onDismiss = { state.dismiss() },
-        title = { Text(text = stringResource(R.string.common_import_recipe)) },
+        title = { Text(text = stringResource(Res.string.common_import_recipe)) },
         topAppBarActions = {
             if(state.data.recipeFromSource != null) FilledIconButton(
                 onClick = { import() }
@@ -214,7 +229,7 @@ fun RecipeImportDialog(
                 IconWithState(
                     progressIndicatorTint = LocalContentColor.current,
                     imageVector = Icons.Rounded.Add,
-                    contentDescription = stringResource(R.string.action_import),
+                    contentDescription = stringResource(Res.string.action_import),
                     state = recipeImportRequestState.state.toIconWithState()
                 )
             }
@@ -246,12 +261,12 @@ fun RecipeImportDialog(
                                     .focusRequester(focusRequester),
 
                                 value = state.data.url,
-                                label = { Text(text = stringResource(R.string.common_recipe_url)) },
+                                label = { Text(text = stringResource(Res.string.common_recipe_url)) },
 
                                 leadingIcon = {
                                     Icon(
                                         Icons.Rounded.Receipt,
-                                        stringResource(R.string.common_recipe_url)
+                                        stringResource(Res.string.common_recipe_url)
                                     )
                                 },
 
@@ -263,7 +278,7 @@ fun RecipeImportDialog(
                                 isError = fetchRequestState.state == TandoorRequestStateState.ERROR,
                                 supportingText = {
                                     if(fetchRequestState.state == TandoorRequestStateState.ERROR)
-                                        Text(text = stringResource(R.string.error_recipe_could_not_be_loaded))
+                                        Text(text = stringResource(Res.string.error_recipe_could_not_be_loaded))
                                 },
 
                                 onValueChange = { state.data.url = it }
@@ -276,7 +291,7 @@ fun RecipeImportDialog(
                             ) {
                                 Icon(
                                     Icons.Rounded.Download,
-                                    stringResource(R.string.action_download)
+                                    stringResource(Res.string.action_download)
                                 )
                             }
 
@@ -299,9 +314,9 @@ fun RecipeImportDialog(
 
                         item {
                             Text(
-                                text = stringResource(id = R.string.common_title_image),
+                                text = stringResource(Res.string.common_title_image),
                                 Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
-                                style = Typography.titleLarge
+                                style = Typography().titleLarge
                             )
                         }
 
@@ -328,7 +343,8 @@ fun RecipeImportDialog(
                                             .clickable { state.data.selectedImageUrl = url },
                                         model = url,
                                         contentDescription = url,
-                                        contentScale = ContentScale.Crop
+                                        contentScale = ContentScale.Crop,
+                                        imageLoader = imageLoader
                                     )
 
                                     if(state.data.selectedImageUrl == url) Box(
@@ -342,7 +358,7 @@ fun RecipeImportDialog(
                                     ) {
                                         Icon(
                                             imageVector = Icons.Rounded.Check,
-                                            contentDescription = stringResource(R.string.common_selected),
+                                            contentDescription = stringResource(Res.string.common_selected),
                                             tint = Color.White
                                         )
                                     }
@@ -352,9 +368,9 @@ fun RecipeImportDialog(
 
                         item {
                             Text(
-                                text = stringResource(id = R.string.common_tags),
+                                text = stringResource(Res.string.common_tags),
                                 Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
-                                style = Typography.titleLarge
+                                style = Typography().titleLarge
                             )
                         }
 
@@ -403,18 +419,18 @@ fun RecipeImportDialog(
 
                         item {
                             Text(
-                                text = stringResource(id = R.string.common_steps),
+                                text = stringResource(Res.string.common_steps),
                                 Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
-                                style = Typography.titleLarge
+                                style = Typography().titleLarge
                             )
                         }
 
                         item {
                             SettingsSwitchListItem(
-                                label = { Text(text = stringResource(R.string.recipe_import_divide_steps)) },
-                                description = { Text(text = stringResource(R.string.recipe_import_divide_steps_description)) },
+                                label = { Text(text = stringResource(Res.string.recipe_import_divide_steps)) },
+                                description = { Text(text = stringResource(Res.string.recipe_import_divide_steps_description)) },
                                 icon = Icons.Rounded.Compress,
-                                contentDescription = stringResource(R.string.recipe_import_divide_steps),
+                                contentDescription = stringResource(Res.string.recipe_import_divide_steps),
                                 checked = state.data.splitSteps
                             ) {
                                 state.data.splitSteps = it

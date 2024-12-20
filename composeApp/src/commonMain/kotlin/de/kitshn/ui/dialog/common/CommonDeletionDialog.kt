@@ -13,9 +13,14 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_abort
+import kitshn.composeapp.generated.resources.action_confirm
+import kitshn.composeapp.generated.resources.action_delete
+import kitshn.composeapp.generated.resources.common_delete_permanently
+import kitshn.composeapp.generated.resources.common_delete_permanently_text
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun <T> rememberCommonDeletionDialogState(): CommonDeletionDialogState<T> {
@@ -53,14 +58,14 @@ fun <T> CommonDeletionDialog(
             state.dismiss()
         },
         icon = {
-            Icon(Icons.Rounded.Delete, stringResource(R.string.action_delete))
+            Icon(Icons.Rounded.Delete, stringResource(Res.string.action_delete))
         },
         title = {
-            Text(stringResource(R.string.common_delete_permanently))
+            Text(stringResource(Res.string.common_delete_permanently))
         },
         text = {
             Text(
-                text = stringResource(R.string.common_delete_permanently_text)
+                text = stringResource(Res.string.common_delete_permanently_text)
             )
         },
         confirmButton = {
@@ -70,7 +75,7 @@ fun <T> CommonDeletionDialog(
                     onConfirm(state.model!!)
                 }
             ) {
-                Text(stringResource(R.string.action_confirm))
+                Text(stringResource(Res.string.action_confirm))
             }
         },
         dismissButton = {
@@ -80,7 +85,7 @@ fun <T> CommonDeletionDialog(
                     onDismiss()
                 }
             ) {
-                Text(stringResource(R.string.action_abort))
+                Text(stringResource(Res.string.action_abort))
             }
         }
     )

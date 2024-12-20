@@ -28,13 +28,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.compose.AsyncImagePainter
+import coil3.ImageLoader
+import coil3.compose.AsyncImage
+import coil3.compose.AsyncImagePainter
+import coil3.compose.LocalPlatformContext
 import de.kitshn.KITSHN_KEYWORD_FLAG_PREFIX
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.ui.component.icons.FiveStarIconRow
@@ -46,6 +46,9 @@ import de.kitshn.ui.state.translateState
 import de.kitshn.ui.theme.Typography
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.haze
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.lorem_ipsum_title
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -58,6 +61,9 @@ fun RecipeCard(
     onClickKeyword: (keyword: TandoorKeywordOverview) -> Unit,
     onClick: (recipeOverview: TandoorRecipeOverview) -> Unit,
 ) {
+    val context = LocalPlatformContext.current
+    val imageLoader = remember { ImageLoader(context) }
+
     val hapticFeedback = LocalHapticFeedback.current
     val hazeState = remember { HazeState() }
 
@@ -108,6 +114,7 @@ fun RecipeCard(
                     },
                     contentDescription = recipeOverview?.name,
                     contentScale = ContentScale.Crop,
+                    imageLoader = imageLoader,
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(16f / 9f)
@@ -154,10 +161,10 @@ fun RecipeCard(
             ) {
                 Text(
                     modifier = Modifier.loadingPlaceHolder(loadingState),
-                    text = recipeOverview?.name ?: stringResource(id = R.string.lorem_ipsum_title),
+                    text = recipeOverview?.name ?: stringResource(Res.string.lorem_ipsum_title),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    style = Typography.titleLarge
+                    style = Typography().titleLarge
                 )
             }
 

@@ -45,10 +45,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.TandoorIngredient
 import de.kitshn.api.tandoor.model.TandoorStep
@@ -64,9 +62,20 @@ import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.state.foreverRememberNotSavable
 import de.kitshn.ui.state.foreverRememberPagerState
 import de.kitshn.ui.theme.Typography
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_allocate_ingredients
+import kitshn.composeapp.generated.resources.action_save
+import kitshn.composeapp.generated.resources.action_saving
+import kitshn.composeapp.generated.resources.common_okay
+import kitshn.composeapp.generated.resources.common_step
+import kitshn.composeapp.generated.resources.error_unallocated_ingredients
+import kitshn.composeapp.generated.resources.error_unallocated_ingredients_description
 import kotlinx.coroutines.launch
-import org.json.JSONArray
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.jsonObject
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun rememberRecipeIngredientAllocationDialogState(
@@ -166,7 +175,7 @@ fun RecipeIngredientAllocationDialog(
         onDismiss = { state.dismiss() },
         title = {
             Text(
-                text = stringResource(R.string.action_allocate_ingredients)
+                text = stringResource(Res.string.action_allocate_ingredients)
             )
         },
         topAppBarActions = {
@@ -182,7 +191,7 @@ fun RecipeIngredientAllocationDialog(
                             val step = stepById[stepId]
                                 ?: throw Exception("Could not fetch step $stepId")
 
-                            val rawIngredientsList = mutableListOf<JSONObject>()
+                            val rawIngredientsList = mutableListOf<JsonObject>()
 
                             ingredientIdList.forEach { ingredientId ->
                                 val rawIngredient =
@@ -191,36 +200,41 @@ fun RecipeIngredientAllocationDialog(
                                     )
                                         ?: throw Exception("Could not extract raw ingredient in step $stepId for ingredient $ingredientId")
 
-                                rawIngredientsList.add(JSONObject(rawIngredient.toString()))
+                                rawIngredientsList.add(rawIngredient)
                             }
 
                             partialUpdateRequestState.wrapRequest {
                                 savedSteps = 0
                                 showSavingAlertDialog = true
 
-                                val ingredientsJSONArray = JSONArray().apply {
+                                var ingredientsJSONArray = buildJsonArray {
                                     repeat(rawIngredientsList.size) { index ->
-                                        val rawIngredient = rawIngredientsList[index]
+                                        val rawIngredient = rawIngredientsList[index].toMutableMap()
 
                                         rawIngredient.remove("id")
-                                        if(!rawIngredient.isNull("food")) {
-                                            val food = rawIngredient.getJSONObject("food")
-                                            food.remove("id")
-                                            food.remove("parent")
-                                            food.remove("numchild")
-                                            rawIngredient.put("food", food)
+                                        if(!rawIngredient.contains("food")) {
+                                            val food = rawIngredient.get("food")?.jsonObject?.toMutableMap()
+                                            food?.let {
+                                                food.remove("id")
+                                                food.remove("parent")
+                                                food.remove("numchild")
+                                                rawIngredient.put("food", JsonObject(food))
+                                            }
                                         }
 
-                                        if(!rawIngredient.isNull("unit")) {
-                                            val unit = rawIngredient.getJSONObject("unit")
-                                            unit.remove("id")
-                                            rawIngredient.put("unit", unit)
+                                        //TODO: check if works
+                                        if(!rawIngredient.contains("unit")) {
+                                            val unit = rawIngredient["unit"]?.jsonObject?.toMutableMap()
+                                            unit?.let {
+                                                unit.remove("id")
+                                                rawIngredient.put("unit", JsonObject(unit))
+                                            }
                                         }
 
                                         rawIngredient.remove("used_in_recipes")
-                                        rawIngredient.put("order", index)
+                                        rawIngredient["order"] = JsonPrimitive(index)
 
-                                        put(rawIngredient)
+                                        add(JsonObject(rawIngredient))
                                     }
                                 }
 
@@ -230,7 +244,7 @@ fun RecipeIngredientAllocationDialog(
 
                             if(partialUpdateRequestState.state == TandoorRequestStateState.ERROR) {
                                 // fixing bug
-                                if(partialUpdateRequestState.error != null) if(partialUpdateRequestState.error?.volleyError?.networkResponse?.statusCode == 500)
+                                if(partialUpdateRequestState.error != null) if(partialUpdateRequestState.error?.response?.status?.value == 500)
                                     return@stepForeach
 
                                 return@launch
@@ -244,7 +258,7 @@ fun RecipeIngredientAllocationDialog(
                     }
                 }
             ) {
-                Icon(Icons.Rounded.Save, stringResource(id = R.string.action_save))
+                Icon(Icons.Rounded.Save, stringResource(Res.string.action_save))
             }
         },
         bottomBar = {
@@ -346,13 +360,13 @@ fun RecipeIngredientAllocationDialog(
                                 ),
                                 text = step.name.ifBlank {
                                     stringResource(
-                                        R.string.common_step,
+                                        Res.string.common_step,
                                         index + 1
                                     )
                                 },
                                 maxLines = 2,
                                 overflow = TextOverflow.Ellipsis,
-                                style = Typography.titleLarge
+                                style = Typography().titleLarge
                             )
                         }
 
@@ -418,8 +432,8 @@ fun RecipeIngredientAllocationDialog(
     if(showSavingAlertDialog) AlertDialog(
         onDismissRequest = { },
         confirmButton = { },
-        icon = { Icon(Icons.Rounded.Save, stringResource(id = R.string.action_save)) },
-        title = { Text(text = stringResource(R.string.action_saving)) },
+        icon = { Icon(Icons.Rounded.Save, stringResource(Res.string.action_save)) },
+        title = { Text(text = stringResource(Res.string.action_saving)) },
         text = {
             LinearProgressIndicator()
         }
@@ -431,17 +445,17 @@ fun RecipeIngredientAllocationDialog(
             Button(onClick = {
                 showUnallocatedIngredientIdListNotEmptyError = false
             }) {
-                Text(text = stringResource(R.string.common_okay))
+                Text(text = stringResource(Res.string.common_okay))
             }
         },
         icon = {
             Icon(
                 Icons.Rounded.ErrorOutline,
-                stringResource(R.string.error_unallocated_ingredients)
+                stringResource(Res.string.error_unallocated_ingredients)
             )
         },
-        title = { Text(text = stringResource(R.string.error_unallocated_ingredients)) },
-        text = { Text(text = stringResource(R.string.error_unallocated_ingredients_description)) }
+        title = { Text(text = stringResource(Res.string.error_unallocated_ingredients)) },
+        text = { Text(text = stringResource(Res.string.error_unallocated_ingredients_description)) }
     )
 
     TandoorRequestErrorHandler(state = partialUpdateRequestState)

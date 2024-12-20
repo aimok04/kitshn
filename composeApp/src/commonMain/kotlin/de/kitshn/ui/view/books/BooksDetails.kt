@@ -28,9 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.model.TandoorRecipeBookEntry
@@ -47,8 +45,12 @@ import de.kitshn.ui.dialog.select.SelectRecipeDialog
 import de.kitshn.ui.dialog.select.rememberSelectRecipeDialogState
 import de.kitshn.ui.selectionMode.rememberSelectionModeState
 import de.kitshn.ui.view.ViewParameters
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_add
+import kitshn.composeapp.generated.resources.recipe_book_empty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -109,10 +111,10 @@ fun ViewBooksDetails(
             ExtendedFloatingActionButton(
                 expanded = lazyStaggeredGridState.isScrollingUp(),
                 icon = {
-                    Icon(Icons.Rounded.Add, stringResource(id = R.string.action_add))
+                    Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
                 },
                 text = {
-                    Text(stringResource(id = R.string.action_add))
+                    Text(stringResource(Res.string.action_add))
                 },
                 onClick = {
                     selectRecipeDialogState.open()
@@ -128,8 +130,8 @@ fun ViewBooksDetails(
             ) {
                 FullSizeAlertPane(
                     imageVector = Icons.Rounded.Receipt,
-                    contentDescription = stringResource(R.string.recipe_book_empty),
-                    text = stringResource(R.string.recipe_book_empty)
+                    contentDescription = stringResource(Res.string.recipe_book_empty),
+                    text = stringResource(Res.string.recipe_book_empty)
                 )
             }
         } else {

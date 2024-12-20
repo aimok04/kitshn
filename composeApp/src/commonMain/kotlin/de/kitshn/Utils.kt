@@ -1,31 +1,33 @@
 package de.kitshn
 
-import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.ContextWrapper
-import android.content.Intent
-import android.net.Uri
-import android.view.Window
-import android.view.WindowManager
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.window.DialogWindowProvider
+import androidx.compose.ui.platform.LocalHapticFeedback
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.TandoorKeyword
+import kitshn.composeApp.BuildConfig
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_day_after_tomorrow
+import kitshn.composeapp.generated.resources.common_day_before_yesterday
+import kitshn.composeapp.generated.resources.common_today
+import kitshn.composeapp.generated.resources.common_tomorrow
+import kitshn.composeapp.generated.resources.common_yesterday
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format.FormatStringsInDatetimeFormats
+import kotlinx.datetime.format.byUnicodePattern
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
@@ -34,13 +36,45 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.JsonTransformingSerializer
 import kotlinx.serialization.json.internal.FormatLanguage
 import kotlinx.serialization.json.jsonPrimitive
-import java.text.NumberFormat
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import nl.jacobras.humanreadable.HumanReadable
+import org.jetbrains.compose.resources.stringResource
 import kotlin.math.floor
+
+enum class HapticFeedbackType {
+    LONG_PRESS,
+    SHORT_TICK,
+    DRAG_START,
+    GESTURE_START,
+    GESTURE_END
+}
+
+@Composable
+expect fun osDependentHapticFeedbackHandler(): ((type: HapticFeedbackType) -> Unit)?
+
+@Composable
+fun HapticFeedbackHandler(): (type: HapticFeedbackType) -> Unit {
+    val hapticFeedback = LocalHapticFeedback.current
+
+    val handler = osDependentHapticFeedbackHandler() ?: {
+        hapticFeedback.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
+    }
+
+    return handler
+}
+
+//source code from androidX
+fun String.toColorInt(): Int {
+    if (this[0] == '#') {
+        var color = substring(1).toLong(16)
+        if (length == 7) {
+            color = color or 0x00000000ff000000L
+        } else if (length != 9) {
+            throw IllegalArgumentException("Unknown color")
+        }
+        return color.toInt()
+    }
+    throw IllegalArgumentException("Unknown color")
+}
 
 val json = Json { ignoreUnknownKeys = true }
 
@@ -96,40 +130,19 @@ fun Double.formatAmount(fractional: Boolean = true): String {
         val value = if(int == 0) "" else "$int "
         return "$value${formatDecimalToFraction(decimal)}"
     } else {
-        return NumberFormat.getNumberInstance().apply {
-            maximumFractionDigits = 2
-        }.format(this)
-    }
-}
-
-fun Context.launchCustomTabs(url: String) {
-    CustomTabsIntent.Builder().build()
-        .launchUrl(this, Uri.parse(url))
-}
-
-tailrec fun Context.getActivityWindow(): Window? =
-    when(this) {
-        is Activity -> window
-        is ContextWrapper -> baseContext.getActivityWindow()
-        else -> null
-    }
-
-@Composable
-fun getDialogWindow(): Window? = (LocalView.current.parent as? DialogWindowProvider)?.window
-
-@Composable
-fun getActivityWindow(): Window? = LocalView.current.context.getActivityWindow()
-
-@Composable
-fun KeepScreenOn() {
-    val context = LocalContext.current
-
-    DisposableEffect(Unit) {
-        val window = context.getActivityWindow()
-        window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-
-        onDispose {
-            window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        try {
+            return HumanReadable.number(this, 2).run {
+                if(endsWith("00")) {
+                    substring(0, length-3)
+                }else if(endsWith("0")) {
+                    substring(0, length-1)
+                }else{
+                    this
+                }
+            }
+        }catch(e: Exception) {
+            e.printStackTrace()
+            return this.toString()
         }
     }
 }
@@ -203,62 +216,68 @@ fun Boolean.toTFString(): String {
     return if(this) "true" else "false"
 }
 
+@OptIn(FormatStringsInDatetimeFormats::class)
 fun String.parseTandoorDate(): LocalDate {
     if(this.length > 14) {
-        val timeFormatter = DateTimeFormatter.ISO_DATE_TIME
-        return LocalDate.parse(this, timeFormatter)
+        return Instant.parse(this).toLocalDateTime(TimeZone.currentSystemDefault()).date
     }
 
     // legacy for version < 1.15.18
-    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    return LocalDate.parse(this, dateFormatter)
+    return LocalDate.parse(this, LocalDate.Format { byUnicodePattern("yyyy-MM-dd") })
 }
 
 fun String.parseUtcTandoorDate(): LocalDate {
     return Instant.parse(this)
-        .atZone(ZoneId.systemDefault())
-        .toLocalDate()
+        .toLocalDateTime(TimeZone.currentSystemDefault())
+        .date
 }
 
 fun String.parseIsoTime(): LocalDateTime {
-    val timeFormatter = DateTimeFormatter.ISO_DATE_TIME
-    return LocalDateTime.parse(this, timeFormatter)
+    return Instant.parse(this).toLocalDateTime(TimeZone.currentSystemDefault())
 }
 
+@OptIn(FormatStringsInDatetimeFormats::class)
 fun LocalDate.toTandoorDate(): String {
-    val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    return dateFormatter.format(this)
+    val dateFormat = LocalDate.Format { byUnicodePattern("yyyy-MM-dd") }
+    return dateFormat.format(this)
 }
 
 fun Long.toLocalDate(): LocalDate {
-    return Instant.ofEpochMilli(this)
-        .atZone(ZoneId.systemDefault())
-        .toLocalDate()
+    return Instant.fromEpochMilliseconds(this)
+        .toLocalDateTime(TimeZone.currentSystemDefault()).date
 }
 
 @Composable
+expect fun LocalDate.toHumanReadableDateLabelImpl(): String?
+
+@OptIn(FormatStringsInDatetimeFormats::class)
+@Composable
 fun LocalDate.toHumanReadableDateLabel(): String {
-    val today = LocalDate.now()
-    val diff = this.toEpochDay() - LocalDate.now().toEpochDay()
+    this.toHumanReadableDateLabelImpl()?.let {
+        return it
+    }
 
+    val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+    val diff = this.toEpochDays() - today.toEpochDays()
+
+    //TODO: localize date format for jvm/iOS
     return when(diff) {
-        in 3L..6L -> {
-            val dateFormat = DateTimeFormatter.ofPattern("EEEE")
-            this.format(dateFormat)
+        in 3..6 -> {
+            val dateFormat = LocalDate.Format { byUnicodePattern("dd.MM.") }
+            return dateFormat.format(this)
         }
-
-        2L -> stringResource(R.string.common_day_after_tomorrow)
-        1L -> stringResource(R.string.common_tomorrow)
-        0L -> stringResource(R.string.common_today)
-        -1L -> stringResource(R.string.common_yesterday)
-        -2L -> stringResource(R.string.common_day_before_yesterday)
+        2 -> stringResource(Res.string.common_day_after_tomorrow)
+        1 -> stringResource(Res.string.common_tomorrow)
+        0 -> stringResource(Res.string.common_today)
+        -1 -> stringResource(Res.string.common_yesterday)
+        -2 -> stringResource(Res.string.common_day_before_yesterday)
         else -> {
             if(this.year == today.year) {
-                val dateFormat = DateTimeFormatter.ofPattern("EE, dd. MMM.")
-                this.format(dateFormat)
+                val dateFormat = LocalDate.Format { byUnicodePattern("dd.MM.") }
+                return dateFormat.format(this)
             } else {
-                val dateFormat = DateTimeFormatter.ofPattern("dd. MMMM yyyy")
-                this.format(dateFormat)
+                val dateFormat = LocalDate.Format { byUnicodePattern("dd.MM.yyyy") }
+                return dateFormat.format(this)
             }
         }
     }
@@ -326,25 +345,33 @@ fun List<Int>?.formEqualsInt(input: List<Int>?): Boolean {
 }
 
 fun String?.redactForRelease(): String {
-    return if(BuildConfig.DEBUG) {
+    return if(platformDetails.debug) {
         this.toString()
     } else {
         "*** REDACTED ***"
     }
 }
 
-fun Context.launchMarketPage(packageName: String) {
-    try {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
-    } catch(e: ActivityNotFoundException) {
-        startActivity(
-            Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
-            )
-        )
-    }
-}
+@Composable
+expect fun BackHandler(enabled: Boolean = true, handler: () -> Unit)
+
+@Composable
+expect fun KeepScreenOn()
+
+@Composable
+expect fun launchMarketPageHandler(): () -> Unit
+
+@Composable
+expect fun launchWebsiteHandler(): (url: String) -> Unit
+
+@Composable
+expect fun launchTimerHandler(): (seconds: Int, name: String) -> Unit
+
+@Composable
+expect fun shareContentHandler(): (title: String, url: String) -> Unit
+
+@Composable
+expect fun closeAppHandler(): () -> Unit
 
 fun String.extractUrl(delimiters: String = "") = this
     .split(delimiters)

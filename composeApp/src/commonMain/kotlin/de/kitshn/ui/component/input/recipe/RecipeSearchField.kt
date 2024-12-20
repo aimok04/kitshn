@@ -28,20 +28,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import de.kitshn.R
+import coil3.ImageLoader
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
 import de.kitshn.ui.TandoorRequestErrorHandler
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_title_image
+import kitshn.composeapp.generated.resources.common_unknown_recipe
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,7 +59,7 @@ fun BaseRecipeSearchField(
         onValueChange: (value: String) -> Unit
     ) -> Unit
 ) {
-    val context = LocalContext.current
+    val context = LocalPlatformContext.current
 
     var selectedRecipe by remember { mutableStateOf<TandoorRecipeOverview?>(null) }
     LaunchedEffect(selectedRecipe) { onValueChange(selectedRecipe?.id) }
@@ -67,7 +71,7 @@ fun BaseRecipeSearchField(
         if(value == null) return@LaunchedEffect
         if(selectedRecipe?.id != value) selectedRecipe = client.container.recipeOverview[value]
 
-        searchText = selectedRecipe?.name ?: context.getString(R.string.common_unknown_recipe)
+        searchText = selectedRecipe?.name ?: getString(Res.string.common_unknown_recipe)
     }
 
     val recipeOverviewList = remember { mutableStateListOf<TandoorRecipeOverview>() }
@@ -100,8 +104,9 @@ fun BaseRecipeSearchField(
                 {
                     AsyncImage(
                         model = selectedRecipe?.loadThumbnail(),
-                        contentDescription = stringResource(R.string.common_title_image),
+                        contentDescription = stringResource(Res.string.common_title_image),
                         contentScale = ContentScale.Crop,
+                        imageLoader = ImageLoader(context),
                         modifier = Modifier
                             .size(36.dp)
                             .clip(RoundedCornerShape(8.dp))

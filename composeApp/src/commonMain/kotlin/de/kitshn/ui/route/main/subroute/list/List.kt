@@ -19,9 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
@@ -39,6 +37,9 @@ import de.kitshn.ui.state.foreverRememberMutableStateList
 import de.kitshn.ui.state.foreverRememberNotSavable
 import de.kitshn.ui.state.rememberErrorLoadingSuccessState
 import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.navigation_list
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -124,7 +125,7 @@ fun RouteMainSubrouteList(
                             BackButton(onBack = { p.vm.mainSubNavHostController?.popBackStack() })
                         },
                         title = {
-                            Text(text = stringResource(R.string.navigation_list))
+                            Text(text = stringResource(Res.string.navigation_list))
                         },
                         colors = it,
                         scrollBehavior = scrollBehavior

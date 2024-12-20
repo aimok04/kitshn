@@ -1,7 +1,5 @@
 package de.kitshn.ui.dialog.recipe.creationandedit
 
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.pager.HorizontalPager
@@ -29,14 +27,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.ImageLoader
-import coil.request.ImageRequest
-import coil.request.SuccessResult
-import de.kitshn.R
+import coil3.Uri
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.TandoorRequestsError
@@ -54,7 +47,23 @@ import de.kitshn.ui.selectionMode.component.SelectionModeTopAppBar
 import de.kitshn.ui.selectionMode.rememberSelectionModeState
 import de.kitshn.ui.state.foreverRememberNotSavable
 import de.kitshn.ui.state.foreverRememberPagerState
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_abort
+import kitshn.composeapp.generated.resources.action_combine
+import kitshn.composeapp.generated.resources.action_continue
+import kitshn.composeapp.generated.resources.action_create
+import kitshn.composeapp.generated.resources.action_create_recipe
+import kitshn.composeapp.generated.resources.action_edit_recipe
+import kitshn.composeapp.generated.resources.action_save
+import kitshn.composeapp.generated.resources.action_saving
+import kitshn.composeapp.generated.resources.common_details
+import kitshn.composeapp.generated.resources.common_keywords
+import kitshn.composeapp.generated.resources.common_steps
+import kitshn.composeapp.generated.resources.common_unsaved_changes
+import kitshn.composeapp.generated.resources.common_unsaved_changes_description
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import org.jetbrains.compose.resources.stringResource
 
 data class RecipeCreationAndEditDefaultValues(
     var rememberKey: String = "",
@@ -170,13 +179,13 @@ class RecipeCreationAndEditDialogValue(
 
     val keywords = mutableStateListOf<TandoorKeyword>()
 
-    var imageUploadUri by mutableStateOf<Uri?>(null)
+    var imageUploadByteArray by mutableStateOf<ByteArray?>(null)
 
     var stepsOrder = mutableStateListOf<Int>()
 
     var _stepsUpdate by mutableLongStateOf(0)
     fun updateSteps() {
-        _stepsUpdate = System.currentTimeMillis()
+        _stepsUpdate = Clock.System.now().toEpochMilliseconds()
     }
 
     init {
@@ -197,7 +206,6 @@ fun RecipeCreationAndEditDialog(
     if(creationState?.shown?.value != true && editState?.shown?.value != true) return
 
     val coroutineScope = rememberCoroutineScope()
-    val context = LocalContext.current
     val density = LocalDensity.current
 
     val defaultValues =
@@ -218,7 +226,7 @@ fun RecipeCreationAndEditDialog(
 
     var rememberKeyId by foreverRememberNotSavable(
         key = "${defaultValues.rememberKey}/rememberKeyId",
-        initialValue = System.currentTimeMillis()
+        initialValue = Clock.System.now().toEpochMilliseconds()
     )
     val rememberKey = "$rememberKeyBegin/$rememberKeyId"
 
@@ -268,7 +276,7 @@ fun RecipeCreationAndEditDialog(
                         && defaultValues.keywords.formEquals(values.keywords)
                         && defaultValues.sourceUrl.formEquals(values.sourceUrl)
                         && defaultValues.stepsOrder.formEqualsInt(values.stepsOrder)
-                        && values.imageUploadUri == null
+                        && values.imageUploadByteArray == null
                 )
     }
 
@@ -283,7 +291,7 @@ fun RecipeCreationAndEditDialog(
             creationState?.dismiss()
             editState?.dismiss()
 
-            rememberKeyId = System.currentTimeMillis()
+            rememberKeyId = Clock.System.now().toEpochMilliseconds()
         }
     }
 
@@ -323,7 +331,7 @@ fun RecipeCreationAndEditDialog(
                     ) {
                         IconWithState(
                             imageVector = Icons.Rounded.Compress,
-                            contentDescription = stringResource(R.string.action_combine),
+                            contentDescription = stringResource(Res.string.action_combine),
                             state = combineStepsRequestState.state.toIconWithState()
                         )
                     }
@@ -334,67 +342,60 @@ fun RecipeCreationAndEditDialog(
         title = {
             Text(
                 text = if(isEditDialog) {
-                    stringResource(R.string.action_edit_recipe)
+                    stringResource(Res.string.action_edit_recipe)
                 } else {
-                    stringResource(R.string.action_create_recipe)
+                    stringResource(Res.string.action_create_recipe)
                 }
             )
         },
         topAppBarActions = {
             FilledIconButton(
                 onClick = {
-                    if(detailsPageForm?.checkSubmit() != true) return@FilledIconButton
-
                     coroutineScope.launch {
-                        requestRecipeState.wrapRequest {
-                            if(isEditDialog) {
-                                recipe?.partialUpdate(
-                                    name = if(defaultValues.name.formEquals(values.name)) null else values.name,
-                                    description = if(defaultValues.description.formEquals(values.description)) null else values.description,
-                                    keywords = if(defaultValues.keywords.formEquals(values.keywords)) null else values.keywords,
-                                    working_time = if(defaultValues.workingTime == values.workingTime) null else values.workingTime,
-                                    waiting_time = if(defaultValues.waitingTime == values.waitingTime) null else values.waitingTime,
-                                    source_url = if(defaultValues.sourceUrl.formEquals(values.sourceUrl)) null else values.sourceUrl,
-                                    servings = if(defaultValues.servings == values.servings) null else values.servings,
-                                    servings_text = if(defaultValues.servingsText.formEquals(values.servingsText)) null else values.servingsText
-                                )
-                            } else {
-                                recipe?.partialUpdate(
-                                    name = values.name,
-                                    description = values.description ?: "",
-                                    keywords = values.keywords,
-                                    working_time = values.workingTime,
-                                    waiting_time = values.waitingTime,
-                                    source_url = values.sourceUrl,
-                                    servings = values.servings,
-                                    servings_text = values.servingsText
-                                )
+                        if(detailsPageForm?.checkSubmit() != true) return@launch
+
+                        coroutineScope.launch {
+                            requestRecipeState.wrapRequest {
+                                if(isEditDialog) {
+                                    recipe?.partialUpdate(
+                                        name = if(defaultValues.name.formEquals(values.name)) null else values.name,
+                                        description = if(defaultValues.description.formEquals(values.description)) null else values.description,
+                                        keywords = if(defaultValues.keywords.formEquals(values.keywords)) null else values.keywords,
+                                        working_time = if(defaultValues.workingTime == values.workingTime) null else values.workingTime,
+                                        waiting_time = if(defaultValues.waitingTime == values.waitingTime) null else values.waitingTime,
+                                        source_url = if(defaultValues.sourceUrl.formEquals(values.sourceUrl)) null else values.sourceUrl,
+                                        servings = if(defaultValues.servings == values.servings) null else values.servings,
+                                        servings_text = if(defaultValues.servingsText.formEquals(values.servingsText)) null else values.servingsText
+                                    )
+                                } else {
+                                    recipe?.partialUpdate(
+                                        name = values.name,
+                                        description = values.description ?: "",
+                                        keywords = values.keywords,
+                                        working_time = values.workingTime,
+                                        waiting_time = values.waitingTime,
+                                        source_url = values.sourceUrl,
+                                        servings = values.servings,
+                                        servings_text = values.servingsText
+                                    )
+                                }
+
+                                if(!defaultValues.stepsOrder.formEqualsInt(values.stepsOrder)) recipe?.steps?.forEach {
+                                    val index = values.stepsOrder.indexOf(it.id)
+                                    it.partialUpdate(order = index)
+                                }
+
+                                if(values.imageUploadByteArray != null) {
+                                    recipe?.uploadImage(values.imageUploadByteArray!!)
+                                }
+
+                                onRefresh()
+
+                                editState?.dismiss()
+                                creationState?.dismiss()
+
+                                if(!isEditDialog) creationState?.recipe?.let { onViewRecipe(it) }
                             }
-
-                            if(!defaultValues.stepsOrder.formEqualsInt(values.stepsOrder)) recipe?.steps?.forEach {
-                                val index = values.stepsOrder.indexOf(it.id)
-                                it.partialUpdate(order = index)
-                            }
-
-                            if(values.imageUploadUri != null) {
-                                val loader = ImageLoader(context)
-                                val request = ImageRequest.Builder(context)
-                                    .data(values.imageUploadUri)
-                                    .allowHardware(false)
-                                    .build()
-
-                                val result = (loader.execute(request) as SuccessResult).drawable
-                                val bitmap = (result as BitmapDrawable).bitmap
-
-                                recipe?.uploadImage(bitmap)
-                            }
-
-                            onRefresh()
-
-                            editState?.dismiss()
-                            creationState?.dismiss()
-
-                            if(!isEditDialog) creationState?.recipe?.let { onViewRecipe(it) }
                         }
                     }
                 }
@@ -406,8 +407,8 @@ fun RecipeCreationAndEditDialog(
                         else -> Icons.Rounded.Add
                     },
                     contentDescription = when(isEditDialog) {
-                        true -> stringResource(id = R.string.action_save)
-                        else -> stringResource(id = R.string.action_create)
+                        true -> stringResource(Res.string.action_save)
+                        else -> stringResource(Res.string.action_create)
                     },
                     state = requestRecipeState.state.toIconWithState()
                 )
@@ -416,9 +417,9 @@ fun RecipeCreationAndEditDialog(
         bottomBar = {
             SectionStepIndicator(
                 items = listOf(
-                    stringResource(R.string.common_details),
-                    stringResource(R.string.common_steps),
-                    stringResource(R.string.common_keywords)
+                    stringResource(Res.string.common_details),
+                    stringResource(Res.string.common_steps),
+                    stringResource(Res.string.common_keywords)
                 ),
                 selected = pagerState.currentPage,
                 bottomPadding = if(it) with(density) {
@@ -441,14 +442,14 @@ fun RecipeCreationAndEditDialog(
 
     if(showUnsavedChangesDialog) AlertDialog(
         onDismissRequest = { showUnsavedChangesDialog = false },
-        icon = { Icon(Icons.Rounded.Warning, stringResource(R.string.common_unsaved_changes)) },
-        title = { Text(text = stringResource(R.string.common_unsaved_changes)) },
-        text = { Text(text = stringResource(R.string.common_unsaved_changes_description)) },
+        icon = { Icon(Icons.Rounded.Warning, stringResource(Res.string.common_unsaved_changes)) },
+        title = { Text(text = stringResource(Res.string.common_unsaved_changes)) },
+        text = { Text(text = stringResource(Res.string.common_unsaved_changes_description)) },
         dismissButton = {
             FilledTonalButton(onClick = {
                 showUnsavedChangesDialog = false
             }) {
-                Text(text = stringResource(R.string.action_abort))
+                Text(text = stringResource(Res.string.action_abort))
             }
         },
         confirmButton = {
@@ -456,7 +457,7 @@ fun RecipeCreationAndEditDialog(
                 showUnsavedChangesDialog = false
                 dismiss()
             }) {
-                Text(text = stringResource(R.string.action_continue))
+                Text(text = stringResource(Res.string.action_continue))
             }
         }
     )
@@ -464,8 +465,8 @@ fun RecipeCreationAndEditDialog(
     if(combineStepsRequestState.state == TandoorRequestStateState.LOADING) AlertDialog(
         onDismissRequest = { },
         confirmButton = { },
-        icon = { Icon(Icons.Rounded.Save, stringResource(id = R.string.action_save)) },
-        title = { Text(text = stringResource(R.string.action_saving)) },
+        icon = { Icon(Icons.Rounded.Save, stringResource(Res.string.action_save)) },
+        title = { Text(text = stringResource(Res.string.action_saving)) },
         text = {
             LinearProgressIndicator()
         }

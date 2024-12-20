@@ -15,11 +15,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
 import de.kitshn.ui.component.icons.FiveStarIconRow
 import de.kitshn.ui.component.input.StarRatingSelectionInput
 import de.kitshn.ui.component.search.AdditionalSearchSettingsChipRowState
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_apply
+import kitshn.composeapp.generated.resources.action_remove
+import kitshn.composeapp.generated.resources.search_rating_filter
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MinimumRatingSearchSettingChip(
@@ -43,10 +46,10 @@ fun MinimumRatingSearchSettingChip(
             showDialog = false
         },
         icon = {
-            Icon(Icons.Rounded.StarRate, stringResource(R.string.search_rating_filter))
+            Icon(Icons.Rounded.StarRate, stringResource(Res.string.search_rating_filter))
         },
         title = {
-            Text(text = stringResource(R.string.search_rating_filter))
+            Text(text = stringResource(Res.string.search_rating_filter))
         },
         text = {
             StarRatingSelectionInput(
@@ -62,7 +65,7 @@ fun MinimumRatingSearchSettingChip(
 
                 state.update()
             }) {
-                Text(stringResource(R.string.action_remove))
+                Text(stringResource(Res.string.action_remove))
             }
         },
         confirmButton = {
@@ -72,7 +75,7 @@ fun MinimumRatingSearchSettingChip(
 
                 state.update()
             }) {
-                Text(stringResource(R.string.action_apply))
+                Text(stringResource(Res.string.action_apply))
             }
         }
     )

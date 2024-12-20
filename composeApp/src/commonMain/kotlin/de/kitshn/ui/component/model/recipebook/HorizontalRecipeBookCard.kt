@@ -19,17 +19,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import de.kitshn.R
+import coil3.ImageLoader
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -39,6 +40,11 @@ import de.kitshn.ui.selectionMode.values.selectionModeCardColors
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.theme.Typography
 import de.kitshn.ui.theme.playfairDisplay
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_favorites
+import kitshn.composeapp.generated.resources.common_loading
+import kitshn.composeapp.generated.resources.recipe_book_favorites_description
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -55,6 +61,9 @@ fun HorizontalRecipeBookCard(
 
     onClick: (recipeBook: TandoorRecipeBook) -> Unit = {}
 ) {
+    val context = LocalPlatformContext.current
+    val imageLoader = remember { ImageLoader(context) }
+
     val hapticFeedback = LocalHapticFeedback.current
 
     val colors = CardDefaults.selectionModeCardColors(
@@ -114,7 +123,7 @@ fun HorizontalRecipeBookCard(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Favorite,
-                                contentDescription = stringResource(R.string.common_favorites),
+                                contentDescription = stringResource(Res.string.common_favorites),
                                 tint = MaterialTheme.colorScheme.error
                             )
                         }
@@ -123,6 +132,7 @@ fun HorizontalRecipeBookCard(
                             model = recipeBook?.loadThumbnail(),
                             contentDescription = recipeBook?.name,
                             contentScale = ContentScale.Crop,
+                            imageLoader = imageLoader,
                             modifier = Modifier
                                 .height(42.dp)
                                 .width(42.dp)
@@ -139,12 +149,12 @@ fun HorizontalRecipeBookCard(
             headlineContent = {
                 Text(
                     text = if(isFavoritesBook) {
-                        stringResource(id = R.string.common_favorites)
+                        stringResource(Res.string.common_favorites)
                     } else {
-                        recipeBook?.name ?: stringResource(R.string.common_loading)
+                        recipeBook?.name ?: stringResource(Res.string.common_loading)
                     },
-                    style = Typography.bodyLarge.copy(
-                        fontFamily = playfairDisplay
+                    style = Typography().bodyLarge.copy(
+                        fontFamily = playfairDisplay()
                     ),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -154,7 +164,7 @@ fun HorizontalRecipeBookCard(
                 {
                     Text(
                         text = if(isFavoritesBook) {
-                            stringResource(R.string.recipe_book_favorites_description)
+                            stringResource(Res.string.recipe_book_favorites_description)
                         } else {
                             recipeBook?.description ?: ""
                         },

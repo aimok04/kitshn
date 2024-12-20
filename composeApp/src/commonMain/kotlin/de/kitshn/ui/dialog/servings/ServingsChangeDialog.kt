@@ -20,12 +20,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.ui.component.input.NumberField
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_apply
+import kitshn.composeapp.generated.resources.common_count
+import kitshn.composeapp.generated.resources.common_portions
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun rememberServingsChangeDialogState(): ServingsChangeDialogState {
@@ -52,7 +55,7 @@ class ServingsChangeDialogState(
 
 @Composable
 fun ServingsChangeDialog(
-    portionText: String = stringResource(id = R.string.common_portions),
+    portionText: String = stringResource(Res.string.common_portions),
     state: ServingsChangeDialogState,
     onSubmit: (servings: Int) -> Unit
 ) {
@@ -71,10 +74,10 @@ fun ServingsChangeDialog(
             state.dismiss()
         },
         icon = {
-            Icon(Icons.Rounded.Numbers, stringResource(R.string.common_count))
+            Icon(Icons.Rounded.Numbers, stringResource(Res.string.common_count))
         },
         title = {
-            Text(stringResource(R.string.common_count))
+            Text(stringResource(Res.string.common_count))
         },
         text = {
             NumberField(
@@ -104,7 +107,7 @@ fun ServingsChangeDialog(
             Button(onClick = {
                 submit()
             }) {
-                Text(stringResource(R.string.action_apply))
+                Text(stringResource(Res.string.action_apply))
             }
         }
     )

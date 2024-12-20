@@ -1,6 +1,5 @@
 package de.kitshn.model.form.item.field
 
-import android.content.Context
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -10,14 +9,17 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
-import de.kitshn.R
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.form_error_field_empty
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 
 class KitshnFormTextFieldItem(
     val value: () -> String,
@@ -37,7 +39,7 @@ class KitshnFormTextFieldItem(
     val maxLines: Int = if(singleLine) 1 else Int.MAX_VALUE,
     val minLines: Int = 1,
 
-    val check: (data: String) -> String?
+    val check: suspend (data: String) -> String?
 ) : KitshnFormBaseFieldItem(
     label = label,
     placeholder = placeholder,
@@ -48,8 +50,6 @@ class KitshnFormTextFieldItem(
     optional = optional
 ) {
 
-    var context: Context? = null
-
     @Composable
     override fun Render() {
         val focusManager = LocalFocusManager.current
@@ -57,7 +57,7 @@ class KitshnFormTextFieldItem(
         var error by rememberSaveable { mutableStateOf<String?>(null) }
         val value = value()
 
-        context = LocalContext.current
+        val coroutineScope = rememberCoroutineScope()
 
         TextField(
             value = value,
@@ -97,23 +97,25 @@ class KitshnFormTextFieldItem(
             } else null,
 
             onValueChange = {
-                generalError = null
-                onValueChange(it)
+                coroutineScope.launch {
+                    generalError = null
+                    onValueChange(it)
 
-                error = if(it.isBlank())
-                    null
-                else
-                    check(it)
+                    error = if(it.isBlank())
+                        null
+                    else
+                        check(it)
+                }
             }
         )
     }
 
-    override fun submit(): Boolean {
+    override suspend fun submit(): Boolean {
         val value = value()
         val checkResult = check(value)
 
         if(!optional && value.isBlank()) {
-            generalError = context?.getString(R.string.form_error_field_empty)
+            generalError = getString(Res.string.form_error_field_empty)
             return false
         } else if(checkResult != null) {
             generalError = checkResult

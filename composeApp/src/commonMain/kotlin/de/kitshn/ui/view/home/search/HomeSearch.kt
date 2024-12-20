@@ -1,6 +1,5 @@
 package de.kitshn.ui.view.home.search
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
@@ -22,13 +21,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
+import de.kitshn.BackHandler
 import de.kitshn.KitshnViewModel
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.ui.selectionMode.model.RecipeSelectionModeTopAppBar
 import de.kitshn.ui.selectionMode.rememberSelectionModeState
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_close
+import kitshn.composeapp.generated.resources.common_search
+import kitshn.composeapp.generated.resources.home_search_tandoor
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,11 +79,11 @@ fun ViewHomeSearch(
                 },
                 expanded = true,
                 onExpandedChange = { },
-                placeholder = { Text(stringResource(R.string.home_search_tandoor)) },
+                placeholder = { Text(stringResource(Res.string.home_search_tandoor)) },
                 leadingIcon = {
                     Icon(
                         Icons.Rounded.Search,
-                        contentDescription = stringResource(id = R.string.common_search)
+                        contentDescription = stringResource(Res.string.common_search)
                     )
                 },
                 trailingIcon = {
@@ -89,7 +92,7 @@ fun ViewHomeSearch(
                     }) {
                         Icon(
                             Icons.Rounded.Close,
-                            contentDescription = stringResource(id = R.string.action_close)
+                            contentDescription = stringResource(Res.string.action_close)
                         )
                     }
                 }
@@ -113,7 +116,6 @@ fun ViewHomeSearch(
             )
         }
 
-        // needed because system back is consumed by most inner handler
         BackHandler(
             handleBack,
             onBack

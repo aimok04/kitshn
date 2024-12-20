@@ -8,10 +8,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CloudOff
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.ui.state.ErrorLoadingSuccessState
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.error_couldnt_connect_to_tandoor
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun LoadingErrorAlertPaneWrapper(
@@ -27,8 +28,8 @@ fun LoadingErrorAlertPaneWrapper(
         ) {
             FullSizeAlertPane(
                 imageVector = Icons.Rounded.CloudOff,
-                contentDescription = stringResource(R.string.error_couldnt_connect_to_tandoor),
-                text = stringResource(R.string.error_couldnt_connect_to_tandoor)
+                contentDescription = stringResource(Res.string.error_couldnt_connect_to_tandoor),
+                text = stringResource(Res.string.error_couldnt_connect_to_tandoor)
             )
         }
     } else {

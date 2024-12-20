@@ -38,10 +38,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.rememberTandoorRequestState
@@ -49,8 +47,14 @@ import de.kitshn.scoreMatch
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.model.recipebook.HorizontalRecipeBookCard
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_apply
+import kitshn.composeapp.generated.resources.action_manage_recipe_books
+import kitshn.composeapp.generated.resources.manage_recipe_books_empty
+import kitshn.composeapp.generated.resources.search_recipe_books
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun rememberManageRecipeInRecipeBooksDialogState(): ManageRecipeInRecipeBooksDialogState {
@@ -130,10 +134,10 @@ fun ManageRecipeInRecipeBooksDialog(
             state.dismiss()
         },
         icon = {
-            Icon(Icons.Rounded.Tag, stringResource(R.string.action_manage_recipe_books))
+            Icon(Icons.Rounded.Tag, stringResource(Res.string.action_manage_recipe_books))
         },
         title = {
-            Text(stringResource(R.string.action_manage_recipe_books))
+            Text(stringResource(Res.string.action_manage_recipe_books))
         },
         text = {
             BoxWithConstraints(
@@ -157,7 +161,7 @@ fun ManageRecipeInRecipeBooksDialog(
                             if(value) {
                                 state.selectedRecipeBooks.add(0, recipeBook)
                             } else {
-                                state.selectedRecipeBooks.removeIf { it.id == recipeBook.id }
+                                state.selectedRecipeBooks.forEach { if(it.id == recipeBook.id) state.selectedRecipeBooks.remove(it) }
                             }
                         }
                     }
@@ -172,8 +176,8 @@ fun ManageRecipeInRecipeBooksDialog(
                         if(state.selectedRecipeBooks.size == 0) {
                             FullSizeAlertPane(
                                 imageVector = Icons.Rounded.Search,
-                                contentDescription = stringResource(R.string.manage_recipe_books_empty),
-                                text = stringResource(R.string.manage_recipe_books_empty)
+                                contentDescription = stringResource(Res.string.manage_recipe_books_empty),
+                                text = stringResource(Res.string.manage_recipe_books_empty)
                             )
                         } else {
                             LazyColumn(
@@ -201,7 +205,7 @@ fun ManageRecipeInRecipeBooksDialog(
                 state.dismiss()
                 submit()
             }) {
-                Text(stringResource(id = R.string.action_apply))
+                Text(stringResource(Res.string.action_apply))
             }
         },
         properties = DialogProperties(
@@ -253,7 +257,8 @@ fun RecipeBookSearchBar(
             client.container.recipeBook.values.sortedBy { it.name.scoreMatch(search) }
         )
 
-        searchResults.removeIf { it.id == favoritesRecipeBookId }
+
+        searchResults.forEach { if(it.id == favoritesRecipeBookId) searchResults.remove(it) }
     }
 
     DockedSearchBar(
@@ -273,10 +278,10 @@ fun RecipeBookSearchBar(
                 leadingIcon = {
                     Icon(
                         Icons.Rounded.Search,
-                        stringResource(R.string.search_recipe_books)
+                        stringResource(Res.string.search_recipe_books)
                     )
                 },
-                placeholder = { Text(stringResource(R.string.search_recipe_books)) },
+                placeholder = { Text(stringResource(Res.string.search_recipe_books)) },
                 expanded = true,
                 onExpandedChange = { }
             )

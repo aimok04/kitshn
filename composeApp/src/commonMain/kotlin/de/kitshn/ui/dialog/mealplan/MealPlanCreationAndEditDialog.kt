@@ -20,9 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
@@ -39,8 +36,27 @@ import de.kitshn.parseTandoorDate
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
 import de.kitshn.ui.state.foreverRememberNotSavable
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_create
+import kitshn.composeapp.generated.resources.action_create_entry
+import kitshn.composeapp.generated.resources.action_edit_entry
+import kitshn.composeapp.generated.resources.action_save
+import kitshn.composeapp.generated.resources.common_add_to_shopping_list
+import kitshn.composeapp.generated.resources.common_end_date
+import kitshn.composeapp.generated.resources.common_meal_type
+import kitshn.composeapp.generated.resources.common_note
+import kitshn.composeapp.generated.resources.common_portions
+import kitshn.composeapp.generated.resources.common_recipe
+import kitshn.composeapp.generated.resources.common_shopping
+import kitshn.composeapp.generated.resources.common_start_date
+import kitshn.composeapp.generated.resources.common_title
+import kitshn.composeapp.generated.resources.form_error_title_max_64
+import kitshn.composeapp.generated.resources.meal_plan_form_add_to_shopping_list_description
+import kitshn.composeapp.generated.resources.meal_plan_form_error_entry_needs_title_or_recipe
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import kotlinx.datetime.LocalDate
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 import kotlin.math.roundToInt
 
 data class MealPlanCreationAndEditDefaultValues(
@@ -132,7 +148,6 @@ fun MealPlanCreationAndEditDialog(
 ) {
     if(creationState?.shown?.value != true && editState?.shown?.value != true) return
 
-    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
     val defaultValues =
@@ -153,13 +168,13 @@ fun MealPlanCreationAndEditDialog(
 
     var mealTypeId by rememberSaveable { mutableStateOf(defaultValues.mealTypeId) }
 
-    var startDate by rememberSaveable { mutableStateOf(defaultValues.startDate) }
-    var endDate by rememberSaveable { mutableStateOf(defaultValues.endDate) }
+    var startDate by remember { mutableStateOf(defaultValues.startDate) }
+    var endDate by remember { mutableStateOf(defaultValues.endDate) }
 
     var addToShopping by rememberSaveable { mutableStateOf(defaultValues.addToShopping) }
 
     val servingsText = if(recipeOverview?.servings_text.isNullOrBlank())
-        stringResource(id = R.string.common_portions) else recipeOverview?.servings_text!!
+        stringResource(Res.string.common_portions) else recipeOverview?.servings_text!!
 
     val requestMealPlanState = rememberTandoorRequestState()
 
@@ -174,11 +189,11 @@ fun MealPlanCreationAndEditDialog(
                                 title = it
                             },
 
-                            label = { Text(stringResource(R.string.common_title)) },
+                            label = { Text(stringResource(Res.string.common_title)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.AutoMirrored.Rounded.Label,
-                                    stringResource(R.string.common_title)
+                                    stringResource(Res.string.common_title)
                                 )
                             },
 
@@ -186,9 +201,9 @@ fun MealPlanCreationAndEditDialog(
 
                             check = {
                                 if(it.length > 64) {
-                                    context.getString(R.string.form_error_title_max_64)
+                                    getString(Res.string.form_error_title_max_64)
                                 } else if(it.isBlank() && recipeId == null) {
-                                    context.getString(R.string.meal_plan_form_error_entry_needs_title_or_recipe)
+                                    getString(Res.string.meal_plan_form_error_entry_needs_title_or_recipe)
                                 } else {
                                     null
                                 }
@@ -204,11 +219,11 @@ fun MealPlanCreationAndEditDialog(
 
                             maxDate = { endDate },
 
-                            label = { Text(stringResource(R.string.common_start_date)) },
+                            label = { Text(stringResource(Res.string.common_start_date)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.Rounded.DateRange,
-                                    stringResource(R.string.common_start_date)
+                                    stringResource(Res.string.common_start_date)
                                 )
                             },
 
@@ -222,11 +237,11 @@ fun MealPlanCreationAndEditDialog(
 
                             minDate = { startDate },
 
-                            label = { Text(stringResource(R.string.common_end_date)) },
+                            label = { Text(stringResource(Res.string.common_end_date)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.Rounded.DateRange,
-                                    stringResource(R.string.common_end_date)
+                                    stringResource(Res.string.common_end_date)
                                 )
                             },
 
@@ -245,11 +260,11 @@ fun MealPlanCreationAndEditDialog(
                                 recipeId = it
                             },
 
-                            label = { Text(stringResource(R.string.common_recipe)) },
+                            label = { Text(stringResource(Res.string.common_recipe)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.Rounded.Receipt,
-                                    stringResource(R.string.common_recipe)
+                                    stringResource(Res.string.common_recipe)
                                 )
                             },
 
@@ -257,7 +272,7 @@ fun MealPlanCreationAndEditDialog(
 
                             check = {
                                 if(title.isBlank() && it == null) {
-                                    context.getString(R.string.meal_plan_form_error_entry_needs_title_or_recipe)
+                                    getString(Res.string.meal_plan_form_error_entry_needs_title_or_recipe)
                                 } else {
                                     null
                                 }
@@ -276,7 +291,7 @@ fun MealPlanCreationAndEditDialog(
 
                             check = {
                                 if(title.isBlank() && it == null) {
-                                    context.getString(R.string.meal_plan_form_error_entry_needs_title_or_recipe)
+                                    getString(Res.string.meal_plan_form_error_entry_needs_title_or_recipe)
                                 } else {
                                     null
                                 }
@@ -293,11 +308,11 @@ fun MealPlanCreationAndEditDialog(
                                 mealTypeId = it
                             },
 
-                            label = { Text(stringResource(R.string.common_meal_type)) },
+                            label = { Text(stringResource(Res.string.common_meal_type)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.Rounded.Category,
-                                    stringResource(R.string.common_meal_type)
+                                    stringResource(Res.string.common_meal_type)
                                 )
                             },
 
@@ -317,11 +332,11 @@ fun MealPlanCreationAndEditDialog(
                                 note = it
                             },
 
-                            label = { Text(stringResource(R.string.common_note)) },
+                            label = { Text(stringResource(Res.string.common_note)) },
                             leadingIcon = {
                                 Icon(
                                     Icons.AutoMirrored.Rounded.Notes,
-                                    stringResource(R.string.common_note)
+                                    stringResource(Res.string.common_note)
                                 )
                             },
 
@@ -340,11 +355,11 @@ fun MealPlanCreationAndEditDialog(
                             leadingIcon = {
                                 Icon(
                                     Icons.Rounded.ShoppingCart,
-                                    stringResource(R.string.common_shopping)
+                                    stringResource(Res.string.common_shopping)
                                 )
                             },
-                            label = { Text(stringResource(R.string.common_add_to_shopping_list)) },
-                            description = { Text(stringResource(R.string.meal_plan_form_add_to_shopping_list_description)) }
+                            label = { Text(stringResource(Res.string.common_add_to_shopping_list)) },
+                            description = { Text(stringResource(Res.string.meal_plan_form_add_to_shopping_list_description)) }
                         )
                     )
                 )
@@ -353,9 +368,9 @@ fun MealPlanCreationAndEditDialog(
                 Button(onClick = it) {
                     Text(
                         text = if(isEditDialog) {
-                            stringResource(R.string.action_save)
+                            stringResource(Res.string.action_save)
                         } else {
-                            stringResource(R.string.action_create)
+                            stringResource(Res.string.action_create)
                         }
                     )
                 }
@@ -417,9 +432,9 @@ fun MealPlanCreationAndEditDialog(
         title = {
             Text(
                 text = if(isEditDialog) {
-                    stringResource(R.string.action_edit_entry)
+                    stringResource(Res.string.action_edit_entry)
                 } else {
-                    stringResource(R.string.action_create_entry)
+                    stringResource(Res.string.action_create_entry)
                 }
             )
         },

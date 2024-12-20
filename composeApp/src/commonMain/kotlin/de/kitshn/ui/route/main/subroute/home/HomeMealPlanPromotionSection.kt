@@ -10,9 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
@@ -24,8 +22,12 @@ import de.kitshn.ui.modifier.loadingPlaceHolder
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.foreverRememberMutableStateList
 import de.kitshn.ui.theme.Typography
-import java.time.LocalDate
-import java.time.LocalDateTime
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.home_meal_plan_promotion_title
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RouteMainSubrouteHomeMealPlanPromotionSection(
@@ -40,10 +42,10 @@ fun RouteMainSubrouteHomeMealPlanPromotionSection(
     LaunchedEffect(Unit) {
         mainFetchRequest.wrapRequest {
             client.mealPlan.fetch(
-                LocalDate.now(),
-                LocalDate.now()
+                Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date,
+                Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
             ).let {
-                val today = LocalDateTime.now()
+                val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
                 val filteredMealPlans = it.filter { mealplan ->
                     // filter already cooked recipes
@@ -76,8 +78,8 @@ fun RouteMainSubrouteHomeMealPlanPromotionSection(
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp)
                 .loadingPlaceHolder(loadingState),
-            text = stringResource(R.string.home_meal_plan_promotion_title),
-            style = Typography.titleLarge
+            text = stringResource(Res.string.home_meal_plan_promotion_title),
+            style = Typography().titleLarge
         )
 
         Card(

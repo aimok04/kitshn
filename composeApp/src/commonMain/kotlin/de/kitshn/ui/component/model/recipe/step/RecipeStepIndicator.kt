@@ -37,7 +37,7 @@ fun RecipeStepIndicatorFinishItem(
             ) {
                 Text(
                     text = "\uD83C\uDFC1",
-                    style = Typography.headlineSmall
+                    style = Typography().headlineSmall
                 )
             }
         },
@@ -65,7 +65,7 @@ fun RecipeStepIndicatorIntItem(
             ) {
                 Text(
                     text = item.toString(),
-                    style = Typography.headlineSmall
+                    style = Typography().headlineSmall
                 )
             }
         },

@@ -19,12 +19,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import de.kitshn.KitshnViewModel
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.ui.component.model.recipe.button.RecipeFavoriteButton
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_add_to_meal_plan
+import kitshn.composeapp.generated.resources.action_add_to_shopping
+import kitshn.composeapp.generated.resources.action_delete
+import kitshn.composeapp.generated.resources.action_edit
+import kitshn.composeapp.generated.resources.action_manage_recipe_books
+import kitshn.composeapp.generated.resources.action_share
+import kitshn.composeapp.generated.resources.common_allocate_ingredients
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RecipeDetailsDropdown(
@@ -89,7 +96,7 @@ fun ColumnScope.RecipeDetailsDropdownContent(
                 onEdit()
             }
         ) {
-            Icon(Icons.Rounded.Edit, stringResource(id = R.string.action_edit))
+            Icon(Icons.Rounded.Edit, stringResource(Res.string.action_edit))
         }
 
         IconButton(
@@ -98,7 +105,7 @@ fun ColumnScope.RecipeDetailsDropdownContent(
                 onDelete()
             }
         ) {
-            Icon(Icons.Rounded.Delete, stringResource(id = R.string.action_delete))
+            Icon(Icons.Rounded.Delete, stringResource(Res.string.action_delete))
         }
 
         IconButton(
@@ -107,16 +114,16 @@ fun ColumnScope.RecipeDetailsDropdownContent(
                 onShare()
             }
         ) {
-            Icon(Icons.Rounded.Share, stringResource(id = R.string.action_share))
+            Icon(Icons.Rounded.Share, stringResource(Res.string.action_share))
         }
     }
 
     DropdownMenuItem(
         leadingIcon = {
-            Icon(Icons.Rounded.Book, stringResource(id = R.string.action_manage_recipe_books))
+            Icon(Icons.Rounded.Book, stringResource(Res.string.action_manage_recipe_books))
         },
         text = {
-            Text(stringResource(id = R.string.action_manage_recipe_books))
+            Text(stringResource(Res.string.action_manage_recipe_books))
         },
         onClick = {
             onDismiss()
@@ -126,10 +133,10 @@ fun ColumnScope.RecipeDetailsDropdownContent(
 
     DropdownMenuItem(
         leadingIcon = {
-            Icon(Icons.Rounded.DateRange, stringResource(R.string.action_add_to_meal_plan))
+            Icon(Icons.Rounded.DateRange, stringResource(Res.string.action_add_to_meal_plan))
         },
         text = {
-            Text(stringResource(R.string.action_add_to_meal_plan))
+            Text(stringResource(Res.string.action_add_to_meal_plan))
         },
         onClick = {
             onDismiss()
@@ -139,10 +146,10 @@ fun ColumnScope.RecipeDetailsDropdownContent(
 
     DropdownMenuItem(
         leadingIcon = {
-            Icon(Icons.Rounded.ShoppingCart, stringResource(R.string.action_add_to_shopping))
+            Icon(Icons.Rounded.ShoppingCart, stringResource(Res.string.action_add_to_shopping))
         },
         text = {
-            Text(stringResource(R.string.action_add_to_shopping))
+            Text(stringResource(Res.string.action_add_to_shopping))
         },
         onClick = {
             onDismiss()
@@ -152,10 +159,10 @@ fun ColumnScope.RecipeDetailsDropdownContent(
 
     DropdownMenuItem(
         leadingIcon = {
-            Icon(Icons.Rounded.Reorder, stringResource(R.string.common_allocate_ingredients))
+            Icon(Icons.Rounded.Reorder, stringResource(Res.string.common_allocate_ingredients))
         },
         text = {
-            Text(stringResource(R.string.common_allocate_ingredients))
+            Text(stringResource(Res.string.common_allocate_ingredients))
         },
         onClick = {
             onDismiss()

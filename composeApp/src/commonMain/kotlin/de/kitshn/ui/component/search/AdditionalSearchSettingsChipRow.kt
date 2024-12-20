@@ -26,6 +26,7 @@ import de.kitshn.ui.component.search.chips.MinimumRatingSearchSettingChip
 import de.kitshn.ui.component.search.chips.NewSearchSettingChip
 import de.kitshn.ui.component.search.chips.RandomSearchSettingChip
 import de.kitshn.ui.component.search.chips.SortingSearchSettingChip
+import kotlinx.datetime.Clock
 
 @Composable
 fun rememberAdditionalSearchSettingsChipRowState(): AdditionalSearchSettingsChipRowState {
@@ -38,7 +39,7 @@ class AdditionalSearchSettingsChipRowState {
 
     var updateState by mutableLongStateOf(0L)
     fun update() {
-        updateState = System.currentTimeMillis()
+        updateState = Clock.System.now().toEpochMilliseconds()
     }
 
     var sortOrder by mutableStateOf<TandoorRecipeQueryParametersSortOrder?>(null)

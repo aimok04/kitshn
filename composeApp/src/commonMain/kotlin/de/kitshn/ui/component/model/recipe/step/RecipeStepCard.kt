@@ -1,8 +1,5 @@
 package de.kitshn.ui.component.model.recipe.step
 
-import android.content.Intent
-import android.provider.AlarmClock
-import android.widget.Toast
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,19 +25,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.launchTimerHandler
+import de.kitshn.launchWebsiteHandler
 import de.kitshn.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.ui.component.model.ingredient.IngredientsList
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.modifier.loadingPlaceHolder
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.theme.Typography
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.common_minute_min
+import kitshn.composeapp.generated.resources.common_step
+import kitshn.composeapp.generated.resources.lorem_ipsum_medium
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RecipeStepCard(
@@ -58,8 +59,6 @@ fun RecipeStepCard(
     showFractionalValues: Boolean,
     onClickRecipeLink: (recipe: TandoorRecipe) -> Unit
 ) {
-    val context = LocalContext.current
-
     var showIngredientsTable by remember { mutableStateOf(false) }
     LaunchedEffect(step, hideIngredients) {
         if(step == null) return@LaunchedEffect
@@ -67,6 +66,8 @@ fun RecipeStepCard(
                 (step.show_ingredients_table) &&
                 (!hideIngredients)
     }
+
+    val launchTimerHandler = launchTimerHandler()
 
     Card(
         modifier = modifier,
@@ -78,7 +79,7 @@ fun RecipeStepCard(
         fun Instructions() {
             val stepName = (step?.name ?: "").ifBlank {
                 stringResource(
-                    R.string.common_step,
+                    Res.string.common_step,
                     stepIndex + 1
                 )
             }
@@ -95,35 +96,22 @@ fun RecipeStepCard(
                     text = stepName,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    style = Typography.titleLarge
+                    style = Typography().titleLarge
                 )
 
                 Row {
                     if(step != null && step.time > 0) AssistChip(
                         modifier = Modifier.padding(top = 8.dp, end = 16.dp),
                         onClick = {
-                            context.startActivity(
-                                Intent().apply {
-                                    action = AlarmClock.ACTION_SET_TIMER
-                                    putExtra(AlarmClock.EXTRA_LENGTH, step.time * 60)
-                                    putExtra(AlarmClock.EXTRA_MESSAGE, stepName)
-                                    putExtra(AlarmClock.EXTRA_SKIP_UI, true)
-                                }
-                            )
-
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.recipe_step_timer_created),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            launchTimerHandler(step.time * 60, stepName)
                         },
                         leadingIcon = {
                             Icon(
                                 Icons.Rounded.Timer,
-                                stringResource(id = R.string.common_minute_min)
+                                stringResource(Res.string.common_minute_min)
                             )
                         },
-                        label = { Text("${step.time} ${stringResource(id = R.string.common_minute_min)}") }
+                        label = { Text("${step.time} ${stringResource(Res.string.common_minute_min)}") }
                     )
 
                     appendAction()
@@ -136,7 +124,7 @@ fun RecipeStepCard(
                     .loadingPlaceHolder(loadingState),
                 timerName = stepName,
                 markdown = step?.instructionsWithTemplating(servingsFactor, showFractionalValues)
-                    ?: stringResource(id = R.string.lorem_ipsum_medium)
+                    ?: stringResource(Res.string.lorem_ipsum_medium)
             )
         }
 

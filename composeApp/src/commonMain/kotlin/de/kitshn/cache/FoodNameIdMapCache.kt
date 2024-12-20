@@ -1,14 +1,15 @@
 package de.kitshn.cache
 
-import android.content.Context
+import coil3.PlatformContext
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorFood
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 
 class FoodNameIdMapCache(
-    context: Context,
+    context: PlatformContext,
     client: TandoorClient
 ) : BaseCache("FOOD_NAME_ID_MAP", context, client) {
 
@@ -34,15 +35,13 @@ class FoodNameIdMapCache(
     }
 
     fun apply(foods: List<TandoorFood>) {
-        sp.edit().apply {
-            foods.forEach {
-                putInt("food_${it.name.lowercase()}", it.id)
-            }
-        }.apply()
+        foods.forEach {
+            settings.putInt("food_${it.name.lowercase().hashCode()}", it.id)
+        }
 
-        validUntil(System.currentTimeMillis() + 259200000 /* 3 days in millis */)
+        validUntil(Clock.System.now().toEpochMilliseconds() + 259200000 /* 3 days in millis */)
     }
 
-    fun retrieve(name: String) = sp.getInt("food_${name.lowercase()}", -1).takeIf { it != -1 }
+    fun retrieve(name: String) = settings.getInt("food_${name.lowercase().hashCode()}", -1).takeIf { it != -1 }
 
 }

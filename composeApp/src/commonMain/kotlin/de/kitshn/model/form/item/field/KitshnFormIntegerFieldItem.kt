@@ -1,6 +1,5 @@
 package de.kitshn.model.form.item.field
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,19 +16,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.ui.component.input.NumberField
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_minus
+import kitshn.composeapp.generated.resources.action_plus
+import kitshn.composeapp.generated.resources.form_error_field_empty
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 
 class KitshnFormIntegerFieldItem(
     val value: () -> Int?,
@@ -47,7 +51,7 @@ class KitshnFormIntegerFieldItem(
 
     optional: Boolean = false,
 
-    val check: (value: Int?) -> String?
+    val check: suspend (value: Int?) -> String?
 ) : KitshnFormBaseFieldItem(
     label = label,
     placeholder = placeholder,
@@ -58,8 +62,6 @@ class KitshnFormIntegerFieldItem(
     optional = optional
 ) {
 
-    var context: Context? = null
-
     @Composable
     override fun Render() {
         val focusManager = LocalFocusManager.current
@@ -67,16 +69,18 @@ class KitshnFormIntegerFieldItem(
         var error by rememberSaveable { mutableStateOf<String?>(null) }
         val value = value()
 
-        context = LocalContext.current
+        val coroutineScope = rememberCoroutineScope()
 
         fun checkValueChange(it: Int?) {
-            generalError = null
-            onValueChange(it)
+            coroutineScope.launch {
+                generalError = null
+                onValueChange(it)
 
-            error = if(it == null)
-                null
-            else
-                check(it)
+                error = if(it == null)
+                    null
+                else
+                    check(it)
+            }
         }
 
         Row(
@@ -140,7 +144,7 @@ class KitshnFormIntegerFieldItem(
                         checkValueChange(newValue)
                     }
                 ) {
-                    Icon(Icons.Rounded.Remove, stringResource(R.string.action_minus))
+                    Icon(Icons.Rounded.Remove, stringResource(Res.string.action_minus))
                 }
 
                 SmallFloatingActionButton(
@@ -156,18 +160,18 @@ class KitshnFormIntegerFieldItem(
                         checkValueChange(newValue)
                     }
                 ) {
-                    Icon(Icons.Rounded.Add, stringResource(R.string.action_plus))
+                    Icon(Icons.Rounded.Add, stringResource(Res.string.action_plus))
                 }
             }
         }
     }
 
-    override fun submit(): Boolean {
+    override suspend fun submit(): Boolean {
         val value = value()
         val checkResult = check(value)
 
         if(!optional && value == null) {
-            generalError = context?.getString(R.string.form_error_field_empty)
+            generalError = getString(Res.string.form_error_field_empty)
             return false
         } else if(checkResult != null) {
             generalError = checkResult

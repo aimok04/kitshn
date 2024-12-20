@@ -17,15 +17,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.pluralStringResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import de.kitshn.R
 import de.kitshn.ui.dialog.servings.ServingsChangeDialog
 import de.kitshn.ui.dialog.servings.rememberServingsChangeDialogState
 import de.kitshn.ui.modifier.loadingPlaceHolder
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.theme.Typography
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_add
+import kitshn.composeapp.generated.resources.action_minus
+import kitshn.composeapp.generated.resources.common_plural_wo_count
+import org.jetbrains.compose.resources.pluralStringResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ServingsSelector(
@@ -43,7 +46,7 @@ fun ServingsSelector(
     }
 
     val portionText = label.ifBlank {
-        pluralStringResource(id = R.plurals.common_plural_wo_count, count = value)
+        pluralStringResource(Res.plurals.common_plural_wo_count, quantity = value)
     }
 
     val servingsChangeDialogState = rememberServingsChangeDialogState()
@@ -66,7 +69,7 @@ fun ServingsSelector(
             ),
             onClick = { valueChange(value - 1) }
         ) {
-            Icon(Icons.Rounded.Remove, stringResource(id = R.string.action_minus))
+            Icon(Icons.Rounded.Remove, stringResource(Res.string.action_minus))
         }
 
         Spacer(Modifier.width(4.dp))
@@ -79,7 +82,7 @@ fun ServingsSelector(
             label = {
                 Text(
                     modifier = Modifier.padding(12.dp),
-                    style = Typography.labelMedium,
+                    style = Typography().labelMedium,
                     color = MaterialTheme.colorScheme.primary,
                     text = "$value $portionText"
                 )
@@ -95,7 +98,7 @@ fun ServingsSelector(
             ),
             onClick = { valueChange(value + 1) }
         ) {
-            Icon(Icons.Rounded.Add, stringResource(id = R.string.action_add))
+            Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
         }
     }
 }

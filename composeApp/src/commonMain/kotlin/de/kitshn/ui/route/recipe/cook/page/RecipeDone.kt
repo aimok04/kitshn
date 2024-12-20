@@ -29,12 +29,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import de.kitshn.R
+import coil3.ImageLoader
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
@@ -42,7 +42,13 @@ import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.input.StarRatingSelectionInput
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.theme.Typography
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_save
+import kitshn.composeapp.generated.resources.common_done
+import kitshn.composeapp.generated.resources.recipe_cook_done_description
+import kitshn.composeapp.generated.resources.recipe_cook_done_title
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun RouteRecipeCookPageDone(
@@ -50,6 +56,9 @@ fun RouteRecipeCookPageDone(
     recipe: TandoorRecipe,
     servings: Int
 ) {
+    val context = LocalPlatformContext.current
+    val imageLoader = remember { ImageLoader(context) }
+
     val coroutineScope = rememberCoroutineScope()
     val requestCookLogCreateState = rememberTandoorRequestState()
 
@@ -82,6 +91,7 @@ fun RouteRecipeCookPageDone(
                         model = recipe.loadThumbnail(),
                         contentDescription = recipe.name,
                         contentScale = ContentScale.Crop,
+                        imageLoader = imageLoader,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(180.dp)
@@ -89,14 +99,14 @@ fun RouteRecipeCookPageDone(
                     )
 
                     Text(
-                        text = stringResource(R.string.recipe_cook_done_title),
+                        text = stringResource(Res.string.recipe_cook_done_title),
                         Modifier.padding(16.dp),
-                        style = Typography.displaySmall,
+                        style = Typography().displaySmall,
                         textAlign = TextAlign.Center
                     )
 
                     Text(
-                        text = stringResource(R.string.recipe_cook_done_description),
+                        text = stringResource(Res.string.recipe_cook_done_description),
                         textAlign = TextAlign.Center
                     )
                 }
@@ -127,7 +137,7 @@ fun RouteRecipeCookPageDone(
                                     .height(48.dp)
                                     .width(48.dp),
                                 imageVector = Icons.Rounded.Check,
-                                contentDescription = stringResource(R.string.common_done)
+                                contentDescription = stringResource(Res.string.common_done)
                             )
                         }
 
@@ -159,7 +169,7 @@ fun RouteRecipeCookPageDone(
                                 }
                             ) {
                                 Text(
-                                    text = stringResource(id = R.string.action_save)
+                                    text = stringResource(Res.string.action_save)
                                 )
                             }
                         }

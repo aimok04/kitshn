@@ -9,8 +9,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import de.kitshn.R
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_back
+import kitshn.composeapp.generated.resources.action_close
+import org.jetbrains.compose.resources.stringResource
 
 enum class BackButtonType {
     DEFAULT,
@@ -29,10 +31,10 @@ fun BackButton(
     fun Icon() {
         when(type) {
             BackButtonType.DEFAULT ->
-                Icon(Icons.AutoMirrored.Rounded.ArrowBack, stringResource(R.string.action_back))
+                Icon(Icons.AutoMirrored.Rounded.ArrowBack, stringResource(Res.string.action_back))
 
             BackButtonType.CLOSE ->
-                Icon(Icons.Rounded.Close, stringResource(R.string.action_close))
+                Icon(Icons.Rounded.Close, stringResource(Res.string.action_close))
         }
     }
 
