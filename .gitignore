@@ -13,6 +13,15 @@
 .externalNativeBuild
 .cxx
 local.properties
+.idea
+.kotlin
+build
+*/build
+captures
+xcuserdata/
+Pods/
+*.jks
+*yarn.lock
 
 /composeApp/release
 /composeApp/debug
