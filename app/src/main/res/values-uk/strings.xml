@@ -1,2 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="acra_comment_helper">Якщо ви хочете, ви можете прокоментувати, як сталася ця помилка.</string>
+    <string name="acra_dialog_button_negative">Не відправляйте</string>
+    <string name="acra_dialog_button_neutral">Переглянути звіт</string>
+    <string name="acra_dialog_button_positive">Відправити</string>
+    <string name="acra_email_address_helper">Якщо ви хочете, ви можете ввести свою адресу електронної пошти, щоб отримувати оновлення на вашому звіті.</string>
+    <string name="acra_dialog_title">Упс!</string>
+    <string name="action_add">Додати</string>
+    <string name="action_add_to_favorites">Додати до обраного</string>
+    <string name="action_add_to_meal_plan">Додати до плану харчування</string>
+    <string name="action_add_to_recipe_books">Додати до книги рецептів</string>
+    <string name="action_add_to_shopping">Додати до покупок</string>
+    <string name="action_allocate_ingredients">Розподілити інгредієнти</string>
+    <string name="action_apply">Застосувати</string>
+    <string name="action_back">Назад</string>
+    <string name="action_click_to_upload_image">Натисніть, щоб завантажити зображення.</string>
+    <string name="action_combine">Комбінуйте</string>
+    <string name="action_confirm">Підтвердити</string>
+    <string name="action_continue">Продовжити</string>
+    <string name="action_create">Створити</string>
+    <string name="action_create_entry">Новий запис</string>
+    <string name="action_create_recipe">Новий рецепт</string>
+    <string name="action_create_recipe_book">Нова книга рецептів</string>
+    <string name="action_delete">Видалити</string>
+    <string name="action_delete_from_meal_plan">Видалити з плану харчування</string>
+    <string name="acra_dialog_message">Додаток відчув несподівану помилку. Будь ласка, надсилайте повідомлення про помилку, щоб допомогти виправити проблему.\n\nВи можете переглянути весь звіт перед відправленням.</string>
+    <string name="action_close">Закрити</string>
+</resources>
