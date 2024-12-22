@@ -3,10 +3,14 @@
 ---
 ![GitHub](https://img.shields.io/github/license/aimok04/kitshn?style=for-the-badge) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/aimok04/kitshn?style=for-the-badge)
 
-**kitshn** is an unofficial android client for the
+**kitshn** is an unofficial multiplatform client for the
 self-hosted [Tandoor recipe management software](https://github.com/TandoorRecipes/recipes). The app
-is built with **Jetpack Compose** and **Material You** to deliver a modern, intuitive and responsive
-user experience.
+is built with **Compose Multiplatform**, and **Material You** to deliver a modern, intuitive and
+responsive
+user experience and is developed for Android, iOS and Desktop.
+
+Although kitshn is available to multiple platforms, the main focus is still on Android.
+Some features are exclusive to that platform.
 
 > [!IMPORTANT]
 > Please note that the app is currently in alpha phase. You can of course open issues for bugs,
