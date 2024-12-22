@@ -364,7 +364,10 @@ fun RecipeCreationAndEditDialog(
                                         waiting_time = if(defaultValues.waitingTime == values.waitingTime) null else values.waitingTime,
                                         source_url = if(defaultValues.sourceUrl.formEquals(values.sourceUrl)) null else values.sourceUrl,
                                         servings = if(defaultValues.servings == values.servings) null else values.servings,
-                                        servings_text = if(defaultValues.servingsText.formEquals(values.servingsText)) null else values.servingsText
+                                        servings_text = if(defaultValues.servingsText.formEquals(
+                                                values.servingsText
+                                            )
+                                        ) null else values.servingsText
                                     )
                                 } else {
                                     recipe?.partialUpdate(

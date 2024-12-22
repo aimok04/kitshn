@@ -82,7 +82,7 @@ fun RouteRecipePublic(
             SettingsListItem(
                 icon = Icons.Rounded.Share,
                 label = { Text(text = stringResource(Res.string.common_shared_recipe)) },
-                description = { Text(text = "${ stringResource(Res.string.common_source) }: ${client.credentials.instanceUrl}") },
+                description = { Text(text = "${stringResource(Res.string.common_source)}: ${client.credentials.instanceUrl}") },
                 contentDescription = stringResource(Res.string.common_shared_recipe),
                 contentPadding = PaddingValues(
                     start = 16.dp,

@@ -63,11 +63,11 @@ fun HapticFeedbackHandler(): (type: HapticFeedbackType) -> Unit {
 
 //source code from androidX
 fun String.toColorInt(): Int {
-    if (this[0] == '#') {
+    if(this[0] == '#') {
         var color = substring(1).toLong(16)
-        if (length == 7) {
+        if(length == 7) {
             color = color or 0x00000000ff000000L
-        } else if (length != 9) {
+        } else if(length != 9) {
             throw IllegalArgumentException("Unknown color")
         }
         return color.toInt()
@@ -132,14 +132,14 @@ fun Double.formatAmount(fractional: Boolean = true): String {
         try {
             return HumanReadable.number(this, 2).run {
                 if(endsWith("00")) {
-                    substring(0, length-3)
-                }else if(endsWith("0")) {
-                    substring(0, length-1)
-                }else{
+                    substring(0, length - 3)
+                } else if(endsWith("0")) {
+                    substring(0, length - 1)
+                } else {
                     this
                 }
             }
-        }catch(e: Exception) {
+        } catch(e: Exception) {
             e.printStackTrace()
             return this.toString()
         }
@@ -265,6 +265,7 @@ fun LocalDate.toHumanReadableDateLabel(): String {
             val dateFormat = LocalDate.Format { byUnicodePattern("dd.MM.") }
             return dateFormat.format(this)
         }
+
         2 -> stringResource(Res.string.common_day_after_tomorrow)
         1 -> stringResource(Res.string.common_tomorrow)
         0 -> stringResource(Res.string.common_today)

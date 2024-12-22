@@ -161,7 +161,11 @@ fun ManageRecipeInRecipeBooksDialog(
                             if(value) {
                                 state.selectedRecipeBooks.add(0, recipeBook)
                             } else {
-                                state.selectedRecipeBooks.forEach { if(it.id == recipeBook.id) state.selectedRecipeBooks.remove(it) }
+                                state.selectedRecipeBooks.forEach {
+                                    if(it.id == recipeBook.id) state.selectedRecipeBooks.remove(
+                                        it
+                                    )
+                                }
                             }
                         }
                     }

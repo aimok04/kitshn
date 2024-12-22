@@ -35,11 +35,13 @@ internal fun App(
      */
     onLaunched: () -> Unit = { }
 ) {
-    val vm = remember { KitshnViewModel(
-        defaultTandoorClient = SavedTandoorClient.value,
-        onBeforeCredentialsCheck = onBeforeCredentialsCheck,
-        onLaunched = onLaunched
-    ).also { onVmCreated(it) } }
+    val vm = remember {
+        KitshnViewModel(
+            defaultTandoorClient = SavedTandoorClient.value,
+            onBeforeCredentialsCheck = onBeforeCredentialsCheck,
+            onLaunched = onLaunched
+        ).also { onVmCreated(it) }
+    }
 
     DisposableEffect(key1 = Unit) {
         onDispose {

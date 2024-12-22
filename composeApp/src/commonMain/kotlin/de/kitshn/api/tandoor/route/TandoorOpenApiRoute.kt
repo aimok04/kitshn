@@ -15,7 +15,8 @@ class TandoorOpenApiRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         val obj = client.getObject("@openapi/?format=openapi-json")
         val info = obj["info"]?.jsonObject
 
-        val openapiData = TandoorOpenApiData(version = info?.get("version")?.jsonPrimitive?.content ?: "")
+        val openapiData =
+            TandoorOpenApiData(version = info?.get("version")?.jsonPrimitive?.content ?: "")
         client.container.openapiData = openapiData
         return openapiData
     }

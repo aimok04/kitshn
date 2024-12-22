@@ -22,7 +22,7 @@ class TandoorRecipeBookRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             put("description", JsonPrimitive(description))
             put("order", JsonPrimitive(0))
             put("filter", JsonNull)
-            put("shared", buildJsonArray {  })
+            put("shared", buildJsonArray { })
         }
 
         val recipeBook = TandoorRecipeBook.parse(

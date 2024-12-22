@@ -79,8 +79,11 @@ class TandoorRecipeRoute(client: TandoorClient) : TandoorBaseRoute(client) {
     suspend fun create(data: JsonObject? = null): TandoorRecipe {
         val mData = data ?: buildJsonObject {
             put("name", JsonPrimitive("New recipe"))
-            put("description", JsonPrimitive("This recipe is currently being created within the kitshn app."))
-            put("steps", buildJsonArray {  })
+            put(
+                "description",
+                JsonPrimitive("This recipe is currently being created within the kitshn app.")
+            )
+            put("steps", buildJsonArray { })
             put("internal", JsonPrimitive(true))
         }
 

@@ -31,7 +31,7 @@ data class TandoorMealType(
     val color = if((colorStr ?: "").isBlank()) {
         Color.Gray
     } else {
-        Color(colorStr?.toColorInt()?: -1)
+        Color(colorStr?.toColorInt() ?: -1)
     }
 }
 
@@ -93,7 +93,10 @@ class TandoorMealPlan(
 
                 if(to_date == null) {
                     val originalToDate = this@TandoorMealPlan.to_date.parseTandoorDate()
-                    if(originalToDate < from_date) put("to_date", JsonPrimitive(from_date.toTandoorDate()))
+                    if(originalToDate < from_date) put(
+                        "to_date",
+                        JsonPrimitive(from_date.toTandoorDate())
+                    )
                 }
             }
         }

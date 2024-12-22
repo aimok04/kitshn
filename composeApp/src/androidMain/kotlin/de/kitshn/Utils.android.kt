@@ -61,7 +61,7 @@ actual fun osDependentHapticFeedbackHandler(): ((type: HapticFeedbackType) -> Un
                 }
             )
         }
-    }else{
+    } else {
         null
     }
 }
@@ -78,6 +78,7 @@ actual fun kotlinx.datetime.LocalDate.toHumanReadableDateLabelImpl(): String? {
             val dateFormat = DateTimeFormatter.ofPattern("EEEE")
             date.format(dateFormat)
         }
+
         2L -> stringResource(Res.string.common_day_after_tomorrow)
         1L -> stringResource(Res.string.common_tomorrow)
         0L -> stringResource(Res.string.common_today)
@@ -121,7 +122,12 @@ actual fun launchMarketPageHandler(): () -> Unit {
     return {
         with(context) {
             try {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=$packageName")
+                    )
+                )
             } catch(e: ActivityNotFoundException) {
                 startActivity(
                     Intent(

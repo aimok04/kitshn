@@ -60,8 +60,11 @@ fun RouteMainSubrouteMealplan(
 
     val shownItems = 7
 
-    var startDate by remember { mutableStateOf(
-        Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date) }
+    var startDate by remember {
+        mutableStateOf(
+            Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+        )
+    }
     val endDate = startDate.plus((shownItems - 1), DateTimeUnit.DAY)
 
     val mealPlanList = remember { mutableStateListOf<TandoorMealPlan>() }

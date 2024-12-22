@@ -13,7 +13,8 @@ plugins {
     alias(libs.plugins.aboutlibraries)
 }
 
-val prop = Properties().apply { load(FileInputStream(File(rootProject.rootDir, "kitshn.properties"))) }
+val prop =
+    Properties().apply { load(FileInputStream(File(rootProject.rootDir, "kitshn.properties"))) }
 val date = LocalDate.now().toString()
 
 // Android/linux version name can contain more information
@@ -237,7 +238,12 @@ compose.desktop {
         mainClass = "MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.AppImage)
+            targetFormats(
+                TargetFormat.Dmg,
+                TargetFormat.Msi,
+                TargetFormat.Deb,
+                TargetFormat.AppImage
+            )
             packageName = kitshnDesktopPackageName
             packageVersion = kitshnVersionName
 
@@ -278,7 +284,10 @@ buildConfig {
 
     buildConfigField("ACRA_HTTP_URI", prop.getProperty("acra.http.uri"))
     buildConfigField("ACRA_HTTP_BASIC_AUTH_LOGIN", prop.getProperty("acra.http.basic.auth.login"))
-    buildConfigField("ACRA_HTTP_BASIC_AUTH_PASSWORD", prop.getProperty("acra.http.basic.auth.password"))
+    buildConfigField(
+        "ACRA_HTTP_BASIC_AUTH_PASSWORD",
+        prop.getProperty("acra.http.basic.auth.password")
+    )
 
     buildConfigField("SHARE_WRAPPER_URL", prop.getProperty("share.wrapper.url"))
 }

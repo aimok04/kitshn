@@ -14,8 +14,14 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
     suspend fun add(amount: Double?, food: String?, unit: String?): TandoorShoppingListEntry {
         val data = buildJsonObject {
             put("amount", JsonPrimitive(amount ?: 0.0))
-            put("food", food?.let { buildJsonObject { put("name", JsonPrimitive(food)) } }?: JsonNull)
-            put("unit", unit?.let { buildJsonObject { put("name", JsonPrimitive(unit)) } }?: JsonNull)
+            put(
+                "food",
+                food?.let { buildJsonObject { put("name", JsonPrimitive(food)) } } ?: JsonNull
+            )
+            put(
+                "unit",
+                unit?.let { buildJsonObject { put("name", JsonPrimitive(unit)) } } ?: JsonNull
+            )
         }
 
         val response = TandoorShoppingListEntry.parse(

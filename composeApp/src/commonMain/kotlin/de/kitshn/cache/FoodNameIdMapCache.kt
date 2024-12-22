@@ -42,6 +42,7 @@ class FoodNameIdMapCache(
         validUntil(Clock.System.now().toEpochMilliseconds() + 259200000 /* 3 days in millis */)
     }
 
-    fun retrieve(name: String) = settings.getInt("food_${name.lowercase().hashCode()}", -1).takeIf { it != -1 }
+    fun retrieve(name: String) =
+        settings.getInt("food_${name.lowercase().hashCode()}", -1).takeIf { it != -1 }
 
 }

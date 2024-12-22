@@ -73,7 +73,8 @@ fun BaseDateField(
     var showDatePickerDialog by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState(selectableDates = object : SelectableDates {
         override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-            val epochDays = Instant.fromEpochMilliseconds(utcTimeMillis).toLocalDateTime(TimeZone.currentSystemDefault())
+            val epochDays = Instant.fromEpochMilliseconds(utcTimeMillis)
+                .toLocalDateTime(TimeZone.currentSystemDefault())
                 .date.toEpochDays()
 
             if(utcTimeMillis < todayEpochDays) return false

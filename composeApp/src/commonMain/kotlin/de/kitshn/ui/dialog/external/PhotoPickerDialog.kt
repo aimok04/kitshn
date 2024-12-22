@@ -9,10 +9,11 @@ fun PhotoPickerDialog(
     onDismiss: () -> Unit
 ) {
     if(photoPickerDialogImpl(
-        shown = shown,
-        onSelect = onSelect,
-        onDismiss = onDismiss
-    )) return
+            shown = shown,
+            onSelect = onSelect,
+            onDismiss = onDismiss
+        )
+    ) return
 }
 
 @Composable

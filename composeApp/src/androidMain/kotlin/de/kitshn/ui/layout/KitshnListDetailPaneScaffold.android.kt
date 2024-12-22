@@ -114,7 +114,7 @@ actual fun kitshnListDetailPaneScaffoldImpl(
                 }
             )
         }
-    }else{
+    } else {
         Scaffold(
             topBar = {
                 topBar(

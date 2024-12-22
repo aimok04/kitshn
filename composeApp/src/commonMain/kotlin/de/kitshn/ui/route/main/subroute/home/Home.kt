@@ -145,7 +145,12 @@ fun RouteMainSubrouteHome(
 
         // remove deleted recipes
         homePageSectionList.forEach { section ->
-            section.recipeIds.forEach { if(!p.vm.tandoorClient!!.container.recipeOverview.contains(it)) section.recipeIds.remove(it) }
+            section.recipeIds.forEach {
+                if(!p.vm.tandoorClient!!.container.recipeOverview.contains(
+                        it
+                    )
+                ) section.recipeIds.remove(it)
+            }
         }
     }
 

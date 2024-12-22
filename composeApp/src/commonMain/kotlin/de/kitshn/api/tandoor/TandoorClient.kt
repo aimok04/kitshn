@@ -66,7 +66,12 @@ class TandoorClient(
         }
 
         try {
-            return json.decodeFromJsonElement<TandoorCredentialsToken>(postObject("-token-auth/", obj))
+            return json.decodeFromJsonElement<TandoorCredentialsToken>(
+                postObject(
+                    "-token-auth/",
+                    obj
+                )
+            )
         } catch(_: TandoorRequestsError) {
         }
 

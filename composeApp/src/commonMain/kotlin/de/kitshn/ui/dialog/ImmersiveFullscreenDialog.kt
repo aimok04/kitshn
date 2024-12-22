@@ -44,18 +44,19 @@ fun ImmersiveFullscreenDialog(
     content: @Composable (nestedScrollConnection: NestedScrollConnection, pv: PaddingValues) -> Unit
 ) {
     if(immersiveFullscreenDialogImpl(
-        onDismiss = onDismiss,
-        onPreDismiss = onPreDismiss,
-        forceDismiss = forceDismiss,
-        title = title,
-        topAppBarActions = topAppBarActions,
-        actions = actions,
-        topBar = topBar,
-        topBarWrapper = topBarWrapper,
-        bottomBar = bottomBar,
-        applyPaddingValues = applyPaddingValues,
-        content = content
-    )) return
+            onDismiss = onDismiss,
+            onPreDismiss = onPreDismiss,
+            forceDismiss = forceDismiss,
+            title = title,
+            topAppBarActions = topAppBarActions,
+            actions = actions,
+            topBar = topBar,
+            topBarWrapper = topBarWrapper,
+            bottomBar = bottomBar,
+            applyPaddingValues = applyPaddingValues,
+            content = content
+        )
+    ) return
 
     CommonImmersiveFullscreenDialog(
         onDismiss = onDismiss,

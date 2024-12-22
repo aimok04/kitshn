@@ -55,7 +55,8 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
     ExperimentalResourceApi::class
 )
 @Composable
@@ -92,8 +93,8 @@ fun ViewSettingsAbout(
             ) {
                 item {
                     SettingsListItem(
-                        label = { Text("${ stringResource(Res.string.app_name) } (${ platformDetails.buildType }) (${ platformDetails.platform.displayName })") },
-                        description = { Text("${ stringResource(Res.string.common_version) } ${ platformDetails.packageExtendedVersion }") },
+                        label = { Text("${stringResource(Res.string.app_name)} (${platformDetails.buildType}) (${platformDetails.platform.displayName})") },
+                        description = { Text("${stringResource(Res.string.common_version)} ${platformDetails.packageExtendedVersion}") },
                         icon = vectorResource(Res.drawable.ic_logo_ico),
                         iconTint = KitshnYellow,
                         contentDescription = stringResource(Res.string.app_name)
@@ -143,7 +144,7 @@ fun ViewSettingsAbout(
                         icon = Icons.Rounded.Mail,
                         contentDescription = stringResource(Res.string.common_contact),
                         onClick = {
-                            uriHandler.openUri("mailto:${ BuildConfig.ABOUT_CONTACT_MAILTO }")
+                            uriHandler.openUri("mailto:${BuildConfig.ABOUT_CONTACT_MAILTO}")
                         }
                     )
                 }

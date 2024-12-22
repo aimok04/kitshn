@@ -67,7 +67,11 @@ fun StepsPage(
         stepById.clear()
         recipe?.steps?.forEach { stepById[it.id] = it }
 
-        values.stepsOrder.forEach { if(stepById[it]?._destroyed != false) values.stepsOrder.remove(it) }
+        values.stepsOrder.forEach {
+            if(stepById[it]?._destroyed != false) values.stepsOrder.remove(
+                it
+            )
+        }
     }
 
     val lazyListState = rememberLazyListState()

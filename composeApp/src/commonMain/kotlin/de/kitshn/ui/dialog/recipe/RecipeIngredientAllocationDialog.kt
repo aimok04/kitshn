@@ -213,7 +213,8 @@ fun RecipeIngredientAllocationDialog(
 
                                         rawIngredient.remove("id")
                                         if(!rawIngredient.contains("food")) {
-                                            val food = rawIngredient.get("food")?.jsonObject?.toMutableMap()
+                                            val food =
+                                                rawIngredient.get("food")?.jsonObject?.toMutableMap()
                                             food?.let {
                                                 food.remove("id")
                                                 food.remove("parent")
@@ -224,7 +225,8 @@ fun RecipeIngredientAllocationDialog(
 
                                         //TODO: check if works
                                         if(!rawIngredient.contains("unit")) {
-                                            val unit = rawIngredient["unit"]?.jsonObject?.toMutableMap()
+                                            val unit =
+                                                rawIngredient["unit"]?.jsonObject?.toMutableMap()
                                             unit?.let {
                                                 unit.remove("id")
                                                 rawIngredient.put("unit", JsonObject(unit))

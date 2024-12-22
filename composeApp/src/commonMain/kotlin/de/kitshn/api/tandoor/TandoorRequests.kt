@@ -66,7 +66,7 @@ suspend fun TandoorClient.reqAny(
             throw TandoorRequestsError(null, response)
 
         return response
-    }catch(e: Exception) {
+    } catch(e: Exception) {
         if(e is TandoorRequestsError) {
             throw e
         } else {
@@ -89,7 +89,14 @@ suspend fun TandoorClient.reqArray(
     method: HttpMethod,
     data: JsonArray? = null
 ): JsonArray {
-    return json.decodeFromString(reqAny(endpoint, method, data?.toString(), ContentType.Application.Json).readRawBytes().decodeToString())
+    return json.decodeFromString(
+        reqAny(
+            endpoint,
+            method,
+            data?.toString(),
+            ContentType.Application.Json
+        ).readRawBytes().decodeToString()
+    )
 }
 
 suspend fun TandoorClient.reqObject(
@@ -97,7 +104,14 @@ suspend fun TandoorClient.reqObject(
     method: HttpMethod,
     data: JsonObject? = null
 ): JsonObject {
-    return json.decodeFromString(reqAny(endpoint, method, data?.toString(), ContentType.Application.Json).readRawBytes().decodeToString())
+    return json.decodeFromString(
+        reqAny(
+            endpoint,
+            method,
+            data?.toString(),
+            ContentType.Application.Json
+        ).readRawBytes().decodeToString()
+    )
 }
 
 suspend fun TandoorClient.reqByteArray(
@@ -131,16 +145,18 @@ suspend fun TandoorClient.reqMultipart(
                 set("Authorization", "Bearer ${token?.token ?: ""}")
             }
 
-            setBody(MultiPartFormDataContent(
-                formData(_formData)
-            ))
+            setBody(
+                MultiPartFormDataContent(
+                    formData(_formData)
+                )
+            )
         }
 
         if(!response.status.isSuccess())
             throw TandoorRequestsError(null, response)
 
         return response
-    }catch(e: Exception) {
+    } catch(e: Exception) {
         if(e is TandoorRequestsError) {
             throw e
         } else {

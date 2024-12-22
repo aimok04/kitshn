@@ -146,7 +146,11 @@ fun SelectMultipleKeywordsDialog(
                                     if(value) {
                                         state.selectedKeywords.add(0, keyword)
                                     } else {
-                                        state.selectedKeywords.forEach { if(it.id == keywordId) state.selectedKeywords.remove(it) }
+                                        state.selectedKeywords.forEach {
+                                            if(it.id == keywordId) state.selectedKeywords.remove(
+                                                it
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -345,7 +349,12 @@ fun KeywordSearchBar(
                     keyboardController?.hide()
                     search = it
                 },
-                leadingIcon = { Icon(Icons.Rounded.Search, stringResource(Res.string.search_tags)) },
+                leadingIcon = {
+                    Icon(
+                        Icons.Rounded.Search,
+                        stringResource(Res.string.search_tags)
+                    )
+                },
                 placeholder = { Text(stringResource(Res.string.search_tags)) },
                 expanded = true,
                 onExpandedChange = { }

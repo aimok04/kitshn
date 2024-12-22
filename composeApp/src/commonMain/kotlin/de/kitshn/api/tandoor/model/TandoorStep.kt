@@ -91,12 +91,18 @@ class TandoorStep(
         val data = buildJsonObject {
             if(name != null) put("name", JsonPrimitive(name))
             if(instruction != null) put("instruction", JsonPrimitive(instruction))
-            if(instructions_markdown != null) put("instructions_markdown", JsonPrimitive(instructions_markdown))
+            if(instructions_markdown != null) put(
+                "instructions_markdown",
+                JsonPrimitive(instructions_markdown)
+            )
             if(order != null) put("order", JsonPrimitive(order))
             if(time != null) put("time", JsonPrimitive(time))
             if(ingredientsRaw != null) put("ingredients", ingredientsRaw)
             if(step_recipe != null) put("step_recipe", JsonPrimitive(step_recipe))
-            if(show_ingredients_table != null) put("show_ingredients_table", JsonPrimitive(show_ingredients_table))
+            if(show_ingredients_table != null) put(
+                "show_ingredients_table",
+                JsonPrimitive(show_ingredients_table)
+            )
         }
 
         client!!.patchObject("/step/${id}/", data)

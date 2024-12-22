@@ -24,7 +24,7 @@ class AppActivity : ComponentActivity() {
                 },
 
                 onBeforeCredentialsCheck = {
-                    vm?.preHandleIntent(it, intent)?: false
+                    vm?.preHandleIntent(it, intent) ?: false
                 },
 
                 onLaunched = {
@@ -52,4 +52,6 @@ class AppActivity : ComponentActivity() {
 
 @Preview
 @Composable
-fun AppPreview() { App() }
+fun AppPreview() {
+    App()
+}

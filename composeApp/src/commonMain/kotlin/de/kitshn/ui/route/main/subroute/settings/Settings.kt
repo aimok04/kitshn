@@ -60,7 +60,7 @@ fun RouteMainSubrouteSettings(
 
     val settingsModelList = remember {
         mutableStateListOf<SettingsBaseModel>(
-            
+
         ).apply {
             if(platformDetails.debug) add(SettingsItemModel(
                 id = "DEBUG",
@@ -74,7 +74,7 @@ fun RouteMainSubrouteSettings(
     }
 
     val crashReportHandler = crashReportHandler()
-    
+
     LaunchedEffect(Unit) {
         settingsModelList.addAll(listOf(
             SettingsItemModel(
@@ -124,7 +124,10 @@ fun RouteMainSubrouteSettings(
                             crashReportHandler(null)
                         }
                     ) {
-                        Icon(Icons.Rounded.BugReport, stringResource(Res.string.common_error_report))
+                        Icon(
+                            Icons.Rounded.BugReport,
+                            stringResource(Res.string.common_error_report)
+                        )
                     }
                 },
                 scrollBehavior = scrollBehavior

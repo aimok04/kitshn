@@ -68,7 +68,11 @@ fun KeywordsPage(
                             if(value) {
                                 values.keywords.add(0, keyword)
                             } else {
-                                values.keywords.forEach { if(it.id == keywordId) values.keywords.remove(it) }
+                                values.keywords.forEach {
+                                    if(it.id == keywordId) values.keywords.remove(
+                                        it
+                                    )
+                                }
                             }
                         }
                     }

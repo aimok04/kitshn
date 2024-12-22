@@ -37,12 +37,13 @@ fun KitshnListDetailPaneScaffold(
     content: @Composable (id: String, supportsMultiplePanes: Boolean, expandDetailPane: Boolean, toggleExpandedDetailPane: () -> Unit, close: () -> Unit, back: (() -> Unit)?) -> Unit
 ) {
     if(!kitshnListDetailPaneScaffoldImpl(
-        key = key,
-        topBar = topBar,
-        floatingActionButton = floatingActionButton,
-        listContent =listContent,
-        content = content
-    )) {
+            key = key,
+            topBar = topBar,
+            floatingActionButton = floatingActionButton,
+            listContent = listContent,
+            content = content
+        )
+    ) {
         // display alternative content
 
         var currentSelection by rememberSaveable { mutableStateOf<String?>(null) }
@@ -64,7 +65,7 @@ fun KitshnListDetailPaneScaffold(
                     }
                 )
             }
-        }else{
+        } else {
             Scaffold(
                 topBar = {
                     topBar(
@@ -73,7 +74,12 @@ fun KitshnListDetailPaneScaffold(
                 },
                 floatingActionButton = floatingActionButton
             ) {
-                listContent(it, currentSelection, false, MaterialTheme.colorScheme.background) { id ->
+                listContent(
+                    it,
+                    currentSelection,
+                    false,
+                    MaterialTheme.colorScheme.background
+                ) { id ->
                     currentSelection = id
                 }
             }

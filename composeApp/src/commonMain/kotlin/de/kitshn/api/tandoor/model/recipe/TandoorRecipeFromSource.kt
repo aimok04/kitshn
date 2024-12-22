@@ -77,11 +77,13 @@ class TandoorRecipeFromSource(
                         )
                     } else {
                         add(
-                            json.encodeToJsonElement(TandoorRecipeFromSourceStep(
-                                instruction = s,
-                                ingredients = listOf(),
-                                showIngredientsTable = true
-                            ))
+                            json.encodeToJsonElement(
+                                TandoorRecipeFromSourceStep(
+                                    instruction = s,
+                                    ingredients = listOf(),
+                                    showIngredientsTable = true
+                                )
+                            )
                         )
                     }
                 }

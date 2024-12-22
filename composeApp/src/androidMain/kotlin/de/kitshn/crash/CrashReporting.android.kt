@@ -8,7 +8,7 @@ import org.acra.ktx.sendWithAcra
 actual fun crashReportHandler(): ((error: Throwable?) -> Unit)? = {
     if(it == null) {
         ACRA.errorReporter.handleException(null)
-    }else{
+    } else {
         it.sendWithAcra()
     }
 }
