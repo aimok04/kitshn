@@ -241,8 +241,6 @@ compose.desktop {
             packageName = kitshnDesktopPackageName
             packageVersion = kitshnVersionName
 
-            // TODO: implement desktop platofrm icons (override default)
-
             linux {
                 iconFile.set(project.file("desktopAppIcons/LinuxIcon.png"))
             }
