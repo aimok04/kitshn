@@ -1,15 +1,12 @@
 package de.kitshn.api.tandoor
 
 import co.touchlab.kermit.Logger
-import coil3.network.NetworkResponse
 import de.kitshn.json
 import de.kitshn.redactForRelease
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.forms.FormBuilder
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
-import io.ktor.client.request.forms.submitForm
-import io.ktor.client.request.forms.submitFormWithBinaryData
 import io.ktor.client.request.headers
 import io.ktor.client.request.request
 import io.ktor.client.request.setBody
@@ -25,10 +22,12 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 
 class TandoorRequestsError(
+    val exception: Exception?,
     val response: HttpResponse?,
 ) : Exception() {
     override val message: String
-        get() = response?.request?.url.toString() + " | " + response?.request?.method.toString() + " | " + response?.status.toString()
+        get() = exception?.message
+            ?: (response?.request?.url.toString() + " | " + response?.request?.method.toString() + " | " + response?.status.toString())
 }
 
 suspend fun TandoorClient.reqAny(
@@ -64,14 +63,16 @@ suspend fun TandoorClient.reqAny(
         }
 
         if(!response.status.isSuccess())
-            throw TandoorRequestsError(response)
+            throw TandoorRequestsError(null, response)
 
         return response
-    }catch(e: TandoorRequestsError) {
-        throw e
     }catch(e: Exception) {
-        e.printStackTrace()
-        throw TandoorRequestsError(null)
+        if(e is TandoorRequestsError) {
+            throw e
+        } else {
+            e.printStackTrace()
+            throw TandoorRequestsError(e, null)
+        }
     }
 }
 
@@ -136,66 +137,18 @@ suspend fun TandoorClient.reqMultipart(
         }
 
         if(!response.status.isSuccess())
-            throw TandoorRequestsError(response)
+            throw TandoorRequestsError(null, response)
 
         return response
-    }catch(e: TandoorRequestsError) {
-        throw e
     }catch(e: Exception) {
-        e.printStackTrace()
-        throw TandoorRequestsError(null)
-    }
-}
-
-/*
-
-@Throws(TandoorRequestsError::class)
-suspend fun TandoorClient.reqMultipart(
-    endpoint: String,
-    method: Int,
-    data: MutableMap<String, String>
-) = suspendCoroutine { cont ->
-    val queue = Volley.newRequestQueue(context)
-    val token = this.credentials.token
-
-    Log.d(
-        "TandoorRequests",
-        "Method: $method, URL: ${credentials.instanceUrl.redactForRelease()}/api${endpoint}"
-    )
-    val url = "${credentials.instanceUrl}/api${endpoint}"
-
-    val request = object : VolleyMultipartRequest(
-        method,
-        url,
-        { response: NetworkResponse? ->
-            cont.resume(response)
-        },
-        { error: VolleyError? ->
-            Log.e("TandoorRequests", "Exception for request \"$endpoint\" ($method) (jsonObject)")
-            error?.printStackTrace()
-            cont.resumeWithException(
-                TandoorRequestsError(
-                    error,
-                    method,
-                    "${credentials.instanceUrl.redactForRelease()}/api${endpoint}"
-                )
-            )
-        }
-    ) {
-        override fun getHeaders(): MutableMap<String, String> {
-            val headers = super.getHeaders().toMutableMap()
-            headers["Authorization"] = "Bearer ${token?.token ?: ""}"
-            return headers
-        }
-
-        override fun getParams(): MutableMap<String, String> {
-            return data
+        if(e is TandoorRequestsError) {
+            throw e
+        } else {
+            e.printStackTrace()
+            throw TandoorRequestsError(e, null)
         }
     }
-
-    queue.add(request)
 }
-*/
 
 suspend fun TandoorClient.getObject(endpoint: String) = reqObject(endpoint, HttpMethod.Get)
 suspend fun TandoorClient.getArray(endpoint: String) = reqArray(endpoint, HttpMethod.Get)
