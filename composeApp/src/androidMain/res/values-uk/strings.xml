@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+    <string name="acra_comment_helper">Якщо ви хочете, ви можете прокоментувати, як сталася ця помилка.</string>
+    <string name="acra_dialog_button_negative">Не відправляйте</string>
+    <string name="acra_dialog_button_neutral">Переглянути звіт</string>
+    <string name="acra_dialog_button_positive">Відправити</string>
+    <string name="acra_dialog_message">Додаток відчув несподівану помилку. Будь ласка, надсилайте повідомлення про помилку, щоб допомогти виправити проблему.\n\nВи можете переглянути весь звіт перед відправленням.</string>
+    <string name="acra_dialog_title">Упс!</string>
+    <string name="acra_email_address_helper">Якщо ви хочете, ви можете ввести свою адресу електронної пошти, щоб отримувати оновлення на вашому звіті.</string>
+
+    <string name="action_back">Назад</string>
+</resources>
