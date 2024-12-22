@@ -1,6 +1,5 @@
 package de.kitshn.api.tandoor
 
-import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.route.TandoorCookLogRoute
 import de.kitshn.api.tandoor.route.TandoorFoodRoute
 import de.kitshn.api.tandoor.route.TandoorKeywordRoute

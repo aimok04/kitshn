@@ -37,7 +37,6 @@ import de.kitshn.ui.view.settings.ViewSettingsAppearance
 import de.kitshn.ui.view.settings.ViewSettingsBehavior
 import de.kitshn.ui.view.settings.ViewSettingsDebug
 import de.kitshn.ui.view.settings.ViewSettingsServer
-import kitshn.composeApp.BuildConfig
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_error_report
 import kitshn.composeapp.generated.resources.navigation_settings

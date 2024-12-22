@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.launchTimerHandler
-import de.kitshn.launchWebsiteHandler
 import de.kitshn.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.ui.component.model.ingredient.IngredientsList
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout

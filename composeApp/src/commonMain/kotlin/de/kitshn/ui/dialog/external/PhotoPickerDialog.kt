@@ -1,8 +1,6 @@
 package de.kitshn.ui.dialog.external
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
-import coil3.Uri
 
 @Composable
 fun PhotoPickerDialog(

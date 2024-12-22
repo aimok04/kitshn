@@ -1,7 +1,6 @@
 package de.kitshn.api.tandoor.model
 
 import android.content.Context
-import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.getByteArray
 import java.io.File
 import java.io.FileOutputStream

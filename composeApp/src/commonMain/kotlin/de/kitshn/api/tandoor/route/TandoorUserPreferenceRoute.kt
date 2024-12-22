@@ -1,7 +1,6 @@
 package de.kitshn.api.tandoor.route
 
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.getArray
 import de.kitshn.api.tandoor.model.TandoorUserPreference
 import de.kitshn.json

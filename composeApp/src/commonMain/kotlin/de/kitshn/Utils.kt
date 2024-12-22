@@ -13,7 +13,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalHapticFeedback
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.TandoorKeyword
-import kitshn.composeApp.BuildConfig
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_day_after_tomorrow
 import kitshn.composeapp.generated.resources.common_day_before_yesterday
