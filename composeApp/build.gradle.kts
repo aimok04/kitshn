@@ -17,11 +17,11 @@ val prop = Properties().apply { load(FileInputStream(File(rootProject.rootDir, "
 val date = LocalDate.now().toString()
 
 // Android/linux version name can contain more information
-val kitshnVersionName = "1.0-alpha.lol.xd"
-val kitshnVersionCode = 2
+val kitshnVersionName = "1.0.0-alpha.14"
+val kitshnVersionCode = 1140
 
 // iOS, dmg and MSI are limited to [Major].[Minor].[Patch] format
-val kitshnAlternateVersionName = "1.0.15"
+val kitshnAlternateVersionName = "1.0.0"
 val kitshnAlternateBuildVersionName = kitshnAlternateVersionName.split(".").run {
     this[0] + "." + this[1] + "." + kitshnVersionCode
 }
