@@ -22,7 +22,8 @@ import androidx.compose.ui.unit.dp
 fun FullSizeAlertPane(
     imageVector: ImageVector,
     contentDescription: String,
-    text: String
+    text: String,
+    additionalContent: @Composable () -> Unit = { }
 ) {
     Box(
         Modifier.fillMaxSize(),
@@ -49,6 +50,8 @@ fun FullSizeAlertPane(
                 text = text,
                 textAlign = TextAlign.Center
             )
+
+            additionalContent()
         }
     }
 }

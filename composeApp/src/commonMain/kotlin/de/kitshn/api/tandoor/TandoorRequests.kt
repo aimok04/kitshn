@@ -39,6 +39,7 @@ suspend fun TandoorClient.reqAny(
 ): HttpResponse {
     try {
         val token = this.credentials.token
+        val cookie = this.credentials.cookie
 
         Logger.d("TandoorRequests") { "Method: $_method, URL: ${credentials.instanceUrl.redactForRelease()}/api${endpoint}" }
 
@@ -52,7 +53,16 @@ suspend fun TandoorClient.reqAny(
             url(url)
             method = _method
             headers {
-                set("Authorization", "Bearer ${token?.token ?: ""}")
+                if(token != null) set("Authorization", "Bearer ${token.token}")
+
+                if(cookie != null) {
+                    val csrfToken =
+                        cookie.replace(Regex(".*csrftoken="), "").replace(Regex(";.*"), "")
+                    set("X-CSRFTOKEN", csrfToken)
+                    set("Cookie", cookie)
+                }
+
+                set("Referer", credentials.instanceUrl)
             }
             if(data != null && contentType != null) {
                 setBody(data.toString())
@@ -129,6 +139,7 @@ suspend fun TandoorClient.reqMultipart(
 ): HttpResponse {
     try {
         val token = this.credentials.token
+        val cookie = this.credentials.cookie
 
         Logger.d("TandoorRequests") { "Method: $_method, URL: ${credentials.instanceUrl.redactForRelease()}/api${endpoint}" }
 
@@ -142,7 +153,16 @@ suspend fun TandoorClient.reqMultipart(
             url(url)
             method = _method
             headers {
-                set("Authorization", "Bearer ${token?.token ?: ""}")
+                if(token != null) set("Authorization", "Bearer ${token.token}")
+
+                if(cookie != null) {
+                    val csrfToken =
+                        cookie.replace(Regex(".*csrftoken="), "").replace(Regex(";.*"), "")
+                    set("X-CSRFTOKEN", csrfToken)
+                    set("Cookie", cookie)
+                }
+
+                set("Referer", credentials.instanceUrl)
             }
 
             setBody(

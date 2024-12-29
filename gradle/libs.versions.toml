@@ -4,6 +4,7 @@ accompanist = "0.34.0"
 compose-placeholder = "1.0.8"
 acra = "5.11.3"
 adaptive = "1.0.0"
+composeWebviewMultiplatform = "1.9.40"
 humanReadable = "1.10.0"
 kotlin = "2.1.0"
 compose = "1.7.1"
@@ -48,6 +49,7 @@ androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "medi
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 compose-placeholder = { module = "com.eygraber:compose-placeholder", version.ref = "compose-placeholder" }
 compose-placeholder-material = { module = "com.eygraber:compose-placeholder-material", version.ref = "compose-placeholder" }
+compose-webview-multiplatform = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "composeWebviewMultiplatform" }
 human-readable = { module = "nl.jacobras:Human-Readable", version.ref = "humanReadable" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }

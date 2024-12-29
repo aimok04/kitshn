@@ -17,6 +17,7 @@ import de.kitshn.ui.route.alerts.RouteAlertInaccessibleInstance
 import de.kitshn.ui.route.main.RouteMain
 import de.kitshn.ui.route.onboarding.RouteOnboarding
 import de.kitshn.ui.route.onboarding.RouteOnboardingSignIn
+import de.kitshn.ui.route.onboarding.RouteOnboardingSignInBrowser
 import de.kitshn.ui.route.onboarding.RouteOnboardingWelcome
 import de.kitshn.ui.route.recipe.RouteRecipePublic
 import de.kitshn.ui.route.recipe.RouteRecipeView
@@ -46,6 +47,10 @@ val routes = listOf(
 
     Route("onboarding", Animation.SLIDE_HORIZONTAL) { RouteOnboarding(p = it) },
     Route("onboarding/signIn", Animation.SLIDE_HORIZONTAL) { RouteOnboardingSignIn(p = it) },
+    Route(
+        "onboarding/signIn/browser/{instanceUrl}",
+        Animation.SLIDE_HORIZONTAL
+    ) { RouteOnboardingSignInBrowser(p = it) },
     Route("onboarding/welcome", Animation.SLIDE_HORIZONTAL) { RouteOnboardingWelcome(p = it) }
 )
 

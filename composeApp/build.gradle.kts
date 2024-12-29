@@ -95,6 +95,7 @@ kotlin {
 
             implementation(libs.compose.placeholder.material)
             implementation(libs.compose.placeholder)
+            implementation(libs.compose.webview.multiplatform)
 
             implementation(libs.reorderable)
 

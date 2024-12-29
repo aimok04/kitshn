@@ -32,7 +32,8 @@ data class TandoorCredentials(
     val instanceUrl: String,
     var username: String = "",
     val password: String = "",
-    var token: TandoorCredentialsToken? = null
+    var token: TandoorCredentialsToken? = null,
+    val cookie: String? = null
 )
 
 class TandoorClient(

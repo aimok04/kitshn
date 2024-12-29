@@ -34,8 +34,13 @@ class TandoorMedia(
         return ImageRequest.Builder(context)
             .httpHeaders(
                 NetworkHeaders.Builder()
-                    .set("Authorization", "Bearer ${client.credentials.token?.token ?: ""}")
-                    .build()
+                    .run {
+                        if(client.credentials.token != null) {
+                            set("Authorization", "Bearer ${client.credentials.token?.token ?: ""}")
+                        } else {
+                            set("Cookie", client.credentials.cookie ?: "")
+                        }
+                    }.build()
             )
     }
 

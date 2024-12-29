@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -33,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.AutofillType
@@ -68,11 +71,16 @@ import kitshn.composeapp.generated.resources.common_username
 import kitshn.composeapp.generated.resources.onboarding_sign_in_error_instance_not_reachable
 import kitshn.composeapp.generated.resources.onboarding_sign_in_error_sign_in_failed
 import kitshn.composeapp.generated.resources.onboarding_sign_in_title
+import kitshn.composeapp.generated.resources.onboarding_sign_in_using_web_browser
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+import kotlin.io.encoding.ExperimentalEncodingApi
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
+    ExperimentalEncodingApi::class
+)
 @Composable
 fun RouteOnboardingSignIn(
     p: RouteParameters
@@ -381,6 +389,32 @@ fun RouteOnboardingSignIn(
                             tokenValue = value
                         }
                     )
+
+                    HorizontalDividerWithLabel(text = stringResource(Res.string.common_or_upper))
+
+                    OutlinedButton(
+                        onClick = {
+                            p.vm.navHostController?.navigate(
+                                "onboarding/signIn/browser/${
+                                    kotlin.io.encoding.Base64.encode(
+                                        instanceUrlValue.encodeToByteArray()
+                                    )
+                                }"
+                            )
+                        },
+                        Modifier
+                            .padding(16.dp)
+                            .align(Alignment.CenterHorizontally)
+                    ) {
+                        Icon(
+                            Icons.Rounded.Web,
+                            stringResource(Res.string.onboarding_sign_in_using_web_browser)
+                        )
+
+                        Spacer(Modifier.width(8.dp))
+
+                        Text(text = stringResource(Res.string.onboarding_sign_in_using_web_browser))
+                    }
                 }
             }
         }
