@@ -19,6 +19,7 @@ import kitshn.composeapp.generated.resources.common_day_before_yesterday
 import kitshn.composeapp.generated.resources.common_today
 import kitshn.composeapp.generated.resources.common_tomorrow
 import kitshn.composeapp.generated.resources.common_yesterday
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
@@ -342,6 +343,13 @@ fun List<Int>?.formEqualsInt(input: List<Int>?): Boolean {
     }
 
     return true
+}
+
+// adds missing functionality
+fun <T : Any> MutableList<T>.removeIf(check: (T) -> Boolean) {
+    this.toImmutableList().forEach {
+        if(check(it)) this.remove(it)
+    }
 }
 
 fun String?.redactForRelease(): String {

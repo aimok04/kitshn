@@ -51,6 +51,7 @@ import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.TandoorKeyword
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.reachedBottom
+import de.kitshn.removeIf
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
@@ -146,11 +147,7 @@ fun SelectMultipleKeywordsDialog(
                                     if(value) {
                                         state.selectedKeywords.add(0, keyword)
                                     } else {
-                                        state.selectedKeywords.forEach {
-                                            if(it.id == keywordId) state.selectedKeywords.remove(
-                                                it
-                                            )
-                                        }
+                                        state.selectedKeywords.removeIf { it.id == keywordId }
                                     }
                                 }
                             }

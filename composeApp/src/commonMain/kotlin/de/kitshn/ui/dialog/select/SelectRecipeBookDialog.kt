@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
+import de.kitshn.removeIf
 import de.kitshn.scoreMatch
 import de.kitshn.ui.component.model.recipebook.HorizontalRecipeBookCard
 import kitshn.composeapp.generated.resources.Res
@@ -134,7 +135,7 @@ fun RecipeBookSearchBar(
             client.container.recipeBook.values.sortedBy { it.name.scoreMatch(search) }
         )
 
-        searchResults.forEach { if(it.id == favoritesRecipeBookId) searchResults.remove(it) }
+        searchResults.removeIf { it.id == favoritesRecipeBookId }
     }
 
     DockedSearchBar(

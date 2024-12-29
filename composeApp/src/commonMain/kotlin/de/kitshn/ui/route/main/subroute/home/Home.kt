@@ -44,6 +44,7 @@ import de.kitshn.cache.KeywordNameIdMapCache
 import de.kitshn.homepage.model.HomePage
 import de.kitshn.homepage.model.HomePageSection
 import de.kitshn.isScrollingUp
+import de.kitshn.removeIf
 import de.kitshn.ui.component.LoadingGradientWrapper
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
 import de.kitshn.ui.component.home.HomePageSectionView
@@ -145,11 +146,8 @@ fun RouteMainSubrouteHome(
 
         // remove deleted recipes
         homePageSectionList.forEach { section ->
-            section.recipeIds.forEach {
-                if(!p.vm.tandoorClient!!.container.recipeOverview.contains(
-                        it
-                    )
-                ) section.recipeIds.remove(it)
+            section.recipeIds.removeIf {
+                !p.vm.tandoorClient!!.container.recipeOverview.contains(it)
             }
         }
     }

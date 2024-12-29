@@ -43,6 +43,7 @@ import androidx.compose.ui.window.DialogProperties
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.removeIf
 import de.kitshn.scoreMatch
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
@@ -161,11 +162,7 @@ fun ManageRecipeInRecipeBooksDialog(
                             if(value) {
                                 state.selectedRecipeBooks.add(0, recipeBook)
                             } else {
-                                state.selectedRecipeBooks.forEach {
-                                    if(it.id == recipeBook.id) state.selectedRecipeBooks.remove(
-                                        it
-                                    )
-                                }
+                                state.selectedRecipeBooks.removeIf { it.id == recipeBook.id }
                             }
                         }
                     }
@@ -261,8 +258,7 @@ fun RecipeBookSearchBar(
             client.container.recipeBook.values.sortedBy { it.name.scoreMatch(search) }
         )
 
-
-        searchResults.forEach { if(it.id == favoritesRecipeBookId) searchResults.remove(it) }
+        searchResults.removeIf { it.id == favoritesRecipeBookId }
     }
 
     DockedSearchBar(

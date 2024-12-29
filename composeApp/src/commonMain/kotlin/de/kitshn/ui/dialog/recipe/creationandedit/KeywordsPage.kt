@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
+import de.kitshn.removeIf
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.dialog.select.KeywordCheckedListItem
 import de.kitshn.ui.dialog.select.KeywordSearchBar
@@ -68,11 +69,7 @@ fun KeywordsPage(
                             if(value) {
                                 values.keywords.add(0, keyword)
                             } else {
-                                values.keywords.forEach {
-                                    if(it.id == keywordId) values.keywords.remove(
-                                        it
-                                    )
-                                }
+                                values.keywords.removeIf { it.id == keywordId }
                             }
                         }
                     }

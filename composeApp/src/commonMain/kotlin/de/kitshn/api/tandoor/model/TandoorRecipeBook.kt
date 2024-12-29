@@ -10,6 +10,7 @@ import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.patchObject
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
+import de.kitshn.removeIf
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.json.JsonPrimitive
@@ -112,7 +113,7 @@ class TandoorRecipeBookEntry(
     suspend fun delete(): String {
         // remove from entry lists
         client?.container?.recipeBook?.get(book)?.let {
-            it.entries.forEach { entry -> if(entry.id == id) it.entries.remove(entry) }
+            it.entries.removeIf { it.id == id }
             it.entryByRecipeId.remove(recipe)
         }
 

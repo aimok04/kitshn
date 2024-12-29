@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import de.kitshn.HapticFeedbackHandler
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.removeIf
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.model.recipe.step.RecipeStepCard
 import de.kitshn.ui.dialog.common.CommonDeletionDialog
@@ -67,11 +68,7 @@ fun StepsPage(
         stepById.clear()
         recipe?.steps?.forEach { stepById[it.id] = it }
 
-        values.stepsOrder.forEach {
-            if(stepById[it]?._destroyed != false) values.stepsOrder.remove(
-                it
-            )
-        }
+        values.stepsOrder.removeIf { stepById[it]?._destroyed != false }
     }
 
     val lazyListState = rememberLazyListState()
