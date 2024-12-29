@@ -98,37 +98,6 @@ actual fun kitshnListDetailPaneScaffoldImpl(
         }
     }
 
-    if(currentSelection != null) {
-        Column(
-            Modifier
-                .fillMaxWidth()
-        ) {
-            content(
-                currentSelection!!, false, expandDetailPane, {
-                    expandDetailPane = !expandDetailPane
-                }, {
-                    currentSelection = null
-                },
-                {
-                    currentSelection = null
-                }
-            )
-        }
-    } else {
-        Scaffold(
-            topBar = {
-                topBar(
-                    TopAppBarDefaults.topAppBarColors()
-                )
-            },
-            floatingActionButton = floatingActionButton
-        ) {
-            listContent(it, currentSelection, false, MaterialTheme.colorScheme.background) { id ->
-                currentSelection = id
-            }
-        }
-    }
-
     BackHandler(supportsMultiplePanes && navigator.currentDestination?.content != null) {
         navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, null)
     }
