@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import de.kitshn.ui.component.icons.IconWithStateState
 import de.kitshn.ui.state.ErrorLoadingSuccessState
+import kotlin.coroutines.cancellation.CancellationException
 
 enum class TandoorRequestStateState {
     IDLE,
@@ -48,6 +49,8 @@ class TandoorRequestState {
 
             return value
         } catch(e: TandoorRequestsError) {
+            if(e.exception is CancellationException) return null
+
             e.printStackTrace()
             error = e
             state = TandoorRequestStateState.ERROR
