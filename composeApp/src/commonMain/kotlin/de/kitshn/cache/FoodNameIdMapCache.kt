@@ -20,17 +20,20 @@ class FoodNameIdMapCache(
         delay(100)
 
         if(res.next != null) coroutineScope.launch {
-            var page = 1
-            val foods = mutableListOf<TandoorFood>()
+            try {
+                var page = 1
+                val foods = mutableListOf<TandoorFood>()
 
-            while(res.next != null) {
-                page++
+                while(res.next != null) {
+                    page++
 
-                res = client.food.list(page = page, pageSize = 500)
-                foods.addAll(res.results)
+                    res = client.food.list(page = page, pageSize = 500)
+                    foods.addAll(res.results)
+                }
+
+                apply(foods)
+            } catch(_: Exception) {
             }
-
-            apply(foods)
         }
     }
 

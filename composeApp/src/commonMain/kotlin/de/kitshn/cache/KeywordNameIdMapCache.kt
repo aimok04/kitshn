@@ -20,17 +20,20 @@ class KeywordNameIdMapCache(
         delay(100)
 
         if(res.next != null) coroutineScope.launch {
-            var page = 1
-            val keywords = mutableListOf<TandoorKeyword>()
+            try {
+                var page = 1
+                val keywords = mutableListOf<TandoorKeyword>()
 
-            while(res.next != null) {
-                page++
+                while(res.next != null) {
+                    page++
 
-                res = client.keyword.list(page = page, pageSize = 500)
-                keywords.addAll(res.results)
+                    res = client.keyword.list(page = page, pageSize = 500)
+                    keywords.addAll(res.results)
+                }
+
+                apply(keywords)
+            } catch(_: Exception) {
             }
-
-            apply(keywords)
         }
     }
 
