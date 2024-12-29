@@ -1,7 +1,9 @@
 package de.kitshn.ui.layout
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -49,23 +51,9 @@ fun KitshnListDetailPaneScaffold(
         var currentSelection by rememberSaveable { mutableStateOf<String?>(null) }
         var expandDetailPane by remember { mutableStateOf(false) }
 
-        if(currentSelection != null) {
-            Column(
-                Modifier
-                    .fillMaxWidth()
-            ) {
-                content(
-                    currentSelection!!, false, expandDetailPane, {
-                        expandDetailPane = !expandDetailPane
-                    }, {
-                        currentSelection = null
-                    },
-                    {
-                        currentSelection = null
-                    }
-                )
-            }
-        } else {
+        Box(
+            Modifier.fillMaxSize()
+        ) {
             Scaffold(
                 topBar = {
                     topBar(
@@ -81,6 +69,24 @@ fun KitshnListDetailPaneScaffold(
                     MaterialTheme.colorScheme.background
                 ) { id ->
                     currentSelection = id
+                }
+            }
+
+            if(currentSelection != null) {
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                ) {
+                    content(
+                        currentSelection!!, false, expandDetailPane, {
+                            expandDetailPane = !expandDetailPane
+                        }, {
+                            currentSelection = null
+                        },
+                        {
+                            currentSelection = null
+                        }
+                    )
                 }
             }
         }
