@@ -126,6 +126,7 @@ fun ViewHomeSearch(
         try {
             if(!state.shown.value || state.appliedAutoFocusSearchField) return@LaunchedEffect
 
+            delay(100)
             focusRequester.requestFocus()
             state.appliedAutoFocusSearchField = true
         } catch(e: Exception) {
