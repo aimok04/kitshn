@@ -19,8 +19,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import de.kitshn.ui.dialog.version.TandoorServerVersionCompatibilityDialog
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.route.main.subroute.MainSubrouteNavigation
@@ -50,7 +50,7 @@ fun RouteMain(p: RouteParameters) {
     if(p.vm.tandoorClient == null) return
 
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
-    val mainSubNavHostController = rememberNavController()
+    val mainSubNavHostController = rememberAlternateNavController()
 
     val destination by mainSubNavHostController.currentBackStackEntryAsState()
     LaunchedEffect(destination) {
@@ -97,3 +97,7 @@ fun RouteMain(p: RouteParameters) {
 
     TandoorServerVersionCompatibilityDialog(vm = p.vm)
 }
+
+// alternate saving method because multiple rememberNavController() cause problem at jvmMain and iosMain
+@Composable
+expect fun rememberAlternateNavController(): NavHostController
