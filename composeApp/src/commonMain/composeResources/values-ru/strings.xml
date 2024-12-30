@@ -1,2 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="acra_dialog_button_positive">Отправить</string>
+    <string name="acra_dialog_button_neutral">Смотреть отчет</string>
+    <string name="acra_comment_helper">Если хотите, вы можете прокомментировать, как произошла эта ошибка.</string>
+    <string name="acra_dialog_message">Приложение столкнулось с неожиданной ошибкой. Пожалуйста, отправьте отчет об ошибке, чтобы помочь исправить проблему.\n\nВы можете просмотреть полный отчет перед отправкой.</string>
+    <string name="acra_dialog_button_negative">Не отправлять</string>
+    <string name="acra_dialog_title">Ой-ёй!</string>
+    <string name="acra_email_address_helper">Если хотите, вы можете ввести свой адрес электронной почты, чтобы получать обновления о вашем отчете.</string>
+    <string name="action_abort">Прервать</string>
+    <string name="action_add">Добавить</string>
+    <string name="action_add_to_meal_plan">Добавить в план питания</string>
+    <string name="action_add_to_shopping">Добавить в покупки</string>
+    <string name="action_allocate_ingredients">Распределить ингредиенты</string>
+    <string name="action_apply">Применить</string>
+    <string name="action_click_to_upload_image">Нажмите для загрузки изображения.</string>
+    <string name="action_close">Закрыть</string>
+    <string name="action_combine">Комбинировать</string>
+    <string name="action_confirm">Подтвердить</string>
+    <string name="action_continue">Продолжить</string>
+    <string name="action_create">Создать</string>
+    <string name="action_create_recipe_book">Новая книга рецептов</string>
+    <string name="action_delete">Удалить</string>
+    <plurals name="action_delete_recipe_book_entries">
+        <item quantity="one">Удалить запись</item>
+        <item quantity="few">Удалить записи</item>
+        <item quantity="many">Удалить записи</item>
+        <item quantity="other">Удалить записи</item>
+    </plurals>
+    <plurals name="action_delete_recipe_books">
+        <item quantity="one">Удалить книгу</item>
+        <item quantity="few">Удалить книги</item>
+        <item quantity="many">Удалить книги</item>
+        <item quantity="other">Удалить книги</item>
+    </plurals>
+    <string name="action_download">Скачать</string>
+    <string name="action_edit">Редактировать</string>
+    <string name="action_edit_entry">Редактировать запись</string>
+    <string name="action_edit_recipe">Редактировать рецепт</string>
+    <string name="action_edit_recipe_book">Редактировать книгу рецептов</string>
+    <string name="action_import">Импорт</string>
+    <string name="action_manage_recipe_books">Ведите книги рецептов</string>
+    <string name="action_mark_as_done">Пометить как сделано</string>
+    <string name="action_minus">Нижний</string>
+    <string name="action_minus_one_week">- одна неделя</string>
+    <string name="action_more">Больше</string>
+    <string name="action_move">Переместить</string>
+    <string name="action_next">Далее</string>
+    <string name="action_no">Нет</string>
+    <string name="action_open_issue">Создать выпуск</string>
+    <string name="action_open_original">Открыть оригинал</string>
+    <string name="action_open_source">Глянуть источники</string>
+    <string name="action_remove">Удалить</string>
+    <string name="action_remove_from_favorites">Удалить из избранного</string>
+    <string name="action_reset">Сбросить</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_saving">Сохранение …</string>
+    <string name="action_share">Поделиться</string>
+    <string name="action_sign_in">Войти</string>
+    <plurals name="action_delete_recipe_books_description">
+        <item quantity="one">Вы точно хотите удалить эту книгу?</item>
+        <item quantity="few">Вы точно хотите удалить эти книги?</item>
+        <item quantity="many">Вы точно хотите удалить эти книги?</item>
+        <item quantity="other">Вы точно хотите удалить эти книги?</item>
+    </plurals>
+    <string name="action_delete_from_meal_plan">Удалить из плана питания</string>
+    <string name="action_add_to_favorites">Добавить в избранное</string>
+    <string name="action_add_to_recipe_books">Добавить в книгу рецептов</string>
+    <string name="action_back">Назад</string>
+    <string name="action_create_entry">Новая запись</string>
+    <string name="action_create_recipe">Новый рецепт</string>
+    <plurals name="action_delete_recipe_book_entries_description">
+        <item quantity="one">Вы точно хотите удалить эту запись?</item>
+        <item quantity="few">Вы точно хотите удалить эти записи?</item>
+        <item quantity="many">Вы точно хотите удалить эти записи?</item>
+        <item quantity="other">Вы точно хотите удалить эти записи?</item>
+    </plurals>
+    <string name="action_show_all_recipes">Показать все рецепты</string>
+    <string name="action_plus_one_week">+ одна неделя</string>
+    <string name="action_sign_out">Выйти</string>
+</resources>
