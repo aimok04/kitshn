@@ -1,2 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="acra_dialog_message">Er is een onverwachte fout opgetreden in de app. Stuur alsjeblieft een foutrapport om te helpen het probleem op te lossen.\n\nJe kan het volledige rapport inzien voordat je het verstuurd.</string>
+    <string name="acra_comment_helper">Als je wilt, kun je een bericht achterlaten hoe deze fout is ontstaan.</string>
+    <string name="acra_dialog_button_negative">Niet versturen</string>
+    <string name="acra_dialog_button_neutral">Rapport weergegeven</string>
+    <string name="acra_dialog_button_positive">Versturen</string>
+    <string name="acra_dialog_title">Oeps!</string>
+    <string name="acra_email_address_helper">Als je wilt, kun je een email address opgeven om updates te ontvangen over je rapport.</string>
+    <string name="action_abort">Afbreken</string>
+    <string name="action_add">Toevoegen</string>
+    <string name="action_add_to_favorites">Toevoegen aan favorieten</string>
+    <string name="action_add_to_meal_plan">Toevoegen aan maaltijdplanner</string>
+    <string name="action_add_to_recipe_books">Toevoegen aan recepten boeken</string>
+    <string name="action_add_to_shopping">Toevoegen aan winkelwagen</string>
+    <string name="action_allocate_ingredients">Ingrediënten toewijzen</string>
+    <string name="action_apply">Bevestig</string>
+    <string name="action_back">Terug</string>
+    <string name="action_click_to_upload_image">Klik om een afbeelding te uploaden.</string>
+    <string name="action_close">Sluiten</string>
+    <string name="action_combine">Samenvoegen</string>
+    <string name="action_confirm">Bevestigen</string>
+    <string name="action_continue">Doorgaan</string>
+    <string name="action_create">Aanmaken</string>
+    <string name="action_create_entry">Nieuwe toevoegen</string>
+    <string name="action_create_recipe">Nieuw recept</string>
+    <string name="action_create_recipe_book">Nieuw receptenboek</string>
+    <string name="action_delete">Verwijderen</string>
+    <string name="action_delete_from_meal_plan">Verwijder uit maaltijdplanner</string>
+</resources>
