@@ -43,7 +43,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "kitshn"
+            baseName = "ComposeApp"
             isStatic = true
 
             binaryOption("bundleShortVersionString", kitshnAlternateVersionName)
