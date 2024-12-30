@@ -320,4 +320,7 @@
     <string name="tandoor_compatibility_full_compatibility_label">сумісний</string>
     <string name="tandoor_compatibility_mixed_compatibility_description">Деякі функції вашого сервера Tandoor можуть не підтримуватися цією програмою. Щоб використовувати всі функції програми, оновіть сервер до однієї з наведених нижче версій.</string>
     <string name="tandoor_compatibility_mixed_compatibility_label">Частково сумісний</string>
+    <string name="shortcuts_new_instance_label_long">Створити новий екземпляр</string>
+    <string name="shortcuts_new_instance_label_short">Новий екземпляр</string>
+    <string name="onboarding_sign_in_using_web_browser">Увійдіть за допомогою веб-браузера</string>
 </resources>
