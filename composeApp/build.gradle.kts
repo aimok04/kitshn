@@ -131,6 +131,10 @@ kotlin {
             implementation(libs.material)
 
             implementation(libs.peekaboo.image.picker)
+
+            // needed for migration
+            implementation(libs.androidx.datastore.core.android)
+            implementation(libs.androidx.datastore.preferences)
         }
 
         jvmMain.dependencies {
@@ -191,7 +195,7 @@ android {
             manifestPlaceholders["appIcon"] = "@mipmap/ic_debug_launcher"
             manifestPlaceholders["appIconRound"] = "@mipmap/ic_debug_launcher_round"
 
-            applicationIdSuffix = ".debug.kmp"
+            applicationIdSuffix = ".debug"
         }
         create("nightly") {
             manifestPlaceholders["appIcon"] = "@mipmap/ic_nightly_launcher"

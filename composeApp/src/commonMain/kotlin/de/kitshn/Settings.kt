@@ -76,7 +76,7 @@ class SettingsViewModel : ViewModel() {
     fun setEnableDarkTheme(enable: Boolean) =
         obs.putBoolean(KEY_SETTINGS_APPEARANCE_DARK_THEME, enable)
 
-    //behavior
+    // behavior
     val getUseShareWrapper: Flow<Boolean> =
         obs.getBooleanFlow(KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER, true)
 
