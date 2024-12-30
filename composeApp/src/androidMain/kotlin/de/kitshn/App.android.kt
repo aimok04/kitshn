@@ -49,7 +49,6 @@ class AppActivity : ComponentActivity() {
                     delay(500)
 
                     val datastoreFolder = File(filesDir, "datastore")
-
                     if(datastoreFolder.exists()) {
                         if(datastoreFolder.listFiles()?.isEmpty() == false) {
                             // perform migration
@@ -67,6 +66,9 @@ class AppActivity : ComponentActivity() {
                     // mark Android migration as done
                     settings.settings.putBoolean(KEY_SETTINGS_ANDROID_MIGRATION_DONE, true)
                     androidMigrationDone = true
+
+                    // delete datastore after
+                    if(datastoreFolder.exists()) datastoreFolder.deleteRecursively()
                 }
 
                 KitshnTheme {
