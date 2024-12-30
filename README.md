@@ -41,6 +41,8 @@ height="80">](https://play.google.com/store/apps/details?id=de.kitshn.android)
 You can help translate kitshn on [Weblate](https://hosted.weblate.org/projects/kitshn/).
 Contributions are very welcome 😊
 
+[![Translation status](https://hosted.weblate.org/widget/kitshn/app/multi-auto.svg)](https://hosted.weblate.org/engage/kitshn/)
+
 ## 💪 Features
 
 - [x] Dynamic home screen with suggestions
