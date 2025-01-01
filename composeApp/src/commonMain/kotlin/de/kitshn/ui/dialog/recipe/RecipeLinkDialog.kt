@@ -87,7 +87,7 @@ fun RecipeLinkDialog(
             p = p,
 
             client = p.vm.tandoorClient,
-            recipeId = state.linkContent.value!!.id,
+            recipeId = state.linkContent.value?.id?: -1,
 
             prependContent = leadingContent,
 
