@@ -59,9 +59,7 @@ fun ServingsChangeDialog(
     state: ServingsChangeDialogState,
     onSubmit: (servings: Int) -> Unit
 ) {
-    if(!state.shown.value) return
-
-    val focusRequester = remember { FocusRequester() }
+    if (!state.shown.value) return
 
     val submit = {
         onSubmit(state.servings)
@@ -80,6 +78,8 @@ fun ServingsChangeDialog(
             Text(stringResource(Res.string.common_count))
         },
         text = {
+            val focusRequester = remember { FocusRequester() }
+
             NumberField(
                 modifier = Modifier.focusRequester(focusRequester),
                 label = {
@@ -102,6 +102,10 @@ fun ServingsChangeDialog(
                     state.servings = it ?: 1
                 }
             )
+
+            LaunchedEffect(Unit) {
+                focusRequester.requestFocus()
+            }
         },
         confirmButton = {
             Button(onClick = {
@@ -111,8 +115,4 @@ fun ServingsChangeDialog(
             }
         }
     )
-
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
 }
