@@ -195,4 +195,22 @@
     <string name="common_time_wait">Wacht tijd</string>
     <string name="home_section_chinese">🇨🇳 🏮🧧🐉🧨🎇⛩️🎎</string>
     <string name="form_error_description_max_512">De omschrijving kan maximaal 512 karakters bevatten.</string>
+    <string name="error_unallocated_ingredients">Niet toegewezen ingrediënten</string>
+    <string name="error_unallocated_ingredients_description">Er zijn nog ingrediënten die toegewezen moeten worden aan een stap voordat je de aanpassingen kunt opslaan.</string>
+    <string name="home_search_empty">Tandoor is in z\'n geheel doorzocht - maar geen passend recept is gevonden.</string>
+    <string name="home_search_empty_query">Voer een zoekopdracht in om Tandoor te doorzoeken.</string>
+    <string name="home_section_indian">🇮🇳🪷🕌🦚🪕</string>
+    <string name="home_section_lunch_time">Lunch tijd</string>
+    <string name="home_section_mexican">🇲🇽🌮🤠🥑</string>
+    <string name="home_section_never_cooked">Nooit eerder gekookt</string>
+    <string name="home_section_new_recipes">Nieuwe recepten</string>
+    <string name="home_section_noodles">🍜 Noedels</string>
+    <string name="manage_recipe_books_empty">Dit recept is niet toegevoegd in een boek.</string>
+    <string name="meal_plan_form_add_to_shopping_list_description">Automatisch voeg de benodigde ingrediënten toe aan je boodschappenlijst.</string>
+    <string name="meal_plan_no_recipes_for_this_day">Geen recepten toegevoegd voor vandaag</string>
+    <string name="navigation_books">Boeken</string>
+    <string name="navigation_home">Huis</string>
+    <string name="navigation_list">Alle recepten</string>
+    <string name="navigation_meal_plan">Maaltijd plan</string>
+    <string name="navigation_settings">Instellingen</string>
 </resources>
