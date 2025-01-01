@@ -1,9 +1,7 @@
 package de.kitshn.ui.layout
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +16,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import de.kitshn.ui.IOSBackGestureHandler
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,8 +50,11 @@ fun KitshnListDetailPaneScaffold(
         var currentSelection by rememberSaveable { mutableStateOf<String?>(null) }
         var expandDetailPane by remember { mutableStateOf(false) }
 
-        Box(
-            Modifier.fillMaxSize()
+        IOSBackGestureHandler(
+            isEnabled = currentSelection != null,
+            onBack = {
+                currentSelection = null
+            }
         ) {
             Scaffold(
                 topBar = {

@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import de.kitshn.KitshnViewModel
+import de.kitshn.ui.IOSBackGestureHandler
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.route.routes
 
@@ -28,8 +29,15 @@ fun PrimaryNavigation(
                 arguments = route.arguments,
                 deepLinks = route.deepLinks,
                 content = {
-                    val p = RouteParameters(vm, it, { controller.popBackStack() })
-                    route.content(this, p)
+                    IOSBackGestureHandler(
+                        isEnabled = controller.previousBackStackEntry != null,
+                        onBack = {
+                            controller.popBackStack()
+                        }
+                    ) {
+                        val p = RouteParameters(vm, it, { controller.popBackStack() })
+                        route.content(this, p)
+                    }
                 },
                 enterTransition = route.animation.enterTransition,
                 exitTransition = route.animation.exitTransition,
