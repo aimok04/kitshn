@@ -213,4 +213,6 @@
     <string name="navigation_list">Alle recepten</string>
     <string name="navigation_meal_plan">Maaltijd plan</string>
     <string name="navigation_settings">Instellingen</string>
+    <string name="navigation_shopping">Winkelen</string>
+    <string name="onboarding_introduction">Welkom bij Kitshn (voor Tandoor). Log alsjeblieft in je Tandoor instantie om door te gaan.</string>
 </resources>
