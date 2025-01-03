@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="acra_dialog_message">Er is een onverwachte fout opgetreden in de app. Stuur alsjeblieft een foutrapport om te helpen het probleem op te lossen.\n\nJe kan het volledige rapport inzien voordat je het verstuurd.</string>
     <string name="acra_comment_helper">Als je wilt, kun je een bericht achterlaten hoe deze fout is ontstaan.</string>
     <string name="acra_dialog_button_negative">Niet versturen</string>
     <string name="acra_dialog_button_neutral">Rapport weergegeven</string>
     <string name="acra_dialog_button_positive">Versturen</string>
+    <string name="acra_dialog_message">Er is een onverwachte fout opgetreden in de app. Stuur alsjeblieft een foutrapport om te helpen het probleem op te lossen.\n\nJe kan het volledige rapport inzien voordat je het verstuurd.</string>
     <string name="acra_dialog_title">Oeps!</string>
     <string name="acra_email_address_helper">Als je wilt, kun je een email address opgeven om updates te ontvangen over je rapport.</string>
+
     <string name="action_abort">Afbreken</string>
     <string name="action_add">Toevoegen</string>
     <string name="action_add_to_favorites">Toevoegen aan favorieten</string>
@@ -31,6 +32,18 @@
         <item quantity="one">Verwijder item</item>
         <item quantity="other">Verwijder items</item>
     </plurals>
+    <plurals name="action_delete_recipe_book_entries_description">
+        <item quantity="one">Weet je zeker dat je dit item wilt verwijderen?</item>
+        <item quantity="other">Weet je zeker dat je deze items wilt verwijderen?</item>
+    </plurals>
+    <plurals name="action_delete_recipe_books">
+        <item quantity="one">Verwijder boek</item>
+        <item quantity="other">Verwijder boeken</item>
+    </plurals>
+    <plurals name="action_delete_recipe_books_description">
+        <item quantity="one">Weet je zeker dat je dit boek wilt verwijderen?</item>
+        <item quantity="other">Weet je zeker dat je deze boeken wilt verwijderen?</item>
+    </plurals>
     <string name="action_download">Downloaden</string>
     <string name="action_edit">Bewerken</string>
     <string name="action_edit_entry">Item bewerken</string>
@@ -42,8 +55,10 @@
     <string name="action_mark_as_done">Markeren als voltooid</string>
     <string name="action_minus">Lager</string>
     <string name="action_minus_one_week">- een week</string>
+    <string name="action_more">Meer</string>
     <string name="action_move">Verplaatsen</string>
     <string name="action_next">Volgende</string>
+    <string name="action_no">Nee</string>
     <string name="action_open_issue">Creëer een probleem</string>
     <string name="action_open_original">Open origineel</string>
     <string name="action_open_source">Bekijk bron</string>
@@ -56,15 +71,20 @@
     <string name="action_save">Opslaan</string>
     <string name="action_saving">Opslaan …</string>
     <string name="action_share">Delen</string>
+    <string name="action_show_all_recipes">Geef alle recepten weer</string>
     <string name="action_sign_in">Log in</string>
     <string name="action_sign_out">Log uit</string>
     <string name="action_sign_out_description">Wachtwoord vergeten</string>
     <string name="action_start_cooking">Start kookmodus</string>
     <string name="action_upload">Upload</string>
     <string name="action_yes">Ja</string>
+
+    <string name="app_name">kitshn</string>
+
     <string name="common_add_to_shopping_list">Toevoegen aan boodschappenlijst</string>
     <string name="common_allocate_ingredients">Ingrediënten toewijzen</string>
     <string name="common_api_token">API token</string>
+    <string name="common_comment">Bericht</string>
     <string name="common_contact">Contact</string>
     <string name="common_cook_book">Kookboek</string>
     <string name="common_copied_to_clipboard">Gekopieerd naar je plakbord!</string>
@@ -76,23 +96,6 @@
     <string name="common_delete_permanently_text">Deze actie is onomkeerbaar. Weet je zeker dat je door wilt?</string>
     <string name="common_description">Omschrijving</string>
     <string name="common_details">Details</string>
-    <plurals name="action_delete_recipe_books_description">
-        <item quantity="one">Weet je zeker dat je dit boek wilt verwijderen?</item>
-        <item quantity="other">Weet je zeker dat je deze boeken wilt verwijderen?</item>
-    </plurals>
-    <plurals name="action_delete_recipe_books">
-        <item quantity="one">Verwijder boek</item>
-        <item quantity="other">Verwijder boeken</item>
-    </plurals>
-    <string name="app_name">kitshn</string>
-    <string name="action_more">Meer</string>
-    <plurals name="action_delete_recipe_book_entries_description">
-        <item quantity="one">Weet je zeker dat je dit item wilt verwijderen?</item>
-        <item quantity="other">Weet je zeker dat je deze items wilt verwijderen?</item>
-    </plurals>
-    <string name="action_no">Nee</string>
-    <string name="action_show_all_recipes">Geef alle recepten weer</string>
-    <string name="common_comment">Bericht</string>
     <string name="common_done">Klaar</string>
     <string name="common_email_address">Mail address</string>
     <string name="common_end_date">Eind datum</string>
@@ -117,7 +120,20 @@
     <string name="common_or_upper">OF</string>
     <string name="common_password">Wachtwoord</string>
     <string name="common_per_serving">per portie</string>
+    <plurals name="common_plural_minute">
+        <item quantity="one">een minuut</item>
+        <item quantity="other">%1$d minuten</item>
+    </plurals>
+    <plurals name="common_plural_portion">
+        <item quantity="one">een portie</item>
+        <item quantity="other">%1$d porties</item>
+    </plurals>
+    <plurals name="common_plural_wo_count">
+        <item quantity="one">Portie</item>
+        <item quantity="other">Porties</item>
+    </plurals>
     <string name="common_portions">Porties</string>
+    <string name="common_portions_text">Porties-Tekst</string>
     <string name="common_prepairing">Voorbereiding</string>
     <string name="common_properties">Eigenschappen</string>
     <string name="common_random">Willekeurig</string>
@@ -136,83 +152,79 @@
     <string name="common_step">Stap %1$s</string>
     <string name="common_steps">Stappen</string>
     <string name="common_tags">Labels</string>
-    <string name="common_portions_text">Porties-Tekst</string>
+    <string name="common_time_wait">Wacht tijd</string>
     <string name="common_time_work">Werk tijd</string>
+    <string name="common_title">Titel</string>
     <string name="common_title_image">Omslag afbeelding</string>
     <string name="common_today">Vandaag</string>
     <string name="common_tomorrow">Morgen</string>
+    <string name="common_total">totaal</string>
     <string name="common_unknown">Onbekend</string>
     <string name="common_unknown_meal_type">Onbekend maaltijd type</string>
     <string name="common_unknown_recipe">Onbekend recept</string>
     <string name="common_unsaved_changes">Onopgeslagen wijzigingen</string>
+    <string name="common_unsaved_changes_description">Als je doorgaat, zullen je wijzigingen verloren gaan. Weet je zeker dat je je wijzigingen wilt verwijderen?</string>
     <string name="common_username">Gebruikersnaam</string>
     <string name="common_version">Versie</string>
     <string name="common_website">Website</string>
     <string name="common_welcome">Welkom</string>
     <string name="common_yesterday">Gisteren</string>
+
     <string name="error">Fout</string>
     <string name="error_couldnt_connect_to_tandoor">Er kon geen verbinding gemaakt worden met je Tandoori server.</string>
     <string name="error_instance_inaccessible">De installatie die je probeert te bereiken is niet opgezet in de app.</string>
     <string name="error_recipe_could_not_be_loaded">Recept kon niet geladen worden.</string>
     <string name="error_request">Incorrect verzoek</string>
+    <string name="error_unallocated_ingredients">Niet toegewezen ingrediënten</string>
+    <string name="error_unallocated_ingredients_description">Er zijn nog ingrediënten die toegewezen moeten worden aan een stap voordat je de aanpassingen kunt opslaan.</string>
+
     <string name="expand_more">Meer weergeven</string>
+
+    <string name="form_error_description_max_512">De omschrijving kan maximaal 512 karakters bevatten.</string>
     <string name="form_error_field_empty">Dit veld is verplicht.</string>
     <string name="form_error_name_max_128">De naam kan niet meer dan 128 karakters bevatten.</string>
     <string name="form_error_source_max_1024">De bron kan niet langer zijn dan 1024 karakters.</string>
     <string name="form_error_title_max_64">De titel kan niet meer dan 64 karakters lang zijn.</string>
-    <string name="greeting_christmas">Vrolijk kerstfeest 🎅🎄🦌</string>
-    <string name="greeting_good_evening">Goede avond 🌅</string>
-    <string name="greeting_good_morning">Goede morgen 🌞</string>
-    <string name="greeting_good_night">Goede nacht 🌚</string>
-    <string name="greeting_noon">Howdy 🤠</string>
+
+    <string name="greeting_christmas">Vrolijk kerstfeest &#127877;&#127876;&#129420;</string>
+    <string name="greeting_good_evening">Goede avond &#127749;</string>
+    <string name="greeting_good_morning">Goede morgen &#127774;</string>
+    <string name="greeting_good_night">Goede nacht &#127770;</string>
+    <string name="greeting_noon">Howdy &#129312;</string>
+
     <string name="home_meal_plan_promotion_title">Morgen opkomend</string>
+    <string name="home_search_empty">Tandoor is in z\'n geheel doorzocht - maar geen passend recept is gevonden.</string>
+    <string name="home_search_empty_query">Voer een zoekopdracht in om Tandoor te doorzoeken.</string>
     <string name="home_search_tandoor">Zoek Tandoor</string>
-    <string name="home_section_american">🇺🇸 🦅 🗽</string>
-    <string name="home_section_asian">🏮🧧🐉🧨🎇⛩️🎎</string>
-    <string name="home_section_austrian">🇦🇹📷🏰</string>
+    <string name="home_section_american">&#127482;&#127480; &#129413; &#128509;</string>
+    <string name="home_section_asian">&#127982;&#129511;&#128009;&#129512;&#127879;⛩️&#127886;</string>
+    <string name="home_section_austrian">&#127462;&#127481;&#128247;&#127984;</string>
     <string name="home_section_baking">Bakken</string>
-    <string name="home_section_burger">🍔</string>
+    <string name="home_section_burger">&#127828;</string>
+    <string name="home_section_chinese">&#127464;&#127475; &#127982;&#129511;&#128009;&#129512;&#127879;⛩️&#127886;</string>
     <string name="home_section_dinner">Ideeën voor je avondmaal</string>
     <string name="home_section_enjoy_breakfast">Geniet van je ontbijt</string>
     <string name="home_section_fast_food">Snel bereid</string>
     <string name="home_section_five_stars">⭐⭐⭐⭐⭐</string>
-    <string name="home_section_german">🇩🇪🍺🥨✨🏰</string>
-    <plurals name="common_plural_minute">
-        <item quantity="one">een minuut</item>
-        <item quantity="other">%1$d minuten</item>
-    </plurals>
-    <plurals name="common_plural_portion">
-        <item quantity="one">een portie</item>
-        <item quantity="other">%1$d porties</item>
-    </plurals>
-    <plurals name="common_plural_wo_count">
-        <item quantity="one">Portie</item>
-        <item quantity="other">Porties</item>
-    </plurals>
-    <string name="common_title">Titel</string>
-    <string name="common_unsaved_changes_description">Als je doorgaat, zullen je wijzigingen verloren gaan. Weet je zeker dat je je wijzigingen wilt verwijderen?</string>
-    <string name="common_total">totaal</string>
-    <string name="common_time_wait">Wacht tijd</string>
-    <string name="home_section_chinese">🇨🇳 🏮🧧🐉🧨🎇⛩️🎎</string>
-    <string name="form_error_description_max_512">De omschrijving kan maximaal 512 karakters bevatten.</string>
-    <string name="error_unallocated_ingredients">Niet toegewezen ingrediënten</string>
-    <string name="error_unallocated_ingredients_description">Er zijn nog ingrediënten die toegewezen moeten worden aan een stap voordat je de aanpassingen kunt opslaan.</string>
-    <string name="home_search_empty">Tandoor is in z\'n geheel doorzocht - maar geen passend recept is gevonden.</string>
-    <string name="home_search_empty_query">Voer een zoekopdracht in om Tandoor te doorzoeken.</string>
-    <string name="home_section_indian">🇮🇳🪷🕌🦚🪕</string>
+    <string name="home_section_german">&#127465;&#127466;&#127866;&#129384;✨&#127984;</string>
+    <string name="home_section_indian">&#127470;&#127475;&#129719;&#128332;&#129434;&#129685;</string>
     <string name="home_section_lunch_time">Lunch tijd</string>
-    <string name="home_section_mexican">🇲🇽🌮🤠🥑</string>
+    <string name="home_section_mexican">&#127474;&#127485;&#127790;&#129312;&#129361;</string>
     <string name="home_section_never_cooked">Nooit eerder gekookt</string>
     <string name="home_section_new_recipes">Nieuwe recepten</string>
-    <string name="home_section_noodles">🍜 Noedels</string>
+    <string name="home_section_noodles">&#127836; Noedels</string>
+
     <string name="manage_recipe_books_empty">Dit recept is niet toegevoegd in een boek.</string>
+
     <string name="meal_plan_form_add_to_shopping_list_description">Automatisch voeg de benodigde ingrediënten toe aan je boodschappenlijst.</string>
     <string name="meal_plan_no_recipes_for_this_day">Geen recepten toegevoegd voor vandaag</string>
+
     <string name="navigation_books">Boeken</string>
     <string name="navigation_home">Huis</string>
     <string name="navigation_list">Alle recepten</string>
     <string name="navigation_meal_plan">Maaltijd plan</string>
     <string name="navigation_settings">Instellingen</string>
     <string name="navigation_shopping">Winkelen</string>
+
     <string name="onboarding_introduction">Welkom bij kitshn (voor Tandoor). Log alsjeblieft in je Tandoor instantie om door te gaan.</string>
 </resources>
