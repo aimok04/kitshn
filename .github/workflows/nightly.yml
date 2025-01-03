@@ -48,4 +48,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: "nightly"
           files: |
-            ./composeApp/build/outputs/apk/nightly/app-nightly.apk
+            ./composeApp/build/outputs/apk/nightly/composeApp-nightly.apk
