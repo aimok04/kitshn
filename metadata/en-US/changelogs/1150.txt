@@ -1,0 +1,12 @@
+kitshn was migrated to Kotlin/Compose Multiplatform. This enables compatibility with iOS.
+There might also be some differences/issues affecting the Android build. Feel free to report those on GitHub! :)
+
+- feat(commonMain): added experimental back gesture for iOS
+- feat(iosApp & composeApp): added Bugsnag crash reporting for iOS
+- fix(shopping): hiding items when "checked" set to true
+- fix(api): improved TandoorRequestsError message
+- chore(commonMain/api): marked v1.5.25/26 as compatible
+- l10n(Dutch): translated using Weblate
+- l10n(Russian): translated using Weblate
+- l10n(Ukrainian): translated using Weblate
+- kmpMigration
