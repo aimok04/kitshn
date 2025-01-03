@@ -31,7 +31,7 @@ val kitshnAndroidPackageName = "de.kitshn.android"
 val kitshnDesktopPackageName = "de.kitshn.desktop"
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
 
     androidTarget()
 
