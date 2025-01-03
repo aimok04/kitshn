@@ -117,6 +117,7 @@
     <string name="common_not_reachable">Not reachable</string>
     <string name="common_note">Note</string>
     <string name="common_okay">Okay</string>
+    <string name="common_option_requires_restart">This option requires a restart to apply</string>
     <string name="common_or_upper">OR</string>
     <string name="common_password">Password</string>
     <string name="common_per_serving">per serving</string>
@@ -298,6 +299,7 @@
     <string name="settings_section_appearance_follow_system_label">Follow system</string>
     <string name="settings_section_appearance_label">Appearance</string>
     <string name="settings_section_behavior_description">Change kitshn's behavior</string>
+    <string name="settings_section_behavior_enable_crash_reporting">Enable crash reporting</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_description">Hide all “Unallocated ingredients” warnings</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_label">Ignore unallocated ingredients</string>
     <string name="settings_section_behavior_ingredients_show_fractional_values_description">Might be easier to read but also less accurate</string>

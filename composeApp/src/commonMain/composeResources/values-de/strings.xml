@@ -117,6 +117,7 @@
     <string name="common_not_reachable">Nicht erreichbar</string>
     <string name="common_note">Notiz</string>
     <string name="common_okay">Okay</string>
+    <string name="common_option_requires_restart">Diese Option erfordert einen Neustart</string>
     <string name="common_or_upper">ODER</string>
     <string name="common_password">Passwort</string>
     <string name="common_per_serving">pro Portion</string>
@@ -298,6 +299,7 @@
     <string name="settings_section_appearance_follow_system_label">System folgen</string>
     <string name="settings_section_appearance_label">Erscheinung</string>
     <string name="settings_section_behavior_description">Ändere das Verhalten von kitshn</string>
+    <string name="settings_section_behavior_enable_crash_reporting">Fehlerberichte senden</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_description">Alle „Unsortierte Zutaten”-Warnungen verstecken</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_label">Unsortierte Zutaten ignorieren</string>
     <string name="settings_section_behavior_ingredients_show_fractional_values_description">Eventuell einfacher zu lesen, allerdings weniger akkurat</string>

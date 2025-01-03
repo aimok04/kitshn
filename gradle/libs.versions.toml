@@ -1,6 +1,7 @@
 [versions]
 aboutlibraries = "11.2.2"
 accompanist = "0.34.0"
+bugsnag = "0.8.6"
 compose-placeholder = "1.0.8"
 acra = "5.11.3"
 adaptive = "1.0.0"
@@ -19,7 +20,7 @@ androidx-navigation = "2.8.0-alpha10"
 kotlinx-serialization = "1.7.3"
 coil = "3.0.4"
 composeVideo = "1.2.0"
-desugar_jdk_libs = "2.1.3"
+desugar_jdk_libs = "2.1.4"
 haze = "0.7.2"
 media3 = "1.5.1"
 material = "1.12.0"
@@ -50,6 +51,7 @@ androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", versi
 androidx-media3-session = { module = "androidx.media3:media3-session", version.ref = "media3" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+bugsnag = { module = "co.touchlab.crashkios:bugsnag", version.ref = "bugsnag" }
 compose-placeholder = { module = "com.eygraber:compose-placeholder", version.ref = "compose-placeholder" }
 compose-placeholder-material = { module = "com.eygraber:compose-placeholder-material", version.ref = "compose-placeholder" }
 compose-webview-multiplatform = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "composeWebviewMultiplatform" }

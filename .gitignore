@@ -28,3 +28,5 @@ Pods/
 /composeApp/nightly
 
 /composeApp/src/commonMain/composeResources/files/aboutlibraries.json
+
+Package.resolved

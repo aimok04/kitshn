@@ -2,6 +2,7 @@ package de.kitshn.ui.view.settings
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Share
@@ -67,6 +68,8 @@ fun ViewSettingsBehavior(
                 .padding(it)
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
+            prependItems()
+
             item {
                 SettingsSwitchListItem(
                     label = { Text(stringResource(Res.string.settings_section_behavior_use_share_wrapper_label)) },
@@ -131,3 +134,5 @@ fun ViewSettingsBehavior(
         }
     }
 }
+
+expect fun LazyListScope.prependItems()

@@ -48,6 +48,8 @@ kotlin {
 
             binaryOption("bundleShortVersionString", kitshnAlternateVersionName)
             binaryOption("bundleVersion", "$kitshnAlternateVersionName.$kitshnVersionCode")
+
+            export("co.touchlab.crashkios:bugsnag:0.8.6")
         }
     }
 
@@ -150,6 +152,8 @@ kotlin {
             implementation(libs.ktor.client.darwin)
 
             implementation(libs.peekaboo.image.picker)
+
+            api(libs.bugsnag)
         }
     }
 }
