@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.tasks.CompileArtProfileTask
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import java.io.FileInputStream
 import java.time.LocalDate
@@ -299,4 +300,9 @@ buildConfig {
     )
 
     buildConfigField("SHARE_WRAPPER_URL", prop.getProperty("share.wrapper.url"))
+}
+
+// fix for F-Droid
+tasks.withType<CompileArtProfileTask> {
+    enabled = false
 }
