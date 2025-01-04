@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import de.kitshn.Platforms
 import de.kitshn.platformDetails
 
-private const val GESTURE_ACCEPTED_START = 80f
+private const val GESTURE_ACCEPTED_START = 130f
 private const val GESTURE_MINIMUM_FINISH = 300f
 
 /**
