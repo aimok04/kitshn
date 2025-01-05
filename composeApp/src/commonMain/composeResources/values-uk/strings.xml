@@ -323,4 +323,6 @@
     <string name="shortcuts_new_instance_label_long">Створити новий екземпляр</string>
     <string name="shortcuts_new_instance_label_short">Новий екземпляр</string>
     <string name="onboarding_sign_in_using_web_browser">Увійдіть за допомогою веб-браузера</string>
+    <string name="common_option_requires_restart">Для застосування цієї опції потрібен перезапуск</string>
+    <string name="settings_section_behavior_enable_crash_reporting">Увімкнути звіт про збої</string>
 </resources>
