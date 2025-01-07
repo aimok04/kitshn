@@ -147,6 +147,9 @@ class RecipeImportDialogState(
     }
 }
 
+// ensure recipe gets imported only once (issue #29)
+val IMPORT_URI_BLACKLIST = mutableListOf<String>()
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeImportDialog(
@@ -166,7 +169,14 @@ fun RecipeImportDialog(
         state.open(url = it, autoFetch = true)
     }
 
-    if(!state.shown.value) return
+    if(!state.shown.value) {
+        LaunchedEffect(Unit) {
+            delay(2000)
+            IMPORT_URI_BLACKLIST.clear()
+        }
+
+        return
+    }
 
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
@@ -206,6 +216,10 @@ fun RecipeImportDialog(
         if(recipeImportRequestState.state == TandoorRequestStateState.LOADING) return@launch
 
         recipeImportRequestState.wrapRequest {
+            // ensure recipe gets imported only once (issue #29)
+            if(IMPORT_URI_BLACKLIST.contains(state.data.url)) return@wrapRequest
+            IMPORT_URI_BLACKLIST.add(state.data.url)
+
             val recipe = state.data.recipeFromSource!!.create(
                 imageUrl = state.data.selectedImageUrl,
                 keywords = state.data.selectedKeywords,
