@@ -80,7 +80,7 @@ fun RouteRecipeCookPageStep(
 
             val maxWidthPx = with(density) { maxWidth.roundToPx() }
             LaunchedEffect(step.instruction, sideBySideLayout) {
-                var newFontSize = 14
+                var newFontSize = 18
 
                 while(newFontSize < 44) {
                     val textLayout = textMeasurer.measure(
