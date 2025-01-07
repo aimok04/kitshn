@@ -325,4 +325,5 @@
     <string name="onboarding_sign_in_using_web_browser">Увійдіть за допомогою веб-браузера</string>
     <string name="common_option_requires_restart">Для застосування цієї опції потрібен перезапуск</string>
     <string name="settings_section_behavior_enable_crash_reporting">Увімкнути звіт про збої</string>
+    <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">Ви можете спробувати «Увійти за допомогою веб-браузера», якщо ви використовуєте систему єдиного входу.</string>
 </resources>
