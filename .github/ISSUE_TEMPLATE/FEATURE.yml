@@ -1,0 +1,37 @@
+name: 💡 Feature
+description: Request a new feature.
+title: "💡 "
+labels: [ "enhancement" ]
+assignees:
+  - aimok04
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for improving kitshn!
+  - type: textarea
+    id: your-idea
+    attributes:
+      label: What's on your mind?
+      description: Please explain your idea.
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Relevant platforms
+      description: Is your idea specific to any platform?
+      multiple: true
+      options:
+        - Android
+        - iOS
+        - Desktop
+    validations:
+      required: false
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add images or videos if you'd like!
+    validations:
+      required: false
