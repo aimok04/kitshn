@@ -16,6 +16,7 @@ import de.kitshn.json
 import io.ktor.client.HttpClient
 import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.put
@@ -85,6 +86,8 @@ class TandoorClient(
             return true
         } catch(e: TandoorRequestsError) {
             if(ignoreAuth) return e.response?.status == HttpStatusCode.Forbidden
+            return false
+        } catch(_: SerializationException) {
             return false
         }
     }

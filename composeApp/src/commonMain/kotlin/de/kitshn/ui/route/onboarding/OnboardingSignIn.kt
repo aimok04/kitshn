@@ -69,6 +69,7 @@ import kitshn.composeapp.generated.resources.common_password
 import kitshn.composeapp.generated.resources.common_reachable
 import kitshn.composeapp.generated.resources.common_username
 import kitshn.composeapp.generated.resources.onboarding_sign_in_error_instance_not_reachable
+import kitshn.composeapp.generated.resources.onboarding_sign_in_error_instance_not_reachable_sso_hint
 import kitshn.composeapp.generated.resources.onboarding_sign_in_error_sign_in_failed
 import kitshn.composeapp.generated.resources.onboarding_sign_in_title
 import kitshn.composeapp.generated.resources.onboarding_sign_in_using_web_browser
@@ -240,7 +241,11 @@ fun RouteOnboardingSignIn(
                         isError = instanceUrlState == ErrorLoadingSuccessState.ERROR,
                         supportingText = {
                             if(instanceUrlState == ErrorLoadingSuccessState.ERROR)
-                                Text(stringResource(Res.string.onboarding_sign_in_error_instance_not_reachable))
+                                Text(
+                                    stringResource(Res.string.onboarding_sign_in_error_instance_not_reachable) + "\n\n" + stringResource(
+                                        Res.string.onboarding_sign_in_error_instance_not_reachable_sso_hint
+                                    )
+                                )
                         },
 
                         keyboardActions = KeyboardActions(

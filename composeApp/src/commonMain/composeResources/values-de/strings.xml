@@ -246,6 +246,7 @@
 
     <string name="onboarding_introduction">Willkommen in kitshn (für Tandoor). Bitte melde dich bei deiner Tandoor-Instanz an um fortzufahren.</string>
     <string name="onboarding_sign_in_error_instance_not_reachable">Die angegebene Instanz-URL kann nicht erreicht werden.</string>
+    <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">Probiere » Mit Webbrowser anmelden «, wenn du SSO benutzt.</string>
     <string name="onboarding_sign_in_error_sign_in_failed">Anmeldung fehlgeschlagen. Bitte überprüfe deine Eingabe!</string>
     <string name="onboarding_sign_in_title">Bei Tandoor anmelden</string>
     <string name="onboarding_sign_in_using_web_browser">Mit Webbrowser anmelden</string>
