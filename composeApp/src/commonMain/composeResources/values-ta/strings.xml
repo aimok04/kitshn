@@ -295,4 +295,21 @@
     <string name="tandoor_compatibility_not_checkable_label">பொருந்தக்கூடிய தன்மையை சரிபார்க்க முடியாது</string>
     <string name="tandoor_compatibility_unknown_description">உங்கள் தந்தூர் சேவையகத்தின் பதிப்பு இன்னும் சரிபார்க்கப்படவில்லை. பயன்பாட்டின் செயல்பாடு பலவீனமடையக்கூடும்.</string>
     <string name="tandoor_compatibility_unknown_label">பொருந்தக்கூடிய தன்மை தெரியவில்லை</string>
+    <string name="app_name">கிட்ச்ன்</string>
+    <string name="common_comment">கருத்து</string>
+    <string name="common_error_report">பிழை அறிக்கை</string>
+    <string name="common_import_recipe">இறக்குமதி செய்முறை</string>
+    <string name="acra_comment_helper">நீங்கள் விரும்பினால், இந்த பிழை எவ்வாறு நிகழ்ந்தது என்பது குறித்து நீங்கள் கருத்து தெரிவிக்கலாம்.</string>
+    <string name="acra_dialog_button_negative">அனுப்ப வேண்டாம்</string>
+    <string name="acra_dialog_button_neutral">அறிக்கையைக் காண்க</string>
+    <string name="acra_dialog_button_positive">அனுப்பு</string>
+    <string name="acra_dialog_message">பயன்பாடு எதிர்பாராத பிழையை சந்தித்துள்ளது. சிக்கலை சரிசெய்ய உதவும் பிழை அறிக்கையை அனுப்பவும்.\n\n அனுப்புவதற்கு முன் முழு அறிக்கையையும் நீங்கள் காணலாம்.</string>
+    <string name="acra_dialog_title">அச்சச்சோ!</string>
+    <string name="acra_email_address_helper">நீங்கள் விரும்பினால், உங்கள் அறிக்கையில் புதுப்பிப்புகளைப் பெற உங்கள் அஞ்சல் முகவரியை உள்ளிடலாம்.</string>
+    <string name="action_back">பின்</string>
+    <string name="action_download">பதிவிறக்கம்</string>
+    <string name="common_email_address">அஞ்சல் முகவரி</string>
+    <string name="shortcuts_new_instance_label_long">புதிய நிகழ்வை உருவாக்கவும்</string>
+    <string name="shortcuts_new_instance_label_short">புதிய நிகழ்வு</string>
+    <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">நீங்கள் ஒருகைஉள் ஐப் பயன்படுத்தினால், வலை உலாவியைப் பயன்படுத்தி உள்நுழைய முயற்சி செய்யலாம்.</string>
 </resources>
