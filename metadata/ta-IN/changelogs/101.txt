@@ -1,0 +1,2 @@
+- fix(build.gradle): removed minifying
+ - fix(mealplan): mealplanType color சி-வைகாசி now be undefined
