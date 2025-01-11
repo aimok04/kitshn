@@ -155,7 +155,10 @@ class TandoorStep(
                         } else {
                             (number * scale).formatAmount(fractional)
                         }
-                    }.replace(Regex("\\{#[\\w\\s]*#\\}"), "") // replaces template comments
+                    }.replace(
+                        Regex("\\{#[\\w\\s.,;:\\-()\\/%°\"„“'’&\\\$€?!*+…]*#\\}"),
+                        ""
+                    ) // replaces template comments
         }
 
         return value
