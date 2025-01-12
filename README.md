@@ -13,8 +13,8 @@ Although kitshn is available to multiple platforms, the main focus is still on A
 Some features are exclusive to that platform.
 
 > [!IMPORTANT]
-> Please note that the app is currently in alpha phase. You can of course open issues for bugs,
-> feedback, and feature ideas.
+> You can of course open issues for bugs, feedback, and feature ideas.
+> All suggestions are very welcome :)
 
 > [!WARNING]
 > I'm just a hobbyist developing this app in my spare time. This app not only might, but is
