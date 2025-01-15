@@ -108,6 +108,7 @@
     <string name="common_keywords">Keywords</string>
     <string name="common_loading">Loading</string>
     <string name="common_loading_short">Loading …</string>
+    <string name="common_manage_space">Manage Space</string>
     <string name="common_meal_type">Meal type</string>
     <string name="common_menu">Menu</string>
     <string name="common_minute_min">min</string>
@@ -248,6 +249,7 @@
     <string name="onboarding_sign_in_error_instance_not_reachable">The specified instance URL cannot be reached.</string>
     <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">You can try » Log in using web browser «, if you are using SSO.</string>
     <string name="onboarding_sign_in_error_sign_in_failed">Login failed. Please check your inputs!</string>
+    <string name="onboarding_sign_in_ios_social_login_unsupported">This app does not support Social Login. Please generate an API-Token or use username/password authentication.</string>
     <string name="onboarding_sign_in_title">Log in to Tandoor</string>
     <string name="onboarding_sign_in_using_web_browser">Log in using web browser</string>
     <string name="onboarding_welcome">Have fun cooking with kitshn. Please note that the app is currently in alpha phase. For bugs, feedback, and feature ideas, please check the » About « page in the settings for contact options.</string>
@@ -310,6 +312,11 @@
     <string name="settings_section_behavior_properties_show_fractional_values_label">Fractional values for custom properties</string>
     <string name="settings_section_behavior_use_share_wrapper_description">Makes shared Tandoor links openable in this app</string>
     <string name="settings_section_behavior_use_share_wrapper_label">Share wrapper</string>
+    <string name="settings_section_server_delete_and_manage_data_description">You can only manage your data on the webpage</string>
+    <string name="settings_section_server_delete_and_manage_data_dialog_line_1">You can delete and manage your space data on the website of your instance. Please contact the provider of your instance to request account deletion.</string>
+    <string name="settings_section_server_delete_and_manage_data_dialog_line_2">You can request account deletion by mailing</string>
+    <string name="settings_section_server_delete_and_manage_data_dialog_line_3">since you are using the official public instance.</string>
+    <string name="settings_section_server_delete_and_manage_data_label">Delete and manage data</string>
     <string name="settings_section_server_description">Information about your instance</string>
     <string name="settings_section_server_label">Server</string>
 

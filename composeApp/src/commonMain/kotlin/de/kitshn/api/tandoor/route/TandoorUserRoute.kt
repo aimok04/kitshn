@@ -13,7 +13,8 @@ data class TandoorUserSpaceResponse(
 
 @Serializable
 data class TandoorUserSpace(
-    val user: TandoorUser
+    val user: TandoorUser,
+    val space: Int = -1
 )
 
 @Serializable
@@ -31,6 +32,14 @@ class TandoorUserRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return json.decodeFromString<List<TandoorUser>>(
             client.getObject("/user/").toString()
         )
+    }
+
+    suspend fun getUserSpace(): TandoorUserSpace? {
+        val resp = json.decodeFromString<TandoorUserSpaceResponse>(
+            client.getObject("/user-space/").toString()
+        )
+
+        return resp.results.firstOrNull()
     }
 
     suspend fun get(): TandoorUser? {

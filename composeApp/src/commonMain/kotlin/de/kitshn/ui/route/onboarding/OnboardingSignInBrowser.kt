@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.multiplatform.webview.web.LoadingState
 import com.multiplatform.webview.web.WebView
+import com.multiplatform.webview.web.rememberWebViewNavigator
 import com.multiplatform.webview.web.rememberWebViewState
 import de.kitshn.Platforms
 import de.kitshn.api.tandoor.TandoorClient
@@ -37,9 +38,11 @@ import de.kitshn.ui.component.buttons.BackButtonType
 import de.kitshn.ui.route.RouteParameters
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.error
+import kitshn.composeapp.generated.resources.onboarding_sign_in_ios_social_login_unsupported
 import kitshn.composeapp.generated.resources.onboarding_sign_in_title
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -97,6 +100,7 @@ fun RouteOnboardingSignInBrowser(
                     textAlign = TextAlign.Center
                 )
 
+                val webViewNavigator = rememberWebViewNavigator()
                 val webViewState = rememberWebViewState(url = instanceUrl)
                 webViewState.webSettings.apply {
                     isJavaScriptEnabled = true
@@ -108,6 +112,21 @@ fun RouteOnboardingSignInBrowser(
                 }
 
                 LaunchedEffect(webViewState.loadingState) {
+                    // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#login-services and https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)
+                    if(platformDetails.platform == Platforms.IOS) {
+                        if(webViewState.lastLoadedUrl?.contains("accounts/signup") == true) {
+                            webViewNavigator.loadUrl(url = instanceUrl)
+                        } else {
+                            webViewNavigator.evaluateJavaScript(
+                                "document.querySelector(`a[href=\"/accounts/signup/\"]`).remove(); document.querySelector(\".socialaccount_providers\").parentElement.innerText = \"${
+                                    getString(
+                                        Res.string.onboarding_sign_in_ios_social_login_unsupported
+                                    )
+                                }\";"
+                            )
+                        }
+                    }
+
                     if(webViewState.loadingState !is LoadingState.Finished) return@LaunchedEffect
                     delay(300)
 
@@ -141,7 +160,8 @@ fun RouteOnboardingSignInBrowser(
 
                 WebView(
                     modifier = Modifier.fillMaxSize(),
-                    state = webViewState
+                    state = webViewState,
+                    navigator = webViewNavigator
                 )
             }
         }

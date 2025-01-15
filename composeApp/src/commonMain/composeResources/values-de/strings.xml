@@ -108,6 +108,7 @@
     <string name="common_keywords">Schlagwörter</string>
     <string name="common_loading">Laden</string>
     <string name="common_loading_short">Lädt …</string>
+    <string name="common_manage_space">Space verwalten</string>
     <string name="common_meal_type">Mahlzeit</string>
     <string name="common_menu">Menü</string>
     <string name="common_minute_min">min</string>
@@ -248,6 +249,7 @@
     <string name="onboarding_sign_in_error_instance_not_reachable">Die angegebene Instanz-URL kann nicht erreicht werden.</string>
     <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">Probiere » Mit Webbrowser anmelden «, wenn du SSO benutzt.</string>
     <string name="onboarding_sign_in_error_sign_in_failed">Anmeldung fehlgeschlagen. Bitte überprüfe deine Eingabe!</string>
+    <string name="onboarding_sign_in_ios_social_login_unsupported">Diese App unterstützt Social Login nicht. Bitte generiere einen API-Token oder nutze Nutzername/Password-Authentifizierung.</string>
     <string name="onboarding_sign_in_title">Bei Tandoor anmelden</string>
     <string name="onboarding_sign_in_using_web_browser">Mit Webbrowser anmelden</string>
     <string name="onboarding_welcome">Viel Spaß beim Kochen mit kitshn. Bitte beachte, dass sich die App derzeit in der Alpha-Phase befindet. Für Fehler, Bugs und Ideen findest du in den Einstellungen unter » Über « Möglichkeiten zum Kontakt.</string>
@@ -310,6 +312,11 @@
     <string name="settings_section_behavior_properties_show_fractional_values_label">Werte für Eigenschaften als Brüche anzeigen</string>
     <string name="settings_section_behavior_use_share_wrapper_description">Geteilte Tandoor Links können direkt in der App geöffnet werden</string>
     <string name="settings_section_behavior_use_share_wrapper_label">Share-Wrapper</string>
+    <string name="settings_section_server_delete_and_manage_data_description">Du kannst deine Daten nur auf der Webseite verwalten</string>
+    <string name="settings_section_server_delete_and_manage_data_dialog_line_1">Du kannst deine Daten auf der Webseite deiner Instanz verwalten. Bitte kontaktiere den Verwalter deiner Instanz, um deinen Account löschen zu lassen.</string>
+    <string name="settings_section_server_delete_and_manage_data_dialog_line_2">Du kannst die Löschung beantragen, indem du eine Mail an</string>
+    <string name="settings_section_server_delete_and_manage_data_dialog_line_3">schickst, da du die offizielle, öffentliche Instanz benutzt.</string>
+    <string name="settings_section_server_delete_and_manage_data_label">Daten löschen und verwalten</string>
     <string name="settings_section_server_description">Informationen über deinen Server</string>
     <string name="settings_section_server_label">Server</string>
 
