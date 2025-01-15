@@ -10,6 +10,7 @@ import de.kitshn.api.tandoor.route.TandoorRecipeBookRoute
 import de.kitshn.api.tandoor.route.TandoorRecipeFromSourceRoute
 import de.kitshn.api.tandoor.route.TandoorRecipeRoute
 import de.kitshn.api.tandoor.route.TandoorShoppingRoute
+import de.kitshn.api.tandoor.route.TandoorUnitRoute
 import de.kitshn.api.tandoor.route.TandoorUserPreferenceRoute
 import de.kitshn.api.tandoor.route.TandoorUserRoute
 import de.kitshn.json
@@ -57,6 +58,7 @@ class TandoorClient(
     val recipeBook = TandoorRecipeBookRoute(this)
     val recipeFromSource = TandoorRecipeFromSourceRoute(this)
     val shopping = TandoorShoppingRoute(this)
+    val unit = TandoorUnitRoute(this)
     val user = TandoorUserRoute(this)
     val userPreference = TandoorUserPreferenceRoute(this)
     val openapi = TandoorOpenApiRoute(this)

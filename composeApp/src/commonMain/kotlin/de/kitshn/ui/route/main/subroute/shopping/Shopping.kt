@@ -29,7 +29,6 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -65,7 +64,9 @@ import de.kitshn.toHumanReadableDateLabel
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.icons.IconWithState
+import de.kitshn.ui.component.input.OutlinedFoodSearchField
 import de.kitshn.ui.component.input.OutlinedNumberField
+import de.kitshn.ui.component.input.OutlinedUnitSearchField
 import de.kitshn.ui.dialog.mealplan.MealPlanCreationAndEditDialog
 import de.kitshn.ui.dialog.mealplan.MealPlanDetailsDialog
 import de.kitshn.ui.dialog.mealplan.rememberMealPlanDetailsDialogState
@@ -211,8 +212,11 @@ fun RouteMainSubrouteShopping(
 
                         Spacer(Modifier.width(8.dp))
 
-                        OutlinedTextField(
-                            modifier = Modifier.weight(0.25f),
+                        if(client != null) OutlinedUnitSearchField(
+                            client = client,
+
+                            modifier = Modifier.fillMaxWidth(),
+                            dropdownMenuModifier = Modifier.weight(0.25f),
 
                             placeholder = { Text(text = stringResource(Res.string.shopping_list_entry_create_placeholder_unit)) },
 
@@ -223,9 +227,6 @@ fun RouteMainSubrouteShopping(
                                 imeAction = ImeAction.Next
                             ),
 
-                            singleLine = true,
-                            maxLines = 1,
-
                             value = unit ?: "",
                             onValueChange = {
                                 unit = it
@@ -235,8 +236,11 @@ fun RouteMainSubrouteShopping(
 
                         Spacer(Modifier.width(8.dp))
 
-                        OutlinedTextField(
-                            modifier = Modifier.weight(0.5f),
+                        if(client != null) OutlinedFoodSearchField(
+                            client = client,
+
+                            modifier = Modifier.fillMaxWidth(),
+                            dropdownMenuModifier = Modifier.weight(0.5f),
 
                             placeholder = { Text(text = stringResource(Res.string.shopping_list_entry_create_placeholder_food)) },
 
@@ -246,9 +250,6 @@ fun RouteMainSubrouteShopping(
                             keyboardOptions = KeyboardOptions(
                                 imeAction = ImeAction.Go
                             ),
-
-                            singleLine = true,
-                            maxLines = 1,
 
                             value = food ?: "",
                             onValueChange = {

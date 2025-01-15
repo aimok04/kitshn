@@ -12,6 +12,7 @@ import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.TandoorMealType
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.model.TandoorRecipeBookEntry
+import de.kitshn.api.tandoor.model.TandoorUnit
 import de.kitshn.api.tandoor.model.log.TandoorCookLog
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
@@ -41,6 +42,9 @@ class TandoorContainer(
 
     val mealPlan = mutableStateMapOf<Int, TandoorMealPlan?>()
     val mealType = mutableStateMapOf<Int, TandoorMealType?>()
+
+    val unit = mutableStateMapOf<Int, TandoorUnit?>()
+    val unitByName = mutableStateMapOf<String, TandoorUnit?>()
 
     val shoppingListEntries = mutableStateListOf<TandoorShoppingListEntry>()
 
