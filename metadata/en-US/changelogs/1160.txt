@@ -1,0 +1,24 @@
+- feat(commonMain/shopping): added dropdowns to unit and food fields (resolved #57)
+- feat(README.md): added badges for iOS
+- feat(iosApp & commonMain): adapt to Apple App Store guidelines
+- fix(README.md): changed wording
+- fix(recipes): improved regex for template comments (resolved #58)
+- l10n(Tamil): translated using Weblate
+- l10n(Tamil): translated using Weblate
+- l10n(Ukrainian): translated using Weblate
+- github: added ISSUE_TEMPLATEs
+- fix(commonMain/import): added second check to rule out double imports (resolved #29)
+- fix(commonMain/recipes): increased minimum fontSize in cook mode
+- l10n(Ukrainian): translated using Weblate
+- fix(commonMain/onboarding): crash when using SSO log in (resolved #52)
+- l10n(Tamil): translated using Weblate
+- l10n(Tamil): translated using Weblate
+- l10n(Tamil): added translation using Weblate
+- l10n(Tamil): added translation using Weblate
+- github: update FUNDING.yml
+- l10n(Ukrainian): translated using Weblate
+- l10n(Dutch): translated using Weblate
+- l10n(Dutch): translated using Weblate
+- Revert "chore(commonMain/composeResources): reformat strings.xml"
+- github: added FUNDING.yml
+- fix(commonMain): increased GESTURE_ACCEPTED_START in IOSBackGestureHandler
