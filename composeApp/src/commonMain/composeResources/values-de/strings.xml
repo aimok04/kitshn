@@ -22,6 +22,7 @@
     <string name="action_combine">Zusammenfassen</string>
     <string name="action_confirm">Bestätigen</string>
     <string name="action_continue">Fortfahren</string>
+    <string name="action_cook">Kochen</string>
     <string name="action_create">Erstellen</string>
     <string name="action_create_entry">Neuer Eintrag</string>
     <string name="action_create_recipe">Neues Rezept</string>

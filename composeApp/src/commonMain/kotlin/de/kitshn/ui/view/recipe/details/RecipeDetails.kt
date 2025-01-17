@@ -34,9 +34,9 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -86,6 +86,7 @@ import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.isScrollingUp
 import de.kitshn.launchWebsiteHandler
 import de.kitshn.shareContentHandler
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -125,6 +126,7 @@ import de.kitshn.ui.view.ViewParameters
 import kitshn.composeApp.BuildConfig
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_close
+import kitshn.composeapp.generated.resources.action_cook
 import kitshn.composeapp.generated.resources.action_more
 import kitshn.composeapp.generated.resources.action_open_original
 import kitshn.composeapp.generated.resources.action_open_source
@@ -442,16 +444,21 @@ fun ViewRecipeDetails(
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
-                FloatingActionButton(
+                ExtendedFloatingActionButton(
+                    expanded = scrollState.isScrollingUp(),
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Rounded.LocalDining,
+                            contentDescription = stringResource(Res.string.action_start_cooking)
+                        )
+                    },
+                    text = {
+                        Text(stringResource(Res.string.action_cook))
+                    },
                     onClick = {
                         p.vm.navHostController?.navigate("recipe/${recipeOverview.id}/cook/${servingsValue}")
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.LocalDining,
-                        contentDescription = stringResource(Res.string.action_start_cooking)
-                    )
-                }
+                )
             }
         },
         containerColor = MaterialTheme.colorScheme.background
