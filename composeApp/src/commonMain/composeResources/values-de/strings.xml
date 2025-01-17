@@ -270,6 +270,7 @@
     <string name="recipe_sorting_last_viewed">Zuletzt angesehen</string>
     <string name="recipe_sorting_relevance">Relevanz</string>
     <string name="recipe_step_timer_created">Timer wurde erstellt.</string>
+    <string name="recipe_step_timer_error_no_app">Du benötigst eine unterstützte Timer-App, um diese Aktion auszuführen!</string>
 
     <string name="search_food_including_all_description">Die Rezepte müssen alle Zutaten beinhalten</string>
     <string name="search_food_including_all_label">Alle Zutaten beinhaltet</string>

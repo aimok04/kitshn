@@ -26,6 +26,7 @@ import kitshn.composeapp.generated.resources.common_today
 import kitshn.composeapp.generated.resources.common_tomorrow
 import kitshn.composeapp.generated.resources.common_yesterday
 import kitshn.composeapp.generated.resources.recipe_step_timer_created
+import kitshn.composeapp.generated.resources.recipe_step_timer_error_no_app
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
@@ -156,20 +157,31 @@ actual fun launchTimerHandler(): (seconds: Int, name: String) -> Unit {
     val coroutineScope = rememberCoroutineScope()
 
     return { seconds, name ->
-        context.startActivity(
-            Intent().apply {
-                action = AlarmClock.ACTION_SET_TIMER
-                putExtra(AlarmClock.EXTRA_LENGTH, seconds)
-                putExtra(AlarmClock.EXTRA_MESSAGE, name)
-                putExtra(AlarmClock.EXTRA_SKIP_UI, true)
-            }
-        )
+        try {
+            context.startActivity(
+                Intent().apply {
+                    action = AlarmClock.ACTION_SET_TIMER
+                    putExtra(AlarmClock.EXTRA_LENGTH, seconds)
+                    putExtra(AlarmClock.EXTRA_MESSAGE, name)
+                    putExtra(AlarmClock.EXTRA_SKIP_UI, true)
+                }
+            )
 
-        coroutineScope.launch {
-            Toast.makeText(
-                context,
-                getString(Res.string.recipe_step_timer_created), Toast.LENGTH_SHORT
-            ).show()
+            coroutineScope.launch {
+                Toast.makeText(
+                    context,
+                    getString(Res.string.recipe_step_timer_created), Toast.LENGTH_SHORT
+                ).show()
+            }
+        } catch(e: ActivityNotFoundException) {
+            e.printStackTrace()
+
+            coroutineScope.launch {
+                Toast.makeText(
+                    context,
+                    getString(Res.string.recipe_step_timer_error_no_app), Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 }

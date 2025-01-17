@@ -270,6 +270,7 @@
     <string name="recipe_sorting_last_viewed">Last time viewed</string>
     <string name="recipe_sorting_relevance">Relevance</string>
     <string name="recipe_step_timer_created">Timer has been created.</string>
+    <string name="recipe_step_timer_error_no_app">You need to install a supported timer app for this action!</string>
 
     <string name="search_food_including_all_description">The recipes must include all ingredients</string>
     <string name="search_food_including_all_label">All ingredients included</string>
