@@ -306,6 +306,11 @@ internal fun LazyGridState.reachedBottom(buffer: Int = 1): Boolean {
     return lastVisibleItem?.index != 0 && lastVisibleItem?.index == this.layoutInfo.totalItemsCount - buffer
 }
 
+internal fun LazyStaggeredGridState.reachedBottom(buffer: Int = 1): Boolean {
+    val lastVisibleItem = this.layoutInfo.visibleItemsInfo.lastOrNull()
+    return lastVisibleItem?.index != 0 && lastVisibleItem?.index == this.layoutInfo.totalItemsCount - buffer
+}
+
 fun String.scoreMatch(other: String) =
     zip(other).count { it.first == it.second } / maxOf(length, other.length).toFloat()
 

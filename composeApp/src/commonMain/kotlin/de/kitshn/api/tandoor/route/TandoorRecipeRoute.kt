@@ -63,7 +63,8 @@ data class TandoorRecipeQueryParameters(
     val foodsAnd: Boolean = false,
     val rating: Int? = null,
     val timescooked: Int? = null,
-    var sortOrder: TandoorRecipeQueryParametersSortOrder? = null
+    var sortOrder: TandoorRecipeQueryParametersSortOrder? = null,
+    val filter: Int? = null
 )
 
 @Serializable
@@ -153,6 +154,10 @@ class TandoorRecipeRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         if(parameters.sortOrder != null) builder.appendQueryParameter(
             "sort_order",
             parameters.sortOrder?.id
+        )
+        if(parameters.filter != null) builder.appendQueryParameter(
+            "filter",
+            parameters.filter.toString()
         )
         if(pageSize != null) builder.appendQueryParameter("page_size", pageSize.toString())
         builder.appendQueryParameter("page", page.toString())

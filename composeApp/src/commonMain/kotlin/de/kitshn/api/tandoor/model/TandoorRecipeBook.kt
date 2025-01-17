@@ -9,6 +9,8 @@ import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.patchObject
 import de.kitshn.api.tandoor.postObject
+import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
+import de.kitshn.api.tandoor.route.TandoorRecipeRouteListResponse
 import de.kitshn.json
 import de.kitshn.removeIf
 import kotlinx.serialization.Serializable
@@ -21,7 +23,8 @@ class TandoorRecipeBook(
     val id: Int,
     val name: String,
     val description: String,
-    val order: Int = 0
+    val order: Int = 0,
+    val filter: TandoorRecipeFilter? = null
 ) {
 
     @Transient
@@ -42,6 +45,17 @@ class TandoorRecipeBook(
     suspend fun listEntries(): List<TandoorRecipeBookEntry>? {
         if(client == null) return null
         return client!!.recipeBook.listEntries(id)
+    }
+
+    suspend fun listFilterEntries(
+        page: Int
+    ): TandoorRecipeRouteListResponse {
+        return client!!.recipe.list(
+            page = page,
+            parameters = TandoorRecipeQueryParameters(
+                filter = filter!!.id
+            )
+        )
     }
 
     suspend fun delete(): String {

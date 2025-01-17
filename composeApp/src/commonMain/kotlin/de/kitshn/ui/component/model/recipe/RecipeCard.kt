@@ -58,6 +58,8 @@ fun RecipeCard(
     recipeOverview: TandoorRecipeOverview? = null,
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
     selectionState: SelectionModeState<Int>? = null,
+    additionalCardInfoTagsStart: @Composable (hazeState: HazeState) -> Unit = { },
+    additionalCardInfoTagsEnd: @Composable (hazeState: HazeState) -> Unit = { },
     onClickKeyword: (keyword: TandoorKeywordOverview) -> Unit,
     onClick: (recipeOverview: TandoorRecipeOverview) -> Unit,
 ) {
@@ -129,6 +131,8 @@ fun RecipeCard(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row {
+                        additionalCardInfoTagsStart(hazeState)
+
                         if(recipeOverview.working_time > 0)
                             RecipeCardTimeTag(
                                 hazeState = hazeState,
@@ -143,15 +147,19 @@ fun RecipeCard(
                         )
                     }
 
-                    if(recipeOverview.rating != null) RecipeCardInfoTag(
-                        hazeState = hazeState
-                    ) {
-                        FiveStarIconRow(
-                            iconModifier = Modifier
-                                .height(16.dp)
-                                .width(16.dp),
-                            rating = recipeOverview.rating
-                        )
+                    Row {
+                        if(recipeOverview.rating != null) RecipeCardInfoTag(
+                            hazeState = hazeState
+                        ) {
+                            FiveStarIconRow(
+                                iconModifier = Modifier
+                                    .height(16.dp)
+                                    .width(16.dp),
+                                rating = recipeOverview.rating
+                            )
+                        }
+
+                        additionalCardInfoTagsEnd(hazeState)
                     }
                 }
             }
