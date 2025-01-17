@@ -3,6 +3,7 @@ package de.kitshn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalUriHandler
+import kitshn.composeApp.BuildConfig
 import platform.Foundation.NSString
 import platform.Foundation.create
 import platform.UIKit.UIActivityViewController
@@ -32,8 +33,10 @@ actual fun KeepScreenOn() {
 
 @Composable
 actual fun launchMarketPageHandler(): () -> Unit {
+    val uriHandler = LocalUriHandler.current
+
     return {
-        throw Exception("UTILS_IOS_launchMarketPageHandler_NOT_IMPLEMENTED")
+        uriHandler.openUri(BuildConfig.ABOUT_APPLE_APPSTORE)
     }
 }
 
