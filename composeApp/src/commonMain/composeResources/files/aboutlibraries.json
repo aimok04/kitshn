@@ -9,14 +9,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.10.0",
+      "artifactVersion": "1.9.3",
       "description": "Provides the base Activity subclass and the relevant hooks to build a composable structure on top.",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Activity",
-      "website": "https://developer.android.com/jetpack/androidx/releases/activity#1.10.0",
+      "website": "https://developer.android.com/jetpack/androidx/releases/activity#1.9.3",
       "licenses": [
         "Apache-2.0"
       ],
@@ -32,14 +32,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.10.0",
+      "artifactVersion": "1.9.3",
       "description": "Compose integration with Activity",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Activity Compose",
-      "website": "https://developer.android.com/jetpack/androidx/releases/activity#1.10.0",
+      "website": "https://developer.android.com/jetpack/androidx/releases/activity#1.9.3",
       "licenses": [
         "Apache-2.0"
       ],
@@ -55,14 +55,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.10.0",
+      "artifactVersion": "1.9.3",
       "description": "Kotlin extensions for 'activity' artifact",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Activity Kotlin Extensions",
-      "website": "https://developer.android.com/jetpack/androidx/releases/activity#1.10.0",
+      "website": "https://developer.android.com/jetpack/androidx/releases/activity#1.9.3",
       "licenses": [
         "Apache-2.0"
       ],
@@ -1094,14 +1094,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.1.2",
+      "artifactVersion": "1.1.1",
       "description": "Android DataStore - contains the underlying store used by each serialization method along with components that require an Android dependency",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "DataStore",
-      "website": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+      "website": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.1",
       "licenses": [
         "Apache-2.0"
       ],
@@ -1117,14 +1117,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.1.2",
+      "artifactVersion": "1.1.1",
       "description": "Android DataStore Core - contains the underlying store used by each serialization method",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "DataStore Core",
-      "website": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+      "website": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.1",
       "licenses": [
         "Apache-2.0"
       ],
@@ -1140,14 +1140,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.1.2",
+      "artifactVersion": "1.1.1",
       "description": "Android DataStore Core Okio- contains APIs to use datastore-core in multiplatform via okio",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "DataStore Core Okio",
-      "website": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+      "website": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.1",
       "licenses": [
         "Apache-2.0"
       ],
@@ -1163,14 +1163,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.1.2",
+      "artifactVersion": "1.1.1",
       "description": "Android Preferences DataStore",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Preferences DataStore",
-      "website": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+      "website": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.1",
       "licenses": [
         "Apache-2.0"
       ],
@@ -1186,60 +1186,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.1.2",
+      "artifactVersion": "1.1.1",
       "description": "Android Preferences DataStore without the Android Dependencies",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Preferences DataStore Core",
-      "website": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
-      "licenses": [
-        "Apache-2.0"
-      ],
-      "organization": {
-        "name": "The Android Open Source Project"
-      }
-    },
-    {
-      "uniqueId": "androidx.datastore:datastore-preferences-external-protobuf",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.1.2",
-      "description": "Repackaged proto-lite dependency for use by datastore preferences",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Preferences External Protobuf",
-      "website": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
-      "licenses": [
-        "BSD-3-Clause"
-      ],
-      "organization": {
-        "name": "The Android Open Source Project"
-      }
-    },
-    {
-      "uniqueId": "androidx.datastore:datastore-preferences-proto",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.1.2",
-      "description": "Jarjar the generated proto for use by datastore-preferences.",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Preferences DataStore Proto",
-      "website": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.2",
+      "website": "https://developer.android.com/jetpack/androidx/releases/datastore#1.1.1",
       "licenses": [
         "Apache-2.0"
       ],
