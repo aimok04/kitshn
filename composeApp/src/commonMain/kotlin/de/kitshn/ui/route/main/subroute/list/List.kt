@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -39,6 +40,7 @@ import de.kitshn.ui.state.rememberErrorLoadingSuccessState
 import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.navigation_list
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,6 +82,8 @@ fun RouteMainSubrouteList(
                 page = currentPage
             )
         }?.let {
+            currentPage++
+
             nextPageExists = it.next != null
 
             resultIds.clear()
@@ -94,22 +98,38 @@ fun RouteMainSubrouteList(
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val gridState = rememberLazyGridState()
-    val reachedBottom by remember { derivedStateOf { gridState.reachedBottom(buffer = 5) } }
+    val reachedBottom by remember { derivedStateOf { gridState.reachedBottom() } }
 
+    var fetchNewItems by remember { mutableStateOf(false) }
     LaunchedEffect(reachedBottom) {
-        if(extendedListRequestState.state == TandoorRequestStateState.LOADING) return@LaunchedEffect
-        if(!nextPageExists) return@LaunchedEffect
+        if(reachedBottom) {
+            fetchNewItems = true
+        }
+    }
 
-        currentPage++
-        extendedListRequestState.wrapRequest {
-            client.recipe.list(
-                parameters = TandoorRecipeQueryParameters(),
-                pageSize = HOME_SEARCH_PAGING_SIZE,
-                page = currentPage
-            )
-        }?.let {
-            nextPageExists = it.next != null
-            it.results.forEach { recipe -> resultIds.add(recipe.id) }
+    LaunchedEffect(fetchNewItems, nextPageExists) {
+        while(fetchNewItems && nextPageExists) {
+            if(listRequestState.state != TandoorRequestStateState.SUCCESS) {
+                delay(500)
+                continue
+            }
+
+            extendedListRequestState.wrapRequest {
+                client.recipe.list(
+                    parameters = TandoorRecipeQueryParameters(),
+                    pageSize = HOME_SEARCH_PAGING_SIZE,
+                    page = currentPage
+                )
+            }?.let {
+                currentPage++
+
+                nextPageExists = it.next != null
+                it.results.forEach { recipe -> resultIds.add(recipe.id) }
+
+                if(!reachedBottom) fetchNewItems = false
+            }
+
+            delay(500)
         }
     }
 

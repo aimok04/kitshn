@@ -38,6 +38,7 @@ import de.kitshn.ui.state.foreverRememberNotSavable
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.home_search_empty
 import kitshn.composeapp.generated.resources.home_search_empty_query
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 
 const val HOME_SEARCH_PAGING_SIZE = 36
@@ -104,6 +105,8 @@ fun ViewHomeSearchContent(
                 page = state.currentPage
             )
         }?.let {
+            state.currentPage++
+
             state.nextPageExists = it.next != null
 
             state.searchResultIds.clear()
@@ -115,23 +118,38 @@ fun ViewHomeSearchContent(
         key = "ViewHomeSearchContent/lazyList/${state.query}/${additionalSearchSettingsChipRowState.updateState}",
         initialValue = LazyListState()
     )
-    val reachedBottom by remember { derivedStateOf { searchLazyListState.reachedBottom(buffer = 3) } }
+    val reachedBottom by remember { derivedStateOf { searchLazyListState.reachedBottom() } }
 
+    var fetchNewItems by remember { mutableStateOf(false) }
     LaunchedEffect(reachedBottom) {
-        if(state.searchRequestState.state != TandoorRequestStateState.SUCCESS) return@LaunchedEffect
-        if(state.extendedSearchRequestState.state == TandoorRequestStateState.LOADING) return@LaunchedEffect
-        if(!state.nextPageExists) return@LaunchedEffect
+        if(reachedBottom) {
+            fetchNewItems = true
+        }
+    }
 
-        state.currentPage++
-        state.extendedSearchRequestState.wrapRequest {
-            client.recipe.list(
-                parameters = collectQueryParameters(),
-                pageSize = HOME_SEARCH_PAGING_SIZE,
-                page = state.currentPage
-            )
-        }?.let {
-            state.nextPageExists = it.next != null
-            it.results.forEach { recipe -> state.searchResultIds.add(recipe.id) }
+    LaunchedEffect(fetchNewItems, state.nextPageExists) {
+        while(fetchNewItems && state.nextPageExists) {
+            if(state.searchRequestState.state != TandoorRequestStateState.SUCCESS) {
+                delay(500)
+                continue
+            }
+
+            state.extendedSearchRequestState.wrapRequest {
+                client.recipe.list(
+                    parameters = collectQueryParameters(),
+                    pageSize = HOME_SEARCH_PAGING_SIZE,
+                    page = state.currentPage
+                )
+            }?.let {
+                state.currentPage++
+
+                state.nextPageExists = it.next != null
+                it.results.forEach { recipe -> state.searchResultIds.add(recipe.id) }
+
+                if(!reachedBottom) fetchNewItems = false
+            }
+
+            delay(500)
         }
     }
 

@@ -276,6 +276,8 @@ fun KeywordSearchBar(
                 pageSize = HOME_SEARCH_PAGING_SIZE,
             )
         }?.let {
+            currentPage++
+
             nextPageExists = it.next != null
 
             searchResults.clear()
@@ -286,21 +288,36 @@ fun KeywordSearchBar(
     val searchLazyListState = rememberLazyListState()
     val reachedBottom by remember { derivedStateOf { searchLazyListState.reachedBottom(buffer = 3) } }
 
+    var fetchNewItems by remember { mutableStateOf(false) }
     LaunchedEffect(reachedBottom) {
-        if(searchRequestState.state != TandoorRequestStateState.SUCCESS) return@LaunchedEffect
-        if(extendedSearchRequestState.state == TandoorRequestStateState.LOADING) return@LaunchedEffect
-        if(!nextPageExists) return@LaunchedEffect
+        if(reachedBottom) {
+            fetchNewItems = true
+        }
+    }
 
-        currentPage++
-        extendedSearchRequestState.wrapRequest {
-            client.keyword.list(
-                query = search,
-                pageSize = HOME_SEARCH_PAGING_SIZE,
-                page = currentPage
-            )
-        }?.let {
-            nextPageExists = it.next != null
-            searchResults.addAll(it.results)
+    LaunchedEffect(fetchNewItems, nextPageExists) {
+        while(fetchNewItems && nextPageExists) {
+            if(searchRequestState.state != TandoorRequestStateState.SUCCESS) {
+                delay(500)
+                continue
+            }
+
+            extendedSearchRequestState.wrapRequest {
+                client.keyword.list(
+                    query = search,
+                    pageSize = HOME_SEARCH_PAGING_SIZE,
+                    page = currentPage
+                )
+            }?.let {
+                currentPage++
+
+                nextPageExists = it.next != null
+                searchResults.addAll(it.results)
+
+                if(!reachedBottom) fetchNewItems = false
+            }
+
+            delay(500)
         }
     }
 
