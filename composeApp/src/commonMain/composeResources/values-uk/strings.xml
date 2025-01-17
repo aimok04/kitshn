@@ -326,4 +326,13 @@
     <string name="common_option_requires_restart">Для застосування цієї опції потрібен перезапуск</string>
     <string name="settings_section_behavior_enable_crash_reporting">Увімкнути звіт про збої</string>
     <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">Ви можете спробувати «Увійти за допомогою веб-браузера», якщо ви використовуєте систему єдиного входу.</string>
+    <string name="settings_section_server_delete_and_manage_data_dialog_line_2">Ви можете подати запит на видалення облікового запису поштою</string>
+    <string name="settings_section_server_delete_and_manage_data_dialog_line_3">оскільки ви використовуєте офіційний публічний екземпляр.</string>
+    <string name="settings_section_server_delete_and_manage_data_description">Ви можете керувати своїми даними лише на веб-сторінці</string>
+    <string name="settings_section_server_delete_and_manage_data_dialog_line_1">Ви можете видаляти дані простору та керувати ними на веб-сайті свого екземпляра. Будь ласка, зверніться до постачальника вашого екземпляра, щоб подати запит на видалення облікового запису.</string>
+    <string name="settings_section_server_delete_and_manage_data_label">Видалення та керування даними</string>
+    <string name="action_cook">Кухар</string>
+    <string name="common_manage_space">Керуйте простором</string>
+    <string name="onboarding_sign_in_ios_social_login_unsupported">Ця програма не підтримує Social Login. Згенеруйте API-токен або скористайтеся автентифікацією за іменем користувача/паролем.</string>
+    <string name="recipe_step_timer_error_no_app">Для цієї дії потрібно встановити підтримувану програму таймера!</string>
 </resources>
