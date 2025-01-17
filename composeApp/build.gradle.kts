@@ -105,6 +105,10 @@ kotlin {
             implementation(libs.aboutlibraries.core)
             implementation(libs.aboutlibraries.compose.m3)
 
+            implementation(libs.multiplatform.markdown.renderer)
+            implementation(libs.multiplatform.markdown.renderer.m3)
+            implementation(libs.multiplatform.markdown.renderer.coil3)
+
             implementation(libs.compose.placeholder.material)
             implementation(libs.compose.placeholder)
             implementation(libs.compose.webview.multiplatform)
@@ -124,9 +128,6 @@ kotlin {
             implementation(libs.androidx.adaptive)
             implementation(libs.androidx.adaptive.layout)
             implementation(libs.androidx.adaptive.navigation)
-
-            implementation(libs.richtext.ui.material3)
-            implementation(libs.richtext.commonmark)
 
             implementation(libs.acra.http)
             implementation(libs.acra.dialog)
@@ -153,9 +154,6 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.okhttp)
-
-            implementation(libs.richtext.ui.material3)
-            implementation(libs.richtext.commonmark)
         }
 
         iosMain.dependencies {

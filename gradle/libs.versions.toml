@@ -24,9 +24,9 @@ desugar_jdk_libs = "2.1.4"
 haze = "0.7.2"
 media3 = "1.5.1"
 material = "1.12.0"
+multiplatformMarkdownRenderer = "0.29.0"
 peekabooImagePicker = "0.5.2"
 reorderable = "2.3.0"
-richtext = "1.0.0-alpha01"
 animationGraphicsAndroid = "1.7.6"
 browser = "1.8.0"
 multiplatformSettings = "1.3.0"
@@ -77,14 +77,15 @@ compose-video = { module = "io.sanghun:compose-video", version.ref = "composeVid
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 androidx-animation-graphics-android = { group = "androidx.compose.animation", name = "animation-graphics-android", version.ref = "animationGraphicsAndroid" }
+multiplatform-markdown-renderer = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "multiplatformMarkdownRenderer" }
+multiplatform-markdown-renderer-coil3 = { module = "com.mikepenz:multiplatform-markdown-renderer-coil3", version.ref = "multiplatformMarkdownRenderer" }
+multiplatform-markdown-renderer-m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "multiplatformMarkdownRenderer" }
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatformSettings" }
 multiplatform-settings-make-observable = { module = "com.russhwolf:multiplatform-settings-make-observable", version.ref = "multiplatformSettings" }
 multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatformSettings" }
 peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekabooImagePicker" }
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
-richtext-commonmark = { module = "com.halilibo.compose-richtext:richtext-commonmark", version.ref = "richtext" }
-richtext-ui-material3 = { module = "com.halilibo.compose-richtext:richtext-ui-material3", version.ref = "richtext" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kstore = { module = "io.github.xxfast:kstore", version.ref = "kstore" }
