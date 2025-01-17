@@ -118,7 +118,7 @@ data class TandoorRecipeFromSourceStep(
     var instruction: String,
     val ingredients: List<TandoorRecipeFromSourceIngredient>,
     @SerialName("show_ingredients_table")
-    val showIngredientsTable: Boolean,
+    val showIngredientsTable: Boolean = true
 )
 
 @Serializable
