@@ -82,6 +82,11 @@
 
     <string name="app_name">kitshn</string>
 
+    <string name="bugsnag_dialog_button_negative">No, don't allow</string>
+    <string name="bugsnag_dialog_button_positive">Yes, allow</string>
+    <string name="bugsnag_dialog_message">kitshn for iOS depends on crash reporting to be improved. The app uses the Bugsnag library/platform to accomplish that. Are you fine with automatically uploading details about crashes and bugs?\n\nThis choice can be changed in Settings/Behavior.</string>
+    <string name="bugsnag_dialog_title">Allow crash reporting?</string>
+
     <string name="common_add_to_shopping_list">Add to shopping list</string>
     <string name="common_allocate_ingredients">Allocate ingredients</string>
     <string name="common_api_token">API token</string>

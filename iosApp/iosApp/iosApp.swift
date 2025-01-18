@@ -19,13 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.makeKeyAndVisible()
             
             if(!UserDefaults.standard.bool(forKey: KEY_CRASH_REPORTING_DIALOG_SHOWN)) {
-                let alert = UIAlertController(title: "Allow crash reporting?", message: "kitshn for iOS depends on crash reporting to be improved. The app uses the Bugsnag library/platform to accomplish that. Are you fine with automatically uploading details about crashes and bugs?\n\nThis choice can be changed in Settings/Behavior.", preferredStyle: .alert)
+                let alert = UIAlertController(title: MainKt.lang(key: "bugsnag_dialog_title"), message: MainKt.lang(key: "bugsnag_dialog_message"), preferredStyle: .alert)
                 
-                alert.addAction(UIAlertAction(title: "No, don't allow", style: .default, handler: { [weak alert] (_) in
+                alert.addAction(UIAlertAction(title: MainKt.lang(key: "bugsnag_dialog_button_negative"), style: .default, handler: { [weak alert] (_) in
                     self.crashReportChoice(allow: false)
                 }))
 
-                alert.addAction(UIAlertAction(title: "Yes, allow", style: .default, handler: { [weak alert] (_) in
+                alert.addAction(UIAlertAction(title: MainKt.lang(key: "bugsnag_dialog_button_positive"), style: .default, handler: { [weak alert] (_) in
                     self.crashReportChoice(allow: true)
                 }))
                                               

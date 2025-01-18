@@ -82,6 +82,11 @@
 
     <string name="app_name">kitshn</string>
 
+    <string name="bugsnag_dialog_button_negative">Nein, nicht einverstanden</string>
+    <string name="bugsnag_dialog_button_positive">Ja, einverstanden</string>
+    <string name="bugsnag_dialog_message">kitshn für iOS benötigt Absturzberichte um verbessert zu werden. Die App nutzt die Bugsnag Platform um dies zu erreichen. Bist du mit automatisch hochgeladenen Absturzberichten einverstanden?\n\nDeine Entscheidung kann unter Einstellungen/Verhalten verändert werden.</string>
+    <string name="bugsnag_dialog_title">Absturzberichte senden?</string>
+
     <string name="common_add_to_shopping_list">zur Einkaufsliste hinzufügen</string>
     <string name="common_allocate_ingredients">Zutaten zuordnen</string>
     <string name="common_api_token">API-Token</string>
