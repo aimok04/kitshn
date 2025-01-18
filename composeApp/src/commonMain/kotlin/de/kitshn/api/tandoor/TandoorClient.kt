@@ -84,7 +84,7 @@ class TandoorClient(
 
     suspend fun testConnection(ignoreAuth: Boolean): Boolean {
         try {
-            getObject("")
+            getObject("/")
             return true
         } catch(e: TandoorRequestsError) {
             if(ignoreAuth) return e.response?.status == HttpStatusCode.Forbidden
