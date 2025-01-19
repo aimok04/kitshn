@@ -258,7 +258,7 @@ fun RouteOnboardingSignIn(
 
                         value = instanceUrlValue,
                         onValueChange = { value ->
-                            instanceUrlValue = value
+                            instanceUrlValue = value.trimEnd('/')
                         }
                     )
 
