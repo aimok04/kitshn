@@ -42,6 +42,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func application(
+        _ application: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey : Any] = [:]
+    ) -> Bool {
+        MainKt.handleDeepLink(
+            url: url.absoluteString.removingPercentEncoding
+        )
+        return true
+    }
+    
+    func application(
+        _ application: UIApplication,
+        continue userActivity: NSUserActivity,
+        restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
+    ) -> Bool {
+        if(userActivity.activityType == NSUserActivityTypeBrowsingWeb) {
+            MainKt.handleDeepLink(
+                url: userActivity.webpageURL?.absoluteString
+            )
+            return true
+        }
+
+        return false
+    }
+    
     func crashReportChoice(allow: Bool) {
         UserDefaults.standard.set(allow, forKey: KEY_ALLOW_CRASH_REPORTING)
         UserDefaults.standard.set(true, forKey: KEY_CRASH_REPORTING_DIALOG_SHOWN)

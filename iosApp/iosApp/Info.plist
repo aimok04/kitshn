@@ -4,6 +4,19 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLName</key>
+			<string>de.kitshn.appleios</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kitshn</string>
+			</array>
+		</dict>
+	</array>
 	<key>bugsnag</key>
 	<dict>
 		<key>apiKey</key>
