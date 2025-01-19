@@ -299,6 +299,7 @@
     <string name="settings_section_about_item_freepik">Origin of the app icon</string>
     <string name="settings_section_about_item_new_issue_description">Report bugs, suggest features and get help</string>
     <string name="settings_section_about_item_review_description">Rate kitshn in the Play Store</string>
+    <string name="settings_section_about_item_review_ios_description">Rate kitshn in the App Store</string>
     <string name="settings_section_about_label">About</string>
     <string name="settings_section_appearance_dark_mode_description">Use dark color scheme</string>
     <string name="settings_section_appearance_dark_mode_label">Dark mode</string>

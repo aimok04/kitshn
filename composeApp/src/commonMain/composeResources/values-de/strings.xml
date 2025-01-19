@@ -299,6 +299,7 @@
     <string name="settings_section_about_item_freepik">Herkunft des App-Icons</string>
     <string name="settings_section_about_item_new_issue_description">Bugs melden, Features vorschlagen und Hilfe erhalten</string>
     <string name="settings_section_about_item_review_description">Bewerte kitshn im Play Store</string>
+    <string name="settings_section_about_item_review_ios_description">Bewerte kitshn im App Store</string>
     <string name="settings_section_about_label">Über</string>
     <string name="settings_section_appearance_dark_mode_description">Dunkles Farbschema verwenden</string>
     <string name="settings_section_appearance_dark_mode_label">Dunkler Modus</string>
