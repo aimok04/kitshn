@@ -5,6 +5,7 @@ import com.eygraber.uri.Uri
 import de.kitshn.KitshnViewModel
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
+import de.kitshn.extractUrl
 import kitshn.composeApp.BuildConfig
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -41,6 +42,19 @@ private fun KitshnViewModel.handleAppLinkImpl(
     beforeCheck: Boolean,
     data: String
 ): Boolean {
+    // import deep link (mainly for iOS)
+    if (data.startsWith("kitshn://import/")) {
+        if (beforeCheck) return false
+
+        val text = data.removePrefix("kitshn://import/")
+        val url = (text.extractUrl() ?: text.extractUrl("\n"))
+            ?: return false
+
+        navigateTo("main", "home")
+        uiState.importRecipeUrl.set(url)
+        return true
+    }
+
     val shareWrappingUrl = BuildConfig.SHARE_WRAPPER_URL
 
     val linkUrl = when {

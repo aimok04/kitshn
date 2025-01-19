@@ -386,6 +386,6 @@ expect fun shareContentHandler(): (title: String, url: String) -> Unit
 @Composable
 expect fun closeAppHandler(): () -> Unit
 
-fun String.extractUrl(delimiters: String = "") = this
+fun String.extractUrl(delimiters: String = " ") = this
     .split(delimiters)
     .firstOrNull { it.startsWith("http://") || it.startsWith("https://") }
