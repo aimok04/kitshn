@@ -4,8 +4,8 @@ import UniformTypeIdentifiers
 
 class ActionViewController: UIViewController {
 
-    func redirectToApp(url: String) {
-        let urlString = "kitshn://import/" + url.addingPercentEncoding(withAllowedCharacters: CharacterSet())!
+    func redirectToApp(data: String) {
+        let urlString = "kitshn://import/" + data.addingPercentEncoding(withAllowedCharacters: CharacterSet())!
         guard let redirectionURL = URL(string: urlString) else {
             return
         }
@@ -31,17 +31,28 @@ class ActionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let extensionItem = extensionContext?.inputItems[0] as! NSExtensionItem
-        let contentTypeURL = kUTTypeURL as String
-        let contentTypeText = kUTTypeText as String
-
-        for attachment in extensionItem.attachments as! [NSItemProvider] {
-            attachment.loadItem(forTypeIdentifier: contentTypeURL, options: nil, completionHandler: { (results, error) in
-                let url = results as! URL?
-                
-                self.redirectToApp(url: url!.absoluteString)
-                self.done()
-            })
+        for textItem in self.extensionContext!.inputItems {
+            let mTextItem = textItem as? NSExtensionItem
+            if(mTextItem != nil) {
+                for textItemAttachment in mTextItem!.attachments! {
+                    let provider = textItemAttachment as? NSItemProvider
+                    if(provider != nil) {
+                        if provider!.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
+                            provider!.loadItem(
+                                forTypeIdentifier: kUTTypeURL as String,
+                                options: nil,
+                                completionHandler: { (result, error) in
+                                    let str = result as? URL
+                                    if str != nil {
+                                        self.redirectToApp(data: str!.absoluteString)
+                                        self.done()
+                                    }
+                                }
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
     
