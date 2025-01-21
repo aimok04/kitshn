@@ -335,4 +335,9 @@
     <string name="common_manage_space">Керуйте простором</string>
     <string name="onboarding_sign_in_ios_social_login_unsupported">Ця програма не підтримує Social Login. Згенеруйте API-токен або скористайтеся автентифікацією за іменем користувача/паролем.</string>
     <string name="recipe_step_timer_error_no_app">Для цієї дії потрібно встановити підтримувану програму таймера!</string>
+    <string name="bugsnag_dialog_button_negative">Ні, не дозволяю</string>
+    <string name="bugsnag_dialog_title">Дозволити звітування про збої?</string>
+    <string name="settings_section_about_item_review_ios_description">Оцініть kitshn в App Store</string>
+    <string name="bugsnag_dialog_button_positive">Так, дозволити</string>
+    <string name="bugsnag_dialog_message">kitshn для iOS залежить від звітів про збої, які потрібно покращити. Для цього програма використовує бібліотеку/платформу Bugsnag. Ви влаштовуєте автоматичне завантаження деталей про збої та помилки? \n\nЦей вибір можна змінити в Налаштуваннях/Поведінка.</string>
 </resources>
