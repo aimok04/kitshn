@@ -1,0 +1,12 @@
+- feat(recipes): dodana podpora za slikovne datoteke korakov (razrešeno #14)
+- feat(shopping): združevanje vnosov na nakupovalni seznam glede na hrano (razrešeno #13)
+- feat(manifest): dodana podpora za samopodpisana potrdila (razrešeno #11)
+- feat(app): dodana bližnjica "nova instanca".
+- feat(recipes): v spustni meni dodan element "dodaj v nakupovanje".
+- feat(recipes): dodano pogovorno okno za upravljanje knjige receptov
+- feat(utils): izboljšane človeku berljive datumske oznake
+- feat(recipes): izboljšana horizontalna postavitev za tablice v načinu kuhanja
+- chore(libs): izbokline različic
+- popravek (recepti): preseljeno v drugo knjižnico markdown
+- popravek (nakupovanje): besedilna polja so zdaj enovrstična
+- popravek (onboarding): preverjanje predpone žetona/gesla pred samodejnim izpolnjevanjem

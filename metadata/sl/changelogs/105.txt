@@ -1,0 +1,4 @@
+- feat(onboarding): dodan API token prijava (#9)
+- feat(recipes): dodane povezave za samodejni časovnik v navodilih
+- feat(acra): dodano polje poštnega naslova v AcraCrashReportDialog.kt
+- več popravkov napak

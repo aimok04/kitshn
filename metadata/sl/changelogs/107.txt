@@ -1,0 +1,13 @@
+- feat(ui): spremenjeni spodnji listi receptov in načrtov obrokov v pogovorna okna
+- feat(ui): dodana animacija v celozaslonsko pogovorno okno
+- feat(recipes): dodana možnost skrivanja akcijskega čipa za dodelitev sestavin (#16)
+- feat(settings): dodan preklop za ignoriranje nedodeljenih sestavin (razrešeno #16)
+- chore(libs): izbokline različic
+- feat(manifest): spremenjen gostitelj povezave aplikacije
+- feat(share): skrajšane ovojne povezave deležev
+- feat(about): dodano spletno mesto
+- feat(about): spremenjena kontaktna pošta
+- feat(acra): spremenjen URL poročila acra
+- feat(share): spremenjen url ovojnice deljenja
+- fix(ui): barva ikone vrstice stanja v celozaslonskem pogovornem oknu
+- popravek (načrt obroka): skrij tipkovnico po izbiri vrste obroka

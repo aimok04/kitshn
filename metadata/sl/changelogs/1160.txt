@@ -1,0 +1,24 @@
+- feat(commonMain/shopping): dodani spustni meniji v polja enote in hrane (razrešeno #57)
+- feat(README.md): dodane značke za iOS
+- feat(iosApp & commonMain): prilagodite smernicam Apple App Store
+- popravek (README.md): spremenjeno besedilo
+- popravek (recepti): izboljšan regularni izraz za komentarje predlog (razrešeno #58)
+- l10n (tamilščina): prevedeno z uporabo Weblate
+- l10n (tamilščina): prevedeno z uporabo Weblate
+- l10n (ukrajinščina): prevedeno z uporabo Weblate
+- github: dodane ISSUE_TEMPLATE
+- popravek (commonMain/import): dodano drugo preverjanje za izključitev dvojnega uvoza (razrešeno #29)
+- popravek (commonMain/recipes): povečana minimalna velikost pisave v načinu kuhanja
+- l10n (ukrajinščina): prevedeno z uporabo Weblate
+- popravek (commonMain/onboarding): zrušitev pri uporabi prijave SSO (razrešeno #52)
+- l10n (tamilščina): prevedeno z uporabo Weblate
+- l10n (tamilščina): prevedeno z uporabo Weblate
+- l10n (tamilščina): dodan prevod z uporabo Weblate
+- l10n (tamilščina): dodan prevod z uporabo Weblate
+- github: posodobite FUNDING.yml
+- l10n (ukrajinščina): prevedeno z uporabo Weblate
+- l10n (nizozemščina): prevedeno z uporabo Weblate
+- l10n (nizozemščina): prevedeno z uporabo Weblate
+- Razveljavi "chore(commonMain/composeResources): reformat strings.xml"
+- github: dodan FUNDING.yml
+- popravek (commonMain): povečan GESTURE_ACCEPTED_START v IOSBackGestureHandler

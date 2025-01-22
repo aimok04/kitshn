@@ -1,0 +1,14 @@
+Spremembe za v1.0.0-alpha.10.2
+- popravek (lastnosti): težava z razčlenjevanjem (#25)
+Spremembe za v1.0.0-alpha.10.1
+- popravek (pogovorno okno): grda postavitev/animacije v celozaslonskem pogovornem oknu
+Spremembe za v1.0.0-alpha.10
+- feat(recipes): dodana podpora za predloge za navodila po korakih (#25)
+- feat(recipes): dodana kartica lastnosti (#24)
+- feat(mealplan): izboljšan uporabniški vmesnik za tablične računalnike/zložljive naprave
+- feat(dialog): izboljšana prilagodljiva velikost celozaslonskega pogovornega okna
+- feat(recipes): skrivanje FAB, ko dosežete dno za berljivost
+- fix(recipes): prepreči okrnjeno besedilo sestavin
+- fix(share): zamenjan trdo kodiran url (razrešeno #22)
+- chore(libs): izbokline različic
+- več popravkov napak

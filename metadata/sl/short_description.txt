@@ -1,0 +1,1 @@
+Neuradna aplikacija za upravljanje receptov Tandoor.

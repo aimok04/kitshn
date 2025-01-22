@@ -1,0 +1,6 @@
+- feat(recipes): dodana podpora za označevanje za navodila po korakih (št. 1)
+- feat(recepti): dodane povezave do aplikacij
+- feat(recepti): dodan gumb za skupno rabo
+- l10n(strings.xml): dodan turški (tr) (#3) (avtor @mikropsoft)
+- chore(libs): izbokline različic
+- številni popravki napak in izboljšave oblikovanja

@@ -1,0 +1,11 @@
+- feat(recipes): dodana funkcija za zapiranje v postavitev podrobnosti seznama (razrešeno #28)
+- feat(ui): izboljšano razmerje velikosti podokna s podrobnostmi seznama
+- feat(various): dodanih več TandoorRequestErrorHandlerjev
+- popravek (uvoz): dodano preverjanje za izključitev dvojnega uvoza (razrešeno #29)
+- fix(home): težava s potezo nazaj v pogledu iskanja
+- popravek(recepti): več popravkov zrušitev in izboljšav obravnave napak
+- popravek (priljubljene): zrušitev pri pridobivanju priljubljene knjige
+- popravek (recepti): zrušitev pri dodajanju recepta na nakupovalni seznam
+- fix(recipes): zrušitev v RecipeCreationAndEditDialog
+- fix(api): dodanih več informacij TandoorRequestsError
+- chore(api): označena v1.5.24 kot združljiva

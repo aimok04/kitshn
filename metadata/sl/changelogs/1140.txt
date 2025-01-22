@@ -1,0 +1,3 @@
+- feat(onboarding): dodana prijava prek brskalnika (razrešeno #30)
+- popravek (recepti): zameglitev prelivanja v informacijski oznaki kartice receptov
+- popravek (api): težava csrf pri prijavi s piškotki (razrešeno #30)
