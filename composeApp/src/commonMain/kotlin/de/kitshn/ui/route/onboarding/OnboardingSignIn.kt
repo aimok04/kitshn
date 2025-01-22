@@ -91,6 +91,7 @@ fun RouteOnboardingSignIn(
     val coroutineScope = rememberCoroutineScope()
 
     var instanceUrlValue by rememberSaveable { mutableStateOf("https://app.tandoor.dev") }
+    var instanceUrlDisplayValue by rememberSaveable { mutableStateOf("https://app.tandoor.dev") }
     var instanceUrlState by rememberSaveable { mutableStateOf(ErrorLoadingSuccessState.SUCCESS) }
     val instanceUrlFocusRequester = remember { FocusRequester() }
 
@@ -256,8 +257,9 @@ fun RouteOnboardingSignIn(
                             imeAction = ImeAction.Next
                         ),
 
-                        value = instanceUrlValue,
+                        value = instanceUrlDisplayValue,
                         onValueChange = { value ->
+                            instanceUrlDisplayValue = value
                             instanceUrlValue = value.trimEnd('/')
                         }
                     )
