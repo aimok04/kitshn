@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="acra_comment_helper">Če želite, lahko komentirate, kako je prišlo do te napake.</string>
-    <string name="acra_dialog_button_positive">poslati</string>
-    <string name="acra_dialog_message">V aplikaciji je prišlo do nepričakovane napake. Prosimo, pošljite poročilo o napaki, da boste pomagali odpraviti težavo.\n\nPred pošiljanjem si lahko ogledate celotno poročilo.</string>
+    <string name="acra_dialog_button_positive">Pošlji</string>
+    <string name="acra_dialog_message">V aplikaciji je prišlo do nepričakovane napake. Pošljite poročilo o napaki, da boste lažje odpravili težavo.\n\nPred pošiljanjem si lahko ogledate celotno poročilo.</string>
     <string name="action_download">Prenos</string>
     <string name="acra_email_address_helper">Če želite, lahko vnesete svoj e-poštni naslov za prejemanje posodobitev o vašem poročilu.</string>
     <string name="common_comment">Komentiraj</string>
     <string name="action_back">Nazaj</string>
     <string name="common_error_report">Poročilo o napaki</string>
     <string name="common_import_recipe">Uvozni recept</string>
-    <string name="shortcuts_new_instance_label_short">Nov primer</string>
+    <string name="shortcuts_new_instance_label_short">Nov primerek</string>
     <string name="acra_dialog_title">Ups!</string>
     <string name="app_name">kitshn</string>
     <string name="common_email_address">e-poštni naslov</string>
     <string name="acra_dialog_button_negative">Ne pošiljaj</string>
     <string name="acra_dialog_button_neutral">Ogled poročila</string>
-    <string name="shortcuts_new_instance_label_long">Ustvarite nov primer</string>
+    <string name="shortcuts_new_instance_label_long">Ustvari nov primerek</string>
 </resources>
