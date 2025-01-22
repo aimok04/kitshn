@@ -144,6 +144,10 @@ fun RouteMainSubrouteHome(
         homePageSectionList.clear()
         homePageSectionList.addAll(homePage!!.sections)
 
+        // keep page from loading indefinitely (prob. only happens when user has less than two recipes in space)
+        if(homePage?.sectionsStateList?.size == 0)
+            pageLoadingState = ErrorLoadingSuccessState.SUCCESS
+
         // remove deleted recipes
         homePageSectionList.forEach { section ->
             section.recipeIds.removeIf {
