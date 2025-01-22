@@ -1,0 +1,4 @@
+- feat(behavior): dodani preklopi za prikaz delnih vrednosti (#24)
+- feat(settings): dodan gumb za prijavo napak
+- feat(acra): dodan gumb za prenos
+- chore(api): označena v1.5.20 kot združljiva

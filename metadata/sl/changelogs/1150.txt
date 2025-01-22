@@ -1,0 +1,11 @@
+kitshn je bil preseljen v Kotlin/Compose Multiplatform. To omogoča združljivost z iOS.
+Obstajajo lahko tudi nekatere razlike/težave, ki vplivajo na gradnjo Androida. Lahko jih prijavite na GitHub! :)
+- feat(commonMain): dodana eksperimentalna poteza nazaj za iOS
+- feat(iosApp & composeApp): dodano poročanje o zrušitvah Bugsnag za iOS
+- popravek (nakupovanje): skrivanje elementov, ko je "preverjeno" nastavljeno na true
+- popravek (api): izboljšano sporočilo o napaki TandoorRequestsError
+- chore(commonMain/api): označeno v1.5.25/26 kot združljivo
+- l10n (nizozemščina): prevedeno z uporabo Weblate
+- l10n (rusko): prevedeno z uporabo Weblate
+- l10n (ukrajinščina): prevedeno z uporabo Weblate
+- kmpMigracija

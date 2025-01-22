@@ -1,0 +1,2 @@
+- fix(build.gradle): odstranjen kotlinCompilerExtensionVersion
+- fix(build.gradle): dodane informacije o odvisnostih

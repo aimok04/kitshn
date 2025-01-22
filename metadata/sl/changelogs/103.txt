@@ -1,0 +1,6 @@
+- feat(acra): preklop na acra-http
+- feat(home): izboljšana zmogljivost seznama
+- feat(requests): izboljšano pogovorno okno o napakah
+- fix(requests): popravljene zrušitve
+- fix(vm): zruši se, ko ni mogoče razčleniti različice
+- fix(build.gradle): dodano pomanjševanje nazaj

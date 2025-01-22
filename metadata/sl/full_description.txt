@@ -1,0 +1,47 @@
+**Informacije:** Uporabniki GrapheneOS bodo morda morali onemogočiti funkcijo "Utrjeni pomnilniški razporejevalnik" ali omogočiti "Način združljivosti zaščite pred izkoriščanjem", da bo aplikacija delovala.
+
+Aplikacija je zgrajena z <b>Jetpack Compose</b> in <b>Material You</b>, da zagotovi sodobno, intuitivno in odzivno uporabniško izkušnjo.
+
+**Podprte funkcije:**
+
+<ul>
+    <li>Dinamična domača stran s predlogi</li>
+    <li>Recepti</li>
+    <ul>
+        <li>Dodajanje, uvažanje, urejanje in brisanje</li>
+        <ul>
+            <li>Orodje za združevanje korakov</li>
+            <li>Sprejemnik za deljenje za uvoz receptov prek URL-jev</li>
+        </ul>
+        <li>Obsežno iskanje</li>
+        <li>Način kuhanja</li>
+        <li>Orodje za dodeljevanje korakov in sestavin</li>
+        <li>Povezave v aplikaciji</li>
+        <li>Podpora za Markdown</li>
+    </ul>
+    <li>Načrt obrokov</li>
+    <ul>
+        <li>Pogled</li>
+        <li>Dodajanje, urejanje in brisanje</li>
+    </ul>
+    <li>Seznam za nakupovanje</li>
+    <ul>
+        <li>Dodajanje in brisanje</li>
+        <li>Samodejna sinhronizacija</li>
+    </ul>
+    <li>Knjige receptov</li>
+    <ul>
+        <li>Dodajanje in brisanje</li>
+        <li>Funkcija priljubljenih</li>
+    </ul>
+    <li>Uporabniški vmesnik</li>
+    <ul>
+        <li>Zgrajen z Jetpack Compose</li>
+        <li>Dinamične barve Material You</li>
+        <li>Prilagodljive postavitve z dvema ploščama za tablice in upogljive naprave</li>
+    </ul>
+</ul>
+
+Upoštevajte, da je aplikacija trenutno v alfa fazi. Na Githubu lahko seveda odprete zadeve za napake, povratne informacije in ideje za funkcije.
+
+Ikono je ustvaril Freepik na www.flaticon.com.

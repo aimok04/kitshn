@@ -1,0 +1,4 @@
+- feat(recipes): dodana podpora za korak video datoteke (razrešeno #15)
+- podvig(recepti): pusti zaslon vključen (#18) (avtor @FineFindus)
+- feat(ui): prestrezanje sprememb konfiguracije
+- fix(strings.xml): popravljen opis obnašanja

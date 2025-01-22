@@ -1,0 +1,11 @@
+Hitri popravek
+- popravek (recepti): težava z regularnim izrazom za komentarje predlog (razrešeno #27)
+Spremembe za v1.0.0-alpha.12
+- feat(utils): nastavite največje decimalno število na 2 (#24)
+- feat(home): izboljšan dinamični začetni zaslon s predpomnjenjem hrane in ključnih besed
+- feat(home): dodan razdelek Go-tos
+- feat(home): dodan božični del
+- feat(api): zdaj pridobiva različico iz končne točke openapi
+- popravek (načrt obrokov): upoštevanje privzetih nastavitev skupne rabe načrta obrokov (razrešeno št. 19)
+- chore(api): označena v1.5.23 kot združljiva
+- chore(api): označena v1.5.21/22 kot združljiva
