@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		96272D432D3EB193004E9764 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96272D422D3EB193004E9764 /* SubscriptionView.swift */; };
 		965BA0D32D25FE1E00B22A28 /* Bugsnag in Frameworks */ = {isa = PBXBuildFile; productRef = 965BA0D22D25FE1E00B22A28 /* Bugsnag */; };
 		965BA0D52D25FE1E00B22A28 /* BugsnagNetworkRequestPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 965BA0D42D25FE1E00B22A28 /* BugsnagNetworkRequestPlugin */; };
 		96B8CA242D3D9C7C006BC2DA /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96755A922D3D85A40018C700 /* UniformTypeIdentifiers.framework */; };
@@ -41,6 +42,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		96272D422D3EB193004E9764 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
 		966E2C162D3AF0F6002FA006 /* iosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosApp.entitlements; sourceTree = "<group>"; };
 		96755A922D3D85A40018C700 /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
 		96B8CA232D3D9C7C006BC2DA /* import.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = import.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +109,7 @@
 		A93A953929CC810C00F8E227 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				96272D422D3EB193004E9764 /* SubscriptionView.swift */,
 				966E2C162D3AF0F6002FA006 /* iosApp.entitlements */,
 				A93A953A29CC810C00F8E227 /* iosApp.swift */,
 				A93A953E29CC810D00F8E227 /* Assets.xcassets */,
@@ -267,6 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A93A953B29CC810C00F8E227 /* iosApp.swift in Sources */,
+				96272D432D3EB193004E9764 /* SubscriptionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -234,6 +234,11 @@
     <string name="internal_favorites_recipe_book_description">Automatically created by kitshn</string>
     <string name="internal_favorites_recipe_book_name">Favorites from kitshn</string>
 
+    <string name="ios_support_badge">Supporter subscription</string>
+    <string name="ios_support_manage_subscription_description">Manage your supporter subscription</string>
+    <string name="ios_support_manage_subscription_label">Manage subscription</string>
+    <string name="ios_support_thanks">Thank you for supporting kitshn! Your contribution helps to keep this project alive.</string>
+
     <string name="lorem_ipsum_medium">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</string>
     <string name="lorem_ipsum_short">Lorem ipsum</string>
     <string name="lorem_ipsum_title">Lorem ipsum dolor sit amet</string>

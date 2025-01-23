@@ -1,11 +1,15 @@
 package de.kitshn.ui.route.main.subroute.settings
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Cloud
 import androidx.compose.material.icons.rounded.DeveloperBoard
+import androidx.compose.material.icons.rounded.Diamond
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Tune
@@ -23,6 +27,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
+import de.kitshn.Platforms
 import de.kitshn.crash.crashReportHandler
 import de.kitshn.model.SettingsBaseModel
 import de.kitshn.model.SettingsDividerModel
@@ -39,6 +45,9 @@ import de.kitshn.ui.view.settings.ViewSettingsDebug
 import de.kitshn.ui.view.settings.ViewSettingsServer
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_error_report
+import kitshn.composeapp.generated.resources.ios_support_badge
+import kitshn.composeapp.generated.resources.ios_support_manage_subscription_description
+import kitshn.composeapp.generated.resources.ios_support_manage_subscription_label
 import kitshn.composeapp.generated.resources.navigation_settings
 import kitshn.composeapp.generated.resources.settings_section_about_description
 import kitshn.composeapp.generated.resources.settings_section_about_label
@@ -119,6 +128,14 @@ fun RouteMainSubrouteSettings(
                 title = { Text(stringResource(Res.string.navigation_settings)) },
                 colors = it,
                 actions = {
+                    if(!p.vm.uiState.iosIsSubscribed) IconButton(
+                        onClick = { }
+                    ) {
+                        Icon(
+                            Icons.Rounded.Diamond, stringResource(Res.string.ios_support_badge)
+                        )
+                    }
+
                     if(crashReportHandler != null) IconButton(
                         onClick = {
                             crashReportHandler(null)
@@ -134,27 +151,45 @@ fun RouteMainSubrouteSettings(
             )
         },
         listContent = { pv, selectedId, supportsMultiplePanes, _, select ->
-            LazyColumn(
-                modifier = Modifier
-                    .padding(pv)
-                    .nestedScroll(scrollBehavior.nestedScrollConnection)
+            Column(
+                Modifier.padding(pv)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                items(settingsModelList.size) { index ->
-                    val model = settingsModelList[index]
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f, true)
+                        .nestedScroll(scrollBehavior.nestedScrollConnection)
+                ) {
+                    items(settingsModelList.size) { index ->
+                        val model = settingsModelList[index]
 
-                    if(model is SettingsDividerModel) {
-                        HorizontalDivider()
-                    } else if(model is SettingsItemModel) {
-                        SettingsListItem(
-                            icon = model.icon,
-                            contentDescription = model.contentDescription,
-                            label = { Text(model.label) },
-                            description = { Text(model.description) },
-                            alternativeColors = supportsMultiplePanes,
-                            selected = selectedId == model.id
-                        ) {
-                            select(model.id)
+                        if(model is SettingsDividerModel) {
+                            HorizontalDivider()
+                        } else if(model is SettingsItemModel) {
+                            SettingsListItem(
+                                icon = model.icon,
+                                contentDescription = model.contentDescription,
+                                label = { Text(model.label) },
+                                description = { Text(model.description) },
+                                alternativeColors = supportsMultiplePanes,
+                                selected = selectedId == model.id
+                            ) {
+                                select(model.id)
+                            }
                         }
+                    }
+                }
+
+                if(platformDetails.platform != Platforms.IOS) {
+                    SettingsListItem(
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        icon = Icons.Rounded.Diamond,
+                        label = { Text(stringResource(Res.string.ios_support_manage_subscription_label)) },
+                        description = { Text(stringResource(Res.string.ios_support_manage_subscription_description)) },
+                        contentDescription = stringResource(Res.string.ios_support_manage_subscription_description)
+                    ) {
+                        p.vm.navigateTo("iOS/manageSubscription")
                     }
                 }
             }

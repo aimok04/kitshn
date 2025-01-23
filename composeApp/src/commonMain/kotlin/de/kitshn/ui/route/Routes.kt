@@ -51,7 +51,12 @@ val routes = listOf(
         "onboarding/signIn/browser/{instanceUrl}",
         Animation.SLIDE_HORIZONTAL
     ) { RouteOnboardingSignInBrowser(p = it) },
-    Route("onboarding/welcome", Animation.SLIDE_HORIZONTAL) { RouteOnboardingWelcome(p = it) }
+    Route("onboarding/welcome", Animation.SLIDE_HORIZONTAL) { RouteOnboardingWelcome(p = it) },
+
+    Route(
+        "iOS/manageSubscription",
+        Animation.SLIDE_HORIZONTAL
+    ) { it.vm.manageIosSubscriptionView(it) }
 )
 
 data class Route(

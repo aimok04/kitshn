@@ -1,5 +1,6 @@
 package de.kitshn
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,6 +10,7 @@ import androidx.navigation.NavHostController
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorRequestsError
+import de.kitshn.ui.route.RouteParameters
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -35,6 +37,8 @@ class KitshnViewModel(
     val settings = SettingsViewModel()
 
     val uiState = UiStateModel()
+
+    lateinit var manageIosSubscriptionView: @Composable (p: RouteParameters) -> Unit
 
     fun searchKeyword(id: Int) {
         viewModelScope.launch {

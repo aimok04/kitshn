@@ -234,6 +234,11 @@
     <string name="internal_favorites_recipe_book_description">Automatisch erstellt von kitshn</string>
     <string name="internal_favorites_recipe_book_name">Favoriten aus kitshn</string>
 
+    <string name="ios_support_badge">Unterstützer-Abonnement</string>
+    <string name="ios_support_manage_subscription_description">Verwalte dein Unterstützer-Abonnement</string>
+    <string name="ios_support_manage_subscription_label">Abonnement verwalten</string>
+    <string name="ios_support_thanks">Vielen Dank, dass du kitshn unterstützt! Dein Beitrag hilft dem Projekt am Leben zu bleiben.</string>
+
     <string name="lorem_ipsum_medium">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</string>
     <string name="lorem_ipsum_short">Lorem ipsum</string>
     <string name="lorem_ipsum_title">Lorem ipsum dolor sit amet</string>

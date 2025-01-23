@@ -1,8 +1,17 @@
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.UIKitViewController
 import androidx.compose.ui.window.ComposeUIViewController
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.NSLogWriter
@@ -10,6 +19,8 @@ import co.touchlab.kermit.OSLogWriter
 import de.kitshn.App
 import de.kitshn.KitshnViewModel
 import de.kitshn.actions.handlers.handleAppLink
+import de.kitshn.ui.component.buttons.BackButton
+import de.kitshn.ui.component.buttons.BackButtonType
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.allStringResources
 import kotlinx.coroutines.runBlocking
@@ -18,8 +29,11 @@ import org.jetbrains.compose.resources.getString
 import platform.UIKit.UIViewController
 
 var deepLinkUrl by mutableStateOf("")
+var mIsSubscribed by mutableStateOf(false)
 
-fun MainViewController(): UIViewController = ComposeUIViewController {
+fun MainViewController(
+    subscriptionUI: () -> UIViewController
+): UIViewController = ComposeUIViewController {
     Logger.setLogWriters(OSLogWriter(), NSLogWriter())
 
     var vm by remember { mutableStateOf<KitshnViewModel?>(null) }
@@ -27,6 +41,29 @@ fun MainViewController(): UIViewController = ComposeUIViewController {
     App(
         onVmCreated = {
             vm = it
+
+            it.uiState.iosIsSubscribed = mIsSubscribed
+            it.manageIosSubscriptionView = { p ->
+                Box(
+                    Modifier.fillMaxSize()
+                ) {
+                    UIKitViewController(
+                        modifier = Modifier.fillMaxSize(),
+                        factory = subscriptionUI
+                    )
+
+                    Box(
+                        Modifier.windowInsetsPadding(WindowInsets.systemBars)
+                            .padding(16.dp)
+                    ) {
+                        BackButton(
+                            p.onBack,
+                            overlay = true,
+                            type = BackButtonType.CLOSE
+                        )
+                    }
+                }
+            }
         },
         onBeforeCredentialsCheck = { credentials ->
             if (deepLinkUrl.isNotEmpty()) {
@@ -45,6 +82,14 @@ fun MainViewController(): UIViewController = ComposeUIViewController {
         if (deepLinkUrl.isEmpty()) return@LaunchedEffect
         vm?.handleAppLink(deepLinkUrl)
     }
+
+    LaunchedEffect(mIsSubscribed) {
+        vm?.uiState?.iosIsSubscribed = mIsSubscribed
+    }
+}
+
+fun handleSubscriptionChange(isSubscribed: Boolean) {
+    mIsSubscribed = isSubscribed
 }
 
 fun handleDeepLink(url: String?) {

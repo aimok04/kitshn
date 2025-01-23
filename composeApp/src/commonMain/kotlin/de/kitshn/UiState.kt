@@ -38,4 +38,6 @@ class UiStateModel : ViewModel() {
 
     var shareClient: TandoorClient? = null
 
+    var iosIsSubscribed by mutableStateOf(false)
+
 }

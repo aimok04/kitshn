@@ -1,9 +1,13 @@
 import UIKit
+import SwiftUI
 import Bugsnag
 import ComposeApp
+import StoreKit
 
 let KEY_ALLOW_CRASH_REPORTING = "allow_crash_reporting"
 let KEY_CRASH_REPORTING_DIALOG_SHOWN = "crash_reporting_dialog_shown"
+
+let SUPPORT_SUBSCRIPTION_GROUP_ID = "21623970"
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -13,9 +17,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        if #available(iOS 17.0, *) {
+            Task {
+                for await result in Transaction.currentEntitlements {
+                    guard case .verified(let transaction) = result else {
+                        continue
+                    }
+                    
+                    if(transaction.subscriptionGroupID == SUPPORT_SUBSCRIPTION_GROUP_ID) {
+                        print("kitshn/iOS: User has support subscription.")
+                        MainKt.handleSubscriptionChange(isSubscribed: true)
+                    }
+                }
+            }
+        }else{
+            // everyone below iOS 17.0 is considered subscribed
+            MainKt.handleSubscriptionChange(isSubscribed: true)
+        }
+        
         window = UIWindow(frame: UIScreen.main.bounds)
         if let window = window {
-            window.rootViewController = MainKt.MainViewController()
+            window.rootViewController = MainKt.MainViewController(subscriptionUI: {
+                return UIHostingController(rootView: SubscriptionView())
+            })
             window.makeKeyAndVisible()
             
             if(!UserDefaults.standard.bool(forKey: KEY_CRASH_REPORTING_DIALOG_SHOWN)) {
