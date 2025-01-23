@@ -128,7 +128,7 @@ fun RouteMainSubrouteSettings(
                 title = { Text(stringResource(Res.string.navigation_settings)) },
                 colors = it,
                 actions = {
-                    if(!p.vm.uiState.iosIsSubscribed) IconButton(
+                    if(p.vm.uiState.iosIsSubscribed) IconButton(
                         onClick = { }
                     ) {
                         Icon(
@@ -181,7 +181,7 @@ fun RouteMainSubrouteSettings(
                     }
                 }
 
-                if(platformDetails.platform != Platforms.IOS) {
+                if(platformDetails.platform == Platforms.IOS) {
                     SettingsListItem(
                         modifier = Modifier.padding(bottom = 8.dp),
                         icon = Icons.Rounded.Diamond,
