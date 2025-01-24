@@ -202,8 +202,8 @@
     <string name="form_error_title_max_64">Der Titel darf maximal 64 Zeichen umfassen.</string>
 
     <plurals name="funding_banner_text">
-        <item quantity="one">**Einen weiteren** Unterstützenden benötigt um Kosten zu decken</item>
-        <item quantity="other">**%1$d weitere** Unterstützende benötigt um Kosten zu decken</item>
+        <item quantity="one">**Einen weiteren** regulären Unterstützenden benötigt um Kosten zu decken</item>
+        <item quantity="other">**%1$d weitere** reguläre Unterstützende benötigt um Kosten zu decken</item>
     </plurals>
 
     <string name="greeting_christmas">Frohe Weihnachtszeit &#127877;&#127876;&#129420;</string>
