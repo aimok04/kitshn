@@ -2,9 +2,11 @@ import SwiftUICore
 import SwiftUI
 import StoreKit
 import ComposeApp
+import SafariServices
 
 struct SubscriptionView: View {
     @State private var showPurchaseAlert = false
+    @State private var showLearnMoreSheet = false
     
     var body: some View {
         VStack {
@@ -16,10 +18,29 @@ struct SubscriptionView: View {
                             MainKt.handleSubscriptionChange(isSubscribed: true)
                         }
                     }
+                
+                Button(MainKt.lang(key: "common_learn_more")) {
+                    showLearnMoreSheet = true
+                }
             }
         }
         .alert(MainKt.lang(key: "ios_support_thanks"), isPresented: $showPurchaseAlert) {
             Button(MainKt.lang(key: "common_done"), role: .cancel) { }
         }
+        .sheet(isPresented: $showLearnMoreSheet) {
+            SafariWebView(url: URL(string: "https://kitshn.app/funding")!)
+        }
+    }
+}
+
+struct SafariWebView: UIViewControllerRepresentable {
+    let url: URL
+    
+    func makeUIViewController(context: Context) -> some UIViewController {
+        return SFSafariViewController(url: url)
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+        
     }
 }
