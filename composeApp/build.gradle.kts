@@ -308,6 +308,8 @@ buildConfig {
     )
 
     buildConfigField("SHARE_WRAPPER_URL", prop.getProperty("share.wrapper.url"))
+
+    buildConfigField("FUNDING_API", prop.getProperty("funding.api"))
 }
 
 // fix for F-Droid

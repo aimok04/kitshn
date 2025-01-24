@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.List
@@ -28,6 +29,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -36,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import coil3.compose.LocalPlatformContext
+import de.kitshn.Platforms
 import de.kitshn.android.homepage.builder.HomePageBuilder
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
@@ -44,7 +47,9 @@ import de.kitshn.cache.KeywordNameIdMapCache
 import de.kitshn.homepage.model.HomePage
 import de.kitshn.homepage.model.HomePageSection
 import de.kitshn.isScrollingUp
+import de.kitshn.platformDetails
 import de.kitshn.removeIf
+import de.kitshn.ui.component.AutoFetchingFundingBanner
 import de.kitshn.ui.component.LoadingGradientWrapper
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
 import de.kitshn.ui.component.home.HomePageSectionView
@@ -72,6 +77,9 @@ import kitshn.composeapp.generated.resources.action_import
 import kitshn.composeapp.generated.resources.action_show_all_recipes
 import kitshn.composeapp.generated.resources.common_search
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.plus
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.roundToInt
 
@@ -207,6 +215,45 @@ fun RouteMainSubrouteHome(
                     text = { Text(stringResource(Res.string.action_add)) },
                     onClick = { recipeCreationDialogState.open() }
                 )
+
+                // showing funding banner on iOS when user isn't subscribed
+                if(platformDetails.platform == Platforms.IOS && !p.vm.uiState.iosIsSubscribed) {
+                    var showBanner by remember { mutableStateOf(false) }
+
+                    val firstRunTime by p.vm.settings.getFirstRunTime.collectAsState(Long.MAX_VALUE)
+                    val fundingBannerHideUntil by p.vm.settings.getFundingBannerHideUntil.collectAsState(
+                        initial = -1L
+                    )
+
+                    // only show banner one day after first run and if fundingBannerHideUntil is set
+                    LaunchedEffect(firstRunTime, fundingBannerHideUntil) {
+                        val now = Clock.System.now().epochSeconds
+                        showBanner =
+                            (firstRunTime + 24 * 3600) < now && fundingBannerHideUntil < now
+                    }
+
+                    if(showBanner) {
+                        AutoFetchingFundingBanner(
+                            Modifier.widthIn(
+                                min = 100.dp,
+                                max = 600.dp
+                            ).padding(
+                                start = 32.dp,
+                                top = 16.dp
+                            ),
+                            onClickSupport = {
+                                p.vm.navHostController?.navigate("ios/manageSubscription")
+                            },
+                            onDismiss = {
+                                p.vm.settings.setFundingBannerHideUntil(
+                                    epochSeconds = Clock.System.now()
+                                        .plus(24 * 7, DateTimeUnit.HOUR)
+                                        .epochSeconds
+                                )
+                            }
+                        )
+                    }
+                }
             }
         },
         onClickKeyword = {

@@ -77,6 +77,7 @@
     <string name="action_sign_out">Abmelden</string>
     <string name="action_sign_out_description">Alle Anmeldedaten vergessen</string>
     <string name="action_start_cooking">Kochmodus starten</string>
+    <string name="action_support">Support</string>
     <string name="action_upload">Hochladen</string>
     <string name="action_yes">Ja</string>
 
@@ -200,6 +201,11 @@
     <string name="form_error_source_max_1024">Die Quelle darf maximal 1024 Zeichen umfassen.</string>
     <string name="form_error_title_max_64">Der Titel darf maximal 64 Zeichen umfassen.</string>
 
+    <plurals name="funding_banner_text">
+        <item quantity="one">**Einen weiteren** Unterstützenden benötigt um Kosten zu decken</item>
+        <item quantity="other">**%1$d weitere** Unterstützende benötigt um Kosten zu decken</item>
+    </plurals>
+
     <string name="greeting_christmas">Frohe Weihnachtszeit &#127877;&#127876;&#129420;</string>
     <string name="greeting_good_evening">Guten Abend &#127749;</string>
     <string name="greeting_good_morning">Guten Morgen &#127774;</string>
@@ -317,6 +323,8 @@
     <string name="settings_section_appearance_label">Erscheinung</string>
     <string name="settings_section_behavior_description">Ändere das Verhalten von kitshn</string>
     <string name="settings_section_behavior_enable_crash_reporting">Fehlerberichte senden</string>
+    <string name="settings_section_behavior_hide_funding_banner_this_year_description">Unterstützer-Banner für das aktuelle Jahr verstecken</string>
+    <string name="settings_section_behavior_hide_funding_banner_this_year_label">Unterstützer-Banner verstecken</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_description">Alle „Unsortierte Zutaten”-Warnungen verstecken</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_label">Unsortierte Zutaten ignorieren</string>
     <string name="settings_section_behavior_ingredients_show_fractional_values_description">Eventuell einfacher zu lesen, allerdings weniger akkurat</string>

@@ -77,6 +77,7 @@
     <string name="action_sign_out">Sign out</string>
     <string name="action_sign_out_description">Forget credentials</string>
     <string name="action_start_cooking">Start cooking mode</string>
+    <string name="action_support">Support</string>
     <string name="action_upload">Upload</string>
     <string name="action_yes">Yes</string>
 
@@ -200,6 +201,11 @@
     <string name="form_error_source_max_1024">The source may contain a maximum of 1024 characters.</string>
     <string name="form_error_title_max_64">The title may contain a maximum of 64 characters.</string>
 
+    <plurals name="funding_banner_text">
+        <item quantity="one">**One more** supporter needed to cover costs</item>
+        <item quantity="other">**%1$d more** supporters needed to cover costs</item>
+    </plurals>
+
     <string name="greeting_christmas">Merry Christmas &#127877;&#127876;&#129420;</string>
     <string name="greeting_good_evening">Good evening &#127749;</string>
     <string name="greeting_good_morning">Good morning &#127774;</string>
@@ -317,6 +323,8 @@
     <string name="settings_section_appearance_label">Appearance</string>
     <string name="settings_section_behavior_description">Change kitshn's behavior</string>
     <string name="settings_section_behavior_enable_crash_reporting">Enable crash reporting</string>
+    <string name="settings_section_behavior_hide_funding_banner_this_year_description">Hide the funding banner for the current year</string>
+    <string name="settings_section_behavior_hide_funding_banner_this_year_label">Hide funding banner</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_description">Hide all “Unallocated ingredients” warnings</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_label">Ignore unallocated ingredients</string>
     <string name="settings_section_behavior_ingredients_show_fractional_values_description">Might be easier to read but also less accurate</string>

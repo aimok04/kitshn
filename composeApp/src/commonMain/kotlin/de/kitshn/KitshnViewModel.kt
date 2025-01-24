@@ -61,6 +61,9 @@ class KitshnViewModel(
         initComplete = true
 
         viewModelScope.launch {
+            if(settings.getFirstRunTime.first() == -1L)
+                settings.setFirstRunTime()
+
             val credentials = settings.getTandoorCredentials.first()
             if(onBeforeCredentialsCheck(credentials)) return@launch
 

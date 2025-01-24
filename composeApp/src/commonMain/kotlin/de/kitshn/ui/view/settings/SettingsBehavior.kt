@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material.icons.rounded.WarningAmber
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -15,15 +16,24 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import de.kitshn.Platforms
+import de.kitshn.platformDetails
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
 import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.settings_section_behavior_hide_funding_banner_this_year_description
+import kitshn.composeapp.generated.resources.settings_section_behavior_hide_funding_banner_this_year_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_hide_ingredient_allocation_action_chip_description
 import kitshn.composeapp.generated.resources.settings_section_behavior_hide_ingredient_allocation_action_chip_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_ingredients_show_fractional_values_description
@@ -34,6 +44,12 @@ import kitshn.composeapp.generated.resources.settings_section_behavior_propertie
 import kitshn.composeapp.generated.resources.settings_section_behavior_use_share_wrapper_description
 import kitshn.composeapp.generated.resources.settings_section_behavior_use_share_wrapper_label
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,6 +78,9 @@ fun ViewSettingsBehavior(
             p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
         val propertiesShowFractionalValues =
             p.vm.settings.getPropertiesShowFractionalValues.collectAsState(initial = true)
+
+        val fundingBannerHideUntil =
+            p.vm.settings.getFundingBannerHideUntil.collectAsState(initial = -1L)
 
         LazyColumn(
             modifier = Modifier
@@ -128,6 +147,53 @@ fun ViewSettingsBehavior(
                 ) {
                     coroutineScope.launch {
                         p.vm.settings.setPropertiesShowFractionalValues(it)
+                    }
+                }
+            }
+
+            if(platformDetails.platform == Platforms.IOS) {
+                item {
+                    HorizontalDivider(
+                        Modifier.padding(top = 8.dp, bottom = 8.dp)
+                    )
+                }
+
+                item {
+                    var enabled by remember { mutableStateOf(false) }
+                    LaunchedEffect(fundingBannerHideUntil.value) {
+                        val currentYear = Clock.System.now()
+                            .toLocalDateTime(TimeZone.currentSystemDefault())
+                            .year
+                        val year = Instant.fromEpochSeconds(fundingBannerHideUntil.value)
+                            .toLocalDateTime(TimeZone.currentSystemDefault())
+                            .year
+
+                        enabled = currentYear + 1 == year
+                    }
+
+                    SettingsSwitchListItem(
+                        label = { Text(stringResource(Res.string.settings_section_behavior_hide_funding_banner_this_year_label)) },
+                        description = { Text(stringResource(Res.string.settings_section_behavior_hide_funding_banner_this_year_description)) },
+                        icon = Icons.Rounded.VisibilityOff,
+                        contentDescription = stringResource(Res.string.settings_section_behavior_hide_funding_banner_this_year_description),
+                        checked = enabled
+                    ) {
+                        coroutineScope.launch {
+                            if(it) {
+                                val currentYear = Clock.System.now()
+                                    .toLocalDateTime(TimeZone.currentSystemDefault())
+                                    .year
+
+                                // set funding banner hide until to next year
+                                p.vm.settings.setFundingBannerHideUntil(
+                                    LocalDateTime(currentYear + 1, 1, 2, 0, 0, 0)
+                                        .toInstant(TimeZone.currentSystemDefault())
+                                        .epochSeconds
+                                )
+                            } else {
+                                p.vm.settings.setFundingBannerHideUntil(-1)
+                            }
+                        }
                     }
                 }
             }

@@ -5,11 +5,13 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.coroutines.getBooleanFlow
+import com.russhwolf.settings.coroutines.getLongFlow
 import com.russhwolf.settings.coroutines.getStringFlow
 import com.russhwolf.settings.observable.makeObservable
 import de.kitshn.api.tandoor.TandoorCredentials
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.Clock
 import kotlinx.serialization.encodeToString
 
 const val KEY_SETTINGS_APPEARANCE_SYSTEM_THEME = "appearance_system_theme"
@@ -25,17 +27,28 @@ const val KEY_SETTINGS_BEHAVIOR_INGREDIENTS_SHOW_FRACTIONAL_VALUES =
     "behavior_ingredients_show_fractional_values"
 const val KEY_SETTINGS_BEHAVIOR_PROPERTIES_SHOW_FRACTIONAL_VALUES =
     "behavior_properties_show_fractional_values"
+const val KEY_SETTINGS_BEHAVIOR_HIDE_FUNDING_BANNER_UNTIL =
+    "behavior_hide_funding_banner_until"
 
 const val KEY_SETTINGS_ONBOARDING_COMPLETED = "onboarding_completed"
 const val KEY_SETTINGS_TANDOOR_CREDENTIALS = "tandoor_credentials"
 
 const val KEY_SETTINGS_LATEST_VERSION_CHECK = "latest_version_check"
 
+const val KEY_SETTINGS_FIRST_RUN_TIME = "first_run_time"
+
 @OptIn(ExperimentalSettingsApi::class)
 class SettingsViewModel : ViewModel() {
 
     val settings: Settings = Settings()
     private val obs: ObservableSettings = settings.makeObservable()
+
+    // first run time (since unix epoch in seconds)
+    val getFirstRunTime: Flow<Long> =
+        obs.getLongFlow(KEY_SETTINGS_FIRST_RUN_TIME, -1L)
+
+    fun setFirstRunTime() =
+        obs.putLong(KEY_SETTINGS_FIRST_RUN_TIME, Clock.System.now().epochSeconds)
 
     // latest version check
     val getLatestVersionCheck: Flow<String> =
@@ -106,5 +119,11 @@ class SettingsViewModel : ViewModel() {
 
     fun setPropertiesShowFractionalValues(show: Boolean) =
         obs.putBoolean(KEY_SETTINGS_BEHAVIOR_PROPERTIES_SHOW_FRACTIONAL_VALUES, show)
+
+    val getFundingBannerHideUntil: Flow<Long> =
+        obs.getLongFlow(KEY_SETTINGS_BEHAVIOR_HIDE_FUNDING_BANNER_UNTIL, -1L)
+
+    fun setFundingBannerHideUntil(epochSeconds: Long) =
+        obs.putLong(KEY_SETTINGS_BEHAVIOR_HIDE_FUNDING_BANNER_UNTIL, epochSeconds)
 
 }
