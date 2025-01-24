@@ -257,8 +257,7 @@ compose.desktop {
             targetFormats(
                 TargetFormat.Dmg,
                 TargetFormat.Msi,
-                TargetFormat.Deb,
-                TargetFormat.AppImage
+                TargetFormat.Deb
             )
             packageName = kitshnDesktopPackageName
             packageVersion = kitshnVersionName
