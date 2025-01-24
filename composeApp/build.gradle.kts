@@ -74,6 +74,10 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
+            implementation(libs.adaptive)
+            implementation(libs.adaptive.layout)
+            implementation(libs.adaptive.navigation)
+
             implementation(libs.kermit)
             implementation(libs.kotlinx.coroutines.core)
 
@@ -125,9 +129,6 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
 
             implementation(libs.androidx.animation.graphics.android)
-            implementation(libs.androidx.adaptive)
-            implementation(libs.androidx.adaptive.layout)
-            implementation(libs.androidx.adaptive.navigation)
 
             implementation(libs.acra.http)
             implementation(libs.acra.dialog)

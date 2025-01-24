@@ -1,15 +1,17 @@
 [versions]
 aboutlibraries = "11.2.2"
 accompanist = "0.34.0"
+adaptiveLayout = "1.0.0-alpha03"
+adaptiveNavigation = "1.0.0-alpha03"
+adaptive = "1.0.1"
 bugsnag = "0.8.6"
 compose-placeholder = "1.0.8"
 acra = "5.11.3"
-adaptive = "1.0.0"
 composeWebviewMultiplatform = "1.9.40"
 datastoreCoreAndroid = "1.1.2"
 humanReadable = "1.10.0"
 kotlin = "2.1.0"
-compose = "1.7.1"
+compose = "1.7.3"
 agp = "8.7.3"
 androidx-activityCompose = "1.10.0"
 kermit = "2.0.5"
@@ -42,9 +44,9 @@ aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 acra-dialog = { module = "ch.acra:acra-dialog", version.ref = "acra" }
 acra-http = { module = "ch.acra:acra-http", version.ref = "acra" }
-androidx-adaptive = { module = "androidx.compose.material3.adaptive:adaptive", version.ref = "adaptive" }
-androidx-adaptive-layout = { module = "androidx.compose.material3.adaptive:adaptive-layout", version.ref = "adaptive" }
-androidx-adaptive-navigation = { module = "androidx.compose.material3.adaptive:adaptive-navigation", version.ref = "adaptive" }
+adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "adaptive" }
+adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:adaptive-layout", version.ref = "adaptiveLayout" }
+adaptive-navigation = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation", version.ref = "adaptiveNavigation" }
 androidx-datastore-core-android = { module = "androidx.datastore:datastore-core-android", version.ref = "datastoreCoreAndroid" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastoreCoreAndroid" }
 androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
