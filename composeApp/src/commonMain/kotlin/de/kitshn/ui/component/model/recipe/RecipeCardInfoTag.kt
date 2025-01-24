@@ -10,11 +10,13 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.LocalHazeStyle
+import dev.chrisbanes.haze.hazeEffect
 
 @Composable
 fun RecipeCardInfoTag(
@@ -25,7 +27,14 @@ fun RecipeCardInfoTag(
     Surface(
         Modifier
             .padding(4.dp)
-            .hazeChild(hazeState, shape = shape),
+            .clip(shape)
+            .hazeEffect(
+                state = hazeState,
+                style = LocalHazeStyle.current.copy(
+                    backgroundColor = Color.White.copy(alpha = 0.5f),
+                    blurRadius = 16.dp
+                )
+            ),
         shape = shape,
         color = Color.White.copy(alpha = 0.5f),
         contentColor = MaterialTheme.colorScheme.contentColorFor(Color.White.copy(alpha = 0.5f))

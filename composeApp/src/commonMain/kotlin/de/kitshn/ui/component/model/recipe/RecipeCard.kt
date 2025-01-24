@@ -45,7 +45,7 @@ import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.translateState
 import de.kitshn.ui.theme.Typography
 import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.haze
+import dev.chrisbanes.haze.hazeSource
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.lorem_ipsum_title
 import org.jetbrains.compose.resources.stringResource
@@ -120,7 +120,7 @@ fun RecipeCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(16f / 9f)
-                        .haze(hazeState)
+                        .hazeSource(hazeState)
                         .loadingPlaceHolder(asyncImageState)
                 )
 

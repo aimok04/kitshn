@@ -128,8 +128,6 @@ kotlin {
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.okhttp)
 
-            implementation(libs.androidx.animation.graphics.android)
-
             implementation(libs.acra.http)
             implementation(libs.acra.dialog)
 
