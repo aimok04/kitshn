@@ -11,8 +11,10 @@ struct SubscriptionView: View {
             if #available(iOS 17.0, *) {
                 SubscriptionStoreView(groupID: SUPPORT_SUBSCRIPTION_GROUP_ID)
                     .onInAppPurchaseCompletion { product, result in
-                        showPurchaseAlert = true
-                        MainKt.handleSubscriptionChange(isSubscribed: true)
+                        if case .success(.success(let transaction)) = result {
+                            showPurchaseAlert = true
+                            MainKt.handleSubscriptionChange(isSubscribed: true)
+                        }
                     }
             }
         }
