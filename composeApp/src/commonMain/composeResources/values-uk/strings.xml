@@ -340,4 +340,18 @@
     <string name="settings_section_about_item_review_ios_description">Оцініть kitshn в App Store</string>
     <string name="bugsnag_dialog_button_positive">Так, дозволити</string>
     <string name="bugsnag_dialog_message">kitshn для iOS залежить від звітів про збої, які потрібно покращити. Для цього програма використовує бібліотеку/платформу Bugsnag. Ви влаштовуєте автоматичне завантаження деталей про збої та помилки? \n\nЦей вибір можна змінити в Налаштуваннях/Поведінка.</string>
+    <string name="settings_section_behavior_hide_funding_banner_this_year_label">Приховати банер фінансування</string>
+    <string name="common_learn_more">Дізнайтесь більше</string>
+    <string name="ios_support_badge">Підписка на підтримку</string>
+    <string name="ios_support_manage_subscription_description">Керуйте своєю підпискою на підтримку</string>
+    <string name="ios_support_manage_subscription_label">Керувати підпискою</string>
+    <string name="ios_support_thanks">Дякуємо за підтримку kitshn! Ваш внесок допомагає підтримувати цей проект.</string>
+    <string name="settings_section_behavior_hide_funding_banner_this_year_description">Приховати банер фінансування на поточний рік</string>
+    <string name="action_support">Підтримка</string>
+    <plurals name="funding_banner_text">
+        <item quantity="one">**Для покриття витрат потрібен ще %1$d** прихильник</item>
+        <item quantity="few">**Щоб покрити витрати, потрібно ще %1$d** прихильників</item>
+        <item quantity="many">**Потрібно ще %1$d** прихильників, щоб покрити витрати</item>
+        <item quantity="other">**Потрібно ще %1$d** прихильників, щоб покрити витрати</item>
+    </plurals>
 </resources>
