@@ -1,0 +1,13 @@
+Hey ✌️
+This weeks release is focused around bringing some major features and improvements to the iOS platform.
+There are also some changes affecting all platforms:
+
+    1. 🇸🇮 Slovenian has been added on Weblate (by @vednolacni).
+    2. kitshn now uses a new markdown library which improves style.
+    3. Different pages with lazy loading have been improved.
+    4. Recipe books now also show recipes from filters (#67).
+    5. Some bug fixes and small improvements.
+    6. Checked compatibility with Tandoor versions 1.5.28/29/30.
+
+kitshn has hit 200 stars this month 🥳
+Thank you for your support :)
