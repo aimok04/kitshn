@@ -59,7 +59,7 @@ kotlin {
             binaryOption("bundleShortVersionString", kitshnAlternateVersionName)
             binaryOption("bundleVersion", "$kitshnAlternateVersionName.$kitshnVersionCode")
 
-            export("co.touchlab.crashkios:bugsnag:0.8.6")
+            export("co.touchlab.crashkios:bugsnag:0.9.0")
         }
     }
 
