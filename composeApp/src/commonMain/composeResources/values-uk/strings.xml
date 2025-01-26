@@ -349,9 +349,9 @@
     <string name="settings_section_behavior_hide_funding_banner_this_year_description">Приховати банер фінансування на поточний рік</string>
     <string name="action_support">Підтримка</string>
     <plurals name="funding_banner_text">
-        <item quantity="one">**Для покриття витрат потрібен ще %1$d** прихильник</item>
-        <item quantity="few">**Щоб покрити витрати, потрібно ще %1$d** прихильників</item>
-        <item quantity="many">**Потрібно ще %1$d** прихильників, щоб покрити витрати</item>
-        <item quantity="other">**Потрібно ще %1$d** прихильників, щоб покрити витрати</item>
+        <item quantity="one">**Для покриття витрат потрібен ще %1$d ** постійний спонсор</item>
+        <item quantity="few">**Щоб покрити витрати, потрібно ще %1$d** постійних прихильників</item>
+        <item quantity="many">**Ще %1$d** постійних прихильників, щоб покрити витрати</item>
+        <item quantity="other">**Ще %1$d** постійних прихильників, щоб покрити витрати</item>
     </plurals>
 </resources>
