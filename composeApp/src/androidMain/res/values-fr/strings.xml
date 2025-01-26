@@ -1,2 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="acra_comment_helper">Si vous le souhaitez, vous pouvez commenter la manière dont cette erreur s\'est produite.</string>
+    <string name="acra_dialog_button_neutral">Voir le rapport</string>
+    <string name="shortcuts_new_instance_label_long">Créer une nouvelle instance</string>
+    <string name="acra_dialog_button_negative">Ne pas envoyer</string>
+    <string name="acra_dialog_message">L\'application a connu une erreur inattendue. Veuillez envoyer un rapport d\'erreur pour nous aider à résoudre le problème.\n\nVous pouvez consulter l\'intégralité du rapport avant de l\'envoyer.</string>
+    <string name="acra_dialog_title">Oups !</string>
+    <string name="action_back">Retour</string>
+    <string name="action_download">Télécharger</string>
+    <string name="app_name">kitshn</string>
+    <string name="common_comment">Commenter</string>
+    <string name="common_email_address">Adresse e-mail</string>
+    <string name="common_error_report">Rapport d\'erreur</string>
+    <string name="common_import_recipe">Importer une recette</string>
+    <string name="shortcuts_new_instance_label_short">Nouvelle instance</string>
+    <string name="acra_dialog_button_positive">Envoyer</string>
+    <string name="acra_email_address_helper">Si vous le souhaitez, vous pouvez indiquer votre adresse électronique pour recevoir des mises à jour de votre rapport.</string>
+</resources>
