@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="acra_dialog_button_neutral">Voir le rapport</string>
-    <string name="acra_comment_helper">Si vous le souhaitez, vous pouvez ajouter un commentaire décrivant comment l\'erreur est survenue.</string>
+    <string name="acra_comment_helper">Si vous le souhaitez, vous pouvez commenter la manière dont cette erreur s\'est produite.</string>
     <string name="action_close">Fermer</string>
     <string name="action_edit_entry">Modifier l\'entrée</string>
     <string name="action_remove">Retirer</string>
@@ -74,9 +74,9 @@
     <string name="action_download">Télécharger</string>
     <string name="action_create_entry">Nouvelle entrée</string>
     <string name="acra_dialog_button_negative">Ne pas envoyer</string>
-    <string name="acra_dialog_message">Une erreur est survenue. Veuillez envoyer un rapport d\'erreur pour aider à résoudre le problème.\n\nVous pouvez consulter l\'intégralité du rapport avant de l\'envoyer.</string>
+    <string name="acra_dialog_message">L\'application a connu une erreur inattendue. Veuillez envoyer un rapport d\'erreur pour nous aider à résoudre le problème.\n\nVous pouvez consulter l\'intégralité du rapport avant de l\'envoyer.</string>
     <string name="action_add_to_favorites">Ajouter aux favoris</string>
-    <string name="acra_email_address_helper">Si vous le souhaitez, vous pouvez renseigner votre adresse email pour recevoir des mises à jour sur votre rapport.</string>
+    <string name="acra_email_address_helper">Si vous le souhaitez, vous pouvez indiquer votre adresse électronique pour recevoir des mises à jour de votre rapport.</string>
     <string name="action_abort">Annuler</string>
     <string name="action_add">Ajouter</string>
     <string name="action_add_to_meal_plan">Ajouter au planning des repas</string>
