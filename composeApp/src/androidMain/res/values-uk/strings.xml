@@ -10,4 +10,10 @@
     <string name="action_back">Назад</string>
     <string name="shortcuts_new_instance_label_long">Створити новий екземпляр</string>
     <string name="shortcuts_new_instance_label_short">Новий екземпляр</string>
+    <string name="common_email_address">Поштова адреса</string>
+    <string name="app_name">kitshn</string>
+    <string name="common_comment">Коментар</string>
+    <string name="common_error_report">Звіт про помилку</string>
+    <string name="common_import_recipe">Імпортний рецепт</string>
+    <string name="action_download">Завантажити</string>
 </resources>
