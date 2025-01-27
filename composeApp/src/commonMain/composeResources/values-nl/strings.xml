@@ -197,7 +197,7 @@
     <string name="form_error_description_max_512">De omschrijving kan maximaal 512 karakters bevatten.</string>
     <string name="error_unallocated_ingredients">Niet toegewezen ingrediënten</string>
     <string name="error_unallocated_ingredients_description">Er zijn nog ingrediënten die toegewezen moeten worden aan een stap voordat je de aanpassingen kunt opslaan.</string>
-    <string name="home_search_empty">Tandoor is in z\'n geheel doorzocht - maar geen passend recept is gevonden.</string>
+    <string name="home_search_empty">Tandoor is in z'n geheel doorzocht - maar geen passend recept is gevonden.</string>
     <string name="home_search_empty_query">Voer een zoekopdracht in om Tandoor te doorzoeken.</string>
     <string name="home_section_indian">🇮🇳🪷🕌🦚🪕</string>
     <string name="home_section_lunch_time">Lunch tijd</string>
@@ -233,9 +233,9 @@
     <string name="recipe_step_timer_created">Timer is aangemaakt.</string>
     <string name="search_food_including_all_label">Alle ingrediënten zijn toegevoegd</string>
     <string name="error_request_description">De server kan niet bereikt worden of het verzoek kan niet verwerkt worden door de server.</string>
-    <string name="error_video_playback_not_supported">Het is niet mogelijk om video\'s af te spelen op dit platform.</string>
+    <string name="error_video_playback_not_supported">Het is niet mogelijk om video's af te spelen op dit platform.</string>
     <string name="form_error_portions_text_max_32">De tekst voor porties mag maximaal bestaan uit 32 karakters.</string>
-    <string name="home_section_go_tos">Go To\'s</string>
+    <string name="home_section_go_tos">Go To's</string>
     <string name="home_section_seasonal_christmas">Feestelijke Favorieten ☃️🎄</string>
     <string name="home_section_vegan">Vegan opties</string>
     <string name="home_section_vegetarian">Vegetarische maaltijden</string>
@@ -259,7 +259,7 @@
     <string name="recipe_sorting_creation_date">Datum van aanmaken</string>
     <string name="onboarding_welcome">Veel plezier met koken met behulp van kitshn. Let op: de app bevindt zich momenteel in de alfafase. Voor bugs, feedback en ideeën voor functies, kijk op de pagina » Over « in de instellingen voor contactopties.</string>
     <string name="settings_section_appearance_description">Verander kleuren schema en het dynamische thema</string>
-    <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_description">Verberg alle \"onbekende ingrediënten\" waarschuwingen</string>
+    <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_description">Verberg alle "onbekende ingrediënten" waarschuwingen</string>
     <string name="settings_section_about_description">Informatie over deze app</string>
     <string name="settings_section_about_item_new_issue_description">Rapporteer fouten, suggereer verbetering en vraag om hulp</string>
     <string name="settings_section_appearance_dark_mode_description">Gebruik donker kleuren schema</string>
