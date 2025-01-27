@@ -71,10 +71,10 @@
     <string name="action_start_cooking">Запустити режим приготування</string>
     <string name="action_upload">Завантаження</string>
     <string name="action_yes">Так</string>
-    <string name="app_name">китшн</string>
+    <string name="app_name">kitshn</string>
     <string name="common_add_to_shopping_list">Додати до списку покупок</string>
     <string name="common_allocate_ingredients">Розподілити інгредієнти</string>
-    <string name="common_comment">коментар</string>
+    <string name="common_comment">Коментар</string>
     <string name="common_contact">контакт</string>
     <string name="common_cook_book">Кулінарна книга</string>
     <string name="common_copied_to_clipboard">Скопійовано в буфер обміну!</string>
