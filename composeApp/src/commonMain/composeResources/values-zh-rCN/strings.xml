@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="acra_comment_helper">如果您愿意，可以描述此错误是如何发生的。</string>
+    <string name="acra_dialog_button_negative">不发送</string>
+</resources>
