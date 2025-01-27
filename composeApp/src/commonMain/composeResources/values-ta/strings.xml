@@ -257,7 +257,7 @@
     <string name="settings_section_about_description">இந்த பயன்பாடு பற்றிய செய்தி</string>
     <string name="settings_section_about_item_freepik">பயன்பாட்டு ஐகானின் தோற்றம்</string>
     <string name="settings_section_about_item_new_issue_description">பிழைகளைப் புகாரளிக்கவும், அம்சங்களை பரிந்துரைக்கவும், உதவியைப் பெறவும்</string>
-    <string name="settings_section_about_item_review_description">பிளே ச்டோரில் KITSHN ஐ மதிப்பிடுங்கள்</string>
+    <string name="settings_section_about_item_review_description">பிளே ச்டோரில் kitshn ஐ மதிப்பிடுங்கள்</string>
     <string name="settings_section_about_label">பற்றி</string>
     <string name="settings_section_appearance_dark_mode_description">இருண்ட வண்ணத் திட்டத்தைப் பயன்படுத்தவும்</string>
     <string name="settings_section_appearance_dark_mode_label">இருண்ட முறை</string>

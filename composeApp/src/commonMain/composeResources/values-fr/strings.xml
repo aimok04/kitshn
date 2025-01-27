@@ -20,7 +20,7 @@
     <string name="bugsnag_dialog_button_positive">Oui, autoriser</string>
     <string name="common_api_token">Jeton API</string>
     <string name="action_yes">Oui</string>
-    <string name="bugsnag_dialog_message">Kitshn pour iOS dépend de l'amélioration de la remontée des erreurs. L'application utilise la plateforme Bugsnag pour cela. Êtes-vous d'accord pour télécharger automatiquement les détails des plantages et des bugs ?\n\nCette option peut être modifiée dans Paramètres/Préférences.</string>
+    <string name="bugsnag_dialog_message">kitshn pour iOS dépend de l'amélioration de la remontée des erreurs. L'application utilise la plateforme Bugsnag pour cela. Êtes-vous d'accord pour télécharger automatiquement les détails des plantages et des bugs ?\n\nCette option peut être modifiée dans Paramètres/Préférences.</string>
     <string name="common_add_to_shopping_list">Ajouter à la liste de courses</string>
     <string name="common_comment">Commenter</string>
     <string name="common_cook_book">Livre de recettes</string>

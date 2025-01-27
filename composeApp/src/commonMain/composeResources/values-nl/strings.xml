@@ -268,12 +268,12 @@
     <string name="shopping_list_entry_create_placeholder_food">Paddestoelen</string>
     <string name="settings_section_appearance_dynamic_color_label">Dynamisch kleuren schema</string>
     <string name="settings_section_appearance_follow_system_label">Volg systeem</string>
-    <string name="settings_section_behavior_description">Bewerk Kitshn\'s gedrag</string>
+    <string name="settings_section_behavior_description">Bewerk kitshn's gedrag</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_label">Negeer ongedefineerde ingrediënten</string>
     <string name="settings_section_behavior_ingredients_show_fractional_values_description">Is mogelijk makkelijker om te lezen maar ook minder accuraat</string>
     <string name="settings_section_behavior_ingredients_show_fractional_values_label">Fractionele waardes voor ingrediënten</string>
     <string name="settings_section_behavior_label">Gedrag</string>
-    <string name="settings_section_about_item_review_description">Beoordeel Kitshn in de Play Store</string>
+    <string name="settings_section_about_item_review_description">Beoordeel kitshn in de Play Store</string>
     <string name="settings_section_about_label">Over</string>
     <string name="settings_section_appearance_label">Uiterlijk</string>
     <string name="tandoor_compatibility_incompatible_label">Incompatibel</string>
