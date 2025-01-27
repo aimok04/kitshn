@@ -95,7 +95,7 @@
     <string name="common_menu">Меню</string>
     <string name="common_minute_min">хв</string>
     <string name="common_minutes">хвилин</string>
-    <string name="common_name">Ім\'я</string>
+    <string name="common_name">Ім'я</string>
     <string name="common_not_reachable">Недосяжний</string>
     <string name="common_or_upper">OR</string>
     <string name="common_password">Пароль</string>
@@ -142,7 +142,7 @@
     <string name="common_total">всього</string>
     <string name="common_unknown">Невідомий</string>
     <string name="common_unknown_meal_type">Невідомий тип їжі</string>
-    <string name="common_username">Ім\'я користувача</string>
+    <string name="common_username">Ім'я користувача</string>
     <string name="common_version">Версія</string>
     <string name="common_website">Веб-сайт</string>
     <string name="common_welcome">Ласкаво просимо</string>
