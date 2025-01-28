@@ -16,7 +16,7 @@
     <string name="error_instance_inaccessible">La instancia a la que estás intentando conectarte no está configurada dentro de esta aplicación.</string>
     <string name="action_reorder">Reordenar</string>
     <string name="action_sign_in">Ingresar</string>
-    <string name="bugsnag_dialog_message">kitsh para iOS depende de los reportes de cuelgues para ser perfeccionado. La app usa la librería/plataforma Bugsnag para lograr esto. ¿Estás de acuerdo con subir automáticamente los detalles sobre los cuelgues y errores?\n\nEsta opción puede ser cambiada en Ajustes/Comportamiento.</string>
+    <string name="bugsnag_dialog_message">kitshn para iOS depende de los reportes de cuelgues para ser perfeccionado. La app usa la librería/plataforma Bugsnag para lograr esto. ¿Estás de acuerdo con subir automáticamente los detalles sobre los cuelgues y errores?\n\nEsta opción puede ser cambiada en Ajustes/Comportamiento.</string>
     <string name="common_day_before_yesterday">Anteayer</string>
     <string name="common_ingredients">Ingredientes</string>
     <string name="common_review">Calificar</string>
