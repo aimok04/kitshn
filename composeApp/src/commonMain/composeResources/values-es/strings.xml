@@ -7,7 +7,7 @@
     <string name="action_continue">Continuar</string>
     <string name="action_add">Agregar</string>
     <string name="acra_dialog_button_positive">Enviar</string>
-    <string name="acra_comment_helper">Si lo deseas, puede comentar cómo se produjo este error.</string>
+    <string name="acra_comment_helper">Si lo deseas, puedes comentar cómo ocurrió este error.</string>
     <string name="action_remove">Remover</string>
     <string name="action_show_all_recipes">Mostrar todas las recetas</string>
     <string name="action_move">Mover</string>
@@ -39,7 +39,7 @@
     <string name="acra_dialog_title">¡Ups!</string>
     <string name="acra_email_address_helper">Si lo deseas, puedes ingresar tu correo electrónico para recibir actualizaciones sobre tu reporte.</string>
     <string name="action_abort">Abortar</string>
-    <string name="action_add_to_meal_plan">Agregar a plan alimenticio</string>
+    <string name="action_add_to_meal_plan">Agregar a plan de comidas</string>
     <string name="action_add_to_recipe_books">Agregar a recetarios</string>
     <string name="action_allocate_ingredients">Asignar ingredientes</string>
     <string name="action_back">Atrás</string>
@@ -48,7 +48,7 @@
     <string name="action_create_recipe">Nueva receta</string>
     <string name="action_create_recipe_book">Nuevo recetario</string>
     <string name="action_delete">Eliminar</string>
-    <string name="action_delete_from_meal_plan">Eliminar del plan alimenticio</string>
+    <string name="action_delete_from_meal_plan">Eliminar del plan de comidas</string>
     <string name="action_download">Descargar</string>
     <string name="action_edit_recipe_book">Editar recetario</string>
     <string name="action_expand_less">Expandir menos</string>
@@ -74,7 +74,7 @@
     <string name="common_allocate_ingredients">Asignar ingredientes</string>
     <string name="common_api_token">Token API</string>
     <string name="common_contact">Contacto</string>
-    <string name="common_add_to_shopping_list">Agregar a lista de compra</string>
+    <string name="common_add_to_shopping_list">Agregar a lista de compras</string>
     <string name="common_count">Cantidad</string>
     <string name="common_day_after_tomorrow">Pasado mañana</string>
     <string name="common_delete_permanently">Eliminar permanentemente</string>
@@ -176,7 +176,7 @@
     <string name="share_incentive">¡Oye! Mira esta receta que encontré en Tandoor:</string>
     <string name="share_title">Comparte esta receta en Tandoor</string>
     <string name="share_wrapper_dialog_title">¿Usar módulo de compartir?</string>
-    <string name="shopping_list_empty">Actualmente no hay elementos en la lista de compra.</string>
+    <string name="shopping_list_empty">Actualmente no hay elementos en la lista de compras.</string>
     <string name="shopping_list_entry_create_placeholder_amount">250</string>
     <string name="shopping_list_entry_create_placeholder_food">Hongos</string>
     <string name="shopping_list_entry_create_placeholder_unit">gr.</string>
@@ -223,7 +223,7 @@
     <string name="common_create_argument">Crear «%1$s»</string>
     <string name="common_prepairing">Preparación</string>
     <string name="common_tomorrow">Mañana</string>
-    <string name="common_meal_type">Tipo de alimento</string>
+    <string name="common_meal_type">Tipo de comida</string>
     <string name="common_delete_permanently_text">Este proceso no puede revertirse. ¿Realmente quieres continuar?</string>
     <string name="common_email_address">Dirección de correo</string>
     <string name="common_minute_min">min</string>
@@ -241,7 +241,7 @@
     <string name="common_select">Seleccionar</string>
     <string name="common_selected">Seleccionado</string>
     <string name="action_apply">Aplicar</string>
-    <string name="common_unknown_meal_type">Tipo de alimento desconocido</string>
+    <string name="common_unknown_meal_type">Tipo de comida desconocido</string>
     <string name="common_unsaved_changes">Cambios sin guardar</string>
     <string name="common_unsaved_changes_description">Si continúas, se perderán tus cambios. ¿Quieres descartar tus cambios?</string>
     <string name="common_website">Sitio web</string>
@@ -267,13 +267,13 @@
     <string name="home_section_mexican">🇲🇽🌮🤠🥑</string>
     <string name="home_section_seasonal_christmas">Favoritos festivos ☃️🎄</string>
     <string name="internal_favorites_recipe_book_name">Favoritos de kitshn</string>
-    <string name="navigation_meal_plan">Plan alimenticio</string>
+    <string name="navigation_meal_plan">Plan de comidas</string>
     <string name="recipe_sorting_relevance">Relevancia</string>
     <string name="lorem_ipsum_medium">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</string>
     <string name="navigation_books">Libros</string>
     <string name="recipe_sorting_creation_date">Fecha de creación</string>
     <string name="lorem_ipsum_title">Lorem ipsum dolor sit amet</string>
-    <string name="meal_plan_form_add_to_shopping_list_description">Agregar automáticamente los ingredientes necesarios a la lista de compra.</string>
+    <string name="meal_plan_form_add_to_shopping_list_description">Agregar automáticamente los ingredientes necesarios a la lista de compras.</string>
     <string name="recipe_edit_no_keywords_added">Aún no se han agregado palabras claves a esta receta.</string>
     <string name="meal_plan_no_recipes_for_this_day">No se han agregado recetas para este día</string>
     <string name="search_food_including_all_label">Todos los ingredientes incluidos</string>
