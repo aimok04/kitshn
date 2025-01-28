@@ -1,0 +1,2 @@
+- fix(build.gradle): eliminada la minificación
+- fix(mealplan): el color de mealplanType ahora puede ser no definido
