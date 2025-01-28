@@ -1,2 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="acra_dialog_title">¡Ups!</string>
+    <string name="acra_dialog_button_negative">No enviar</string>
+    <string name="acra_dialog_button_neutral">Ver reporte</string>
+    <string name="acra_dialog_button_positive">Enviar</string>
+    <string name="action_download">Descargar</string>
+    <string name="app_name">kitshn</string>
+    <string name="common_email_address">Dirección de correo</string>
+    <string name="common_comment">Comentar</string>
+    <string name="common_error_report">Reporte de errores</string>
+    <string name="common_import_recipe">Importar recetas</string>
+    <string name="shortcuts_new_instance_label_long">Crear una nueva instancia</string>
+    <string name="shortcuts_new_instance_label_short">Nueva instancia</string>
+    <string name="acra_comment_helper">Si lo deseas, puedes comentar cómo ocurrió este error.</string>
+    <string name="acra_email_address_helper">Si lo deseas, puedes ingresar tu correo electrónico para recibir actualizaciones sobre tu reporte.</string>
+    <string name="acra_dialog_message">La aplicación ha experimentado un error inesperado. Por favor, envía un reporte de error para ayudar a corregir este problema.\n\nPuedes visualizar el reporte completo antes de enviarlo.</string>
+    <string name="action_back">Atrás</string>
+</resources>
