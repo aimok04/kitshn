@@ -1,0 +1,46 @@
+Información: Es posible que los usuarios de GrapheneOS tengan que desactivar «Hardened memory allocator» o activar el «Exploit protection compatibility mode» para que la aplicación funcione.
+
+Hecho con <b>Jetpack Compose</b> y <b>Material You</b> para ofrecer una experiencia de usuario moderna, intuitiva y responsiva
+
+<b>Funciones soportadas:</b>
+<ul>
+    <li>Pantalla de inicio dinámica con sugerencias</li>
+    <li>Recetas</li>
+    <ul>
+        <li>Adición, importación, edición y eliminación</li>
+        <ul>
+            <li>Herramienta de combinación de pasos</li>
+            <li>Receptor de compartidos para importar recetas desde URLs</li>
+        </ul>
+        <li>Búsqueda intensiva</li>
+        <li>Modo cocinar</li>
+        <li>Herramienta de asignación de ingredientes a pasos</li>
+        <li>Enlaces de aplicación</li>
+        <li>Markdown soportado</li>
+    </ul>
+    <li>Plan de comidas</li>
+    <ul>
+        <li>Resumen</li>
+        <li>Adición, edición y eliminación</li>
+    </ul>
+    <li>Lista de compras</li>
+    <ul>
+        <li>Adición y eliminación de elementos</li>
+        <li>Sincronización automática</li>
+    </ul>
+    <li>Recetarios</li>
+    <ul>
+        <li>Adición y eliminación</li>
+        <li>Función de favoritos</li>
+    </ul>
+    <li>Interfaz</li>
+    <ul>
+        <li>Creada con Jetpack Compose</li>
+        <li>Colores dinámicos de Material You</li>
+        <li>Diseño responsivo de dos paneles para tabletas y plegables</li>
+    </ul>
+</ul>
+
+Por favor, ten en cuenta que esta aplicación está actualmente en fase alfa. Puedes abrir incidencias en GitHub para errores, comentarios e ideas para nuevas funciones.
+
+Ícono hecho por Freepik desde www.flaticon.com
