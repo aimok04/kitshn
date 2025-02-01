@@ -12,7 +12,6 @@ import de.kitshn.api.tandoor.TandoorCredentials
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
-import kotlinx.serialization.encodeToString
 
 const val KEY_SETTINGS_APPEARANCE_SYSTEM_THEME = "appearance_system_theme"
 const val KEY_SETTINGS_APPEARANCE_DARK_THEME = "appearance_dark_theme"
@@ -23,6 +22,8 @@ const val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN =
     "behavior_use_share_wrapper_hint_shown_str"
 const val KEY_SETTINGS_BEHAVIOR_HIDE_INGREDIENT_ALLOCATION_ACTION_CHIPS =
     "behavior_hide_ingredient_allocation_action_chips"
+const val KEY_SETTINGS_BEHAVIOR_ENABLE_DYNAMIC_HOME_SCREEN =
+    "behavior_enable_dynamic_home_screen"
 const val KEY_SETTINGS_BEHAVIOR_INGREDIENTS_SHOW_FRACTIONAL_VALUES =
     "behavior_ingredients_show_fractional_values"
 const val KEY_SETTINGS_BEHAVIOR_PROPERTIES_SHOW_FRACTIONAL_VALUES =
@@ -107,6 +108,12 @@ class SettingsViewModel : ViewModel() {
 
     fun setHideIngredientAllocationActionChips(hide: Boolean) =
         obs.putBoolean(KEY_SETTINGS_BEHAVIOR_HIDE_INGREDIENT_ALLOCATION_ACTION_CHIPS, hide)
+
+    val getEnableDynamicHomeScreen: Flow<Boolean> =
+        obs.getBooleanFlow(KEY_SETTINGS_BEHAVIOR_ENABLE_DYNAMIC_HOME_SCREEN, true)
+
+    fun setEnableDynamicHomeScreen(enable: Boolean) =
+        obs.putBoolean(KEY_SETTINGS_BEHAVIOR_ENABLE_DYNAMIC_HOME_SCREEN, enable)
 
     val getIngredientsShowFractionalValues: Flow<Boolean> =
         obs.getBooleanFlow(KEY_SETTINGS_BEHAVIOR_INGREDIENTS_SHOW_FRACTIONAL_VALUES, true)

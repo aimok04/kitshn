@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.DynamicFeed
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.VisibilityOff
@@ -32,6 +33,8 @@ import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
 import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.settings_section_behavior_enable_dynamic_home_screen_description
+import kitshn.composeapp.generated.resources.settings_section_behavior_enable_dynamic_home_screen_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_hide_funding_banner_this_year_description
 import kitshn.composeapp.generated.resources.settings_section_behavior_hide_funding_banner_this_year_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_hide_ingredient_allocation_action_chip_description
@@ -74,6 +77,9 @@ fun ViewSettingsBehavior(
         val hideIngredientAllocationActionChips =
             p.vm.settings.getHideIngredientAllocationActionChips.collectAsState(initial = false)
 
+        val enableDynamicHomeScreen =
+            p.vm.settings.getEnableDynamicHomeScreen.collectAsState(initial = true)
+
         val ingredientsShowFractionalValues =
             p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
         val propertiesShowFractionalValues =
@@ -113,6 +119,26 @@ fun ViewSettingsBehavior(
                 ) {
                     coroutineScope.launch {
                         p.vm.settings.setHideIngredientAllocationActionChips(it)
+                    }
+                }
+            }
+
+            item {
+                HorizontalDivider(
+                    Modifier.padding(top = 8.dp, bottom = 8.dp)
+                )
+            }
+
+            item {
+                SettingsSwitchListItem(
+                    label = { Text(stringResource(Res.string.settings_section_behavior_enable_dynamic_home_screen_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_behavior_enable_dynamic_home_screen_description)) },
+                    icon = Icons.Rounded.DynamicFeed,
+                    contentDescription = stringResource(Res.string.settings_section_behavior_enable_dynamic_home_screen_label),
+                    checked = enableDynamicHomeScreen.value
+                ) {
+                    coroutineScope.launch {
+                        p.vm.settings.setEnableDynamicHomeScreen(it)
                     }
                 }
             }

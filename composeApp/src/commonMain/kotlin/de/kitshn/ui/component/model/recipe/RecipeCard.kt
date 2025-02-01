@@ -54,6 +54,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun RecipeCard(
     modifier: Modifier = Modifier,
+    alternateCoverSize: Boolean = false,
     fillChipRow: Boolean = false,
     recipeOverview: TandoorRecipeOverview? = null,
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
@@ -119,7 +120,13 @@ fun RecipeCard(
                     imageLoader = imageLoader,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(16f / 9f)
+                        .run {
+                            if(alternateCoverSize) {
+                                height(150.dp)
+                            } else {
+                                aspectRatio(16f / 9f)
+                            }
+                        }
                         .hazeSource(hazeState)
                         .loadingPlaceHolder(asyncImageState)
                 )
