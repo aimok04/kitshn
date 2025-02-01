@@ -1,0 +1,12 @@
+Hey ✌️
+This weeks release adds two new languages and some minor changes:
+
+    1. 🇫🇷 French has been added on Weblate (by @KcivazB).
+    2. 🇪🇸 Spanish has been added on Weblate (by @1024mb).
+    3. Added an option to disable the dynamic recommendations on the home screen.
+    4. Added support for custom headers for authentication.
+    5. Added bug report button on onboarding page.
+    6. Fixed some layout and UI issues.
+    7. Checked compatibility with Tandoor version 1.5.31.
+
+The next release will focus around improving the shopping list page :)
