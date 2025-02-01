@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Login
 import androidx.compose.material.icons.rounded.AccountCircle
+import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Key
@@ -21,6 +22,7 @@ import androidx.compose.material.icons.rounded.Web
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -52,6 +54,7 @@ import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorCredentialsToken
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.crash.crashReportHandler
 import de.kitshn.ui.component.HorizontalDividerWithLabel
 import de.kitshn.ui.component.buttons.LoadingExtendedFloatingActionButton
 import de.kitshn.ui.modifier.autofill
@@ -61,6 +64,7 @@ import de.kitshn.ui.theme.Success
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_sign_in
 import kitshn.composeapp.generated.resources.common_api_token
+import kitshn.composeapp.generated.resources.common_error_report
 import kitshn.composeapp.generated.resources.common_instance_url
 import kitshn.composeapp.generated.resources.common_loading_short
 import kitshn.composeapp.generated.resources.common_not_reachable
@@ -87,6 +91,7 @@ fun RouteOnboardingSignIn(
     p: RouteParameters
 ) {
     val focusManager = LocalFocusManager.current
+    val crashReportHandler = crashReportHandler()
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -173,7 +178,19 @@ fun RouteOnboardingSignIn(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(Res.string.onboarding_sign_in_title)) }
+                title = { Text(stringResource(Res.string.onboarding_sign_in_title)) },
+                actions = {
+                    if(crashReportHandler != null) IconButton(
+                        onClick = {
+                            crashReportHandler(null)
+                        }
+                    ) {
+                        Icon(
+                            Icons.Rounded.BugReport,
+                            stringResource(Res.string.common_error_report)
+                        )
+                    }
+                }
             )
         },
         floatingActionButton = {
