@@ -261,6 +261,10 @@ fun ViewRecipeDetails(
         if(recipe == null) return@LaunchedEffect
 
         sortedStepsList.clear()
+
+        // adding delay to fix issue where markdown content wasn't updated accordingly when deleting steps
+        delay(50)
+
         sortedStepsList.addAll(recipe.sortSteps())
 
         sortedStepsList.forEach {

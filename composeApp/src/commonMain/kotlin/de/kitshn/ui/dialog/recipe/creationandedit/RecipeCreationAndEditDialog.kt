@@ -287,6 +287,8 @@ fun RecipeCreationAndEditDialog(
             // deleting (temporary) recipe
             if(creationState?.recipe != null) creationState.recipe!!.delete()
 
+            onRefresh()
+
             creationState?.dismiss()
             editState?.dismiss()
 
@@ -395,8 +397,6 @@ fun RecipeCreationAndEditDialog(
 
                                 editState?.dismiss()
                                 creationState?.dismiss()
-
-                                if(!isEditDialog) creationState?.recipe?.let { onViewRecipe(it) }
                             }
                         }
                     }
