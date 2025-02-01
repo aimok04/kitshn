@@ -26,7 +26,8 @@ private data class KeyParamsAnyStateNotSavable(
 fun <T> foreverRememberNotSavable(
     key: String,
     params: String = "",
-    initialValue: T? = null
+    initialValue: T? = null,
+    includeNull: Boolean = false
 ): MutableState<T> {
     val mutableState = remember {
         var savedValue = SaveMap[key]
@@ -36,7 +37,12 @@ fun <T> foreverRememberNotSavable(
     }
     DisposableEffect(Unit) {
         onDispose {
-            if(mutableState.value == null) return@onDispose
+            if(mutableState.value == null) {
+                if(!includeNull) return@onDispose
+                SaveMap.remove(key)
+                return@onDispose
+            }
+
             SaveMap[key] = KeyParamsAnyStateNotSavable(params, mutableState.value as Any)
         }
     }

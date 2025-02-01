@@ -81,22 +81,24 @@ fun MealPlanDetailsDialog(
     val requestMealPlanDeleteState = rememberTandoorRequestState()
 
     if(reopenOnLaunchKey != null) {
-        var reopenOnLaunch by foreverRememberNotSavable<TandoorMealPlan?>(key = reopenOnLaunchKey)
+        var reopenOnLaunch by foreverRememberNotSavable<TandoorMealPlan?>(
+            key = reopenOnLaunchKey,
+            includeNull = true
+        )
         DisposableEffect(Unit) {
             onDispose {
-                reopenOnLaunch = state.shown.value.run {
-                    if(!this)
-                        null
-                    else
-                        state.linkContent.value
+                reopenOnLaunch = if(state.shown.value) {
+                    state.linkContent.value
+                } else {
+                    null
                 }
             }
         }
 
         LaunchedEffect(Unit) {
             if(reopenOnLaunch == null) return@LaunchedEffect
-            state.open(reopenOnLaunch!!)
 
+            state.open(reopenOnLaunch!!)
             reopenOnLaunch = null
         }
     }
