@@ -23,6 +23,12 @@ import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.put
 
 @Serializable
+data class TandoorCredentialsCustomHeader(
+    var field: String,
+    var value: String
+)
+
+@Serializable
 data class TandoorCredentialsToken(
     val token: String,
     val scope: String,
@@ -35,7 +41,8 @@ data class TandoorCredentials(
     var username: String = "",
     val password: String = "",
     var token: TandoorCredentialsToken? = null,
-    val cookie: String? = null
+    val cookie: String? = null,
+    val customHeaders: List<TandoorCredentialsCustomHeader> = listOf()
 )
 
 class TandoorClient(

@@ -97,6 +97,7 @@
     <string name="common_copied_to_clipboard">Copied to your clipboard!</string>
     <string name="common_count">Count</string>
     <string name="common_create_argument">Create » %1$s «</string>
+    <string name="common_custom_headers">Custom headers</string>
     <string name="common_day_after_tomorrow">Day after tomorrow</string>
     <string name="common_day_before_yesterday">Day before yesterday</string>
     <string name="common_delete_permanently">Delete permanently</string>
@@ -108,6 +109,7 @@
     <string name="common_end_date">End date</string>
     <string name="common_error_report">Error report</string>
     <string name="common_favorites">Favorites</string>
+    <string name="common_field">Field</string>
     <string name="common_import_recipe">Import recipe</string>
     <string name="common_info">Information</string>
     <string name="common_ingredients">Ingredients</string>
@@ -177,6 +179,7 @@
     <string name="common_unsaved_changes">Unsaved changes</string>
     <string name="common_unsaved_changes_description">If you continue, your changes will be lost. Do you want to discard your changes?</string>
     <string name="common_username">Username</string>
+    <string name="common_value">Value</string>
     <string name="common_version">Version</string>
     <string name="common_website">Website</string>
     <string name="common_welcome">Welcome</string>

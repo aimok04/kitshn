@@ -40,6 +40,10 @@ class TandoorMedia(
                         } else {
                             set("Cookie", client.credentials.cookie ?: "")
                         }
+                    }.apply {
+                        client.credentials.customHeaders.forEach {
+                            set(it.field, it.value)
+                        }
                     }.build()
             )
     }

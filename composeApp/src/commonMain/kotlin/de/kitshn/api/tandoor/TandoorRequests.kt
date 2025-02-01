@@ -62,6 +62,10 @@ suspend fun TandoorClient.reqAny(
                     set("Cookie", cookie)
                 }
 
+                credentials.customHeaders.forEach {
+                    set(it.field, it.value)
+                }
+
                 set("Referer", credentials.instanceUrl)
             }
             if(data != null && contentType != null) {
@@ -160,6 +164,10 @@ suspend fun TandoorClient.reqMultipart(
                         cookie.replace(Regex(".*csrftoken="), "").replace(Regex(";.*"), "")
                     set("X-CSRFTOKEN", csrfToken)
                     set("Cookie", cookie)
+                }
+
+                credentials.customHeaders.forEach {
+                    set(it.field, it.value)
                 }
 
                 set("Referer", credentials.instanceUrl)

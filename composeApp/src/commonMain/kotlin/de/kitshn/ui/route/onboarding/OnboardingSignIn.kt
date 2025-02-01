@@ -1,10 +1,16 @@
 package de.kitshn.ui.route.onboarding
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
@@ -12,26 +18,35 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Login
 import androidx.compose.material.icons.rounded.AccountCircle
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.Code
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Key
 import androidx.compose.material.icons.rounded.Password
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Web
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -51,6 +66,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
+import de.kitshn.api.tandoor.TandoorCredentialsCustomHeader
 import de.kitshn.api.tandoor.TandoorCredentialsToken
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.rememberTandoorRequestState
@@ -62,9 +78,14 @@ import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.theme.Success
 import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_add
+import kitshn.composeapp.generated.resources.action_apply
+import kitshn.composeapp.generated.resources.action_delete
 import kitshn.composeapp.generated.resources.action_sign_in
 import kitshn.composeapp.generated.resources.common_api_token
+import kitshn.composeapp.generated.resources.common_custom_headers
 import kitshn.composeapp.generated.resources.common_error_report
+import kitshn.composeapp.generated.resources.common_field
 import kitshn.composeapp.generated.resources.common_instance_url
 import kitshn.composeapp.generated.resources.common_loading_short
 import kitshn.composeapp.generated.resources.common_not_reachable
@@ -72,6 +93,7 @@ import kitshn.composeapp.generated.resources.common_or_upper
 import kitshn.composeapp.generated.resources.common_password
 import kitshn.composeapp.generated.resources.common_reachable
 import kitshn.composeapp.generated.resources.common_username
+import kitshn.composeapp.generated.resources.common_value
 import kitshn.composeapp.generated.resources.onboarding_sign_in_error_instance_not_reachable
 import kitshn.composeapp.generated.resources.onboarding_sign_in_error_instance_not_reachable_sso_hint
 import kitshn.composeapp.generated.resources.onboarding_sign_in_error_sign_in_failed
@@ -100,12 +122,19 @@ fun RouteOnboardingSignIn(
     var instanceUrlState by rememberSaveable { mutableStateOf(ErrorLoadingSuccessState.SUCCESS) }
     val instanceUrlFocusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(instanceUrlValue) {
+    var showCustomHeadersDialog by remember { mutableStateOf(false) }
+    val customHeaders = remember { mutableStateListOf<TandoorCredentialsCustomHeader>() }
+
+    LaunchedEffect(instanceUrlValue, showCustomHeadersDialog) {
         instanceUrlState = ErrorLoadingSuccessState.LOADING
         delay(1000)
 
-        instanceUrlState = if(TandoorClient(TandoorCredentials(instanceUrlValue))
-                .testConnection(ignoreAuth = true)
+        instanceUrlState = if(TandoorClient(
+                TandoorCredentials(
+                    instanceUrl = instanceUrlValue,
+                    customHeaders = customHeaders
+                )
+            ).testConnection(ignoreAuth = true)
         ) {
             ErrorLoadingSuccessState.SUCCESS
         } else {
@@ -132,7 +161,8 @@ fun RouteOnboardingSignIn(
                             token = tokenValue,
                             scope = "undefined",
                             expires = "undefined"
-                        )
+                        ),
+                        customHeaders = customHeaders
                     )
 
                     p.vm.tandoorClient = TandoorClient(
@@ -153,7 +183,8 @@ fun RouteOnboardingSignIn(
                     val credentials = TandoorCredentials(
                         instanceUrl = instanceUrlValue,
                         username = usernameValue,
-                        password = passwordValue
+                        password = passwordValue,
+                        customHeaders = customHeaders
                     )
 
                     p.vm.tandoorClient = TandoorClient(
@@ -218,68 +249,88 @@ fun RouteOnboardingSignIn(
                         .padding(16.dp)
                         .fillMaxSize()
                 ) {
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .focusRequester(instanceUrlFocusRequester),
+                    Row {
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .weight(1f, true)
+                                .focusRequester(instanceUrlFocusRequester),
 
-                        label = { Text(stringResource(Res.string.common_instance_url)) },
-                        placeholder = { Text("https://app.tandoor.dev") },
-                        leadingIcon = {
-                            Icon(
-                                Icons.Rounded.Web,
-                                stringResource(Res.string.common_instance_url)
-                            )
-                        },
-
-                        trailingIcon = {
-                            when(instanceUrlState) {
-                                ErrorLoadingSuccessState.ERROR -> Icon(
-                                    Icons.Rounded.ErrorOutline,
-                                    stringResource(
-                                        Res.string.common_not_reachable
-                                    ), Modifier, MaterialTheme.colorScheme.error
+                            label = { Text(stringResource(Res.string.common_instance_url)) },
+                            placeholder = { Text("https://app.tandoor.dev") },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Rounded.Web,
+                                    stringResource(Res.string.common_instance_url)
                                 )
+                            },
 
-                                ErrorLoadingSuccessState.LOADING -> Icon(
-                                    Icons.Rounded.Refresh,
-                                    stringResource(
-                                        Res.string.common_loading_short
+                            trailingIcon = {
+                                when(instanceUrlState) {
+                                    ErrorLoadingSuccessState.ERROR -> Icon(
+                                        Icons.Rounded.ErrorOutline,
+                                        stringResource(
+                                            Res.string.common_not_reachable
+                                        ), Modifier, MaterialTheme.colorScheme.error
                                     )
-                                )
 
-                                ErrorLoadingSuccessState.SUCCESS -> Icon(
-                                    Icons.Rounded.Check,
-                                    stringResource(
-                                        Res.string.common_reachable
-                                    ), Modifier, Success
+                                    ErrorLoadingSuccessState.LOADING -> Icon(
+                                        Icons.Rounded.Refresh,
+                                        stringResource(
+                                            Res.string.common_loading_short
+                                        )
+                                    )
+
+                                    ErrorLoadingSuccessState.SUCCESS -> Icon(
+                                        Icons.Rounded.Check,
+                                        stringResource(
+                                            Res.string.common_reachable
+                                        ), Modifier, Success
+                                    )
+                                }
+                            },
+                            isError = instanceUrlState == ErrorLoadingSuccessState.ERROR,
+                            supportingText = {
+                                if(instanceUrlState == ErrorLoadingSuccessState.ERROR)
+                                    Text(
+                                        stringResource(Res.string.onboarding_sign_in_error_instance_not_reachable) + "\n\n" + stringResource(
+                                            Res.string.onboarding_sign_in_error_instance_not_reachable_sso_hint
+                                        )
+                                    )
+                            },
+
+                            keyboardActions = KeyboardActions(
+                                onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                            ),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Uri,
+                                imeAction = ImeAction.Next
+                            ),
+
+                            value = instanceUrlDisplayValue,
+                            onValueChange = { value ->
+                                instanceUrlDisplayValue = value
+                                instanceUrlValue = value.trimEnd('/')
+                            }
+                        )
+
+                        Box(
+                            Modifier
+                                .padding(start = 8.dp, top = 8.dp, bottom = 8.dp)
+                                .size(56.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            IconButton(
+                                onClick = {
+                                    showCustomHeadersDialog = true
+                                }
+                            ) {
+                                Icon(
+                                    Icons.Rounded.Code,
+                                    stringResource(Res.string.common_custom_headers)
                                 )
                             }
-                        },
-                        isError = instanceUrlState == ErrorLoadingSuccessState.ERROR,
-                        supportingText = {
-                            if(instanceUrlState == ErrorLoadingSuccessState.ERROR)
-                                Text(
-                                    stringResource(Res.string.onboarding_sign_in_error_instance_not_reachable) + "\n\n" + stringResource(
-                                        Res.string.onboarding_sign_in_error_instance_not_reachable_sso_hint
-                                    )
-                                )
-                        },
-
-                        keyboardActions = KeyboardActions(
-                            onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                        ),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Uri,
-                            imeAction = ImeAction.Next
-                        ),
-
-                        value = instanceUrlDisplayValue,
-                        onValueChange = { value ->
-                            instanceUrlDisplayValue = value
-                            instanceUrlValue = value.trimEnd('/')
                         }
-                    )
+                    }
 
                     Spacer(Modifier.height(12.dp))
 
@@ -447,4 +498,105 @@ fun RouteOnboardingSignIn(
     LaunchedEffect(Unit) {
         instanceUrlFocusRequester.requestFocus()
     }
+
+    if(showCustomHeadersDialog) AlertDialog(
+        onDismissRequest = {
+            showCustomHeadersDialog = false
+        },
+        icon = {
+            Icon(Icons.Rounded.Code, stringResource(Res.string.common_custom_headers))
+        },
+        title = {
+            Text(stringResource(Res.string.common_custom_headers))
+        },
+        text = {
+            LazyColumn(
+                contentPadding = PaddingValues(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                item {
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            customHeaders.add(
+                                TandoorCredentialsCustomHeader(
+                                    field = "",
+                                    value = ""
+                                )
+                            )
+                        }
+                    ) {
+                        Icon(
+                            Icons.Rounded.Add,
+                            stringResource(Res.string.action_add)
+                        )
+
+                        Spacer(Modifier.width(8.dp))
+
+                        Text(stringResource(Res.string.action_add))
+                    }
+                }
+
+                items(customHeaders.size) {
+                    val header = customHeaders[it]
+
+                    var field by remember { mutableStateOf(header.field) }
+                    var value by remember { mutableStateOf(header.value) }
+
+                    LaunchedEffect(field, value) {
+                        header.field = field
+                        header.value = value
+                    }
+
+                    OutlinedCard {
+                        Column(
+                            Modifier
+                                .padding(8.dp)
+                        ) {
+                            TextField(
+                                modifier = Modifier.fillMaxWidth(),
+                                label = { Text(stringResource(Res.string.common_field)) },
+                                value = field,
+                                onValueChange = { field = it }
+                            )
+
+                            Spacer(Modifier.height(8.dp))
+
+                            TextField(
+                                modifier = Modifier.fillMaxWidth(),
+                                label = { Text(stringResource(Res.string.common_value)) },
+                                value = value,
+                                onValueChange = { value = it }
+                            )
+
+                            Spacer(Modifier.height(8.dp))
+
+                            FilledTonalButton(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    customHeaders.removeAt(it)
+                                }
+                            ) {
+                                Icon(
+                                    Icons.Rounded.Delete,
+                                    stringResource(Res.string.action_delete)
+                                )
+
+                                Spacer(Modifier.width(8.dp))
+
+                                Text(stringResource(Res.string.action_delete))
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = { showCustomHeadersDialog = false }
+            ) {
+                Text(stringResource(Res.string.action_apply))
+            }
+        }
+    )
 }
