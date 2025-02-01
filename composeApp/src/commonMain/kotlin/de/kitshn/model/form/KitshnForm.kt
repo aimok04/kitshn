@@ -26,7 +26,7 @@ class KitshnForm(
     ) {
         LazyVerticalGrid(
             modifier = nestedScrollConnection?.let { Modifier.nestedScroll(it) } ?: Modifier,
-            columns = GridCells.Adaptive(250.dp),
+            columns = GridCells.Adaptive(300.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp)
