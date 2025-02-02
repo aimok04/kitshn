@@ -354,4 +354,9 @@
         <item quantity="many">**Ще %1$d** постійних прихильників, щоб покрити витрати</item>
         <item quantity="other">**Ще %1$d** постійних прихильників, щоб покрити витрати</item>
     </plurals>
+    <string name="common_custom_headers">Спеціальні заголовки</string>
+    <string name="common_field">Поле</string>
+    <string name="common_value">Значення</string>
+    <string name="settings_section_behavior_enable_dynamic_home_screen_description">Показувати рекомендації на основі часу доби та року</string>
+    <string name="settings_section_behavior_enable_dynamic_home_screen_label">Увімкнути динамічний головний екран</string>
 </resources>
