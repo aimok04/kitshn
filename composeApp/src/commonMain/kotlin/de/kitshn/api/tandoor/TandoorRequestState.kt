@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import co.touchlab.kermit.Logger
 import de.kitshn.ui.component.icons.IconWithStateState
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import kotlin.coroutines.cancellation.CancellationException
@@ -51,14 +52,14 @@ class TandoorRequestState {
         } catch(e: TandoorRequestsError) {
             if(e.exception is CancellationException) return null
 
-            e.printStackTrace()
+            Logger.e("TandoorRequestState.kt", e)
             error = e
             state = TandoorRequestStateState.ERROR
         } catch(e: Error) {
-            e.printStackTrace()
+            Logger.e("TandoorRequestState.kt", e)
             state = TandoorRequestStateState.ERROR
         } catch(e: Exception) {
-            e.printStackTrace()
+            Logger.e("TandoorRequestState.kt", e)
             state = TandoorRequestStateState.ERROR
         }
 

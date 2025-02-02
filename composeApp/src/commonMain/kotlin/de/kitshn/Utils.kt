@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalHapticFeedback
+import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.TandoorKeyword
 import kitshn.composeapp.generated.resources.Res
@@ -141,7 +142,7 @@ fun Double.formatAmount(fractional: Boolean = true): String {
                 }
             }
         } catch(e: Exception) {
-            e.printStackTrace()
+            Logger.e("Utils.kt", e)
             return this.toString()
         }
     }

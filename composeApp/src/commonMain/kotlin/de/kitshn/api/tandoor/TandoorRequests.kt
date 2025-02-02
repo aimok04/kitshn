@@ -84,7 +84,7 @@ suspend fun TandoorClient.reqAny(
         if(e is TandoorRequestsError) {
             throw e
         } else {
-            e.printStackTrace()
+            Logger.e("TandoorRequests.kt", e)
             throw TandoorRequestsError(e, null)
         }
     }
@@ -188,7 +188,7 @@ suspend fun TandoorClient.reqMultipart(
         if(e is TandoorRequestsError) {
             throw e
         } else {
-            e.printStackTrace()
+            Logger.e("TandoorRequests.kt", e)
             throw TandoorRequestsError(e, null)
         }
     }

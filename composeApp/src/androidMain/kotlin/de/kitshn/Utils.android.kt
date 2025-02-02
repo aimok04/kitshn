@@ -19,6 +19,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.window.DialogWindowProvider
+import co.touchlab.kermit.Logger
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_day_after_tomorrow
 import kitshn.composeapp.generated.resources.common_day_before_yesterday
@@ -174,7 +175,7 @@ actual fun launchTimerHandler(): (seconds: Int, name: String) -> Unit {
                 ).show()
             }
         } catch(e: ActivityNotFoundException) {
-            e.printStackTrace()
+            Logger.e("Utils.android.kt", e)
 
             coroutineScope.launch {
                 Toast.makeText(

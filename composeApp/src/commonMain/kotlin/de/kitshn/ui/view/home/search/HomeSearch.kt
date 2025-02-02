@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import co.touchlab.kermit.Logger
 import de.kitshn.BackHandler
 import de.kitshn.KitshnViewModel
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
@@ -130,7 +131,7 @@ fun ViewHomeSearch(
             focusRequester.requestFocus()
             state.appliedAutoFocusSearchField = true
         } catch(e: Exception) {
-            e.printStackTrace()
+            Logger.e("HomeSearch.kt", e)
         }
     }
 }

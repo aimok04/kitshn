@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import dev.datlag.kcef.KCEF
 import kotlinx.coroutines.Dispatchers
@@ -52,7 +53,7 @@ actual fun InitializeWebView(
                     }
                 }
             }, onError = {
-                it?.printStackTrace()
+                Logger.e("OnboardingSignInBrowser.jvm.kt", it)
             }, onRestartRequired = {
                 restartRequired = true
             })

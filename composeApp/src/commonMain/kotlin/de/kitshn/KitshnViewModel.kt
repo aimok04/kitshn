@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorRequestsError
@@ -82,9 +83,9 @@ class KitshnViewModel(
             try {
                 tandoorClient!!.openapi.get()
             } catch(e: TandoorRequestsError) {
-                e.printStackTrace()
+                Logger.e("KitshnViewModel.kt", e)
             } catch(e: Exception) {
-                e.printStackTrace()
+                Logger.e("KitshnViewModel.kt", e)
             }
 
             if(settings.getOnboardingCompleted.first()) {

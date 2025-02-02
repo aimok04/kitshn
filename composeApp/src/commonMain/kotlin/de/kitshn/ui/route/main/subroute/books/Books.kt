@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.isScrollingUp
@@ -77,7 +78,7 @@ fun RouteMainSubrouteBooks(
             val favoriteRecipeBookId = try {
                 p.vm.favorites.getFavoritesRecipeBookId()
             } catch(e: Error) {
-                e.printStackTrace()
+                Logger.e("Books.kt", e)
 
                 -1
             }

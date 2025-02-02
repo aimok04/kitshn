@@ -35,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.model.TandoorRecipeBookEntry
@@ -94,7 +95,7 @@ fun ViewBooksDetails(
             val favoritesRecipeBookId = p.vm.favorites.getFavoritesRecipeBookId()
             if(book.id == favoritesRecipeBookId) recipes.reverse()
         } catch(e: Error) {
-            e.printStackTrace()
+            Logger.e("BooksDetails.kt", e)
         }
     }
 

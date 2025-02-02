@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.model.TandoorMealType
@@ -75,7 +76,7 @@ fun BaseMealTypeSearchField(
                 mealTypeList.addAll(it)
             }
         } catch(e: TandoorRequestsError) {
-            e.printStackTrace()
+            Logger.e("MealTypeSearchField.kt", e)
         }
     }
 

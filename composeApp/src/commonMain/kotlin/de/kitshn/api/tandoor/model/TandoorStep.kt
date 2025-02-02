@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import co.touchlab.kermit.Logger
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import de.kitshn.api.tandoor.TandoorClient
@@ -130,7 +131,7 @@ class TandoorStep(
         try {
             return client!!.recipe.get(step_recipe!!)
         } catch(e: TandoorRequestsError) {
-            e.printStackTrace()
+            Logger.e("TandoorStep.kt", e)
             return null
         }
     }

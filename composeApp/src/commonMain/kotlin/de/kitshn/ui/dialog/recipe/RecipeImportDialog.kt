@@ -57,6 +57,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
@@ -313,7 +314,7 @@ fun RecipeImportDialog(
                                 try {
                                     focusRequester.requestFocus()
                                 } catch(e: Exception) {
-                                    e.printStackTrace()
+                                    Logger.e("RecipeImportDialog.kt", e)
                                 }
                             }
                         }

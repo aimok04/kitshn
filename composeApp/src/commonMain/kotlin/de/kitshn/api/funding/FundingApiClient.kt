@@ -1,5 +1,6 @@
 package de.kitshn.api.funding
 
+import co.touchlab.kermit.Logger
 import de.kitshn.json
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -29,7 +30,7 @@ class FundingApiClient(
         } catch(_: CancellationException) {
             return null
         } catch(e: Exception) {
-            e.printStackTrace()
+            Logger.e("FundingApiClient.kt", e)
             return null
         }
     }

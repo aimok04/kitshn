@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import co.touchlab.kermit.Logger
 
 @Composable
 fun BaseNumberField(
@@ -61,7 +62,7 @@ fun BaseNumberField(
 
                 onValueChange(newValue)
             } catch(e: Exception) {
-                e.printStackTrace()
+                Logger.e("NumberField.kt", e)
             }
         }
     }
