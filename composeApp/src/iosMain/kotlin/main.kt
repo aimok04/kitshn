@@ -13,9 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.UIKitViewController
 import androidx.compose.ui.window.ComposeUIViewController
+import co.touchlab.kermit.ExperimentalKermitApi
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.NSLogWriter
 import co.touchlab.kermit.OSLogWriter
+import co.touchlab.kermit.bugsnag.BugsnagLogWriter
 import de.kitshn.App
 import de.kitshn.KitshnViewModel
 import de.kitshn.actions.handlers.handleAppLink
@@ -31,10 +33,11 @@ import platform.UIKit.UIViewController
 var deepLinkUrl by mutableStateOf("")
 var mIsSubscribed by mutableStateOf(false)
 
+@OptIn(ExperimentalKermitApi::class)
 fun MainViewController(
     subscriptionUI: () -> UIViewController
 ): UIViewController = ComposeUIViewController {
-    Logger.setLogWriters(OSLogWriter(), NSLogWriter())
+    Logger.setLogWriters(OSLogWriter(), NSLogWriter(), BugsnagLogWriter())
 
     var vm by remember { mutableStateOf<KitshnViewModel?>(null) }
 

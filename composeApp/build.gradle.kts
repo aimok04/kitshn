@@ -160,6 +160,7 @@ kotlin {
 
             implementation(libs.peekaboo.image.picker)
 
+            implementation(libs.kermit.bugsnag)
             api(libs.bugsnag)
         }
     }

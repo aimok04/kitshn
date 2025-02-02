@@ -8,6 +8,7 @@ acra = "5.12.0"
 composeWebviewMultiplatform = "1.9.40"
 datastore = "1.1.2"
 humanReadable = "1.10.0"
+kermitBugsnag = "2.0.4"
 kotlin = "2.1.0"
 compose = "1.7.3"
 agp = "8.7.3"
@@ -56,6 +57,7 @@ compose-placeholder-material = { module = "com.eygraber:compose-placeholder-mate
 compose-webview-multiplatform = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "composeWebviewMultiplatform" }
 human-readable = { module = "nl.jacobras:Human-Readable", version.ref = "humanReadable" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+kermit-bugsnag = { module = "co.touchlab:kermit-bugsnag", version.ref = "kermitBugsnag" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }

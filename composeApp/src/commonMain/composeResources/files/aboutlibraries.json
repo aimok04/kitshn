@@ -2721,6 +2721,27 @@
       ]
     },
     {
+      "uniqueId": "co.touchlab:kermit-bugsnag",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Kevin Galligan"
+        }
+      ],
+      "artifactVersion": "2.0.4",
+      "description": "Kermit The Log",
+      "scm": {
+        "connection": "scm:git:git://github.com/touchlab/Kermit.git",
+        "url": "https://github.com/touchlab/Kermit",
+        "developerConnection": "scm:git:git://github.com/touchlab/Kermit.git"
+      },
+      "name": "Kermit",
+      "website": "https://github.com/touchlab/Kermit",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "co.touchlab:kermit-core",
       "funding": [],
       "developers": [
@@ -2959,7 +2980,7 @@
           "name": "Eliezer Graber"
         }
       ],
-      "artifactVersion": "0.0.18",
+      "artifactVersion": "0.0.19",
       "description": "A library for working with URIs in Kotlin Multiplatform",
       "scm": {
         "connection": "scm:git:git://github.com/eygraber/uri-kmp.git",
@@ -2980,7 +3001,7 @@
           "name": "Eliezer Graber"
         }
       ],
-      "artifactVersion": "0.0.18",
+      "artifactVersion": "0.0.19",
       "description": "A library for working with URIs in Kotlin Multiplatform",
       "scm": {
         "connection": "scm:git:git://github.com/eygraber/uri-kmp.git",
@@ -3001,7 +3022,7 @@
           "name": "Eliezer Graber"
         }
       ],
-      "artifactVersion": "0.0.18",
+      "artifactVersion": "0.0.19",
       "description": "A library for working with URIs in Kotlin Multiplatform",
       "scm": {
         "connection": "scm:git:git://github.com/eygraber/uri-kmp.git",
