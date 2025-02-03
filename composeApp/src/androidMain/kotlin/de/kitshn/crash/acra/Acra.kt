@@ -12,6 +12,10 @@ fun Application.initKitshnAcra() {
         buildConfigClass = de.kitshn.BuildConfig::class.java
         reportFormat = StringFormat.JSON
 
+        excludeMatchingSharedPreferencesKeys = listOf(
+            "tandoor_credentials"
+        )
+
         httpSender {
             uri = BuildConfig.ACRA_HTTP_URI
             basicAuthLogin = BuildConfig.ACRA_HTTP_BASIC_AUTH_LOGIN
