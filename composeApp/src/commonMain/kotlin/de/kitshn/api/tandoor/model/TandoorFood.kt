@@ -1,5 +1,6 @@
 package de.kitshn.api.tandoor.model
 
+import de.kitshn.api.tandoor.model.shopping.TandoorSupermarketCategory
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 
@@ -14,6 +15,7 @@ data class TandoorFood(
     val properties_food_unit: TandoorUnit? = null,
     val fdc_id: Int? = null,
     val full_name: String,
+    val supermarket_category: TandoorSupermarketCategory? = null,
     val ignore_shopping: Boolean = false,
     val open_data_slug: String? = null
 )

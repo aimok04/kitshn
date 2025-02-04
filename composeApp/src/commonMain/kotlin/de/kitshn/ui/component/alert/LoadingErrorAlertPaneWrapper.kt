@@ -17,16 +17,17 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun LoadingErrorAlertPaneWrapper(
     pv: PaddingValues = PaddingValues(0.dp),
+    modifier: Modifier = Modifier
+        .padding(pv)
+        .fillMaxSize(),
+    alertPaneModifier: Modifier = Modifier.fillMaxSize(),
     loadingState: ErrorLoadingSuccessState,
     content: @Composable () -> Unit
 ) {
     if(loadingState == ErrorLoadingSuccessState.ERROR) {
-        Box(
-            Modifier
-                .padding(pv)
-                .fillMaxSize()
-        ) {
+        Box(modifier) {
             FullSizeAlertPane(
+                modifier = alertPaneModifier,
                 imageVector = Icons.Rounded.CloudOff,
                 contentDescription = stringResource(Res.string.error_couldnt_connect_to_tandoor),
                 text = stringResource(Res.string.error_couldnt_connect_to_tandoor)

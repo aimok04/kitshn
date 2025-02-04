@@ -91,12 +91,14 @@
     <string name="common_add_to_shopping_list">Add to shopping list</string>
     <string name="common_allocate_ingredients">Allocate ingredients</string>
     <string name="common_api_token">API token</string>
+    <string name="common_category">Category</string>
     <string name="common_comment">Comment</string>
     <string name="common_contact">Contact</string>
     <string name="common_cook_book">Cookbook</string>
     <string name="common_copied_to_clipboard">Copied to your clipboard!</string>
     <string name="common_count">Count</string>
     <string name="common_create_argument">Create » %1$s «</string>
+    <string name="common_creator">Creator</string>
     <string name="common_custom_headers">Custom headers</string>
     <string name="common_day_after_tomorrow">Day after tomorrow</string>
     <string name="common_day_before_yesterday">Day before yesterday</string>
@@ -110,6 +112,7 @@
     <string name="common_error_report">Error report</string>
     <string name="common_favorites">Favorites</string>
     <string name="common_field">Field</string>
+    <string name="common_group_by">Group by</string>
     <string name="common_import_recipe">Import recipe</string>
     <string name="common_info">Information</string>
     <string name="common_ingredients">Ingredients</string>
@@ -125,6 +128,7 @@
     <string name="common_minutes">minutes</string>
     <string name="common_name">Name</string>
     <string name="common_new">New</string>
+    <string name="common_none">None</string>
     <string name="common_not_reachable">Not reachable</string>
     <string name="common_note">Note</string>
     <string name="common_okay">Okay</string>
@@ -165,6 +169,7 @@
     <string name="common_start_date">Start date</string>
     <string name="common_step">Step %1$s</string>
     <string name="common_steps">Steps</string>
+    <string name="common_supermarket">Supermarket</string>
     <string name="common_tags">Tags</string>
     <string name="common_time_wait">Waiting time</string>
     <string name="common_time_work">Working time</string>
@@ -173,6 +178,7 @@
     <string name="common_today">Today</string>
     <string name="common_tomorrow">Tomorrow</string>
     <string name="common_total">total</string>
+    <string name="common_ungrouped">Ungrouped</string>
     <string name="common_unknown">Unknown</string>
     <string name="common_unknown_meal_type">Unknown meal type</string>
     <string name="common_unknown_recipe">Unknown recipe</string>

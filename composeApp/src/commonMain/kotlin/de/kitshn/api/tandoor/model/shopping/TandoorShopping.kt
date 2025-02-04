@@ -1,10 +1,15 @@
 package de.kitshn.api.tandoor.model.shopping
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import de.kitshn.api.tandoor.TandoorClient
+import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.TandoorUnit
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.json.JsonPrimitive
@@ -21,13 +26,15 @@ data class TandoorParsedIngredient(
 
 @Serializable
 class TandoorShoppingListEntry(
-    val id: Long,
+    val id: Int,
     val list_recipe: Long? = null,
     val food: TandoorFood,
     val unit: TandoorUnit? = null,
     val amount: Double,
     val order: Long,
-    val checked: Boolean,
+    @SerialName("checked")
+    val _checked: Boolean,
+    val created_by: TandoorShoppingListEntryCreatedBy,
     val recipe_mealplan: TandoorShoppingListEntryRecipeMealplan? = null,
     /*val created_at: String,
     val updated_at: String,*/
@@ -36,6 +43,9 @@ class TandoorShoppingListEntry(
 ) {
     @Transient
     var client: TandoorClient? = null
+
+    var checked by mutableStateOf(_checked)
+    var _destroyed by mutableStateOf(false)
 
     suspend fun check() {
         val data = buildJsonObject {
@@ -46,7 +56,13 @@ class TandoorShoppingListEntry(
         }
 
         client!!.postObject("/shopping-list-entry/bulk/", data)
-        client!!.container.shoppingListEntries.remove(this)
+
+        checked = true
+    }
+
+    suspend fun delete() {
+        client!!.delete("/shopping-list-entry/${id}/")
+        _destroyed = true
     }
 
     companion object {
@@ -69,4 +85,11 @@ data class TandoorShoppingListEntryRecipeMealplan(
     val mealplan_note: String? = null,
     val mealplan_from_date: String? = null,
     val mealplan_type: String? = null
+)
+
+@Serializable
+data class TandoorShoppingListEntryCreatedBy(
+    val id: Int,
+    val username: String,
+    val display_name: String
 )

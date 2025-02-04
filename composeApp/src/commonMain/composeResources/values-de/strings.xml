@@ -8,6 +8,14 @@
     <string name="acra_dialog_title">Ups!</string>
     <string name="acra_email_address_helper">Wenn du möchtest, kannst du deine E-Mail Adresse hinterlassen, um Neuigkeiten zu deinem Bericht zu erhalten.</string>
 
+    <string name="common_ungrouped">Ungruppiert</string>
+    <string name="common_category">Kategorie</string>
+    <string name="common_creator">Ersteller</string>
+    <string name="common_group_by">Gruppieren nach</string>
+    <string name="common_none">Nichts</string>
+    <string name="common_supermarket">Supermarkt</string>
+
+
     <string name="action_abort">Abbrechen</string>
     <string name="action_add">Hinzufügen</string>
     <string name="action_add_to_favorites">zu Favoriten hinzufügen</string>

@@ -29,7 +29,7 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             client.postObject("/shopping-list-entry/", data).toString()
         )
 
-        client.container.shoppingListEntries.add(0, response)
+        client.container.shoppingListEntries[response.id] = response
         return response
     }
 
@@ -38,7 +38,11 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             client.getArray("/shopping-list-entry/").toString()
         )
 
-        response.forEach { it.client = client }
+        response.forEach {
+            it.client = client
+            client.container.shoppingListEntries[it.id] = it
+        }
+
         return response
     }
 
