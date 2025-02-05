@@ -111,6 +111,8 @@ class ShoppingViewModel(
                 Pair(it.category.id, it.order)
             }
 
+        val entries = this.entries.toMutableList()
+
         // filter out unavailable categories for supermarket
         if(supermarketCategoryIdToOrder != null) entries.removeIf {
             if(it.food.supermarket_category == null) {
