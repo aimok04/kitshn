@@ -1,10 +1,7 @@
 package de.kitshn.ui.view.recipe.details
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -442,28 +439,21 @@ fun ViewRecipeDetails(
         floatingActionButton = {
             if(hideFab) return@Scaffold
 
-            // hide FAB when reaching bottom for legibility
-            AnimatedVisibility(
-                visible = scrollState.value < (scrollState.maxValue - 300),
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                ExtendedFloatingActionButton(
-                    expanded = scrollState.isScrollingUp(),
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Rounded.LocalDining,
-                            contentDescription = stringResource(Res.string.action_start_cooking)
-                        )
-                    },
-                    text = {
-                        Text(stringResource(Res.string.action_cook))
-                    },
-                    onClick = {
-                        p.vm.navHostController?.navigate("recipe/${recipeOverview.id}/cook/${servingsValue}")
-                    }
-                )
-            }
+            ExtendedFloatingActionButton(
+                expanded = scrollState.isScrollingUp(),
+                icon = {
+                    Icon(
+                        imageVector = Icons.Rounded.LocalDining,
+                        contentDescription = stringResource(Res.string.action_start_cooking)
+                    )
+                },
+                text = {
+                    Text(stringResource(Res.string.action_cook))
+                },
+                onClick = {
+                    p.vm.navHostController?.navigate("recipe/${recipeOverview.id}/cook/${servingsValue}")
+                }
+            )
         },
         containerColor = MaterialTheme.colorScheme.background
     ) { pvOg ->
