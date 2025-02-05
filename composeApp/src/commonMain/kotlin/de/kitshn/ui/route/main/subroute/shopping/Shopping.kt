@@ -1,11 +1,14 @@
 package de.kitshn.ui.route.main.subroute.shopping
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.RemoveShoppingCart
@@ -13,6 +16,7 @@ import androidx.compose.material.icons.rounded.Storefront
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -64,8 +68,11 @@ import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.foreverRememberNotSavable
 import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_add
 import kitshn.composeapp.generated.resources.action_delete
 import kitshn.composeapp.generated.resources.action_mark_as_done
+import kitshn.composeapp.generated.resources.action_start_shopping_mode
+import kitshn.composeapp.generated.resources.common_shopping_mode
 import kitshn.composeapp.generated.resources.navigation_shopping
 import kitshn.composeapp.generated.resources.shopping_list_empty
 import kotlinx.coroutines.delay
@@ -182,12 +189,21 @@ fun RouteMainSubrouteShopping(
         bottomBar = {
             BottomAppBar(
                 actions = {
-                    IconButton(
+                    FilledTonalButton(
+                        modifier = Modifier
+                            .padding(start = 12.dp, bottom = 4.dp),
                         onClick = {
                             // TODO implement shopping mode here
                         }
                     ) {
-                        Icon(Icons.Rounded.Storefront, "Start shopping mode") //TODO: l10n
+                        Icon(
+                            Icons.Rounded.Storefront,
+                            stringResource(Res.string.action_start_shopping_mode)
+                        )
+
+                        Spacer(Modifier.width(8.dp))
+
+                        Text(stringResource(Res.string.common_shopping_mode))
                     }
                 },
                 floatingActionButton = {
@@ -198,11 +214,7 @@ fun RouteMainSubrouteShopping(
                             // TODO implement add shopping list item dialog
                         }
                     ) {
-                        /*IconWithState(
-                            imageVector = Icons.Rounded.Add,
-                            contentDescription = stringResource(Res.string.action_add),
-                            state = shoppingListAddEntryRequest.state.toIconWithState()
-                        )*/
+                        Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
                     }
                 }
             )

@@ -77,6 +77,7 @@
     <string name="action_sign_out">Abmelden</string>
     <string name="action_sign_out_description">Alle Anmeldedaten vergessen</string>
     <string name="action_start_cooking">Kochmodus starten</string>
+    <string name="action_start_shopping_mode">Einkaufsmodus starten</string>
     <string name="action_support">Support</string>
     <string name="action_upload">Hochladen</string>
     <string name="action_yes">Ja</string>
@@ -164,6 +165,7 @@
     <string name="common_selected">Ausgewählt</string>
     <string name="common_shared_recipe">Geteiltes Rezept</string>
     <string name="common_shopping">Einkaufen</string>
+    <string name="common_shopping_mode">Einkaufsmodus</string>
     <string name="common_sorting">Sortierung</string>
     <string name="common_source">Quelle</string>
     <string name="common_start_date">Start-Datum</string>

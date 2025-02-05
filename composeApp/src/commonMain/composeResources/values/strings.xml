@@ -77,6 +77,7 @@
     <string name="action_sign_out">Sign out</string>
     <string name="action_sign_out_description">Forget credentials</string>
     <string name="action_start_cooking">Start cooking mode</string>
+    <string name="action_start_shopping_mode">Start shopping mode</string>
     <string name="action_support">Support</string>
     <string name="action_upload">Upload</string>
     <string name="action_yes">Yes</string>
@@ -164,6 +165,7 @@
     <string name="common_selected">Selected</string>
     <string name="common_shared_recipe">Shared recipe</string>
     <string name="common_shopping">Shopping</string>
+    <string name="common_shopping_mode">Shopping mode</string>
     <string name="common_sorting">Sorting</string>
     <string name="common_source">Source</string>
     <string name="common_start_date">Start date</string>
