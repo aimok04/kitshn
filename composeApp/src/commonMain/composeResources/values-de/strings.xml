@@ -8,14 +8,6 @@
     <string name="acra_dialog_title">Ups!</string>
     <string name="acra_email_address_helper">Wenn du möchtest, kannst du deine E-Mail Adresse hinterlassen, um Neuigkeiten zu deinem Bericht zu erhalten.</string>
 
-    <string name="common_ungrouped">Ungruppiert</string>
-    <string name="common_category">Kategorie</string>
-    <string name="common_creator">Ersteller</string>
-    <string name="common_group_by">Gruppieren nach</string>
-    <string name="common_none">Nichts</string>
-    <string name="common_supermarket">Supermarkt</string>
-
-
     <string name="action_abort">Abbrechen</string>
     <string name="action_add">Hinzufügen</string>
     <string name="action_add_to_favorites">zu Favoriten hinzufügen</string>
@@ -99,12 +91,14 @@
     <string name="common_add_to_shopping_list">zur Einkaufsliste hinzufügen</string>
     <string name="common_allocate_ingredients">Zutaten zuordnen</string>
     <string name="common_api_token">API-Token</string>
+    <string name="common_category">Kategorie</string>
     <string name="common_comment">Kommentar</string>
     <string name="common_contact">Kontakt</string>
     <string name="common_cook_book">Kochbuch</string>
     <string name="common_copied_to_clipboard">In die Zwischenablage kopiert!</string>
     <string name="common_count">Anzahl</string>
     <string name="common_create_argument">» %1$s « erstellen</string>
+    <string name="common_creator">Ersteller</string>
     <string name="common_custom_headers">Benutzerdefinierte Kopfzeilen</string>
     <string name="common_day_after_tomorrow">Übermorgen</string>
     <string name="common_day_before_yesterday">Vorgestern</string>
@@ -118,6 +112,7 @@
     <string name="common_error_report">Fehlerbericht</string>
     <string name="common_favorites">Favoriten</string>
     <string name="common_field">Feld</string>
+    <string name="common_group_by">Gruppieren nach</string>
     <string name="common_import_recipe">Rezept importieren</string>
     <string name="common_info">Information</string>
     <string name="common_ingredients">Zutaten</string>
@@ -133,6 +128,7 @@
     <string name="common_minutes">Minuten</string>
     <string name="common_name">Name</string>
     <string name="common_new">Neu</string>
+    <string name="common_none">Nichts</string>
     <string name="common_not_reachable">Nicht erreichbar</string>
     <string name="common_note">Notiz</string>
     <string name="common_okay">Okay</string>
@@ -173,6 +169,7 @@
     <string name="common_start_date">Start-Datum</string>
     <string name="common_step">Schritt %1$s</string>
     <string name="common_steps">Schritte</string>
+    <string name="common_supermarket">Supermarkt</string>
     <string name="common_tags">Tags</string>
     <string name="common_time_wait">Wartezeit</string>
     <string name="common_time_work">Arbeitszeit</string>
@@ -181,6 +178,7 @@
     <string name="common_today">Heute</string>
     <string name="common_tomorrow">Morgen</string>
     <string name="common_total">Total</string>
+    <string name="common_ungrouped">Ungruppiert</string>
     <string name="common_unknown">Unbekannt</string>
     <string name="common_unknown_meal_type">Unbekannte Mahlzeit</string>
     <string name="common_unknown_recipe">Unbekanntes Rezept</string>
