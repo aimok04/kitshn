@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -340,7 +341,8 @@ fun ViewRecipeDetails(
         )
 
         Box(
-            Modifier.fillMaxWidth(),
+            Modifier.fillMaxWidth()
+                .padding(bottom = 16.dp),
             contentAlignment = Alignment.Center
         ) {
             if(recipe?.source_url != null) OutlinedButton(
@@ -732,7 +734,11 @@ fun ViewRecipeDetails(
                 showFractionalValues = propertiesShowFractionalValues.value
             )
 
-            if(notEnoughSpace && recipe?.source_url != null) SourceButton()
+            if(notEnoughSpace && recipe?.source_url != null) {
+                SourceButton()
+            } else {
+                Spacer(Modifier.height(70.dp))
+            }
         }
 
         StatusBarBackground()
