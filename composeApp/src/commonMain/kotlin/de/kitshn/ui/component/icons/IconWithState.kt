@@ -7,7 +7,6 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,9 +33,9 @@ fun IconWithState(
     imageVector: ImageVector,
     contentDescription: String?,
     modifier: Modifier = Modifier,
-    progressIndicatorSize: Dp = 22.dp,
-    progressIndicatorTint: Color = ProgressIndicatorDefaults.circularIndeterminateTrackColor,
     tint: Color = LocalContentColor.current,
+    progressIndicatorSize: Dp = 22.dp,
+    progressIndicatorTint: Color = tint,
     state: IconWithStateState
 ) {
     var actualState by remember { mutableStateOf(state) }
