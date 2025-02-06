@@ -45,7 +45,7 @@ class TandoorShoppingListEntry(
     var client: TandoorClient? = null
 
     var checked by mutableStateOf(_checked)
-    var _destroyed by mutableStateOf(false)
+    var _destroyed = false
 
     suspend fun check() {
         val data = buildJsonObject {

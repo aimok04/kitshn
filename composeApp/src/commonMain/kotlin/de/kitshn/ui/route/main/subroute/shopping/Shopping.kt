@@ -356,7 +356,12 @@ fun RouteMainSubrouteShopping(
                 }
             },
             onClickMealplan = { mealPlanDetailsDialogState.open(it) },
-            onClickRecipe = { recipeLinkDialogState.open(it.toOverview()) }
+            onClickRecipe = { recipeLinkDialogState.open(it.toOverview()) },
+            onUpdate = {
+                coroutineScope.launch {
+                    vm.renderItems(additionalShoppingSettingsChipRowState)
+                }
+            }
         )
     }
 

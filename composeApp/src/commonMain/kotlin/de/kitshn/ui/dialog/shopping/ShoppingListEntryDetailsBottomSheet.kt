@@ -2,14 +2,17 @@ package de.kitshn.ui.dialog.shopping
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Category
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material3.AssistChipDefaults
@@ -27,10 +30,12 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -42,10 +47,13 @@ import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryRecipeMealpl
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.formatAmount
 import de.kitshn.ui.TandoorRequestErrorHandler
+import de.kitshn.ui.component.icons.IconWithState
+import de.kitshn.ui.component.input.shopping.CategorySearchField
 import de.kitshn.ui.component.model.shopping.recipeMealplan.HorizontalRecipeMealPlanCard
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_delete
 import kitshn.composeapp.generated.resources.action_mark_as_done
+import kitshn.composeapp.generated.resources.common_category
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -79,7 +87,8 @@ fun ShoppingListEntryDetailsBottomSheet(
     onCheck: (entries: List<TandoorShoppingListEntry>) -> Unit,
     onDelete: (entries: List<TandoorShoppingListEntry>) -> Unit,
     onClickMealplan: (mealplan: TandoorMealPlan) -> Unit,
-    onClickRecipe: (recipe: TandoorRecipe) -> Unit
+    onClickRecipe: (recipe: TandoorRecipe) -> Unit,
+    onUpdate: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val modalBottomSheetState = rememberModalBottomSheetState()
@@ -128,6 +137,7 @@ fun ShoppingListEntryDetailsBottomSheet(
     }
 
     val requestState = rememberTandoorRequestState()
+    val categoryChangeRequestState = rememberTandoorRequestState()
 
     ModalBottomSheet(
         onDismissRequest = {
@@ -201,11 +211,69 @@ fun ShoppingListEntryDetailsBottomSheet(
             }
         }
 
+        HorizontalDivider()
+
+        Box(
+            Modifier.padding(16.dp)
+        ) {
+            var changeSupermarketCategoryValue by remember { mutableStateOf(food.supermarket_category) }
+            CategorySearchField(
+                modifier = Modifier.fillMaxWidth(),
+
+                client = client,
+                value = changeSupermarketCategoryValue,
+
+                leadingIcon = {
+                    Icon(
+                        Icons.Rounded.Category,
+                        stringResource(Res.string.common_category)
+                    )
+                },
+                label = { Text(text = stringResource(Res.string.common_category)) },
+
+                trailingIcon = {
+                    IconButton(
+                        onClick = {
+                            coroutineScope.launch {
+                                categoryChangeRequestState.wrapRequest {
+                                    changeSupermarketCategoryValue = null
+                                    food.updateSupermarketCategory(client, null)
+
+                                    // update state after update
+                                    changeSupermarketCategoryValue = food.supermarket_category
+                                    onUpdate()
+                                }
+                            }
+                        }
+                    ) {
+                        IconWithState(
+                            imageVector = Icons.Rounded.Delete,
+                            contentDescription = stringResource(Res.string.action_delete),
+                            state = categoryChangeRequestState.state.toIconWithState()
+                        )
+                    }
+                },
+
+                onValueChange = {
+                    coroutineScope.launch {
+                        categoryChangeRequestState.wrapRequest {
+                            changeSupermarketCategoryValue = it
+                            food.updateSupermarketCategory(client, it)
+
+                            // update state after update
+                            changeSupermarketCategoryValue = food.supermarket_category
+                            onUpdate()
+                        }
+                    }
+                }
+            )
+        }
+
         if(recipeMealPlans.size > 0) {
             HorizontalDivider()
 
             Column(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 recipeMealPlans.forEach {
@@ -229,6 +297,8 @@ fun ShoppingListEntryDetailsBottomSheet(
             }
         }
     }
+
+    TandoorRequestErrorHandler(categoryChangeRequestState)
 
     TandoorRequestErrorHandler(requestState)
 }

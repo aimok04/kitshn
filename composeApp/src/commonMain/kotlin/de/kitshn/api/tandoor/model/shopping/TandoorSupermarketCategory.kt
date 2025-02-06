@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TandoorSupermarketCategory(
-    val id: Int,
+    val id: Int?,
     val name: String,
     val description: String? = null
 )

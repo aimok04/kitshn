@@ -93,14 +93,20 @@ class ShoppingViewModel(
 
             previous = dataStr
 
-            renderItems(additionalShoppingSettingsChipRowState)
+            renderItems(
+                additionalShoppingSettingsChipRowState = additionalShoppingSettingsChipRowState,
+                delay = false
+            )
             loaded = true
         }
     }
 
     suspend fun renderItems(
-        additionalShoppingSettingsChipRowState: AdditionalShoppingSettingsChipRowState
+        additionalShoppingSettingsChipRowState: AdditionalShoppingSettingsChipRowState,
+        delay: Boolean = true
     ) {
+        if(delay) delay(100)
+
         items.clear()
         if(entries.isEmpty()) return
 
@@ -118,7 +124,7 @@ class ShoppingViewModel(
             if(it.food.supermarket_category == null) {
                 false
             } else {
-                !supermarketCategoryIdToOrder.containsKey(it.food.supermarket_category.id)
+                !supermarketCategoryIdToOrder.containsKey(it.food.supermarket_category?.id)
             }
         }
 
@@ -136,17 +142,17 @@ class ShoppingViewModel(
                 entries
                     .onEach {
                         it.food.supermarket_category?.let { category ->
-                            groupIdMap[category.id] = category
+                            groupIdMap[category.id ?: -1] = category
                         }
                     }
                     .sortedBy {
                         if(it.food.supermarket_category == null) {
                             "0"
                         } else if(supermarketCategoryIdToOrder != null) {
-                            (supermarketCategoryIdToOrder[it.food.supermarket_category.id]
+                            (supermarketCategoryIdToOrder[it.food.supermarket_category!!.id]
                                 ?: 0).toString()
                         } else {
-                            it.food.supermarket_category.name
+                            it.food.supermarket_category!!.name
                         }
                     }
                     .groupBy { it.food.supermarket_category?.id ?: -1 }
