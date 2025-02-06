@@ -22,6 +22,7 @@ import de.kitshn.ui.route.onboarding.RouteOnboardingWelcome
 import de.kitshn.ui.route.recipe.RouteRecipePublic
 import de.kitshn.ui.route.recipe.RouteRecipeView
 import de.kitshn.ui.route.recipe.cook.RouteRecipeCook
+import de.kitshn.ui.route.shopping.RouteShoppingMode
 import kotlin.jvm.JvmSuppressWildcards
 
 val routes = listOf(
@@ -44,6 +45,11 @@ val routes = listOf(
         "recipe/{recipeId}/public/{shareToken}",
         Animation.SLIDE_HORIZONTAL
     ) { RouteRecipePublic(p = it) },
+
+    Route(
+        "shopping/shoppingMode",
+        Animation.SLIDE_VERTICAL
+    ) { RouteShoppingMode(p = it) },
 
     Route("onboarding", Animation.SLIDE_HORIZONTAL) { RouteOnboarding(p = it) },
     Route("onboarding/signIn", Animation.SLIDE_HORIZONTAL) { RouteOnboardingSignIn(p = it) },

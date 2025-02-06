@@ -31,7 +31,6 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -54,7 +53,6 @@ import de.kitshn.ui.component.model.shopping.ShoppingListEntryListItemPlaceholde
 import de.kitshn.ui.component.model.shopping.ShoppingListGroupHeaderListItem
 import de.kitshn.ui.component.model.shopping.ShoppingListGroupHeaderListItemPlaceholder
 import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRow
-import de.kitshn.ui.component.shopping.rememberAdditionalShoppingSettingsChipRowState
 import de.kitshn.ui.dialog.mealplan.MealPlanDetailsDialog
 import de.kitshn.ui.dialog.mealplan.rememberMealPlanDetailsDialogState
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
@@ -65,7 +63,6 @@ import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.selectionMode.component.SelectionModeTopAppBar
 import de.kitshn.ui.selectionMode.rememberSelectionModeState
 import de.kitshn.ui.state.ErrorLoadingSuccessState
-import de.kitshn.ui.state.foreverRememberNotSavable
 import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_add
@@ -86,10 +83,8 @@ fun RouteMainSubrouteShopping(
     vm: ShoppingViewModel = viewModel { ShoppingViewModel(p) }
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val additionalShoppingSettingsChipRowState by foreverRememberNotSavable(
-        key = "additionalShoppingSettingsChipRowState",
-        initialValue = rememberAdditionalShoppingSettingsChipRowState()
-    )
+
+    val additionalShoppingSettingsChipRowState = p.vm.uiState.additionalShoppingSettingsChipRowState
 
     val mealPlanDetailsDialogState = rememberMealPlanDetailsDialogState()
     val recipeLinkDialogState = rememberRecipeLinkDialogState()
@@ -193,7 +188,7 @@ fun RouteMainSubrouteShopping(
                         modifier = Modifier
                             .padding(start = 12.dp, bottom = 4.dp),
                         onClick = {
-                            // TODO implement shopping mode here
+                            p.vm.navHostController?.navigate("shopping/shoppingMode")
                         }
                     ) {
                         Icon(

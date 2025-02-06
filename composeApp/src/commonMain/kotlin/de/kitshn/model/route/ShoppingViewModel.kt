@@ -46,7 +46,8 @@ class GroupDividerShoppingListItemModel(
 )
 
 class ShoppingViewModel(
-    val p: RouteParameters
+    val p: RouteParameters,
+    val moveDoneToBottom: Boolean = false
 ) : ViewModel() {
 
     val client = p.vm.tandoorClient
@@ -80,8 +81,18 @@ class ShoppingViewModel(
         shoppingListEntriesFetchRequest.wrapRequest {
             val items = client.shopping.fetch()
 
-            entries.clear()
-            entries.addAll(items.reversed())
+            // remove all items that are not checked (checked items are removed server-side)
+            entries.removeIf { !it.checked }
+
+            // prevent duplicate adds
+            val addedIds = mutableListOf<Int>()
+            addedIds.addAll(entries.map { it.id })
+
+            // add all items
+            items.forEach {
+                if(addedIds.contains(it.id)) return@forEach
+                entries.add(it)
+            }
 
             val dataStr = json.encodeToString(items)
             if(previous == dataStr) return@wrapRequest
@@ -131,10 +142,31 @@ class ShoppingViewModel(
         // group by selected variable
         when(additionalShoppingSettingsChipRowState.grouping) {
             GroupingOptions.NONE -> {
-                combineEntriesByFood(
-                    groupId = 0,
-                    entries = entries
-                )
+                if(moveDoneToBottom) {
+                    combineEntriesByFood(
+                        groupId = 0,
+                        entries = entries.filter { !it.checked }
+                    )
+
+                    if(entries.firstOrNull { it.checked } == null) return
+
+                    items.add(
+                        GroupHeaderShoppingListItemModel(
+                            id = Int.MAX_VALUE,
+                            label = "Done"
+                        )
+                    )
+
+                    combineEntriesByFood(
+                        groupId = Int.MAX_VALUE,
+                        entries = entries.filter { it.checked }
+                    )
+                } else {
+                    combineEntriesByFood(
+                        groupId = 0,
+                        entries = entries
+                    )
+                }
             }
 
             GroupingOptions.BY_CATEGORY -> {
@@ -146,8 +178,10 @@ class ShoppingViewModel(
                         }
                     }
                     .sortedBy {
-                        if(it.food.supermarket_category == null) {
-                            "0"
+                        if(moveDoneToBottom && it.checked) {
+                            "\uffff\uFFFF\uFFFF" // last character in lexicographic order
+                        } else if(it.food.supermarket_category == null) {
+                            "!!!" // first character in lexicographic order
                         } else if(supermarketCategoryIdToOrder != null) {
                             (supermarketCategoryIdToOrder[it.food.supermarket_category!!.id]
                                 ?: 0).toString()
@@ -155,18 +189,35 @@ class ShoppingViewModel(
                             it.food.supermarket_category!!.name
                         }
                     }
-                    .groupBy { it.food.supermarket_category?.id ?: -1 }
+                    .groupBy {
+                        if(moveDoneToBottom && it.checked) {
+                            Int.MAX_VALUE
+                        } else {
+                            it.food.supermarket_category?.id ?: -1
+                        }
+                    }
                     .forEach {
-                        val category = groupIdMap[it.key]
-
-                        items.add(
-                            GroupHeaderShoppingListItemModel(
-                                id = it.key,
-                                label = category?.name ?: getString(Res.string.common_ungrouped)
+                        if(it.key == Int.MAX_VALUE) {
+                            items.add(
+                                GroupHeaderShoppingListItemModel(
+                                    id = it.key,
+                                    label = "Done"
+                                )
                             )
-                        )
 
-                        combineEntriesByFood(it.key, it.value)
+                            combineEntriesByFood(it.key, it.value)
+                        } else {
+                            val category = groupIdMap[it.key]
+
+                            items.add(
+                                GroupHeaderShoppingListItemModel(
+                                    id = it.key,
+                                    label = category?.name ?: getString(Res.string.common_ungrouped)
+                                )
+                            )
+
+                            combineEntriesByFood(it.key, it.value)
+                        }
                     }
             }
 
@@ -178,17 +229,41 @@ class ShoppingViewModel(
                             groupIdMap[recipeMealplan.recipe] = recipeMealplan.recipe_name
                         }
                     }
-                    .sortedBy { it.recipe_mealplan?.recipe_name ?: "0" }
-                    .groupBy { it.recipe_mealplan?.recipe ?: -1 }
+                    .sortedBy {
+                        if(moveDoneToBottom && it.checked) {
+                            "\uffff\uFFFF\uFFFF" // last character in lexicographic order
+                        } else {
+                            it.recipe_mealplan?.recipe_name ?: "0"
+                        }
+                    }
+                    .groupBy {
+                        if(moveDoneToBottom && it.checked) {
+                            Int.MAX_VALUE
+                        } else {
+                            it.recipe_mealplan?.recipe ?: -1
+                        }
+                    }
                     .forEach {
-                        items.add(
-                            GroupHeaderShoppingListItemModel(
-                                id = it.key,
-                                label = groupIdMap[it.key] ?: getString(Res.string.common_ungrouped)
+                        if(it.key == Int.MAX_VALUE) {
+                            items.add(
+                                GroupHeaderShoppingListItemModel(
+                                    id = it.key,
+                                    label = "Done"
+                                )
                             )
-                        )
 
-                        combineEntriesByFood(it.key, it.value)
+                            combineEntriesByFood(it.key, it.value)
+                        } else {
+                            items.add(
+                                GroupHeaderShoppingListItemModel(
+                                    id = it.key,
+                                    label = groupIdMap[it.key]
+                                        ?: getString(Res.string.common_ungrouped)
+                                )
+                            )
+
+                            combineEntriesByFood(it.key, it.value)
+                        }
                     }
             }
 
@@ -200,17 +275,41 @@ class ShoppingViewModel(
                             groupIdMap[createdBy.id] = createdBy.display_name
                         }
                     }
-                    .sortedBy { it.created_by.display_name }
-                    .groupBy { it.created_by.id }
+                    .sortedBy {
+                        if(moveDoneToBottom && it.checked) {
+                            "\uffff\uFFFF\uFFFF" // last character in lexicographic order
+                        } else {
+                            it.created_by.display_name
+                        }
+                    }
+                    .groupBy {
+                        if(moveDoneToBottom && it.checked) {
+                            Int.MAX_VALUE
+                        } else {
+                            it.created_by.id
+                        }
+                    }
                     .forEach {
-                        items.add(
-                            GroupHeaderShoppingListItemModel(
-                                id = it.key,
-                                label = groupIdMap[it.key] ?: getString(Res.string.common_ungrouped)
+                        if(it.key == Int.MAX_VALUE) {
+                            items.add(
+                                GroupHeaderShoppingListItemModel(
+                                    id = it.key,
+                                    label = "Done"
+                                )
                             )
-                        )
 
-                        combineEntriesByFood(it.key, it.value)
+                            combineEntriesByFood(it.key, it.value)
+                        } else {
+                            items.add(
+                                GroupHeaderShoppingListItemModel(
+                                    id = it.key,
+                                    label = groupIdMap[it.key]
+                                        ?: getString(Res.string.common_ungrouped)
+                                )
+                            )
+
+                            combineEntriesByFood(it.key, it.value)
+                        }
                     }
             }
         }
@@ -226,6 +325,7 @@ class ShoppingViewModel(
         val foodIdMap = mutableMapOf<Int, TandoorFood>()
         entries
             .onEach { foodIdMap[it.food.id] = it.food }
+            .sortedBy { it.food.name }
             .groupBy { it.food.id }
             .forEach { entry ->
                 foodIdMap[entry.key]?.let { food ->

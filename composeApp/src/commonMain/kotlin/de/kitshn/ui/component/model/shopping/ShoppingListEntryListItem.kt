@@ -21,8 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryRecipeMealplan
@@ -31,6 +33,8 @@ import de.kitshn.ui.modifier.loadingPlaceHolder
 import de.kitshn.ui.selectionMode.SelectionModeState
 import de.kitshn.ui.selectionMode.values.selectionModeListItemColors
 import de.kitshn.ui.state.ErrorLoadingSuccessState
+import de.kitshn.ui.theme.Typography
+import de.kitshn.ui.theme.playfairDisplay
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.lorem_ipsum_short
 import org.jetbrains.compose.resources.stringResource
@@ -38,7 +42,8 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ShoppingListEntryListItemPlaceholder(
     modifier: Modifier = Modifier,
-    loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.LOADING
+    loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.LOADING,
+    shoppingMode: Boolean = false
 ) {
     ListItem(
         modifier = modifier.fillMaxWidth(),
@@ -46,10 +51,19 @@ fun ShoppingListEntryListItemPlaceholder(
             supportingColor = MaterialTheme.colorScheme.primary
         ),
         headlineContent = {
-            Text(
-                text = stringResource(Res.string.lorem_ipsum_short) + stringResource(Res.string.lorem_ipsum_short),
-                modifier = Modifier.loadingPlaceHolder(loadingState)
-            )
+            if(shoppingMode) {
+                Text(
+                    text = stringResource(Res.string.lorem_ipsum_short) + stringResource(Res.string.lorem_ipsum_short),
+                    modifier = Modifier.loadingPlaceHolder(loadingState),
+                    style = Typography().headlineMedium,
+                    fontFamily = playfairDisplay()
+                )
+            } else {
+                Text(
+                    text = stringResource(Res.string.lorem_ipsum_short) + stringResource(Res.string.lorem_ipsum_short),
+                    modifier = Modifier.loadingPlaceHolder(loadingState)
+                )
+            }
         },
         supportingContent = {
             Row(
@@ -60,10 +74,20 @@ fun ShoppingListEntryListItemPlaceholder(
             ) {
                 ElevatedAssistChip(
                     label = {
-                        Text(
-                            text = stringResource(Res.string.lorem_ipsum_short).substring(5),
-                            modifier = Modifier.loadingPlaceHolder(loadingState)
-                        )
+                        if(shoppingMode) {
+                            Text(
+                                text = stringResource(Res.string.lorem_ipsum_short).substring(5),
+                                modifier = Modifier.loadingPlaceHolder(loadingState),
+                                fontSize = 20.sp,
+                                lineHeight = 20.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        } else {
+                            Text(
+                                text = stringResource(Res.string.lorem_ipsum_short).substring(5),
+                                modifier = Modifier.loadingPlaceHolder(loadingState)
+                            )
+                        }
                     },
                     colors = AssistChipDefaults.elevatedAssistChipColors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
@@ -84,11 +108,13 @@ fun ShoppingListEntryListItem(
     food: TandoorFood,
     entries: List<TandoorShoppingListEntry>,
 
-    selectionState: SelectionModeState<Int>,
+    selectionState: SelectionModeState<Int>? = null,
 
     showFractionalValues: Boolean,
 
-    onClick: () -> Unit
+    shoppingMode: Boolean = false,
+
+    onClick: (() -> Unit)? = null
 ) {
     val amountChips = remember { mutableStateListOf<Pair<String, Boolean>>() }
     val mealplans =
@@ -127,36 +153,54 @@ fun ShoppingListEntryListItem(
         defaultColors = ListItemDefaults.colors(
             supportingColor = MaterialTheme.colorScheme.primary
         ),
-        selected = selectionState.selectedItems.contains(food.id),
+        selected = selectionState?.selectedItems?.contains(food.id) ?: false,
     )
 
     ListItem(
         modifier = modifier.fillMaxWidth()
-            .alpha(if(allChecked) 0.7f else 1f)
-            .combinedClickable(
-                onClick = {
-                    if(selectionState.isSelectionModeEnabled()) {
-                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                        selectionState.selectToggle(food.id)
-                    } else {
-                        onClick()
-                    }
-                },
-                onLongClick = {
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                    selectionState.selectToggle(food.id)
+            .alpha(if(allChecked) 0.7f else 1f).run {
+                if(onClick != null) {
+                    combinedClickable(
+                        onClick = {
+                            if(selectionState?.isSelectionModeEnabled() == true) {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                                selectionState.selectToggle(food.id)
+                            } else {
+                                onClick()
+                            }
+                        },
+                        onLongClick = {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                            selectionState?.selectToggle(food.id)
+                        }
+                    )
+                } else {
+                    this
                 }
-            ),
+            },
         colors = colors,
         headlineContent = {
-            Text(
-                text = food.name,
-                textDecoration = if(allChecked) {
-                    TextDecoration.LineThrough
-                } else {
-                    TextDecoration.None
-                }
-            )
+            if(shoppingMode) {
+                Text(
+                    text = food.name,
+                    style = Typography().headlineMedium,
+                    fontFamily = playfairDisplay(),
+                    textDecoration = if(allChecked) {
+                        TextDecoration.LineThrough
+                    } else {
+                        TextDecoration.None
+                    }
+                )
+            } else {
+                Text(
+                    text = food.name,
+                    textDecoration = if(allChecked) {
+                        TextDecoration.LineThrough
+                    } else {
+                        TextDecoration.None
+                    }
+                )
+            }
         },
         supportingContent = if(amountChips.size > 0) {
             {
@@ -169,14 +213,28 @@ fun ShoppingListEntryListItem(
                     amountChips.forEach {
                         ElevatedAssistChip(
                             label = {
-                                Text(
-                                    text = it.first,
-                                    textDecoration = if(it.second) {
-                                        TextDecoration.LineThrough
-                                    } else {
-                                        TextDecoration.None
-                                    }
-                                )
+                                if(shoppingMode) {
+                                    Text(
+                                        text = it.first,
+                                        textDecoration = if(it.second) {
+                                            TextDecoration.LineThrough
+                                        } else {
+                                            TextDecoration.None
+                                        },
+                                        fontSize = 20.sp,
+                                        lineHeight = 20.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                } else {
+                                    Text(
+                                        text = it.first,
+                                        textDecoration = if(it.second) {
+                                            TextDecoration.LineThrough
+                                        } else {
+                                            TextDecoration.None
+                                        }
+                                    )
+                                }
                             },
                             colors = AssistChipDefaults.elevatedAssistChipColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
