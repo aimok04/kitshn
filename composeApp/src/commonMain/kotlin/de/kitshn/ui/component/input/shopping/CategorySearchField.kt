@@ -1,5 +1,9 @@
 package de.kitshn.ui.component.input.shopping
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -26,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import de.kitshn.api.tandoor.TandoorClient
@@ -50,6 +55,8 @@ fun BaseCategorySearchField(
         onValueChange: (value: String) -> Unit
     ) -> Unit
 ) {
+    val density = LocalDensity.current
+
     var isExpanded by remember { mutableStateOf(false) }
     val fetchRequestState = rememberTandoorRequestState()
 
@@ -120,6 +127,15 @@ fun BaseCategorySearchField(
                 }
             )
         }
+
+        // keep dropdown menu on top of input
+        Box(
+            Modifier.height(
+                with(density) {
+                    WindowInsets.ime.getBottom(LocalDensity.current).toDp()
+                }
+            )
+        )
     }
 
     TandoorRequestErrorHandler(state = fetchRequestState)
