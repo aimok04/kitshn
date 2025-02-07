@@ -19,7 +19,11 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -85,7 +89,13 @@ fun RouteShoppingMode(
         }
     }
 
+    var firstRun by remember { mutableStateOf(true) }
     LaunchedEffect(additionalShoppingSettingsChipRowState.updateState) {
+        if(firstRun) {
+            firstRun = false
+            return@LaunchedEffect
+        }
+
         vm.renderItems(additionalShoppingSettingsChipRowState)
     }
 

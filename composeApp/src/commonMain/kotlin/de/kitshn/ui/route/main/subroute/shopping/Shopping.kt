@@ -114,8 +114,13 @@ fun RouteMainSubrouteShopping(
             delay(5000)
         }
     }
-
+    var firstRun by remember { mutableStateOf(true) }
     LaunchedEffect(additionalShoppingSettingsChipRowState.updateState) {
+        if(firstRun) {
+            firstRun = false
+            return@LaunchedEffect
+        }
+
         vm.renderItems(additionalShoppingSettingsChipRowState)
     }
 
