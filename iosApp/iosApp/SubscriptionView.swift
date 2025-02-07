@@ -6,7 +6,9 @@ import SafariServices
 
 struct SubscriptionView: View {
     @State private var showPurchaseAlert = false
-    @State private var showLearnMoreSheet = false
+    @State private var showFundingSheet = false
+    @State private var showPPSheet = false
+    @State private var showEulaSheet = false
     
     var body: some View {
         VStack {
@@ -20,15 +22,29 @@ struct SubscriptionView: View {
                     }
                 
                 Button(MainKt.lang(key: "common_learn_more")) {
-                    showLearnMoreSheet = true
+                    showFundingSheet = true
+                }
+                
+                Button("Privacy policy") {
+                    showPPSheet = true
+                }
+                
+                Button("End-user license agreement") {
+                    showEulaSheet = true
                 }
             }
         }
         .alert(MainKt.lang(key: "ios_support_thanks"), isPresented: $showPurchaseAlert) {
             Button(MainKt.lang(key: "common_done"), role: .cancel) { }
         }
-        .sheet(isPresented: $showLearnMoreSheet) {
+        .sheet(isPresented: $showFundingSheet) {
             SafariWebView(url: URL(string: "https://kitshn.app/funding")!)
+        }
+        .sheet(isPresented: $showPPSheet) {
+            SafariWebView(url: URL(string: "https://gist.github.com/aimok04/cfe30838491c1f2eeddb8b2b9e9ba894")!)
+        }
+        .sheet(isPresented: $showEulaSheet) {
+            SafariWebView(url: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
         }
     }
 }
