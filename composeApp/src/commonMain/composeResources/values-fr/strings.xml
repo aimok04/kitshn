@@ -252,7 +252,6 @@
     <string name="share_title">Partager cette recette sur Tandoor</string>
     <string name="share_wrapper_dialog_title">Utiliser le wrapper partagé ?</string>
     <string name="shopping_list_empty">Il n'y a actuellement aucun article sur la liste de courses.</string>
-    <string name="shopping_list_entry_create_placeholder_unit">g</string>
     <string name="shortcuts_new_instance_label_long">Créer une nouvelle instance</string>
     <string name="shortcuts_new_instance_label_short">Nouvelle instance</string>
     <string name="tandoor_compatibility_full_compatibility_label">Compatible</string>
@@ -329,7 +328,6 @@
     <string name="settings_section_appearance_follow_system_label">Suivre le système</string>
     <string name="settings_section_appearance_follow_system_description">Utiliser la palette de couleurs du système d'exploitation</string>
     <string name="home_section_lunch_time">Heure du déjeuner</string>
-    <string name="shopping_list_entry_create_placeholder_food">Champignons</string>
     <string name="ios_support_badge">Abonnement de soutien</string>
     <string name="recipe_sorting_cooking_frequency">Fréquence de préparation</string>
     <string name="onboarding_sign_in_using_web_browser">Se connecter via le navigateur web</string>
@@ -343,7 +341,6 @@
     <string name="search_tags_filter_empty">Sélectionnez les tags que vous souhaitez rechercher.</string>
     <string name="settings_section_appearance_dark_mode_description">Utiliser le thème sombre</string>
     <string name="settings_section_server_label">Serveur</string>
-    <string name="shopping_list_entry_create_placeholder_amount">250</string>
     <string name="select_recipe_book">Sélectionner un livre de recettes</string>
     <string name="recipe_step_timer_created">Un minuteur a été créé.</string>
 </resources>

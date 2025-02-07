@@ -1,11 +1,13 @@
 package de.kitshn.ui.component.input
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuBoxScope
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
@@ -23,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
@@ -38,9 +41,12 @@ import kotlinx.coroutines.delay
 fun BaseFoodSearchField(
     client: TandoorClient,
     modifier: Modifier = Modifier,
+    dropdownMenuModifier: Modifier = Modifier,
     value: String?,
     onValueChange: (String?) -> Unit,
-    content: @Composable ExposedDropdownMenuBoxScope.(
+    onSelect: () -> Unit,
+    content: @Composable (
+        modifier: Modifier,
         value: String,
         onValueChange: (value: String) -> Unit
     ) -> Unit
@@ -48,40 +54,52 @@ fun BaseFoodSearchField(
     var isExpanded by remember { mutableStateOf(false) }
 
     var searchText by rememberSaveable { mutableStateOf("") }
+    var fromDropdown by remember { mutableStateOf(false) }
+
     val foodList = remember { mutableStateListOf<TandoorFood>() }
 
     val searchRequestState = rememberTandoorRequestState()
     LaunchedEffect(searchText) {
+        foodList.clear()
+        if(searchText.isEmpty()) return@LaunchedEffect
+        if(fromDropdown) return@LaunchedEffect
+
         delay(300)
 
         searchRequestState.wrapRequest {
             TandoorRequestState().wrapRequest {
                 client.food.list(
                     query = searchText,
-                    pageSize = 5
+                    pageSize = 8
                 ).results.let {
                     foodList.clear()
                     foodList.addAll(it)
+
+                    isExpanded = true
                 }
             }
         }
     }
 
     ExposedDropdownMenuBox(
-        modifier = modifier,
+        modifier = dropdownMenuModifier,
         expanded = isExpanded,
         onExpandedChange = {
             isExpanded = it
         }
     ) {
         content(
+            modifier.menuAnchor(MenuAnchorType.PrimaryEditable, true)
+                .onFocusChanged { if(!it.isFocused) isExpanded = false },
             value ?: searchText
         ) {
+            fromDropdown = false
             searchText = it
             onValueChange(it)
         }
 
-        ExposedDropdownMenu(
+        if(foodList.size > 0) ExposedDropdownMenu(
+            modifier = Modifier.windowInsetsBottomHeight(WindowInsets.ime),
             expanded = isExpanded,
             onDismissRequest = {
                 isExpanded = false
@@ -91,10 +109,12 @@ fun BaseFoodSearchField(
                 DropdownMenuItem(
                     text = { Text(it.name) },
                     onClick = {
+                        fromDropdown = true
                         searchText = it.name
                         onValueChange(it.name)
 
                         isExpanded = false
+                        onSelect()
                     }
                 )
             }
@@ -104,12 +124,12 @@ fun BaseFoodSearchField(
     TandoorRequestErrorHandler(state = searchRequestState)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OutlinedFoodSearchField(
     client: TandoorClient,
     value: String?,
     onValueChange: (String?) -> Unit,
+    onSelect: () -> Unit,
     dropdownMenuModifier: Modifier,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
@@ -128,13 +148,15 @@ fun OutlinedFoodSearchField(
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors()
 ) = BaseFoodSearchField(
     client = client,
-    modifier = dropdownMenuModifier,
+    modifier = modifier,
+    onSelect = onSelect,
+    dropdownMenuModifier = dropdownMenuModifier,
     value = value,
     onValueChange = onValueChange
-) { v, vc ->
+) { mdf, v, vc ->
     OutlinedTextField(
         value = v,
-        modifier = modifier.menuAnchor(MenuAnchorType.PrimaryEditable, true),
+        modifier = mdf,
         enabled = true,
         readOnly = false,
         singleLine = true,
@@ -156,12 +178,12 @@ fun OutlinedFoodSearchField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FoodSearchField(
     client: TandoorClient,
     value: String?,
     onValueChange: (String?) -> Unit,
+    onSelect: () -> Unit,
     dropdownMenuModifier: Modifier,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
@@ -180,13 +202,15 @@ fun FoodSearchField(
     colors: TextFieldColors = TextFieldDefaults.colors()
 ) = BaseFoodSearchField(
     client = client,
-    modifier = dropdownMenuModifier,
+    modifier = modifier,
+    onSelect = onSelect,
+    dropdownMenuModifier = dropdownMenuModifier,
     value = value,
     onValueChange = onValueChange
-) { v, vc ->
+) { mdf, v, vc ->
     TextField(
         value = v,
-        modifier = modifier.menuAnchor(MenuAnchorType.PrimaryEditable, true),
+        modifier = mdf,
         enabled = true,
         readOnly = false,
         singleLine = true,

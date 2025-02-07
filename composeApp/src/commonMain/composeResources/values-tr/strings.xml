@@ -283,9 +283,6 @@
     <string name="settings_section_server_label">Sunucu</string>
 
     <string name="shopping_list_empty">Alışveriş listesinde şu anda öğe yok.</string>
-    <string name="shopping_list_entry_create_placeholder_amount">250</string>
-    <string name="shopping_list_entry_create_placeholder_food">Mantar</string>
-    <string name="shopping_list_entry_create_placeholder_unit">g</string>
 
     <string name="tandoor_compatibility_full_compatibility_description">Uygulama, Tandoor sunucunuzla tamamen uyumlu!</string>
     <string name="tandoor_compatibility_full_compatibility_label">Uyumlu</string>

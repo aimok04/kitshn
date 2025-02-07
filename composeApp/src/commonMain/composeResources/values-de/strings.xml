@@ -91,6 +91,7 @@
 
     <string name="common_add_to_shopping_list">zur Einkaufsliste hinzufügen</string>
     <string name="common_allocate_ingredients">Zutaten zuordnen</string>
+    <string name="common_amount">Anzahl</string>
     <string name="common_api_token">API-Token</string>
     <string name="common_category">Kategorie</string>
     <string name="common_comment">Kommentar</string>
@@ -113,6 +114,7 @@
     <string name="common_error_report">Fehlerbericht</string>
     <string name="common_favorites">Favoriten</string>
     <string name="common_field">Feld</string>
+    <string name="common_food">Lebensmittel</string>
     <string name="common_group_by">Gruppieren nach</string>
     <string name="common_import_recipe">Rezept importieren</string>
     <string name="common_info">Information</string>
@@ -181,6 +183,7 @@
     <string name="common_tomorrow">Morgen</string>
     <string name="common_total">Total</string>
     <string name="common_ungrouped">Ungruppiert</string>
+    <string name="common_unit">Einheit</string>
     <string name="common_unknown">Unbekannt</string>
     <string name="common_unknown_meal_type">Unbekannte Mahlzeit</string>
     <string name="common_unknown_recipe">Unbekanntes Rezept</string>
@@ -361,9 +364,6 @@
     <string name="share_wrapper_dialog_title">Share-Wrapper nutzen?</string>
 
     <string name="shopping_list_empty">Es gibt im Moment keine Einträge auf der Einkaufsliste.</string>
-    <string name="shopping_list_entry_create_placeholder_amount">250</string>
-    <string name="shopping_list_entry_create_placeholder_food">Pilze</string>
-    <string name="shopping_list_entry_create_placeholder_unit">g</string>
 
     <string name="shortcuts_new_instance_label_long">Neue Instanz öffnen</string>
     <string name="shortcuts_new_instance_label_short">Neue Instanz</string>

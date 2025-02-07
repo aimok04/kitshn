@@ -31,7 +31,11 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -57,7 +61,9 @@ import de.kitshn.ui.dialog.mealplan.MealPlanDetailsDialog
 import de.kitshn.ui.dialog.mealplan.rememberMealPlanDetailsDialogState
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
+import de.kitshn.ui.dialog.shopping.ShoppingListEntryAddBottomSheet
 import de.kitshn.ui.dialog.shopping.ShoppingListEntryDetailsBottomSheet
+import de.kitshn.ui.dialog.shopping.rememberShoppingListEntryAddBottomSheetState
 import de.kitshn.ui.dialog.shopping.rememberShoppingListEntryDetailsBottomSheetState
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.selectionMode.component.SelectionModeTopAppBar
@@ -88,6 +94,8 @@ fun RouteMainSubrouteShopping(
 
     val mealPlanDetailsDialogState = rememberMealPlanDetailsDialogState()
     val recipeLinkDialogState = rememberRecipeLinkDialogState()
+
+    val shoppingListEntryAddBottomSheetState = rememberShoppingListEntryAddBottomSheetState()
     val shoppingListEntryDetailsBottomSheetState =
         rememberShoppingListEntryDetailsBottomSheetState()
 
@@ -211,7 +219,7 @@ fun RouteMainSubrouteShopping(
                         containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                         onClick = {
-                            // TODO implement add shopping list item dialog
+                            shoppingListEntryAddBottomSheetState.open()
                         }
                     ) {
                         Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
@@ -330,6 +338,20 @@ fun RouteMainSubrouteShopping(
                 back = p.onBack
             ),
             state = recipeLinkDialogState
+        )
+
+        ShoppingListEntryAddBottomSheet(
+            client = it,
+            state = shoppingListEntryAddBottomSheetState,
+            onBlock = {
+                vm.blockUI()
+            },
+            onUpdate = { entry ->
+                coroutineScope.launch {
+                    vm.entries.add(entry)
+                    vm.renderItems(additionalShoppingSettingsChipRowState)
+                }
+            }
         )
 
         ShoppingListEntryDetailsBottomSheet(

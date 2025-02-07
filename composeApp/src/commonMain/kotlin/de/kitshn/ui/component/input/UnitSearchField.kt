@@ -1,5 +1,8 @@
 package de.kitshn.ui.component.input
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenuItem
@@ -23,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
@@ -38,9 +42,12 @@ import kotlinx.coroutines.delay
 fun BaseUnitSearchField(
     client: TandoorClient,
     modifier: Modifier = Modifier,
+    dropdownMenuModifier: Modifier = Modifier,
     value: String?,
     onValueChange: (String?) -> Unit,
+    onSelect: () -> Unit,
     content: @Composable ExposedDropdownMenuBoxScope.(
+        modifier: Modifier,
         value: String,
         onValueChange: (value: String) -> Unit
     ) -> Unit
@@ -48,40 +55,52 @@ fun BaseUnitSearchField(
     var isExpanded by remember { mutableStateOf(false) }
 
     var searchText by rememberSaveable { mutableStateOf("") }
+    var fromDropdown by remember { mutableStateOf(false) }
+
     val unitList = remember { mutableStateListOf<TandoorUnit>() }
 
     val searchRequestState = rememberTandoorRequestState()
     LaunchedEffect(searchText) {
+        unitList.clear()
+        if(searchText.isEmpty()) return@LaunchedEffect
+        if(fromDropdown) return@LaunchedEffect
+
         delay(300)
 
         searchRequestState.wrapRequest {
             TandoorRequestState().wrapRequest {
                 client.unit.list(
                     query = searchText,
-                    pageSize = 5
+                    pageSize = 8
                 ).results.let {
                     unitList.clear()
                     unitList.addAll(it)
+
+                    isExpanded = true
                 }
             }
         }
     }
 
     ExposedDropdownMenuBox(
-        modifier = modifier,
+        modifier = dropdownMenuModifier,
         expanded = isExpanded,
         onExpandedChange = {
             isExpanded = it
         }
     ) {
         content(
+            modifier.menuAnchor(MenuAnchorType.PrimaryEditable, true)
+                .onFocusChanged { if(!it.isFocused) isExpanded = false },
             value ?: searchText
         ) {
+            fromDropdown = false
             searchText = it
             onValueChange(it)
         }
 
-        ExposedDropdownMenu(
+        if(unitList.size > 0) ExposedDropdownMenu(
+            modifier = Modifier.windowInsetsBottomHeight(WindowInsets.ime),
             expanded = isExpanded,
             onDismissRequest = {
                 isExpanded = false
@@ -91,10 +110,12 @@ fun BaseUnitSearchField(
                 DropdownMenuItem(
                     text = { Text(it.name) },
                     onClick = {
+                        fromDropdown = true
                         searchText = it.name
                         onValueChange(it.name)
 
                         isExpanded = false
+                        onSelect()
                     }
                 )
             }
@@ -110,6 +131,7 @@ fun OutlinedUnitSearchField(
     client: TandoorClient,
     value: String?,
     onValueChange: (String?) -> Unit,
+    onSelect: () -> Unit,
     dropdownMenuModifier: Modifier,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
@@ -128,13 +150,15 @@ fun OutlinedUnitSearchField(
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors()
 ) = BaseUnitSearchField(
     client = client,
-    modifier = dropdownMenuModifier,
+    modifier = modifier,
+    dropdownMenuModifier = dropdownMenuModifier,
     value = value,
-    onValueChange = onValueChange
-) { v, vc ->
+    onValueChange = onValueChange,
+    onSelect = onSelect
+) { mdf, v, vc ->
     OutlinedTextField(
         value = v,
-        modifier = modifier.menuAnchor(MenuAnchorType.PrimaryEditable, true),
+        modifier = mdf,
         enabled = true,
         readOnly = false,
         singleLine = true,
@@ -162,6 +186,7 @@ fun UnitSearchField(
     client: TandoorClient,
     value: String?,
     onValueChange: (String?) -> Unit,
+    onSelect: () -> Unit,
     dropdownMenuModifier: Modifier,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
@@ -180,13 +205,15 @@ fun UnitSearchField(
     colors: TextFieldColors = TextFieldDefaults.colors()
 ) = BaseUnitSearchField(
     client = client,
-    modifier = dropdownMenuModifier,
+    modifier = modifier,
+    dropdownMenuModifier = dropdownMenuModifier,
     value = value,
-    onValueChange = onValueChange
-) { v, vc ->
+    onValueChange = onValueChange,
+    onSelect = onSelect
+) { mdf, v, vc ->
     TextField(
         value = v,
-        modifier = modifier.menuAnchor(MenuAnchorType.PrimaryEditable, true),
+        modifier = mdf,
         enabled = true,
         readOnly = false,
         singleLine = true,

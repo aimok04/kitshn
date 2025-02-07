@@ -193,7 +193,6 @@
     <string name="settings_section_server_label">Сервер</string>
     <string name="share_title">Поділіться цим рецептом на Tandoor</string>
     <string name="shopping_list_empty">Зараз у списку покупок немає товарів.</string>
-    <string name="shopping_list_entry_create_placeholder_amount">250</string>
     <string name="tandoor_compatibility_incompatible_label">Несумісні</string>
     <string name="tandoor_compatibility_not_checkable_description">Неможливо запитати версію вашого сервера Tandoor. Будь ласка, переконайтеся, що номер версії вашого сервера доступний у наступному списку, щоб можна було використовувати всі функції.</string>
     <string name="tandoor_compatibility_not_checkable_label">Неможливо перевірити сумісність</string>
@@ -288,7 +287,6 @@
     <string name="navigation_settings">Налаштування</string>
     <string name="search_keyword_including_all_description">Рецепти повинні містити всі ключові слова</string>
     <string name="onboarding_sign_in_error_instance_not_reachable">Неможливо отримати URL-адресу вказаного екземпляра.</string>
-    <string name="shopping_list_entry_create_placeholder_unit">g</string>
     <string name="onboarding_sign_in_error_sign_in_failed">Помилка входу. Будь ласка, перевірте введені дані!</string>
     <string name="recipe_sorting_cooking_frequency">Частота приготування</string>
     <string name="search_food_including_all_description">Рецепти повинні містити всі інгредієнти</string>
@@ -315,7 +313,6 @@
     <string name="share_incentive">привіт! Перегляньте цей рецепт, який я знайшов на Tandoor:</string>
     <string name="share_wrapper_dialog_message">Додавання %1$s перед URL-адресою спільного доступу дає змогу іншим користувачам kitshn відкривати посилання безпосередньо в програмі.</string>
     <string name="share_wrapper_dialog_title">Використовувати оболонку спільного доступу?</string>
-    <string name="shopping_list_entry_create_placeholder_food">гриби</string>
     <string name="tandoor_compatibility_full_compatibility_description">Додаток повністю сумісний з вашим сервером Tandoor!</string>
     <string name="tandoor_compatibility_full_compatibility_label">сумісний</string>
     <string name="tandoor_compatibility_mixed_compatibility_description">Деякі функції вашого сервера Tandoor можуть не підтримуватися цією програмою. Щоб використовувати всі функції програми, оновіть сервер до однієї з наведених нижче версій.</string>

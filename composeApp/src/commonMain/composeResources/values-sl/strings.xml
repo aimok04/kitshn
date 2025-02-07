@@ -164,7 +164,6 @@
     <string name="share_incentive">hej Oglejte si ta recept, ki sem ga našel na Tandoorju:</string>
     <string name="share_wrapper_dialog_title">Uporabiti ovoj za skupno rabo?</string>
     <string name="shopping_list_empty">Na nakupovalnem seznamu trenutno ni artiklov.</string>
-    <string name="shopping_list_entry_create_placeholder_amount">250</string>
     <string name="shortcuts_new_instance_label_short">Nov primerek</string>
     <string name="tandoor_compatibility_incompatible_label">Nezdružljivo</string>
     <string name="tandoor_compatibility_mixed_compatibility_label">Delno združljiv</string>
@@ -207,7 +206,6 @@
     <string name="action_minus">Nižje</string>
     <string name="form_error_description_max_512">Opis lahko vsebuje največ 512 znakov.</string>
     <string name="form_error_field_empty">To polje mora biti izpolnjeno.</string>
-    <string name="shopping_list_entry_create_placeholder_unit">g</string>
     <string name="onboarding_welcome">Zabavajte se pri kuhanju s kuhinjo. Upoštevajte, da je aplikacija trenutno v fazi alfa. Za hrošče, povratne informacije in ideje o funkcijah preverite stran » O « v nastavitvah za možnosti stika.</string>
     <string name="common_recipe">Recept</string>
     <string name="error_instance_inaccessible">Primerek, s katerim se poskušate povezati, ni konfiguriran v tej aplikaciji.</string>
@@ -216,7 +214,6 @@
     <string name="home_section_go_tos">Go-Tos</string>
     <string name="lorem_ipsum_medium">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</string>
     <string name="search_keyword_including_all_description">Recepti morajo vsebovati vse ključne besede</string>
-    <string name="shopping_list_entry_create_placeholder_food">Gobe</string>
     <string name="recipe_books_empty">Ustvarjena ni bila še nobena kuharska knjiga — ustvarite svojo prvo kuharsko knjigo!</string>
     <string name="recipe_sorting_creation_date">Datum nastanka</string>
     <string name="settings_section_about_item_new_issue_description">Prijavite hrošče, predlagajte funkcije in poiščite pomoč</string>

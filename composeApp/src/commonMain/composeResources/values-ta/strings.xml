@@ -107,7 +107,6 @@
     <string name="search_tags">குறிச்சொற்களைத் தேடுங்கள்</string>
     <string name="search_tags_filter">குறிச்சொற்களால் வடிகட்டவும்</string>
     <string name="settings_section_behavior_use_share_wrapper_label">ரேப்பரைப் பகிரவும்</string>
-    <string name="shopping_list_entry_create_placeholder_unit">g</string>
     <string name="tandoor_compatibility_full_compatibility_label">இணக்கமான</string>
     <string name="action_abort">கருக்கலைப்பு</string>
     <string name="action_add">கூட்டு</string>
@@ -284,8 +283,6 @@
     <string name="share_wrapper_dialog_message">பங்கு முகவரி க்கு முன்னால் %1$s ஐச் சேர்ப்பது மற்ற கிட்ச்ன் பயனர்களை பயன்பாட்டின் உள்ளே நேரடியாக திறக்க உதவுகிறது.</string>
     <string name="share_wrapper_dialog_title">பங்கு ரேப்பரைப் பயன்படுத்தவா?</string>
     <string name="shopping_list_empty">சாப்பிங் பட்டியலில் தற்போது எந்த உருப்படிகளும் இல்லை.</string>
-    <string name="shopping_list_entry_create_placeholder_amount">250</string>
-    <string name="shopping_list_entry_create_placeholder_food">காளான்கள்</string>
     <string name="tandoor_compatibility_full_compatibility_description">பயன்பாடு உங்கள் தந்தூர் சேவையகத்துடன் முழுமையாக ஒத்துப்போகும்!</string>
     <string name="tandoor_compatibility_incompatible_description">உங்கள் தந்தூர் சேவையகம் இந்த பயன்பாட்டுடன் பொருந்தாது. பின்வரும் பதிப்புகளில் ஒன்றிற்கு உங்கள் சேவையகத்தைப் புதுப்பிக்கவும்.</string>
     <string name="tandoor_compatibility_incompatible_label">பொருந்தாத</string>

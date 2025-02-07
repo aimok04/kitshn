@@ -265,7 +265,6 @@
     <string name="settings_section_appearance_dark_mode_description">Gebruik donker kleuren schema</string>
     <string name="settings_section_appearance_follow_system_description">Gebruik het kleuren schema van je apparaat</string>
     <string name="settings_section_appearance_dark_mode_label">Donkere modus</string>
-    <string name="shopping_list_entry_create_placeholder_food">Paddestoelen</string>
     <string name="settings_section_appearance_dynamic_color_label">Dynamisch kleuren schema</string>
     <string name="settings_section_appearance_follow_system_label">Volg systeem</string>
     <string name="settings_section_behavior_description">Bewerk kitshn's gedrag</string>
@@ -297,8 +296,6 @@
     <string name="settings_section_server_description">Informatie over je instantie</string>
     <string name="share_incentive">Hey! Bekijk dit recept dat ik heb gevonden op Tandoor:</string>
     <string name="shopping_list_empty">Er zijn momenteel geen artikelen in je boodschappenlijst.</string>
-    <string name="shopping_list_entry_create_placeholder_amount">250</string>
-    <string name="shopping_list_entry_create_placeholder_unit">g</string>
     <string name="shortcuts_new_instance_label_long">Maak een nieuwe instantie</string>
     <string name="shortcuts_new_instance_label_short">Nieuwe instantie</string>
     <string name="tandoor_compatibility_full_compatibility_description">De app is volledig compatibel met je Tandoor server!</string>

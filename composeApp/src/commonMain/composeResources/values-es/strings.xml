@@ -177,9 +177,6 @@
     <string name="share_title">Comparte esta receta en Tandoor</string>
     <string name="share_wrapper_dialog_title">¿Usar módulo de compartir?</string>
     <string name="shopping_list_empty">Actualmente no hay elementos en la lista de compras.</string>
-    <string name="shopping_list_entry_create_placeholder_amount">250</string>
-    <string name="shopping_list_entry_create_placeholder_food">Hongos</string>
-    <string name="shopping_list_entry_create_placeholder_unit">gr.</string>
     <string name="shortcuts_new_instance_label_long">Crear una nueva instancia</string>
     <string name="shortcuts_new_instance_label_short">Nueva instancia</string>
     <string name="tandoor_compatibility_full_compatibility_description">¡La aplicación es totalmente compatible con tu servidor Tandoor!</string>

@@ -91,6 +91,7 @@
 
     <string name="common_add_to_shopping_list">Add to shopping list</string>
     <string name="common_allocate_ingredients">Allocate ingredients</string>
+    <string name="common_amount">Amount</string>
     <string name="common_api_token">API token</string>
     <string name="common_category">Category</string>
     <string name="common_comment">Comment</string>
@@ -113,6 +114,7 @@
     <string name="common_error_report">Error report</string>
     <string name="common_favorites">Favorites</string>
     <string name="common_field">Field</string>
+    <string name="common_food">Food</string>
     <string name="common_group_by">Group by</string>
     <string name="common_import_recipe">Import recipe</string>
     <string name="common_info">Information</string>
@@ -181,6 +183,7 @@
     <string name="common_tomorrow">Tomorrow</string>
     <string name="common_total">total</string>
     <string name="common_ungrouped">Ungrouped</string>
+    <string name="common_unit">Unit</string>
     <string name="common_unknown">Unknown</string>
     <string name="common_unknown_meal_type">Unknown meal type</string>
     <string name="common_unknown_recipe">Unknown recipe</string>
@@ -361,9 +364,6 @@
     <string name="share_wrapper_dialog_title">Use share wrapper?</string>
 
     <string name="shopping_list_empty">There are currently no items on the shopping list.</string>
-    <string name="shopping_list_entry_create_placeholder_amount">250</string>
-    <string name="shopping_list_entry_create_placeholder_food">Mushrooms</string>
-    <string name="shopping_list_entry_create_placeholder_unit">g</string>
 
     <string name="shortcuts_new_instance_label_long">Create new instance</string>
     <string name="shortcuts_new_instance_label_short">New instance</string>
