@@ -356,4 +356,15 @@
     <string name="common_value">Значення</string>
     <string name="settings_section_behavior_enable_dynamic_home_screen_description">Показувати рекомендації на основі часу доби та року</string>
     <string name="settings_section_behavior_enable_dynamic_home_screen_label">Увімкнути динамічний головний екран</string>
+    <string name="common_group_by">Групувати за</string>
+    <string name="common_unit">одиниця</string>
+    <string name="action_start_shopping_mode">Запустити режим шопінгу</string>
+    <string name="common_shopping_mode">Режим покупок</string>
+    <string name="common_creator">Творець</string>
+    <string name="common_ungrouped">Розгрупований</string>
+    <string name="common_food">Харчування</string>
+    <string name="common_amount">Сума</string>
+    <string name="common_category">Категорія</string>
+    <string name="common_none">Жодного</string>
+    <string name="common_supermarket">Супермаркет</string>
 </resources>
