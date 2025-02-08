@@ -360,7 +360,7 @@ fun RouteMainSubrouteShopping(
             onUpdate = { entry ->
                 coroutineScope.launch {
                     vm.entries.add(entry)
-                    vm.renderItems()
+                    vm.update()
                 }
             }
         )
@@ -380,7 +380,8 @@ fun RouteMainSubrouteShopping(
 
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
-                        client.shopping.check(entries.map { entry -> entry.id })
+                        client.shopping.check(entries)
+                        vm.update()
                     }
                 }
             },
@@ -395,7 +396,7 @@ fun RouteMainSubrouteShopping(
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
                         entries.forEach { entry -> entry.delete() }
-                        vm.renderItems()
+                        vm.update()
                     }
                 }
             },
@@ -403,7 +404,7 @@ fun RouteMainSubrouteShopping(
             onClickRecipe = { recipe -> recipeLinkDialogState.open(recipe.toOverview()) },
             onUpdate = {
                 coroutineScope.launch {
-                    vm.renderItems()
+                    vm.update()
                 }
             }
         )

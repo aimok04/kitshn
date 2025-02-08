@@ -191,8 +191,8 @@ fun RouteShoppingMode(
 
                                                 coroutineScope.launch {
                                                     entriesCheckRequestState.wrapRequest {
-                                                        client!!.shopping.check(item.entries.map { entry -> entry.id })
-                                                        vm.renderItems()
+                                                        client!!.shopping.check(item.entries)
+                                                        vm.update()
                                                     }
                                                 }
                                             }

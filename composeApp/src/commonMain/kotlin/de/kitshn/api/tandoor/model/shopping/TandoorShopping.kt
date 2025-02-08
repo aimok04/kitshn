@@ -43,7 +43,7 @@ class TandoorShoppingListEntry(
     var _destroyed = false
 
     suspend fun check() {
-        client!!.shopping.check(listOf(id))
+        client!!.shopping.check(setOf(id))
         checked = true
     }
 

@@ -36,7 +36,15 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
     }
 
     suspend fun check(
-        id: List<Int>
+        entries: List<TandoorShoppingListEntry>
+    ) {
+        check(entries.map { it.id }.toSet())
+        entries.forEach { it.checked = true }
+    }
+
+    // using set to avoid jvm signature issue
+    suspend fun check(
+        id: Set<Int>
     ) {
         val data = buildJsonObject {
             put("ids", buildJsonArray {

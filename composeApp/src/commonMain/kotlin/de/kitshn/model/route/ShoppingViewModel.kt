@@ -109,7 +109,7 @@ class ShoppingViewModel(
             offlineActions.forEach {
                 try {
                     when(it.value) {
-                        ShoppingListEntryOfflineActions.CHECK -> client.shopping.check(listOf(it.key))
+                        ShoppingListEntryOfflineActions.CHECK -> client.shopping.check(setOf(it.key))
                         ShoppingListEntryOfflineActions.DELETE -> client.shopping.delete(it.key)
                     }
 
@@ -130,8 +130,9 @@ class ShoppingViewModel(
             val dataStr = json.encodeToString(mEntries)
             if(previous == dataStr) return@wrapRequest
 
-            // remove all items that are not checked (checked items are removed server-side)
-            entries.removeIf { !it.checked }
+            // keep all checked items (checked items are removed server-side)
+            // also keep all destroyed items (avoids items "staying" after deletion)
+            entries.removeIf { !it.checked && !it._destroyed }
 
             // prevent duplicate adds
             val addedIds = mutableListOf<Int>()
