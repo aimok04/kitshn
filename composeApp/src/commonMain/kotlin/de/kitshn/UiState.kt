@@ -31,6 +31,8 @@ class UiStateLink<T> {
 
 class UiStateModel : ViewModel() {
 
+    var blockUI by mutableStateOf(false)
+
     var isInForeground by mutableStateOf(false)
 
     var importRecipeUrl = UiStateLink<String>()

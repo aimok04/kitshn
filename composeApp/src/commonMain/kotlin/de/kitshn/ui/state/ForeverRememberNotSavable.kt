@@ -48,3 +48,7 @@ fun <T> foreverRememberNotSavable(
     }
     return mutableState
 }
+
+fun clearForeverRememberNotSavable() {
+    SaveMap.clear()
+}

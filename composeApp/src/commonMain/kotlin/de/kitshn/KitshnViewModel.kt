@@ -12,6 +12,10 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.ui.route.RouteParameters
+import de.kitshn.ui.route.main.clearRememberAlternateNavController
+import de.kitshn.ui.state.clearForeverRememberMutableStateList
+import de.kitshn.ui.state.clearForeverRememberNotSavable
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -109,6 +113,21 @@ class KitshnViewModel(
 
         if(!mainSubNavHostController?.currentDestination?.route.equals(subRoute))
             mainSubNavHostController?.navigate(subRoute)
+    }
+
+    // reset app and cached/saved objects — used for example for changing spaces
+    fun refreshApp() {
+        viewModelScope.launch {
+            uiState.blockUI = true
+            delay(250)
+
+            clearForeverRememberNotSavable()
+            clearForeverRememberMutableStateList()
+            clearRememberAlternateNavController()
+
+            delay(250)
+            uiState.blockUI = false
+        }
     }
 
 }

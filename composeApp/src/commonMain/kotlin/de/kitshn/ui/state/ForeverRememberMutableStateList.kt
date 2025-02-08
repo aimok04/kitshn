@@ -42,3 +42,7 @@ fun <T> foreverRememberMutableStateList(
     }
     return mutableState
 }
+
+fun clearForeverRememberMutableStateList() {
+    SaveMap.clear()
+}

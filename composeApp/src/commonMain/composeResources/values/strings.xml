@@ -79,6 +79,7 @@
     <string name="action_start_cooking">Start cooking mode</string>
     <string name="action_start_shopping_mode">Start shopping mode</string>
     <string name="action_support">Support</string>
+    <string name="action_switch_space">Switch space</string>
     <string name="action_upload">Upload</string>
     <string name="action_yes">Yes</string>
 

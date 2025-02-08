@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import de.kitshn.Platforms
 import de.kitshn.platformDetails
 import de.kitshn.ui.component.AutoFetchingFundingBanner
+import de.kitshn.ui.component.model.SpaceSwitchIconButton
 import de.kitshn.ui.component.text.DynamicGreetingTitle
 import de.kitshn.ui.dialog.recipe.RecipeImportDialog
 import de.kitshn.ui.dialog.recipe.creationandedit.RecipeCreationAndEditDialog
@@ -102,6 +103,13 @@ fun RouteMainSubrouteHome(
                                 DynamicGreetingTitle()
                             },
                             actions = {
+                                SpaceSwitchIconButton(
+                                    client = p.vm.tandoorClient,
+                                    onRefresh = {
+                                        p.vm.refreshApp()
+                                    }
+                                )
+
                                 IconButton(onClick = {
                                     homeSearchState.open()
                                 }) {

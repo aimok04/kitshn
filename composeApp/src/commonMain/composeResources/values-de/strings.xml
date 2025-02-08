@@ -79,6 +79,7 @@
     <string name="action_start_cooking">Kochmodus starten</string>
     <string name="action_start_shopping_mode">Einkaufsmodus starten</string>
     <string name="action_support">Support</string>
+    <string name="action_switch_space">Space wechseln</string>
     <string name="action_upload">Hochladen</string>
     <string name="action_yes">Ja</string>
 

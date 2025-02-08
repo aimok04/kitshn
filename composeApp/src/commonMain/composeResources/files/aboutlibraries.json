@@ -2847,6 +2847,90 @@
       ]
     },
     {
+      "uniqueId": "co.touchlab:stately-concurrency",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Kevin Galligan"
+        }
+      ],
+      "artifactVersion": "2.1.0",
+      "description": "Multithreaded Kotlin Multiplatform Utilities",
+      "scm": {
+        "connection": "scm:git:git://github.com/touchlab/Stately.git",
+        "url": "https://github.com/touchlab/Stately",
+        "developerConnection": "scm:git:git://github.com/touchlab/Stately.git"
+      },
+      "name": "Stately",
+      "website": "https://github.com/touchlab/Stately",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "co.touchlab:stately-concurrency-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Kevin Galligan"
+        }
+      ],
+      "artifactVersion": "2.1.0",
+      "description": "Multithreaded Kotlin Multiplatform Utilities",
+      "scm": {
+        "connection": "scm:git:git://github.com/touchlab/Stately.git",
+        "url": "https://github.com/touchlab/Stately",
+        "developerConnection": "scm:git:git://github.com/touchlab/Stately.git"
+      },
+      "name": "Stately",
+      "website": "https://github.com/touchlab/Stately",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "co.touchlab:stately-strict",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Kevin Galligan"
+        }
+      ],
+      "artifactVersion": "2.1.0",
+      "description": "Multithreaded Kotlin Multiplatform Utilities",
+      "scm": {
+        "connection": "scm:git:git://github.com/touchlab/Stately.git",
+        "url": "https://github.com/touchlab/Stately",
+        "developerConnection": "scm:git:git://github.com/touchlab/Stately.git"
+      },
+      "name": "Stately",
+      "website": "https://github.com/touchlab/Stately",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "co.touchlab:stately-strict-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Kevin Galligan"
+        }
+      ],
+      "artifactVersion": "2.1.0",
+      "description": "Multithreaded Kotlin Multiplatform Utilities",
+      "scm": {
+        "connection": "scm:git:git://github.com/touchlab/Stately.git",
+        "url": "https://github.com/touchlab/Stately",
+        "developerConnection": "scm:git:git://github.com/touchlab/Stately.git"
+      },
+      "name": "Stately",
+      "website": "https://github.com/touchlab/Stately",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "com.eygraber:compose-placeholder",
       "funding": [],
       "developers": [
@@ -3031,6 +3115,186 @@
       },
       "name": "Uri KMP",
       "website": "https://github.com/eygraber/uri-kmp/",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.fleeksoft.charset:charset",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Sabeeh Ul Hussnain Anjum"
+        }
+      ],
+      "artifactVersion": "0.0.3",
+      "description": "Kotlin Multiplatform Charsets",
+      "scm": {
+        "connection": "https://github.com/fleeksoft/charset.git",
+        "url": "https://github.com/fleeksoft/charset"
+      },
+      "name": "charset",
+      "website": "https://github.com/fleeksoft/charset",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.fleeksoft.charset:charset-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Sabeeh Ul Hussnain Anjum"
+        }
+      ],
+      "artifactVersion": "0.0.3",
+      "description": "Kotlin Multiplatform Charsets",
+      "scm": {
+        "connection": "https://github.com/fleeksoft/charset.git",
+        "url": "https://github.com/fleeksoft/charset"
+      },
+      "name": "charset",
+      "website": "https://github.com/fleeksoft/charset",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.fleeksoft.charset:charset-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Sabeeh Ul Hussnain Anjum"
+        }
+      ],
+      "artifactVersion": "0.0.3",
+      "description": "Kotlin Multiplatform Charsets",
+      "scm": {
+        "connection": "https://github.com/fleeksoft/charset.git",
+        "url": "https://github.com/fleeksoft/charset"
+      },
+      "name": "charset",
+      "website": "https://github.com/fleeksoft/charset",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.fleeksoft.io:io-core",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Sabeeh Ul Hussnain Anjum"
+        }
+      ],
+      "artifactVersion": "0.0.3",
+      "description": "Kotlin Multiplatform IO",
+      "scm": {
+        "connection": "https://github.com/fleeksoft/fleeksoft-io.git",
+        "url": "https://github.com/fleeksoft/fleeksoft-io"
+      },
+      "name": "io-core",
+      "website": "https://github.com/fleeksoft/fleeksoft-io",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.fleeksoft.io:io-core-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Sabeeh Ul Hussnain Anjum"
+        }
+      ],
+      "artifactVersion": "0.0.3",
+      "description": "Kotlin Multiplatform IO",
+      "scm": {
+        "connection": "https://github.com/fleeksoft/fleeksoft-io.git",
+        "url": "https://github.com/fleeksoft/fleeksoft-io"
+      },
+      "name": "io-core",
+      "website": "https://github.com/fleeksoft/fleeksoft-io",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.fleeksoft.io:io-core-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Sabeeh Ul Hussnain Anjum"
+        }
+      ],
+      "artifactVersion": "0.0.3",
+      "description": "Kotlin Multiplatform IO",
+      "scm": {
+        "connection": "https://github.com/fleeksoft/fleeksoft-io.git",
+        "url": "https://github.com/fleeksoft/fleeksoft-io"
+      },
+      "name": "io-core",
+      "website": "https://github.com/fleeksoft/fleeksoft-io",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.fleeksoft.ksoup:ksoup",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Sabeeh Ul Hussnain Anjum"
+        }
+      ],
+      "artifactVersion": "0.2.2",
+      "description": "Ksoup is a Kotlin Multiplatform library for working with HTML and XML, and offers an easy-to-use API for URL fetching, data parsing, extraction, and manipulation using DOM and CSS selectors.",
+      "scm": {
+        "connection": "https://github.com/fleeksoft/ksoup.git",
+        "url": "https://github.com/fleeksoft/ksoup"
+      },
+      "name": "ksoup",
+      "website": "https://github.com/fleeksoft/ksoup",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.fleeksoft.ksoup:ksoup-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Sabeeh Ul Hussnain Anjum"
+        }
+      ],
+      "artifactVersion": "0.2.2",
+      "description": "Ksoup is a Kotlin Multiplatform library for working with HTML and XML, and offers an easy-to-use API for URL fetching, data parsing, extraction, and manipulation using DOM and CSS selectors.",
+      "scm": {
+        "connection": "https://github.com/fleeksoft/ksoup.git",
+        "url": "https://github.com/fleeksoft/ksoup"
+      },
+      "name": "ksoup",
+      "website": "https://github.com/fleeksoft/ksoup",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.fleeksoft.ksoup:ksoup-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Sabeeh Ul Hussnain Anjum"
+        }
+      ],
+      "artifactVersion": "0.2.2",
+      "description": "Ksoup is a Kotlin Multiplatform library for working with HTML and XML, and offers an easy-to-use API for URL fetching, data parsing, extraction, and manipulation using DOM and CSS selectors.",
+      "scm": {
+        "connection": "https://github.com/fleeksoft/ksoup.git",
+        "url": "https://github.com/fleeksoft/ksoup"
+      },
+      "name": "ksoup",
+      "website": "https://github.com/fleeksoft/ksoup",
       "licenses": [
         "Apache-2.0"
       ]
@@ -7538,7 +7802,7 @@
           "name": "Kotlin Team"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "2.1.10",
       "description": "Kotlin Standard Library",
       "scm": {
         "connection": "scm:git:https://github.com/JetBrains/kotlin.git",

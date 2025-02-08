@@ -1,5 +1,7 @@
 package de.kitshn
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -10,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.ui.route.navigation.PrimaryNavigation
@@ -54,14 +57,20 @@ internal fun App(
     val systemTheme = vm.settings.getEnableSystemTheme.collectAsState(initial = true)
     val darkMode = vm.settings.getEnableDarkTheme.collectAsState(initial = true)
 
+    val alphaAnim = Animatable(1f)
+    LaunchedEffect(vm.uiState.blockUI) {
+        alphaAnim.animateTo(if(vm.uiState.blockUI) 0f else 1f, tween(200))
+    }
+
     KitshnTheme(
         darkTheme = if(systemTheme.value) isSystemInDarkTheme() else darkMode.value,
         dynamicColor = isDynamicColorSupported() && dynamicColor.value
     ) {
         Surface(
             Modifier.fillMaxSize()
+                .alpha(alphaAnim.value)
         ) {
-            PrimaryNavigation(vm = vm)
+            if(alphaAnim.value > 0f) PrimaryNavigation(vm = vm)
         }
     }
 

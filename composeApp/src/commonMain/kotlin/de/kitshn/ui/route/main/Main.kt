@@ -101,3 +101,5 @@ fun RouteMain(p: RouteParameters) {
 // alternate saving method because multiple rememberNavController() cause problem at jvmMain and iosMain
 @Composable
 expect fun rememberAlternateNavController(): NavHostController
+
+expect fun clearRememberAlternateNavController()

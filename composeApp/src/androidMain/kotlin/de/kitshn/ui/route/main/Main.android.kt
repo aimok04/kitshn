@@ -8,3 +8,5 @@ import androidx.navigation.compose.rememberNavController
 actual fun rememberAlternateNavController(): NavHostController {
     return rememberNavController()
 }
+
+actual fun clearRememberAlternateNavController() {}

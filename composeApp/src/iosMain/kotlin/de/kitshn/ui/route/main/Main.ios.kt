@@ -33,6 +33,10 @@ actual fun rememberAlternateNavController(): NavHostController {
     return navController
 }
 
+actual fun clearRememberAlternateNavController() {
+    SaveObj = null
+}
+
 private fun createNavController() =
     NavHostController().apply {
         navigatorProvider.addNavigator(ComposeNavGraphNavigator(navigatorProvider))

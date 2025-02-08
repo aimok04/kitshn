@@ -92,6 +92,7 @@ kotlin {
             implementation(libs.androidx.navigation.composee)
 
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ksoup)
 
             implementation(libs.coil)
             implementation(libs.coil.network.ktor)
