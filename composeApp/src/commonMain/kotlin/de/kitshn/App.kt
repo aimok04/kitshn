@@ -23,8 +23,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalDensity
+import coil3.compose.LocalPlatformContext
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
+import de.kitshn.cache.ShoppingListEntriesCache
 import de.kitshn.ui.route.navigation.PrimaryNavigation
 import de.kitshn.ui.theme.KitshnTheme
 import de.kitshn.ui.theme.isDynamicColorSupported
@@ -117,5 +119,17 @@ internal fun App(
             delay(8000)
             vm.connectivityCheck()
         }
+    }
+
+    // purge shopping list cache
+    if(vm.tandoorClient == null) return
+
+    val platformContext = LocalPlatformContext.current
+    val shoppingListEntriesCache = remember {
+        ShoppingListEntriesCache(platformContext, vm.tandoorClient!!)
+    }
+
+    LaunchedEffect(Unit) {
+        shoppingListEntriesCache.purgeCache()
     }
 }

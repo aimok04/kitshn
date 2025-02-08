@@ -26,6 +26,17 @@ class ShoppingListEntriesCache(
             json.decodeFromString<List<TandoorShoppingListEntry>>(it)
         }
 
+    // delete items with _destroyed or _checked set to true
+    fun purgeCache() {
+        val items = retrieve() ?: return
+        update(
+            items.filterNot {
+                (it.destroyed || it._destroyed)
+                        || (it.checked || it._checked)
+            }
+        )
+    }
+
     fun setOfflineAction(entryId: Int, action: ShoppingListEntryOfflineActions) {
         settings.putString("offlineAction_${entryId}", json.encodeToString(action))
     }
