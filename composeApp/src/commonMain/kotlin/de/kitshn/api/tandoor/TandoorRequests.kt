@@ -3,6 +3,7 @@ package de.kitshn.api.tandoor
 import co.touchlab.kermit.Logger
 import de.kitshn.json
 import de.kitshn.redactForRelease
+import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.forms.FormBuilder
 import io.ktor.client.request.forms.MultiPartFormDataContent
@@ -35,7 +36,8 @@ suspend fun TandoorClient.reqAny(
     _method: HttpMethod,
     data: Any? = null,
     contentType: ContentType? = null,
-    custom: HttpRequestBuilder.() -> Unit = { }
+    custom: HttpRequestBuilder.() -> Unit = { },
+    customHttpClient: HttpClient? = null
 ): HttpResponse {
     try {
         val token = this.credentials.token
@@ -49,7 +51,7 @@ suspend fun TandoorClient.reqAny(
             "${credentials.instanceUrl}/api${endpoint}"
         }
 
-        val response = httpClient.request {
+        val response = (customHttpClient ?: httpClient).request {
             url(url)
             method = _method
             headers {

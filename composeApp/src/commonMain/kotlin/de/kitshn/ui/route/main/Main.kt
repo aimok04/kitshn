@@ -36,13 +36,14 @@ import org.jetbrains.compose.resources.stringResource
 enum class AppDestinations(
     val label: StringResource,
     val icon: ImageVector,
-    val route: String
+    val route: String,
+    val offlineReady: Boolean
 ) {
-    HOME(Res.string.navigation_home, Icons.Default.Home, "home"),
-    MEAL_PLAN(Res.string.navigation_meal_plan, Icons.Default.CalendarMonth, "mealplan"),
-    SHOPPING(Res.string.navigation_shopping, Icons.Default.ShoppingCart, "shopping"),
-    BOOKS(Res.string.navigation_books, Icons.Default.Book, "books"),
-    SETTINGS(Res.string.navigation_settings, Icons.Default.Settings, "settings"),
+    HOME(Res.string.navigation_home, Icons.Default.Home, "home", false),
+    MEAL_PLAN(Res.string.navigation_meal_plan, Icons.Default.CalendarMonth, "mealplan", false),
+    SHOPPING(Res.string.navigation_shopping, Icons.Default.ShoppingCart, "shopping", true),
+    BOOKS(Res.string.navigation_books, Icons.Default.Book, "books", false),
+    SETTINGS(Res.string.navigation_settings, Icons.Default.Settings, "settings", true),
 }
 
 @Composable
@@ -62,12 +63,17 @@ fun RouteMain(p: RouteParameters) {
         }
     }
 
+    val isOffline = p.vm.uiState.offlineState.isOffline
+
     NavigationSuiteScaffold(
         navigationSuiteColors = NavigationSuiteDefaults.colors(
             navigationRailContainerColor = MaterialTheme.colorScheme.surfaceContainerHighest
         ),
         navigationSuiteItems = {
             AppDestinations.entries.forEach {
+                // don't display when in offline mode and destination isn't offline ready
+                if(isOffline && !it.offlineReady) return@forEach
+
                 item(
                     icon = {
                         Icon(

@@ -2,8 +2,15 @@ package de.kitshn
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -13,11 +20,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalDensity
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.ui.route.navigation.PrimaryNavigation
 import de.kitshn.ui.theme.KitshnTheme
 import de.kitshn.ui.theme.isDynamicColorSupported
+import kotlinx.coroutines.delay
 
 private val SavedTandoorClient = mutableStateOf<TandoorClient?>(null)
 
@@ -46,6 +55,8 @@ internal fun App(
         ).also { onVmCreated(it) }
     }
 
+    val density = LocalDensity.current
+
     DisposableEffect(key1 = Unit) {
         onDispose {
             SavedTandoorClient.value = vm.tandoorClient
@@ -71,10 +82,27 @@ internal fun App(
                 .alpha(alphaAnim.value)
         ) {
             if(alphaAnim.value > 0f) PrimaryNavigation(vm = vm)
+
+            Box {
+                // display offline bar
+                if(vm.uiState.offlineState.isOffline) Box(
+                    modifier = Modifier
+                        .height(with(density) {
+                            WindowInsets.statusBars.getTop(density).toDp()
+                        })
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.errorContainer)
+                )
+            }
         }
     }
 
     LaunchedEffect(Unit) {
         vm.init()
+
+        while(true) {
+            delay(10000)
+            vm.connectivityCheck()
+        }
     }
 }

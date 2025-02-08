@@ -9,6 +9,10 @@ import androidx.lifecycle.ViewModel
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRowState
 
+class AppOfflineState {
+    var isOffline by mutableStateOf(false)
+}
+
 class UiStateLink<T> {
 
     private var value by mutableStateOf<T?>(null)
@@ -34,6 +38,8 @@ class UiStateModel : ViewModel() {
     var blockUI by mutableStateOf(false)
 
     var isInForeground by mutableStateOf(false)
+
+    var offlineState = AppOfflineState()
 
     var importRecipeUrl = UiStateLink<String>()
     var searchKeyword = UiStateLink<Int>()

@@ -11,13 +11,19 @@ import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorRequestsError
+import de.kitshn.api.tandoor.reqAny
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.route.main.clearRememberAlternateNavController
 import de.kitshn.ui.state.clearForeverRememberMutableStateList
 import de.kitshn.ui.state.clearForeverRememberNotSavable
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.serialization.SerializationException
 
 class KitshnViewModel(
     defaultTandoorClient: TandoorClient? = null,
@@ -84,6 +90,8 @@ class KitshnViewModel(
             if(tandoorClient == null) tandoorClient = TandoorClient(credentials)
             favorites.init(tandoorClient!!)
 
+            connectivityCheck()
+
             try {
                 tandoorClient!!.openapi.get()
             } catch(e: TandoorRequestsError) {
@@ -127,6 +135,34 @@ class KitshnViewModel(
 
             delay(250)
             uiState.blockUI = false
+        }
+    }
+
+    // enable offline state when having connectivity issues
+    fun connectivityCheck() {
+        if(tandoorClient == null) return
+
+        viewModelScope.launch {
+            var isOffline = true
+
+            try {
+                val response = tandoorClient!!.reqAny(
+                    endpoint = "/",
+                    _method = HttpMethod.Get,
+                    customHttpClient = HttpClient {
+                        install(HttpTimeout) {
+                            requestTimeoutMillis = 5000
+                        }
+                    }
+                )
+
+                if(response.status == HttpStatusCode.OK)
+                    isOffline = false
+            } catch(_: TandoorRequestsError) {
+            } catch(_: SerializationException) {
+            }
+
+            uiState.offlineState.isOffline = isOffline
         }
     }
 
