@@ -166,7 +166,7 @@ class KitshnViewModel(
                     _method = HttpMethod.Get,
                     customHttpClient = HttpClient {
                         install(HttpTimeout) {
-                            requestTimeoutMillis = 5000
+                            requestTimeoutMillis = 7000
                         }
                     }
                 )
