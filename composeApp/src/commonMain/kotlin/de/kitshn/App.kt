@@ -114,7 +114,7 @@ internal fun App(
         vm.init()
 
         while(true) {
-            delay(10000)
+            delay(8000)
             vm.connectivityCheck()
         }
     }

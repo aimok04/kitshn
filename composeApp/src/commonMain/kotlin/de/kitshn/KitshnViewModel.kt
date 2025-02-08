@@ -23,6 +23,7 @@ import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import kotlinx.serialization.SerializationException
 
 class KitshnViewModel(
@@ -65,11 +66,15 @@ class KitshnViewModel(
         }
     }
 
-    var initComplete = false
+    private var initTime = 0L
+    private var initComplete = false
 
     fun init() {
         if(initComplete) return
         initComplete = true
+
+        initTime = Clock.System.now()
+            .toEpochMilliseconds()
 
         viewModelScope.launch {
             if(settings.getFirstRunTime.first() == -1L)
@@ -166,7 +171,7 @@ class KitshnViewModel(
                     _method = HttpMethod.Get,
                     customHttpClient = HttpClient {
                         install(HttpTimeout) {
-                            requestTimeoutMillis = 7000
+                            requestTimeoutMillis = 2000
                         }
                     }
                 )
@@ -177,7 +182,41 @@ class KitshnViewModel(
             } catch(_: SerializationException) {
             }
 
-            uiState.offlineState.isOffline = isOffline
+            if(isOffline) {
+                isOffline = true
+
+                try {
+                    val response = tandoorClient!!.reqAny(
+                        endpoint = "/",
+                        _method = HttpMethod.Get,
+                        customHttpClient = HttpClient {
+                            install(HttpTimeout) {
+                                requestTimeoutMillis = 5000
+                            }
+                        }
+                    )
+
+                    if(response.status == HttpStatusCode.OK)
+                        isOffline = false
+                } catch(_: TandoorRequestsError) {
+                } catch(_: SerializationException) {
+                }
+
+                if(isOffline) {
+                    uiState.offlineState.isOffline = true
+
+                    // automatically switch to shopping page if offline
+                    if((Clock.System.now().toEpochMilliseconds() - initTime) < 8000) {
+                        if(navHostController?.currentDestination?.route != "main") return@launch
+                        if(mainSubNavHostController?.currentDestination?.route != "home") return@launch
+                        mainSubNavHostController?.navigate("shopping")
+                    }
+                } else {
+                    uiState.offlineState.isOffline = false
+                }
+            } else {
+                uiState.offlineState.isOffline = false
+            }
         }
     }
 

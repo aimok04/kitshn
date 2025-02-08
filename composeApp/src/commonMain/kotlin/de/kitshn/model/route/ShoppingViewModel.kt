@@ -76,8 +76,8 @@ class ShoppingViewModel(
 
         // display cached items after waiting 3 seconds
         viewModelScope.launch {
-            delay(3000)
-            if(entries.isEmpty()) return@launch
+            if(!p.vm.uiState.offlineState.isOffline)
+                delay(3000)
 
             renderItems()
             loaded = true
