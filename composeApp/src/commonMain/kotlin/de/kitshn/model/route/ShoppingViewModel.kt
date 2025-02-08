@@ -104,6 +104,9 @@ class ShoppingViewModel(
         if(p.vm.uiState.offlineState.isOffline) return
 
         shoppingListEntriesFetchRequest.wrapRequest {
+            // improve loading UI and progress bar
+            delay(500)
+
             // process offline actions
             val offlineActions = cache.retrieveOfflineActions()
             offlineActions.forEach {
