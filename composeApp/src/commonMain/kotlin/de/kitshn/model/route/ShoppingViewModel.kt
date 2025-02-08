@@ -79,7 +79,7 @@ class ShoppingViewModel(
             delay(3000)
             if(entries.isEmpty()) return@launch
 
-            renderItems(delay = false)
+            renderItems()
             loaded = true
         }
     }
@@ -147,16 +147,12 @@ class ShoppingViewModel(
             // cache entries for offline use
             cache.update(entries)
 
-            renderItems(delay = false)
+            renderItems()
             loaded = true
         }
     }
 
-    suspend fun renderItems(
-        delay: Boolean = true
-    ) {
-        if(delay) delay(100)
-
+    suspend fun renderItems() {
         items.clear()
         if(entries.isEmpty()) return
 
