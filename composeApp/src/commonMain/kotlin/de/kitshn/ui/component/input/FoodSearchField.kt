@@ -1,8 +1,5 @@
 package de.kitshn.ui.component.input
 
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenuItem
@@ -29,12 +26,10 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
-import de.kitshn.Platforms
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.rememberTandoorRequestState
-import de.kitshn.platformDetails
 import de.kitshn.ui.TandoorRequestErrorHandler
 import kotlinx.coroutines.delay
 
@@ -76,8 +71,6 @@ fun BaseFoodSearchField(
                 ).results.let {
                     foodList.clear()
                     foodList.addAll(it)
-
-                    if (platformDetails.platform == Platforms.ANDROID) isExpanded = true
                 }
             }
         }
@@ -101,11 +94,6 @@ fun BaseFoodSearchField(
         }
 
         if(foodList.size > 0) ExposedDropdownMenu(
-            modifier = if (platformDetails.platform == Platforms.ANDROID) {
-                Modifier.windowInsetsBottomHeight(WindowInsets.ime)
-            } else {
-                Modifier
-            },
             expanded = isExpanded,
             onDismissRequest = {
                 isExpanded = false

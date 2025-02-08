@@ -49,7 +49,6 @@ import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.component.input.FoodSearchField
 import de.kitshn.ui.component.input.NumberField
 import de.kitshn.ui.component.input.UnitSearchField
-import de.kitshn.ui.modifier.hideOnAndroid
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_add_to_shopping
 import kitshn.composeapp.generated.resources.action_create
@@ -204,7 +203,6 @@ fun ShoppingListEntryAddBottomSheet(
             Spacer(Modifier.height(8.dp))
 
             Row(
-                modifier = Modifier.hideOnAndroid(isFoodInputFocused),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 NumberField(
