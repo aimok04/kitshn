@@ -141,6 +141,7 @@ class KitshnViewModel(
     // enable offline state when having connectivity issues
     fun connectivityCheck() {
         if(tandoorClient == null) return
+        if(!uiState.isInForeground) return
 
         viewModelScope.launch {
             var isOffline = true

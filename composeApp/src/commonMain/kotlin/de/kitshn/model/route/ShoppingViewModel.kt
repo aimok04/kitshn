@@ -92,6 +92,9 @@ class ShoppingViewModel(
         // don't update if offline
         if(p.vm.uiState.offlineState.isOffline) return
 
+        // don't update when app is in background
+        if(!p.vm.uiState.isInForeground) return
+
         shoppingListEntriesFetchRequest.wrapRequest {
             // improve loading UI and progress bar
             delay(500)
