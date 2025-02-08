@@ -28,7 +28,7 @@ class TandoorShoppingListEntry(
     val amount: Double,
     val order: Long,
     @SerialName("checked")
-    val _checked: Boolean,
+    var _checked: Boolean,
     val created_by: TandoorShoppingListEntryCreatedBy,
     val recipe_mealplan: TandoorShoppingListEntryRecipeMealplan? = null,
     /*val created_at: String,
@@ -41,8 +41,9 @@ class TandoorShoppingListEntry(
 
     var checked by mutableStateOf(_checked)
 
+    var destroyed = false
     @Transient
-    var _destroyed = false
+    var _destroyed = destroyed
 
     suspend fun check() {
         client!!.shopping.check(setOf(id))

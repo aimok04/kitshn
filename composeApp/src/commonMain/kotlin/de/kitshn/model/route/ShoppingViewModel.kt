@@ -391,8 +391,15 @@ class ShoppingViewModel(
             cache.setOfflineAction(it.id, action)
 
             when(action) {
-                ShoppingListEntryOfflineActions.CHECK -> it.checked = true
-                ShoppingListEntryOfflineActions.DELETE -> it._destroyed = true
+                ShoppingListEntryOfflineActions.CHECK -> {
+                    it.checked = true
+                    it._checked = true
+                }
+
+                ShoppingListEntryOfflineActions.DELETE -> {
+                    it.destroyed = true
+                    it._destroyed = true
+                }
             }
         }
 
