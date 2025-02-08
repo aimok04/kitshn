@@ -163,8 +163,8 @@ fun RouteMainSubrouteShopping(
                                 entriesCheckRequestState.wrapRequest {
                                     selectionModeState.selectedItems
                                         .flatMap { id -> vm.entries.filter { it.food.id == id } }
-                                        .forEach {
-                                            it.check()
+                                        .let {
+                                            client!!.shopping.check(it)
                                         }
 
                                     vm.renderItems()
@@ -186,8 +186,8 @@ fun RouteMainSubrouteShopping(
                                 entriesDeleteRequestState.wrapRequest {
                                     selectionModeState.selectedItems
                                         .flatMap { id -> vm.entries.filter { it.food.id == id } }
-                                        .forEach {
-                                            it.delete()
+                                        .let {
+                                            client!!.shopping.delete(it)
                                         }
 
                                     vm.renderItems()

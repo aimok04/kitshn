@@ -62,6 +62,15 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         client.delete("/shopping-list-entry/${id}/")
     }
 
+    suspend fun delete(
+        entries: List<TandoorShoppingListEntry>
+    ) {
+        entries.forEach {
+            client.delete("/shopping-list-entry/${it.id}/")
+            it._destroyed = true
+        }
+    }
+
     suspend fun fetch(): List<TandoorShoppingListEntry> {
         val response = json.decodeFromString<List<TandoorShoppingListEntry>>(
             client.getArray("/shopping-list-entry/").toString()
