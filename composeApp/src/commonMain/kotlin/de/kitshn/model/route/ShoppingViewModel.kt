@@ -21,6 +21,7 @@ import de.kitshn.ui.component.shopping.chips.GroupingOptions
 import de.kitshn.ui.route.RouteParameters
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_ungrouped
+import kitshn.composeapp.generated.resources.shopping_list_items_done
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
@@ -202,7 +203,7 @@ class ShoppingViewModel(
                     items.add(
                         GroupHeaderShoppingListItemModel(
                             id = Int.MAX_VALUE,
-                            label = "Done"
+                            label = getString(Res.string.shopping_list_items_done)
                         )
                     )
 
@@ -250,7 +251,7 @@ class ShoppingViewModel(
                             items.add(
                                 GroupHeaderShoppingListItemModel(
                                     id = it.key,
-                                    label = "Done"
+                                    label = getString(Res.string.shopping_list_items_done)
                                 )
                             )
 
@@ -297,7 +298,7 @@ class ShoppingViewModel(
                             items.add(
                                 GroupHeaderShoppingListItemModel(
                                     id = it.key,
-                                    label = "Done"
+                                    label = getString(Res.string.shopping_list_items_done)
                                 )
                             )
 
@@ -343,7 +344,7 @@ class ShoppingViewModel(
                             items.add(
                                 GroupHeaderShoppingListItemModel(
                                     id = it.key,
-                                    label = "Done"
+                                    label = getString(Res.string.shopping_list_items_done)
                                 )
                             )
 

@@ -365,6 +365,7 @@
     <string name="share_wrapper_dialog_title">Share-Wrapper nutzen?</string>
 
     <string name="shopping_list_empty">Es gibt im Moment keine Einträge auf der Einkaufsliste.</string>
+    <string name="shopping_list_items_done">Erledigt</string>
 
     <string name="shortcuts_new_instance_label_long">Neue Instanz öffnen</string>
     <string name="shortcuts_new_instance_label_short">Neue Instanz</string>

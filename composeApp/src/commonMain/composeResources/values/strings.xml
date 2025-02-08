@@ -365,6 +365,7 @@
     <string name="share_wrapper_dialog_title">Use share wrapper?</string>
 
     <string name="shopping_list_empty">There are currently no items on the shopping list.</string>
+    <string name="shopping_list_items_done">Done</string>
 
     <string name="shortcuts_new_instance_label_long">Create new instance</string>
     <string name="shortcuts_new_instance_label_short">New instance</string>
