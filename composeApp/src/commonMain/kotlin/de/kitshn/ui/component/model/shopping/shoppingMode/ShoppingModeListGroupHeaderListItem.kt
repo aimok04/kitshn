@@ -38,14 +38,15 @@ fun ShoppingModeListGroupHeaderListItemPlaceholder(
         ),
         leadingContent = {
             Box(
-                Modifier.width(10.dp)
+                Modifier.padding(start = 2.dp)
+                    .width(5.dp)
                     .height(
                         with(density) {
                             24.sp.toDp()
                         }
                     )
+                    .clip(RoundedCornerShape(8.dp))
                     .background(MaterialTheme.colorScheme.primary)
-                    .clip(RoundedCornerShape(3.dp))
             )
         },
         headlineContent = {
