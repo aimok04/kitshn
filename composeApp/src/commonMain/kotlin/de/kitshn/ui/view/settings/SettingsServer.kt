@@ -117,14 +117,10 @@ fun ViewSettingsServer(
                     contentDescription = stringResource(Res.string.action_sign_out)
                 ) {
                     coroutineScope.launch {
-                        p.vm.settings.getOnboardingCompleted
+                        p.vm.settings.setOnboardingCompleted(false)
                         p.vm.settings.saveTandoorCredentials(null)
 
-                        p.vm.navHostController?.navigate("onboarding") {
-                            popUpTo("main") {
-                                inclusive = true
-                            }
-                        }
+                        p.vm.resetApp()
                     }
                 }
 

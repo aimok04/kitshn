@@ -138,6 +138,20 @@ class KitshnViewModel(
         }
     }
 
+    // also deletes current ViewModel
+    fun resetApp() {
+        viewModelScope.launch {
+            uiState.blockUI = true
+            delay(250)
+
+            clearForeverRememberNotSavable()
+            clearForeverRememberMutableStateList()
+            clearRememberAlternateNavController()
+
+            uiState.deleteViewModel = true
+        }
+    }
+
     // enable offline state when having connectivity issues
     fun connectivityCheck() {
         if(tandoorClient == null) return
