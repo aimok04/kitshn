@@ -63,8 +63,6 @@ class ShoppingViewModel(
     val entries = mutableStateListOf<TandoorShoppingListEntry>()
 
     val items = mutableStateListOf<ShoppingListItemModel>()
-    private var previous: String? = null
-
     val shoppingListEntriesFetchRequest = TandoorRequestState()
 
     var loaded by mutableStateOf(false)
