@@ -40,6 +40,8 @@ class TandoorShoppingListEntry(
     var client: TandoorClient? = null
 
     var checked by mutableStateOf(_checked)
+
+    @Transient
     var _destroyed = false
 
     suspend fun check() {

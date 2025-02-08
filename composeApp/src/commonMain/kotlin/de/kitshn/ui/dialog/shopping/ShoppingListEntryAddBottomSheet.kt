@@ -84,7 +84,6 @@ class ShoppingListEntryAddBottomSheetState(
 fun ShoppingListEntryAddBottomSheet(
     client: TandoorClient,
     state: ShoppingListEntryAddBottomSheetState,
-    onBlock: () -> Unit,
     onUpdate: (entry: TandoorShoppingListEntry) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -129,8 +128,6 @@ fun ShoppingListEntryAddBottomSheet(
     fun create() {
         coroutineScope.launch {
             addRequestState.wrapRequest {
-                onBlock()
-
                 val entry = client.shopping.add(amount?.toDouble(), food, unit)
                 onUpdate(entry)
 

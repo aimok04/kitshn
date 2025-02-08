@@ -69,11 +69,6 @@ class ShoppingViewModel(
 
     var loaded by mutableStateOf(false)
 
-    private var blockUI by mutableStateOf(false)
-    fun blockUI() {
-        blockUI = true
-    }
-
     init {
         // add cached items to entries list
         entries.addAll(
@@ -94,11 +89,6 @@ class ShoppingViewModel(
     suspend fun update() {
         while(client == null) {
             delay(50)
-        }
-
-        if(blockUI) {
-            blockUI = false
-            return
         }
 
         // don't update if offline
@@ -129,34 +119,35 @@ class ShoppingViewModel(
                 }
             }
 
-            val mEntries = client.shopping.fetch()
+            val oldEntriesMap = mutableMapOf<Int, TandoorShoppingListEntry>()
+            entries.forEach { oldEntriesMap[it.id] = it }
 
-            val dataStr = json.encodeToString(mEntries)
-            if(previous == dataStr) return@wrapRequest
+            // keep old items if JSON is matching
+            val newEntries = client.shopping.fetch().map {
+                if(!oldEntriesMap.containsKey(it.id)) {
+                    it
+                } else if(json.encodeToString(oldEntriesMap[it.id]) != json.encodeToString(it)) {
+                    it
+                } else {
+                    oldEntriesMap[it.id]!!
+                }
+            }
 
-            // keep all checked items (checked items are removed server-side)
-            // also keep all destroyed items (avoids items "staying" after deletion)
-            entries.removeIf { !it.checked && !it._destroyed }
+            // remove all unchecked items (checked items are removed server-side)
+            entries.removeIf { !it.checked }
 
             // prevent duplicate adds
             val addedIds = mutableListOf<Int>()
             addedIds.addAll(entries.map { it.id })
 
             // add all items
-            mEntries.forEach {
+            newEntries.forEach {
                 if(addedIds.contains(it.id)) return@forEach
                 entries.add(it)
             }
 
             // cache entries for offline use
             cache.update(entries)
-
-            if(blockUI) {
-                blockUI = false
-                return@wrapRequest
-            }
-
-            previous = dataStr
 
             renderItems(delay = false)
             loaded = true
@@ -171,14 +162,13 @@ class ShoppingViewModel(
         items.clear()
         if(entries.isEmpty()) return
 
-        entries.removeIf { it._destroyed }
-
         val supermarketCategoryIdToOrder =
             additionalShoppingSettingsChipRowState.supermarket?.category_to_supermarket?.associate {
                 Pair(it.category.id, it.order)
             }
 
-        val entries = this.entries.toMutableList()
+        val entries = this.entries.filterNot { it._destroyed }
+            .toMutableList()
 
         // filter out unavailable categories for supermarket
         if(supermarketCategoryIdToOrder != null) entries.removeIf {

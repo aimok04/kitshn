@@ -159,8 +159,6 @@ fun RouteMainSubrouteShopping(
                 actions = {
                     IconButton(
                         onClick = {
-                            vm.blockUI()
-
                             coroutineScope.launch {
                                 entriesCheckRequestState.wrapRequest {
                                     selectionModeState.selectedItems
@@ -169,6 +167,7 @@ fun RouteMainSubrouteShopping(
                                             it.check()
                                         }
 
+                                    vm.renderItems()
                                     selectionModeState.disable()
                                 }
                             }
@@ -183,8 +182,6 @@ fun RouteMainSubrouteShopping(
 
                     IconButton(
                         onClick = {
-                            vm.blockUI()
-
                             coroutineScope.launch {
                                 entriesDeleteRequestState.wrapRequest {
                                     selectionModeState.selectedItems
@@ -354,13 +351,10 @@ fun RouteMainSubrouteShopping(
         ShoppingListEntryAddBottomSheet(
             client = it,
             state = shoppingListEntryAddBottomSheetState,
-            onBlock = {
-                vm.blockUI()
-            },
             onUpdate = { entry ->
                 coroutineScope.launch {
                     vm.entries.add(entry)
-                    vm.update()
+                    vm.renderItems()
                 }
             }
         )
@@ -376,11 +370,10 @@ fun RouteMainSubrouteShopping(
                     return@ShoppingListEntryDetailsBottomSheet
                 }
 
-                vm.blockUI()
-
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
                         client.shopping.check(entries)
+                        vm.renderItems()
                         vm.update()
                     }
                 }
@@ -391,12 +384,10 @@ fun RouteMainSubrouteShopping(
                     return@ShoppingListEntryDetailsBottomSheet
                 }
 
-                vm.blockUI()
-
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
                         entries.forEach { entry -> entry.delete() }
-                        vm.update()
+                        vm.renderItems()
                     }
                 }
             },
@@ -404,7 +395,7 @@ fun RouteMainSubrouteShopping(
             onClickRecipe = { recipe -> recipeLinkDialogState.open(recipe.toOverview()) },
             onUpdate = {
                 coroutineScope.launch {
-                    vm.update()
+                    vm.renderItems()
                 }
             }
         )
