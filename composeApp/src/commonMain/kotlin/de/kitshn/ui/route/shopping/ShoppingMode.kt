@@ -29,16 +29,19 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil3.PlatformContext
+import coil3.compose.LocalPlatformContext
 import de.kitshn.KeepScreenOn
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.cache.ShoppingListEntriesCache
+import de.kitshn.cache.ShoppingListEntryOfflineActions
 import de.kitshn.model.route.GroupDividerShoppingListItemModel
 import de.kitshn.model.route.GroupHeaderShoppingListItemModel
 import de.kitshn.model.route.GroupedFoodShoppingListItemModel
 import de.kitshn.model.route.ShoppingViewModel
 import de.kitshn.ui.component.LoadingGradientWrapper
 import de.kitshn.ui.component.alert.FullSizeAlertPane
-import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.buttons.BackButtonType
 import de.kitshn.ui.component.model.shopping.shoppingMode.ShoppingModeListEntryListItem
@@ -58,9 +61,17 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun RouteShoppingMode(
     p: RouteParameters,
+    platformContext: PlatformContext = LocalPlatformContext.current,
+    cache: ShoppingListEntriesCache = remember {
+        ShoppingListEntriesCache(
+            platformContext, p.vm.tandoorClient!!
+        )
+    },
     vm: ShoppingViewModel = viewModel {
         ShoppingViewModel(
             p = p,
+            cache = cache,
+            additionalShoppingSettingsChipRowState = p.vm.uiState.additionalShoppingSettingsChipRowState,
             moveDoneToBottom = true
         )
     }
@@ -84,7 +95,7 @@ fun RouteShoppingMode(
         if(client == null) return@LaunchedEffect
 
         while(true) {
-            vm.update(additionalShoppingSettingsChipRowState)
+            vm.update()
             delay(5000)
         }
     }
@@ -96,7 +107,7 @@ fun RouteShoppingMode(
             return@LaunchedEffect
         }
 
-        vm.renderItems(additionalShoppingSettingsChipRowState)
+        vm.renderItems()
     }
 
     KeepScreenOn()
@@ -130,63 +141,65 @@ fun RouteShoppingMode(
                     )
             )
 
-            LoadingErrorAlertPaneWrapper(
-                loadingState = vm.shoppingListEntriesFetchRequest.state.toErrorLoadingSuccessState()
+            LoadingGradientWrapper(
+                loadingState = if(vm.loaded) ErrorLoadingSuccessState.SUCCESS else ErrorLoadingSuccessState.LOADING
             ) {
-                LoadingGradientWrapper(
-                    loadingState = if(vm.loaded) ErrorLoadingSuccessState.SUCCESS else ErrorLoadingSuccessState.LOADING
-                ) {
-                    if(vm.items.isEmpty() && vm.loaded) {
-                        FullSizeAlertPane(
-                            imageVector = Icons.Rounded.RemoveShoppingCart,
-                            contentDescription = stringResource(Res.string.shopping_list_empty),
-                            text = stringResource(Res.string.shopping_list_empty)
-                        )
-                    } else {
-                        LazyColumn(
-                            Modifier
-                                .fillMaxSize()
-                                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                        ) {
-                            if(!vm.loaded) {
-                                item { ShoppingModeListGroupHeaderListItemPlaceholder() }
-                                item { ShoppingModeListEntryListItemPlaceholder() }
-                                item { ShoppingModeListEntryListItemPlaceholder() }
-                                item { ShoppingModeListEntryListItemPlaceholder() }
-                                item { ShoppingModeListEntryListItemPlaceholder() }
-                                item { ShoppingModeListGroupHeaderListItemPlaceholder() }
-                                item { ShoppingModeListEntryListItemPlaceholder() }
-                                item { ShoppingModeListEntryListItemPlaceholder() }
-                                item { ShoppingModeListEntryListItemPlaceholder() }
-                            } else {
-                                items(vm.items.size, key = { vm.items[it].key }) {
-                                    when(val item = vm.items[it]) {
-                                        is GroupHeaderShoppingListItemModel -> {
-                                            ShoppingModeListGroupHeaderListItem(
-                                                label = { item.label }
-                                            )
-                                        }
+                if(vm.items.isEmpty() && vm.loaded) {
+                    FullSizeAlertPane(
+                        imageVector = Icons.Rounded.RemoveShoppingCart,
+                        contentDescription = stringResource(Res.string.shopping_list_empty),
+                        text = stringResource(Res.string.shopping_list_empty)
+                    )
+                } else {
+                    LazyColumn(
+                        Modifier
+                            .fillMaxSize()
+                            .nestedScroll(scrollBehavior.nestedScrollConnection)
+                    ) {
+                        if(!vm.loaded) {
+                            item { ShoppingModeListGroupHeaderListItemPlaceholder() }
+                            item { ShoppingModeListEntryListItemPlaceholder() }
+                            item { ShoppingModeListEntryListItemPlaceholder() }
+                            item { ShoppingModeListEntryListItemPlaceholder() }
+                            item { ShoppingModeListEntryListItemPlaceholder() }
+                            item { ShoppingModeListGroupHeaderListItemPlaceholder() }
+                            item { ShoppingModeListEntryListItemPlaceholder() }
+                            item { ShoppingModeListEntryListItemPlaceholder() }
+                            item { ShoppingModeListEntryListItemPlaceholder() }
+                        } else {
+                            items(vm.items.size, key = { vm.items[it].key }) {
+                                when(val item = vm.items[it]) {
+                                    is GroupHeaderShoppingListItemModel -> {
+                                        ShoppingModeListGroupHeaderListItem(
+                                            label = { item.label }
+                                        )
+                                    }
 
-                                        is GroupedFoodShoppingListItemModel -> {
-                                            ShoppingModeListEntryListItem(
-                                                food = item.food,
-                                                entries = item.entries,
-                                                showFractionalValues = ingredientsShowFractionalValues.value,
-                                                onClick = {
-                                                    coroutineScope.launch {
-                                                        entriesCheckRequestState.wrapRequest {
-                                                            item.entries.forEach { entry -> entry.check() }
-                                                            vm.renderItems(
-                                                                additionalShoppingSettingsChipRowState
-                                                            )
-                                                        }
+                                    is GroupedFoodShoppingListItemModel -> {
+                                        ShoppingModeListEntryListItem(
+                                            food = item.food,
+                                            entries = item.entries,
+                                            showFractionalValues = ingredientsShowFractionalValues.value,
+                                            onClick = {
+                                                if(p.vm.uiState.offlineState.isOffline) {
+                                                    vm.executeOfflineAction(
+                                                        item.entries,
+                                                        ShoppingListEntryOfflineActions.CHECK
+                                                    )
+                                                    return@ShoppingModeListEntryListItem
+                                                }
+
+                                                coroutineScope.launch {
+                                                    entriesCheckRequestState.wrapRequest {
+                                                        client!!.shopping.check(item.entries.map { entry -> entry.id })
+                                                        vm.renderItems()
                                                     }
                                                 }
-                                            )
-                                        }
-
-                                        is GroupDividerShoppingListItemModel -> {}
+                                            }
+                                        )
                                     }
+
+                                    is GroupDividerShoppingListItemModel -> {}
                                 }
                             }
                         }

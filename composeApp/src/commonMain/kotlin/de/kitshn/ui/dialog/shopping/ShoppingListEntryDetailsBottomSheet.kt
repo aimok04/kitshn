@@ -84,6 +84,7 @@ fun ShoppingListEntryDetailsBottomSheet(
     client: TandoorClient,
     showFractionalValues: Boolean,
     state: ShoppingListEntryDetailsBottomSheetState,
+    isOffline: Boolean,
     onCheck: (entries: List<TandoorShoppingListEntry>) -> Unit,
     onDelete: (entries: List<TandoorShoppingListEntry>) -> Unit,
     onClickMealplan: (mealplan: TandoorMealPlan) -> Unit,
@@ -211,62 +212,64 @@ fun ShoppingListEntryDetailsBottomSheet(
             }
         }
 
-        HorizontalDivider()
+        if(!isOffline) {
+            HorizontalDivider()
 
-        Box(
-            Modifier.padding(16.dp)
-        ) {
-            var changeSupermarketCategoryValue by remember { mutableStateOf(food.supermarket_category) }
-            CategorySearchField(
-                modifier = Modifier.fillMaxWidth(),
+            Box(
+                Modifier.padding(16.dp)
+            ) {
+                var changeSupermarketCategoryValue by remember { mutableStateOf(food.supermarket_category) }
+                CategorySearchField(
+                    modifier = Modifier.fillMaxWidth(),
 
-                client = client,
-                value = changeSupermarketCategoryValue,
+                    client = client,
+                    value = changeSupermarketCategoryValue,
 
-                leadingIcon = {
-                    Icon(
-                        Icons.Rounded.Category,
-                        stringResource(Res.string.common_category)
-                    )
-                },
-                label = { Text(text = stringResource(Res.string.common_category)) },
+                    leadingIcon = {
+                        Icon(
+                            Icons.Rounded.Category,
+                            stringResource(Res.string.common_category)
+                        )
+                    },
+                    label = { Text(text = stringResource(Res.string.common_category)) },
 
-                trailingIcon = {
-                    IconButton(
-                        onClick = {
-                            coroutineScope.launch {
-                                categoryChangeRequestState.wrapRequest {
-                                    changeSupermarketCategoryValue = null
-                                    food.updateSupermarketCategory(client, null)
+                    trailingIcon = {
+                        IconButton(
+                            onClick = {
+                                coroutineScope.launch {
+                                    categoryChangeRequestState.wrapRequest {
+                                        changeSupermarketCategoryValue = null
+                                        food.updateSupermarketCategory(client, null)
 
-                                    // update state after update
-                                    changeSupermarketCategoryValue = food.supermarket_category
-                                    onUpdate()
+                                        // update state after update
+                                        changeSupermarketCategoryValue = food.supermarket_category
+                                        onUpdate()
+                                    }
                                 }
                             }
+                        ) {
+                            IconWithState(
+                                imageVector = Icons.Rounded.Delete,
+                                contentDescription = stringResource(Res.string.action_delete),
+                                state = categoryChangeRequestState.state.toIconWithState()
+                            )
                         }
-                    ) {
-                        IconWithState(
-                            imageVector = Icons.Rounded.Delete,
-                            contentDescription = stringResource(Res.string.action_delete),
-                            state = categoryChangeRequestState.state.toIconWithState()
-                        )
-                    }
-                },
+                    },
 
-                onValueChange = {
-                    coroutineScope.launch {
-                        categoryChangeRequestState.wrapRequest {
-                            changeSupermarketCategoryValue = it
-                            food.updateSupermarketCategory(client, it)
+                    onValueChange = {
+                        coroutineScope.launch {
+                            categoryChangeRequestState.wrapRequest {
+                                changeSupermarketCategoryValue = it
+                                food.updateSupermarketCategory(client, it)
 
-                            // update state after update
-                            changeSupermarketCategoryValue = food.supermarket_category
-                            onUpdate()
+                                // update state after update
+                                changeSupermarketCategoryValue = food.supermarket_category
+                                onUpdate()
+                            }
                         }
                     }
-                }
-            )
+                )
+            }
         }
 
         if(recipeMealPlans.size > 0) {

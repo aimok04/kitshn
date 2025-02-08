@@ -6,10 +6,14 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import de.kitshn.api.tandoor.TandoorRequestState
+import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarketCategory
+import de.kitshn.cache.ShoppingListEntriesCache
+import de.kitshn.cache.ShoppingListEntryOfflineActions
 import de.kitshn.json
 import de.kitshn.removeIf
 import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRowState
@@ -18,6 +22,7 @@ import de.kitshn.ui.route.RouteParameters
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_ungrouped
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 
 open class ShoppingListItemModel(
@@ -47,6 +52,8 @@ class GroupDividerShoppingListItemModel(
 
 class ShoppingViewModel(
     val p: RouteParameters,
+    val additionalShoppingSettingsChipRowState: AdditionalShoppingSettingsChipRowState,
+    val cache: ShoppingListEntriesCache,
     val moveDoneToBottom: Boolean = false
 ) : ViewModel() {
 
@@ -61,14 +68,29 @@ class ShoppingViewModel(
 
     var loaded by mutableStateOf(false)
 
-    var blockUI by mutableStateOf(false)
+    private var blockUI by mutableStateOf(false)
     fun blockUI() {
         blockUI = true
     }
 
-    suspend fun update(
-        additionalShoppingSettingsChipRowState: AdditionalShoppingSettingsChipRowState
-    ) {
+    init {
+        // add cached items to entries list
+        entries.addAll(
+            cache.retrieve()
+                ?: listOf()
+        )
+
+        // display cached items after waiting 3 seconds
+        viewModelScope.launch {
+            delay(3000)
+            if(entries.isEmpty()) return@launch
+
+            renderItems(delay = false)
+            loaded = true
+        }
+    }
+
+    suspend fun update() {
         while(client == null) {
             delay(50)
         }
@@ -78,8 +100,35 @@ class ShoppingViewModel(
             return
         }
 
+        // don't update if offline
+        if(p.vm.uiState.offlineState.isOffline) return
+
         shoppingListEntriesFetchRequest.wrapRequest {
-            val items = client.shopping.fetch()
+            // process offline actions
+            val offlineActions = cache.retrieveOfflineActions()
+            offlineActions.forEach {
+                try {
+                    when(it.value) {
+                        ShoppingListEntryOfflineActions.CHECK -> client.shopping.check(listOf(it.key))
+                        ShoppingListEntryOfflineActions.DELETE -> client.shopping.delete(it.key)
+                    }
+
+                    // delete offline action on success
+                    cache.resetOfflineAction(it.key)
+                } catch(e: Throwable) {
+                    if(e is TandoorRequestsError) {
+                        if(e.response == null) return@forEach
+
+                        // delete offline action when server sent response
+                        cache.resetOfflineAction(it.key)
+                    }
+                }
+            }
+
+            val mEntries = client.shopping.fetch()
+
+            val dataStr = json.encodeToString(mEntries)
+            if(previous == dataStr) return@wrapRequest
 
             // remove all items that are not checked (checked items are removed server-side)
             entries.removeIf { !it.checked }
@@ -89,13 +138,13 @@ class ShoppingViewModel(
             addedIds.addAll(entries.map { it.id })
 
             // add all items
-            items.forEach {
+            mEntries.forEach {
                 if(addedIds.contains(it.id)) return@forEach
                 entries.add(it)
             }
 
-            val dataStr = json.encodeToString(items)
-            if(previous == dataStr) return@wrapRequest
+            // cache entries for offline use
+            cache.update(entries)
 
             if(blockUI) {
                 blockUI = false
@@ -104,16 +153,12 @@ class ShoppingViewModel(
 
             previous = dataStr
 
-            renderItems(
-                additionalShoppingSettingsChipRowState = additionalShoppingSettingsChipRowState,
-                delay = false
-            )
+            renderItems(delay = false)
             loaded = true
         }
     }
 
     suspend fun renderItems(
-        additionalShoppingSettingsChipRowState: AdditionalShoppingSettingsChipRowState,
         delay: Boolean = true
     ) {
         if(delay) delay(100)
@@ -344,6 +389,26 @@ class ShoppingViewModel(
                 groupId = groupId
             )
         )
+    }
+
+    fun executeOfflineAction(
+        entries: List<TandoorShoppingListEntry>,
+        action: ShoppingListEntryOfflineActions
+    ) {
+        entries.forEach {
+            cache.setOfflineAction(it.id, action)
+
+            when(action) {
+                ShoppingListEntryOfflineActions.CHECK -> it.checked = true
+                ShoppingListEntryOfflineActions.DELETE -> it._destroyed = true
+            }
+        }
+
+        cache.update(this.entries)
+
+        viewModelScope.launch {
+            renderItems()
+        }
     }
 
 }

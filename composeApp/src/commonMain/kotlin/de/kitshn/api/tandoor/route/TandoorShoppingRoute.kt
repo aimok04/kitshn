@@ -1,12 +1,14 @@
 package de.kitshn.api.tandoor.route
 
 import de.kitshn.api.tandoor.TandoorClient
+import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.getArray
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 
 class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
@@ -31,6 +33,25 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
         client.container.shoppingListEntries[response.id] = response
         return response
+    }
+
+    suspend fun check(
+        id: List<Int>
+    ) {
+        val data = buildJsonObject {
+            put("ids", buildJsonArray {
+                id.forEach { add(JsonPrimitive(it)) }
+            })
+            put("checked", JsonPrimitive(true))
+        }
+
+        client.postObject("/shopping-list-entry/bulk/", data)
+    }
+
+    suspend fun delete(
+        id: Int
+    ) {
+        client.delete("/shopping-list-entry/${id}/")
     }
 
     suspend fun fetch(): List<TandoorShoppingListEntry> {

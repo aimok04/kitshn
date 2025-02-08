@@ -4,17 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.TandoorUnit
-import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.buildJsonArray
-import kotlinx.serialization.json.buildJsonObject
 
 @Serializable
 data class TandoorParsedIngredient(
@@ -48,20 +43,12 @@ class TandoorShoppingListEntry(
     var _destroyed = false
 
     suspend fun check() {
-        val data = buildJsonObject {
-            put("ids", buildJsonArray {
-                add(JsonPrimitive(id))
-            })
-            put("checked", JsonPrimitive(true))
-        }
-
-        client!!.postObject("/shopping-list-entry/bulk/", data)
-
+        client!!.shopping.check(listOf(id))
         checked = true
     }
 
     suspend fun delete() {
-        client!!.delete("/shopping-list-entry/${id}/")
+        client!!.shopping.delete(id)
         _destroyed = true
     }
 
