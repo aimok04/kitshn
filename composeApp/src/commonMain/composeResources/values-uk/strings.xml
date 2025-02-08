@@ -367,4 +367,6 @@
     <string name="common_category">Категорія</string>
     <string name="common_none">Жодного</string>
     <string name="common_supermarket">Супермаркет</string>
+    <string name="action_switch_space">Переключити простір</string>
+    <string name="shopping_list_items_done">Готово</string>
 </resources>
