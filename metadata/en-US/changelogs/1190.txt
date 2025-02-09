@@ -1,0 +1,10 @@
+Hey ✌️
+This weeks release focuses on improving the shopping experience 🛍️ 🛒
+
+    1. Overhauled shopping list UI (#93).
+    2. Added shopping mode with bigger touch targets.
+    3. Added support for grouping by category, recipe and creator on shopping page (#92).
+    4. Added support for filtering by supermarket on shopping page (#93).
+    5. Implemented offline mode and caching for shopping list.
+    6. Added space switcher on home page by using web scraping (see #59).
+    7. Fixed common » Placement happened before lookahead « crash.
