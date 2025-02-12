@@ -345,10 +345,10 @@ fun ViewRecipeDetails(
                 .padding(bottom = 16.dp),
             contentAlignment = Alignment.Center
         ) {
-            if(recipe?.source_url != null) OutlinedButton(
+            if((recipe?.source_url ?: "").isNotBlank()) OutlinedButton(
                 onClick = {
                     try {
-                        websiteHandler(recipe.source_url)
+                        websiteHandler(recipe?.source_url!!)
                     } catch(e: Exception) {
                         showSourceDialog = true
                     }
@@ -734,7 +734,7 @@ fun ViewRecipeDetails(
                 showFractionalValues = propertiesShowFractionalValues.value
             )
 
-            if(notEnoughSpace && recipe?.source_url != null) {
+            if(notEnoughSpace && (recipe?.source_url ?: "").isNotBlank()) {
                 SourceButton()
             } else {
                 Spacer(Modifier.height(70.dp))
