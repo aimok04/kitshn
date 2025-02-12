@@ -1,7 +1,8 @@
 package de.kitshn.ui.component.input
 
+import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -130,10 +131,6 @@ fun OutlinedDateField(
     maxDate = maxDate,
     onValueChange = onValueChange
 ) { v, onClick ->
-    val source = remember {
-        MutableInteractionSource()
-    }
-
     OutlinedTextField(
         value = v,
         modifier = modifier,
@@ -150,12 +147,17 @@ fun OutlinedDateField(
         isError = isError,
         shape = shape,
         colors = colors,
-        interactionSource = source,
+        interactionSource = remember { MutableInteractionSource() }
+            .also { interactionSource ->
+                LaunchedEffect(interactionSource) {
+                    interactionSource.interactions.collect {
+                        if(it !is FocusInteraction.Focus && it !is PressInteraction.Release) return@collect
+                        onClick()
+                    }
+                }
+            },
         onValueChange = { }
     )
-
-    if(!source.collectIsPressedAsState().value) return@BaseDateField
-    onClick()
 }
 
 @Composable
@@ -182,10 +184,6 @@ fun DateField(
     maxDate = maxDate,
     onValueChange = onValueChange
 ) { v, onClick ->
-    val source = remember {
-        MutableInteractionSource()
-    }
-
     TextField(
         value = v,
         modifier = modifier,
@@ -202,10 +200,15 @@ fun DateField(
         isError = isError,
         shape = shape,
         colors = colors,
-        interactionSource = source,
+        interactionSource = remember { MutableInteractionSource() }
+            .also { interactionSource ->
+                LaunchedEffect(interactionSource) {
+                    interactionSource.interactions.collect {
+                        if(it !is FocusInteraction.Focus && it !is PressInteraction.Release) return@collect
+                        onClick()
+                    }
+                }
+            },
         onValueChange = { }
     )
-
-    if(!source.collectIsPressedAsState().value) return@BaseDateField
-    onClick()
 }
