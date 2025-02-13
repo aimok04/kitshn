@@ -315,6 +315,7 @@
     <string name="search_rating_filter">Filter by rating</string>
     <string name="search_recipe_books">Search recipe books</string>
     <string name="search_recipes">Search recipes</string>
+    <string name="search_categories">Search categories</string>
     <string name="search_tags">Search tags</string>
     <string name="search_tags_filter">Filter by tags</string>
     <string name="search_tags_filter_empty">Select the tags you want to search for.</string>

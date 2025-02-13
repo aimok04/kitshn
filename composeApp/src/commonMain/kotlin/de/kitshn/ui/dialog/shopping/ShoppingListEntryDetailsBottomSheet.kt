@@ -1,6 +1,9 @@
 package de.kitshn.ui.dialog.shopping
 
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.FocusInteraction
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +27,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -48,8 +52,9 @@ import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.formatAmount
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.icons.IconWithState
-import de.kitshn.ui.component.input.shopping.CategorySearchField
 import de.kitshn.ui.component.model.shopping.recipeMealplan.HorizontalRecipeMealPlanCard
+import de.kitshn.ui.dialog.select.SelectSupermarketCategoryDialog
+import de.kitshn.ui.dialog.select.rememberSelectSupermarketCategoryDialogState
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_delete
 import kitshn.composeapp.generated.resources.action_mark_as_done
@@ -218,12 +223,14 @@ fun ShoppingListEntryDetailsBottomSheet(
             Box(
                 Modifier.padding(16.dp)
             ) {
+                val selectSupermarketCategoryDialogState =
+                    rememberSelectSupermarketCategoryDialogState()
                 var changeSupermarketCategoryValue by remember { mutableStateOf(food.supermarket_category) }
-                CategorySearchField(
+
+                TextField(
                     modifier = Modifier.fillMaxWidth(),
 
-                    client = client,
-                    value = changeSupermarketCategoryValue,
+                    readOnly = true,
 
                     leadingIcon = {
                         Icon(
@@ -232,6 +239,7 @@ fun ShoppingListEntryDetailsBottomSheet(
                         )
                     },
                     label = { Text(text = stringResource(Res.string.common_category)) },
+                    value = changeSupermarketCategoryValue?.name ?: "",
 
                     trailingIcon = {
                         IconButton(
@@ -256,19 +264,36 @@ fun ShoppingListEntryDetailsBottomSheet(
                         }
                     },
 
-                    onValueChange = {
-                        coroutineScope.launch {
-                            categoryChangeRequestState.wrapRequest {
-                                changeSupermarketCategoryValue = it
-                                food.updateSupermarketCategory(client, it)
-
-                                // update state after update
-                                changeSupermarketCategoryValue = food.supermarket_category
-                                onUpdate()
+                    interactionSource = remember { MutableInteractionSource() }
+                        .also { interactionSource ->
+                            LaunchedEffect(interactionSource) {
+                                interactionSource.interactions.collect {
+                                    if(it !is FocusInteraction.Focus && it !is PressInteraction.Release) return@collect
+                                    selectSupermarketCategoryDialogState.open(
+                                        changeSupermarketCategoryValue
+                                    )
+                                }
                             }
+                        },
+
+                    onValueChange = { }
+                )
+
+                SelectSupermarketCategoryDialog(
+                    client = client,
+                    state = selectSupermarketCategoryDialogState
+                ) {
+                    coroutineScope.launch {
+                        categoryChangeRequestState.wrapRequest {
+                            changeSupermarketCategoryValue = it
+                            food.updateSupermarketCategory(client, it)
+
+                            // update state after update
+                            changeSupermarketCategoryValue = food.supermarket_category
+                            onUpdate()
                         }
                     }
-                )
+                }
             }
         }
 
