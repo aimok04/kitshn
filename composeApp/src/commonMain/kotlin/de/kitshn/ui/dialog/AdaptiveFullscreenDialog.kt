@@ -6,9 +6,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.BottomAppBar
@@ -108,15 +113,27 @@ fun CommonAdaptiveFullscreenDialogContent(
         val internalBottomBar = @Composable {
             if(bottomBar != null) {
                 bottomBar(isFullscreen)
-            } else if(actions != null) BottomAppBar(
-                containerColor = containerColor,
-                actions = {},
-                floatingActionButton = {
-                    Row {
-                        actions()
-                    }
+            } else if(actions != null) {
+                val yOffset = if(isFullscreen) {
+                    -(WindowInsets.ime.asPaddingValues()
+                        .calculateBottomPadding() - WindowInsets.systemBars.asPaddingValues()
+                        .calculateBottomPadding())
+                } else {
+                    0.dp
                 }
-            )
+
+                BottomAppBar(
+                    modifier = Modifier.offset(
+                        y = yOffset.coerceAtMost(0.dp)
+                    ),
+                    actions = {},
+                    floatingActionButton = {
+                        Row {
+                            actions()
+                        }
+                    }
+                )
+            }
         }
 
         if(isFullscreen) {
