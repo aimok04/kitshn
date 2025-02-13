@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Category
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Search
@@ -14,6 +15,7 @@ import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBarDefaults
@@ -43,7 +45,9 @@ import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
 import de.kitshn.ui.modifier.loadingPlaceHolder
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_abort
+import kitshn.composeapp.generated.resources.action_add
 import kitshn.composeapp.generated.resources.common_category
+import kitshn.composeapp.generated.resources.common_create_argument
 import kitshn.composeapp.generated.resources.common_selected
 import kitshn.composeapp.generated.resources.lorem_ipsum_short
 import kitshn.composeapp.generated.resources.search_categories
@@ -196,6 +200,50 @@ fun SupermarketCategorySearchBar(
                     }
 
                     else -> {
+                        if(query.isNotBlank() && searchResults.find {
+                                it.name.lowercase() == query.trimEnd(
+                                    ' '
+                                ).lowercase()
+                            } == null) {
+                            item {
+                                ListItem(
+                                    modifier = Modifier.clickable {
+                                        onSelect(
+                                            TandoorSupermarketCategory(
+                                                name = query.trimEnd(' '),
+                                                id = null
+                                            )
+                                        )
+                                    },
+                                    leadingContent = {
+                                        IconButton(
+                                            onClick = {
+                                                onSelect(
+                                                    TandoorSupermarketCategory(
+                                                        name = query.trimEnd(' '),
+                                                        id = null
+                                                    )
+                                                )
+                                            }
+                                        ) {
+                                            Icon(
+                                                Icons.Rounded.Add,
+                                                stringResource(Res.string.action_add)
+                                            )
+                                        }
+                                    },
+                                    headlineContent = {
+                                        Text(
+                                            stringResource(
+                                                Res.string.common_create_argument,
+                                                query
+                                            )
+                                        )
+                                    }
+                                )
+                            }
+                        }
+
                         items(searchResults.size, key = { searchResults[it].id ?: -1 }) {
                             val category = searchResults[it]
 
