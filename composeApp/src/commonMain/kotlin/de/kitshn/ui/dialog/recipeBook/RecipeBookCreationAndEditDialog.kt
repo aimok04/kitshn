@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.rememberTandoorRequestState
@@ -236,7 +237,8 @@ fun RecipeBookCreationAndEditDialog(
         },
         actions = {
             form.RenderSubmitButton()
-        }
+        },
+        maxWidth = 600.dp
     ) { it, _, _ ->
         form.Render(it)
     }
