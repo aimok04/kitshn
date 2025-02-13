@@ -18,11 +18,13 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             put("amount", JsonPrimitive(amount ?: 0.0))
             put(
                 "food",
-                food?.let { buildJsonObject { put("name", JsonPrimitive(food)) } } ?: JsonNull
+                food?.let { buildJsonObject { put("name", JsonPrimitive(food.trimEnd(' '))) } }
+                    ?: JsonNull
             )
             put(
                 "unit",
-                unit?.let { buildJsonObject { put("name", JsonPrimitive(unit)) } } ?: JsonNull
+                unit?.let { buildJsonObject { put("name", JsonPrimitive(unit.trimEnd(' '))) } }
+                    ?: JsonNull
             )
         }
 
