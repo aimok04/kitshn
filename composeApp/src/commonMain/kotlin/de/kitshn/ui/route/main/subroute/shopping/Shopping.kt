@@ -64,9 +64,9 @@ import de.kitshn.ui.dialog.mealplan.MealPlanDetailsDialog
 import de.kitshn.ui.dialog.mealplan.rememberMealPlanDetailsDialogState
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
-import de.kitshn.ui.dialog.shopping.ShoppingListEntryAddBottomSheet
+import de.kitshn.ui.dialog.shopping.ShoppingListEntryCreationDialog
 import de.kitshn.ui.dialog.shopping.ShoppingListEntryDetailsBottomSheet
-import de.kitshn.ui.dialog.shopping.rememberShoppingListEntryAddBottomSheetState
+import de.kitshn.ui.dialog.shopping.rememberShoppingListEntryCreationDialogState
 import de.kitshn.ui.dialog.shopping.rememberShoppingListEntryDetailsBottomSheetState
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.selectionMode.component.SelectionModeTopAppBar
@@ -110,7 +110,7 @@ fun RouteMainSubrouteShopping(
     val mealPlanDetailsDialogState = rememberMealPlanDetailsDialogState()
     val recipeLinkDialogState = rememberRecipeLinkDialogState()
 
-    val shoppingListEntryAddBottomSheetState = rememberShoppingListEntryAddBottomSheetState()
+    val shoppingListEntryCreationDialogState = rememberShoppingListEntryCreationDialogState()
     val shoppingListEntryDetailsBottomSheetState =
         rememberShoppingListEntryDetailsBottomSheetState()
 
@@ -231,7 +231,7 @@ fun RouteMainSubrouteShopping(
                         containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                         onClick = {
-                            shoppingListEntryAddBottomSheetState.open()
+                            shoppingListEntryCreationDialogState.open()
                         }
                     ) {
                         Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
@@ -348,9 +348,9 @@ fun RouteMainSubrouteShopping(
             state = recipeLinkDialogState
         )
 
-        ShoppingListEntryAddBottomSheet(
+        ShoppingListEntryCreationDialog(
             client = it,
-            state = shoppingListEntryAddBottomSheetState,
+            state = shoppingListEntryCreationDialogState,
             onUpdate = { entry ->
                 coroutineScope.launch {
                     vm.entries.add(entry)

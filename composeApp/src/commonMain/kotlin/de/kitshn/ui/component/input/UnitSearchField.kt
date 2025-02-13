@@ -68,10 +68,12 @@ fun BaseUnitSearchField(
             TandoorRequestState().wrapRequest {
                 client.unit.list(
                     query = searchText,
-                    pageSize = 8
+                    pageSize = 3
                 ).results.let {
                     unitList.clear()
                     unitList.addAll(it)
+
+                    isExpanded = true
                 }
             }
         }
@@ -95,6 +97,7 @@ fun BaseUnitSearchField(
         }
 
         if(unitList.size > 0) ExposedDropdownMenu(
+            modifier = Modifier.exposedDropdownSize(true),
             expanded = isExpanded,
             onDismissRequest = {
                 isExpanded = false

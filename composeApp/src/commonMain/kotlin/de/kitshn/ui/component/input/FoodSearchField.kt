@@ -67,10 +67,12 @@ fun BaseFoodSearchField(
             TandoorRequestState().wrapRequest {
                 client.food.list(
                     query = searchText,
-                    pageSize = 8
+                    pageSize = 3
                 ).results.let {
                     foodList.clear()
                     foodList.addAll(it)
+
+                    isExpanded = true
                 }
             }
         }
@@ -94,6 +96,7 @@ fun BaseFoodSearchField(
         }
 
         if(foodList.size > 0) ExposedDropdownMenu(
+            modifier = Modifier.exposedDropdownSize(true),
             expanded = isExpanded,
             onDismissRequest = {
                 isExpanded = false
