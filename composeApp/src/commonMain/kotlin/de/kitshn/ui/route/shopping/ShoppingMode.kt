@@ -182,16 +182,28 @@ fun RouteShoppingMode(
                                             showFractionalValues = ingredientsShowFractionalValues.value,
                                             onClick = {
                                                 if(p.vm.uiState.offlineState.isOffline) {
-                                                    vm.executeOfflineAction(
-                                                        item.entries,
-                                                        ShoppingListEntryOfflineActions.CHECK
-                                                    )
+                                                    if(item.entries.all { entry -> entry.checked }) {
+                                                        vm.executeOfflineAction(
+                                                            item.entries,
+                                                            ShoppingListEntryOfflineActions.UNCHECK
+                                                        )
+                                                    } else {
+                                                        vm.executeOfflineAction(
+                                                            item.entries,
+                                                            ShoppingListEntryOfflineActions.CHECK
+                                                        )
+                                                    }
                                                     return@ShoppingModeListEntryListItem
                                                 }
 
                                                 coroutineScope.launch {
                                                     entriesCheckRequestState.wrapRequest {
-                                                        client!!.shopping.check(item.entries)
+                                                        if(item.entries.all { entry -> entry.checked }) {
+                                                            client!!.shopping.uncheck(item.entries)
+                                                        } else {
+                                                            client!!.shopping.check(item.entries)
+                                                        }
+
                                                         vm.renderItems()
                                                     }
                                                 }

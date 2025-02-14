@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class ShoppingListEntryOfflineActions {
     CHECK,
+    UNCHECK,
     DELETE
 }
 

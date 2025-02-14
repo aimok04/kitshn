@@ -366,13 +366,23 @@ fun RouteMainSubrouteShopping(
             isOffline = p.vm.uiState.offlineState.isOffline,
             onCheck = { entries ->
                 if(p.vm.uiState.offlineState.isOffline) {
-                    vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.CHECK)
+                    if(entries.all { entry -> entry.checked }) {
+                        vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.UNCHECK)
+                    } else {
+                        vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.CHECK)
+                    }
+
                     return@ShoppingListEntryDetailsBottomSheet
                 }
 
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
-                        client.shopping.check(entries)
+                        if(entries.all { entry -> entry.checked }) {
+                            client.shopping.uncheck(entries)
+                        } else {
+                            client.shopping.check(entries)
+                        }
+
                         vm.renderItems()
                         vm.update()
                     }

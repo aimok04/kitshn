@@ -50,6 +50,11 @@ class TandoorShoppingListEntry(
         checked = true
     }
 
+    suspend fun uncheck() {
+        client!!.shopping.uncheck(setOf(id))
+        _checked = false
+    }
+
     suspend fun delete() {
         client!!.shopping.delete(id)
         _destroyed = true

@@ -58,6 +58,27 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         client.postObject("/shopping-list-entry/bulk/", data)
     }
 
+    suspend fun uncheck(
+        entries: List<TandoorShoppingListEntry>
+    ) {
+        uncheck(entries.map { it.id }.toSet())
+        entries.forEach { it.checked = false }
+    }
+
+    // using set to avoid jvm signature issue
+    suspend fun uncheck(
+        id: Set<Int>
+    ) {
+        val data = buildJsonObject {
+            put("ids", buildJsonArray {
+                id.forEach { add(JsonPrimitive(it)) }
+            })
+            put("checked", JsonPrimitive(false))
+        }
+
+        client.postObject("/shopping-list-entry/bulk/", data)
+    }
+
     suspend fun delete(
         id: Int
     ) {

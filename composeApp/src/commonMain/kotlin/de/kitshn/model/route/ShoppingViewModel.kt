@@ -105,6 +105,7 @@ class ShoppingViewModel(
                 try {
                     when(it.value) {
                         ShoppingListEntryOfflineActions.CHECK -> client.shopping.check(setOf(it.key))
+                        ShoppingListEntryOfflineActions.UNCHECK -> client.shopping.uncheck(setOf(it.key))
                         ShoppingListEntryOfflineActions.DELETE -> client.shopping.delete(it.key)
                     }
 
@@ -394,6 +395,11 @@ class ShoppingViewModel(
                 ShoppingListEntryOfflineActions.CHECK -> {
                     it.checked = true
                     it._checked = true
+                }
+
+                ShoppingListEntryOfflineActions.UNCHECK -> {
+                    it.checked = false
+                    it._checked = false
                 }
 
                 ShoppingListEntryOfflineActions.DELETE -> {
