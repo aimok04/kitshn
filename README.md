@@ -38,9 +38,6 @@ height="80">](https://play.google.com/store/apps/details?id=de.kitshn.android)
 [<img src="/images/badge_apple.png"
 alt="Download on the App Store"
 height="80">](https://apps.apple.com/us/app/kitshn-for-tandoor/id6740168361)
-[<img src="/images/badge_altsource.png"
-alt="Get it by AltSource"
-height="80">](https://kitshn.app/altsource)
 
 ## 🌍 l10n
 
