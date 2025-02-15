@@ -64,6 +64,9 @@ Contributions are very welcome 😊
     - [x] Adding, editing and deleting
 - [x] Shopping list
     - [x] Adding and deleting
+    - [x] Categories and supermarkets
+    - [x] Shopping mode
+    - [x] Offline mode  
     - [x] Auto-Sync
 - [x] Recipe books
     - [x] Adding and deleting
@@ -90,12 +93,6 @@ Contributions are very welcome 😊
   - [ ] Commonly used keywords
 - [ ] Recipes
   - [ ] Add step editing
-- [ ] Shopping
-  - [ ] Dialog for shopping list entries
-  - [ ] Categories and supermarkets
-  - [ ] Shopping mode
-     - Bigger text and touch targets
-  - [ ] Better layout
 - [ ] Go stable
 
 ## 📜 License & Credits
