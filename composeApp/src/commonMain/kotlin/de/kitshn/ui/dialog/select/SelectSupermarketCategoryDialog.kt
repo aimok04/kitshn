@@ -11,7 +11,6 @@ import androidx.compose.material.icons.rounded.Category
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
@@ -42,6 +41,7 @@ import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarketCategory
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
+import de.kitshn.ui.component.input.AlwaysDockedSearchBar
 import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import de.kitshn.ui.modifier.loadingPlaceHolder
 import kitshn.composeapp.generated.resources.Res
@@ -152,7 +152,7 @@ fun SupermarketCategorySearchBar(
         }
     }
 
-    DockedSearchBar(
+    AlwaysDockedSearchBar(
         colors = SearchBarDefaults.colors(
             containerColor = MaterialTheme.colorScheme.surface,
             dividerColor = Color.Transparent
@@ -173,9 +173,7 @@ fun SupermarketCategorySearchBar(
                 expanded = true,
                 onExpandedChange = { }
             )
-        },
-        expanded = true,
-        onExpandedChange = { }
+        }
     ) {
         LoadingErrorAlertPaneWrapper(
             modifier = Modifier.padding(16.dp),

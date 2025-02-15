@@ -17,7 +17,6 @@ import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -47,6 +46,7 @@ import de.kitshn.removeIf
 import de.kitshn.scoreMatch
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
+import de.kitshn.ui.component.input.AlwaysDockedSearchBar
 import de.kitshn.ui.component.model.recipebook.HorizontalRecipeBookCard
 import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import kitshn.composeapp.generated.resources.Res
@@ -258,7 +258,7 @@ fun RecipeBookSearchBar(
         searchResults.removeIf { it.id == favoritesRecipeBookId }
     }
 
-    DockedSearchBar(
+    AlwaysDockedSearchBar(
         modifier = modifier,
         colors = SearchBarDefaults.colors(
             containerColor = MaterialTheme.colorScheme.surface,
@@ -282,9 +282,7 @@ fun RecipeBookSearchBar(
                 expanded = true,
                 onExpandedChange = { }
             )
-        },
-        expanded = true,
-        onExpandedChange = { }
+        }
     ) {
         LazyColumn(
             contentPadding = PaddingValues(16.dp),

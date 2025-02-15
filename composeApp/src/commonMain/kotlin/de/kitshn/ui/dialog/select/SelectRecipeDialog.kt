@@ -7,7 +7,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Receipt
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
@@ -32,6 +31,7 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
+import de.kitshn.ui.component.input.AlwaysDockedSearchBar
 import de.kitshn.ui.component.model.recipe.HorizontalRecipeCardLink
 import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
@@ -138,7 +138,7 @@ fun RecipeSearchBar(
         }
     }
 
-    DockedSearchBar(
+    AlwaysDockedSearchBar(
         colors = SearchBarDefaults.colors(
             containerColor = MaterialTheme.colorScheme.surface,
             dividerColor = Color.Transparent
@@ -161,9 +161,7 @@ fun RecipeSearchBar(
                 expanded = true,
                 onExpandedChange = { }
             )
-        },
-        expanded = true,
-        onExpandedChange = { }
+        }
     ) {
         LazyColumn(
             contentPadding = PaddingValues(16.dp),
