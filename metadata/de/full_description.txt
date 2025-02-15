@@ -24,6 +24,9 @@ Mit <b>Jetpack Compose</b> und <b>Material You</b> gebaut um eine moderne, intui
     <li>Einkaufsliste</li>
     <ul>
         <li>Erstellen und löschen</li>
+        <li>Kategorien und Supermärkte</li>
+        <li>Einkaufsmodus</li>
+        <li>Offline-Modus</li>
         <li>Auto-Sync</li>
     </ul>
     <li>Rezeptbücher</li>

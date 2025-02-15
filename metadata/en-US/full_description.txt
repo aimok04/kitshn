@@ -26,6 +26,9 @@ Built with <b>Jetpack Compose</b> and <b>Material You</b> to deliver a modern, i
     <li>Shopping list</li>
     <ul>
         <li>Adding and deleting</li>
+        <li>Categories and supermarkets</li>
+        <li>Shopping mode</li>
+        <li>Offline mode</li>
         <li>Auto-Sync</li>
     </ul>
     <li>Recipe books</li>
