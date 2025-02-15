@@ -164,7 +164,7 @@ fun ViewSettingsServer(
                 buildAnnotatedString {
                     append(stringResource(Res.string.settings_section_server_delete_and_manage_data_dialog_line_1))
 
-                    if(p.vm.tandoorClient?.credentials?.instanceUrl?.contains("app.tandoor.dev") != null) {
+                    if(p.vm.tandoorClient?.credentials?.instanceUrl?.contains("app.tandoor.dev") == true) {
                         append("\n\n")
                         append("${stringResource(Res.string.settings_section_server_delete_and_manage_data_dialog_line_2)} ")
                         withStyle(
