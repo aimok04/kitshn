@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Book
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -136,7 +136,7 @@ fun ManageRecipeInRecipeBooksDialog(
             state.dismiss()
         },
         icon = {
-            Icon(Icons.Rounded.Tag, stringResource(Res.string.action_manage_recipe_books))
+            Icon(Icons.Rounded.Book, stringResource(Res.string.action_manage_recipe_books))
         },
         title = {
             Text(stringResource(Res.string.action_manage_recipe_books))
