@@ -4,10 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalUriHandler
 import kitshn.composeApp.BuildConfig
-import platform.Foundation.NSString
-import platform.Foundation.create
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
+import platform.UIKit.UIViewController
+import platform.UIKit.UIWindow
+import platform.UIKit.popoverPresentationController
 import platform.posix.exit
 
 @Composable
@@ -58,16 +59,21 @@ actual fun launchTimerHandler(): (seconds: Int, name: String) -> Unit {
 
 @Composable
 actual fun shareContentHandler(): (title: String, text: String) -> Unit {
-    return { _, text ->
-        val activityItems = listOf(NSString.create(string = text))
-        val activityViewController =
-            UIActivityViewController(activityItems = activityItems, applicationActivities = null)
+    return { title, text ->
+        val activityController = UIActivityViewController(
+            activityItems = listOf(text),
+            applicationActivities = null,
+        )
 
-        val rootViewController = UIApplication.sharedApplication.keyWindow?.rootViewController
-        rootViewController?.presentViewController(
-            activityViewController,
+        val window = UIApplication.sharedApplication.windows().first() as UIWindow?
+        activityController.popoverPresentationController()?.sourceView =
+            window
+        activityController.setTitle(title)
+
+        window?.rootViewController?.presentViewController(
+            activityController as UIViewController,
             animated = true,
-            completion = null
+            completion = null,
         )
     }
 }
