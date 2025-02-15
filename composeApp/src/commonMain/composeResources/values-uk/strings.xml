@@ -369,4 +369,12 @@
     <string name="common_supermarket">Супермаркет</string>
     <string name="action_switch_space">Переключити простір</string>
     <string name="shopping_list_items_done">Готово</string>
+    <string name="search_categories">Категорії пошуку</string>
+    <string name="settings_section_appearance_color_scheme_custom_from_image_error_title">Помилка під час застосування спеціальної схеми</string>
+    <string name="settings_section_appearance_color_scheme_custom_from_image_label">Спеціальна тема на основі зображення</string>
+    <string name="settings_section_appearance_color_scheme_description">Виберіть колірну гамму, що відповідає вашому стилю</string>
+    <string name="settings_section_appearance_color_scheme_label">Колірна гамма</string>
+    <string name="settings_section_appearance_color_scheme_dynamic_label">Динамічна колірна схема</string>
+    <string name="settings_section_appearance_color_scheme_cupertino_label">Колірна схема «Купертіно»</string>
+    <string name="settings_section_appearance_color_scheme_custom_from_image_error_message">Не вдалося витягти початковий колір із вибраного зображення. Будь ласка, спробуйте інше зображення або використовуйте попередньо визначену схему.</string>
 </resources>
