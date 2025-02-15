@@ -1,0 +1,14 @@
+Hey ✌️
+This weeks release adds color schemes 🎨✨ and once again improves the shopping experience 🛍️ 🛒
+It also contains some crash and bug fixes and UI improvements:
+
+    1. Added multiple color schemes and custom color schemes based on images (#103).
+    2. Added ability to uncheck shopping list entries (#107).
+    3. Improved add to shopping list dialog to avoid input issues (#102).
+    4. Added dedicated dialog to select category for shopping list entries to avoid input issues (#102).
+    5. Fixed dialogs overlapping with navigation bar on Android 15 (#109),
+    6. Fixed issue where dialogs with search bars could not be closed with back action (#110).
+    7. Fixed date selector in meal plan edit/creation dialog not opening on iOS (#105).
+    8. Fixed crash when sharing recipe on iOS (#108).
+    9. Fixed source button being visible when source_url is empty (#106).
+   10. Multiple UI and layout improvements.
