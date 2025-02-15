@@ -17,8 +17,8 @@ fun SettingsSwitchListItem(
         bottom = 8.dp
     ),
     label: @Composable () -> Unit,
-    description: @Composable () -> Unit,
-    icon: ImageVector,
+    description: (@Composable () -> Unit)? = null,
+    icon: ImageVector? = null,
     contentDescription: String,
     enabled: Boolean = true,
     checked: Boolean = false,

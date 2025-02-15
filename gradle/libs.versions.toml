@@ -24,6 +24,7 @@ coil = "3.0.4"
 composeVideo = "1.2.0"
 desugar_jdk_libs = "2.1.4"
 haze = "1.2.2"
+materialKolor = "2.0.2"
 media3 = "1.5.1"
 material = "1.12.0"
 multiplatformMarkdownRenderer = "0.29.0"
@@ -80,6 +81,7 @@ coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.re
 compose-video = { module = "io.sanghun:compose-video", version.ref = "composeVideo" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
+material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 multiplatform-markdown-renderer = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "multiplatformMarkdownRenderer" }
 multiplatform-markdown-renderer-coil3 = { module = "com.mikepenz:multiplatform-markdown-renderer-coil3", version.ref = "multiplatformMarkdownRenderer" }
 multiplatform-markdown-renderer-m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "multiplatformMarkdownRenderer" }

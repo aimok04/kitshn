@@ -5,8 +5,10 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.coroutines.getBooleanFlow
+import com.russhwolf.settings.coroutines.getIntOrNullFlow
 import com.russhwolf.settings.coroutines.getLongFlow
 import com.russhwolf.settings.coroutines.getStringFlow
+import com.russhwolf.settings.coroutines.getStringOrNullFlow
 import com.russhwolf.settings.observable.makeObservable
 import de.kitshn.api.tandoor.TandoorCredentials
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +17,8 @@ import kotlinx.datetime.Clock
 
 const val KEY_SETTINGS_APPEARANCE_SYSTEM_THEME = "appearance_system_theme"
 const val KEY_SETTINGS_APPEARANCE_DARK_THEME = "appearance_dark_theme"
-const val KEY_SETTINGS_APPEARANCE_DYNAMIC_COLORS = "appearance_dynamic_colors"
+const val KEY_SETTINGS_APPEARANCE_COLOR_SCHEME = "appearance_color_scheme"
+const val KEY_SETTINGS_APPEARANCE_CUSTOM_COLOR_SCHEME_SEED = "appearance_custom_color_scheme_seed"
 
 const val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER = "behavior_use_share_wrapper"
 const val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN =
@@ -74,15 +77,23 @@ class SettingsViewModel : ViewModel() {
         obs.putString(KEY_SETTINGS_TANDOOR_CREDENTIALS, json.encodeToString(credentials))
 
     // design
-    val getEnableDynamicColors: Flow<Boolean> =
-        obs.getBooleanFlow(KEY_SETTINGS_APPEARANCE_DYNAMIC_COLORS, true)
+    val getColorScheme: Flow<String?> =
+        obs.getStringOrNullFlow(KEY_SETTINGS_APPEARANCE_COLOR_SCHEME)
+
+    val getCustomColorSchemeSeed: Flow<Int?> =
+        obs.getIntOrNullFlow(KEY_SETTINGS_APPEARANCE_CUSTOM_COLOR_SCHEME_SEED)
+
     val getEnableSystemTheme: Flow<Boolean> =
         obs.getBooleanFlow(KEY_SETTINGS_APPEARANCE_SYSTEM_THEME, true)
+
     val getEnableDarkTheme: Flow<Boolean> =
         obs.getBooleanFlow(KEY_SETTINGS_APPEARANCE_DARK_THEME, false)
 
-    fun setEnableDynamicColors(enable: Boolean) =
-        obs.putBoolean(KEY_SETTINGS_APPEARANCE_DYNAMIC_COLORS, enable)
+    fun setColorScheme(name: String) =
+        obs.putString(KEY_SETTINGS_APPEARANCE_COLOR_SCHEME, name)
+
+    fun setCustomColorSchemeSeed(seedColor: Int) =
+        obs.putInt(KEY_SETTINGS_APPEARANCE_CUSTOM_COLOR_SCHEME_SEED, seedColor)
 
     fun setEnableSystemTheme(enable: Boolean) =
         obs.putBoolean(KEY_SETTINGS_APPEARANCE_SYSTEM_THEME, enable)

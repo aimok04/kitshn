@@ -20,6 +20,7 @@ import de.kitshn.actions.preHandleIntent
 import de.kitshn.migration.LegacySettingsViewModel
 import de.kitshn.migration.runSettingsMigration
 import de.kitshn.ui.theme.KitshnTheme
+import de.kitshn.ui.theme.custom.AvailableColorSchemes
 import kotlinx.coroutines.delay
 import java.io.File
 
@@ -71,7 +72,9 @@ class AppActivity : ComponentActivity() {
                     if(datastoreFolder.exists()) datastoreFolder.deleteRecursively()
                 }
 
-                KitshnTheme {
+                KitshnTheme(
+                    colorScheme = AvailableColorSchemes.getDefault()
+                ) {
                     Box(
                         Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center

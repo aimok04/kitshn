@@ -115,6 +115,7 @@ kotlin {
             implementation(libs.multiplatform.markdown.renderer.m3)
             implementation(libs.multiplatform.markdown.renderer.coil3)
 
+            implementation(libs.material.kolor)
             implementation(libs.compose.placeholder.material)
             implementation(libs.compose.placeholder)
             implementation(libs.compose.webview.multiplatform)

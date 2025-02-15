@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import coil3.compose.LocalPlatformContext
 import de.kitshn.api.tandoor.TandoorClient
@@ -29,7 +30,7 @@ import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.cache.ShoppingListEntriesCache
 import de.kitshn.ui.route.navigation.PrimaryNavigation
 import de.kitshn.ui.theme.KitshnTheme
-import de.kitshn.ui.theme.isDynamicColorSupported
+import de.kitshn.ui.theme.custom.AvailableColorSchemes
 import kotlinx.coroutines.delay
 
 private val SavedTandoorClient = mutableStateOf<TandoorClient?>(null)
@@ -76,7 +77,20 @@ internal fun App(
         }
     }
 
-    val dynamicColor = vm.settings.getEnableDynamicColors.collectAsState(initial = true)
+    val colorSchemeName = vm.settings.getColorScheme.collectAsState(initial = null)
+    var colorScheme by remember { mutableStateOf(AvailableColorSchemes.getDefault()) }
+    LaunchedEffect(colorSchemeName.value) {
+        if(colorSchemeName.value == null) return@LaunchedEffect
+        AvailableColorSchemes.parse(colorSchemeName.value!!)?.let { colorScheme = it }
+    }
+
+    val customColorSchemeSeedInt =
+        vm.settings.getCustomColorSchemeSeed.collectAsState(initial = null)
+    var customColorSchemeSeed by remember { mutableStateOf(Color.Yellow) }
+    LaunchedEffect(customColorSchemeSeedInt.value) {
+        if(customColorSchemeSeedInt.value == null) return@LaunchedEffect
+        customColorSchemeSeed = Color(customColorSchemeSeedInt.value!!)
+    }
 
     val systemTheme = vm.settings.getEnableSystemTheme.collectAsState(initial = true)
     val darkMode = vm.settings.getEnableDarkTheme.collectAsState(initial = true)
@@ -90,7 +104,8 @@ internal fun App(
 
     KitshnTheme(
         darkTheme = if(systemTheme.value) isSystemInDarkTheme() else darkMode.value,
-        dynamicColor = isDynamicColorSupported() && dynamicColor.value
+        customColorSchemeSeed = customColorSchemeSeed,
+        colorScheme = colorScheme
     ) {
         Surface(
             Modifier.fillMaxSize()

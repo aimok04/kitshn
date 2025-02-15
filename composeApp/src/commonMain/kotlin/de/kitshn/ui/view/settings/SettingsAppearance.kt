@@ -14,20 +14,31 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import de.kitshn.ui.component.ColorSchemePreviewCircle
 import de.kitshn.ui.component.buttons.BackButton
+import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
-import de.kitshn.ui.theme.isDynamicColorSupported
+import de.kitshn.ui.dialog.ColorSchemeSelectionBottomSheet
+import de.kitshn.ui.dialog.rememberColorSchemeSelectionBottomSheetState
+import de.kitshn.ui.theme.custom.AvailableColorSchemes
 import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.settings_section_appearance_color_scheme_description
+import kitshn.composeapp.generated.resources.settings_section_appearance_color_scheme_label
 import kitshn.composeapp.generated.resources.settings_section_appearance_dark_mode_description
 import kitshn.composeapp.generated.resources.settings_section_appearance_dark_mode_label
-import kitshn.composeapp.generated.resources.settings_section_appearance_dynamic_color_description
-import kitshn.composeapp.generated.resources.settings_section_appearance_dynamic_color_label
 import kitshn.composeapp.generated.resources.settings_section_appearance_follow_system_description
 import kitshn.composeapp.generated.resources.settings_section_appearance_follow_system_label
 import kitshn.composeapp.generated.resources.settings_section_appearance_label
@@ -40,8 +51,24 @@ fun ViewSettingsAppearance(
     p: ViewParameters
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(state = rememberTopAppBarState())
-
     val coroutineScope = rememberCoroutineScope()
+
+    val colorSchemeName = p.vm.settings.getColorScheme.collectAsState(initial = null)
+    var colorScheme by remember { mutableStateOf(AvailableColorSchemes.getDefault()) }
+    LaunchedEffect(colorSchemeName.value) {
+        if(colorSchemeName.value == null) return@LaunchedEffect
+        AvailableColorSchemes.parse(colorSchemeName.value!!)?.let { colorScheme = it }
+    }
+
+    val customColorSchemeSeedInt =
+        p.vm.settings.getCustomColorSchemeSeed.collectAsState(initial = null)
+    var customColorSchemeSeed by remember { mutableStateOf(Color.Yellow) }
+    LaunchedEffect(customColorSchemeSeedInt.value) {
+        if(customColorSchemeSeedInt.value == null) return@LaunchedEffect
+        customColorSchemeSeed = Color(customColorSchemeSeedInt.value!!)
+    }
+
+    val colorSchemeSelectionBottomSheetState = rememberColorSchemeSelectionBottomSheetState()
 
     Scaffold(
         topBar = {
@@ -90,30 +117,38 @@ fun ViewSettingsAppearance(
                 }
             }
 
-            if(isDynamicColorSupported()) {
-                item {
-                    HorizontalDivider(
-                        Modifier.padding(top = 8.dp, bottom = 8.dp)
-                    )
-                }
+            item {
+                HorizontalDivider(
+                    Modifier.padding(top = 8.dp, bottom = 8.dp)
+                )
+            }
 
-                item {
-                    val checked =
-                        p.vm.settings.getEnableDynamicColors.collectAsState(initial = true)
-
-                    SettingsSwitchListItem(
-                        label = { Text(stringResource(Res.string.settings_section_appearance_dynamic_color_label)) },
-                        description = { Text(stringResource(Res.string.settings_section_appearance_dynamic_color_description)) },
-                        icon = Icons.Rounded.Palette,
-                        contentDescription = stringResource(Res.string.settings_section_appearance_dynamic_color_label),
-                        checked = checked.value
-                    ) {
-                        coroutineScope.launch {
-                            p.vm.settings.setEnableDynamicColors(it)
-                        }
+            item {
+                SettingsListItem(
+                    label = { Text(stringResource(Res.string.settings_section_appearance_color_scheme_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_appearance_color_scheme_description)) },
+                    icon = Icons.Rounded.Palette,
+                    contentDescription = stringResource(Res.string.settings_section_appearance_color_scheme_label),
+                    trailingContent = {
+                        ColorSchemePreviewCircle(
+                            colorScheme = colorScheme,
+                            customColorSchemeSeed = customColorSchemeSeed
+                        )
                     }
+                ) {
+                    colorSchemeSelectionBottomSheetState.open()
                 }
             }
         }
+    }
+
+    ColorSchemeSelectionBottomSheet(
+        state = colorSchemeSelectionBottomSheetState,
+        currentColorScheme = colorScheme,
+        onChangeCustomColorSchemeSeed = {
+            p.vm.settings.setCustomColorSchemeSeed(it.toArgb())
+        }
+    ) {
+        p.vm.settings.setColorScheme(it.name)
     }
 }

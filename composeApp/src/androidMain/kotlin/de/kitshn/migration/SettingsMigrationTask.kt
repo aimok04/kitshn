@@ -24,10 +24,6 @@ suspend fun runSettingsMigration(
         legacySettings.getTandoorCredentials.first()
     )
 
-    settings.setEnableDynamicColors(
-        legacySettings.getEnableDynamicColors.first()
-    )
-
     settings.setEnableSystemTheme(
         legacySettings.getEnableSystemTheme.first()
     )

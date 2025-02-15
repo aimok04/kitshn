@@ -305,6 +305,7 @@
     <string name="recipe_step_timer_created">Timer has been created.</string>
     <string name="recipe_step_timer_error_no_app">You need to install a supported timer app for this action!</string>
 
+    <string name="search_categories">Search categories</string>
     <string name="search_food_including_all_description">The recipes must include all ingredients</string>
     <string name="search_food_including_all_label">All ingredients included</string>
     <string name="search_ingredients">Search ingredients</string>
@@ -315,7 +316,6 @@
     <string name="search_rating_filter">Filter by rating</string>
     <string name="search_recipe_books">Search recipe books</string>
     <string name="search_recipes">Search recipes</string>
-    <string name="search_categories">Search categories</string>
     <string name="search_tags">Search tags</string>
     <string name="search_tags_filter">Filter by tags</string>
     <string name="search_tags_filter_empty">Select the tags you want to search for.</string>
@@ -329,11 +329,16 @@
     <string name="settings_section_about_item_review_description">Rate kitshn in the Play Store</string>
     <string name="settings_section_about_item_review_ios_description">Rate kitshn in the App Store</string>
     <string name="settings_section_about_label">About</string>
+    <string name="settings_section_appearance_color_scheme_cupertino_label">» Cupertino « color scheme</string>
+    <string name="settings_section_appearance_color_scheme_custom_from_image_error_message">Could not extract seed color from selected image. Please try another image or use a predefined scheme.</string>
+    <string name="settings_section_appearance_color_scheme_custom_from_image_error_title">Error while applying custom scheme</string>
+    <string name="settings_section_appearance_color_scheme_custom_from_image_label">Custom theme based on image</string>
+    <string name="settings_section_appearance_color_scheme_description">Choose a color scheme matching your style</string>
+    <string name="settings_section_appearance_color_scheme_dynamic_label">Dynamic color scheme</string>
+    <string name="settings_section_appearance_color_scheme_label">Color scheme</string>
     <string name="settings_section_appearance_dark_mode_description">Use dark color scheme</string>
     <string name="settings_section_appearance_dark_mode_label">Dark mode</string>
     <string name="settings_section_appearance_description">Change color scheme and dynamic theming</string>
-    <string name="settings_section_appearance_dynamic_color_description">Use the dynamic color scheme of your operating system</string>
-    <string name="settings_section_appearance_dynamic_color_label">Dynamic color scheme</string>
     <string name="settings_section_appearance_follow_system_description">Use the color scheme of the operating system</string>
     <string name="settings_section_appearance_follow_system_label">Follow system</string>
     <string name="settings_section_appearance_label">Appearance</string>

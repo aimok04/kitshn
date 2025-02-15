@@ -3300,6 +3300,48 @@
       ]
     },
     {
+      "uniqueId": "com.github.ajalt.colormath:colormath",
+      "funding": [],
+      "developers": [
+        {
+          "name": "AJ Alt"
+        }
+      ],
+      "artifactVersion": "3.6.1",
+      "description": "Multiplatform color space conversions for Kotlin",
+      "scm": {
+        "connection": "scm:git:git://github.com/ajalt/colormath.git",
+        "url": "https://github.com/ajalt/colormath/",
+        "developerConnection": "scm:git:ssh://git@github.com/ajalt/colormath.git"
+      },
+      "name": "Colormath",
+      "website": "https://github.com/ajalt/colormath/",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
+      "uniqueId": "com.github.ajalt.colormath:colormath-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "AJ Alt"
+        }
+      ],
+      "artifactVersion": "3.6.1",
+      "description": "Multiplatform color space conversions for Kotlin",
+      "scm": {
+        "connection": "scm:git:git://github.com/ajalt/colormath.git",
+        "url": "https://github.com/ajalt/colormath/",
+        "developerConnection": "scm:git:ssh://git@github.com/ajalt/colormath.git"
+      },
+      "name": "Colormath",
+      "website": "https://github.com/ajalt/colormath/",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
       "uniqueId": "com.google.accompanist:accompanist-drawablepainter",
       "funding": [],
       "developers": [
@@ -3555,6 +3597,132 @@
         "url": "https://icu.unicode.org/",
         "name": "Unicode, Inc."
       }
+    },
+    {
+      "uniqueId": "com.materialkolor:material-color-utilities",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Jordon de Hoog"
+        }
+      ],
+      "artifactVersion": "2.0.2",
+      "description": "A Compose multiplatform library for generating dynamic Material3 color schemes from a seed color.",
+      "scm": {
+        "connection": "scm:git:https://github.com/jordond/materialkolor.git",
+        "url": "https://github.com/jordond/materialkolor",
+        "developerConnection": "scm:git:git@github.com:jordond/materialkolor.git"
+      },
+      "name": "MaterialKolor",
+      "website": "https://github.com/jordond/materialkolor",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
+      "uniqueId": "com.materialkolor:material-color-utilities-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Jordon de Hoog"
+        }
+      ],
+      "artifactVersion": "2.0.2",
+      "description": "A Compose multiplatform library for generating dynamic Material3 color schemes from a seed color.",
+      "scm": {
+        "connection": "scm:git:https://github.com/jordond/materialkolor.git",
+        "url": "https://github.com/jordond/materialkolor",
+        "developerConnection": "scm:git:git@github.com:jordond/materialkolor.git"
+      },
+      "name": "MaterialKolor",
+      "website": "https://github.com/jordond/materialkolor",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
+      "uniqueId": "com.materialkolor:material-color-utilities-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Jordon de Hoog"
+        }
+      ],
+      "artifactVersion": "2.0.2",
+      "description": "A Compose multiplatform library for generating dynamic Material3 color schemes from a seed color.",
+      "scm": {
+        "connection": "scm:git:https://github.com/jordond/materialkolor.git",
+        "url": "https://github.com/jordond/materialkolor",
+        "developerConnection": "scm:git:git@github.com:jordond/materialkolor.git"
+      },
+      "name": "MaterialKolor",
+      "website": "https://github.com/jordond/materialkolor",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
+      "uniqueId": "com.materialkolor:material-kolor",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Jordon de Hoog"
+        }
+      ],
+      "artifactVersion": "2.0.2",
+      "description": "A Compose multiplatform library for generating dynamic Material3 color schemes from a seed color.",
+      "scm": {
+        "connection": "scm:git:https://github.com/jordond/materialkolor.git",
+        "url": "https://github.com/jordond/materialkolor",
+        "developerConnection": "scm:git:git@github.com:jordond/materialkolor.git"
+      },
+      "name": "MaterialKolor",
+      "website": "https://github.com/jordond/materialkolor",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
+      "uniqueId": "com.materialkolor:material-kolor-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Jordon de Hoog"
+        }
+      ],
+      "artifactVersion": "2.0.2",
+      "description": "A Compose multiplatform library for generating dynamic Material3 color schemes from a seed color.",
+      "scm": {
+        "connection": "scm:git:https://github.com/jordond/materialkolor.git",
+        "url": "https://github.com/jordond/materialkolor",
+        "developerConnection": "scm:git:git@github.com:jordond/materialkolor.git"
+      },
+      "name": "MaterialKolor",
+      "website": "https://github.com/jordond/materialkolor",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
+      "uniqueId": "com.materialkolor:material-kolor-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Jordon de Hoog"
+        }
+      ],
+      "artifactVersion": "2.0.2",
+      "description": "A Compose multiplatform library for generating dynamic Material3 color schemes from a seed color.",
+      "scm": {
+        "connection": "scm:git:https://github.com/jordond/materialkolor.git",
+        "url": "https://github.com/jordond/materialkolor",
+        "developerConnection": "scm:git:git@github.com:jordond/materialkolor.git"
+      },
+      "name": "MaterialKolor",
+      "website": "https://github.com/jordond/materialkolor",
+      "licenses": [
+        "MIT"
+      ]
     },
     {
       "uniqueId": "com.mikepenz:aboutlibraries-compose-m3",
