@@ -95,9 +95,11 @@ fun SpaceSwitchDialog(
                         items(2) {
                             ListItem(
                                 headlineContent = {
-                                    Text(text = stringResource(Res.string.lorem_ipsum_short))
-                                },
-                                Modifier.loadingPlaceHolder(scrapeRequestState.state.toErrorLoadingSuccessState()),
+                                    Text(
+                                        text = stringResource(Res.string.lorem_ipsum_short),
+                                        Modifier.loadingPlaceHolder(scrapeRequestState.state.toErrorLoadingSuccessState())
+                                    )
+                                }
                             )
                         }
                     } else {

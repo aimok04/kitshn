@@ -97,12 +97,14 @@ fun SupermarketSettingChip(
                     ) {
                         when(requestState.state) {
                             TandoorRequestStateState.LOADING -> {
-                                items(1) {
+                                items(2) {
                                     ListItem(
                                         headlineContent = {
-                                            Text(text = stringResource(Res.string.lorem_ipsum_short))
+                                            Text(
+                                                text = stringResource(Res.string.lorem_ipsum_short),
+                                                Modifier.loadingPlaceHolder(requestState.state.toErrorLoadingSuccessState())
+                                            )
                                         },
-                                        Modifier.loadingPlaceHolder(requestState.state.toErrorLoadingSuccessState()),
                                     )
                                 }
                             }
