@@ -189,6 +189,8 @@ fun HomeTraditionalLayout(
                         p.vm.tandoorClient?.let {
                             RouteMainSubrouteHomeMealPlanPromotionSection(
                                 client = it,
+                                titlePadding = PaddingValues(),
+                                contentPadding = PaddingValues(top = 16.dp),
                                 loadingState = pageLoadingState
                             ) { recipeOverview, servings ->
                                 RecipeServingsAmountSaveMap[recipeOverview.id] =

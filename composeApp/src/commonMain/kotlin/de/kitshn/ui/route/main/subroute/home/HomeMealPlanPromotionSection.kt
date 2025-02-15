@@ -2,6 +2,7 @@ package de.kitshn.ui.route.main.subroute.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,6 +34,8 @@ import org.jetbrains.compose.resources.stringResource
 fun RouteMainSubrouteHomeMealPlanPromotionSection(
     client: TandoorClient,
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
+    titlePadding: PaddingValues = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp),
+    contentPadding: PaddingValues = PaddingValues(16.dp),
     select: (recipeOverview: TandoorRecipeOverview, servings: Double) -> Unit
 ) {
     val mealPlans =
@@ -76,7 +79,7 @@ fun RouteMainSubrouteHomeMealPlanPromotionSection(
     Column {
         Text(
             modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                .padding(titlePadding)
                 .loadingPlaceHolder(loadingState),
             text = stringResource(Res.string.home_meal_plan_promotion_title),
             style = Typography().titleLarge
@@ -84,7 +87,7 @@ fun RouteMainSubrouteHomeMealPlanPromotionSection(
 
         Card(
             Modifier
-                .padding(16.dp)
+                .padding(contentPadding)
                 .loadingPlaceHolder(loadingState)
         ) {
             Column(
