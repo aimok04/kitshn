@@ -48,6 +48,7 @@ import de.kitshn.scoreMatch
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.model.recipebook.HorizontalRecipeBookCard
+import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_apply
 import kitshn.composeapp.generated.resources.action_manage_recipe_books
@@ -130,7 +131,7 @@ fun ManageRecipeInRecipeBooksDialog(
     }
 
     AlertDialog(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.fullWidthAlertDialogPadding(),
         onDismissRequest = {
             state.dismiss()
         },
@@ -141,9 +142,7 @@ fun ManageRecipeInRecipeBooksDialog(
             Text(stringResource(Res.string.action_manage_recipe_books))
         },
         text = {
-            BoxWithConstraints(
-                Modifier.padding(16.dp)
-            ) {
+            BoxWithConstraints {
                 Column {
                     Box(
                         Modifier.height(
@@ -210,9 +209,7 @@ fun ManageRecipeInRecipeBooksDialog(
             }
         },
         properties = DialogProperties(
-            usePlatformDefaultWidth = false,
-            dismissOnBackPress = true,
-            dismissOnClickOutside = true
+            usePlatformDefaultWidth = false
         )
     )
 

@@ -2,7 +2,6 @@ package de.kitshn.ui.dialog.select
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Receipt
@@ -34,6 +33,7 @@ import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
 import de.kitshn.ui.component.model.recipe.HorizontalRecipeCardLink
+import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_abort
@@ -75,7 +75,7 @@ fun SelectRecipeDialog(
     }
 
     AlertDialog(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.fullWidthAlertDialogPadding(),
         onDismissRequest = {
             state.dismiss()
         },

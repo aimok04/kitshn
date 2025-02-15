@@ -71,7 +71,7 @@ fun SpaceSwitchDialog(
     }
 
     AlertDialog(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.padding(top = 24.dp, bottom = 24.dp),
         onDismissRequest = {
             onDismiss()
         },

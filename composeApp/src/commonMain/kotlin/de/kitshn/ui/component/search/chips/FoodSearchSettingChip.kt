@@ -30,7 +30,7 @@ fun FoodSearchSettingChip(
         client = client,
         prepend = {
             SettingsSwitchListItem(
-                contentPadding = PaddingValues(bottom = 8.dp),
+                contentPadding = PaddingValues(bottom = 16.dp),
                 label = {
                     Text(text = stringResource(Res.string.search_food_including_all_label))
                 },

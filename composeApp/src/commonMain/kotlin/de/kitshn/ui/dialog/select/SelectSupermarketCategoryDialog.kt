@@ -42,6 +42,7 @@ import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarketCategory
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
+import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import de.kitshn.ui.modifier.loadingPlaceHolder
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_abort
@@ -90,7 +91,7 @@ fun SelectSupermarketCategoryDialog(
     }
 
     AlertDialog(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.fullWidthAlertDialogPadding(),
         onDismissRequest = {
             state.dismiss()
         },

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -55,6 +54,7 @@ import de.kitshn.removeIf
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
+import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_add
@@ -102,7 +102,7 @@ fun SelectMultipleKeywordsDialog(
     if(!state.shown.value) return
 
     AlertDialog(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.fullWidthAlertDialogPadding(),
         onDismissRequest = {
             state.dismiss()
         },
@@ -116,9 +116,7 @@ fun SelectMultipleKeywordsDialog(
             Column {
                 prepend()
 
-                BoxWithConstraints(
-                    Modifier.padding(16.dp)
-                ) {
+                BoxWithConstraints {
                     ResponsiveSideBySideLayout(
                         showDivider = true,
 
@@ -194,9 +192,7 @@ fun SelectMultipleKeywordsDialog(
             }
         },
         properties = DialogProperties(
-            usePlatformDefaultWidth = false,
-            dismissOnBackPress = true,
-            dismissOnClickOutside = true
+            usePlatformDefaultWidth = false
         )
     )
 }

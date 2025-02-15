@@ -76,6 +76,7 @@ fun SupermarketSettingChip(
         }
 
         AlertDialog(
+            modifier = Modifier.padding(top = 24.dp, bottom = 24.dp),
             onDismissRequest = {
                 showDialog = false
             },

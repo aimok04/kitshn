@@ -2,7 +2,6 @@ package de.kitshn.ui.dialog.select
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Receipt
@@ -34,6 +33,7 @@ import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.removeIf
 import de.kitshn.scoreMatch
 import de.kitshn.ui.component.model.recipebook.HorizontalRecipeBookCard
+import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_abort
 import kitshn.composeapp.generated.resources.search_recipe_books
@@ -75,7 +75,7 @@ fun SelectRecipeBookDialog(
     }
 
     AlertDialog(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.fullWidthAlertDialogPadding(),
         onDismissRequest = {
             state.dismiss()
         },

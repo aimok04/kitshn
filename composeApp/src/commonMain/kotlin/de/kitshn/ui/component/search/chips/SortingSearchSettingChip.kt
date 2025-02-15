@@ -2,6 +2,7 @@ package de.kitshn.ui.component.search.chips
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -48,6 +49,7 @@ fun SortingSearchSettingChip(
     )
 
     if(showDialog) AlertDialog(
+        modifier = Modifier.padding(top = 24.dp, bottom = 24.dp),
         onDismissRequest = {
             showDialog = false
         },
