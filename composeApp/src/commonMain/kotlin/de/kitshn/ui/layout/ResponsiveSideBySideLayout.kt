@@ -11,6 +11,7 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -43,8 +44,8 @@ fun ResponsiveSideBySideLayout(
                 Column(
                     Modifier
                         .widthIn(
-                            min = leftMinWidth,
-                            max = leftMaxWidth
+                            min = leftMinWidth.coerceAtLeast(0.dp),
+                            max = leftMaxWidth.coerceAtLeast(10.dp)
                         )
                         .weight(1f, true)
                 ) {
@@ -58,8 +59,8 @@ fun ResponsiveSideBySideLayout(
                 Column(
                     Modifier
                         .widthIn(
-                            min = rightMinWidth,
-                            max = rightMaxWidth
+                            min = rightMinWidth.coerceAtLeast(0.dp),
+                            max = rightMaxWidth.coerceAtLeast(10.dp)
                         )
                         .weight(1f)
                 ) {
