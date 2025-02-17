@@ -377,4 +377,5 @@
     <string name="settings_section_appearance_color_scheme_dynamic_label">Динамічна колірна схема</string>
     <string name="settings_section_appearance_color_scheme_cupertino_label">Колірна схема «Купертіно»</string>
     <string name="settings_section_appearance_color_scheme_custom_from_image_error_message">Не вдалося витягти початковий колір із вибраного зображення. Будь ласка, спробуйте інше зображення або використовуйте попередньо визначену схему.</string>
+    <string name="common_account">Обліковий запис</string>
 </resources>
