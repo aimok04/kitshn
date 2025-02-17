@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Logout
+import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Web
@@ -18,6 +19,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +33,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
+import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.launchWebsiteHandler
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.settings.SettingsListItem
@@ -39,6 +42,7 @@ import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_sign_out
 import kitshn.composeapp.generated.resources.action_sign_out_description
+import kitshn.composeapp.generated.resources.common_account
 import kitshn.composeapp.generated.resources.common_instance_url
 import kitshn.composeapp.generated.resources.common_manage_space
 import kitshn.composeapp.generated.resources.common_unknown
@@ -66,6 +70,13 @@ fun ViewSettingsServer(
 
     var showDataManagementDialog by remember { mutableStateOf(false) }
 
+    LaunchedEffect(Unit) {
+        TandoorRequestState().wrapRequest {
+            val user = p.vm.tandoorClient?.user?.get()
+            if(user != null) p.vm.uiState.userDisplayName = user.display_name
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -81,6 +92,20 @@ fun ViewSettingsServer(
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
             item {
+                SettingsListItem(
+                    label = { Text(stringResource(Res.string.common_account)) },
+                    description = {
+                        Text(
+                            p.vm.uiState.userDisplayName.ifBlank {
+                                stringResource(Res.string.common_unknown)
+                            }
+                        )
+                    },
+                    icon = Icons.Rounded.AccountCircle,
+                    enabled = p.vm.uiState.userDisplayName.isNotBlank(),
+                    contentDescription = stringResource(Res.string.common_account)
+                )
+
                 SettingsListItem(
                     label = { Text(stringResource(Res.string.common_instance_url)) },
                     description = {
