@@ -19,7 +19,7 @@ data class TandoorUserSpace(
 
 @Serializable
 data class TandoorUser(
-    val id: Long,
+    val id: Int,
     val username: String = "",
     val first_name: String? = "",
     val last_name: String? = "",
@@ -43,11 +43,9 @@ class TandoorUserRoute(client: TandoorClient) : TandoorBaseRoute(client) {
     }
 
     suspend fun get(): TandoorUser? {
-        val resp = json.decodeFromString<TandoorUserSpaceResponse>(
-            client.getObject("/user-space/").toString()
-        )
-
-        return resp.results.firstOrNull()?.user
+        val userPreference = client.userPreference.fetch()
+        val user = getUsers().find { it.id == userPreference.user }
+        return user
     }
 
 }

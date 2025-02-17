@@ -37,8 +37,8 @@ import org.jetbrains.compose.resources.getString
 @Composable
 fun BaseUserSearchField(
     client: TandoorClient,
-    value: Long?,
-    onValueChange: (Long?, TandoorUser?) -> Unit,
+    value: Int?,
+    onValueChange: (Int?, TandoorUser?) -> Unit,
     content: @Composable ExposedDropdownMenuBoxScope.(
         value: String,
         onValueChange: (value: String) -> Unit
@@ -105,8 +105,8 @@ fun BaseUserSearchField(
 @Composable
 fun OutlinedUserSearchField(
     client: TandoorClient,
-    value: Long?,
-    onValueChange: (Long?, TandoorUser?) -> Unit,
+    value: Int?,
+    onValueChange: (Int?, TandoorUser?) -> Unit,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
     label: @Composable (() -> Unit)? = null,
@@ -155,8 +155,8 @@ fun OutlinedUserSearchField(
 @Composable
 fun UserSearchField(
     client: TandoorClient,
-    value: Long?,
-    onValueChange: (Long?, TandoorUser?) -> Unit,
+    value: Int?,
+    onValueChange: (Int?, TandoorUser?) -> Unit,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
     label: @Composable (() -> Unit)? = null,
