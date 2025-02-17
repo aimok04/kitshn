@@ -18,12 +18,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import de.kitshn.Platforms
+import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.platformDetails
 import de.kitshn.ui.component.onboarding.KitshnLogoAnimationWrapper
 import de.kitshn.ui.route.RouteParameters
@@ -43,6 +45,13 @@ fun RouteOnboardingWelcome(
     p: RouteParameters
 ) {
     val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        TandoorRequestState().wrapRequest {
+            val user = p.vm.tandoorClient?.user?.get()
+            if(user != null) p.vm.uiState.userDisplayName = user.display_name
+        }
+    }
 
     Scaffold(
         floatingActionButton = {
@@ -98,7 +107,9 @@ fun RouteOnboardingWelcome(
                             Spacer(Modifier.width(8.dp))
 
                             Text(
-                                text = p.vm.tandoorClient?.credentials?.username ?: "",
+                                text = p.vm.uiState.userDisplayName.ifBlank {
+                                    p.vm.tandoorClient?.credentials?.username ?: ""
+                                },
                                 style = Typography().displaySmall.copy(
                                     brush = Brush.horizontalGradient(
                                         colors = listOf(

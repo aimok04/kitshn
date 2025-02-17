@@ -40,6 +40,8 @@ class UiStateModel : ViewModel() {
 
     var isInForeground by mutableStateOf(true)
 
+    var userDisplayName by mutableStateOf("")
+
     var offlineState = AppOfflineState()
 
     var importRecipeUrl = UiStateLink<String>()

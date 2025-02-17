@@ -68,6 +68,7 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorCredentialsCustomHeader
 import de.kitshn.api.tandoor.TandoorCredentialsToken
+import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.crash.crashReportHandler
@@ -171,7 +172,9 @@ fun RouteOnboardingSignIn(
 
                     val user = p.vm.tandoorClient!!.user.get()
                     if(user != null) {
-                        credentials.username = user.display_name
+                        credentials.username = user.username
+                        p.vm.uiState.userDisplayName = user.display_name
+
                         p.vm.settings.saveTandoorCredentials(credentials)
 
                         p.vm.navHostController?.navigate("onboarding/welcome")
@@ -195,6 +198,11 @@ fun RouteOnboardingSignIn(
                     if(token != null) {
                         credentials.token = token
                         p.vm.settings.saveTandoorCredentials(credentials)
+
+                        TandoorRequestState().wrapRequest {
+                            val user = p.vm.tandoorClient?.user?.get()
+                            if(user != null) p.vm.uiState.userDisplayName = user.display_name
+                        }
 
                         p.vm.navHostController?.navigate("onboarding/welcome")
                         return@wrapRequest

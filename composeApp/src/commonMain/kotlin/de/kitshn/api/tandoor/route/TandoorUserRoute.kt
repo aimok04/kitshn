@@ -1,6 +1,7 @@
 package de.kitshn.api.tandoor.route
 
 import de.kitshn.api.tandoor.TandoorClient
+import de.kitshn.api.tandoor.getArray
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.json
 import kotlinx.serialization.Serializable
@@ -30,7 +31,7 @@ class TandoorUserRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
     suspend fun getUsers(): List<TandoorUser> {
         return json.decodeFromString<List<TandoorUser>>(
-            client.getObject("/user/").toString()
+            client.getArray("/user/").toString()
         )
     }
 
