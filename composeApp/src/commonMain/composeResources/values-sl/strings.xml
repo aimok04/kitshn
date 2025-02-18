@@ -337,4 +337,12 @@
     <string name="navigation_meal_plan">Načrt obrokov</string>
     <string name="settings_section_behavior_enable_crash_reporting">Omogoči poročanje o zrušitvah</string>
     <string name="settings_section_server_delete_and_manage_data_description">Svoje podatke lahko upravljate samo na spletni strani</string>
+    <string name="settings_section_appearance_color_scheme_cupertino_label">Barvna shema »Cupertino«</string>
+    <string name="settings_section_appearance_color_scheme_custom_from_image_error_message">Iz izbrane slike ni bilo mogoče izluščiti semenske barve. Poskusite z drugo sliko ali uporabite vnaprej določeno shemo.</string>
+    <string name="search_categories">Iskanje kategorij</string>
+    <string name="settings_section_appearance_color_scheme_custom_from_image_error_title">Napaka pri uporabi sheme po meri</string>
+    <string name="settings_section_appearance_color_scheme_custom_from_image_label">Tema po meri na podlagi slike</string>
+    <string name="settings_section_appearance_color_scheme_description">Izberite barvno shemo, ki ustreza vašemu slogu</string>
+    <string name="settings_section_appearance_color_scheme_dynamic_label">Dinamična barvna shema</string>
+    <string name="settings_section_appearance_color_scheme_label">Barvna shema</string>
 </resources>
