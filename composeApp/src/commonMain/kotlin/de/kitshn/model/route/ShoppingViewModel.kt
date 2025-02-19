@@ -19,6 +19,7 @@ import de.kitshn.removeIf
 import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRowState
 import de.kitshn.ui.component.shopping.chips.GroupingOptions
 import de.kitshn.ui.route.RouteParameters
+import de.kitshn.withLeadingZeros
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_ungrouped
 import kitshn.composeapp.generated.resources.shopping_list_items_done
@@ -165,6 +166,9 @@ class ShoppingViewModel(
                 Pair(it.category.id, it.order)
             }
 
+        val maxOrderInt = supermarketCategoryIdToOrder?.entries?.maxOf { it.value } ?: 0
+        val maxOrderIntDigitCount = maxOrderInt.toString().length
+
         val entries = this.entries.filterNot { it._destroyed }
             .toMutableList()
 
@@ -221,8 +225,8 @@ class ShoppingViewModel(
                         } else if(it.food.supermarket_category == null) {
                             "!!!" // first character in lexicographic order
                         } else if(supermarketCategoryIdToOrder != null) {
-                            (supermarketCategoryIdToOrder[it.food.supermarket_category!!.id]
-                                ?: 0).toString()
+                            supermarketCategoryIdToOrder[it.food.supermarket_category!!.id]
+                                ?.withLeadingZeros(length = maxOrderIntDigitCount)
                         } else {
                             it.food.supermarket_category!!.name
                         }

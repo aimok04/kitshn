@@ -148,6 +148,13 @@ fun Double.formatAmount(fractional: Boolean = true): String {
     }
 }
 
+fun Int.withLeadingZeros(length: Int): String {
+    val output = StringBuilder()
+    repeat(length - toString().length) { output.append("0") }
+    output.append(toString())
+    return output.toString()
+}
+
 @Composable
 fun ScrollState.isScrollingUp(): Boolean {
     var previousValue by remember(this) {
