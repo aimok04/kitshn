@@ -24,7 +24,7 @@ suspend fun TandoorStep.loadFile(
 
     // Downloading file
     FileOutputStream(zipFile).use {
-        it.write(client!!.getByteArray("/download-file/${file.id}"))
+        it.write(client!!.getByteArray("/download-file/${file.id}/"))
     }
 
     // Tandoor serves files in .zip containers
