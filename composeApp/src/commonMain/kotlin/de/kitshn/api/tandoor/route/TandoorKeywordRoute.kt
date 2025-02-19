@@ -53,7 +53,7 @@ class TandoorKeywordRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         page: Int = 1,
         pageSize: Int?
     ): TandoorKeywordRouteListResponse {
-        val builder = Uri.Builder().appendPath("keyword")
+        val builder = Uri.Builder().appendEncodedPath("keyword/")
         if(query != null) builder.appendQueryParameter("query", query)
         if(pageSize != null) builder.appendQueryParameter("page_size", pageSize.toString())
         builder.appendQueryParameter("page", page.toString())

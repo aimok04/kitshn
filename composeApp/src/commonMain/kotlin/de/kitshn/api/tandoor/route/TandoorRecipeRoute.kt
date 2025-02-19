@@ -124,7 +124,7 @@ class TandoorRecipeRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         page: Int = 1,
         pageSize: Int? = null
     ): TandoorRecipeRouteListResponse {
-        val builder = Uri.Builder().appendPath("recipe")
+        val builder = Uri.Builder().appendEncodedPath("recipe/")
         if(parameters.query != null) builder.appendQueryParameter("query", parameters.query)
         if(parameters.new != null) builder.appendQueryParameter("new", parameters.new.toTFString())
         if(parameters.random != null) builder.appendQueryParameter(

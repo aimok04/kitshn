@@ -22,7 +22,7 @@ class TandoorFoodRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         page: Int = 1,
         pageSize: Int?
     ): TandoorFoodRouteListResponse {
-        val builder = Uri.Builder().appendPath("food")
+        val builder = Uri.Builder().appendEncodedPath("food/")
         if(query != null) builder.appendQueryParameter("query", query)
         if(pageSize != null) builder.appendQueryParameter("page_size", pageSize.toString())
         builder.appendQueryParameter("page", page.toString())

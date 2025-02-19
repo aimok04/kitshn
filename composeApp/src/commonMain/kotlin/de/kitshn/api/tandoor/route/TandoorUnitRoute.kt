@@ -22,7 +22,7 @@ class TandoorUnitRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         page: Int = 1,
         pageSize: Int?
     ): TandoorUnitRouteListResponse {
-        val builder = Uri.Builder().appendPath("unit")
+        val builder = Uri.Builder().appendEncodedPath("unit/")
         if(query != null) builder.appendQueryParameter("query", query)
         if(pageSize != null) builder.appendQueryParameter("page_size", pageSize.toString())
         builder.appendQueryParameter("page", page.toString())

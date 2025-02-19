@@ -66,7 +66,7 @@ class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             byUnicodePattern("yyyy-MM-dd")
         }
 
-        val builder = Uri.Builder().appendPath("meal-plan")
+        val builder = Uri.Builder().appendEncodedPath("meal-plan/")
         if(from != null) builder.appendQueryParameter("from_date", dateTimeFormat.format(from))
         if(to != null) builder.appendQueryParameter("to_date", dateTimeFormat.format(to))
         if(meal_type != null) builder.appendQueryParameter("meal_type", meal_type.toString())
