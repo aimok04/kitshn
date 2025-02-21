@@ -362,4 +362,6 @@
     <string name="tandoor_compatibility_unknown_label">Kompatibilität unbekannt</string>
     <string name="search_categories">Kategorien durchsuchen</string>
     <string name="common_account">Benutzer</string>
+    <string name="common_not_supported">Nicht unterstützt</string>
+    <string name="error_space_switching_not_supported_with_api_token">kitshn unterstützt diese Funktion derzeit nicht, wenn ein API-Token verwendet wird. Bitte verwenden Sie eine andere Authentifizierungsmethode, wenn möglich.</string>
 </resources>
