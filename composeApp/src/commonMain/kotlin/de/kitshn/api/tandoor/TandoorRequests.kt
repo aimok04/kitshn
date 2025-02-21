@@ -25,10 +25,13 @@ import kotlinx.serialization.json.JsonObject
 class TandoorRequestsError(
     val exception: Exception?,
     val response: HttpResponse?,
+    private val additionalText: String = "",
 ) : Exception() {
     override val message: String
-        get() = exception?.message
+        get() = (
+                exception?.message
             ?: (response?.request?.url.toString() + " | " + response?.request?.method.toString() + " | " + response?.status.toString())
+                ) + additionalText
 }
 
 suspend fun TandoorClient.reqAny(

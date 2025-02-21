@@ -67,6 +67,13 @@ class TandoorSpaceRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             )
         }
 
+        if(spaces.isEmpty())
+            throw TandoorRequestsError(
+                null,
+                response,
+                doc.html().replace(client.credentials.instanceUrl, "* REDACTED *")
+            )
+
         return spaces.sortedBy { it.name }
     }
 
