@@ -55,15 +55,10 @@ fun ViewHomeSearch(
         state.openWithKeywordId(client, it)
     }
 
-    var query by rememberSaveable { mutableStateOf("") }
+    var query by rememberSaveable { mutableStateOf(state.query) }
     LaunchedEffect(query) {
         delay(200)
         state.query = query
-    }
-
-    LaunchedEffect(state.shown.value) {
-        query = state.defaultValues.query
-        state.query = state.defaultValues.query
     }
 
     if(state.shown.value) SearchBar(
