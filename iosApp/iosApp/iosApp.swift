@@ -102,10 +102,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("kitshn/iOS: Starting Bugsnag ...")
 
         let config = BugsnagConfiguration.loadConfig()
-        config.addOnSendError { (event) -> Bool in
-            // only send unhandled events
-            return event.unhandled
-        }
         BugsnagConfigKt.startBugsnag(config: config)
     }
 }
