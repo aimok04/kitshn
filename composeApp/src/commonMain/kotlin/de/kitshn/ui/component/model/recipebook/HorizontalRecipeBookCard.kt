@@ -75,6 +75,7 @@ fun HorizontalRecipeBookCard(
     LaunchedEffect(recipeBook) {
         if(recipeBook?.entries?.size == 0) listEntriesState.wrapRequest {
             recipeBook.listEntries()
+            if(recipeBook.entries.isEmpty()) recipeBook.listFilterEntries(1)
         }
     }
 
@@ -139,7 +140,8 @@ fun HorizontalRecipeBookCard(
                                 .clip(RoundedCornerShape(8.dp))
                                 .loadingPlaceHolder(
                                     ErrorLoadingSuccessState.bool(
-                                        (recipeBook?.entries?.size ?: 0) > 0
+                                        recipeBook?.entries?.isNotEmpty() == true
+                                                || recipeBook?.filterEntries?.isNotEmpty() == true
                                     )
                                 )
                         )

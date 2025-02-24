@@ -34,11 +34,16 @@ class TandoorRecipeBook(
     val entries = mutableStateListOf<TandoorRecipeBookEntry>()
 
     @Transient
+    val filterEntries = mutableStateListOf<TandoorRecipeOverview>()
+
+    @Transient
     val entryByRecipeId = mutableStateMapOf<Int, TandoorRecipeBookEntry>()
 
     @Composable
     fun loadThumbnail(): ImageRequest? {
-        if(entries.size == 0) return null
+        if(entries.size == 0)
+            return filterEntries.firstOrNull { (it.image ?: "").isNotBlank() }?.loadThumbnail()
+
         return entries.firstOrNull { (it.recipe_content.image ?: "").isNotBlank() }?.loadThumbnail()
     }
 
@@ -50,12 +55,17 @@ class TandoorRecipeBook(
     suspend fun listFilterEntries(
         page: Int
     ): TandoorRecipeRouteListResponse {
-        return client!!.recipe.list(
+        val recipes = client!!.recipe.list(
             page = page,
             parameters = TandoorRecipeQueryParameters(
                 filter = filter!!.id
             )
         )
+
+        filterEntries.clear()
+        filterEntries.addAll(recipes.results)
+
+        return recipes
     }
 
     suspend fun delete(): String {
