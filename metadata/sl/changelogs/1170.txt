@@ -1,0 +1,14 @@
+Živjo ✌️
+
+Ta tedenska izdaja se osredotoča na uvedbo nekaterih glavnih funkcij in izboljšav na platformo iOS.
+Obstaja tudi nekaj sprememb, ki vplivajo na vse platforme:
+
+    1. 🇸🇮 Slovenščina je bila dodana na Weblate (avtor @vednolacni).
+    2. kitshn zdaj uporablja novo knjižnico markdown, ki izboljšuje slog.
+    3. Različne strani z odloženim nalaganjem so bile izboljšane.
+    4. Knjige receptov zdaj prikazujejo tudi recepte iz filtrov (#67).
+    5. Nekaj popravkov napak in majhnih izboljšav.
+    6. Preverjena združljivost z različicami Tandoor 1.5.28/29/30.
+
+kitshn je ta mesec dosegel 200 zvezdic 🥳
+Hvala za vašo podporo :)

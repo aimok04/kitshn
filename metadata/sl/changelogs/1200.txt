@@ -1,0 +1,14 @@
+Živjo ✌️
+Ta tedenska izdaja dodaja barvne sheme 🎨✨ in ponovno izboljšuje nakupovalno izkušnjo 🛍️ 🛒
+Vsebuje tudi nekaj popravkov zrušitev in napak ter izboljšav uporabniškega vmesnika:
+
+ 1. Dodanih več barvnih shem in barvnih shem po meri na podlagi slik (št. 103).
+ 2. Dodana možnost odkljukanja vnosov na nakupovalnem seznamu (#107).
+ 3. Izboljšano pogovorno okno za dodajanje na nakupovalni seznam, da se izognete težavam z vnosom (št. 102).
+ 4. Dodano namensko pogovorno okno za izbiro kategorije za vnose na nakupovalnem seznamu, da se izognete težavam pri vnosu (št. 102).
+ 5. Popravljeno prekrivanje pogovornih oken z navigacijsko vrstico v sistemu Android 15 (#109),
+ 6. Odpravljena težava, pri kateri pogovornih oken z iskalnimi vrsticami ni bilo mogoče zapreti s povratnim dejanjem (#110).
+ 7. Izbirnik fiksnega datuma v pogovornem oknu za urejanje/ustvarjanje načrta obrokov se ne odpre v sistemu iOS (št. 105).
+ 8. Odpravljena zrušitev pri skupni rabi recepta v sistemu iOS (#108).
+ 9. Popravljen gumb za vir, ki je bil viden, ko je source_url prazen (#106).
+ 10. Več izboljšav uporabniškega vmesnika in postavitve.

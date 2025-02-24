@@ -1,47 +1,49 @@
-**Informacije:** Uporabniki GrapheneOS bodo morda morali onemogočiti funkcijo "Utrjeni pomnilniški razporejevalnik" ali omogočiti "Način združljivosti zaščite pred izkoriščanjem", da bo aplikacija delovala.
+Informacije: uporabniki sistema GrapheneOS bodo morda morali onemogočiti »Hardened memory allocator« ali omogočiti »Exploit protection compatibility mode«, da bo aplikacija delovala.
 
-Aplikacija je zgrajena z <b>Jetpack Compose</b> in <b>Material You</b>, da zagotovi sodobno, intuitivno in odzivno uporabniško izkušnjo.
+Zgrajen z <b>Jetpack Compose</b> in <b>Material You</b> za zagotavljanje sodobne, intuitivne in odzivne uporabniške izkušnje.
 
-**Podprte funkcije:**
-
+<b>Podprte funkcije:</b>
 <ul>
-    <li>Dinamična domača stran s predlogi</li>
-    <li>Recepti</li>
-    <ul>
-        <li>Dodajanje, uvažanje, urejanje in brisanje</li>
-        <ul>
-            <li>Orodje za združevanje korakov</li>
-            <li>Sprejemnik za deljenje za uvoz receptov prek URL-jev</li>
-        </ul>
-        <li>Obsežno iskanje</li>
-        <li>Način kuhanja</li>
-        <li>Orodje za dodeljevanje korakov in sestavin</li>
-        <li>Povezave v aplikaciji</li>
-        <li>Podpora za Markdown</li>
-    </ul>
-    <li>Načrt obrokov</li>
-    <ul>
-        <li>Pogled</li>
-        <li>Dodajanje, urejanje in brisanje</li>
-    </ul>
-    <li>Seznam za nakupovanje</li>
-    <ul>
-        <li>Dodajanje in brisanje</li>
-        <li>Samodejna sinhronizacija</li>
-    </ul>
-    <li>Knjige receptov</li>
-    <ul>
-        <li>Dodajanje in brisanje</li>
-        <li>Funkcija priljubljenih</li>
-    </ul>
-    <li>Uporabniški vmesnik</li>
-    <ul>
-        <li>Zgrajen z Jetpack Compose</li>
-        <li>Dinamične barve Material You</li>
-        <li>Prilagodljive postavitve z dvema ploščama za tablice in upogljive naprave</li>
-    </ul>
+ <li>Dinamični začetni zaslon s predlogi</li>
+ <li>Recepti</li>
+ <ul>
+ <li>Dodajanje, uvažanje, urejanje in brisanje</li>
+ <ul>
+ <li>Orodje za združevanje korakov</li>
+ <li>Skupna raba sprejemnika za uvoze receptov prek URL</li>
+ </ul>
+ <li>Obširno iskanje</li>
+ <li>Način kuhanja</li>
+ <li>Orodje za dodeljevanje sestavin po korakih</li>
+ <li>Povezave do aplikacij</li>
+ <li>Podprto označevanje</li>
+ </ul>
+ <li>Načrt obrokov</li>
+ <ul>
+ <li>Pregled</li>
+ <li>Dodajanje, urejanje in brisanje</li>
+ </ul>
+ <li>Nakupovalni seznam</li>
+ <ul>
+ <li>Dodajanje in brisanje</li>
+ <li>Kategorije in supermarketi</li>
+ <li>Nakupovalni način</li>
+ <li>Način brez povezave</li>
+<li>Samodejna sinhronizacija</li>
+ </ul>
+ <li>Knjige receptov</li>
+ <ul>
+ <li>Dodajanje in brisanje</li>
+ <li>Funkcija priljubljenih</li>
+ </ul>
+ <li>UI</li>
+ <ul>
+ <li>Ustvarjeno z Jetpack Compose</li>
+ <li>Material You dinamične barve</li>
+ <li>Odzivne postavitve dveh podoknov za tablične računalnike in zložljive naprave</li>
+ </ul>
 </ul>
 
-Upoštevajte, da je aplikacija trenutno v alfa fazi. Na Githubu lahko seveda odprete zadeve za napake, povratne informacije in ideje za funkcije.
+Upoštevajte, da je aplikacija trenutno v fazi alfa. Seveda lahko na Githubu odprete vprašanja za napake, povratne informacije in ideje o funkcijah.
 
-Ikono je ustvaril Freepik na www.flaticon.com.
+Ikono, ki jo je izdelal Freepik z www.flaticon.com

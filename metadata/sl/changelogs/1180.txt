@@ -1,0 +1,13 @@
+Živjo ✌️
+
+Ta tedenska izdaja dodaja dva nova jezika in nekaj manjših sprememb:
+
+ 1. 🇫🇷 Francoščina je bila dodana na Weblate (avtor @KcivazB).
+ 2. 🇪🇸 Španščina je bila dodana na Weblate (avtor @1024mb).
+ 3. Dodana možnost za onemogočanje dinamičnih priporočil na začetnem zaslonu.
+ 4. Dodana podpora za glave po meri za preverjanje pristnosti.
+ 5. Dodan gumb za poročilo o napakah na strani za vkrcanje.
+ 6. Odpravljene nekatere težave s postavitvijo in uporabniškim vmesnikom.
+ 7. Preverjena združljivost z različico Tandoor 1.5.31.
+
+Naslednja izdaja se bo osredotočila na izboljšanje strani z nakupovalnim seznamom :)
