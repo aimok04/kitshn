@@ -302,4 +302,6 @@
     <string name="tandoor_compatibility_full_compatibility_label">Compatibel</string>
     <string name="tandoor_compatibility_mixed_compatibility_description">Sommige functionaliteiten van je Tandoor server worden niet ondersteund door deze app. Om alle functionaliteiten van deze app te kunnen gebruiken, update je server naar een van de volgende versies.</string>
     <string name="common_option_requires_restart">Deze optie vereist een herstart om toegepast te worden</string>
+    <string name="action_start_shopping_mode">Start winkel modus</string>
+    <string name="action_cook">Koken</string>
 </resources>
