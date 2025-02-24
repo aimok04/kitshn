@@ -165,7 +165,7 @@ fun ViewBooksDetails(
             )
         }
     ) { pv ->
-        if(book.entries.size == 0) {
+        if(recipes.isEmpty() && filterRecipes.isEmpty()) {
             Box(
                 Modifier
                     .padding(pv)
