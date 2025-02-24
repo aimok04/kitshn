@@ -1,0 +1,10 @@
+Živjo ✌️
+Ta tedenska izdaja se osredotoča na izboljšanje nakupovalne izkušnje 🛍️ 🛒
+
+ 1. Prenovljen uporabniški vmesnik nakupovalnega seznama (št. 93).
+ 2. Dodan nakupovalni način z večjimi cilji na dotik.
+ 3. Dodana podpora za združevanje po kategoriji, receptu in ustvarjalcu na nakupovalni strani (št. 92).
+ 4. Dodana podpora za filtriranje po supermarketu na nakupovalni strani (#93).
+ 5. Implementiran način brez povezave in predpomnjenje za nakupovalni seznam.
+ 6. Dodan preklopnik prostora na domači strani z uporabo spletnega strganja (glejte #59).
+ 7. Odpravljena pogosta zrušitev »Umestitev se je zgodila pred pogledom vnaprej«.
