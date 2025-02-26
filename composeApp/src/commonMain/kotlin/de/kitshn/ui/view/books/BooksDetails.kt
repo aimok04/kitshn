@@ -106,6 +106,7 @@ fun ViewBooksDetails(
     var currentPage by remember { mutableStateOf(1) }
 
     val filterRecipes = remember { mutableStateListOf<TandoorRecipeOverview>() }
+    val filterRecipesIds = remember { mutableStateListOf<Int>() }
 
     val reachedBottom by remember { derivedStateOf { lazyStaggeredGridState.reachedBottom() } }
 
@@ -126,7 +127,12 @@ fun ViewBooksDetails(
                 nextPageExists = it.next != null
                 currentPage++
 
-                it.results.forEach { recipe -> filterRecipes.add(recipe) }
+                it.results.forEach { recipe ->
+                    if(filterRecipesIds.contains(recipe.id)) return@LaunchedEffect
+
+                    filterRecipes.add(recipe)
+                    filterRecipesIds.add(recipe.id)
+                }
 
                 if(!reachedBottom) fetchNewItems = false
             }
