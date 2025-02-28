@@ -49,7 +49,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -279,21 +278,17 @@ fun ViewRecipeDetails(
     var servingsValue by remember { mutableIntStateOf(1) }
     var servingsFactor by remember { mutableDoubleStateOf(0.0) }
 
-    LaunchedEffect(servingsValue) {
-        servingsFactor = servingsValue.toDouble() / (recipe?.servings ?: 1).toDouble()
-        onServingsChange(servingsValue)
-    }
-
     LaunchedEffect(recipe) {
         if(recipe == null) return@LaunchedEffect
         servingsValue = RecipeServingsAmountSaveMap[recipe.id] ?: recipe.servings
     }
 
-    DisposableEffect(Unit) {
-        onDispose {
-            if(recipe == null) return@onDispose
-            RecipeServingsAmountSaveMap[recipe.id] = servingsValue
-        }
+    LaunchedEffect(servingsValue) {
+        servingsFactor = servingsValue.toDouble() / (recipe?.servings ?: 1).toDouble()
+        onServingsChange(servingsValue)
+
+        if(recipe == null) return@LaunchedEffect
+        RecipeServingsAmountSaveMap[recipe.id] = servingsValue
     }
 
     val useShareWrapperDialogState = rememberUseShareWrapperDialogState(vm = p.vm)
