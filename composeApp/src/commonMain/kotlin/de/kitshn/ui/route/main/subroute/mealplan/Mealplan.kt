@@ -6,6 +6,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
@@ -126,10 +127,14 @@ fun RouteMainSubrouteMealplan(
     }
 
     if(p.vm.tandoorClient != null) {
+        val showFractionalValues =
+            p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
+
         MealPlanCreationAndEditDialog(
             client = p.vm.tandoorClient!!,
             creationState = creationDialogState,
-            editState = editDialogState
+            editState = editDialogState,
+            showFractionalValues = showFractionalValues.value
         ) { lastMealPlanUpdate = Clock.System.now().toEpochMilliseconds() }
     }
 

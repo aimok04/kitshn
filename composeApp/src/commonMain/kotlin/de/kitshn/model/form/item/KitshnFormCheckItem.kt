@@ -17,7 +17,9 @@ class KitshnFormCheckItem(
 
     val label: @Composable () -> Unit,
     val description: @Composable (() -> Unit)? = null,
-    val leadingIcon: @Composable (() -> Unit)? = null
+    val leadingIcon: @Composable (() -> Unit)? = null,
+
+    val enabled: @Composable (() -> Boolean) = { true }
 ) : KitshnFormBaseItem() {
 
     @Composable
@@ -38,6 +40,7 @@ class KitshnFormCheckItem(
             trailingContent = {
                 Switch(
                     checked = value(),
+                    enabled = enabled(),
                     onCheckedChange = onValueChange
                 )
             }

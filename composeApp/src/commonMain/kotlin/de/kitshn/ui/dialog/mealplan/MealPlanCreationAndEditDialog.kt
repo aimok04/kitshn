@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Label
 import androidx.compose.material.icons.automirrored.rounded.Notes
 import androidx.compose.material.icons.rounded.Category
+import androidx.compose.material.icons.rounded.Checklist
 import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Receipt
@@ -22,6 +23,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorMealPlan
+import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.model.form.KitshnForm
@@ -35,6 +37,8 @@ import de.kitshn.model.form.item.field.KitshnFormTextFieldItem
 import de.kitshn.parseTandoorDate
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
+import de.kitshn.ui.dialog.recipe.RecipeAddToShoppingDialog
+import de.kitshn.ui.dialog.recipe.rememberRecipeAddToShoppingDialogState
 import de.kitshn.ui.state.foreverRememberNotSavable
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_create
@@ -53,6 +57,8 @@ import kitshn.composeapp.generated.resources.common_title
 import kitshn.composeapp.generated.resources.form_error_title_max_64
 import kitshn.composeapp.generated.resources.meal_plan_form_add_to_shopping_list_description
 import kitshn.composeapp.generated.resources.meal_plan_form_error_entry_needs_title_or_recipe
+import kitshn.composeapp.generated.resources.meal_plan_form_review_add_to_shopping_list_description
+import kitshn.composeapp.generated.resources.meal_plan_form_review_add_to_shopping_list_label
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.getString
@@ -67,7 +73,8 @@ data class MealPlanCreationAndEditDefaultValues(
     val mealTypeId: Int? = null,
     val startDate: LocalDate? = null,
     val endDate: LocalDate? = null,
-    val addToShopping: Boolean = false,
+    val addToShopping: Boolean = true,
+    val reviewAddToShopping: Boolean = true
 )
 
 @Composable
@@ -144,6 +151,7 @@ fun MealPlanCreationAndEditDialog(
     client: TandoorClient,
     creationState: MealPlanCreationDialogState? = null,
     editState: MealPlanEditDialogState? = null,
+    showFractionalValues: Boolean,
     onRefresh: () -> Unit
 ) {
     if(creationState?.shown?.value != true && editState?.shown?.value != true) return
@@ -172,11 +180,17 @@ fun MealPlanCreationAndEditDialog(
     var endDate by remember { mutableStateOf(defaultValues.endDate) }
 
     var addToShopping by rememberSaveable { mutableStateOf(defaultValues.addToShopping) }
+    var reviewAddToShopping by rememberSaveable { mutableStateOf(defaultValues.reviewAddToShopping) }
 
     val servingsText = if(recipeOverview?.servings_text.isNullOrBlank())
         stringResource(Res.string.common_portions) else recipeOverview?.servings_text!!
 
     val requestMealPlanState = rememberTandoorRequestState()
+    val requestRecipeAddToShoppingState = rememberTandoorRequestState()
+
+    var recipeAddToShoppingDialogRecipe by remember { mutableStateOf<TandoorRecipe?>(null) }
+    var recipeAddToShoppingDialogMealPlan by remember { mutableStateOf<TandoorMealPlan?>(null) }
+    val recipeAddToShoppingDialogState = rememberRecipeAddToShoppingDialogState()
 
     val form = remember {
         KitshnForm(
@@ -362,6 +376,25 @@ fun MealPlanCreationAndEditDialog(
                             description = { Text(stringResource(Res.string.meal_plan_form_add_to_shopping_list_description)) }
                         )
                     )
+                ),
+                KitshnFormSection(
+                    listOf(
+                        KitshnFormCheckItem(
+                            value = { if(addToShopping) reviewAddToShopping else false },
+                            onValueChange = { if(addToShopping) reviewAddToShopping = it },
+
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Rounded.Checklist,
+                                    stringResource(Res.string.meal_plan_form_review_add_to_shopping_list_label)
+                                )
+                            },
+                            label = { Text(stringResource(Res.string.meal_plan_form_review_add_to_shopping_list_label)) },
+                            description = { Text(stringResource(Res.string.meal_plan_form_review_add_to_shopping_list_description)) },
+
+                            enabled = { addToShopping }
+                        )
+                    )
                 )
             ),
             submitButton = {
@@ -409,12 +442,27 @@ fun MealPlanCreationAndEditDialog(
                                 from_date = startDate!!,
                                 to_date = endDate,
                                 meal_type = client.container.mealType[mealTypeId]!!,
-                                addshopping = addToShopping,
+                                addshopping = if(reviewAddToShopping) {
+                                    false
+                                } else {
+                                    addToShopping
+                                },
                                 shared = userPreference.plan_share
                             )
                         }
 
                         if(mealPlan != null) {
+                            if(addToShopping && reviewAddToShopping && recipeId != null) {
+                                recipeAddToShoppingDialogRecipe = client.recipe.get(recipeId!!)
+                                recipeAddToShoppingDialogMealPlan = mealPlan
+
+                                recipeAddToShoppingDialogState.open(
+                                    recipe = recipeAddToShoppingDialogRecipe!!,
+                                    servings = servings!!
+                                )
+                                return@launch
+                            }
+
                             onRefresh()
                             creationState?.dismiss()
                         }
@@ -445,5 +493,25 @@ fun MealPlanCreationAndEditDialog(
         form.Render(it)
     }
 
+    RecipeAddToShoppingDialog(
+        state = recipeAddToShoppingDialogState,
+        showFractionalValues = showFractionalValues,
+        onSubmit = { ingredients, mServings ->
+            coroutineScope.launch {
+                requestRecipeAddToShoppingState.wrapRequest {
+                    recipeAddToShoppingDialogRecipe?.shopping(
+                        ingredients = ingredients.map { it.id },
+                        servings = mServings,
+                        mealplan = recipeAddToShoppingDialogMealPlan
+                    )
+
+                    onRefresh()
+                    creationState?.dismiss()
+                }
+            }
+        }
+    )
+
     TandoorRequestErrorHandler(state = requestMealPlanState)
+    TandoorRequestErrorHandler(state = requestRecipeAddToShoppingState)
 }
