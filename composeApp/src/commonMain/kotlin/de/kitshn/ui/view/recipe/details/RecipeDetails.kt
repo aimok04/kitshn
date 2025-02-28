@@ -104,17 +104,17 @@ import de.kitshn.ui.dialog.common.rememberCommonDeletionDialogState
 import de.kitshn.ui.dialog.mealplan.MealPlanCreationAndEditDefaultValues
 import de.kitshn.ui.dialog.mealplan.MealPlanCreationAndEditDialog
 import de.kitshn.ui.dialog.mealplan.rememberMealPlanCreationDialogState
+import de.kitshn.ui.dialog.recipe.RecipeAddToShoppingDialog
 import de.kitshn.ui.dialog.recipe.RecipeIngredientAllocationDialog
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.ui.dialog.recipe.creationandedit.RecipeCreationAndEditDialog
 import de.kitshn.ui.dialog.recipe.creationandedit.rememberRecipeEditDialogState
+import de.kitshn.ui.dialog.recipe.rememberRecipeAddToShoppingDialogState
 import de.kitshn.ui.dialog.recipe.rememberRecipeIngredientAllocationDialogState
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.ui.dialog.recipeBook.ManageRecipeInRecipeBooksDialog
 import de.kitshn.ui.dialog.recipeBook.rememberManageRecipeInRecipeBooksDialogState
 import de.kitshn.ui.dialog.rememberUseShareWrapperDialogState
-import de.kitshn.ui.dialog.servings.ServingsChangeDialog
-import de.kitshn.ui.dialog.servings.rememberServingsChangeDialogState
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.rememberErrorLoadingSuccessState
@@ -130,7 +130,6 @@ import kitshn.composeapp.generated.resources.action_open_source
 import kitshn.composeapp.generated.resources.action_start_cooking
 import kitshn.composeapp.generated.resources.common_minute_min
 import kitshn.composeapp.generated.resources.common_okay
-import kitshn.composeapp.generated.resources.common_portions
 import kitshn.composeapp.generated.resources.common_review
 import kitshn.composeapp.generated.resources.common_source
 import kitshn.composeapp.generated.resources.common_time_wait
@@ -193,7 +192,9 @@ fun ViewRecipeDetails(
     val mealPlanCreationDialogState =
         rememberMealPlanCreationDialogState(key = "ViewRecipeDetails/mealPlanCreationDialogState")
     val manageRecipeInRecipeBooksDialogState = rememberManageRecipeInRecipeBooksDialogState()
-    val addRecipeToShoppingServingsSelectionDialogState = rememberServingsChangeDialogState()
+    val recipeAddToShoppingDialogState = rememberRecipeAddToShoppingDialogState()
+
+    val recipeAddToShoppingRequestState = rememberTandoorRequestState()
 
     val recipeDeleteDialogState = rememberCommonDeletionDialogState<TandoorRecipe>()
 
@@ -419,7 +420,12 @@ fun ViewRecipeDetails(
                             )
                         },
                         onAddToShopping = {
-                            addRecipeToShoppingServingsSelectionDialogState.open(servingsValue)
+                            recipe?.let {
+                                recipeAddToShoppingDialogState.open(
+                                    recipe = it,
+                                    servings = servingsValue
+                                )
+                            }
                         },
                         onAllocateIngredients = {
                             recipe?.let {
@@ -786,7 +792,8 @@ fun ViewRecipeDetails(
 
         MealPlanCreationAndEditDialog(
             client = p.vm.tandoorClient!!,
-            creationState = mealPlanCreationDialogState
+            creationState = mealPlanCreationDialogState,
+            showFractionalValues = ingredientsShowFractionalValues.value
         ) {
             p.vm.mainSubNavHostController?.navigate("mealplan")
         }
@@ -797,21 +804,20 @@ fun ViewRecipeDetails(
             state = manageRecipeInRecipeBooksDialogState
         )
 
-        val addRecipeToShoppingRequestState = rememberTandoorRequestState()
-        ServingsChangeDialog(
-            portionText = (recipe?.servings_text ?: "").ifBlank {
-                stringResource(Res.string.common_portions)
-            },
-            state = addRecipeToShoppingServingsSelectionDialogState
-        ) { servings ->
-            coroutineScope.launch {
-                addRecipeToShoppingRequestState.wrapRequest {
-                    recipe?.shopping(servings)
+        RecipeAddToShoppingDialog(
+            state = recipeAddToShoppingDialogState,
+            showFractionalValues = ingredientsShowFractionalValues.value,
+            onSubmit = { ingredients, servings ->
+                coroutineScope.launch {
+                    recipeAddToShoppingRequestState.wrapRequest {
+                        recipe?.shopping(
+                            ingredients = ingredients.map { ingredient -> ingredient.id },
+                            servings = servings
+                        )
+                    }
                 }
             }
-        }
-
-        TandoorRequestErrorHandler(addRecipeToShoppingRequestState)
+        )
     }
 
     RecipeLinkDialog(
@@ -825,6 +831,7 @@ fun ViewRecipeDetails(
 
     TandoorRequestErrorHandler(fetchRequestState)
     TandoorRequestErrorHandler(shareRequestState)
+    TandoorRequestErrorHandler(recipeAddToShoppingRequestState)
 }
 
 @Composable

@@ -16,6 +16,7 @@ import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorFoodProperty
 import de.kitshn.api.tandoor.model.TandoorKeyword
+import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.patchObject
 import de.kitshn.api.tandoor.put
@@ -26,9 +27,9 @@ import io.ktor.http.HttpHeaders
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -147,11 +148,21 @@ class TandoorRecipe(
         }
     }
 
-    suspend fun shopping(servings: Int) {
+    suspend fun shopping(
+        ingredients: List<Int>? = null,
+        mealplan: TandoorMealPlan? = null,
+        servings: Int? = null
+    ) {
         if(client == null) return
 
         client!!.put("/recipe/${id}/shopping/", buildJsonObject {
-            put("servings", servings)
+            if(ingredients != null) put("ingredients", buildJsonArray {
+                ingredients.forEach { add(JsonPrimitive(it)) }
+            })
+            if(mealplan != null) put("mealplan", buildJsonObject {
+                put("id", mealplan.id)
+            })
+            if(servings != null) put("servings", servings)
         })
     }
 
