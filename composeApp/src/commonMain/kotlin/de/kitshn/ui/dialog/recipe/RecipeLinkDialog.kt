@@ -48,6 +48,7 @@ fun RecipeLinkDialog(
     leadingContent: @Composable () -> Unit = {},
     bottomBar: @Composable ((isFullscreen: Boolean) -> Unit)? = {},
     hideFab: Boolean = false,
+    onServingsChange: (servings: Int) -> Unit = {},
     onDismiss: () -> Unit = {}
 ) {
     LaunchedEffect(
@@ -81,7 +82,7 @@ fun RecipeLinkDialog(
         topBar = { },
         topBarWrapper = { },
         bottomBar = bottomBar,
-        applyPaddingValues = false
+        applyPaddingValues = false,
     ) { _, _, pv ->
         ViewRecipeDetails(
             p = p,
@@ -109,6 +110,9 @@ fun RecipeLinkDialog(
             onClickKeyword = {
                 state.dismiss()
                 p.vm.searchKeyword(it.id)
+            },
+            onServingsChange = {
+                onServingsChange(it)
             }
         )
     }

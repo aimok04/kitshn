@@ -106,12 +106,14 @@ fun MealPlanDetailsDialog(
     if(state.linkContent.value == null) return
     val mealPlan = state.linkContent.value!!
 
+    var servings by remember { mutableStateOf(mealPlan.servings.roundToInt()) }
+
     val bottomBar = @Composable {
         BottomAppBar(
             floatingActionButton = {
                 if(mealPlan.recipe != null) FloatingActionButton(
                     onClick = {
-                        p.vm.navHostController?.navigate("recipe/${mealPlan.recipe.id}/cook/${mealPlan.servings.roundToInt()}")
+                        p.vm.navHostController?.navigate("recipe/${mealPlan.recipe.id}/cook/$servings")
                     },
                     elevation = FloatingActionButtonDefaults.elevation(
                         0.dp, 0.dp, 0.dp, 0.dp
@@ -213,7 +215,10 @@ fun MealPlanDetailsDialog(
             bottomBar = {
                 bottomBar()
             },
-            hideFab = true
+            hideFab = true,
+            onServingsChange = {
+                servings = it
+            }
         ) {
             state.dismiss()
         }

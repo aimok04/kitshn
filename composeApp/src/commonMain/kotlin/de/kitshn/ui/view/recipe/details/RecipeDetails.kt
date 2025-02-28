@@ -165,6 +165,7 @@ fun ViewRecipeDetails(
     hideFab: Boolean = false,
 
     onClickKeyword: (keyword: TandoorKeywordOverview) -> Unit = {},
+    onServingsChange: (servings: Int) -> Unit = {},
 
     overrideServings: Int? = null
 ) {
@@ -280,6 +281,7 @@ fun ViewRecipeDetails(
 
     LaunchedEffect(servingsValue) {
         servingsFactor = servingsValue.toDouble() / (recipe?.servings ?: 1).toDouble()
+        onServingsChange(servingsValue)
     }
 
     LaunchedEffect(recipe) {
