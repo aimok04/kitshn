@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9623FB682D7217B1005BBD7C /* com.apple.uikit.inputalternatives.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9623FB672D7217B1005BBD7C /* com.apple.uikit.inputalternatives.plist */; };
 		96272D432D3EB193004E9764 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96272D422D3EB193004E9764 /* SubscriptionView.swift */; };
 		965BA0D32D25FE1E00B22A28 /* Bugsnag in Frameworks */ = {isa = PBXBuildFile; productRef = 965BA0D22D25FE1E00B22A28 /* Bugsnag */; };
 		965BA0D52D25FE1E00B22A28 /* BugsnagNetworkRequestPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 965BA0D42D25FE1E00B22A28 /* BugsnagNetworkRequestPlugin */; };
@@ -42,6 +43,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9623FB672D7217B1005BBD7C /* com.apple.uikit.inputalternatives.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = com.apple.uikit.inputalternatives.plist; sourceTree = "<group>"; };
 		96272D422D3EB193004E9764 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
 		966E2C162D3AF0F6002FA006 /* iosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosApp.entitlements; sourceTree = "<group>"; };
 		96755A922D3D85A40018C700 /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
@@ -114,6 +116,7 @@
 				A93A953A29CC810C00F8E227 /* iosApp.swift */,
 				A93A953E29CC810D00F8E227 /* Assets.xcassets */,
 				A93A954029CC810D00F8E227 /* Preview Content */,
+				9623FB672D7217B1005BBD7C /* com.apple.uikit.inputalternatives.plist */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -230,6 +233,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9623FB682D7217B1005BBD7C /* com.apple.uikit.inputalternatives.plist in Resources */,
 				A93A954229CC810D00F8E227 /* Preview Assets.xcassets in Resources */,
 				A93A953F29CC810D00F8E227 /* Assets.xcassets in Resources */,
 			);
