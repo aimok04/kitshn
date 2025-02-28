@@ -24,31 +24,48 @@ import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.foreverRememberMutableStateList
 import de.kitshn.ui.theme.Typography
 import kitshn.composeapp.generated.resources.Res
-import kitshn.composeapp.generated.resources.home_meal_plan_promotion_title
+import kitshn.composeapp.generated.resources.home_meal_plan_promotion_today_title
+import kitshn.composeapp.generated.resources.home_meal_plan_promotion_tomorrow_title
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
+
+enum class MealPlanPromotionSectionDay(
+    val plus: Int,
+    val title: StringResource
+) {
+    TODAY(0, Res.string.home_meal_plan_promotion_today_title),
+    TOMORROW(1, Res.string.home_meal_plan_promotion_tomorrow_title)
+}
 
 @Composable
 fun RouteMainSubrouteHomeMealPlanPromotionSection(
     client: TandoorClient,
+    day: MealPlanPromotionSectionDay = MealPlanPromotionSectionDay.TODAY,
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
     titlePadding: PaddingValues = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp),
     contentPadding: PaddingValues = PaddingValues(16.dp),
     select: (recipeOverview: TandoorRecipeOverview, servings: Double) -> Unit
 ) {
     val mealPlans =
-        foreverRememberMutableStateList<TandoorMealPlan>(key = "RouteMainSubrouteHome/mealPlanPromotion")
+        foreverRememberMutableStateList<TandoorMealPlan>(key = "RouteMainSubrouteHome/mealPlanPromotion/${day.plus}")
 
     val mainFetchRequest = rememberTandoorRequestState()
-    LaunchedEffect(Unit) {
+    LaunchedEffect(day) {
         mainFetchRequest.wrapRequest {
             client.mealPlan.fetch(
-                Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date,
                 Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                    .plus(day.plus, DateTimeUnit.DAY),
+                Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                    .plus(day.plus, DateTimeUnit.DAY)
             ).let {
-                val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+                val promotionDay =
+                    Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                        .plus(day.plus, DateTimeUnit.DAY)
 
                 val filteredMealPlans = it.filter { mealplan ->
                     // filter already cooked recipes
@@ -61,7 +78,7 @@ fun RouteMainSubrouteHomeMealPlanPromotionSection(
                             true
                         } else {
                             val lastCooked = recipe.last_cooked!!.parseIsoTime()
-                            !(today.year == lastCooked.year && today.dayOfYear == lastCooked.dayOfYear)
+                            !(promotionDay.year == lastCooked.year && promotionDay.dayOfYear == lastCooked.dayOfYear)
                         }
                     }
                 }.sortedBy { mp ->
@@ -81,7 +98,7 @@ fun RouteMainSubrouteHomeMealPlanPromotionSection(
             modifier = Modifier
                 .padding(titlePadding)
                 .loadingPlaceHolder(loadingState),
-            text = stringResource(Res.string.home_meal_plan_promotion_title),
+            text = stringResource(day.title),
             style = Typography().titleLarge
         )
 

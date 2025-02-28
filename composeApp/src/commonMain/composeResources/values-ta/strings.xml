@@ -134,7 +134,7 @@
     <string name="form_error_portions_text_max_32">பணி உரையில் அதிகபட்சம் 32 எழுத்துக்கள் இருக்கலாம்.</string>
     <string name="greeting_good_night">நல்ல இரவு</string>
     <string name="greeting_noon">அவுடி</string>
-    <string name="home_meal_plan_promotion_title">அடுத்து இன்று</string>
+    <string name="home_meal_plan_promotion_today_title">அடுத்து இன்று</string>
     <string name="home_search_empty">தந்தூர் முழுவதும் ஆராயப்பட்டது - பொருத்தமான செய்முறையைக் காண முடியவில்லை.</string>
     <string name="home_search_empty_query">தந்தூரைத் தேட ஒரு வினவலை உள்ளிடவும்.</string>
     <string name="home_section_dinner">உங்கள் இரவு உணவிற்கான சிந்தனைகள்</string>

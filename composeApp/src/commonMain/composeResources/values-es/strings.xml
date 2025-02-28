@@ -105,7 +105,7 @@
     <string name="greeting_good_morning">Buenos días 🌞</string>
     <string name="greeting_good_night">Buenas noches 🌚</string>
     <string name="greeting_noon">¡Qué onda! ✨</string>
-    <string name="home_meal_plan_promotion_title">Lo siguiente hoy</string>
+    <string name="home_meal_plan_promotion_today_title">Lo siguiente hoy</string>
     <string name="home_search_empty">Todo Tandoor fue examinado y no se encontró una receta que concuerde.</string>
     <string name="home_section_asian">🏮🧧🐉🧨🎇⛩️🎎</string>
     <string name="home_section_austrian">🇦🇹📷🏰</string>

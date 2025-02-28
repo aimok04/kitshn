@@ -217,7 +217,7 @@
     <string name="greeting_good_morning">Guten Morgen 🌞</string>
     <string name="greeting_good_night">Gute Nacht 🌚</string>
     <string name="greeting_noon">Mahlzeit 😋</string>
-    <string name="home_meal_plan_promotion_title">Steht heute an</string>
+    <string name="home_meal_plan_promotion_today_title">Steht heute an</string>
     <string name="home_search_empty">Ganz Tandoor wurde untersucht — Es konnte kein passendes Rezept gefunden werden.</string>
     <string name="home_search_empty_query">Gebe einen Suchbegriff ein, um Tandoor zu durchsuchen.</string>
     <string name="home_search_tandoor">Tandoor durchsuchen</string>

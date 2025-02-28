@@ -297,7 +297,7 @@
     <string name="action_manage_recipe_books">Upravljajte knjige receptov</string>
     <string name="common_allocate_ingredients">Razporedite sestavine</string>
     <string name="action_download">Prenos</string>
-    <string name="home_meal_plan_promotion_title">Naslednji danes</string>
+    <string name="home_meal_plan_promotion_today_title">Naslednji danes</string>
     <string name="lorem_ipsum_title">Lorem ipsum dolor sit amet</string>
     <string name="action_edit">Uredi</string>
     <string name="action_edit_entry">Uredi vnos</string>

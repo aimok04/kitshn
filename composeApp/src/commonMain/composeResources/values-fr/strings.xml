@@ -60,7 +60,7 @@
     <string name="select_recipe">Sélectionner une recette</string>
     <string name="tandoor_compatibility_full_compatibility_description">L'application est entièrement compatible avec votre serveur Tandoor !</string>
     <string name="greeting_good_evening">Bonsoir 🌅</string>
-    <string name="home_meal_plan_promotion_title">À venir aujourd'hui</string>
+    <string name="home_meal_plan_promotion_today_title">À venir aujourd'hui</string>
     <string name="recipe_sorting_last_cooked">Dernière préparation</string>
     <string name="home_section_mexican">🇲🇽🌮🤠🥑</string>
     <string name="ios_support_thanks">Merci de soutenir kitshn ! Votre contribution aide à maintenir ce projet en vie.</string>

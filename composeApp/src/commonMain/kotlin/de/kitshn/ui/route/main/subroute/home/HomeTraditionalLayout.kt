@@ -15,6 +15,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -156,6 +157,9 @@ fun HomeTraditionalLayout(
     val isScrollingUp = gridState.isScrollingUp()
     LaunchedEffect(isScrollingUp) { onIsScrollingUpChanged(isScrollingUp) }
 
+    val enableMealPlanPromotion by p.vm.settings.getEnableMealPlanPromotion.collectAsState(initial = true)
+    val promoteTomorrowsMealPlan by p.vm.settings.getPromoteTomorrowsMealPlan.collectAsState(initial = false)
+
     wrap { pv, _, background, onSelect ->
         LoadingErrorAlertPaneWrapper(loadingState = pageLoadingState) {
             LoadingGradientWrapper(
@@ -184,14 +188,19 @@ fun HomeTraditionalLayout(
                             GridItemSpan(maxCurrentLineSpan)
                         }
                     ) {
-                        Spacer(Modifier.height(16.dp))
+                        if(enableMealPlanPromotion) p.vm.tandoorClient?.let {
+                            Spacer(Modifier.height(16.dp))
 
-                        p.vm.tandoorClient?.let {
                             RouteMainSubrouteHomeMealPlanPromotionSection(
                                 client = it,
                                 titlePadding = PaddingValues(),
                                 contentPadding = PaddingValues(top = 16.dp),
-                                loadingState = pageLoadingState
+                                loadingState = pageLoadingState,
+                                day = if(promoteTomorrowsMealPlan) {
+                                    MealPlanPromotionSectionDay.TOMORROW
+                                } else {
+                                    MealPlanPromotionSectionDay.TODAY
+                                }
                             ) { recipeOverview, servings ->
                                 RecipeServingsAmountSaveMap[recipeOverview.id] =
                                     servings.roundToInt()

@@ -205,7 +205,7 @@
     <string name="common_random">випадковий</string>
     <string name="home_search_empty_query">Введіть запит для пошуку Tandoor.</string>
     <string name="expand_more">Розгорніть більше</string>
-    <string name="home_meal_plan_promotion_title">Наступний сьогодні</string>
+    <string name="home_meal_plan_promotion_today_title">Наступний сьогодні</string>
     <string name="action_abort">Перервати</string>
     <string name="tandoor_compatibility_unknown_description">Версія вашого сервера Tandoor ще не перевірена. Функціональність програми може бути порушена.</string>
     <string name="common_start_date">Дата початку</string>

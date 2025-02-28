@@ -4,8 +4,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Campaign
 import androidx.compose.material.icons.rounded.DynamicFeed
 import androidx.compose.material.icons.rounded.Numbers
+import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material.icons.rounded.WarningAmber
@@ -35,6 +37,8 @@ import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.settings_section_behavior_enable_dynamic_home_screen_description
 import kitshn.composeapp.generated.resources.settings_section_behavior_enable_dynamic_home_screen_label
+import kitshn.composeapp.generated.resources.settings_section_behavior_enable_meal_plan_promotion_description
+import kitshn.composeapp.generated.resources.settings_section_behavior_enable_meal_plan_promotion_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_hide_funding_banner_this_year_description
 import kitshn.composeapp.generated.resources.settings_section_behavior_hide_funding_banner_this_year_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_hide_ingredient_allocation_action_chip_description
@@ -42,6 +46,8 @@ import kitshn.composeapp.generated.resources.settings_section_behavior_hide_ingr
 import kitshn.composeapp.generated.resources.settings_section_behavior_ingredients_show_fractional_values_description
 import kitshn.composeapp.generated.resources.settings_section_behavior_ingredients_show_fractional_values_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_label
+import kitshn.composeapp.generated.resources.settings_section_behavior_promote_tomorrows_meal_plan_description
+import kitshn.composeapp.generated.resources.settings_section_behavior_promote_tomorrows_meal_plan_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_properties_show_fractional_values_description
 import kitshn.composeapp.generated.resources.settings_section_behavior_properties_show_fractional_values_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_use_share_wrapper_description
@@ -76,6 +82,11 @@ fun ViewSettingsBehavior(
         val useShareWrapper = p.vm.settings.getUseShareWrapper.collectAsState(initial = true)
         val hideIngredientAllocationActionChips =
             p.vm.settings.getHideIngredientAllocationActionChips.collectAsState(initial = false)
+
+        val enableMealPlanPromotion =
+            p.vm.settings.getEnableMealPlanPromotion.collectAsState(initial = true)
+        val promoteTomorrowsMealPlan =
+            p.vm.settings.getPromoteTomorrowsMealPlan.collectAsState(initial = false)
 
         val enableDynamicHomeScreen =
             p.vm.settings.getEnableDynamicHomeScreen.collectAsState(initial = true)
@@ -119,6 +130,41 @@ fun ViewSettingsBehavior(
                 ) {
                     coroutineScope.launch {
                         p.vm.settings.setHideIngredientAllocationActionChips(it)
+                    }
+                }
+            }
+
+            item {
+                HorizontalDivider(
+                    Modifier.padding(top = 8.dp, bottom = 8.dp)
+                )
+            }
+
+            item {
+                SettingsSwitchListItem(
+                    label = { Text(stringResource(Res.string.settings_section_behavior_enable_meal_plan_promotion_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_behavior_enable_meal_plan_promotion_description)) },
+                    icon = Icons.Rounded.Campaign,
+                    contentDescription = stringResource(Res.string.settings_section_behavior_enable_meal_plan_promotion_label),
+                    checked = enableMealPlanPromotion.value
+                ) {
+                    coroutineScope.launch {
+                        p.vm.settings.setEnableMealPlanPromotion(it)
+                    }
+                }
+            }
+
+            item {
+                SettingsSwitchListItem(
+                    label = { Text(stringResource(Res.string.settings_section_behavior_promote_tomorrows_meal_plan_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_behavior_promote_tomorrows_meal_plan_description)) },
+                    icon = Icons.Rounded.Schedule,
+                    contentDescription = stringResource(Res.string.settings_section_behavior_promote_tomorrows_meal_plan_label),
+                    enabled = enableMealPlanPromotion.value,
+                    checked = promoteTomorrowsMealPlan.value
+                ) {
+                    coroutineScope.launch {
+                        p.vm.settings.setPromoteTomorrowsMealPlan(it)
                     }
                 }
             }

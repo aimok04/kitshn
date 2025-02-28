@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
@@ -153,10 +154,22 @@ fun HomeDynamicLayout(
                 ) {
                     Spacer(Modifier.height(16.dp))
 
-                    p.vm.tandoorClient?.let {
+                    val enableMealPlanPromotion by p.vm.settings.getEnableMealPlanPromotion.collectAsState(
+                        initial = true
+                    )
+                    if(enableMealPlanPromotion) p.vm.tandoorClient?.let {
+                        val promoteTomorrowsMealPlan by p.vm.settings.getPromoteTomorrowsMealPlan.collectAsState(
+                            initial = false
+                        )
+
                         RouteMainSubrouteHomeMealPlanPromotionSection(
                             client = it,
-                            loadingState = pageLoadingState
+                            loadingState = pageLoadingState,
+                            day = if(promoteTomorrowsMealPlan) {
+                                MealPlanPromotionSectionDay.TOMORROW
+                            } else {
+                                MealPlanPromotionSectionDay.TODAY
+                            }
                         ) { recipeOverview, servings ->
                             RecipeServingsAmountSaveMap[recipeOverview.id] = servings.roundToInt()
                             onSelect(recipeOverview.id.toString())

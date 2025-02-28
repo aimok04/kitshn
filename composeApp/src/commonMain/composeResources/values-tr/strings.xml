@@ -184,7 +184,7 @@
     <string name="greeting_good_night">İyi geceler &#127770;</string>
     <string name="greeting_noon">Selam &#129312;</string>
 
-    <string name="home_meal_plan_promotion_title">Bugün sıradaki</string>
+    <string name="home_meal_plan_promotion_today_title">Bugün sıradaki</string>
     <string name="home_search_empty">Tandoor'un tamamı incelendi - uygun bir tarif bulunamadı.</string>
     <string name="home_search_empty_query">Tandoor'da arama yapmak için bir sorgu girin.</string>
     <string name="home_search_tandoor">Tandoor'da ara</string>

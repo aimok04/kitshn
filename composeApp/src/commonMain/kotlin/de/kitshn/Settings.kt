@@ -25,6 +25,10 @@ const val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN =
     "behavior_use_share_wrapper_hint_shown_str"
 const val KEY_SETTINGS_BEHAVIOR_HIDE_INGREDIENT_ALLOCATION_ACTION_CHIPS =
     "behavior_hide_ingredient_allocation_action_chips"
+const val KEY_SETTINGS_BEHAVIOR_ENABLE_MEAL_PLAN_PROMOTION =
+    "behavior_enable_meal_plan_promotion"
+const val KEY_SETTINGS_BEHAVIOR_PROMOTE_TOMORROWS_MEAL_PLAN =
+    "behavior_promote_tomorrows_meal_plan"
 const val KEY_SETTINGS_BEHAVIOR_ENABLE_DYNAMIC_HOME_SCREEN =
     "behavior_enable_dynamic_home_screen"
 const val KEY_SETTINGS_BEHAVIOR_INGREDIENTS_SHOW_FRACTIONAL_VALUES =
@@ -119,6 +123,18 @@ class SettingsViewModel : ViewModel() {
 
     fun setHideIngredientAllocationActionChips(hide: Boolean) =
         obs.putBoolean(KEY_SETTINGS_BEHAVIOR_HIDE_INGREDIENT_ALLOCATION_ACTION_CHIPS, hide)
+
+    val getEnableMealPlanPromotion: Flow<Boolean> =
+        obs.getBooleanFlow(KEY_SETTINGS_BEHAVIOR_ENABLE_MEAL_PLAN_PROMOTION, true)
+
+    fun setEnableMealPlanPromotion(enable: Boolean) =
+        obs.putBoolean(KEY_SETTINGS_BEHAVIOR_ENABLE_MEAL_PLAN_PROMOTION, enable)
+
+    val getPromoteTomorrowsMealPlan: Flow<Boolean> =
+        obs.getBooleanFlow(KEY_SETTINGS_BEHAVIOR_PROMOTE_TOMORROWS_MEAL_PLAN, false)
+
+    fun setPromoteTomorrowsMealPlan(promote: Boolean) =
+        obs.putBoolean(KEY_SETTINGS_BEHAVIOR_PROMOTE_TOMORROWS_MEAL_PLAN, promote)
 
     val getEnableDynamicHomeScreen: Flow<Boolean> =
         obs.getBooleanFlow(KEY_SETTINGS_BEHAVIOR_ENABLE_DYNAMIC_HOME_SCREEN, true)
