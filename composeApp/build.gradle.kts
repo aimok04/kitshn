@@ -19,8 +19,8 @@ val prop =
 val date = LocalDate.now().toString()
 
 // Android/linux version name can contain more information
-val kitshnVersionName = "1.0.0-alpha.20"
-val kitshnVersionCode = 1200
+val kitshnVersionName = "1.0.0-alpha.21"
+val kitshnVersionCode = 1210
 
 // iOS, dmg and MSI are limited to [Major].[Minor].[Patch] format
 val kitshnAlternateVersionName = "1.0.0"
@@ -36,8 +36,8 @@ for F-Droid (needed for fdroid checkupdates)
 
 applicationId = "de.kitshn.android"
 
-versionName = "1.0.0-alpha.20"
-versionCode = "1200"
+versionName = "1.0.0-alpha.21"
+versionCode = "1210"
  **/
 
 kotlin {

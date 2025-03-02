@@ -1,0 +1,7 @@
+1. Add new » Add to shopping « dialog for individual selection of ingredients.
+2. Add » Review items before adding to shopping « switch when creating new meal plan entry.
+3. Add option to display tomorrow's meal plan entries on home.
+4. kitshn now displays the step name in cooking mode.
+5. Fix servings amount reset after opening cooking mode from meal plan entry.
+6. Fix recipe book showing as empty when only containing filtered recipes.
+9. Fix supermarket categories sorted wrong.
