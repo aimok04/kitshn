@@ -25,6 +25,7 @@ import com.mikepenz.markdown.m3.Markdown
 import com.mikepenz.markdown.m3.markdownColor
 import com.mikepenz.markdown.m3.markdownTypography
 import de.kitshn.Platforms
+import de.kitshn.isLaunchTimerHandlerImplemented
 import de.kitshn.launchTimerHandler
 import de.kitshn.platformDetails
 
@@ -54,18 +55,22 @@ fun MarkdownRichTextWithTimerDetection(
 
     var md by remember { mutableStateOf("") }
     LaunchedEffect(markdown) {
-        md = markdown.replace(
-            Regex(
-                "[0-9]+ (minuten|minutes|minute|mins|min)",
-                RegexOption.IGNORE_CASE
-            )
-        ) {
-            if(platformDetails.platform == Platforms.JVM) {
-                "**⏲ [${it.value}](timer://${it.value.split(" ")[0]})**"
-            } else {
+        if(isLaunchTimerHandlerImplemented) {
+            md = markdown.replace(
+                Regex(
+                    "[0-9]+ (minuten|minutes|minute|mins|min)",
+                    RegexOption.IGNORE_CASE
+                )
+            ) {
+                if(platformDetails.platform == Platforms.JVM) {
+                    "**⏲ [${it.value}](timer://${it.value.split(" ")[0]})**"
+                } else {
 
-                "[**⏲ ${it.value}**](timer://${it.value.split(" ")[0]})"
+                    "[**⏲ ${it.value}**](timer://${it.value.split(" ")[0]})"
+                }
             }
+        } else {
+            md = markdown
         }
     }
 

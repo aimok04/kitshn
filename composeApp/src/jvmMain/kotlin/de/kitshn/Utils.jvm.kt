@@ -59,6 +59,8 @@ actual fun launchTimerHandler(): (seconds: Int, name: String) -> Unit {
     }
 }
 
+actual val isLaunchTimerHandlerImplemented = false
+
 @Composable
 actual fun shareContentHandler(): (title: String, text: String) -> Unit {
     val coroutineScope = rememberCoroutineScope()

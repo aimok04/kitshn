@@ -187,6 +187,8 @@ actual fun launchTimerHandler(): (seconds: Int, name: String) -> Unit {
     }
 }
 
+actual val isLaunchTimerHandlerImplemented = true
+
 @Composable
 actual fun shareContentHandler(): (title: String, text: String) -> Unit {
     val context = LocalContext.current

@@ -411,6 +411,8 @@ expect fun launchWebsiteHandler(): (url: String) -> Unit
 @Composable
 expect fun launchTimerHandler(): (seconds: Int, name: String) -> Unit
 
+expect val isLaunchTimerHandlerImplemented: Boolean
+
 @Composable
 expect fun shareContentHandler(): (title: String, url: String) -> Unit
 

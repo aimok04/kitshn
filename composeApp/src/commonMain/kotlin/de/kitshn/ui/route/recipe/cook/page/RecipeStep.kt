@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import de.kitshn.KitshnViewModel
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.isLaunchTimerHandlerImplemented
 import de.kitshn.launchTimerHandler
 import de.kitshn.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.ui.component.model.ingredient.IngredientsList
@@ -166,7 +167,8 @@ fun RouteRecipeCookPageStep(
             if(step.time > 0) AssistChip(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                 onClick = {
-                    launchTimerHandler(step.time * 60, step.name)
+                    if(isLaunchTimerHandlerImplemented)
+                        launchTimerHandler(step.time * 60, step.name)
                 },
                 leadingIcon = {
                     Icon(

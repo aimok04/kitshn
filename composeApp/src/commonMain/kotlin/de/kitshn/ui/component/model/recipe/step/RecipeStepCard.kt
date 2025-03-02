@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.isLaunchTimerHandlerImplemented
 import de.kitshn.launchTimerHandler
 import de.kitshn.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.ui.component.model.ingredient.IngredientsList
@@ -102,7 +103,8 @@ fun RecipeStepCard(
                     if(step != null && step.time > 0) AssistChip(
                         modifier = Modifier.padding(top = 8.dp, end = 16.dp),
                         onClick = {
-                            launchTimerHandler(step.time * 60, stepName)
+                            if(isLaunchTimerHandlerImplemented)
+                                launchTimerHandler(step.time * 60, stepName)
                         },
                         leadingIcon = {
                             Icon(
