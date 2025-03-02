@@ -265,7 +265,7 @@ fun RecipeIngredientAllocationDialog(
         },
         bottomBar = {
             RecipeStepIndicator(
-                count = recipe.steps.size,
+                steps = recipe.steps,
                 selected = pagerState.currentPage,
                 includeFinishIndicator = false,
                 bottomPadding = if(it) with(density) {

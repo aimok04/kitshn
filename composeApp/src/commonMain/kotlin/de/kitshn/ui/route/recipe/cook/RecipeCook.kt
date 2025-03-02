@@ -141,7 +141,7 @@ fun RouteRecipeCook(
                 Modifier.fillMaxWidth()
             ) {
                 RecipeStepIndicator(
-                    count = sortedSteps.size,
+                    steps = sortedSteps,
                     selected = pagerState.currentPage,
                     includeFinishIndicator = true,
                     bottomPadding = it.calculateBottomPadding()

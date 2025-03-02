@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
@@ -48,6 +49,7 @@ import de.kitshn.ui.component.model.recipe.step.RecipeStepRecipeLink
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
+import de.kitshn.ui.theme.Typography
 import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_minute_min
@@ -66,7 +68,7 @@ fun RouteRecipeCookPageStep(
     val launchTimerHandler = launchTimerHandler()
 
     @Composable
-    fun InstructionText(
+    fun StepBody(
         maxHeightPx: Int,
         sideBySideLayout: Boolean
     ) {
@@ -101,11 +103,22 @@ fun RouteRecipeCookPageStep(
                 fontSize = newFontSize.sp
             }
 
-            Box(
+            Column(
                 modifier = Modifier
                     .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
                     .fillMaxSize()
             ) {
+                if(step.name.isNotBlank()) {
+                    Text(
+                        text = step.name,
+                        style = Typography().displayMedium
+                    )
+
+                    Spacer(Modifier.height(4.dp))
+                    HorizontalDivider()
+                    Spacer(Modifier.height(24.dp))
+                }
+
                 MarkdownRichTextWithTimerDetection(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -174,7 +187,7 @@ fun RouteRecipeCookPageStep(
                     recipeLinkDialogState.open(it.toOverview())
                 }
 
-                InstructionText(maxHeightPx, false)
+                StepBody(maxHeightPx, false)
             } else {
                 var disableSideBySideLayout by remember { mutableStateOf(false) }
 
@@ -184,7 +197,7 @@ fun RouteRecipeCookPageStep(
                     leftMinWidth = 300.dp,
                     disable = maxHeight > 800.dp || disableSideBySideLayout,
                     leftLayout = {
-                        InstructionText(
+                        StepBody(
                             if(it) (maxHeightPx / 2.5f).roundToInt() else maxHeightPx,
                             it
                         )
