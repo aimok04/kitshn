@@ -379,4 +379,6 @@
     <string name="settings_section_behavior_promote_tomorrows_meal_plan_description">Показувати записи завтра замість сьогоднішніх</string>
     <string name="settings_section_behavior_promote_tomorrows_meal_plan_label">Натомість рекламуйте план харчування на завтра</string>
     <string name="home_meal_plan_promotion_tomorrow_title">Меню на завтра</string>
+    <string name="meal_plan_form_review_add_to_shopping_list_label">Перегляньте товари, перш ніж додавати їх до покупок</string>
+    <string name="meal_plan_form_review_add_to_shopping_list_description">Перевірте, які інгредієнти насправді слід додати до списку покупок.</string>
 </resources>
