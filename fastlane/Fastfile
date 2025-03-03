@@ -1,0 +1,97 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+require 'fileutils'
+
+ENV["GYM_PROJECT"] = "iosApp/iosApp.xcodeproj"
+
+update_fastlane
+
+lane :release do
+    Fastlane::LaneManager.cruise_lane("android", "build_release")
+    Fastlane::LaneManager.cruise_lane("ios", "build_release")
+    deploy_github
+
+    Fastlane::LaneManager.cruise_lane("android", "deploy_release")
+    Fastlane::LaneManager.cruise_lane("ios", "deploy_release")
+
+    Fastlane::LaneManager.cruise_lane("ios", "symbol_upload_release")
+end
+
+platform :android do
+    desc "Build signed apk for GitHub release"
+    lane :build_release do
+        gradle(task: "clean assembleRelease")
+
+        FileUtils.mkdir_p("out/android")
+        FileUtils.cp("../composeApp/build/outputs/apk/release/composeApp-release.apk", "out/android/release.apk")
+        lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = "fastlane/out/android/release.apk"
+
+        gradle(task: "clean bundleRelease")
+
+        FileUtils.cp("../composeApp/build/outputs/bundle/release/composeApp-release.aab", "out/android/release.aab")
+        lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH] = "fastlane/out/android/release.aab"
+    end
+
+    desc "Deploy bundleRelease to Google Play"
+    lane :deploy_release do
+        upload_to_play_store(
+            skip_upload_apk: true,
+            aab: "fastlane/out/android/release.aab"
+        )
+    end
+end
+
+platform :ios do
+    desc "Build a new release for App Store and GitHub release"
+    lane :build_release do
+        build_app(
+            scheme: "iosApp",
+            output_directory: "fastlane/out/ios/"
+        )
+    end
+
+    desc "Upload debugging symbols"
+    lane :symbol_upload_release do
+        upload_symbols_to_bugsnag(
+            config_file: "iosApp/iosApp/Info.plist",
+            dsym_path: "fastlane/out/ios/kitshn.app.dSYM.zip"
+        )
+    end
+
+    desc "Deploy ipa to App Store"
+    lane :deploy_release do
+        upload_to_app_store(
+            force: true,
+            ipa: "fastlane/out/ios/kitshn.ipa"
+        )
+    end
+end
+
+desc "Prepare deployment on GitHub"
+lane :deploy_github do
+    version = retrieve_version()
+
+    FileUtils.mkdir_p("out/gh")
+    FileUtils.cp("out/android/release.apk", "out/gh/android-release.apk")
+    FileUtils.cp("out/ios/kitshn.ipa", "out/gh/ios-release.ipa")
+
+    set_github_release(
+        repository_name: "aimok04/kitshn",
+        api_token: ENV["GITHUB_TOKEN"],
+        name: "v#{version}",
+        tag_name: "v#{version}",
+        description: (File.read("metadata/changelog.md") rescue "No changelog provided"),
+        commitish: "main",
+        upload_assets: ["fastlane/out/gh/android-release.apk", "fastlane/out/gh/ios-release.ipa"],
+        is_draft: true
+    )
+end

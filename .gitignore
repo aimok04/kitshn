@@ -27,4 +27,10 @@ Pods/
 /composeApp/debug
 /composeApp/nightly
 
+/fastlane/Appfile
+/fastlane/.env.default
+/fastlane/report.xml
+/fastlane/Preview.html
+/fastlane/out
+
 Package.resolved
