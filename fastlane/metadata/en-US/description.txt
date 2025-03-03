@@ -1,0 +1,7 @@
+An unofficial client for the self-hosted Tandoor recipe management software. Built with Jetpack Compose and Material You to deliver a modern, intuitive and responsive user experience.
+
+This is open source software.
+Learn more at https://github.com/aimok04/kitshn
+
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Icon made by Freepik from www.flaticon.com
