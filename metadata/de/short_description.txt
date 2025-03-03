@@ -1,1 +1,0 @@
-Ein unoffizieller Client für die Tandoor Rezept-Management-Software.

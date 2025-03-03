@@ -1,0 +1,34 @@
+Mit Jetpack Compose und Material You gebaut um eine moderne, intuitive und responsive Nutzererfahrung zu bieten.
+
+Unterstützte Features:
+    - Dynamische Startseite mit Vorschlägen
+    Rezepte
+        - Erstellen, importieren, bearbeiten und löschen
+            - Schritt-Zusammenfassungs-Tool
+            - Teilen-Empfänger für Rezept-URL-Importe
+        - Umfangreiche Suche
+        - Kochmodus
+        - Schritt-Zutaten-Zuordnungs-Tool
+        - App-Links
+        - Markdown-Unterstützung
+    Essensplan
+        - Überblick
+        - Erstellen, bearbeiten und löschen
+    Einkaufsliste
+        - Erstellen und löschen
+        - Kategorien und Supermärkte
+        - Einkaufsmodus
+        - Offline-Modus
+        - Auto-Sync
+    Rezeptbücher
+        - Erstellen und löschen
+        - Favoriten-Feature
+    UI
+        - Mit Jetpack Compose gebaut
+        - Material You dynamisches Farbschema
+        - Angepasste Layouts für Tablets und Foldables
+
+
+Bitte beachte, dass sich die App derzeit in der Alpha-Phase befindet. Für Fehler, Bugs und Ideen kannst du gerne Issues auf der Github-Seite eröffnen.
+
+Icon made by Freepik from www.flaticon.com
