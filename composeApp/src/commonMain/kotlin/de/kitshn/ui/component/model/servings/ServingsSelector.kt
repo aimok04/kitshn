@@ -26,7 +26,8 @@ import de.kitshn.ui.theme.Typography
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_add
 import kitshn.composeapp.generated.resources.action_minus
-import kitshn.composeapp.generated.resources.common_plural_wo_count
+import kitshn.composeapp.generated.resources.common_plural_portion
+import kitshn.composeapp.generated.resources.common_portions
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -45,13 +46,11 @@ fun ServingsSelector(
         )
     }
 
-    val portionText = label.ifBlank {
-        pluralStringResource(Res.plurals.common_plural_wo_count, quantity = value)
-    }
-
     val servingsChangeDialogState = rememberServingsChangeDialogState()
     ServingsChangeDialog(
-        portionText = portionText,
+        portionText = label.ifBlank {
+            stringResource(Res.string.common_portions)
+        },
         state = servingsChangeDialogState
     ) {
         onChange(it)
@@ -84,7 +83,15 @@ fun ServingsSelector(
                     modifier = Modifier.padding(12.dp),
                     style = Typography().labelMedium,
                     color = MaterialTheme.colorScheme.primary,
-                    text = "$value $portionText"
+                    text = if(label.isNotBlank()) {
+                        "$value $label"
+                    } else {
+                        pluralStringResource(
+                            Res.plurals.common_plural_portion,
+                            value,
+                            value
+                        )
+                    }
                 )
             }
         )

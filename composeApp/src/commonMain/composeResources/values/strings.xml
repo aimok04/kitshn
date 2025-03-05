@@ -152,10 +152,6 @@
         <item quantity="one">one serving</item>
         <item quantity="other">%1$d servings</item>
     </plurals>
-    <plurals name="common_plural_wo_count">
-        <item quantity="one">Portion</item>
-        <item quantity="other">Portionen</item>
-    </plurals>
     <string name="common_portions">Servings</string>
     <string name="common_portions_text">Servings-Text</string>
     <string name="common_prepairing">Preparation</string>

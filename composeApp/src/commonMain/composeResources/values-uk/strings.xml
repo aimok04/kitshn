@@ -112,12 +112,6 @@
         <item quantity="many">%1$d порції</item>
         <item quantity="other">%1$d порції</item>
     </plurals>
-    <plurals name="common_plural_wo_count">
-        <item quantity="one">порція</item>
-        <item quantity="few">порції</item>
-        <item quantity="many">порції</item>
-        <item quantity="other">порції</item>
-    </plurals>
     <string name="common_portions">Порції</string>
     <string name="common_portions_text">Порції-текст</string>
     <string name="common_prepairing">Підготовка</string>

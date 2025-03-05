@@ -55,10 +55,6 @@
         <item quantity="one">ஒரு பணி</item>
         <item quantity="other">%1$d பரிமாணங்கள்</item>
     </plurals>
-    <plurals name="common_plural_wo_count">
-        <item quantity="one">பகுதி</item>
-        <item quantity="other">பகுதிகள்</item>
-    </plurals>
     <string name="common_portions">பணி</string>
     <string name="common_portions_text">சேவை-உரை</string>
     <string name="common_prepairing">தயாரிப்பு</string>

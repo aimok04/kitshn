@@ -185,10 +185,6 @@
         <item quantity="one">een portie</item>
         <item quantity="other">%1$d porties</item>
     </plurals>
-    <plurals name="common_plural_wo_count">
-        <item quantity="one">Portie</item>
-        <item quantity="other">Porties</item>
-    </plurals>
     <string name="common_title">Titel</string>
     <string name="common_unsaved_changes_description">Als je doorgaat, zullen je wijzigingen verloren gaan. Weet je zeker dat je jouw wijzigingen wilt verwijderen?</string>
     <string name="common_total">totaal</string>

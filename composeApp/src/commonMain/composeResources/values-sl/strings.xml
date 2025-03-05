@@ -191,12 +191,6 @@
     <string name="common_reachable">Dosegljiv</string>
     <string name="error_recipe_could_not_be_loaded">Recepta ni bilo mogoče naložiti.</string>
     <string name="greeting_noon">Živjo 🤠</string>
-    <plurals name="common_plural_wo_count">
-        <item quantity="one">Porcija</item>
-        <item quantity="two">Porciji</item>
-        <item quantity="few">Porcije</item>
-        <item quantity="other">Porcije</item>
-    </plurals>
     <string name="form_error_name_max_128">Ime lahko vsebuje največ 128 znakov.</string>
     <string name="home_section_chinese">🇨🇳 🏮🧧🐉🧨🎇⛩️🎎</string>
     <string name="search_rating_filter">Filtriraj po oceni</string>
