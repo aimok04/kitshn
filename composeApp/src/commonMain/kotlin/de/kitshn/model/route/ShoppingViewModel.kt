@@ -166,7 +166,7 @@ class ShoppingViewModel(
                 Pair(it.category.id, it.order)
             }
 
-        val maxOrderInt = supermarketCategoryIdToOrder?.entries?.maxOf { it.value } ?: 0
+        val maxOrderInt = supermarketCategoryIdToOrder?.entries?.maxOfOrNull { it.value } ?: 0
         val maxOrderIntDigitCount = maxOrderInt.toString().length
 
         val entries = this.entries.filterNot { it._destroyed }
