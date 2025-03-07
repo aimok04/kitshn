@@ -150,7 +150,8 @@ fun HorizontalRecipeBookCard(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.Receipt,
-                                    contentDescription = stringResource(Res.string.common_cook_book)
+                                    contentDescription = stringResource(Res.string.common_cook_book),
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer
                                 )
                             }
                         } else {
