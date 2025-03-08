@@ -130,9 +130,12 @@ fun ShoppingListEntryListItem(
                     val sharedAmount = entryList.sumOf { it.amount }
                     val sharedUnit = entryList[0].unit
 
+                    val value = StringBuilder()
+                    value.append(sharedAmount.formatAmount(showFractionalValues))
+                    if((sharedUnit?.name ?: "").isNotBlank()) value.append(" ${sharedUnit!!.name}")
+
                     Pair(
-                        sharedAmount.formatAmount(showFractionalValues) +
-                                (sharedUnit?.name?.let { " $it" } ?: ""),
+                        value.toString(),
                         entryList.all { it.checked }
                     )
                 }
