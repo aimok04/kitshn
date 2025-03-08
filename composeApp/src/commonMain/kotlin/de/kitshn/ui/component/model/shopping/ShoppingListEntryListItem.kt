@@ -216,7 +216,7 @@ fun ShoppingListEntryListItem(
             Row(
                 modifier = Modifier.horizontalScroll(
                     rememberScrollState()
-                ),
+                ).height(48.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 amountChips.forEach {
