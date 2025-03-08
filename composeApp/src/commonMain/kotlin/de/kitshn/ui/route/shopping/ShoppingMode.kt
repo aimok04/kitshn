@@ -1,6 +1,6 @@
 package de.kitshn.ui.route.shopping
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
@@ -113,6 +113,7 @@ fun RouteShoppingMode(
     KeepScreenOn()
 
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(stringResource(Res.string.common_shopping_mode)) },
@@ -126,21 +127,13 @@ fun RouteShoppingMode(
             )
         }
     ) { pv ->
-        Column(
+        Box(
             Modifier.padding(
                 top = pv.calculateTopPadding(),
                 start = pv.calculateStartPadding(layoutDirection),
                 end = pv.calculateEndPadding(layoutDirection)
             )
         ) {
-            LinearProgressIndicator(
-                Modifier
-                    .fillMaxWidth()
-                    .alpha(
-                        if(vm.shoppingListEntriesFetchRequest.state == TandoorRequestStateState.LOADING) 1f else 0f
-                    )
-            )
-
             LoadingGradientWrapper(
                 loadingState = if(vm.loaded) ErrorLoadingSuccessState.SUCCESS else ErrorLoadingSuccessState.LOADING
             ) {
@@ -152,9 +145,7 @@ fun RouteShoppingMode(
                     )
                 } else {
                     LazyColumn(
-                        Modifier
-                            .fillMaxSize()
-                            .nestedScroll(scrollBehavior.nestedScrollConnection)
+                        Modifier.fillMaxSize()
                     ) {
                         if(!vm.loaded) {
                             item { ShoppingModeListGroupHeaderListItemPlaceholder() }
@@ -218,6 +209,14 @@ fun RouteShoppingMode(
                     }
                 }
             }
+
+            LinearProgressIndicator(
+                Modifier
+                    .fillMaxWidth()
+                    .alpha(
+                        if(vm.shoppingListEntriesFetchRequest.state == TandoorRequestStateState.LOADING) 1f else 0f
+                    )
+            )
         }
     }
 }
