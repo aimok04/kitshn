@@ -1,12 +1,17 @@
 package de.kitshn.ui.component.model.shopping
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ListItem
@@ -17,8 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
@@ -205,51 +212,53 @@ fun ShoppingListEntryListItem(
                 )
             }
         },
-        supportingContent = if(amountChips.size > 0) {
-            {
-                Row(
-                    modifier = Modifier.horizontalScroll(
-                        rememberScrollState()
-                    ),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    amountChips.forEach {
-                        ElevatedAssistChip(
-                            label = {
-                                if(shoppingMode) {
-                                    Text(
-                                        text = it.first,
-                                        textDecoration = if(it.second) {
-                                            TextDecoration.LineThrough
-                                        } else {
-                                            TextDecoration.None
-                                        },
-                                        fontSize = 20.sp,
-                                        lineHeight = 20.sp,
-                                        fontWeight = FontWeight.SemiBold
-                                    )
+        supportingContent = {
+            Row(
+                modifier = Modifier.horizontalScroll(
+                    rememberScrollState()
+                ),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                amountChips.forEach {
+                    Box(
+                        Modifier
+                            .padding(top = 8.dp, bottom = 8.dp)
+                            .height(32.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(
+                                MaterialTheme.colorScheme.surfaceContainerHigh
+                            )
+                            .padding(start = 16.dp, end = 16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        if(shoppingMode) {
+                            Text(
+                                text = it.first,
+                                textDecoration = if(it.second) {
+                                    TextDecoration.LineThrough
                                 } else {
-                                    Text(
-                                        text = it.first,
-                                        textDecoration = if(it.second) {
-                                            TextDecoration.LineThrough
-                                        } else {
-                                            TextDecoration.None
-                                        }
-                                    )
-                                }
-                            },
-                            colors = AssistChipDefaults.elevatedAssistChipColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
-                            ),
-                            elevation = AssistChipDefaults.elevatedAssistChipElevation(0.dp),
-                            onClick = { }
-                        )
+                                    TextDecoration.None
+                                },
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                fontSize = 20.sp,
+                                lineHeight = 20.sp,
+                                fontWeight = FontWeight.SemiBold,
+                            )
+                        } else {
+                            Text(
+                                text = it.first,
+                                textDecoration = if(it.second) {
+                                    TextDecoration.LineThrough
+                                } else {
+                                    TextDecoration.None
+                                },
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
                     }
                 }
             }
-        } else {
-            null
         }
     )
 }
