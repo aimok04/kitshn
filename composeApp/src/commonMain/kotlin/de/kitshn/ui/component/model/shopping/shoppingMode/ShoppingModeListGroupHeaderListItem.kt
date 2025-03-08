@@ -12,6 +12,7 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
@@ -67,6 +68,7 @@ fun ShoppingModeListGroupHeaderListItem(
     label: @Composable () -> String
 ) {
     val density = LocalDensity.current
+    val boxHeight = remember { with(density) { 24.sp.toDp() } }
 
     ListItem(
         modifier = modifier.fillMaxWidth(),
@@ -77,11 +79,7 @@ fun ShoppingModeListGroupHeaderListItem(
             Box(
                 Modifier.padding(start = 2.dp)
                     .width(5.dp)
-                    .height(
-                        with(density) {
-                            24.sp.toDp()
-                        }
-                    )
+                    .height(boxHeight)
                     .clip(RoundedCornerShape(8.dp))
                     .background(MaterialTheme.colorScheme.primary)
             )
