@@ -31,9 +31,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import de.kitshn.Platforms
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.platformDetails
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.input.FoodSearchField
 import de.kitshn.ui.component.input.NumberField
@@ -222,6 +224,7 @@ fun ShoppingListEntryCreationDialog(
         }
 
         LaunchedEffect(Unit) {
+            if(platformDetails.platform == Platforms.IOS) return@LaunchedEffect
             foodInputFocusRequester.requestFocus()
         }
     }
