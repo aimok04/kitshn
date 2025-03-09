@@ -189,6 +189,7 @@ fun KitshnListDetailPaneScaffold(
                                 currentSelection!!, supportsMultiplePanes, expandDetailPane, {
                                     expandDetailPane = !expandDetailPane
                                 }, {
+                                    expandDetailPane = false
                                     navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, null)
                                 },
                                 (if(supportsMultiplePanes) null else {
