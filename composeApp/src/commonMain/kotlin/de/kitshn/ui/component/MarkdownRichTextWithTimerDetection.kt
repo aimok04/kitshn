@@ -123,7 +123,8 @@ fun MarkdownRichTextWithTimerDetection(
                 list = bodyLarge,
                 link = bodyLarge.copy(
                     fontWeight = FontWeight.Bold,
-                    textDecoration = TextDecoration.Underline
+                    textDecoration = TextDecoration.Underline,
+                    color = MaterialTheme.colorScheme.primary
                 ),
                 inlineCode = bodyLarge.copy(
                     fontFamily = FontFamily.Monospace
