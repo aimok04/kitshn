@@ -117,8 +117,8 @@ fun KitshnListDetailPaneScaffold(
 
             AnimatedPane(
                 modifier = Modifier
-                    .preferredWidth(550.dp)
                     .background(background)
+                    .preferredWidth(800.dp)
             ) {
                 Scaffold(
                     modifier = Modifier.alpha(if(supportsMultiplePanes) 1f else listPaneAnim.value),
@@ -163,21 +163,21 @@ fun KitshnListDetailPaneScaffold(
         detailPane = {
             if(supportsMultiplePanes && currentSelection == null) return@ListDetailPaneScaffold
 
-            IOSBackGestureHandler(
-                isEnabled = !supportsMultiplePanes && navigator.canNavigateBack(),
-                onBack = {
-                    coroutineScope.launch {
-                        listPaneAnim.snapTo(1f)
-                        detailPaneAnim.animateTo(0f, tween(200))
-
-                        navigator.navigateBack()
-                    }
-                }
+            AnimatedPane(
+                Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .preferredWidth(600.dp)
             ) {
-                AnimatedPane(
-                    Modifier
-                        .background(MaterialTheme.colorScheme.background)
-                        .preferredWidth(500.dp)
+                IOSBackGestureHandler(
+                    isEnabled = !supportsMultiplePanes && navigator.canNavigateBack(),
+                    onBack = {
+                        coroutineScope.launch {
+                            listPaneAnim.snapTo(1f)
+                            detailPaneAnim.animateTo(0f, tween(200))
+
+                            navigator.navigateBack()
+                        }
+                    }
                 ) {
                     if(currentSelection != null) {
                         Column(
