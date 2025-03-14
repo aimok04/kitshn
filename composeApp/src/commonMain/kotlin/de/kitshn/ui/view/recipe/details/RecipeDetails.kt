@@ -54,7 +54,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -145,7 +144,7 @@ import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
-val RecipeServingsAmountSaveMap = mutableMapOf<Int, Int>()
+val RecipeServingsAmountSaveMap = mutableMapOf<Int, Double>()
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -163,9 +162,9 @@ fun ViewRecipeDetails(
     hideFab: Boolean = false,
 
     onClickKeyword: (keyword: TandoorKeywordOverview) -> Unit = {},
-    onServingsChange: (servings: Int) -> Unit = {},
+    onServingsChange: (servings: Double) -> Unit = {},
 
-    overrideServings: Int? = null
+    overrideServings: Double? = null
 ) {
     val context = LocalPlatformContext.current
     val imageLoader = remember { ImageLoader(context) }
@@ -276,16 +275,16 @@ fun ViewRecipeDetails(
         pageLoadingState = ErrorLoadingSuccessState.SUCCESS
     }
 
-    var servingsValue by remember { mutableIntStateOf(1) }
+    var servingsValue by remember { mutableDoubleStateOf(1.0) }
     var servingsFactor by remember { mutableDoubleStateOf(0.0) }
 
     LaunchedEffect(recipe) {
         if(recipe == null) return@LaunchedEffect
-        servingsValue = RecipeServingsAmountSaveMap[recipe.id] ?: recipe.servings
+        servingsValue = RecipeServingsAmountSaveMap[recipe.id] ?: recipe.servings.toDouble()
     }
 
     LaunchedEffect(servingsValue) {
-        servingsFactor = servingsValue.toDouble() / (recipe?.servings ?: 1).toDouble()
+        servingsFactor = servingsValue / (recipe?.servings ?: 1).toDouble()
         onServingsChange(servingsValue)
 
         if(recipe == null) return@LaunchedEffect

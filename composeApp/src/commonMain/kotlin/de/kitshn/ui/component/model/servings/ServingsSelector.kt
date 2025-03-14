@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import de.kitshn.formatAmount
 import de.kitshn.ui.dialog.servings.ServingsChangeDialog
 import de.kitshn.ui.dialog.servings.rememberServingsChangeDialogState
 import de.kitshn.ui.modifier.loadingPlaceHolder
@@ -33,13 +34,13 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ServingsSelector(
-    value: Int,
+    value: Double,
     label: String,
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
-    onChange: (value: Int) -> Unit
+    onChange: (value: Double) -> Unit
 ) {
-    fun valueChange(value: Int) {
-        if(value < 1) return
+    fun valueChange(value: Double) {
+        if(value < 0) return
 
         onChange(
             value
@@ -84,12 +85,18 @@ fun ServingsSelector(
                     style = Typography().labelMedium,
                     color = MaterialTheme.colorScheme.primary,
                     text = if(label.isNotBlank()) {
-                        "$value $label"
+                        "${value.formatAmount(fractional = false)} $label"
                     } else {
                         pluralStringResource(
                             Res.plurals.common_plural_portion,
-                            value,
-                            value
+                            if(value.toString().endsWith(".0")) {
+                                value.toInt()
+                            } else {
+                                Int.MAX_VALUE
+                            },
+                            value.formatAmount(
+                                fractional = false
+                            )
                         )
                     }
                 )

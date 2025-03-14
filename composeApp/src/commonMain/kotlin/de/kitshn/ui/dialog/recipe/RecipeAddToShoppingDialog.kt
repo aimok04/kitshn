@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,12 +41,12 @@ class RecipeAddToShoppingDialogState(
     val shown: MutableState<Boolean> = mutableStateOf(false),
     val recipe: MutableState<TandoorRecipe?> = mutableStateOf(null)
 ) {
-    val servings = mutableIntStateOf(1)
+    val servings = mutableDoubleStateOf(1.0)
 
     val ingredients = mutableStateListOf<TandoorIngredient>()
     val selectedIngredients = mutableStateListOf<TandoorIngredient>()
 
-    fun open(recipe: TandoorRecipe, servings: Int) {
+    fun open(recipe: TandoorRecipe, servings: Double) {
         ingredients.clear()
         selectedIngredients.clear()
 
@@ -68,14 +68,14 @@ class RecipeAddToShoppingDialogState(
 fun RecipeAddToShoppingDialog(
     state: RecipeAddToShoppingDialogState,
     showFractionalValues: Boolean,
-    onSubmit: (ingredients: List<TandoorIngredient>, servings: Int) -> Unit
+    onSubmit: (ingredients: List<TandoorIngredient>, servings: Double) -> Unit
 ) {
     if(!state.shown.value) return
 
     var servingsFactor by remember { mutableStateOf(1.0) }
     LaunchedEffect(state.servings.value) {
         servingsFactor =
-            state.servings.value.toDouble() / (state.recipe.value?.servings ?: 1).toDouble()
+            state.servings.value / (state.recipe.value?.servings ?: 1).toDouble()
     }
 
     AdaptiveFullscreenDialog(

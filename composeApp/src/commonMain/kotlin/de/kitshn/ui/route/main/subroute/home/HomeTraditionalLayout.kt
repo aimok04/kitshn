@@ -45,7 +45,6 @@ import de.kitshn.ui.view.home.search.HomeSearchState
 import de.kitshn.ui.view.recipe.details.RecipeServingsAmountSaveMap
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -202,8 +201,7 @@ fun HomeTraditionalLayout(
                                     MealPlanPromotionSectionDay.TODAY
                                 }
                             ) { recipeOverview, servings ->
-                                RecipeServingsAmountSaveMap[recipeOverview.id] =
-                                    servings.roundToInt()
+                                RecipeServingsAmountSaveMap[recipeOverview.id] = servings
                                 onSelect(recipeOverview.id.toString())
                             }
                         }

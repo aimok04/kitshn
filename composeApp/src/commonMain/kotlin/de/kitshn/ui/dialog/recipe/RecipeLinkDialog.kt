@@ -26,9 +26,9 @@ class RecipeLinkDialogState(
     val shown: MutableState<Boolean> = mutableStateOf(false),
     val linkContent: MutableState<TandoorRecipeOverview?> = mutableStateOf(null)
 ) {
-    var overrideServings: Int? = null
+    var overrideServings: Double? = null
 
-    fun open(linkContent: TandoorRecipeOverview, overrideServings: Int? = null) {
+    fun open(linkContent: TandoorRecipeOverview, overrideServings: Double? = null) {
         this.linkContent.value = linkContent
         this.shown.value = true
 
@@ -48,7 +48,7 @@ fun RecipeLinkDialog(
     leadingContent: @Composable () -> Unit = {},
     bottomBar: @Composable ((isFullscreen: Boolean) -> Unit)? = {},
     hideFab: Boolean = false,
-    onServingsChange: (servings: Int) -> Unit = {},
+    onServingsChange: (servings: Double) -> Unit = {},
     onDismiss: () -> Unit = {}
 ) {
     LaunchedEffect(

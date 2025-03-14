@@ -45,7 +45,6 @@ import kitshn.composeapp.generated.resources.action_edit
 import kitshn.composeapp.generated.resources.action_start_cooking
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
-import kotlin.math.roundToInt
 
 @Composable
 fun rememberMealPlanDetailsDialogState(): MealPlanDetailsDialogState {
@@ -106,7 +105,7 @@ fun MealPlanDetailsDialog(
     if(state.linkContent.value == null) return
     val mealPlan = state.linkContent.value!!
 
-    var servings by remember { mutableStateOf(mealPlan.servings.roundToInt()) }
+    var servings by remember { mutableStateOf(mealPlan.servings) }
 
     val bottomBar = @Composable {
         BottomAppBar(
@@ -192,7 +191,7 @@ fun MealPlanDetailsDialog(
             if(state.shown.value) {
                 recipeLinkDialogState.open(
                     linkContent = mealPlan.recipe,
-                    overrideServings = mealPlan.servings.roundToInt()
+                    overrideServings = mealPlan.servings
                 )
             } else {
                 recipeLinkDialogState.dismiss()

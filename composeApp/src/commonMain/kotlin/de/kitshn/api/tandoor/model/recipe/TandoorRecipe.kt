@@ -151,7 +151,7 @@ class TandoorRecipe(
     suspend fun shopping(
         ingredients: List<Int>? = null,
         mealplan: TandoorMealPlan? = null,
-        servings: Int? = null
+        servings: Double? = null
     ) {
         if(client == null) return
 

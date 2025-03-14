@@ -49,7 +49,6 @@ import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_show_all_recipes
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
-import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -171,7 +170,7 @@ fun HomeDynamicLayout(
                                 MealPlanPromotionSectionDay.TODAY
                             }
                         ) { recipeOverview, servings ->
-                            RecipeServingsAmountSaveMap[recipeOverview.id] = servings.roundToInt()
+                            RecipeServingsAmountSaveMap[recipeOverview.id] = servings
                             onSelect(recipeOverview.id.toString())
                         }
                     }

@@ -37,6 +37,7 @@ import de.kitshn.ui.route.recipe.cook.page.RouteRecipeCookPageDone
 import de.kitshn.ui.route.recipe.cook.page.RouteRecipeCookPageStep
 import de.kitshn.ui.state.foreverRememberPagerState
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,7 +48,7 @@ fun RouteRecipeCook(
     val coroutineScope = rememberCoroutineScope()
 
     val recipeId = p.bse.arguments?.getString("recipeId")
-    val servings = p.bse.arguments?.getString("servings")?.toInt() ?: 1
+    val servings = p.bse.arguments?.getString("servings")?.toDouble() ?: 1.0
 
     if(recipeId == null) {
         p.onBack?.let { it() }
@@ -73,7 +74,7 @@ fun RouteRecipeCook(
 
     if(recipe == null) return
 
-    val servingsFactor = servings.toDouble() / recipe!!.servings.toDouble()
+    val servingsFactor = servings / recipe!!.servings.toDouble()
 
     val sortedSteps = remember { mutableStateListOf<TandoorStep>() }
     LaunchedEffect(recipe) {
@@ -122,7 +123,7 @@ fun RouteRecipeCook(
                     RouteRecipeCookPageDone(
                         topPadding = topPadding,
                         recipe = recipe!!,
-                        servings = servings
+                        servings = servings.roundToInt()
                     )
                 } else {
                     val step = sortedSteps[index]

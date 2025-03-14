@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -23,7 +23,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import de.kitshn.ui.component.input.NumberField
+import de.kitshn.ui.component.input.DoubleField
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_apply
 import kitshn.composeapp.generated.resources.common_count
@@ -41,9 +41,9 @@ class ServingsChangeDialogState(
     val shown: MutableState<Boolean> = mutableStateOf(false)
 ) {
 
-    var servings by mutableIntStateOf(1)
+    var servings by mutableDoubleStateOf(1.0)
 
-    fun open(servings: Int) {
+    fun open(servings: Double) {
         this.servings = servings
         this.shown.value = true
     }
@@ -57,7 +57,7 @@ class ServingsChangeDialogState(
 fun ServingsChangeDialog(
     portionText: String = stringResource(Res.string.common_portions),
     state: ServingsChangeDialogState,
-    onSubmit: (servings: Int) -> Unit
+    onSubmit: (servings: Double) -> Unit
 ) {
     if (!state.shown.value) return
 
@@ -80,12 +80,12 @@ fun ServingsChangeDialog(
         text = {
             val focusRequester = remember { FocusRequester() }
 
-            NumberField(
+            DoubleField(
                 modifier = Modifier.focusRequester(focusRequester),
                 label = {
                     Text(portionText)
                 },
-                min = 1,
+                min = 0.1,
 
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
@@ -99,7 +99,7 @@ fun ServingsChangeDialog(
 
                 value = state.servings,
                 onValueChange = {
-                    state.servings = it ?: 1
+                    state.servings = it ?: 1.0
                 }
             )
 

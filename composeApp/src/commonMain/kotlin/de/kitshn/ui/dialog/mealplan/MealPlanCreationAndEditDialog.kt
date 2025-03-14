@@ -458,7 +458,7 @@ fun MealPlanCreationAndEditDialog(
 
                                 recipeAddToShoppingDialogState.open(
                                     recipe = recipeAddToShoppingDialogRecipe!!,
-                                    servings = servings!!
+                                    servings = servings!!.toDouble()
                                 )
                                 return@launch
                             }
