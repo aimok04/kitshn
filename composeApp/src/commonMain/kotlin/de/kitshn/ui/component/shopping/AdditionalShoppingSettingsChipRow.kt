@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarket
+import de.kitshn.cache.ShoppingSupermarketCache
 import de.kitshn.ui.component.shopping.chips.GroupingOptions
 import de.kitshn.ui.component.shopping.chips.GroupingSettingChip
 import de.kitshn.ui.component.shopping.chips.SupermarketSettingChip
@@ -44,7 +45,8 @@ class AdditionalShoppingSettingsChipRowState {
 @Composable
 fun AdditionalShoppingSettingsChipRow(
     client: TandoorClient,
-    state: AdditionalShoppingSettingsChipRowState
+    state: AdditionalShoppingSettingsChipRowState,
+    cache: ShoppingSupermarketCache
 ) {
     Row(
         Modifier
@@ -55,7 +57,7 @@ fun AdditionalShoppingSettingsChipRow(
         Spacer(Modifier.width(8.dp))
 
         GroupingSettingChip(state)
-        SupermarketSettingChip(client, state)
+        SupermarketSettingChip(client, state, cache)
 
         Spacer(Modifier.width(8.dp))
     }

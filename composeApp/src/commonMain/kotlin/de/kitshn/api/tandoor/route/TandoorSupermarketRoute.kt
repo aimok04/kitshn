@@ -13,8 +13,6 @@ class TandoorSupermarketRoute(client: TandoorClient) : TandoorBaseRoute(client) 
             client.getArray("/supermarket/").toString()
         )
 
-        client.container.supermarkets.clear()
-        client.container.supermarkets.addAll(response)
         return response
     }
 

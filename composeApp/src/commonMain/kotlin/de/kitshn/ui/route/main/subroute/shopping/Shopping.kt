@@ -47,6 +47,7 @@ import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.cache.ShoppingListEntriesCache
 import de.kitshn.cache.ShoppingListEntryOfflineActions
+import de.kitshn.cache.ShoppingSupermarketCache
 import de.kitshn.model.route.GroupDividerShoppingListItemModel
 import de.kitshn.model.route.GroupHeaderShoppingListItemModel
 import de.kitshn.model.route.GroupedFoodShoppingListItemModel
@@ -92,6 +93,11 @@ fun RouteMainSubrouteShopping(
     platformContext: PlatformContext = LocalPlatformContext.current,
     cache: ShoppingListEntriesCache = remember {
         ShoppingListEntriesCache(
+            platformContext, p.vm.tandoorClient!!
+        )
+    },
+    supermarketCache: ShoppingSupermarketCache = remember {
+        ShoppingSupermarketCache(
             platformContext, p.vm.tandoorClient!!
         )
     },
@@ -253,7 +259,8 @@ fun RouteMainSubrouteShopping(
 
             if(client != null) AdditionalShoppingSettingsChipRow(
                 client = client,
-                state = additionalShoppingSettingsChipRowState
+                state = additionalShoppingSettingsChipRowState,
+                cache = supermarketCache
             )
 
             HorizontalDivider()
