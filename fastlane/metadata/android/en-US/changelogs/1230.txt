@@ -1,4 +1,4 @@
-Hey
+Hey ✌️
 This week's release just contains minor improvements:
 
     1. Added supermarket caching on shopping page for offline mode (#142).
