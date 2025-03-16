@@ -70,6 +70,8 @@ platform :ios do
     desc "Deploy ipa to App Store"
     lane :deploy_release do
         upload_to_app_store(
+            submit_for_review: true,
+            automatic_release: true,
             force: true,
             ipa: "fastlane/out/ios/kitshn.ipa"
         )
