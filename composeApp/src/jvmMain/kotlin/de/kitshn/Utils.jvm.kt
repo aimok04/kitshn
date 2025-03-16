@@ -22,6 +22,8 @@ import java.awt.datatransfer.Clipboard
 import java.awt.datatransfer.StringSelection
 import kotlin.system.exitProcess
 
+actual fun saveBreadcrumb(key: String, value: String) {}
+
 @Composable
 actual fun osDependentHapticFeedbackHandler(): ((type: HapticFeedbackType) -> Unit)? = null
 

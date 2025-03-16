@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import de.kitshn.saveBreadcrumb
 import de.kitshn.ui.dialog.version.TandoorServerVersionCompatibilityDialog
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.route.main.subroute.MainSubrouteNavigation
@@ -56,6 +57,7 @@ fun RouteMain(p: RouteParameters) {
     val destination by mainSubNavHostController.currentBackStackEntryAsState()
     LaunchedEffect(destination) {
         val route = destination?.destination?.route ?: ""
+        saveBreadcrumb("subNavRoute", route)
 
         AppDestinations.entries.forEach {
             if(!route.startsWith(it.route)) return@forEach

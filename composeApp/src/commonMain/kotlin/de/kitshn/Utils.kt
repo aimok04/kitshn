@@ -396,6 +396,8 @@ fun String?.redactForRelease(): String {
     }
 }
 
+expect fun saveBreadcrumb(key: String, value: String)
+
 @Composable
 expect fun BackHandler(enabled: Boolean = true, handler: () -> Unit)
 

@@ -2,11 +2,15 @@ package de.kitshn.ui.route.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import de.kitshn.KitshnViewModel
+import de.kitshn.saveBreadcrumb
 import de.kitshn.ui.IOSBackGestureHandler
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.route.routes
@@ -17,6 +21,12 @@ fun PrimaryNavigation(
 ) {
     val controller = rememberNavController()
     vm.navHostController = controller
+
+    val destination by controller.currentBackStackEntryAsState()
+    LaunchedEffect(destination) {
+        val route = destination?.destination?.route ?: ""
+        saveBreadcrumb("navRoute", route)
+    }
 
     NavHost(
         modifier = Modifier.fillMaxSize(),

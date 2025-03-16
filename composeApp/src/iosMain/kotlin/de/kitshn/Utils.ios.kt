@@ -3,6 +3,7 @@ package de.kitshn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalUriHandler
+import co.touchlab.crashkios.bugsnag.BugsnagKotlin
 import kitshn.composeApp.BuildConfig
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
@@ -10,6 +11,10 @@ import platform.UIKit.UIViewController
 import platform.UIKit.UIWindow
 import platform.UIKit.popoverPresentationController
 import platform.posix.exit
+
+actual fun saveBreadcrumb(key: String, value: String) {
+    BugsnagKotlin.setCustomValue(section = "kotlin", key = key, value = value)
+}
 
 @Composable
 actual fun osDependentHapticFeedbackHandler(): ((type: HapticFeedbackType) -> Unit)? = null

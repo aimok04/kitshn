@@ -29,6 +29,7 @@ import kitshn.composeapp.generated.resources.common_yesterday
 import kitshn.composeapp.generated.resources.recipe_step_timer_created
 import kitshn.composeapp.generated.resources.recipe_step_timer_error_no_app
 import kotlinx.coroutines.launch
+import org.acra.ACRA
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import java.time.LocalDate
@@ -46,6 +47,10 @@ fun getDialogWindow(): Window? = (LocalView.current.parent as? DialogWindowProvi
 
 @Composable
 fun getActivityWindow(): Window? = LocalView.current.context.getActivityWindow()
+
+actual fun saveBreadcrumb(key: String, value: String) {
+    ACRA.errorReporter.putCustomData(key, value)
+}
 
 @Composable
 actual fun osDependentHapticFeedbackHandler(): ((type: HapticFeedbackType) -> Unit)? {
