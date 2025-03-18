@@ -365,4 +365,6 @@
     <string name="home_meal_plan_promotion_tomorrow_title">Menü für morgen</string>
     <string name="settings_section_behavior_enable_meal_plan_promotion_label">Essensplan auf dem Startbildschirm anzeigen</string>
     <string name="settings_section_behavior_promote_tomorrows_meal_plan_label">Stattdessen Essensplan von morgen anzeigen</string>
+    <string name="meal_plan_form_review_add_to_shopping_list_label">Einträge vor dem Hinzufügen zur Einkaufsliste überprüfen</string>
+    <string name="meal_plan_form_review_add_to_shopping_list_description">Überprüfe, welche Zutaten tatsächlich auf die Einkaufsliste gesetzt werden sollen.</string>
 </resources>
