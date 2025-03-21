@@ -414,7 +414,8 @@ fun ViewRecipeDetails(
                         onAddToMealPlan = {
                             mealPlanCreationDialogState.open(
                                 MealPlanCreationAndEditDefaultValues(
-                                    recipeId = recipeOverview.id
+                                    recipeId = recipeOverview.id,
+                                    servings = recipeOverview.servings
                                 )
                             )
                         },
