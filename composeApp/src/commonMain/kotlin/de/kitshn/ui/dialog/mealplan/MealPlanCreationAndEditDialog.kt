@@ -272,6 +272,11 @@ fun MealPlanCreationAndEditDialog(
                             value = { recipeId },
                             onValueChange = {
                                 recipeId = it
+                                if(recipeId == null) return@KitshnFormRecipeSearchFieldItem
+
+                                client.container.recipeOverview[recipeId]?.servings?.let {
+                                    servings = it
+                                }
                             },
 
                             label = { Text(stringResource(Res.string.common_recipe)) },
