@@ -28,6 +28,7 @@ Pods/
 /composeApp/nightly
 
 /fastlane/Appfile
+/fastlane/.env
 /fastlane/.env.default
 /fastlane/report.xml
 /fastlane/Preview.html
