@@ -279,23 +279,16 @@ fun Long.toLocalDate(): LocalDate {
 }
 
 @Composable
-expect fun LocalDate.toHumanReadableDateLabelImpl(): String?
+expect fun LocalDate.format(pattern: String): String
 
-@OptIn(FormatStringsInDatetimeFormats::class)
 @Composable
 fun LocalDate.toHumanReadableDateLabel(): String {
-    this.toHumanReadableDateLabelImpl()?.let {
-        return it
-    }
-
     val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     val diff = this.toEpochDays() - today.toEpochDays()
 
-    //TODO: localize date format for jvm/iOS
     return when(diff) {
         in 3..6 -> {
-            val dateFormat = LocalDate.Format { byUnicodePattern("dd.MM.") }
-            return dateFormat.format(this)
+            this.format("EEEE")
         }
 
         2 -> stringResource(Res.string.common_day_after_tomorrow)
@@ -305,11 +298,9 @@ fun LocalDate.toHumanReadableDateLabel(): String {
         -2 -> stringResource(Res.string.common_day_before_yesterday)
         else -> {
             if(this.year == today.year) {
-                val dateFormat = LocalDate.Format { byUnicodePattern("dd.MM.") }
-                return dateFormat.format(this)
+                this.format("EE, dd. MMM")
             } else {
-                val dateFormat = LocalDate.Format { byUnicodePattern("dd.MM.yyyy") }
-                return dateFormat.format(this)
+                this.format("dd. MMMM yyyy")
             }
         }
     }

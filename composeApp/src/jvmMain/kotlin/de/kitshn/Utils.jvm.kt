@@ -16,10 +16,12 @@ import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_copied_to_clipboard
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.stringResource
 import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
 import java.awt.datatransfer.StringSelection
+import java.time.format.DateTimeFormatter
 import kotlin.system.exitProcess
 
 actual fun saveBreadcrumb(key: String, value: String) {}
@@ -28,7 +30,8 @@ actual fun saveBreadcrumb(key: String, value: String) {}
 actual fun osDependentHapticFeedbackHandler(): ((type: HapticFeedbackType) -> Unit)? = null
 
 @Composable
-actual fun kotlinx.datetime.LocalDate.toHumanReadableDateLabelImpl(): String? = null
+actual fun LocalDate.format(pattern: String): String = DateTimeFormatter.ofPattern(pattern)
+    .format(java.time.LocalDate.ofEpochDay(this.toEpochDays().toLong()))
 
 @Composable
 actual fun BackHandler(enabled: Boolean, handler: () -> Unit) {

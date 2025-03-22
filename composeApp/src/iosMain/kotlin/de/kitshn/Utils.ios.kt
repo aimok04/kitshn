@@ -3,8 +3,12 @@ package de.kitshn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.intl.Locale
 import co.touchlab.crashkios.bugsnag.BugsnagKotlin
 import kitshn.composeApp.BuildConfig
+import kotlinx.datetime.LocalDate
+import platform.Foundation.NSDate
+import platform.Foundation.NSDateFormatter
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 import platform.UIKit.UIViewController
@@ -20,7 +24,11 @@ actual fun saveBreadcrumb(key: String, value: String) {
 actual fun osDependentHapticFeedbackHandler(): ((type: HapticFeedbackType) -> Unit)? = null
 
 @Composable
-actual fun kotlinx.datetime.LocalDate.toHumanReadableDateLabelImpl(): String? = null
+actual fun LocalDate.format(pattern: String): String = NSDateFormatter().run {
+    setLocale(Locale.current.platformLocale)
+    setLocalizedDateFormatFromTemplate(pattern)
+    stringFromDate(this@format.toNSDate())
+}
 
 @Composable
 actual fun BackHandler(enabled: Boolean, handler: () -> Unit) {
@@ -90,4 +98,13 @@ actual fun closeAppHandler(): () -> Unit {
     return {
         exit(0)
     }
+}
+
+/**
+ * Transforms kotlin LocalDate to iOS NSDate
+ *
+ */
+fun LocalDate.toNSDate(): NSDate {
+    val referenceDateDays = this.toEpochDays() - 31 * 365 - 8
+    return NSDate((referenceDateDays * 24 * 60 * 60).toDouble())
 }

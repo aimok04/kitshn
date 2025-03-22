@@ -21,17 +21,11 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.window.DialogWindowProvider
 import co.touchlab.kermit.Logger
 import kitshn.composeapp.generated.resources.Res
-import kitshn.composeapp.generated.resources.common_day_after_tomorrow
-import kitshn.composeapp.generated.resources.common_day_before_yesterday
-import kitshn.composeapp.generated.resources.common_today
-import kitshn.composeapp.generated.resources.common_tomorrow
-import kitshn.composeapp.generated.resources.common_yesterday
 import kitshn.composeapp.generated.resources.recipe_step_timer_created
 import kitshn.composeapp.generated.resources.recipe_step_timer_error_no_app
 import kotlinx.coroutines.launch
 import org.acra.ACRA
 import org.jetbrains.compose.resources.getString
-import org.jetbrains.compose.resources.stringResource
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -74,34 +68,8 @@ actual fun osDependentHapticFeedbackHandler(): ((type: HapticFeedbackType) -> Un
 }
 
 @Composable
-actual fun kotlinx.datetime.LocalDate.toHumanReadableDateLabelImpl(): String? {
-    val date = LocalDate.ofEpochDay(this.toEpochDays().toLong())
-
-    val today = LocalDate.now()
-    val diff = date.toEpochDay() - LocalDate.now().toEpochDay()
-
-    return when(diff) {
-        in 3L..6L -> {
-            val dateFormat = DateTimeFormatter.ofPattern("EEEE")
-            date.format(dateFormat)
-        }
-
-        2L -> stringResource(Res.string.common_day_after_tomorrow)
-        1L -> stringResource(Res.string.common_tomorrow)
-        0L -> stringResource(Res.string.common_today)
-        -1L -> stringResource(Res.string.common_yesterday)
-        -2L -> stringResource(Res.string.common_day_before_yesterday)
-        else -> {
-            if(this.year == today.year) {
-                val dateFormat = DateTimeFormatter.ofPattern("EE, dd. MMM.")
-                date.format(dateFormat)
-            } else {
-                val dateFormat = DateTimeFormatter.ofPattern("dd. MMMM yyyy")
-                date.format(dateFormat)
-            }
-        }
-    }
-}
+actual fun kotlinx.datetime.LocalDate.format(pattern: String): String =
+    DateTimeFormatter.ofPattern(pattern).format(LocalDate.ofEpochDay(this.toEpochDays().toLong()))
 
 @Composable
 actual fun BackHandler(enabled: Boolean, handler: () -> Unit) {
