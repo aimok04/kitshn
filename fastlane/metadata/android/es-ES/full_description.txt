@@ -1,5 +1,3 @@
-Información: Es posible que los usuarios de GrapheneOS tengan que desactivar «Hardened memory allocator» o activar el «Exploit protection compatibility mode» para que la aplicación funcione.
-
 Hecho con <b>Jetpack Compose</b> y <b>Material You</b> para ofrecer una experiencia de usuario moderna, intuitiva y responsiva
 
 <b>Funciones soportadas:</b>

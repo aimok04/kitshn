@@ -1,5 +1,3 @@
-Informacije: uporabniki sistema GrapheneOS bodo morda morali onemogočiti »Hardened memory allocator« ali omogočiti »Exploit protection compatibility mode«, da bo aplikacija delovala.
-
 Zgrajen z <b>Jetpack Compose</b> in <b>Material You</b> za zagotavljanje sodobne, intuitivne in odzivne uporabniške izkušnje.
 
 <b>Podprte funkcije:</b>
