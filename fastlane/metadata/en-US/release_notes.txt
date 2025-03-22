@@ -1,6 +1,9 @@
 Hey
-This week's release just contains minor improvements:
+This week's release just contains some small new features, minor improvements and a new language:
 
-    1. Added supermarket caching on shopping page for offline mode (#142).
-    2. Implemented fractional servings for recipes (#143).
-    3. Checked compatibility with Tandoor version 1.5.32.
+    1. Czech has been added on Weblate (by @hernikplays).
+    2. Implemented human readable date labels for iOS.
+    3. Now defaulting to recipe's servings value when adding to meal plan (#147) (by @Monforton).
+    4. Now defaulting to recipe's servings value when selecting a recipe in meal plan creation/edit dialog.
+    5. Fixed error when trying to add recipe ingredients to shopping list (HTTP 204 non-zero Content-Length).
+    6. Checked compatibility with Tandoor version 1.5.33.
