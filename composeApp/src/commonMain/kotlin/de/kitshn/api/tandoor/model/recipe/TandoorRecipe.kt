@@ -35,6 +35,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
+import okio.ProtocolException
 
 @Serializable
 class TandoorRecipe(
@@ -155,15 +156,21 @@ class TandoorRecipe(
     ) {
         if(client == null) return
 
-        client!!.put("/recipe/${id}/shopping/", buildJsonObject {
-            if(ingredients != null) put("ingredients", buildJsonArray {
-                ingredients.forEach { add(JsonPrimitive(it)) }
+        try {
+            client!!.put("/recipe/${id}/shopping/", buildJsonObject {
+                if(ingredients != null) put("ingredients", buildJsonArray {
+                    ingredients.forEach { add(JsonPrimitive(it)) }
+                })
+                if(mealplan != null) put("mealplan", buildJsonObject {
+                    put("id", mealplan.id)
+                })
+                if(servings != null) put("servings", servings)
             })
-            if(mealplan != null) put("mealplan", buildJsonObject {
-                put("id", mealplan.id)
-            })
-            if(servings != null) put("servings", servings)
-        })
+        }catch(ex: ProtocolException) {
+            // prevent HTTP 204 had non-zero Content-Length exception
+            if(ex.message?.contains("HTTP 204") == true) return
+            throw ex
+        }
     }
 
     suspend fun delete() {
