@@ -5,6 +5,7 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.patchObject
+import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.json
 import de.kitshn.parseTandoorDate
 import de.kitshn.toColorInt
@@ -49,6 +50,7 @@ class TandoorMealPlan(
     val created_by: Int,
     val recipe_name: String? = null,
     val meal_type_name: String,
+    val shared: List<TandoorUser> = listOf(),
     val shopping: Boolean
 ) {
     @Transient
@@ -75,6 +77,7 @@ class TandoorMealPlan(
         from_date: LocalDate? = null,
         to_date: LocalDate? = null,
         meal_type: TandoorMealType? = null,
+        shared: List<TandoorUser>? = null,
         addshopping: Boolean? = null
     ) {
         if(this.client == null) return
@@ -85,6 +88,7 @@ class TandoorMealPlan(
             if(servings != null) put("servings", JsonPrimitive(servings))
             if(note != null) put("note", JsonPrimitive(note))
             if(meal_type != null) put("meal_type", json.encodeToJsonElement(meal_type))
+            if(shared != null) put("shared", json.encodeToJsonElement(shared))
             if(addshopping != null) put("addshopping", JsonPrimitive(addshopping))
 
             if(to_date != null) put("to_date", JsonPrimitive(to_date.toTandoorDate()))

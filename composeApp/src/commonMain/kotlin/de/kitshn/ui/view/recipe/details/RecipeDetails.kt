@@ -412,12 +412,17 @@ fun ViewRecipeDetails(
                         onShare = { share() },
                         onManageRecipeBooks = { manageRecipeInRecipeBooksDialogState.open(recipeId) },
                         onAddToMealPlan = {
-                            mealPlanCreationDialogState.open(
-                                MealPlanCreationAndEditDefaultValues(
-                                    recipeId = recipeOverview.id,
-                                    servings = recipeOverview.servings
+                            coroutineScope.launch {
+                                val userPreference = client.userPreference.fetch()
+
+                                mealPlanCreationDialogState.open(
+                                    MealPlanCreationAndEditDefaultValues(
+                                        recipeId = recipeOverview.id,
+                                        servings = recipeOverview.servings,
+                                        shared = userPreference.plan_share
+                                    )
                                 )
-                            )
+                            }
                         },
                         onAddToShopping = {
                             recipe?.let {

@@ -271,6 +271,8 @@
     <string name="meal_plan_form_error_entry_needs_title_or_recipe">The entry needs either a title or a specified recipe.</string>
     <string name="meal_plan_form_review_add_to_shopping_list_description">Check which ingredients should be actually added to the shopping list.</string>
     <string name="meal_plan_form_review_add_to_shopping_list_label">Review items before adding to shopping</string>
+    <string name="meal_plan_form_select_users_for_sharing">Select users for sharing</string>
+    <string name="meal_plan_form_select_users_for_sharing_empty">Select the users you want to share this with.</string>
     <string name="meal_plan_no_recipes_for_this_day">No recipes added for this day</string>
 
     <string name="navigation_books">Books</string>
@@ -321,6 +323,7 @@
     <string name="search_tags">Search tags</string>
     <string name="search_tags_filter">Filter by tags</string>
     <string name="search_tags_filter_empty">Select the tags you want to search for.</string>
+    <string name="search_users">Search users</string>
 
     <string name="select_recipe">Select recipe</string>
     <string name="select_recipe_book">Select recipe book</string>

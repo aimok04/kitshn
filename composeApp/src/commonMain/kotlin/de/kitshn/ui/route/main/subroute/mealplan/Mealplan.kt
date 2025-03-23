@@ -105,7 +105,9 @@ fun RouteMainSubrouteMealplan(
         LoadingErrorAlertPaneWrapper(
             loadingState = pageLoadingState
         ) {
+            if(p.vm.tandoorClient == null) return@LoadingErrorAlertPaneWrapper
             RouteMainSubrouteMealplanScaffoldContent(
+                client = p.vm.tandoorClient!!,
                 pv = it,
                 scrollBehavior = scrollBehavior,
                 startDate = startDate,

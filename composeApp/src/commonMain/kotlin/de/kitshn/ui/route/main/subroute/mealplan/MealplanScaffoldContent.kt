@@ -30,11 +30,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.parseTandoorDate
 import de.kitshn.toHumanReadableDateLabel
@@ -51,6 +53,7 @@ import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_minus_one_week
 import kitshn.composeapp.generated.resources.action_plus_one_week
 import kitshn.composeapp.generated.resources.common_okay
+import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
@@ -60,6 +63,8 @@ import org.jetbrains.compose.resources.stringResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RouteMainSubrouteMealplanScaffoldContent(
+    client: TandoorClient,
+
     pv: PaddingValues,
     scrollBehavior: TopAppBarScrollBehavior,
 
@@ -78,6 +83,8 @@ fun RouteMainSubrouteMealplanScaffoldContent(
 
     onChangeMealPlanStartDate: (day: LocalDate) -> Unit
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     var showDatePickerDialog by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
 
@@ -192,11 +199,16 @@ fun RouteMainSubrouteMealplanScaffoldContent(
                             )
                         }
                     ) {
-                        creationDialogState.open(
-                            MealPlanCreationAndEditDefaultValues(
-                                startDate = day
+                        coroutineScope.launch {
+                            val userPreference = client.userPreference.fetch()
+
+                            creationDialogState.open(
+                                MealPlanCreationAndEditDefaultValues(
+                                    startDate = day,
+                                    shared = userPreference.plan_share
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }
