@@ -146,10 +146,6 @@ kotlin {
             implementation(libs.material)
 
             implementation(libs.peekaboo.image.picker)
-
-            // needed for migration
-            implementation(libs.androidx.datastore.core.android)
-            implementation(libs.androidx.datastore.preferences)
         }
 
         jvmMain.dependencies {

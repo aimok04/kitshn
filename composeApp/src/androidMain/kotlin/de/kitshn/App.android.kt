@@ -5,26 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import de.kitshn.actions.handleIntent
 import de.kitshn.actions.preHandleIntent
-import de.kitshn.migration.LegacySettingsViewModel
-import de.kitshn.migration.runSettingsMigration
-import de.kitshn.ui.theme.KitshnTheme
-import de.kitshn.ui.theme.custom.AvailableColorSchemes
-import kotlinx.coroutines.delay
-import java.io.File
-
-const val KEY_SETTINGS_ANDROID_MIGRATION_DONE = "android_migration_done"
 
 class AppActivity : ComponentActivity() {
     private var vm: KitshnViewModel? = null
@@ -36,67 +18,19 @@ class AppActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            var androidMigrationDone by remember {
-                mutableStateOf(
-                    settings.settings.getBoolean(
-                        KEY_SETTINGS_ANDROID_MIGRATION_DONE,
-                        false
-                    )
-                )
-            }
+            App(
+                onVmCreated = {
+                    vm = it
+                },
 
-            if(!androidMigrationDone) {
-                LaunchedEffect(Unit) {
-                    delay(500)
+                onBeforeCredentialsCheck = {
+                    vm?.preHandleIntent(it, intent) ?: false
+                },
 
-                    val datastoreFolder = File(filesDir, "datastore")
-                    if(datastoreFolder.exists()) {
-                        if(datastoreFolder.listFiles()?.isEmpty() == false) {
-                            // perform migration
-                            val legacySettings =
-                                LegacySettingsViewModel(application, this@AppActivity)
-                            val finished = runSettingsMigration(
-                                settings = settings,
-                                legacySettings = legacySettings
-                            )
-
-                            if(!finished) return@LaunchedEffect
-                        }
-                    }
-
-                    // mark Android migration as done
-                    settings.settings.putBoolean(KEY_SETTINGS_ANDROID_MIGRATION_DONE, true)
-                    androidMigrationDone = true
-
-                    // delete datastore after
-                    if(datastoreFolder.exists()) datastoreFolder.deleteRecursively()
+                onLaunched = {
+                    vm?.handleIntent(intent)
                 }
-
-                KitshnTheme(
-                    colorScheme = AvailableColorSchemes.getDefault()
-                ) {
-                    Box(
-                        Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-            } else {
-                App(
-                    onVmCreated = {
-                        vm = it
-                    },
-
-                    onBeforeCredentialsCheck = {
-                        vm?.preHandleIntent(it, intent) ?: false
-                    },
-
-                    onLaunched = {
-                        vm?.handleIntent(intent)
-                    }
-                )
-            }
+            )
         }
     }
 
