@@ -367,4 +367,7 @@
     <string name="settings_section_behavior_promote_tomorrows_meal_plan_label">Stattdessen Essensplan von morgen anzeigen</string>
     <string name="meal_plan_form_review_add_to_shopping_list_label">Einträge vor dem Hinzufügen zur Einkaufsliste überprüfen</string>
     <string name="meal_plan_form_review_add_to_shopping_list_description">Überprüfe, welche Zutaten tatsächlich auf die Einkaufsliste gesetzt werden sollen.</string>
+    <string name="meal_plan_form_select_users_for_sharing">Wähle Nutzer zum teilen</string>
+    <string name="meal_plan_form_select_users_for_sharing_empty">Wähle Nutzer, mit denen du diesen Eintrag teilen möchtest.</string>
+    <string name="search_users">Nutzer durchsuchen</string>
 </resources>
