@@ -48,7 +48,6 @@ import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_apply
-import kitshn.composeapp.generated.resources.meal_plan_form_select_users_for_sharing_empty
 import kitshn.composeapp.generated.resources.search_users
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
@@ -81,6 +80,7 @@ class SelectMultipleUsersDialogState(
 fun SelectMultipleUsersDialog(
     client: TandoorClient,
     title: String = stringResource(Res.string.search_users),
+    emptyErrorText: String,
     state: SelectMultipleUsersDialogState,
     prepend: @Composable () -> Unit = {},
     onSubmit: (users: List<TandoorUser>) -> Unit
@@ -142,8 +142,8 @@ fun SelectMultipleUsersDialog(
                             if(state.selectedUsers.size == 0) {
                                 FullSizeAlertPane(
                                     imageVector = Icons.Rounded.Search,
-                                    contentDescription = stringResource(Res.string.meal_plan_form_select_users_for_sharing_empty),
-                                    text = stringResource(Res.string.meal_plan_form_select_users_for_sharing_empty)
+                                    contentDescription = emptyErrorText,
+                                    text = emptyErrorText
                                 )
                             } else {
                                 LazyColumn(

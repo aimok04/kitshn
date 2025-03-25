@@ -55,6 +55,8 @@ import kitshn.composeapp.generated.resources.common_meal_type
 import kitshn.composeapp.generated.resources.common_note
 import kitshn.composeapp.generated.resources.common_portions
 import kitshn.composeapp.generated.resources.common_recipe
+import kitshn.composeapp.generated.resources.common_select_users_for_sharing
+import kitshn.composeapp.generated.resources.common_select_users_for_sharing_empty
 import kitshn.composeapp.generated.resources.common_shopping
 import kitshn.composeapp.generated.resources.common_start_date
 import kitshn.composeapp.generated.resources.common_title
@@ -63,7 +65,6 @@ import kitshn.composeapp.generated.resources.meal_plan_form_add_to_shopping_list
 import kitshn.composeapp.generated.resources.meal_plan_form_error_entry_needs_title_or_recipe
 import kitshn.composeapp.generated.resources.meal_plan_form_review_add_to_shopping_list_description
 import kitshn.composeapp.generated.resources.meal_plan_form_review_add_to_shopping_list_label
-import kitshn.composeapp.generated.resources.meal_plan_form_select_users_for_sharing
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.getString
@@ -391,7 +392,8 @@ fun MealPlanCreationAndEditDialog(
                                 )
                             },
 
-                            dialogTitle = { stringResource(Res.string.meal_plan_form_select_users_for_sharing) },
+                            dialogTitle = { stringResource(Res.string.common_select_users_for_sharing) },
+                            dialogEmptyErrorText = { stringResource(Res.string.common_select_users_for_sharing_empty) },
 
                             optional = true,
 

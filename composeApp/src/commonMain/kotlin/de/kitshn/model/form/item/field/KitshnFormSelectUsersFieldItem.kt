@@ -21,6 +21,7 @@ class KitshnFormSelectUsersFieldItem(
     val onValueChange: (value: List<TandoorUser>) -> Unit,
 
     val dialogTitle: @Composable () -> String,
+    val dialogEmptyErrorText: @Composable () -> String,
 
     label: @Composable () -> Unit,
     leadingIcon: @Composable (() -> Unit)? = null,
@@ -55,6 +56,7 @@ class KitshnFormSelectUsersFieldItem(
             leadingIcon = leadingIcon,
 
             dialogTitle = dialogTitle(),
+            dialogEmptyErrorText = dialogEmptyErrorText(),
 
             onValueChange = {
                 coroutineScope.launch {

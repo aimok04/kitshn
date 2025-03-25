@@ -42,6 +42,7 @@ fun SelectUsersField(
     value: List<TandoorUser>,
     label: @Composable (() -> Unit)? = null,
     dialogTitle: String,
+    dialogEmptyErrorText: String,
     leadingIcon: @Composable (() -> Unit)? = null,
     onValueChange: (List<TandoorUser>) -> Unit
 ) {
@@ -132,6 +133,7 @@ fun SelectUsersField(
     SelectMultipleUsersDialog(
         client = client,
         title = dialogTitle,
+        emptyErrorText = dialogEmptyErrorText,
         state = selectMultipleUsersDialogState,
         onSubmit = {
             onValueChange(it)

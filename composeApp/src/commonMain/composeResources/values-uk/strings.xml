@@ -381,7 +381,7 @@
     <string name="home_meal_plan_promotion_tomorrow_title">Меню на завтра</string>
     <string name="meal_plan_form_review_add_to_shopping_list_label">Перегляньте товари, перш ніж додавати їх до покупок</string>
     <string name="meal_plan_form_review_add_to_shopping_list_description">Перевірте, які інгредієнти насправді слід додати до списку покупок.</string>
-    <string name="meal_plan_form_select_users_for_sharing">Виберіть користувачів для спільного використання</string>
-    <string name="meal_plan_form_select_users_for_sharing_empty">Виберіть користувачів, яким ви хочете поділитися цим.</string>
+    <string name="common_select_users_for_sharing">Виберіть користувачів для спільного використання</string>
+    <string name="common_select_users_for_sharing_empty">Виберіть користувачів, яким ви хочете поділитися цим.</string>
     <string name="search_users">Пошук користувачів</string>
 </resources>
