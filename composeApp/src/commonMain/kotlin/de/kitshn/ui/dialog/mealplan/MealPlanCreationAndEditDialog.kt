@@ -22,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
@@ -381,7 +380,6 @@ fun MealPlanCreationAndEditDialog(
                             client = client,
                             value = { shared },
                             onValueChange = {
-                                Logger.d("melallal") { it.toString() }
                                 shared = it
                             },
 

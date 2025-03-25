@@ -25,7 +25,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.ui.dialog.select.SelectMultipleUsersDialog
@@ -135,7 +134,6 @@ fun SelectUsersField(
         title = dialogTitle,
         state = selectMultipleUsersDialogState,
         onSubmit = {
-            Logger.d("SelectUserFields (submit)") { it.toString() }
             onValueChange(it)
         }
     )
