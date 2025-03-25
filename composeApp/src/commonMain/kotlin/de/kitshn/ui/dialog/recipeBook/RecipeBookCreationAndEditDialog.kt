@@ -3,6 +3,7 @@ package de.kitshn.ui.dialog.recipeBook
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Label
 import androidx.compose.material.icons.automirrored.rounded.Notes
+import androidx.compose.material.icons.rounded.Groups2
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -18,8 +19,10 @@ import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.model.form.KitshnForm
 import de.kitshn.model.form.KitshnFormSection
+import de.kitshn.model.form.item.field.KitshnFormSelectUsersFieldItem
 import de.kitshn.model.form.item.field.KitshnFormTextFieldItem
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
@@ -29,15 +32,19 @@ import kitshn.composeapp.generated.resources.action_create
 import kitshn.composeapp.generated.resources.action_create_recipe_book
 import kitshn.composeapp.generated.resources.action_edit_recipe_book
 import kitshn.composeapp.generated.resources.action_save
+import kitshn.composeapp.generated.resources.action_share
 import kitshn.composeapp.generated.resources.common_description
 import kitshn.composeapp.generated.resources.common_name
+import kitshn.composeapp.generated.resources.common_select_users_for_sharing
+import kitshn.composeapp.generated.resources.common_select_users_for_sharing_empty
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
 data class RecipeBookCreationAndEditDefaultValues(
     val name: String = "",
-    val description: String = ""
+    val description: String = "",
+    val shared: List<TandoorUser> = listOf()
 )
 
 @Composable
@@ -64,7 +71,8 @@ class RecipeBookEditDialogState(
 
         this.defaultValues = RecipeBookCreationAndEditDefaultValues(
             name = recipeBook.name,
-            description = recipeBook.description
+            description = recipeBook.description,
+            shared = recipeBook.shared
         )
 
         this.shown.value = true
@@ -123,6 +131,7 @@ fun RecipeBookCreationAndEditDialog(
     // form values
     var name by rememberSaveable { mutableStateOf(defaultValues.name) }
     var description by rememberSaveable { mutableStateOf(defaultValues.description) }
+    var shared by remember { mutableStateOf(defaultValues.shared) }
 
     val requestRecipeBookState = rememberTandoorRequestState()
 
@@ -179,6 +188,32 @@ fun RecipeBookCreationAndEditDialog(
                         )
                     )
                 ),
+                KitshnFormSection(
+                    listOf(
+                        KitshnFormSelectUsersFieldItem(
+                            client = client,
+                            value = { shared },
+                            onValueChange = {
+                                shared = it
+                            },
+
+                            label = { Text(stringResource(Res.string.action_share)) },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Rounded.Groups2,
+                                    stringResource(Res.string.action_share)
+                                )
+                            },
+
+                            dialogTitle = { stringResource(Res.string.common_select_users_for_sharing) },
+                            dialogEmptyErrorText = { stringResource(Res.string.common_select_users_for_sharing_empty) },
+
+                            optional = true,
+
+                            check = { null }
+                        )
+                    )
+                )
             ),
             submitButton = {
                 Button(onClick = it) {
@@ -197,7 +232,8 @@ fun RecipeBookCreationAndEditDialog(
                         requestRecipeBookState.wrapRequest {
                             editState?.recipeBook?.partialUpdate(
                                 name = name,
-                                description = description
+                                description = description,
+                                shared = shared
                             )
                         }
 
@@ -207,7 +243,8 @@ fun RecipeBookCreationAndEditDialog(
                         val recipeBook = requestRecipeBookState.wrapRequest {
                             client.recipeBook.create(
                                 name = name,
-                                description = description
+                                description = description,
+                                shared = shared
                             )
                         }
 

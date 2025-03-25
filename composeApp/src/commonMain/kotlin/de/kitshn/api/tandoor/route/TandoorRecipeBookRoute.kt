@@ -8,21 +8,22 @@ import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.encodeToJsonElement
 
 class TandoorRecipeBookRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
     suspend fun create(
         name: String = "",
         description: String = "",
+        shared: List<TandoorUser> = listOf()
     ): TandoorRecipeBook {
         val data = buildJsonObject {
             put("name", JsonPrimitive(name))
             put("description", JsonPrimitive(description))
             put("order", JsonPrimitive(0))
             put("filter", JsonNull)
-            put("shared", buildJsonArray { })
+            put("shared", json.encodeToJsonElement(shared))
         }
 
         val recipeBook = TandoorRecipeBook.parse(

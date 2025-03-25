@@ -11,12 +11,14 @@ import de.kitshn.api.tandoor.patchObject
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
 import de.kitshn.api.tandoor.route.TandoorRecipeRouteListResponse
+import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.json
 import de.kitshn.removeIf
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.encodeToJsonElement
 
 @Serializable
 class TandoorRecipeBook(
@@ -24,7 +26,8 @@ class TandoorRecipeBook(
     val name: String,
     val description: String,
     val order: Int = 0,
-    val filter: TandoorRecipeFilter? = null
+    val filter: TandoorRecipeFilter? = null,
+    val shared: List<TandoorUser> = listOf()
 ) {
 
     @Transient
@@ -75,13 +78,15 @@ class TandoorRecipeBook(
 
     suspend fun partialUpdate(
         name: String? = null,
-        description: String? = null
+        description: String? = null,
+        shared: List<TandoorUser>? = null
     ) {
         if(this.client == null) return
 
         val data = buildJsonObject {
             if(name != null) put("name", JsonPrimitive(name))
             if(description != null) put("description", JsonPrimitive(description))
+            if(shared != null) put("shared", json.encodeToJsonElement(shared))
         }
 
         client!!.patchObject("/recipe-book/${id}/", data)
