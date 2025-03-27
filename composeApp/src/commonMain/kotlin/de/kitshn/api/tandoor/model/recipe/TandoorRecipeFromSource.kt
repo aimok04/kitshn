@@ -75,7 +75,7 @@ class TandoorRecipeFromSource(
                                 instruction = s
                             })
                         )
-                    } else {
+                    } else if (s.isNotBlank()) {
                         add(
                             json.encodeToJsonElement(
                                 TandoorRecipeFromSourceStep(
