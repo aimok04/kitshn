@@ -1,26 +1,28 @@
 Hey ✌️
-This week's release just contains some small new features, minor improvements and a new language:
+I decided to release **kitshn v1.0.0** — this will be the **final release** compatible with *
+*Tandoor v1** 🥳
+I will now focus on working on compatibility with **Tandoor v2** because there have been some API
+and
+functionality changes.
 
-1. 🇨🇿 **Czech** has been added on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by
-   @hernikplays).
-2. Implemented **human readable date labels** for iOS (already supported on Android).
-3. Now **defaulting** to **recipe's servings value** when adding to **meal plan** (#147) (by
-   @Monforton).
-4. Now **defaulting** to **recipe's servings value** when selecting a recipe in **meal plan
-   creation/edit dialog**.
-5. Fixed error when trying to **add recipe ingredients** to **shopping list** (HTTP 204 non-zero
-   Content-Length).
-3. Checked **compatibility** with Tandoor **version 1.5.33**.
+I'll consider releasing beta builds on **GitHub**, **Google Play** and **TestFlight** when the main
+migrations have been done! :)
+
+This week's release just contains some small new features and minor improvements:
+
+1. Implemented support to **select sharing users** in **meal plan** creation/ edit dialog (#148).
+2. Implemented support to **select sharing users** in **recipe book** creation/ edit dialog (#154).
+3. Added check to **prevent empty steps** when **importing recipes** (#157).
+4. Checked **compatibility** with Tandoor **version 1.5.34**.
 
 ## Highlights
 
-- feat(*Main/utils): implemented human readable date labels for iOS and jvm (unified)
-- feat(commonMain/recipes): default servings when adding to meal plan from details view (#147)
-- feat(commonMain/mealplan): default servings when selecting recipe in meal plan creation/edit
-  dialog
-- fix(commonMain/api): issue where server sends non-zero Content-Length HTTP 204 response
+- feat(commonMain/mealplan): implemented support to select sharing users in creation/edit dialog (
+  resolved #148)
+- feat(commonMain/recipeBooks): implemented support to select sharing users in creation/edit
+  dialog (resolved #154)
+- feat(commonMain/import): added check to prevent empty steps (resolved #157)
+- feat(androidMain): removed datastore to multiplatform settings migration
 - l10n(Ukrainian): translated using Weblate
 - l10n(German): translated using Weblate
-- l10n(Czech): added translation using Weblate
-- l10n(Czech): translated using Weblate
-- chore(commonMain/api): marked v1.5.33 as compatible
+- chore(commonMain/api): marked v1.5.34 as compatible

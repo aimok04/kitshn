@@ -1,0 +1,4 @@
+1. Implemented support to select sharing users in meal plan creation/ edit dialog (#148).
+2. Implemented support to select sharing users in recipe book creation/ edit dialog (#154).
+3. Added check to prevent empty steps when importing recipes (#157).
+4. Checked compatibility with Tandoor version 1.5.34.
