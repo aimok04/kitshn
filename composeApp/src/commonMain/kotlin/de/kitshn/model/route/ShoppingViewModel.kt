@@ -126,7 +126,7 @@ class ShoppingViewModel(
             entries.forEach { oldEntriesMap[it.id] = it }
 
             // keep old items if JSON is matching
-            val newEntries = client.shopping.fetch().map {
+            val newEntries = client.shopping.fetchAll().map {
                 if(!oldEntriesMap.containsKey(it.id)) {
                     it
                 } else if(json.encodeToString(oldEntriesMap[it.id]) != json.encodeToString(it)) {
