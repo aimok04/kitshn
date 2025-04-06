@@ -16,13 +16,13 @@ import de.kitshn.api.tandoor.model.log.TandoorCookLog
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
-import de.kitshn.api.tandoor.route.TandoorOpenApiData
+import de.kitshn.api.tandoor.route.TandoorServerSettings
 
 class TandoorContainer(
     val client: TandoorClient
 ) {
 
-    var openapiData by mutableStateOf<TandoorOpenApiData?>(null)
+    var serverSettings by mutableStateOf<TandoorServerSettings?>(null)
 
     val cookLog = mutableStateMapOf<Int, TandoorCookLog?>()
 

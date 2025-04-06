@@ -98,8 +98,18 @@ class KitshnViewModel(
             connectivityCheck()
 
             try {
-                tandoorClient!!.openapi.get()
+                tandoorClient!!.serverSettings.current()
             } catch(e: TandoorRequestsError) {
+                if(e.response?.status == HttpStatusCode.NotFound) {
+                    navHostController?.navigate("alert/outdatedV1Instance") {
+                        popUpTo("main") {
+                            inclusive = true
+                        }
+                    }
+
+                    return@launch
+                }
+
                 Logger.e("KitshnViewModel.kt", e)
             } catch(e: Exception) {
                 Logger.e("KitshnViewModel.kt", e)
@@ -218,6 +228,13 @@ class KitshnViewModel(
                 uiState.offlineState.isOffline = false
             }
         }
+    }
+
+    fun signOut() {
+        settings.setOnboardingCompleted(false)
+        settings.saveTandoorCredentials(null)
+
+        resetApp()
     }
 
 }

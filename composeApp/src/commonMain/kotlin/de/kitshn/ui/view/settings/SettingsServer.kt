@@ -123,12 +123,12 @@ fun ViewSettingsServer(
                     label = { Text(stringResource(Res.string.common_version)) },
                     description = {
                         Text(
-                            p.vm.tandoorClient?.container?.openapiData?.version
+                            p.vm.tandoorClient?.container?.serverSettings?.version
                                 ?: stringResource(Res.string.common_unknown)
                         )
                     },
                     icon = Icons.Rounded.Numbers,
-                    enabled = p.vm.tandoorClient?.container?.openapiData?.version != null,
+                    enabled = p.vm.tandoorClient?.container?.serverSettings?.version != null,
                     contentDescription = stringResource(Res.string.common_version)
                 ) {
                     coroutineScope.launch {
@@ -142,12 +142,7 @@ fun ViewSettingsServer(
                     icon = Icons.AutoMirrored.Rounded.Logout,
                     contentDescription = stringResource(Res.string.action_sign_out)
                 ) {
-                    coroutineScope.launch {
-                        p.vm.settings.setOnboardingCompleted(false)
-                        p.vm.settings.saveTandoorCredentials(null)
-
-                        p.vm.resetApp()
-                    }
+                    p.vm.signOut()
                 }
 
                 // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)

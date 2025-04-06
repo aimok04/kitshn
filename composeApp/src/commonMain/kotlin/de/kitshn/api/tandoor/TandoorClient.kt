@@ -5,10 +5,10 @@ import de.kitshn.api.tandoor.route.TandoorFoodRoute
 import de.kitshn.api.tandoor.route.TandoorKeywordRoute
 import de.kitshn.api.tandoor.route.TandoorMealPlanRoute
 import de.kitshn.api.tandoor.route.TandoorMealTypeRoute
-import de.kitshn.api.tandoor.route.TandoorOpenApiRoute
 import de.kitshn.api.tandoor.route.TandoorRecipeBookRoute
 import de.kitshn.api.tandoor.route.TandoorRecipeFromSourceRoute
 import de.kitshn.api.tandoor.route.TandoorRecipeRoute
+import de.kitshn.api.tandoor.route.TandoorServerSettingsRoute
 import de.kitshn.api.tandoor.route.TandoorShoppingRoute
 import de.kitshn.api.tandoor.route.TandoorSpaceRoute
 import de.kitshn.api.tandoor.route.TandoorSupermarketRoute
@@ -72,7 +72,8 @@ class TandoorClient(
     val unit = TandoorUnitRoute(this)
     val user = TandoorUserRoute(this)
     val userPreference = TandoorUserPreferenceRoute(this)
-    val openapi = TandoorOpenApiRoute(this)
+
+    val serverSettings = TandoorServerSettingsRoute(this)
 
     suspend fun login(): TandoorCredentialsToken? {
         val obj = buildJsonObject {

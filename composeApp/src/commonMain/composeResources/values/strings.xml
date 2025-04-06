@@ -200,6 +200,8 @@
     <string name="error">Error</string>
     <string name="error_couldnt_connect_to_tandoor">No connection to your Tandoor server could be established.</string>
     <string name="error_instance_inaccessible">The instance you are trying to connect to is not configured inside of this app.</string>
+    <string name="error_outdated_v1_instance_title">Unsupported instance</string>
+    <string name="error_outdated_v1_instance">This version of kitshn does not support Tandoor v1. Please either update to Tandoor v2 or install an older version of kitshn.</string>
     <string name="error_recipe_could_not_be_loaded">Recipe could not be loaded.</string>
     <string name="error_request">Faulty request</string>
     <string name="error_request_description">The server could not be reached / The request could not be processed by the server.</string>

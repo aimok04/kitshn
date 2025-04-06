@@ -65,27 +65,10 @@ enum class TandoorServerVersionCompatibilityState(
 }
 
 enum class TandoorServerVersionCompatibility(
-    val state: TandoorServerVersionCompatibilityState,
-    val notes: String? = ""
+    val version: String,
+    val state: TandoorServerVersionCompatibilityState
 ) {
-    V1_5_34(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_33(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_32(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_31(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_30(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_29(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_28(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_27(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_26(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_25(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_24(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_23(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_22(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_21(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_20(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_19(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_18(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V1_5_17(TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY);
+    V2_0_0_ALPHA_1("2.0.0-alpha-1", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY);
 
     fun getLabel(): String {
         return this.name.substring(1).replace("_", ".")
@@ -93,13 +76,13 @@ enum class TandoorServerVersionCompatibility(
 
     companion object {
         private fun parseVersion(version: String): TandoorServerVersionCompatibility {
-            return valueOf("V" + version.replace(".", "_"))
+            return entries.find { it.version == version } ?: throw NullPointerException()
         }
 
         fun getCompatibilityStateOfVersion(version: String): TandoorServerVersionCompatibilityState {
             return try {
                 parseVersion(version).state
-            } catch(e: Exception) {
+            } catch(e: NullPointerException) {
                 TandoorServerVersionCompatibilityState.UNKNOWN
             }
         }
