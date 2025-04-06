@@ -136,6 +136,9 @@ class ShoppingViewModel(
                 }
             }
 
+            // remove all items
+            entries.clear()
+
             // prevent duplicate adds
             val addedIds = mutableListOf<Int>()
             addedIds.addAll(entries.map { it.id })
