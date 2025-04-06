@@ -3,8 +3,9 @@ package de.kitshn.api.tandoor.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TandoorScrapedSpace(
+data class TandoorSpace(
     val id: Int,
     val name: String,
-    val active: Boolean
+    val created_at: String,
+    val message: String
 )

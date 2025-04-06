@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -26,7 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
-import de.kitshn.api.tandoor.model.TandoorScrapedSpace
+import de.kitshn.api.tandoor.model.TandoorSpace
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
@@ -53,12 +54,16 @@ fun SpaceSwitchDialog(
     val scrapeRequestState = rememberTandoorRequestState()
     val switchRequestState = rememberTandoorRequestState()
 
-    val spaces = remember { mutableStateListOf<TandoorScrapedSpace>() }
+    var activeSpace by remember { mutableStateOf<TandoorSpace?>(null) }
+
+    val spaces = remember { mutableStateListOf<TandoorSpace>() }
     var newActiveSpace by remember { mutableIntStateOf(-1) }
 
     suspend fun update() {
         scrapeRequestState.wrapRequest {
-            client!!.space.retrieveSpaces().let {
+            activeSpace = client!!.space.current()
+
+            client.space.listAll().let {
                 spaces.clear()
                 spaces.addAll(it)
             }
@@ -124,8 +129,10 @@ fun SpaceSwitchDialog(
                                 },
                                 trailingContent = {
                                     IconWithState(
-                                        imageVector = if(space.active) Icons.Rounded.Check else Icons.Rounded.RadioButtonUnchecked,
-                                        contentDescription = if(space.active) stringResource(Res.string.common_selected) else stringResource(
+                                        imageVector = if(space.id == activeSpace?.id) Icons.Rounded.Check else Icons.Rounded.RadioButtonUnchecked,
+                                        contentDescription = if(space.id == activeSpace?.id) stringResource(
+                                            Res.string.common_selected
+                                        ) else stringResource(
                                             Res.string.common_select
                                         ),
                                         state = if(newActiveSpace == space.id) switchRequestState.state.toIconWithState() else IconWithStateState.DEFAULT
