@@ -9,7 +9,7 @@ class TandoorUserPreferenceRoute(client: TandoorClient) : TandoorBaseRoute(clien
 
     suspend fun fetch(userId: Long? = null): TandoorUserPreference {
         val response = json.decodeFromString<TandoorUserPreference>(
-            client.getArray("/user-preference/${if(userId != null) "$userId/" else ""}")?.get(0)
+            client.getArray("/user-preference/${if(userId != null) "$userId/" else ""}")[0]
                 .toString()
         )
 

@@ -208,7 +208,7 @@ fun ViewSettingsServer(
             Button(
                 onClick = {
                     coroutineScope.launch {
-                        val spaceId = p.vm.tandoorClient?.user?.getUserSpace()?.space ?: -1
+                        val spaceId = p.vm.tandoorClient?.space?.current()?.id ?: -1
                         launchWebsiteHandler.invoke("${p.vm.tandoorClient?.credentials?.instanceUrl}/space-manage/${spaceId}")
                     }
                 }
