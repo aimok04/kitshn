@@ -2,7 +2,8 @@ package de.kitshn.api.tandoor.route
 
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.delete
-import de.kitshn.api.tandoor.getArray
+import de.kitshn.api.tandoor.getObject
+import de.kitshn.api.tandoor.model.TandoorPagedResponse
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
@@ -94,17 +95,26 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         }
     }
 
-    suspend fun fetch(): List<TandoorShoppingListEntry> {
-        val response = json.decodeFromString<List<TandoorShoppingListEntry>>(
-            client.getArray("/shopping-list-entry/").toString()
-        )
+    suspend fun fetchAll(): List<TandoorShoppingListEntry> {
+        var page = 1
+        val entries = mutableListOf<TandoorShoppingListEntry>()
 
-        response.forEach {
+        var response: TandoorPagedResponse<TandoorShoppingListEntry>? = null
+        while(response == null || response.next != null) {
+            response = json.decodeFromString<TandoorPagedResponse<TandoorShoppingListEntry>>(
+                client.getObject("/shopping-list-entry/?page=$page&page_size=50").toString()
+            )
+
+            entries.addAll(response.results)
+            page++
+        }
+
+        entries.forEach {
             it.client = client
             client.container.shoppingListEntries[it.id] = it
         }
 
-        return response
+        return entries
     }
 
 }

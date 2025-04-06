@@ -136,9 +136,6 @@ class ShoppingViewModel(
                 }
             }
 
-            // remove all unchecked items (checked items are removed server-side)
-            entries.removeIf { !it.checked }
-
             // prevent duplicate adds
             val addedIds = mutableListOf<Int>()
             addedIds.addAll(entries.map { it.id })
