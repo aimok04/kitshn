@@ -263,6 +263,9 @@
     <string name="ios_support_manage_subscription_label">Manage subscription</string>
     <string name="ios_support_thanks">Thank you for supporting kitshn! Your contribution helps to keep this project alive.</string>
 
+    <string name="kofi_support_description">You can support kitshn's development on Ko-Fi</string>
+    <string name="kofi_support_label">Support on Ko-Fi</string>
+
     <string name="lorem_ipsum_medium">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</string>
     <string name="lorem_ipsum_short">Lorem ipsum</string>
     <string name="lorem_ipsum_title">Lorem ipsum dolor sit amet</string>
