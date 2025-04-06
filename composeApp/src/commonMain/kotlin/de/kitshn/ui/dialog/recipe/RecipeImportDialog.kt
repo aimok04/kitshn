@@ -87,6 +87,7 @@ import kitshn.composeapp.generated.resources.error_recipe_could_not_be_loaded
 import kitshn.composeapp.generated.resources.recipe_import_divide_steps
 import kitshn.composeapp.generated.resources.recipe_import_divide_steps_description
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -312,7 +313,9 @@ fun RecipeImportDialog(
 
                             LaunchedEffect(Unit) {
                                 try {
-                                    focusRequester.requestFocus()
+                                    this.coroutineContext.job.invokeOnCompletion {
+                                        focusRequester.requestFocus()
+                                    }
                                 } catch(e: Exception) {
                                     Logger.e("RecipeImportDialog.kt", e)
                                 }

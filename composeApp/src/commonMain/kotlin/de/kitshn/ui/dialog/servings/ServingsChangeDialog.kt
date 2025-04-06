@@ -23,11 +23,13 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import de.kitshn.ui.component.input.DoubleField
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_apply
 import kitshn.composeapp.generated.resources.common_count
 import kitshn.composeapp.generated.resources.common_portions
+import kotlinx.coroutines.job
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -104,7 +106,13 @@ fun ServingsChangeDialog(
             )
 
             LaunchedEffect(Unit) {
-                focusRequester.requestFocus()
+                this.coroutineContext.job.invokeOnCompletion {
+                    try {
+                        focusRequester.requestFocus()
+                    } catch(e: Exception) {
+                        Logger.e("ServingsChangeDialog.kt", e)
+                    }
+                }
             }
         },
         confirmButton = {

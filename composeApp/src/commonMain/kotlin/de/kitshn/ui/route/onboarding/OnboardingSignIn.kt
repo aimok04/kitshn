@@ -64,6 +64,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorCredentialsCustomHeader
@@ -101,6 +102,7 @@ import kitshn.composeapp.generated.resources.onboarding_sign_in_error_sign_in_fa
 import kitshn.composeapp.generated.resources.onboarding_sign_in_title
 import kitshn.composeapp.generated.resources.onboarding_sign_in_using_web_browser
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -503,9 +505,6 @@ fun RouteOnboardingSignIn(
         }
     }
 
-    LaunchedEffect(Unit) {
-        instanceUrlFocusRequester.requestFocus()
-    }
 
     if(showCustomHeadersDialog) AlertDialog(
         onDismissRequest = {
@@ -607,4 +606,14 @@ fun RouteOnboardingSignIn(
             }
         }
     )
+
+    LaunchedEffect(Unit) {
+        this.coroutineContext.job.invokeOnCompletion {
+            try {
+                instanceUrlFocusRequester.requestFocus()
+            } catch(e: Exception) {
+                Logger.e("OnboardingSignIn.kt", e)
+            }
+        }
+    }
 }

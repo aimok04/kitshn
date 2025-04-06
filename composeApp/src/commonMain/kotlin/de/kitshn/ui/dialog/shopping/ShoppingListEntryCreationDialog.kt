@@ -31,6 +31,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import de.kitshn.Platforms
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
@@ -47,6 +48,7 @@ import kitshn.composeapp.generated.resources.action_add_to_shopping
 import kitshn.composeapp.generated.resources.common_amount
 import kitshn.composeapp.generated.resources.common_food
 import kitshn.composeapp.generated.resources.common_unit
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -225,7 +227,13 @@ fun ShoppingListEntryCreationDialog(
 
         LaunchedEffect(Unit) {
             if(platformDetails.platform == Platforms.IOS) return@LaunchedEffect
-            foodInputFocusRequester.requestFocus()
+            this.coroutineContext.job.invokeOnCompletion {
+                try {
+                    foodInputFocusRequester.requestFocus()
+                } catch(e: Exception) {
+                    Logger.e("ShoppingListEntryCreationDialog.kt", e)
+                }
+            }
         }
     }
 

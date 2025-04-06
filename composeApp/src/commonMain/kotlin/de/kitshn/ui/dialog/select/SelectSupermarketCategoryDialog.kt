@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarketCategory
@@ -53,6 +54,7 @@ import kitshn.composeapp.generated.resources.common_selected
 import kitshn.composeapp.generated.resources.lorem_ipsum_short
 import kitshn.composeapp.generated.resources.search_categories
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.job
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -271,6 +273,12 @@ fun SupermarketCategorySearchBar(
 
     LaunchedEffect(Unit) {
         delay(200)
-        focusRequester.requestFocus()
+        this.coroutineContext.job.invokeOnCompletion {
+            try {
+                focusRequester.requestFocus()
+            } catch(e: Exception) {
+                Logger.e("SelectSupermarketCategoryDialog.kt", e)
+            }
+        }
     }
 }
