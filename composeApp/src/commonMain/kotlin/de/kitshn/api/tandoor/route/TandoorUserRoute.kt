@@ -22,14 +22,6 @@ class TandoorUserRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         )
     }
 
-    suspend fun getUserSpace(): TandoorUserSpace? {
-        val resp = json.decodeFromString<TandoorUserSpaceResponse>(
-            client.getObject("/user-space/").toString()
-        )
-
-        return resp.results.firstOrNull()
-    }
-
     suspend fun get(): TandoorUser? {
         val userPreference = client.userPreference.fetch()
         val user = getUsers().find { it.id == userPreference.user.id }
