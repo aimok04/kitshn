@@ -370,4 +370,19 @@
     <string name="common_select_users_for_sharing">Wähle Nutzer zum teilen</string>
     <string name="common_select_users_for_sharing_empty">Wähle Nutzer, mit denen du diesen Eintrag teilen möchtest.</string>
     <string name="search_users">Nutzer durchsuchen</string>
+    <string-array name="timer_detection_hour_definitions">
+        <item>stunden</item>
+        <item>stunde</item>
+    </string-array>
+
+    <string-array name="timer_detection_and_definitions">
+        <item>und</item>
+    </string-array>
+
+    <string-array name="timer_detection_minute_definitions">
+        <item>minuten</item>
+        <item>minute</item>
+        <item>mins</item>
+        <item>min</item>
+    </string-array>
 </resources>

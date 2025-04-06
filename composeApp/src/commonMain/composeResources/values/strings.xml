@@ -398,4 +398,20 @@
     <string name="tandoor_compatibility_not_checkable_label">Compatibility cannot be checked</string>
     <string name="tandoor_compatibility_unknown_description">The version of your Tandoor server has not yet been checked. The functionality of the app may be impaired.</string>
     <string name="tandoor_compatibility_unknown_label">Compatibility unknown</string>
+
+    <string-array name="timer_detection_hour_definitions">
+        <item>hours</item>
+        <item>hour</item>
+    </string-array>
+
+    <string-array name="timer_detection_and_definitions">
+        <item>and</item>
+    </string-array>
+
+    <string-array name="timer_detection_minute_definitions">
+        <item>minutes</item>
+        <item>minute</item>
+        <item>mins</item>
+        <item>min</item>
+    </string-array>
 </resources>

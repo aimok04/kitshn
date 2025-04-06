@@ -24,10 +24,13 @@ import com.mikepenz.markdown.coil3.Coil3ImageTransformerImpl
 import com.mikepenz.markdown.m3.Markdown
 import com.mikepenz.markdown.m3.markdownColor
 import com.mikepenz.markdown.m3.markdownTypography
-import de.kitshn.Platforms
 import de.kitshn.isLaunchTimerHandlerImplemented
 import de.kitshn.launchTimerHandler
-import de.kitshn.platformDetails
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.timer_detection_and_definitions
+import kitshn.composeapp.generated.resources.timer_detection_hour_definitions
+import kitshn.composeapp.generated.resources.timer_detection_minute_definitions
+import org.jetbrains.compose.resources.getStringArray
 
 class MarkdownUriHandler(
     val onTimerClick: (seconds: Int) -> Unit,
@@ -56,18 +59,40 @@ fun MarkdownRichTextWithTimerDetection(
     var md by remember { mutableStateOf("") }
     LaunchedEffect(markdown) {
         if(isLaunchTimerHandlerImplemented) {
+            val hourDefinitions = mutableSetOf(
+                "hours",
+                "hour"
+            ).apply { addAll(getStringArray(Res.array.timer_detection_hour_definitions)) }
+            val hourDefinitionsStr =
+                hourDefinitions.sortedByDescending { it.length }.joinToString("|")
+
+            val andDefinitions =
+                mutableSetOf("and").apply { addAll(getStringArray(Res.array.timer_detection_and_definitions)) }
+            val andDefinitionsStr =
+                andDefinitions.sortedByDescending { it.length }.joinToString("|")
+
+            val minuteDefinitions = mutableSetOf(
+                "minutes",
+                "minute",
+                "mins",
+                "min"
+            ).apply { addAll(getStringArray(Res.array.timer_detection_minute_definitions)) }
+            val minuteDefinitionsStr =
+                minuteDefinitions.sortedByDescending { it.length }.joinToString("|")
+
             md = markdown.replace(
                 Regex(
-                    "[0-9]+ (minuten|minutes|minute|mins|min)",
+                    "(?:([0-9]+) ?(?:$hourDefinitionsStr) ?(?:$andDefinitionsStr)? ?)?([0-9]+) ?(?:$minuteDefinitionsStr)|([0-9]+) ?(?:$hourDefinitionsStr)",
                     RegexOption.IGNORE_CASE
                 )
             ) {
-                if(platformDetails.platform == Platforms.JVM) {
-                    "**⏲ [${it.value}](timer://${it.value.split(" ")[0]})**"
-                } else {
+                val hours =
+                    it.groupValues[1].ifBlank { "0" }.toInt() + it.groupValues[3].ifBlank { "0" }
+                        .toInt()
+                val minutes = it.groupValues[2].ifBlank { "0" }.toInt()
 
-                    "[**⏲ ${it.value}**](timer://${it.value.split(" ")[0]})"
-                }
+                val totalMinutes = (hours * 60) + minutes
+                "[**⏲ ${it.value}**](timer://$totalMinutes)"
             }
         } else {
             md = markdown
