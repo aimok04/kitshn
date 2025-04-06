@@ -42,14 +42,14 @@ class FavoritesViewModel : ViewModel() {
                 return it
             }
 
-            val recipeBooks = client?.recipeBook?.list() ?: throw Error("COULD_NOT_FETCH_BOOKS")
+            val recipeBooks = client?.recipeBook?.listAll() ?: throw Error("COULD_NOT_FETCH_BOOKS")
 
             var favoritesBook = recipeBooks.firstOrNull {
                 it.description.endsWith(KITSHN_FAVORITE_RECIPE_BOOK_DESCRIPTION_TAG)
             }
             if(favoritesBook == null) favoritesBook = createNewFavoritesRecipeBook()
 
-            TandoorRequestState().wrapRequest { favoritesBook.listEntries() }
+            TandoorRequestState().wrapRequest { favoritesBook.listAllEntries() }
             _favoritesBookId = favoritesBook.id
 
             return favoritesBook

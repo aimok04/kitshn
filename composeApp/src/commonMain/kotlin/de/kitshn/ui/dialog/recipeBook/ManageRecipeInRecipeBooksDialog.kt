@@ -43,12 +43,12 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.removeIf
-import de.kitshn.scoreMatch
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.input.AlwaysDockedSearchBar
 import de.kitshn.ui.component.model.recipebook.HorizontalRecipeBookCard
 import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
+import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_apply
 import kitshn.composeapp.generated.resources.action_manage_recipe_books
@@ -98,8 +98,8 @@ fun ManageRecipeInRecipeBooksDialog(
         fetchRequestState.wrapRequest {
             state.selectedRecipeBooks.clear()
             state.selectedRecipeBooks.addAll(
-                client.recipeBook.list().filter {
-                    it.listEntries()?.firstOrNull { entry ->
+                client.recipeBook.listAll().filterNot { it.id == favoritesRecipeBookId }.filter {
+                    it.listAllEntries()?.firstOrNull { entry ->
                         entry.recipe == state.recipeId.value
                     } != null
                 }
@@ -236,26 +236,25 @@ fun RecipeBookSearchBar(
         search = query
     }
 
-    // fetch recipeBooks, if empty
-    LaunchedEffect(Unit) {
-        if(client.container.recipeBook.size != 0) return@LaunchedEffect
-        client.recipeBook.list()
+    val searchRequestState = rememberTandoorRequestState()
+
+    val searchResults = remember { mutableStateListOf<TandoorRecipeBook>() }
+    LaunchedEffect(search) {
+        searchRequestState.wrapRequest {
+            client.recipeBook.list(
+                query = search,
+                pageSize = HOME_SEARCH_PAGING_SIZE,
+            )
+        }?.let {
+            searchResults.clear()
+            searchResults.addAll(it.results.filterNot { it.id == favoritesRecipeBookId })
+        }
     }
 
     val selectedRecipeBookIds = remember { mutableStateListOf<Int>() }
     LaunchedEffect(selectedRecipeBooks.toList()) {
         selectedRecipeBookIds.clear()
         selectedRecipeBookIds.addAll(selectedRecipeBooks.map { it.id })
-    }
-
-    val searchResults = remember { mutableStateListOf<TandoorRecipeBook>() }
-    LaunchedEffect(client.container.recipeBook.toList(), search) {
-        searchResults.clear()
-        searchResults.addAll(
-            client.container.recipeBook.values.sortedBy { it.name.scoreMatch(search) }
-        )
-
-        searchResults.removeIf { it.id == favoritesRecipeBookId }
     }
 
     AlwaysDockedSearchBar(

@@ -99,7 +99,7 @@ fun ViewBooksDetails(
         }
     }
 
-    LaunchedEffect(Unit) { book.listEntries() }
+    LaunchedEffect(Unit) { book.listAllEntries() }
 
     val listFilterRecipesRequestState = rememberTandoorRequestState()
     var nextPageExists by remember { mutableStateOf(true) }

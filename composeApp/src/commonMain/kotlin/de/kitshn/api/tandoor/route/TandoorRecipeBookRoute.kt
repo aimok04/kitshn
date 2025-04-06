@@ -1,7 +1,9 @@
 package de.kitshn.api.tandoor.route
 
+import com.eygraber.uri.Uri
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.getArray
+import de.kitshn.api.tandoor.getObject
+import de.kitshn.api.tandoor.model.TandoorPagedResponse
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.model.TandoorRecipeBookEntry
 import de.kitshn.api.tandoor.postObject
@@ -35,28 +37,86 @@ class TandoorRecipeBookRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return recipeBook
     }
 
-    suspend fun list(): List<TandoorRecipeBook> {
-        val response = json.decodeFromString<List<TandoorRecipeBook>>(
-            client.getArray("/recipe-book/").toString()
+    suspend fun list(
+        query: String? = null,
+        page: Int = 1,
+        pageSize: Int? = null
+    ): TandoorPagedResponse<TandoorRecipeBook> {
+        val builder = Uri.Builder().appendEncodedPath("recipe-book/")
+        if(pageSize != null) builder.appendQueryParameter("page_size", pageSize.toString())
+        if(query != null) builder.appendQueryParameter("query", query)
+        builder.appendQueryParameter("page", page.toString())
+
+        val response = json.decodeFromString<TandoorPagedResponse<TandoorRecipeBook>>(
+            client.getObject(builder.build().toString()).toString()
         )
 
-        response.forEach { it.populate(client) }
+        response.results.forEach { it.populate(client) }
         return response
     }
 
-    suspend fun listEntries(bookId: Int): List<TandoorRecipeBookEntry> {
-        val response = json.decodeFromString<List<TandoorRecipeBookEntry>>(
-            client.getArray("/recipe-book-entry/?book=$bookId").toString()
+    suspend fun listAll(): List<TandoorRecipeBook> {
+        var page = 1
+        val entries = mutableListOf<TandoorRecipeBook>()
+
+        var response: TandoorPagedResponse<TandoorRecipeBook>? = null
+        while(response == null || response.next != null) {
+            response = list(
+                page = page,
+                pageSize = 50
+            )
+
+            entries.addAll(response.results)
+            page++
+        }
+
+        entries.forEach { it.populate(client) }
+        return entries
+    }
+
+    suspend fun listEntries(
+        bookId: Int,
+        page: Int = 1,
+        pageSize: Int? = null
+    ): TandoorPagedResponse<TandoorRecipeBookEntry> {
+        val builder = Uri.Builder().appendEncodedPath("recipe-book-entry/")
+        if(pageSize != null) builder.appendQueryParameter("page_size", pageSize.toString())
+        builder.appendQueryParameter("page", page.toString())
+        builder.appendQueryParameter("book", bookId.toString())
+
+        val response = json.decodeFromString<TandoorPagedResponse<TandoorRecipeBookEntry>>(
+            client.getObject(builder.build().toString()).toString()
         )
 
         client.container.recipeBook[bookId]?.apply {
             entryByRecipeId.clear()
             entries.clear()
 
-            response.forEach { it.populate(this, client) }
+            response.results.forEach { it.populate(this, client) }
         }
 
         return response
+    }
+
+    suspend fun listAllEntries(
+        bookId: Int
+    ): List<TandoorRecipeBookEntry> {
+        var page = 1
+        val entries = mutableListOf<TandoorRecipeBookEntry>()
+
+        var response: TandoorPagedResponse<TandoorRecipeBookEntry>? = null
+        while(response == null || response.next != null) {
+            response = listEntries(
+                bookId = bookId,
+                page = page,
+                pageSize = 50
+            )
+
+            entries.addAll(response.results)
+            page++
+        }
+
+        return entries
     }
 
 }

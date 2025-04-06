@@ -50,9 +50,23 @@ class TandoorRecipeBook(
         return entries.firstOrNull { (it.recipe_content.image ?: "").isNotBlank() }?.loadThumbnail()
     }
 
-    suspend fun listEntries(): List<TandoorRecipeBookEntry>? {
+    suspend fun listEntries(
+        page: Int = 1,
+        pageSize: Int? = null
+    ): TandoorPagedResponse<TandoorRecipeBookEntry>? {
         if(client == null) return null
-        return client!!.recipeBook.listEntries(id)
+        return client!!.recipeBook.listEntries(
+            bookId = id,
+            page = page,
+            pageSize = pageSize
+        )
+    }
+
+    suspend fun listAllEntries(): List<TandoorRecipeBookEntry>? {
+        if(client == null) return null
+        return client!!.recipeBook.listAllEntries(
+            bookId = id
+        )
     }
 
     suspend fun listFilterEntries(
