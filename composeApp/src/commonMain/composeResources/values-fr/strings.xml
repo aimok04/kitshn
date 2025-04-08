@@ -330,7 +330,7 @@
     <string name="settings_section_behavior_properties_show_fractional_values_description">Peut-être plus facile à lire mais aussi moins précis</string>
     <string name="search_keyword_including_all_description">Les recettes doivent inclure tous les mots-clés</string>
     <string name="internal_favorites_recipe_book_description">Créé automatiquement par kitshn</string>
-    <string name="onboarding_welcome">Amusez-vous en cuisinant avec kitshn. Veuillez noter que l'application est actuellement en phase alpha. Pour les bugs, retours et idées de fonctionnalités, veuillez consulter la page » À propos « dans les paramètres pour les options de contact.</string>
+    <string name="onboarding_welcome">Amusez-vous en cuisinant avec kitshn. Pour les bugs, retours et idées de fonctionnalités, veuillez consulter la page » À propos « dans les paramètres pour les options de contact.</string>
     <string name="lorem_ipsum_medium">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea kitshn.</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_description">Masquer tous les avertissements « Ingrédients non alloués »</string>
     <string name="search_tags_filter_empty">Sélectionnez les tags que vous souhaitez rechercher.</string>

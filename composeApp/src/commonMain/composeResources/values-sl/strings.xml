@@ -200,7 +200,7 @@
     <string name="action_minus">Nižje</string>
     <string name="form_error_description_max_512">Opis lahko vsebuje največ 512 znakov.</string>
     <string name="form_error_field_empty">To polje mora biti izpolnjeno.</string>
-    <string name="onboarding_welcome">Zabavajte se pri kuhanju s kuhinjo. Upoštevajte, da je aplikacija trenutno v fazi alfa. Za hrošče, povratne informacije in ideje o funkcijah preverite stran » O « v nastavitvah za možnosti stika.</string>
+    <string name="onboarding_welcome">Zabavajte se pri kuhanju s kuhinjo. Za hrošče, povratne informacije in ideje o funkcijah preverite stran » O « v nastavitvah za možnosti stika.</string>
     <string name="common_recipe">Recept</string>
     <string name="error_instance_inaccessible">Primerek, s katerim se poskušate povezati, ni konfiguriran v tej aplikaciji.</string>
     <string name="onboarding_sign_in_using_web_browser">Prijavite se s spletnim brskalnikom</string>

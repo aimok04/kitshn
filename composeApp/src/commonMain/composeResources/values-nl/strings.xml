@@ -253,7 +253,7 @@
     <string name="search_rating_filter">Filteren op beoordeling</string>
     <string name="search_recipe_books">Zoek receptenboeken</string>
     <string name="recipe_sorting_creation_date">Datum van aanmaken</string>
-    <string name="onboarding_welcome">Veel plezier met koken met behulp van kitshn. Let op: de app bevindt zich momenteel in de alfafase. Voor bugs, feedback en ideeën voor functies, kijk op de pagina » Over « in de instellingen voor contactopties.</string>
+    <string name="onboarding_welcome">Veel plezier met koken met behulp van kitshn. Voor bugs, feedback en ideeën voor functies, kijk op de pagina » Over « in de instellingen voor contactopties.</string>
     <string name="settings_section_appearance_description">Verander kleuren schema en het dynamische thema</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_description">Verberg alle "onbekende ingrediënten" waarschuwingen</string>
     <string name="settings_section_about_description">Informatie over deze app</string>

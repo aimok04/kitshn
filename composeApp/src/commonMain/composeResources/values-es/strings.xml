@@ -281,7 +281,7 @@
     <string name="onboarding_sign_in_error_sign_in_failed">Error al iniciar sesión. ¡Por favor, revisa tus datos!</string>
     <string name="onboarding_sign_in_title">Iniciar sesión en Tandoor</string>
     <string name="onboarding_sign_in_using_web_browser">Iniciar sesión usando el navegador web</string>
-    <string name="onboarding_welcome">Diviértete cocinando con kitshn. Por favor, ten en cuenta que la aplicación está actualmente en fase alfa. Para errores, comentarios e ideas sobre funciones, consulta la página «Acerca de» en los ajustes para ver las opciones de contacto.</string>
+    <string name="onboarding_welcome">Diviértete cocinando con kitshn. Para errores, comentarios e ideas sobre funciones, consulta la página «Acerca de» en los ajustes para ver las opciones de contacto.</string>
     <string name="search_ingredients_filter_empty">Selecciona los ingredientes que quieras buscar.</string>
     <string name="recipe_step_timer_created">El temporizador ha sido creado.</string>
     <string name="settings_section_appearance_description">Cambiar el esquema de colores y la tematización dinámica</string>

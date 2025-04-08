@@ -24,9 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
-import de.kitshn.Platforms
 import de.kitshn.api.tandoor.TandoorRequestState
-import de.kitshn.platformDetails
 import de.kitshn.ui.component.onboarding.KitshnLogoAnimationWrapper
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.theme.KitshnYellowBright
@@ -121,8 +119,7 @@ fun RouteOnboardingWelcome(
                             )
                         }
 
-                        // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#beta-testing)
-                        if(platformDetails.platform != Platforms.IOS) Text(
+                        Text(
                             text = stringResource(Res.string.onboarding_welcome)
                         )
                     }

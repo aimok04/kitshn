@@ -287,7 +287,7 @@
     <string name="search_food_including_all_label">Всі інгредієнти включені</string>
     <string name="settings_section_behavior_label">Поведінка</string>
     <string name="onboarding_sign_in_title">Увійдіть в Tandoor</string>
-    <string name="onboarding_welcome">Отримуйте задоволення від приготування їжі з кухнею. Зверніть увагу, що програма наразі перебуває в альфа-фазі. Для отримання інформації про помилки, відгуки та ідеї щодо функцій, будь ласка, перегляньте сторінку » Про « в налаштуваннях для контактних варіантів.</string>
+    <string name="onboarding_welcome">Отримуйте задоволення від приготування їжі з кухнею. Для отримання інформації про помилки, відгуки та ідеї щодо функцій, будь ласка, перегляньте сторінку » Про « в налаштуваннях для контактних варіантів.</string>
     <string name="recipe_book_empty">До цієї кулінарної книги ще не додано жодного рецепта.</string>
     <string name="settings_section_appearance_dark_mode_label">Темний режим</string>
     <string name="recipe_books_empty">Кулінарних книг ще не створено — створіть свою першу кулінарну книгу!</string>

@@ -287,7 +287,7 @@
     <string name="onboarding_sign_in_ios_social_login_unsupported">Bu uygulama Sosyal Giriş’i desteklemez. Lütfen bir API Anahtarı oluşturun veya kullanıcı adı/şifre kimlik doğrulamasını kullanın.</string>
     <string name="onboarding_sign_in_title">Tandoor’a Giriş Yap</string>
     <string name="onboarding_sign_in_using_web_browser">Web tarayıcısı kullanarak giriş yap</string>
-    <string name="onboarding_welcome">kitshn ile yemek pişirmenin keyfini çıkarın. Uygulamanın şu anda alfa aşamasında olduğunu lütfen unutmayın. Hatalar, geri bildirimler ve özellik fikirleri için lütfen ayarlar içindeki » Hakkında « sayfasını kontrol ederek iletişim seçeneklerine ulaşın.</string>
+    <string name="onboarding_welcome">kitshn ile yemek pişirmenin keyfini çıkarın. Hatalar, geri bildirimler ve özellik fikirleri için lütfen ayarlar içindeki » Hakkında « sayfasını kontrol ederek iletişim seçeneklerine ulaşın.</string>
 
     <string name="recipe_book_empty">Bu yemek kitabına henüz tarif eklenmedi.</string>
     <string name="recipe_book_favorites_description">Favori tariflerinizin koleksiyonu</string>

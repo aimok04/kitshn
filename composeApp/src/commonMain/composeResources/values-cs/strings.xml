@@ -138,7 +138,7 @@
     <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">Pokud používáte SSO, můžete zkusit » Přihlásit se skrz prohlížeč «.</string>
     <string name="onboarding_sign_in_title">Přihlásit se do Tandooru</string>
     <string name="onboarding_sign_in_using_web_browser">Přihlásit se skrz prohlížeč</string>
-    <string name="onboarding_welcome">Ať se vám daří při vaření s kitshn. Pozor, aplikace je aktuálne v alfa fázi vývoje. Pokud chcete zaslat zpětnou vazbu, chybové hlášení nebo nápad na novou funkci, v nastavení v sekci » O aplikaci « najdete možnosti kontaktování vývojářů.</string>
+    <string name="onboarding_welcome">Ať se vám daří při vaření s kitshn. Pokud chcete zaslat zpětnou vazbu, chybové hlášení nebo nápad na novou funkci, v nastavení v sekci » O aplikaci « najdete možnosti kontaktování vývojářů.</string>
     <string name="recipe_book_empty">Do této kuchařky zatím nebyl přidán žádný recept.</string>
     <string name="recipe_books_empty">Nemáte zatím žádnou kuchařku — vytvořte si první kuchařku!</string>
     <string name="recipe_edit_no_steps_added">Tento recept zatím nemá postup.</string>
