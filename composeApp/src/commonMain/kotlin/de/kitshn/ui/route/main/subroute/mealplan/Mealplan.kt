@@ -33,6 +33,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 
@@ -76,7 +77,7 @@ fun RouteMainSubrouteMealplan(
 
         mainFetchRequestState.wrapRequest {
             p.vm.tandoorClient?.mealPlan?.fetch(
-                startDate,
+                startDate.minus(1, DateTimeUnit.DAY),
                 startDate.plus(shownItems.toLong(), DateTimeUnit.DAY)
                     .plus(1, DateTimeUnit.DAY)
             )?.let {
