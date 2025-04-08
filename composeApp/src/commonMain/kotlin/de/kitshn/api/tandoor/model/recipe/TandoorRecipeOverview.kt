@@ -3,7 +3,6 @@ package de.kitshn.api.tandoor.model.recipe
 import androidx.compose.runtime.Composable
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import de.kitshn.JsonAsStringSerializer
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.json
@@ -24,7 +23,6 @@ class TandoorRecipeOverview(
     val keywords: List<TandoorKeywordOverview>,
     val working_time: Int,
     val waiting_time: Int,
-    @Serializable(with = JsonAsStringSerializer::class) val created_by: String,
     val created_at: String,
     val updated_at: String,
     val internal: Boolean,
