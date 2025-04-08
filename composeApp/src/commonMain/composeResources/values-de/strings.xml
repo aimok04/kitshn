@@ -264,7 +264,7 @@
     <string name="onboarding_sign_in_ios_social_login_unsupported">Diese App unterstützt Social Login nicht. Bitte generiere einen API-Token oder nutze Nutzername/Password-Authentifizierung.</string>
     <string name="onboarding_sign_in_title">Bei Tandoor anmelden</string>
     <string name="onboarding_sign_in_using_web_browser">Mit Webbrowser anmelden</string>
-    <string name="onboarding_welcome">Viel Spaß beim Kochen mit kitshn. Bitte beachte, dass sich die App derzeit in der Alpha-Phase befindet. Für Fehler, Bugs und Ideen findest du in den Einstellungen unter » Über « Möglichkeiten zum Kontakt.</string>
+    <string name="onboarding_welcome">Viel Spaß beim Kochen mit kitshn. Für Fehler, Bugs und Ideen findest du in den Einstellungen unter » Über « Möglichkeiten zum Kontakt.</string>
     <string name="recipe_book_empty">Es wurden noch keine Rezepte zu diesem Kochbuch hinzugefügt.</string>
     <string name="recipe_book_favorites_description">Sammlung deiner Lieblingsrezepte</string>
     <string name="recipe_books_empty">Es wurden noch keine Kochbücher erstellt — erstelle dein erstes Kochbuch!</string>
