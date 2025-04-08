@@ -78,6 +78,7 @@ fun RouteMainSubrouteMealplan(
             p.vm.tandoorClient?.mealPlan?.fetch(
                 startDate,
                 startDate.plus(shownItems.toLong(), DateTimeUnit.DAY)
+                    .plus(1, DateTimeUnit.DAY)
             )?.let {
                 pageLoadingState = ErrorLoadingSuccessState.SUCCESS
 
