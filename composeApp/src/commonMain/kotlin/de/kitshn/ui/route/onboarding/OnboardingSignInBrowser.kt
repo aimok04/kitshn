@@ -146,14 +146,9 @@ fun RouteOnboardingSignInBrowser(
 
                         if(!result) return@launch
 
-                        p.vm.tandoorClient = client
-
-                        val user = p.vm.tandoorClient!!.user.get()
-                        if(user != null) {
-                            credentials.username = user.display_name
-                            p.vm.settings.saveTandoorCredentials(credentials)
-
-                            p.vm.navHostController?.navigate("onboarding/welcome")
+                        client.user.get()?.let {
+                            credentials.username = it.display_name
+                            p.vm.signIn(client, credentials)
                         }
                     }
                 }

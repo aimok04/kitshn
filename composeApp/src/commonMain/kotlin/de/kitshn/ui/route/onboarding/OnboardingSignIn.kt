@@ -192,21 +192,16 @@ fun RouteOnboardingSignIn(
                         customHeaders = customHeaders
                     )
 
-                    p.vm.tandoorClient = TandoorClient(
-                        credentials
-                    )
-
-                    val token = p.vm.tandoorClient!!.login()
-                    if(token != null) {
-                        credentials.token = token
-                        p.vm.settings.saveTandoorCredentials(credentials)
+                    val client = TandoorClient(credentials)
+                    p.vm.tandoorClient!!.login()?.let {
+                        credentials.token = it
 
                         TandoorRequestState().wrapRequest {
                             val user = p.vm.tandoorClient?.user?.get()
                             if(user != null) p.vm.uiState.userDisplayName = user.display_name
                         }
 
-                        p.vm.navHostController?.navigate("onboarding/welcome")
+                        p.vm.signIn(client, credentials)
                         return@wrapRequest
                     }
 

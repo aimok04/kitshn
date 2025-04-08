@@ -230,6 +230,13 @@ class KitshnViewModel(
         }
     }
 
+    fun signIn(client: TandoorClient, credentials: TandoorCredentials) {
+        tandoorClient = client
+
+        settings.saveTandoorCredentials(credentials)
+        navHostController?.navigate("onboarding/welcome")
+    }
+
     fun signOut() {
         settings.setOnboardingCompleted(false)
         settings.saveTandoorCredentials(null)
