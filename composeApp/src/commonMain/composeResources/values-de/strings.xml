@@ -388,5 +388,5 @@
     <string name="error_outdated_v1_instance_title">Nicht unterstützte Instanz</string>
     <string name="kofi_support_label">Unterstützung bei Ko-Fi</string>
     <string name="beta_dialog_title">kitshn Beta</string>
-    <string name="beta_dialog_description">Vielen Dank, dass du die Beta-Version von kitshn ausprobierst. Diese Version kann noch Kompatibilitätsprobleme enthalten. Du kannst Bugs und Fehler über eine der Kontaktmöglichkeiten unter » Einstellungen / Über « melden.\n\nViel Spaß beim Kochen mit kitshn! 😄</string>
+    <string name="beta_dialog_description">Vielen Dank, dass du die Beta-Version von kitshn ausprobierst. Diese Version kann noch Kompatibilitätsprobleme enthalten. Du kannst Bugs und Fehler über eine der Kontaktmöglichkeiten unter » Optionen / Über « melden.\n\nViel Spaß beim Kochen mit kitshn! 😄</string>
 </resources>
