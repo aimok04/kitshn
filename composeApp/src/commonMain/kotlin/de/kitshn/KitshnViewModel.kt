@@ -235,6 +235,9 @@ class KitshnViewModel(
 
         settings.saveTandoorCredentials(credentials)
         navHostController?.navigate("onboarding/welcome")
+
+        favorites.init(tandoorClient!!)
+        connectivityCheck()
     }
 
     fun signOut() {
