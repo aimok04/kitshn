@@ -384,4 +384,8 @@
     <string name="common_select_users_for_sharing">Виберіть користувачів для спільного використання</string>
     <string name="common_select_users_for_sharing_empty">Виберіть користувачів, яким ви хочете поділитися цим.</string>
     <string name="search_users">Пошук користувачів</string>
+    <string name="error_outdated_v1_instance_title">Непідтримуваний екземпляр</string>
+    <string name="error_outdated_v1_instance">Ця версія kitshn не підтримує Tandoor v1. Оновіть Tandoor v2 або встановіть старішу версію kitshn.</string>
+    <string name="kofi_support_description">Ви можете підтримати розвиток kitshn на Ko-Fi</string>
+    <string name="kofi_support_label">Підтримка на Ko-Fi</string>
 </resources>
