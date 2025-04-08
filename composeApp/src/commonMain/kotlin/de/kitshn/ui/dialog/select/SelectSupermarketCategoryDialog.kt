@@ -150,7 +150,7 @@ fun SupermarketCategorySearchBar(
 
     LaunchedEffect(Unit) {
         fetchRequestState.wrapRequest {
-            categories.addAll(client.supermarket.fetchCategories())
+            categories.addAll(client.supermarket.fetchAllCategories())
         }
     }
 

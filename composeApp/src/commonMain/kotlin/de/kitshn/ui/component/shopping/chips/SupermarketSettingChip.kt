@@ -75,7 +75,7 @@ fun SupermarketSettingChip(
         val supermarkets = remember { mutableStateListOf<TandoorSupermarket>() }
         LaunchedEffect(Unit) {
             requestState.wrapRequest {
-                val mSupermarkets = client.supermarket.fetch()
+                val mSupermarkets = client.supermarket.fetchAll()
                 cache.update(mSupermarkets)
 
                 supermarkets.clear()
