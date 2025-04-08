@@ -31,22 +31,21 @@ data class TandoorRecipeImportResponse(
 
 @Serializable
 class TandoorRecipeFromSource(
-    @SerialName("recipe_json")
-    val recipeJson: TandoorRecipeFromSourceRecipeJson,
-    @SerialName("recipe_images")
-    val recipeImages: List<String>,
+    val recipe: TandoorRecipeFromSourceRecipeJson,
+    val images: List<String>,
+    val duplicates: List<TandoorRecipeFromSourceDuplicateRecipe>
 ) {
 
     @Transient
     var client: TandoorClient? = null
 
     suspend fun create(
-        imageUrl: String = recipeJson.image,
-        keywords: List<String> = recipeJson.keywords.map { it.name ?: "" },
+        imageUrl: String,
+        keywords: List<String> = recipe.keywords.map { it.name ?: "" },
         splitSteps: Boolean = true
     ): TandoorRecipe {
         // fixes issue where part of note wasn't detected
-        recipeJson.steps.map { it.ingredients }.forEach {
+        recipe.steps.map { it.ingredients }.forEach {
             it.forEach forEachIngredient@{ ingredient ->
                 val split = ingredient.food.name.split(" (")
                 if(split.size == 1) return@forEachIngredient
@@ -57,21 +56,21 @@ class TandoorRecipeFromSource(
             }
         }
 
-        val data = JsonObject(json.encodeToJsonElement(recipeJson).jsonObject.toMutableMap().apply {
+        val data = JsonObject(json.encodeToJsonElement(recipe).jsonObject.toMutableMap().apply {
             put("image", JsonPrimitive(imageUrl))
 
             put("keywords", buildJsonArray {
-                recipeJson.keywords.filter { keywords.contains(it.name) }
+                recipe.keywords.filter { keywords.contains(it.name) }
                     .forEach { add(json.encodeToJsonElement(it)) }
             })
 
-            if(splitSteps && recipeJson.steps.size == 1) put("steps", buildJsonArray {
-                val instructions = recipeJson.steps[0].instruction.split("\n")
+            if(splitSteps && recipe.steps.size == 1) put("steps", buildJsonArray {
+                val instructions = recipe.steps[0].instruction.split("\n")
 
                 instructions.forEachIndexed { index, s ->
                     if(index == 0) {
                         add(
-                            json.encodeToJsonElement(recipeJson.steps[0].apply {
+                            json.encodeToJsonElement(recipe.steps[0].apply {
                                 instruction = s
                             })
                         )
@@ -95,6 +94,12 @@ class TandoorRecipeFromSource(
 }
 
 @Serializable
+data class TandoorRecipeFromSourceDuplicateRecipe(
+    val id: Int,
+    val name: String
+)
+
+@Serializable
 data class TandoorRecipeFromSourceRecipeJson(
     val steps: List<TandoorRecipeFromSourceStep>,
     val internal: Boolean,
@@ -109,7 +114,8 @@ data class TandoorRecipeFromSourceRecipeJson(
     val workingTime: Long,
     @SerialName("waiting_time")
     val waitingTime: Long,
-    val image: String,
+    @SerialName("image_url")
+    val imageUrl: String,
     val keywords: List<TandoorRecipeFromSourceKeyword>
 )
 

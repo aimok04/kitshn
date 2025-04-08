@@ -117,13 +117,13 @@ class RecipeImportDialogStateData {
 
     fun populate() {
         availableImageUrls.clear()
-        availableImageUrls.add(recipeFromSource!!.recipeJson.image)
-        availableImageUrls.addAll(recipeFromSource!!.recipeImages)
+        availableImageUrls.add(recipeFromSource!!.recipe.imageUrl)
+        availableImageUrls.addAll(recipeFromSource!!.images)
 
         selectedImageUrl = availableImageUrls.getOrNull(0) ?: ""
 
         selectedKeywords.clear()
-        selectedKeywords.addAll(recipeFromSource!!.recipeJson.keywords.map { it.name ?: "" })
+        selectedKeywords.addAll(recipeFromSource!!.recipe.keywords.map { it.name ?: "" })
     }
 
 }
@@ -401,7 +401,7 @@ fun RecipeImportDialog(
                                     .fillMaxWidth()
                                     .background(MaterialTheme.colorScheme.surfaceContainer)
                             ) {
-                                val keywords = state.data.recipeFromSource!!.recipeJson.keywords
+                                val keywords = state.data.recipeFromSource!!.recipe.keywords
 
                                 items(keywords.size) {
                                     val keyword = keywords[it]
