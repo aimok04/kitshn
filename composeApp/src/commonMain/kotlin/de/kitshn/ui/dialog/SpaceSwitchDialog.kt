@@ -95,6 +95,7 @@ fun SpaceSwitchDialog(
                 LazyColumn(
                     Modifier
                         .clip(RoundedCornerShape(16.dp))
+                        .fillMaxWidth()
                 ) {
                     if(scrapeRequestState.state == TandoorRequestStateState.LOADING && spaces.isEmpty()) {
                         items(2) {
