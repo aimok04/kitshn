@@ -5,7 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorFood
+import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.TandoorUnit
+import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -30,11 +32,7 @@ class TandoorShoppingListEntry(
     @SerialName("checked")
     var _checked: Boolean,
     val created_by: TandoorShoppingListEntryCreatedBy,
-    val recipe_mealplan: TandoorShoppingListEntryRecipeMealplan? = null,
-    /*val created_at: String,
-    val updated_at: String,*/
-    /*val completed_at: Any?,
-    val delay_until: Any?*/
+    val list_recipe_data: TandoorShoppingListEntryListRecipeData? = null
 ) {
     @Transient
     var client: TandoorClient? = null
@@ -70,16 +68,14 @@ class TandoorShoppingListEntry(
 }
 
 @Serializable
-data class TandoorShoppingListEntryRecipeMealplan(
+data class TandoorShoppingListEntryListRecipeData(
     val id: Long,
-    val recipe_name: String,
     val name: String,
     val recipe: Int,
+    val recipe_data: TandoorRecipeOverview,
     val mealplan: Int? = null,
-    val servings: Double,
-    val mealplan_note: String? = null,
-    val mealplan_from_date: String? = null,
-    val mealplan_type: String? = null
+    val meal_plan_data: TandoorMealPlan? = null,
+    val servings: Double
 )
 
 @Serializable

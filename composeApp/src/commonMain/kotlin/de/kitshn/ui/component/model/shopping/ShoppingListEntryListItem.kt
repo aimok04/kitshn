@@ -33,8 +33,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.kitshn.api.tandoor.model.TandoorFood
+import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
-import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryRecipeMealplan
 import de.kitshn.formatAmount
 import de.kitshn.ui.modifier.loadingPlaceHolder
 import de.kitshn.ui.selectionMode.SelectionModeState
@@ -125,7 +125,7 @@ fun ShoppingListEntryListItem(
 ) {
     val amountChips = remember { mutableStateListOf<Pair<String, Boolean>>() }
     val mealplans =
-        remember { mutableStateListOf<TandoorShoppingListEntryRecipeMealplan>() }
+        remember { mutableStateListOf<TandoorMealPlan>() }
 
     LaunchedEffect(entries) {
         amountChips.clear()
@@ -150,8 +150,8 @@ fun ShoppingListEntryListItem(
 
         mealplans.clear()
         mealplans.addAll(
-            entries.filter { it.recipe_mealplan != null }
-                .map { it.recipe_mealplan!! }
+            entries.filter { it.list_recipe_data?.meal_plan_data != null }
+                .map { it.list_recipe_data!!.meal_plan_data!! }
         )
     }
 

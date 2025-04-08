@@ -47,12 +47,12 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
-import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryRecipeMealplan
+import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryListRecipeData
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.formatAmount
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.icons.IconWithState
-import de.kitshn.ui.component.model.shopping.recipeMealplan.HorizontalRecipeMealPlanCard
+import de.kitshn.ui.component.model.shopping.recipeMealplan.HorizontalListRecipeDataCard
 import de.kitshn.ui.dialog.select.SelectSupermarketCategoryDialog
 import de.kitshn.ui.dialog.select.rememberSelectSupermarketCategoryDialogState
 import kitshn.composeapp.generated.resources.Res
@@ -114,8 +114,8 @@ fun ShoppingListEntryDetailsBottomSheet(
     }
 
     val amountChips = remember { mutableStateListOf<Pair<String, Boolean>>() }
-    val recipeMealPlans =
-        remember { mutableStateListOf<TandoorShoppingListEntryRecipeMealplan>() }
+    val listRecipeDataList =
+        remember { mutableStateListOf<TandoorShoppingListEntryListRecipeData>() }
 
     LaunchedEffect(entries) {
         amountChips.clear()
@@ -135,10 +135,10 @@ fun ShoppingListEntryDetailsBottomSheet(
                 }
         )
 
-        recipeMealPlans.clear()
-        recipeMealPlans.addAll(
-            entries.filter { it.recipe_mealplan != null }
-                .map { it.recipe_mealplan!! }
+        listRecipeDataList.clear()
+        listRecipeDataList.addAll(
+            entries.filter { it.list_recipe_data != null }
+                .map { it.list_recipe_data!! }
         )
     }
 
@@ -297,16 +297,16 @@ fun ShoppingListEntryDetailsBottomSheet(
             }
         }
 
-        if(recipeMealPlans.size > 0) {
+        if(listRecipeDataList.size > 0) {
             HorizontalDivider()
 
             Column(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                recipeMealPlans.forEach {
-                    HorizontalRecipeMealPlanCard(
-                        recipeMealplan = it,
+                listRecipeDataList.forEach {
+                    HorizontalListRecipeDataCard(
+                        data = it,
                         onClick = {
                             coroutineScope.launch {
                                 if(it.mealplan != null) {

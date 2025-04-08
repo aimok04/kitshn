@@ -267,22 +267,22 @@ class ShoppingViewModel(
                 val groupIdMap = mutableStateMapOf<Int, String>()
                 entries
                     .onEach {
-                        it.recipe_mealplan?.let { recipeMealplan ->
-                            groupIdMap[recipeMealplan.recipe] = recipeMealplan.recipe_name
+                        it.list_recipe_data?.let { data ->
+                            groupIdMap[data.recipe] = data.recipe_data.name
                         }
                     }
                     .sortedBy {
                         if(moveDoneToBottom && it.checked) {
                             "\uffff\uFFFF\uFFFF" // last character in lexicographic order
                         } else {
-                            it.recipe_mealplan?.recipe_name ?: "0"
+                            it.list_recipe_data?.recipe_data?.name ?: "0"
                         }
                     }
                     .groupBy {
                         if(moveDoneToBottom && it.checked) {
                             Int.MAX_VALUE
                         } else {
-                            it.recipe_mealplan?.recipe ?: -1
+                            it.list_recipe_data?.recipe ?: -1
                         }
                     }
                     .forEach {
