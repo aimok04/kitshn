@@ -2,10 +2,10 @@ package de.kitshn.api.tandoor.route
 
 import com.eygraber.uri.Uri
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.getArray
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.TandoorMealType
+import de.kitshn.api.tandoor.model.TandoorPagedResponse
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
@@ -70,12 +70,13 @@ class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         if(from != null) builder.appendQueryParameter("from_date", dateTimeFormat.format(from))
         if(to != null) builder.appendQueryParameter("to_date", dateTimeFormat.format(to))
         if(meal_type != null) builder.appendQueryParameter("meal_type", meal_type.toString())
+        builder.appendQueryParameter("page_size", "100")
 
-        val response = json.decodeFromString<List<TandoorMealPlan>>(
-            client.getArray(builder.build().toString()).toString()
+        val response = json.decodeFromString<TandoorPagedResponse<TandoorMealPlan>>(
+            client.getObject(builder.build().toString()).toString()
         )
 
-        response.forEach {
+        response.results.forEach {
             it.client = client
             it.recipe?.client = client
 
@@ -83,7 +84,7 @@ class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             client.container.mealPlan[it.id] = it
         }
 
-        return response
+        return response.results
     }
 
     suspend fun get(
