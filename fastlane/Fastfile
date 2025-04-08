@@ -26,6 +26,17 @@ lane :release do
     Fastlane::LaneManager.cruise_lane("ios", "symbol_upload_release")
 end
 
+lane :beta do
+    Fastlane::LaneManager.cruise_lane("android", "build_release")
+    Fastlane::LaneManager.cruise_lane("ios", "build_release")
+    deploy_github_pre_release
+
+    Fastlane::LaneManager.cruise_lane("android", "deploy_beta")
+    Fastlane::LaneManager.cruise_lane("ios", "deploy_beta")
+
+    Fastlane::LaneManager.cruise_lane("ios", "symbol_upload_release")
+end
+
 platform :android do
     desc "Build signed apk for GitHub release"
     lane :build_release do
@@ -45,6 +56,15 @@ platform :android do
     lane :deploy_release do
         upload_to_play_store(
             skip_upload_apk: true,
+            aab: "fastlane/out/android/release.aab"
+        )
+    end
+
+    desc "Deploy bundleRelease to Google Play beta track"
+    lane :deploy_beta do
+        upload_to_play_store(
+            skip_upload_apk: true,
+            track: 'beta',
             aab: "fastlane/out/android/release.aab"
         )
     end
@@ -76,6 +96,13 @@ platform :ios do
             ipa: "fastlane/out/ios/kitshn.ipa"
         )
     end
+
+    desc "Deploy ipa to TestFlight"
+    lane :deploy_beta do
+        upload_to_testflight(
+            ipa: "fastlane/out/ios/kitshn.ipa"
+        )
+    end
 end
 
 desc "Prepare deployment on GitHub"
@@ -95,5 +122,26 @@ lane :deploy_github do
         commitish: "main",
         upload_assets: ["fastlane/out/gh/android-release.apk", "fastlane/out/gh/ios-release.ipa"],
         is_draft: true
+    )
+end
+
+desc "Prepare deployment on GitHub (as pre-release)"
+lane :deploy_github_pre_release do
+    version = retrieve_version()
+
+    FileUtils.mkdir_p("out/gh")
+    FileUtils.cp("out/android/release.apk", "out/gh/android-release.apk")
+    FileUtils.cp("out/ios/kitshn.ipa", "out/gh/ios-release.ipa")
+
+    set_github_release(
+        repository_name: "aimok04/kitshn",
+        api_token: ENV["GITHUB_TOKEN"],
+        name: "v#{version}",
+        tag_name: "v#{version}",
+        description: (File.read("metadata/changelog.md") rescue "No changelog provided"),
+        commitish: "main",
+        upload_assets: ["fastlane/out/gh/android-release.apk", "fastlane/out/gh/ios-release.ipa"],
+        is_draft: true,
+        is_prerelease: true
     )
 end
