@@ -9,7 +9,6 @@ import androidx.compose.runtime.setValue
 import co.touchlab.kermit.Logger
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import de.kitshn.JsonAsStringSerializer
 import de.kitshn.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.delete
@@ -50,7 +49,6 @@ class TandoorRecipe(
     val stepsRaw: JsonArray,
     val working_time: Int,
     val waiting_time: Int,
-    @Serializable(with = JsonAsStringSerializer::class) val created_by: String,
     val created_at: String,
     val updated_at: String,
     val source_url: String? = null,
