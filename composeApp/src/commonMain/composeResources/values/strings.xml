@@ -85,6 +85,9 @@
 
     <string name="app_name">kitshn</string>
 
+    <string name="beta_dialog_title">kitshn Beta</string>
+    <string name="beta_dialog_description">Thank you for trying out the kitshn Beta. This version might still contain compatibility issues. You can report bugs and errors using any of the contact options listed at » Settings / About «.\n\nHave fun while cooking with kitshn! 😄</string>
+
     <string name="bugsnag_dialog_button_negative">No, don't allow</string>
     <string name="bugsnag_dialog_button_positive">Yes, allow</string>
     <string name="bugsnag_dialog_message">kitshn for iOS depends on crash reporting to be improved. The app uses the Bugsnag library/platform to accomplish that. Are you fine with automatically uploading details about crashes and bugs?\n\nThis choice can be changed in Settings/Behavior.</string>

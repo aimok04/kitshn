@@ -31,6 +31,8 @@ val kitshnAlternateBuildVersionName = kitshnAlternateVersionName.split(".").run 
 val kitshnAndroidPackageName = "de.kitshn.android"
 val kitshnDesktopPackageName = "de.kitshn.desktop"
 
+val kitshnIsBeta = true
+
 /**
 for F-Droid (needed for fdroid checkupdates)
 
@@ -298,6 +300,8 @@ buildConfig {
 
     buildConfigField("PACKAGE_ANDROID_NAME", kitshnAndroidPackageName)
     buildConfigField("PACKAGE_DESKTOP_NAME", kitshnDesktopPackageName)
+
+    buildConfigField("PACKAGE_IS_BETA", kitshnIsBeta)
 
     // kitshn.properties
     buildConfigField("ABOUT_GITHUB", prop.getProperty("about.github"))

@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import de.kitshn.saveBreadcrumb
+import de.kitshn.ui.dialog.version.TandoorBetaInfoDialog
 import de.kitshn.ui.dialog.version.TandoorServerVersionCompatibilityDialog
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.route.main.subroute.MainSubrouteNavigation
@@ -104,6 +105,7 @@ fun RouteMain(p: RouteParameters) {
     }
 
     TandoorServerVersionCompatibilityDialog(vm = p.vm)
+    TandoorBetaInfoDialog(vm = p.vm)
 }
 
 // alternate saving method because multiple rememberNavController() cause problem at jvmMain and iosMain

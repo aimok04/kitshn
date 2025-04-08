@@ -43,6 +43,8 @@ const val KEY_SETTINGS_TANDOOR_CREDENTIALS = "tandoor_credentials"
 
 const val KEY_SETTINGS_LATEST_VERSION_CHECK = "latest_version_check"
 
+const val KEY_SETTINGS_LATEST_BETA_VERSION_CHECK = "latest_beta_version_check"
+
 const val KEY_SETTINGS_FIRST_RUN_TIME = "first_run_time"
 
 @OptIn(ExperimentalSettingsApi::class)
@@ -64,6 +66,13 @@ class SettingsViewModel : ViewModel() {
 
     fun setLatestVersionCheck(version: String) =
         obs.putString(KEY_SETTINGS_LATEST_VERSION_CHECK, version)
+
+    // latest beta version check
+    val getLatestBetaVersionCheck: Flow<String> =
+        obs.getStringFlow(KEY_SETTINGS_LATEST_BETA_VERSION_CHECK, "")
+
+    fun setLatestBetaVersionCheck(version: String) =
+        obs.putString(KEY_SETTINGS_LATEST_BETA_VERSION_CHECK, version)
 
     // onboarding
     val getOnboardingCompleted: Flow<Boolean> =
