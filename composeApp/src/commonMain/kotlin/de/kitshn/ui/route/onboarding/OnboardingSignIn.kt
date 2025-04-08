@@ -96,6 +96,7 @@ import kitshn.composeapp.generated.resources.common_password
 import kitshn.composeapp.generated.resources.common_reachable
 import kitshn.composeapp.generated.resources.common_username
 import kitshn.composeapp.generated.resources.common_value
+import kitshn.composeapp.generated.resources.error_outdated_v1_instance
 import kitshn.composeapp.generated.resources.onboarding_sign_in_error_instance_not_reachable
 import kitshn.composeapp.generated.resources.onboarding_sign_in_error_instance_not_reachable_sso_hint
 import kitshn.composeapp.generated.resources.onboarding_sign_in_error_sign_in_failed
@@ -123,6 +124,7 @@ fun RouteOnboardingSignIn(
     var instanceUrlValue by rememberSaveable { mutableStateOf("https://app.tandoor.dev") }
     var instanceUrlDisplayValue by rememberSaveable { mutableStateOf("https://app.tandoor.dev") }
     var instanceUrlState by rememberSaveable { mutableStateOf(ErrorLoadingSuccessState.SUCCESS) }
+    var instanceUrlV1Error by rememberSaveable { mutableStateOf(false) }
     val instanceUrlFocusRequester = remember { FocusRequester() }
 
     var showCustomHeadersDialog by remember { mutableStateOf(false) }
@@ -132,16 +134,24 @@ fun RouteOnboardingSignIn(
         instanceUrlState = ErrorLoadingSuccessState.LOADING
         delay(1000)
 
-        instanceUrlState = if(TandoorClient(
-                TandoorCredentials(
-                    instanceUrl = instanceUrlValue,
-                    customHeaders = customHeaders
-                )
-            ).testConnection(ignoreAuth = true)
-        ) {
-            ErrorLoadingSuccessState.SUCCESS
+        val client = TandoorClient(
+            TandoorCredentials(
+                instanceUrl = instanceUrlValue,
+                customHeaders = customHeaders
+            )
+        )
+
+        if(client.testConnection(ignoreAuth = true)) {
+            try {
+                client.serverSettings.current()
+                instanceUrlState = ErrorLoadingSuccessState.SUCCESS
+            } catch(e: Exception) {
+                instanceUrlV1Error = true
+                instanceUrlState = ErrorLoadingSuccessState.ERROR
+            }
         } else {
-            ErrorLoadingSuccessState.ERROR
+            instanceUrlV1Error = false
+            instanceUrlState = ErrorLoadingSuccessState.ERROR
         }
     }
 
@@ -295,12 +305,15 @@ fun RouteOnboardingSignIn(
                             },
                             isError = instanceUrlState == ErrorLoadingSuccessState.ERROR,
                             supportingText = {
-                                if(instanceUrlState == ErrorLoadingSuccessState.ERROR)
+                                if(instanceUrlState == ErrorLoadingSuccessState.ERROR) if(instanceUrlV1Error) {
+                                    Text(stringResource(Res.string.error_outdated_v1_instance))
+                                } else {
                                     Text(
                                         stringResource(Res.string.onboarding_sign_in_error_instance_not_reachable) + "\n\n" + stringResource(
                                             Res.string.onboarding_sign_in_error_instance_not_reachable_sso_hint
                                         )
                                     )
+                                }
                             },
 
                             keyboardActions = KeyboardActions(
