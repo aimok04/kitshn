@@ -203,7 +203,7 @@ fun RouteOnboardingSignIn(
                     )
 
                     val client = TandoorClient(credentials)
-                    p.vm.tandoorClient!!.login()?.let {
+                    client.login()?.let {
                         credentials.token = it
 
                         TandoorRequestState().wrapRequest {
