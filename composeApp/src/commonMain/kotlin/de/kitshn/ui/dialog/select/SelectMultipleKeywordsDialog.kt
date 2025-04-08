@@ -43,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import co.touchlab.kermit.Logger
 import de.kitshn.KITSHN_KEYWORD_FLAG_PREFIX
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
@@ -339,8 +340,12 @@ fun KeywordSearchBar(
     val createKeywordRequestState = rememberTandoorRequestState()
     fun createKeyword(name: String) = coroutineScope.launch {
         createKeywordRequestState.wrapRequest {
-            client.keyword.create(name, name).let {
-                onCheckedChange(it, it.id, true)
+            try {
+                client.keyword.create(name, name).let {
+                    onCheckedChange(it, it.id, true)
+                }
+            } catch(e: Exception) {
+                Logger.e("SelectMultipleKeywordsDialog.kt", e)
             }
         }
     }
