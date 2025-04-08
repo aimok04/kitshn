@@ -19,11 +19,11 @@ val prop =
 val date = LocalDate.now().toString()
 
 // Android/linux version name can contain more information
-val kitshnVersionName = "1.0.0"
-val kitshnVersionCode = 10000
+val kitshnVersionName = "2.0.0-beta.1"
+val kitshnVersionCode = 19001
 
 // iOS, dmg and MSI are limited to [Major].[Minor].[Patch] format
-val kitshnAlternateVersionName = "1.0.0"
+val kitshnAlternateVersionName = "2.0.0"
 val kitshnAlternateBuildVersionName = kitshnAlternateVersionName.split(".").run {
     this[0] + "." + this[1] + "." + kitshnVersionCode
 }
@@ -38,8 +38,8 @@ for F-Droid (needed for fdroid checkupdates)
 
 applicationId = "de.kitshn.android"
 
-versionName = "1.0.0"
-versionCode = "10000"
+versionName = "2.0.0-beta.1"
+versionCode = "19001"
  **/
 
 kotlin {

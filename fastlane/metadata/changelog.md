@@ -1,28 +1,55 @@
 Hey ✌️
-I decided to release **kitshn v1.0.0** — this will be the **final release** compatible with *
-*Tandoor v1** 🥳
-I will now focus on working on compatibility with **Tandoor v2** because there have been some API
-and
-functionality changes.
+This is the first version of kitshn **compatible** with the API changes for *
+*[Tandoor v2](https://github.com/TandoorRecipes/recipes/releases/tag/2.0.0-alpha-1)**. 🥳
+New versions of kitshn will **no longer** support instances on **v1.5.***.
 
-I'll consider releasing beta builds on **GitHub**, **Google Play** and **TestFlight** when the main
-migrations have been done! :)
+This beta is available here on **GitHub**, through *
+*[Google Play testing](https://play.google.com/apps/testing/de.kitshn.android)** and through *
+*[TestFlight](https://testflight.apple.com/join/zx1xzSMg)**.
 
-This week's release just contains some small new features and minor improvements:
+Although I have tested the app with **Tandoor v2.0.0-alpha-1**, there could still be some minor API
+changes that I might have missed, so **please feel free** to comment on #95 or create **a new issue
+** if you **encounter any issues**! :)
 
-1. Implemented support to **select sharing users** in **meal plan** creation/ edit dialog (#148).
-2. Implemented support to **select sharing users** in **recipe book** creation/ edit dialog (#154).
-3. Added check to **prevent empty steps** when **importing recipes** (#157).
-4. Checked **compatibility** with Tandoor **version 1.5.34**.
+---
+
+This release also contains some **general improvements**:
+
+1. 🇮🇹 **Italian** has been added on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by
+   @KindaArtsy).
+2. Improved **space switching** due to **new API** (#122).
+3. Improved **timer detection** with support for **hours** (#167).
 
 ## Highlights
 
-- feat(commonMain/mealplan): implemented support to select sharing users in creation/edit dialog (
-  resolved #148)
-- feat(commonMain/recipeBooks): implemented support to select sharing users in creation/edit
-  dialog (resolved #154)
-- feat(commonMain/import): added check to prevent empty steps (resolved #157)
-- feat(androidMain): removed datastore to multiplatform settings migration
+- feat(commonMain): improved space switcher with new Tandoor v2 space api
+- feat(commonMain): improved timer detection to support hours and multiple languages (resolved #167)
+- feat(commonMain): added Ko-Fi link in Settings for android and jvm
+- feat(fastlane): added beta deploy lanes for GitHub, Google Play and TestFlight
+- feat(commonMain/main): added info dialog for the kitshn beta
+- feat(commonMain/onboarding): added Tandoor v1 instance error to OnboardingSignIn
+- feat(commonMain): implemented serverSettings api and outdated Tandoor v1 alert
+- feat(commonMain/vm): added favorites.init and connectivityCheck to signIn function
+- feat(commonMain): adapted importing to Tandoor v2
+- feat(commonMain): adapted supermarket and supermarket category to Tandoor v2
+- feat(commonMain/api): adapted recipe overview model to Tandoor v2
+- feat(commonMain): adapted shopping meal plan data / recipe data to Tandoor v2
+- feat(commonMain): adapted recipe model to Tandoor v2
+- feat(commonMain/api): adapted mealplan and meal type to Tandoor v2
+- feat(commonMain): adapted books to Tandoor v2
+- feat(commonMain/shopping): adapted ViewModel to Tandoor v2
+- feat(commonMain): adapted shopping to Tandoor v2
+- feat(commonMain/shopping): adapted user and user preference api to Tandoor v2
+- feat(commonMain/onboarding): unified signIn method for OnboardingSignIn(Browser)
+- fix(commonMain/onboarding): remove mention of alpha in OnboardingWelcome
+- fix(commonMain/dialog): width issue when opening SpaceSwitchDialog
+- fix(commonMain/dialog): crash when creating duplicate keyword in SelectMultipleKeywordsDialog
+- fix(commonMain/mealplan): increase fetch date range to cover issue with timestamps
+- fix(commonMain/onboarding): NullPointerException in OnboardingSignIn
+- fix(commonMain/api): removed unused fun in TandoorUserRoute
+- fix(commonMain/shopping): remove all entries in update()
+- fix(commonMain): FocusRequester is not initialized issue
+- l10n(Italian): translated using Weblate
+- l10n(Italian): added translation using Weblate
 - l10n(Ukrainian): translated using Weblate
 - l10n(German): translated using Weblate
-- chore(commonMain/api): marked v1.5.34 as compatible
