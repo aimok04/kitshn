@@ -385,4 +385,9 @@
         <item>mins</item>
         <item>min</item>
     </string-array>
+
+    <string name="error_outdated_v1_client_title">Client veraltet</string>
+    <string name="error_outdated_v1_client_description">Diese Version von kitshn unterstützt Tandoor v2 (deine Instanzversion) nicht. Es gibt jedoch eine neuere Version von kitshn, die Tandoor v2 unterstützt.</string>
+    <string name="error_outdated_v1_client_android">Du kannst an der kitshn-Beta auf [Google Play](%1$s) teilnehmen oder die neueste Beta-Version auf [GitHub](%2$s) herunterladen, um sie auszuprobieren.</string>
+    <string name="error_outdated_v1_client_ios">Du kannst an der kitshn-Beta auf [TestFlight](%1$s) teilnehmen, um es auszuprobieren.</string>
 </resources>
