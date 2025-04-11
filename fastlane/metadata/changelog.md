@@ -1,28 +1,24 @@
 Hey ✌️
-I decided to release **kitshn v1.0.0** — this will be the **final release** compatible with *
-*Tandoor v1** 🥳
-I will now focus on working on compatibility with **Tandoor v2** because there have been some API
-and
-functionality changes.
+Welp, **kitshn v1.0.0** wasn't the **final release** compatible with **Tandoor v1** after all.
 
-I'll consider releasing beta builds on **GitHub**, **Google Play** and **TestFlight** when the main
-migrations have been done! :)
+This release just adds some **general improvements** and a **beta info dialog** when connecting to a
+**Tandoor v2 instance**:
 
-This week's release just contains some small new features and minor improvements:
+1. 🇮🇹 **Italian** has been added on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by
+   @KindaArtsy).
+2. Improved **timer detection** with support for **hours** (#167).
+3. Implemented **beta info dialog** when connecting to a **Tandoor v2 instance**.
 
-1. Implemented support to **select sharing users** in **meal plan** creation/ edit dialog (#148).
-2. Implemented support to **select sharing users** in **recipe book** creation/ edit dialog (#154).
-3. Added check to **prevent empty steps** when **importing recipes** (#157).
-4. Checked **compatibility** with Tandoor **version 1.5.34**.
+---
+
+<img src="https://github.com/user-attachments/assets/5af3b21d-6860-4f76-b568-eeec00fe0f0a" width="300" />
+
+---
 
 ## Highlights
 
-- feat(commonMain/mealplan): implemented support to select sharing users in creation/edit dialog (
-  resolved #148)
-- feat(commonMain/recipeBooks): implemented support to select sharing users in creation/edit
-  dialog (resolved #154)
-- feat(commonMain/import): added check to prevent empty steps (resolved #157)
-- feat(androidMain): removed datastore to multiplatform settings migration
-- l10n(Ukrainian): translated using Weblate
-- l10n(German): translated using Weblate
-- chore(commonMain/api): marked v1.5.34 as compatible
+- feat(commonMain): implemented outdated client alert when connecting to Tandoor v2 instance
+- feat(commonMain): improved timer detection to support hours and multiple languages (resolved #167)
+- feat(commonMain): added Ko-Fi link in Settings for android and jvm
+- fix(commonMain): FocusRequester is not initialized issue
+- l10n(Italian): added translation using Weblate
