@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import co.touchlab.kermit.Logger
 import de.kitshn.saveBreadcrumb
 import de.kitshn.ui.dialog.version.TandoorServerVersionCompatibilityDialog
 import de.kitshn.ui.route.RouteParameters
@@ -31,6 +32,7 @@ import kitshn.composeapp.generated.resources.navigation_home
 import kitshn.composeapp.generated.resources.navigation_meal_plan
 import kitshn.composeapp.generated.resources.navigation_settings
 import kitshn.composeapp.generated.resources.navigation_shopping
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -104,6 +106,23 @@ fun RouteMain(p: RouteParameters) {
     }
 
     TandoorServerVersionCompatibilityDialog(vm = p.vm)
+
+    // show outdated client message if applicable
+    LaunchedEffect(Unit) {
+        delay(1000)
+
+        try {
+            p.vm.tandoorClient!!.serverSettings.current()
+
+            p.vm.navHostController?.navigate("alert/outdatedV1Client") {
+                popUpTo("main") {
+                    inclusive = true
+                }
+            }
+        } catch(e: Exception) {
+            Logger.e("Main.kt", e)
+        }
+    }
 }
 
 // alternate saving method because multiple rememberNavController() cause problem at jvmMain and iosMain

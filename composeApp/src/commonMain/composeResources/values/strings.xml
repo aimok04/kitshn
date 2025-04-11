@@ -200,6 +200,10 @@
     <string name="error">Error</string>
     <string name="error_couldnt_connect_to_tandoor">No connection to your Tandoor server could be established.</string>
     <string name="error_instance_inaccessible">The instance you are trying to connect to is not configured inside of this app.</string>
+    <string name="error_outdated_v1_client_title">Outdated client</string>
+    <string name="error_outdated_v1_client_description">This version of kitshn does not support Tandoor v2 (your instance version). However, there is a newer version of kitshn that supports Tandoor v2.</string>
+    <string name="error_outdated_v1_client_android">You can join the kitshn Beta on [Google Play](%1$s), or download the newest Beta version on [GitHub](%2$s) to try it out.</string>
+    <string name="error_outdated_v1_client_ios">You can join the kitshn Beta on [TestFlight](%1$s) to try it out.</string>
     <string name="error_recipe_could_not_be_loaded">Recipe could not be loaded.</string>
     <string name="error_request">Faulty request</string>
     <string name="error_request_description">The server could not be reached / The request could not be processed by the server.</string>

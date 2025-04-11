@@ -14,6 +14,7 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import de.kitshn.ui.route.alerts.RouteAlertInaccessibleInstance
+import de.kitshn.ui.route.alerts.RouteAlertOutdatedV1Client
 import de.kitshn.ui.route.main.RouteMain
 import de.kitshn.ui.route.onboarding.RouteOnboarding
 import de.kitshn.ui.route.onboarding.RouteOnboardingSignIn
@@ -30,6 +31,10 @@ val routes = listOf(
         "alert/inaccessibleInstance",
         Animation.SLIDE_VERTICAL
     ) { RouteAlertInaccessibleInstance(p = it) },
+    Route(
+        "alert/outdatedV1Client",
+        Animation.SLIDE_VERTICAL
+    ) { RouteAlertOutdatedV1Client(p = it) },
 
     Route("main", Animation.SLIDE_HORIZONTAL) { RouteMain(p = it) },
 

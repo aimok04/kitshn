@@ -313,6 +313,10 @@ buildConfig {
         prop.getProperty("acra.http.basic.auth.password")
     )
 
+    buildConfigField("BETA_URL_GOOGLE", prop.getProperty("beta.url.google"))
+    buildConfigField("BETA_URL_TESTFLIGHT", prop.getProperty("beta.url.testflight"))
+    buildConfigField("BETA_URL_GITHUB", prop.getProperty("beta.url.github"))
+
     buildConfigField("SHARE_WRAPPER_URL", prop.getProperty("share.wrapper.url"))
 
     buildConfigField("FUNDING_API", prop.getProperty("funding.api"))
