@@ -201,7 +201,6 @@
     <string name="error_recipe_could_not_be_loaded">Tarif yüklenemedi.</string>
     <string name="error_request">Hatalı İstek</string>
     <string name="error_request_description">Sunucuya ulaşılamadı / İstek sunucu tarafından işlenemedi.</string>
-    <string name="error_space_switching_not_supported_with_api_token">kitshn şu anda API anahtarı kullanıldığında bu özelliği desteklemiyor. Mümkünse başka bir kimlik doğrulama yöntemi kullanın.</string>
     <string name="error_unallocated_ingredients">Atanmamış Malzemeler</string>
     <string name="error_unallocated_ingredients_description">Değişiklikleri kaydedebilmeniz için hâlâ bir adıma atanması gereken malzemeler var.</string>
     <string name="error_video_playback_not_supported">Bu platformda video oynatma desteklenmiyor.</string>

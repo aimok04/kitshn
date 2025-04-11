@@ -373,7 +373,6 @@
     <string name="settings_section_appearance_color_scheme_custom_from_image_error_message">Не вдалося витягти початковий колір із вибраного зображення. Будь ласка, спробуйте інше зображення або використовуйте попередньо визначену схему.</string>
     <string name="common_account">Обліковий запис</string>
     <string name="common_not_supported">Не підтримується</string>
-    <string name="error_space_switching_not_supported_with_api_token">kitshn наразі не підтримує цю функцію під час використання маркера API. Якщо можливо, використовуйте інший метод автентифікації.</string>
     <string name="settings_section_behavior_enable_meal_plan_promotion_description">Показати сьогоднішні або завтрашні записи</string>
     <string name="settings_section_behavior_enable_meal_plan_promotion_label">Увімкнути рекламу плану харчування вдома</string>
     <string name="settings_section_behavior_promote_tomorrows_meal_plan_description">Показувати записи завтра замість сьогоднішніх</string>

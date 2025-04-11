@@ -103,7 +103,6 @@
     <string name="common_welcome">Vítejte</string>
     <string name="error_request">Neplatný požadavek</string>
     <string name="error_request_description">Nepodařilo se spojit se serverem / Server nebyl schopný zpracovat váš požadavek.</string>
-    <string name="error_space_switching_not_supported_with_api_token">kitshn aktuálně tuto funkci nepodporuje když používáte API token. Pro použití prosím použijte jiný způsob přihlášení k serveru.</string>
     <string name="home_section_asian">🏮🧧🐉🧨🎇⛩️🎎</string>
     <string name="home_section_austrian">🇦🇹📷🏰</string>
     <string name="home_section_baking">Pečení</string>

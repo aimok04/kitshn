@@ -359,7 +359,6 @@
     <string name="search_categories">Kategorien durchsuchen</string>
     <string name="common_account">Benutzer</string>
     <string name="common_not_supported">Nicht unterstützt</string>
-    <string name="error_space_switching_not_supported_with_api_token">kitshn unterstützt diese Funktion derzeit nicht, wenn ein API-Token verwendet wird. Bitte verwenden Sie eine andere Authentifizierungsmethode, wenn möglich.</string>
     <string name="settings_section_behavior_promote_tomorrows_meal_plan_description">Einträge von morgen statt der Einträge von heute anzeigen</string>
     <string name="settings_section_behavior_enable_meal_plan_promotion_description">Entweder die Einträge von heute oder von morgen anzeigen</string>
     <string name="home_meal_plan_promotion_tomorrow_title">Menü für morgen</string>

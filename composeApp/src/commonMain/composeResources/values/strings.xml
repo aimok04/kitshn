@@ -208,7 +208,6 @@
     <string name="error_recipe_could_not_be_loaded">Recipe could not be loaded.</string>
     <string name="error_request">Faulty request</string>
     <string name="error_request_description">The server could not be reached / The request could not be processed by the server.</string>
-    <string name="error_space_switching_not_supported_with_api_token">kitshn currently does not support this feature when using an API token. Please use another authentication method if possible.</string>
     <string name="error_unallocated_ingredients">Unallocated ingredients</string>
     <string name="error_unallocated_ingredients_description">There are still ingredients that need to be assigned to a step before you can save the changes.</string>
     <string name="error_video_playback_not_supported">Video playback is not supported on this platform.</string>
