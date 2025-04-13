@@ -356,7 +356,7 @@
     <string name="common_shopping_mode">Mode shopping</string>
     <string name="common_supermarket">Supermarché</string>
     <string name="shopping_list_items_done">Fait</string>
-    <string name="beta_dialog_title">Kitdhn Beta</string>
+    <string name="beta_dialog_title">kitshn Beta</string>
     <string name="beta_dialog_description">Merci d\'avoir testé la version bêta de kitshn. Cette version peut encore présenter des problèmes de compatibilité. Vous pouvez signaler les bugs et les erreurs via les options de contact disponibles dans « Paramètres / À propos ».\n\nAmusez-vous bien en cuisinant avec kitshn ! 😄</string>
     <string name="common_not_supported">Pas supporté</string>
     <string name="common_unit">Unité</string>
