@@ -14,4 +14,64 @@
             android:targetPackage="de.kitshn.android"
             android:targetClass="de.kitshn.NewInstanceActivity" />
     </shortcut>
+
+    <shortcut
+        android:shortcutId="mealplan"
+        android:enabled="true"
+        android:icon="@mipmap/ic_meal_plan"
+        android:shortcutShortLabel="@string/shortcuts_meal_plan_label_short"
+        android:shortcutLongLabel="@string/shortcuts_meal_plan_label_long">
+
+        <!-- does not work in debug builds because of targetPackage -->
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="shortcut/mealplan"
+            android:targetPackage="de.kitshn.android"
+            android:targetClass="de.kitshn.AppActivity" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="shopping"
+        android:enabled="true"
+        android:icon="@mipmap/ic_shopping"
+        android:shortcutShortLabel="@string/shortcuts_shopping_label_short"
+        android:shortcutLongLabel="@string/shortcuts_shopping_label_long">
+
+        <!-- does not work in debug builds because of targetPackage -->
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="shortcut/shopping"
+            android:targetPackage="de.kitshn.android"
+            android:targetClass="de.kitshn.AppActivity" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="shoppingMode"
+        android:enabled="true"
+        android:icon="@mipmap/ic_shopping_mode"
+        android:shortcutShortLabel="@string/shortcuts_shopping_mode_label_short"
+        android:shortcutLongLabel="@string/shortcuts_shopping_mode_label_long">
+
+        <!-- does not work in debug builds because of targetPackage -->
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="shortcut/shoppingMode"
+            android:targetPackage="de.kitshn.android"
+            android:targetClass="de.kitshn.AppActivity" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="books"
+        android:enabled="true"
+        android:icon="@mipmap/ic_books"
+        android:shortcutShortLabel="@string/shortcuts_books_label_short"
+        android:shortcutLongLabel="@string/shortcuts_books_label_long">
+
+        <!-- does not work in debug builds because of targetPackage -->
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="shortcut/books"
+            android:targetPackage="de.kitshn.android"
+            android:targetClass="de.kitshn.AppActivity" />
+    </shortcut>
 </shortcuts>
