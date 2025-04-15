@@ -16,4 +16,12 @@
     <string name="common_error_report">Звіт про помилку</string>
     <string name="common_import_recipe">Імпортний рецепт</string>
     <string name="action_download">Завантажити</string>
+    <string name="shortcuts_meal_plan_label_short">План харчування</string>
+    <string name="shortcuts_shopping_label_long">Відкриті покупки</string>
+    <string name="shortcuts_shopping_label_short">Шопінг</string>
+    <string name="shortcuts_shopping_mode_label_long">Запустити режим покупок</string>
+    <string name="shortcuts_shopping_mode_label_short">Режим покупок</string>
+    <string name="shortcuts_books_label_long">Відкриті книги</string>
+    <string name="shortcuts_books_label_short">Книги</string>
+    <string name="shortcuts_meal_plan_label_long">Відкритий план харчування</string>
 </resources>
