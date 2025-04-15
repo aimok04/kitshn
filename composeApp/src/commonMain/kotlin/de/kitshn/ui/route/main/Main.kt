@@ -1,11 +1,16 @@
 package de.kitshn.ui.route.main
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Book
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.outlined.Book
+import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.material.icons.rounded.Book
+import androidx.compose.material.icons.rounded.CalendarMonth
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -37,15 +42,34 @@ import org.jetbrains.compose.resources.stringResource
 
 enum class AppDestinations(
     val label: StringResource,
+    val activeIcon: ImageVector,
     val icon: ImageVector,
     val route: String,
     val offlineReady: Boolean
 ) {
-    HOME(Res.string.navigation_home, Icons.Default.Home, "home", false),
-    MEAL_PLAN(Res.string.navigation_meal_plan, Icons.Default.CalendarMonth, "mealplan", false),
-    SHOPPING(Res.string.navigation_shopping, Icons.Default.ShoppingCart, "shopping", true),
-    BOOKS(Res.string.navigation_books, Icons.Default.Book, "books", false),
-    SETTINGS(Res.string.navigation_settings, Icons.Default.Settings, "settings", true),
+    HOME(Res.string.navigation_home, Icons.Rounded.Home, Icons.Outlined.Home, "home", false),
+    MEAL_PLAN(
+        Res.string.navigation_meal_plan,
+        Icons.Rounded.CalendarMonth,
+        Icons.Outlined.CalendarMonth,
+        "mealplan",
+        false
+    ),
+    SHOPPING(
+        Res.string.navigation_shopping,
+        Icons.Rounded.ShoppingCart,
+        Icons.Outlined.ShoppingCart,
+        "shopping",
+        true
+    ),
+    BOOKS(Res.string.navigation_books, Icons.Rounded.Book, Icons.Outlined.Book, "books", false),
+    SETTINGS(
+        Res.string.navigation_settings,
+        Icons.Rounded.Settings,
+        Icons.Outlined.Settings,
+        "settings",
+        true
+    ),
 }
 
 @Composable
@@ -80,7 +104,7 @@ fun RouteMain(p: RouteParameters) {
                 item(
                     icon = {
                         Icon(
-                            imageVector = it.icon,
+                            imageVector = if(it == currentDestination) it.activeIcon else it.icon,
                             contentDescription = stringResource(it.label)
                         )
                     },
