@@ -322,8 +322,10 @@ fun RecipeIngredientAllocationDialog(
                     state.unallocatedIngredientIdList.remove(ingredient.id)
                     selectedIngredientIds.add(ingredient.id)
                 } else {
-                    state.unallocatedIngredientIdList.add(ingredient.id)
                     state.ingredientIdListByStepId.forEach { it.value.remove(ingredient.id) }
+
+                    state.unallocatedIngredientIdList.add(ingredient.id)
+                    selectedIngredientIds.remove(ingredient.id)
                 }
 
                 state.ingredientIdListByStepId[step.id] = selectedIngredientIds
