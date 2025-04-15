@@ -46,7 +46,7 @@ class AcraCrashReportDialog : CrashReportDialog() {
         emailEditText.doOnTextChanged { it, _, _, _ -> this.emailText = it.toString() }
 
         val dialog = MaterialAlertDialogBuilder(this)
-            .setIcon(R.drawable.rounded_bug_report_24)
+            .setIcon(R.drawable.bug_report_24px)
             .setTitle(getString(R.string.acra_dialog_title))
             .setMessage(getString(R.string.acra_dialog_message))
             .setView(formLayout)
@@ -86,7 +86,7 @@ class AcraCrashReportDialog : CrashReportDialog() {
         var showBaseDialogOnDismiss = true
 
         val dialog = MaterialAlertDialogBuilder(this)
-            .setIcon(R.drawable.rounded_data_object_24)
+            .setIcon(R.drawable.data_object_24px)
             .setTitle(getString(R.string.common_error_report))
             .setMessage(reportString)
             .setPositiveButton(getString(R.string.action_back)) { dialog, _ ->
