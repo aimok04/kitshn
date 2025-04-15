@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
-        android:shortcutId="new_instance"
+        android:shortcutId="newInstance"
         android:enabled="true"
-        android:icon="@drawable/round_add_24"
+        android:icon="@mipmap/ic_new_instance"
         android:shortcutShortLabel="@string/shortcuts_new_instance_label_short"
         android:shortcutLongLabel="@string/shortcuts_new_instance_label_long">
 
