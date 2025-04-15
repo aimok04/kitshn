@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.model.TandoorIngredient
 import de.kitshn.ui.state.ErrorLoadingSuccessState
@@ -75,7 +76,8 @@ fun IngredientsList(
 
     BoxWithConstraints {
         // try to gain more space when amount and unit fields are to wide
-        if(maxWidth - minAmountWidth - minUnitWidth < 150.dp) onNotEnoughSpace()
+        if(maxWidth - ((minAmountWidth + minUnitWidth).coerceAtMost(maxWidth / 2.2f)) < 100.dp) onNotEnoughSpace()
+        val maxWidth = maxWidth
 
         Column {
             if(loadingState == ErrorLoadingSuccessState.LOADING) {
@@ -88,6 +90,7 @@ fun IngredientsList(
 
                         colors = colors,
 
+                        maxWidth = maxWidth,
                         minAmountWidth = minAmountWidth,
                         minUnitWidth = minUnitWidth,
 
@@ -110,6 +113,7 @@ fun IngredientsList(
 
                         colors = colors,
 
+                        maxWidth = maxWidth,
                         minAmountWidth = minAmountWidth,
                         minUnitWidth = minUnitWidth,
 

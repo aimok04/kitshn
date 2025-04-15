@@ -27,6 +27,7 @@ fun IngredientItem(
 
     colors: ListItemColors = ListItemDefaults.colors(),
 
+    maxWidth: Dp = 0.dp,
     minAmountWidth: Dp = 0.dp,
     minUnitWidth: Dp = 0.dp,
 
@@ -45,7 +46,7 @@ fun IngredientItem(
 
             Row(
                 Modifier
-                    .widthIn(minAmountWidth + minUnitWidth)
+                    .widthIn(minAmountWidth + minUnitWidth, max = maxWidth / 2.2f)
             ) {
                 Row(
                     Modifier
