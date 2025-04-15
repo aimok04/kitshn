@@ -22,7 +22,7 @@ class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
     suspend fun create(
         title: String = "",
         recipe: TandoorRecipeOverview? = null,
-        servings: Int,
+        servings: Double,
         note: String = "",
         from_date: LocalDate,
         to_date: LocalDate? = null,

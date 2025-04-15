@@ -72,7 +72,7 @@ class TandoorMealPlan(
     suspend fun partialUpdate(
         title: String? = null,
         recipe: TandoorRecipeOverview? = null,
-        servings: Int? = null,
+        servings: Double? = null,
         note: String? = null,
         from_date: LocalDate? = null,
         to_date: LocalDate? = null,

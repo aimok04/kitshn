@@ -32,7 +32,7 @@ import de.kitshn.model.form.KitshnForm
 import de.kitshn.model.form.KitshnFormSection
 import de.kitshn.model.form.item.KitshnFormCheckItem
 import de.kitshn.model.form.item.field.KitshnFormDateFieldItem
-import de.kitshn.model.form.item.field.KitshnFormIntegerFieldItem
+import de.kitshn.model.form.item.field.KitshnFormDoubleFieldItem
 import de.kitshn.model.form.item.field.KitshnFormMealTypeSearchFieldItem
 import de.kitshn.model.form.item.field.KitshnFormRecipeSearchFieldItem
 import de.kitshn.model.form.item.field.KitshnFormSelectUsersFieldItem
@@ -69,13 +69,12 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
-import kotlin.math.roundToInt
 
 data class MealPlanCreationAndEditDefaultValues(
     val title: String = "",
     val note: String = "",
     val recipeId: Int? = null,
-    val servings: Int? = null,
+    val servings: Double? = null,
     val mealTypeId: Int? = null,
     val startDate: LocalDate? = null,
     val endDate: LocalDate? = null,
@@ -110,7 +109,7 @@ class MealPlanEditDialogState(
             title = mealPlan.title,
             note = mealPlan.note ?: "",
             recipeId = mealPlan.recipe?.id,
-            servings = mealPlan.servings.roundToInt(),
+            servings = mealPlan.servings,
             mealTypeId = mealPlan.meal_type.id,
             startDate = mealPlan.from_date.parseTandoorDate(),
             endDate = mealPlan.to_date.parseTandoorDate(),
@@ -285,7 +284,7 @@ fun MealPlanCreationAndEditDialog(
                                 if(recipeId == null) return@KitshnFormRecipeSearchFieldItem
 
                                 client.container.recipeOverview[recipeId]?.servings?.let {
-                                    servings = it
+                                    servings = it.toDouble()
                                 }
                             },
 
@@ -307,14 +306,14 @@ fun MealPlanCreationAndEditDialog(
                                 }
                             }
                         ),
-                        KitshnFormIntegerFieldItem(
+                        KitshnFormDoubleFieldItem(
                             value = { servings },
                             onValueChange = { servings = it },
 
                             label = { Text(servingsText) },
                             leadingIcon = { Icon(Icons.Rounded.Numbers, servingsText) },
 
-                            min = { 1 },
+                            min = { 1.0 },
 
                             optional = false,
 
