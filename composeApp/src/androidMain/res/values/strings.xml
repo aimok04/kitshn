@@ -20,4 +20,16 @@
 
     <string name="shortcuts_new_instance_label_long">Create new instance</string>
     <string name="shortcuts_new_instance_label_short">New instance</string>
+
+    <string name="shortcuts_meal_plan_label_long">Open meal plan</string>
+    <string name="shortcuts_meal_plan_label_short">Meal plan</string>
+
+    <string name="shortcuts_shopping_label_long">Open shopping</string>
+    <string name="shortcuts_shopping_label_short">Shopping</string>
+
+    <string name="shortcuts_shopping_mode_label_long">Start shopping mode</string>
+    <string name="shortcuts_shopping_mode_label_short">Shopping mode</string>
+
+    <string name="shortcuts_books_label_long">Open books</string>
+    <string name="shortcuts_books_label_short">Books</string>
 </resources>
