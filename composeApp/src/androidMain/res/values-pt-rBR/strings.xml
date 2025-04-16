@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="acra_comment_helper">Se você quiser, você pode comentar como este erro aconteceu.</string>
+    <string name="acra_dialog_button_negative">Não enviar</string>
+    <string name="acra_dialog_button_positive">Enviar</string>
+    <string name="acra_dialog_button_neutral">Visualizar relatório</string>
+    <string name="action_back">Voltar</string>
+    <string name="action_download">Baixar</string>
+    <string name="acra_dialog_message">O aplicativo encontrou um erro inesperado. Por favor, envie um relatório de erro para ajudar a corrigir o problema.\n\nVocê pode visualizar o relatório completo antes de enviar.</string>
+    <string name="acra_dialog_title">Ops!</string>
+    <string name="acra_email_address_helper">Se quiser, você pode inserir o seu endereço de e-mail para receber atualizações sobre o seu relatório.</string>
+</resources>
