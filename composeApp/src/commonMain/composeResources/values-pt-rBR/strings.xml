@@ -1,2 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="action_minus_one_week">- uma semana</string>
+    <string name="acra_comment_helper">Se você quiser, você pode comentar como este erro aconteceu.</string>
+    <string name="acra_dialog_button_negative">Não enviar</string>
+    <string name="acra_dialog_button_positive">Enviar</string>
+    <string name="acra_dialog_message">O aplicativo encontrou um erro inesperado. Por favor, envie um relatório de erro para ajudar a corrigir o problema.\n\nVocê pode visualizar o relatório completo antes de enviar.</string>
+    <string name="acra_dialog_button_neutral">Visualizar relatório</string>
+    <string name="acra_dialog_title">Ops!</string>
+    <string name="action_abort">Abortar</string>
+    <string name="action_add">Adicionar</string>
+    <string name="action_add_to_favorites">Adicionar aos favoritos</string>
+    <string name="action_add_to_meal_plan">Adicionar ao plano de refeições</string>
+    <string name="action_add_to_recipe_books">Adicionar ao livro de receitas</string>
+    <string name="action_add_to_shopping">Adicionar a compras</string>
+    <string name="action_allocate_ingredients">Alocar ingredientes</string>
+    <string name="action_apply">Aplicar</string>
+    <string name="action_back">Voltar</string>
+    <string name="action_close">Fechar</string>
+    <string name="action_combine">Combinar</string>
+    <string name="action_confirm">Confirmar</string>
+    <string name="action_continue">Continuar</string>
+    <string name="action_cook">Cozinhar</string>
+    <string name="action_create_entry">Nova entrada</string>
+    <string name="action_create_recipe">Nova receita</string>
+    <string name="action_create_recipe_book">Novo livro de receitas</string>
+    <string name="action_delete">Remover</string>
+    <string name="action_delete_from_meal_plan">Remover do plano de refeições</string>
+    <string name="action_download">Baixar</string>
+    <string name="action_edit_entry">Editar entrada</string>
+    <string name="action_edit_recipe">Editar receita</string>
+    <string name="action_edit_recipe_book">Editar livro de receitas</string>
+    <string name="action_import">Importar</string>
+    <string name="action_more">Mais</string>
+    <string name="action_next">Próximo</string>
+    <string name="action_no">Não</string>
+    <string name="action_plus_one_week">+ uma semana</string>
+    <string name="action_remove">Remover</string>
+    <string name="action_remove_from_favorites">Remover dos favoritos</string>
+    <string name="action_reorder">Reorganizar</string>
+    <string name="action_reset">Redefinir</string>
+    <string name="action_save">Salvar</string>
+    <string name="action_share">Compartilhar</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_move">Mover</string>
+    <string name="action_click_to_upload_image">Clique para enviar uma imagem.</string>
+    <string name="action_saving">Salvando…</string>
+    <string name="action_create">Criar</string>
+    <string name="action_plus">Superior</string>
+    <string name="acra_email_address_helper">Se quiser, você pode inserir o seu endereço de e-mail para receber atualizações sobre o seu relatório.</string>
+</resources>
