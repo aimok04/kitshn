@@ -11,10 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import de.kitshn.formatDuration
 import de.kitshn.ui.theme.Typography
 import dev.chrisbanes.haze.HazeState
 import kitshn.composeapp.generated.resources.Res
-import kitshn.composeapp.generated.resources.common_minute_min
 import kitshn.composeapp.generated.resources.common_time_wait
 import kitshn.composeapp.generated.resources.common_time_work
 import org.jetbrains.compose.resources.stringResource
@@ -50,7 +50,7 @@ fun RecipeCardTimeTag(
         Spacer(Modifier.width(4.dp))
 
         Text(
-            text = "$time ${stringResource(Res.string.common_minute_min)}",
+            text = time.formatDuration(),
             style = Typography().labelMedium
         )
     }

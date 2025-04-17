@@ -118,6 +118,7 @@
     <string name="common_field">Field</string>
     <string name="common_food">Food</string>
     <string name="common_group_by">Group by</string>
+    <string name="common_hour_short">h</string>
     <string name="common_import_recipe">Import recipe</string>
     <string name="common_info">Information</string>
     <string name="common_ingredients">Ingredients</string>

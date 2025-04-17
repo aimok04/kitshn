@@ -82,6 +82,7 @@ import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.formatDuration
 import de.kitshn.isScrollingUp
 import de.kitshn.launchWebsiteHandler
 import de.kitshn.shareContentHandler
@@ -127,7 +128,6 @@ import kitshn.composeapp.generated.resources.action_more
 import kitshn.composeapp.generated.resources.action_open_original
 import kitshn.composeapp.generated.resources.action_open_source
 import kitshn.composeapp.generated.resources.action_start_cooking
-import kitshn.composeapp.generated.resources.common_minute_min
 import kitshn.composeapp.generated.resources.common_okay
 import kitshn.composeapp.generated.resources.common_review
 import kitshn.composeapp.generated.resources.common_source
@@ -557,7 +557,7 @@ fun ViewRecipeDetails(
                             loadingState = pageLoadingState
                         ) {
                             Text(
-                                text = "$workingTime ${stringResource(Res.string.common_minute_min)}"
+                                text = workingTime.formatDuration()
                             )
                         }
 
@@ -578,7 +578,7 @@ fun ViewRecipeDetails(
                             loadingState = pageLoadingState
                         ) {
                             Text(
-                                text = "$waitingTime ${stringResource(Res.string.common_minute_min)}"
+                                text = waitingTime.formatDuration()
                             )
                         }
                     }

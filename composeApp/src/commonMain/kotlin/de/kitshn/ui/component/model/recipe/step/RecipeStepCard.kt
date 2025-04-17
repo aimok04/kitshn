@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.formatDuration
 import de.kitshn.isLaunchTimerHandlerImplemented
 import de.kitshn.launchTimerHandler
 import de.kitshn.ui.component.MarkdownRichTextWithTimerDetection
@@ -112,7 +113,7 @@ fun RecipeStepCard(
                                 stringResource(Res.string.common_minute_min)
                             )
                         },
-                        label = { Text("${step.time} ${stringResource(Res.string.common_minute_min)}") }
+                        label = { Text(step.time.formatDuration()) }
                     )
 
                     appendAction()

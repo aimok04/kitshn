@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import de.kitshn.KitshnViewModel
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.formatDuration
 import de.kitshn.isLaunchTimerHandlerImplemented
 import de.kitshn.launchTimerHandler
 import de.kitshn.ui.component.MarkdownRichTextWithTimerDetection
@@ -176,7 +177,7 @@ fun RouteRecipeCookPageStep(
                         stringResource(Res.string.common_minute_min)
                     )
                 },
-                label = { Text("${step.time} ${stringResource(Res.string.common_minute_min)}") }
+                label = { Text(step.time.formatDuration()) }
             )
 
             if(step.ingredients.isEmpty()) {
