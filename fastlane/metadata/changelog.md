@@ -1,24 +1,23 @@
 Hey ✌️
-Welp, **kitshn v1.0.0** wasn't the **final release** compatible with **Tandoor v1** after all.
+This release adds **some changes** from the **beta** that I decided to **implement for v1**:
 
-This release just adds some **general improvements** and a **beta info dialog** when connecting to a
-**Tandoor v2 instance**:
-
-1. 🇮🇹 **Italian** has been added on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by
-   @KindaArtsy).
-2. Improved **timer detection** with support for **hours** (#167).
-3. Implemented **beta info dialog** when connecting to a **Tandoor v2 instance**.
-
----
-
-<img src="https://github.com/user-attachments/assets/5af3b21d-6860-4f76-b568-eeec00fe0f0a" width="300" />
-
----
+1. Implemented **fractional servings** for **meal plans** (#168).
+2. Added support to display **hours** in duration chips (#173).
+3. Implemented **shortcuts** for *meal plan, shopping, shopping mode* and *books* on Android (#164).
+4. Fixed **food name** cell width being **too low** in some scenarios (#166).
+5. Fixed **ingredients** appearing as **duplicates** when unchecking items in **ingredient allocation dialog** (#174).
+6. 🇳🇱 **Dutch** has been brought **up to date** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @jstrvr).
+7. 🇫🇷 **French** has been brought **up to date** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @letroll).
 
 ## Highlights
 
-- feat(commonMain): implemented outdated client alert when connecting to Tandoor v2 instance
-- feat(commonMain): improved timer detection to support hours and multiple languages (resolved #167)
-- feat(commonMain): added Ko-Fi link in Settings for android and jvm
-- fix(commonMain): FocusRequester is not initialized issue
-- l10n(Italian): added translation using Weblate
+- feat(commonMain/recipes): added unified formatDuration method and support for displaying hours (#173)
+- feat(androidMain/shortcuts): added meal plan, shopping, shopping mode and books shortcuts (resolved #164)
+- feat(androidMain/shortcuts): modernized icon of new instance shortcut
+- feat(androidMain/acra): modernized icons in AcraCrashReportDialog
+- feat(commonMain/mealplan): implemented fractional servings (resolved #168)
+- fix(commonMain/recipes): keep food cell in ingredients table bigger (#166)
+- fix(commonMain/recipes): duplicate ingredients when unchecking item in RecipeIngredientAllocationDialog (#174)
+- l10n(French): translated using Weblate
+- l10n(Dutch): translated using Weblate
+- l10n(German): translated using Weblate

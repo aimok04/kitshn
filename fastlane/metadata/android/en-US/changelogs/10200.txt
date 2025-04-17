@@ -3,7 +3,7 @@ This release adds some changes from the beta that I decided to implement for v1:
 
     1. Implemented fractional servings for meal plans.
     2. Added support to display hours in duration chips.
-    3. Fixed food name cell width being too low in some scenarios.
+    3. Implemented shortcuts for meal plan, shopping, shopping mode and books on Android.
     4. Fixed ingredients appearing as duplicates when unchecking items in ingredient allocation dialog.
-    5. Dutch has been brought up to date (by @jstrvr).
-    6. French has been brought up to date (by @letroll).
+    5. 🇳🇱 Dutch has been updated (by @jstrvr).
+    6. 🇫🇷 French has been updated (by @letroll).
