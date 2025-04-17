@@ -1,4 +1,10 @@
 BETA: This beta introduces compatibility with Tandoor v2. This version is not compatible with servers running Tandoor v1.
 
-    1. 🇮🇹 Italian has been added on Weblate (by @KindaArtsy).
-    2. Improved space switching due to new API.
+    1. Implemented fractional servings for meal plans.
+    2. Added support to display hours in duration chips.
+    3. Fixed food name cell width being too low in some scenarios.
+    4. Fixed ingredients appearing as duplicates when unchecking items in ingredient allocation dialog.
+    5. Fixed space switching dialog showing error message when logged in with API token.
+    6. Implemented small UI improvements.
+    7. Dutch has been brought up to date on Weblate (by @jstrvr).
+    8. French has been brought up to date on Weblate (by @letroll).

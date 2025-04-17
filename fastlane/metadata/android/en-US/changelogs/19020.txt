@@ -1,0 +1,8 @@
+BETA: This beta introduces compatibility with Tandoor v2. This version is not compatible with servers running Tandoor v1.
+
+1. Implemented fractional servings for meal plans.
+2. Added support to display hours in duration chips.
+3. Implemented shortcuts for meal plan, shopping, shopping mode and books on Android.
+4. Fixed ingredients appearing as duplicates when unchecking items in ingredient allocation dialog.
+5. Dutch has been updated (by @jstrvr).
+6. French has been updated (by @letroll).

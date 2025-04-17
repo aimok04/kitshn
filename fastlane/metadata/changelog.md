@@ -1,55 +1,38 @@
 Hey ✌️
-This is the first version of kitshn **compatible** with the API changes for *
-*[Tandoor v2](https://github.com/TandoorRecipes/recipes/releases/tag/2.0.0-alpha-1)**. 🥳
+This is the second version of kitshn **compatible** with the API changes for **[Tandoor v2](https://github.com/TandoorRecipes/recipes/releases/tag/2.0.0-alpha-1)**. 🥳
 New versions of kitshn will **no longer** support instances on **v1.5.***.
 
-This beta is available here on **GitHub**, through *
-*[Google Play testing](https://play.google.com/apps/testing/de.kitshn.android)** and through *
-*[TestFlight](https://testflight.apple.com/join/zx1xzSMg)**.
+This beta is available here on **GitHub**, through **[Google Play testing](https://play.google.com/apps/testing/de.kitshn.android)** and through **[TestFlight](https://testflight.apple.com/join/zx1xzSMg)**.
 
 Although I have tested the app with **Tandoor v2.0.0-alpha-1**, there could still be some minor API
-changes that I might have missed, so **please feel free** to comment on #95 or create **a new issue
-** if you **encounter any issues**! :)
+changes that I might have missed, so **please feel free** to comment on #95 or create **a new issue** if you **encounter any issues**! :)
 
 ---
 
-This release also contains some **general improvements**:
-
-1. 🇮🇹 **Italian** has been added on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by
-   @KindaArtsy).
-2. Improved **space switching** due to **new API** (#122).
-3. Improved **timer detection** with support for **hours** (#167).
+1. Implemented **fractional servings** for **meal plans** (#168).
+2. Added support to display **hours** in duration chips (#173).
+3. Implemented **shortcuts** for *meal plan, shopping, shopping mode* and *books* on Android (#164).
+4. Fixed **food name** cell width being **too low** in some scenarios (#166).
+5. Fixed **ingredients** appearing as **duplicates** when unchecking items in **ingredient allocation dialog** (#174).
+6. Fixed **space switching** dialog showing **error message** when logged in with **API token**.
+7. Implemented small **UI improvements**.
+8. 🇳🇱 **Dutch** has been brought **up to date** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @jstrvr).
+9. 🇫🇷 **French** has been brought **up to date** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @letroll).
 
 ## Highlights
 
-- feat(commonMain): improved space switcher with new Tandoor v2 space api
-- feat(commonMain): improved timer detection to support hours and multiple languages (resolved #167)
-- feat(commonMain): added Ko-Fi link in Settings for android and jvm
-- feat(fastlane): added beta deploy lanes for GitHub, Google Play and TestFlight
-- feat(commonMain/main): added info dialog for the kitshn beta
-- feat(commonMain/onboarding): added Tandoor v1 instance error to OnboardingSignIn
-- feat(commonMain): implemented serverSettings api and outdated Tandoor v1 alert
-- feat(commonMain/vm): added favorites.init and connectivityCheck to signIn function
-- feat(commonMain): adapted importing to Tandoor v2
-- feat(commonMain): adapted supermarket and supermarket category to Tandoor v2
-- feat(commonMain/api): adapted recipe overview model to Tandoor v2
-- feat(commonMain): adapted shopping meal plan data / recipe data to Tandoor v2
-- feat(commonMain): adapted recipe model to Tandoor v2
-- feat(commonMain/api): adapted mealplan and meal type to Tandoor v2
-- feat(commonMain): adapted books to Tandoor v2
-- feat(commonMain/shopping): adapted ViewModel to Tandoor v2
-- feat(commonMain): adapted shopping to Tandoor v2
-- feat(commonMain/shopping): adapted user and user preference api to Tandoor v2
-- feat(commonMain/onboarding): unified signIn method for OnboardingSignIn(Browser)
-- fix(commonMain/onboarding): remove mention of alpha in OnboardingWelcome
-- fix(commonMain/dialog): width issue when opening SpaceSwitchDialog
-- fix(commonMain/dialog): crash when creating duplicate keyword in SelectMultipleKeywordsDialog
-- fix(commonMain/mealplan): increase fetch date range to cover issue with timestamps
-- fix(commonMain/onboarding): NullPointerException in OnboardingSignIn
-- fix(commonMain/api): removed unused fun in TandoorUserRoute
-- fix(commonMain/shopping): remove all entries in update()
-- fix(commonMain): FocusRequester is not initialized issue
-- l10n(Italian): translated using Weblate
-- l10n(Italian): added translation using Weblate
+- feat(commonMain/mealplan): implemented fractional servings (resolved #168)
+- feat(commonMain/recipes): added unified formatDuration method and support for displaying hours (resolved #173)
+- feat(androidMain/shortcuts): added meal plan, shopping, shopping mode and books shortcuts (resolved #164)
+- feat(androidMain/shortcuts): modernized icon of new instance shortcut
+- feat(androidMain/acra): modernized icons in AcraCrashReportDialog
+- feat(commonMain/navigation): replaced "default" icons and added inactive/active icons
+- feat(commonMain/api): added server version breadcrumb
+- fix(commonMain/recipes): keep food cell in ingredients table bigger (resolved #166)
+- fix(commonMain/recipes): duplicate ingredients when unchecking item in RecipeIngredientAllocationDialog (resolved #174)
+- fix(commonMain/strings.xml): removed unused error string
+- fix(commonMain/ui): removed isSupported check in SpaceSwitchIconButton
+- l10n(French): translated using Weblate
+- l10n(Dutch): translated using Weblate
 - l10n(Ukrainian): translated using Weblate
 - l10n(German): translated using Weblate
