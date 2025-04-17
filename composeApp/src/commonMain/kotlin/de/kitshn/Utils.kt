@@ -17,6 +17,8 @@ import de.kitshn.api.tandoor.model.TandoorKeyword
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_day_after_tomorrow
 import kitshn.composeapp.generated.resources.common_day_before_yesterday
+import kitshn.composeapp.generated.resources.common_hour_short
+import kitshn.composeapp.generated.resources.common_minute_min
 import kitshn.composeapp.generated.resources.common_today
 import kitshn.composeapp.generated.resources.common_tomorrow
 import kitshn.composeapp.generated.resources.common_yesterday
@@ -304,6 +306,16 @@ fun LocalDate.toHumanReadableDateLabel(): String {
             }
         }
     }
+}
+
+@Composable
+fun Int.formatDuration(): String {
+    val components = mutableListOf<String>()
+    if(this > 59) components.add("${this / 60} ${stringResource(Res.string.common_hour_short)}")
+    (this % 60).takeIf { it > 0 }?.let {
+        components.add("$it ${stringResource(Res.string.common_minute_min)}")
+    }
+    return components.joinToString(separator = " ")
 }
 
 fun List<TandoorKeyword>.keywordToIdList(): List<Int> {
