@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.CleaningServices
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.RemoveShoppingCart
 import androidx.compose.material.icons.rounded.Storefront
@@ -52,6 +53,7 @@ import de.kitshn.model.route.GroupDividerShoppingListItemModel
 import de.kitshn.model.route.GroupHeaderShoppingListItemModel
 import de.kitshn.model.route.GroupedFoodShoppingListItemModel
 import de.kitshn.model.route.ShoppingViewModel
+import de.kitshn.removeIf
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.LoadingGradientWrapper
 import de.kitshn.ui.component.alert.FullSizeAlertPane
@@ -65,8 +67,10 @@ import de.kitshn.ui.dialog.mealplan.MealPlanDetailsDialog
 import de.kitshn.ui.dialog.mealplan.rememberMealPlanDetailsDialogState
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
+import de.kitshn.ui.dialog.shopping.ShoppingListEntriesClearDialog
 import de.kitshn.ui.dialog.shopping.ShoppingListEntryCreationDialog
 import de.kitshn.ui.dialog.shopping.ShoppingListEntryDetailsBottomSheet
+import de.kitshn.ui.dialog.shopping.rememberShoppingListEntriesClearDialogState
 import de.kitshn.ui.dialog.shopping.rememberShoppingListEntryCreationDialogState
 import de.kitshn.ui.dialog.shopping.rememberShoppingListEntryDetailsBottomSheetState
 import de.kitshn.ui.route.RouteParameters
@@ -76,6 +80,7 @@ import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_add
+import kitshn.composeapp.generated.resources.action_clear
 import kitshn.composeapp.generated.resources.action_delete
 import kitshn.composeapp.generated.resources.action_mark_as_done
 import kitshn.composeapp.generated.resources.action_start_shopping_mode
@@ -116,10 +121,12 @@ fun RouteMainSubrouteShopping(
     val mealPlanDetailsDialogState = rememberMealPlanDetailsDialogState()
     val recipeLinkDialogState = rememberRecipeLinkDialogState()
 
+    val shoppingListEntriesClearDialogState = rememberShoppingListEntriesClearDialogState()
     val shoppingListEntryCreationDialogState = rememberShoppingListEntryCreationDialogState()
     val shoppingListEntryDetailsBottomSheetState =
         rememberShoppingListEntryDetailsBottomSheetState()
 
+    val entriesClearRequestState = rememberTandoorRequestState()
     val entriesDeleteRequestState = rememberTandoorRequestState()
     val entriesCheckRequestState = rememberTandoorRequestState()
 
@@ -159,6 +166,19 @@ fun RouteMainSubrouteShopping(
                 topAppBar = {
                     TopAppBar(
                         title = { Text(stringResource(Res.string.navigation_shopping)) },
+                        actions = {
+                            IconButton(
+                                onClick = {
+                                    shoppingListEntriesClearDialogState.open()
+                                }
+                            ) {
+                                IconWithState(
+                                    imageVector = Icons.Rounded.CleaningServices,
+                                    contentDescription = stringResource(Res.string.action_clear),
+                                    state = entriesClearRequestState.state.toIconWithState()
+                                )
+                            }
+                        },
                         scrollBehavior = scrollBehavior
                     )
                 },
@@ -336,6 +356,23 @@ fun RouteMainSubrouteShopping(
     }
 
     client?.let {
+        ShoppingListEntriesClearDialog(
+            state = shoppingListEntriesClearDialogState,
+            onClear = { onlyDoneEntries ->
+                coroutineScope.launch {
+                    entriesClearRequestState.wrapRequest {
+                        val entries = client.shopping.fetchAll().toMutableList()
+                        if (onlyDoneEntries) entries.removeIf { !it.checked }
+
+                        client.shopping.delete(entries)
+
+                        vm.renderItems()
+                        vm.update()
+                    }
+                }
+            }
+        )
+
         MealPlanDetailsDialog(
             p = ViewParameters(
                 vm = p.vm,
