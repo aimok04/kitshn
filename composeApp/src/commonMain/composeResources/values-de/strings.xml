@@ -388,4 +388,10 @@
     <string name="kofi_support_label">Unterstützung bei Ko-Fi</string>
     <string name="beta_dialog_title">kitshn Beta</string>
     <string name="beta_dialog_description">Vielen Dank, dass du die Beta-Version von kitshn ausprobierst. Diese Version kann noch Kompatibilitätsprobleme enthalten. Du kannst Bugs und Fehler über eine der Kontaktmöglichkeiten unter » Optionen / Über « melden.\n\nViel Spaß beim Kochen mit kitshn! 😄</string>
+    <string name="settings_section_appearance_enlarge_shopping_mode_description">Bietet bessere Lesbarkeit im Einkaufsmodus</string>
+    <string name="action_clear">Leeren</string>
+    <string name="shopping_list_dialog_clear_only_done">Nur als » Erledigt « markierte Einträge löschen</string>
+    <string name="common_hour_short">h</string>
+    <string name="settings_section_appearance_enlarge_shopping_mode_label">Einkaufsmodus vergrößern</string>
+    <string name="shopping_list_dialog_clear_title">Einkaufsliste leeren</string>
 </resources>
