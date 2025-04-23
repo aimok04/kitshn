@@ -313,7 +313,7 @@ fun ViewRecipeDetails(
 
                     shareContentHandler(
                         getString(Res.string.share_title),
-                        getString(Res.string.share_incentive) + "\n" + link
+                        "${getString(Res.string.share_incentive)}\n \n» ${recipe.name} «\n$link"
                     )
                 }
             }
