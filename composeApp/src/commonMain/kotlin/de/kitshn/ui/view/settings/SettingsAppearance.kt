@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.DarkMode
+import androidx.compose.material.icons.rounded.Loupe
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -39,6 +40,8 @@ import kitshn.composeapp.generated.resources.settings_section_appearance_color_s
 import kitshn.composeapp.generated.resources.settings_section_appearance_color_scheme_label
 import kitshn.composeapp.generated.resources.settings_section_appearance_dark_mode_description
 import kitshn.composeapp.generated.resources.settings_section_appearance_dark_mode_label
+import kitshn.composeapp.generated.resources.settings_section_appearance_enlarge_shopping_mode_description
+import kitshn.composeapp.generated.resources.settings_section_appearance_enlarge_shopping_mode_label
 import kitshn.composeapp.generated.resources.settings_section_appearance_follow_system_description
 import kitshn.composeapp.generated.resources.settings_section_appearance_follow_system_label
 import kitshn.composeapp.generated.resources.settings_section_appearance_label
@@ -137,6 +140,28 @@ fun ViewSettingsAppearance(
                     }
                 ) {
                     colorSchemeSelectionBottomSheetState.open()
+                }
+            }
+
+            item {
+                HorizontalDivider(
+                    Modifier.padding(top = 8.dp, bottom = 8.dp)
+                )
+            }
+
+            item {
+                val enlarge = p.vm.settings.getEnlargeShoppingMode.collectAsState(initial = true)
+
+                SettingsSwitchListItem(
+                    label = { Text(stringResource(Res.string.settings_section_appearance_enlarge_shopping_mode_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_appearance_enlarge_shopping_mode_description)) },
+                    icon = Icons.Rounded.Loupe,
+                    contentDescription = stringResource(Res.string.settings_section_appearance_enlarge_shopping_mode_label),
+                    checked = enlarge.value
+                ) {
+                    coroutineScope.launch {
+                        p.vm.settings.setEnlargeShoppingMode(it)
+                    }
                 }
             }
         }

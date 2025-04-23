@@ -19,6 +19,7 @@ const val KEY_SETTINGS_APPEARANCE_SYSTEM_THEME = "appearance_system_theme"
 const val KEY_SETTINGS_APPEARANCE_DARK_THEME = "appearance_dark_theme"
 const val KEY_SETTINGS_APPEARANCE_COLOR_SCHEME = "appearance_color_scheme"
 const val KEY_SETTINGS_APPEARANCE_CUSTOM_COLOR_SCHEME_SEED = "appearance_custom_color_scheme_seed"
+const val KEY_SETTINGS_APPEARANCE_ENLARGE_SHOPPING_MODE = "appearance_enlarge_shopping_mode"
 
 const val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER = "behavior_use_share_wrapper"
 const val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN =
@@ -104,6 +105,12 @@ class SettingsViewModel : ViewModel() {
 
     fun setEnableDarkTheme(enable: Boolean) =
         obs.putBoolean(KEY_SETTINGS_APPEARANCE_DARK_THEME, enable)
+
+    val getEnlargeShoppingMode: Flow<Boolean> =
+        obs.getBooleanFlow(KEY_SETTINGS_APPEARANCE_ENLARGE_SHOPPING_MODE, true)
+
+    fun setEnlargeShoppingMode(enlarge: Boolean) =
+        obs.putBoolean(KEY_SETTINGS_APPEARANCE_ENLARGE_SHOPPING_MODE, enlarge)
 
     // behavior
     val getUseShareWrapper: Flow<Boolean> =

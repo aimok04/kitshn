@@ -85,6 +85,8 @@ fun RouteShoppingMode(
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
+    val enlargeShoppingMode =
+        p.vm.settings.getEnlargeShoppingMode.collectAsState(initial = true)
     val ingredientsShowFractionalValues =
         p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
 
@@ -148,21 +150,22 @@ fun RouteShoppingMode(
                         Modifier.fillMaxSize()
                     ) {
                         if(!vm.loaded) {
-                            item { ShoppingModeListGroupHeaderListItemPlaceholder() }
-                            item { ShoppingModeListEntryListItemPlaceholder() }
-                            item { ShoppingModeListEntryListItemPlaceholder() }
-                            item { ShoppingModeListEntryListItemPlaceholder() }
-                            item { ShoppingModeListEntryListItemPlaceholder() }
-                            item { ShoppingModeListGroupHeaderListItemPlaceholder() }
-                            item { ShoppingModeListEntryListItemPlaceholder() }
-                            item { ShoppingModeListEntryListItemPlaceholder() }
-                            item { ShoppingModeListEntryListItemPlaceholder() }
+                            item { ShoppingModeListGroupHeaderListItemPlaceholder(enlarge = enlargeShoppingMode.value) }
+                            item { ShoppingModeListEntryListItemPlaceholder(enlarge = enlargeShoppingMode.value) }
+                            item { ShoppingModeListEntryListItemPlaceholder(enlarge = enlargeShoppingMode.value) }
+                            item { ShoppingModeListEntryListItemPlaceholder(enlarge = enlargeShoppingMode.value) }
+                            item { ShoppingModeListEntryListItemPlaceholder(enlarge = enlargeShoppingMode.value) }
+                            item { ShoppingModeListGroupHeaderListItemPlaceholder(enlarge = enlargeShoppingMode.value) }
+                            item { ShoppingModeListEntryListItemPlaceholder(enlarge = enlargeShoppingMode.value) }
+                            item { ShoppingModeListEntryListItemPlaceholder(enlarge = enlargeShoppingMode.value) }
+                            item { ShoppingModeListEntryListItemPlaceholder(enlarge = enlargeShoppingMode.value) }
                         } else {
                             items(vm.items.size, key = { vm.items[it].key }) {
                                 when(val item = vm.items[it]) {
                                     is GroupHeaderShoppingListItemModel -> {
                                         ShoppingModeListGroupHeaderListItem(
-                                            label = { item.label }
+                                            label = { item.label },
+                                            enlarge = enlargeShoppingMode.value
                                         )
                                     }
 
@@ -171,6 +174,7 @@ fun RouteShoppingMode(
                                             food = item.food,
                                             entries = item.entries,
                                             showFractionalValues = ingredientsShowFractionalValues.value,
+                                            enlarge = enlargeShoppingMode.value,
                                             onClick = {
                                                 if(p.vm.uiState.offlineState.isOffline) {
                                                     if(item.entries.all { entry -> entry.checked }) {

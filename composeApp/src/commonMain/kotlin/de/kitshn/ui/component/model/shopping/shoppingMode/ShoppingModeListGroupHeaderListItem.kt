@@ -28,8 +28,12 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ShoppingModeListGroupHeaderListItemPlaceholder(
     modifier: Modifier = Modifier,
-    loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.LOADING
+    loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.LOADING,
+    enlarge: Boolean
 ) {
+    val fontSize = if (enlarge) 24.sp else 16.sp
+    val lineHeight = if (enlarge) 22.sp else 14.sp
+
     val density = LocalDensity.current
 
     ListItem(
@@ -43,7 +47,7 @@ fun ShoppingModeListGroupHeaderListItemPlaceholder(
                     .width(5.dp)
                     .height(
                         with(density) {
-                            24.sp.toDp()
+                            fontSize.toDp()
                         }
                     )
                     .clip(RoundedCornerShape(8.dp))
@@ -54,8 +58,8 @@ fun ShoppingModeListGroupHeaderListItemPlaceholder(
             Text(
                 text = stringResource(Res.string.lorem_ipsum_short),
                 modifier = Modifier.loadingPlaceHolder(loadingState),
-                fontSize = 24.sp,
-                lineHeight = 22.sp,
+                fontSize = fontSize,
+                lineHeight = lineHeight,
                 fontWeight = FontWeight.Medium
             )
         }
@@ -65,10 +69,14 @@ fun ShoppingModeListGroupHeaderListItemPlaceholder(
 @Composable
 fun ShoppingModeListGroupHeaderListItem(
     modifier: Modifier = Modifier,
-    label: @Composable () -> String
+    label: @Composable () -> String,
+    enlarge: Boolean
 ) {
+    val fontSize = if (enlarge) 24.sp else 16.sp
+    val lineHeight = if (enlarge) 22.sp else 14.sp
+
     val density = LocalDensity.current
-    val boxHeight = remember { with(density) { 24.sp.toDp() } }
+    val boxHeight = remember { with(density) { fontSize.toDp() } }
 
     ListItem(
         modifier = modifier.fillMaxWidth(),
@@ -87,8 +95,8 @@ fun ShoppingModeListGroupHeaderListItem(
         headlineContent = {
             Text(
                 text = label(),
-                fontSize = 24.sp,
-                lineHeight = 22.sp,
+                fontSize = fontSize,
+                lineHeight = lineHeight,
                 fontWeight = FontWeight.Medium
             )
         }
