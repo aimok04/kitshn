@@ -50,7 +50,7 @@ import org.jetbrains.compose.resources.stringResource
 fun ShoppingListEntryListItemPlaceholder(
     modifier: Modifier = Modifier,
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.LOADING,
-    shoppingMode: Boolean = false
+    enlarge: Boolean = false
 ) {
     ListItem(
         modifier = modifier.fillMaxWidth(),
@@ -58,7 +58,7 @@ fun ShoppingListEntryListItemPlaceholder(
             supportingColor = MaterialTheme.colorScheme.primary
         ),
         headlineContent = {
-            if(shoppingMode) {
+            if (enlarge) {
                 Text(
                     text = stringResource(Res.string.lorem_ipsum_short) + stringResource(Res.string.lorem_ipsum_short),
                     modifier = Modifier.loadingPlaceHolder(loadingState),
@@ -81,7 +81,7 @@ fun ShoppingListEntryListItemPlaceholder(
             ) {
                 ElevatedAssistChip(
                     label = {
-                        if(shoppingMode) {
+                        if (enlarge) {
                             Text(
                                 text = stringResource(Res.string.lorem_ipsum_short).substring(5),
                                 modifier = Modifier.loadingPlaceHolder(loadingState),
@@ -119,7 +119,7 @@ fun ShoppingListEntryListItem(
 
     showFractionalValues: Boolean,
 
-    shoppingMode: Boolean = false,
+    enlarge: Boolean = false,
 
     onClick: (() -> Unit)? = null
 ) {
@@ -190,7 +190,7 @@ fun ShoppingListEntryListItem(
             },
         colors = colors,
         headlineContent = {
-            if(shoppingMode) {
+            if (enlarge) {
                 Text(
                     text = food.name,
                     style = Typography().headlineMedium,
@@ -231,7 +231,7 @@ fun ShoppingListEntryListItem(
                             .padding(start = 16.dp, end = 16.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        if(shoppingMode) {
+                        if (enlarge) {
                             Text(
                                 text = it.first,
                                 textDecoration = if(it.second) {

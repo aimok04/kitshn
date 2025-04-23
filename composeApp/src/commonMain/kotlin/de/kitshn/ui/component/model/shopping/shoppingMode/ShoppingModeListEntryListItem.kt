@@ -16,7 +16,8 @@ import de.kitshn.ui.state.ErrorLoadingSuccessState
 @Composable
 fun ShoppingModeListEntryListItemPlaceholder(
     modifier: Modifier = Modifier,
-    loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.LOADING
+    loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.LOADING,
+    enlarge: Boolean
 ) {
     OutlinedCard(
         modifier = modifier.padding(
@@ -29,9 +30,9 @@ fun ShoppingModeListEntryListItemPlaceholder(
             Modifier.clickable { }
         ) {
             ShoppingListEntryListItemPlaceholder(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(if (enlarge) 8.dp else 0.dp),
                 loadingState = loadingState,
-                shoppingMode = true
+                enlarge = enlarge
             )
         }
     }
@@ -45,6 +46,7 @@ fun ShoppingModeListEntryListItem(
     entries: List<TandoorShoppingListEntry>,
 
     showFractionalValues: Boolean,
+    enlarge: Boolean,
 
     onClick: () -> Unit
 ) {
@@ -61,11 +63,11 @@ fun ShoppingModeListEntryListItem(
             }
         ) {
             ShoppingListEntryListItem(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(if (enlarge) 8.dp else 0.dp),
                 food = food,
                 entries = entries,
                 showFractionalValues = showFractionalValues,
-                shoppingMode = true
+                enlarge = enlarge
             )
         }
     }

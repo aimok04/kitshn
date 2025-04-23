@@ -353,6 +353,8 @@
     <string name="settings_section_appearance_dark_mode_description">Use dark color scheme</string>
     <string name="settings_section_appearance_dark_mode_label">Dark mode</string>
     <string name="settings_section_appearance_description">Change color scheme and dynamic theming</string>
+    <string name="settings_section_appearance_enlarge_shopping_mode_description">Provides better legibility in shopping mode</string>
+    <string name="settings_section_appearance_enlarge_shopping_mode_label">Enlarge shopping mode</string>
     <string name="settings_section_appearance_follow_system_description">Use the color scheme of the operating system</string>
     <string name="settings_section_appearance_follow_system_label">Follow system</string>
     <string name="settings_section_appearance_label">Appearance</string>
