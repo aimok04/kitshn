@@ -43,21 +43,6 @@ class TandoorShoppingListEntry(
     @Transient
     var _destroyed = destroyed
 
-    suspend fun check() {
-        client!!.shopping.check(setOf(id))
-        checked = true
-    }
-
-    suspend fun uncheck() {
-        client!!.shopping.uncheck(setOf(id))
-        _checked = false
-    }
-
-    suspend fun delete() {
-        client!!.shopping.delete(id)
-        _destroyed = true
-    }
-
     companion object {
         fun parse(client: TandoorClient, data: String): TandoorShoppingListEntry {
             val obj = json.decodeFromString<TandoorShoppingListEntry>(data)

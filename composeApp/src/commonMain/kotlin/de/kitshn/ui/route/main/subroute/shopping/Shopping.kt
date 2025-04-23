@@ -403,7 +403,7 @@ fun RouteMainSubrouteShopping(
 
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
-                        entries.forEach { entry -> entry.delete() }
+                        client.shopping.delete(entries)
                         vm.renderItems()
                     }
                 }
