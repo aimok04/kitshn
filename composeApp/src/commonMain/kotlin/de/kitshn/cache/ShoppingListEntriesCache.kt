@@ -33,7 +33,6 @@ class ShoppingListEntriesCache(
         update(
             items.filterNot {
                 (it.destroyed || it._destroyed)
-                        || (it.checked || it._checked)
             }
         )
     }
