@@ -136,7 +136,6 @@ kotlin {
 
         mobileMain.dependencies {
             implementation(libs.peekaboo.ui)
-            implementation(libs.peekaboo.image.picker)
         }
 
         androidMain {

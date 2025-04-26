@@ -35,7 +35,7 @@ import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
-import de.kitshn.ui.dialog.peekaboo.PhotoPickerDialog
+import de.kitshn.ui.dialog.PhotoPickerDialog
 import de.kitshn.ui.modifier.loadingPlaceHolder
 import de.kitshn.ui.state.translateState
 import de.kitshn.ui.theme.Typography

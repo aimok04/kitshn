@@ -44,7 +44,7 @@ import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeFromSource
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
-import de.kitshn.ui.dialog.peekaboo.PhotoPickerDialog
+import de.kitshn.ui.dialog.PhotoPickerDialog
 import de.kitshn.ui.theme.Typography
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_click_to_upload_image
