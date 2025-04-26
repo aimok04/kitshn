@@ -65,12 +65,10 @@ kotlin {
         }
     }
 
+    applyDefaultHierarchyTemplate()
+
     sourceSets {
         val mobileMain by creating { dependsOn(commonMain.get()) }
-        androidMain { dependsOn(mobileMain) }
-        iosX64Main { dependsOn(mobileMain) }
-        iosArm64Main { dependsOn(mobileMain) }
-        iosSimulatorArm64Main { dependsOn(mobileMain) }
 
         commonMain.dependencies {
             implementation(compose.material3AdaptiveNavigationSuite)
@@ -133,43 +131,51 @@ kotlin {
             implementation(libs.uri.kmp)
         }
 
-        androidMain.dependencies {
-            implementation(compose.uiTooling)
-            implementation(libs.androidx.activityCompose)
-            implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.ktor.client.okhttp)
+        mobileMain.dependencies {
+            implementation(libs.peekaboo.ui)
+            implementation(libs.peekaboo.image.picker)
+        }
 
-            implementation(libs.acra.http)
-            implementation(libs.acra.dialog)
+        androidMain {
+            dependsOn(mobileMain)
 
-            implementation(libs.accompanist.systemuicontroller)
+            dependencies {
+                implementation(compose.uiTooling)
+                implementation(libs.androidx.activityCompose)
+                implementation(libs.kotlinx.coroutines.android)
+                implementation(libs.ktor.client.okhttp)
 
-            implementation(libs.androidx.browser)
+                implementation(libs.acra.http)
+                implementation(libs.acra.dialog)
 
-            implementation(libs.compose.video)
-            implementation(libs.androidx.media3.exoplayer)
-            implementation(libs.androidx.media3.session)
-            implementation(libs.androidx.media3.ui)
+                implementation(libs.accompanist.systemuicontroller)
 
-            implementation(libs.material)
+                implementation(libs.androidx.browser)
+
+                implementation(libs.compose.video)
+                implementation(libs.androidx.media3.exoplayer)
+                implementation(libs.androidx.media3.session)
+                implementation(libs.androidx.media3.ui)
+
+                implementation(libs.material)
+            }
+        }
+
+        iosMain {
+            dependsOn(mobileMain)
+
+            dependencies {
+                implementation(libs.ktor.client.darwin)
+
+                implementation(libs.kermit.bugsnag)
+                api(libs.bugsnag)
+            }
         }
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.okhttp)
-        }
-
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
-
-            implementation(libs.kermit.bugsnag)
-            api(libs.bugsnag)
-        }
-
-        mobileMain.dependencies {
-            implementation(libs.peekaboo.ui)
-            implementation(libs.peekaboo.image.picker)
         }
     }
 }
