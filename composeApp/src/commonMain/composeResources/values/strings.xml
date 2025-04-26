@@ -80,7 +80,9 @@
     <string name="action_start_cooking">Start cooking mode</string>
     <string name="action_start_shopping_mode">Start shopping mode</string>
     <string name="action_support">Support</string>
+    <string name="action_switch_camera">Switch camera</string>
     <string name="action_switch_space">Switch space</string>
+    <string name="action_take_photo">Take photo</string>
     <string name="action_upload">Upload</string>
     <string name="action_yes">Yes</string>
 
@@ -299,6 +301,8 @@
     <string name="onboarding_sign_in_title">Log in to Tandoor</string>
     <string name="onboarding_sign_in_using_web_browser">Log in using web browser</string>
     <string name="onboarding_welcome">Have fun cooking with kitshn. For bugs, feedback, and feature ideas, please check the » About « page in the settings for contact options.</string>
+
+    <string name="permissions_camera_alert">Please allow kitshn to access your camera to use this feature.</string>
 
     <string name="recipe_book_empty">No recipes have been added to this cookery book yet.</string>
     <string name="recipe_book_favorites_description">Collection of your favourite recipes</string>
