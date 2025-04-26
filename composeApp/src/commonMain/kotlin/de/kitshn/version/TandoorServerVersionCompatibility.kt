@@ -68,7 +68,8 @@ enum class TandoorServerVersionCompatibility(
     val version: String,
     val state: TandoorServerVersionCompatibilityState
 ) {
-    V2_0_0_ALPHA_1("2.0.0-alpha-1", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY);
+    V2_0_0_ALPHA_1("2.0.0-alpha-1", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
+    V2_0_0_ALPHA_2("2.0.0-alpha-2", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY);
 
     fun getLabel(): String {
         return this.name.substring(1).replace("_", ".")
