@@ -48,6 +48,7 @@ actual fun AdaptiveFullscreenDialog(
     bottomBar: @Composable ((isFullscreen: Boolean) -> Unit)?,
     forceFullscreen: Boolean,
     forceDialog: Boolean,
+    disableAnimation: Boolean,
     maxWidth: Dp,
     applyPaddingValues: Boolean,
     content: @Composable (nestedScrollConnection: NestedScrollConnection, isFullscreen: Boolean, pv: PaddingValues) -> Unit
@@ -72,8 +73,12 @@ actual fun AdaptiveFullscreenDialog(
     /* animate visibility of fullscreen dialog */
     var dismissOnPostExit by remember { mutableStateOf(false) }
     val animVisibilityState = remember {
-        MutableTransitionState(!isFullscreen)
-            .apply { targetState = true }
+        MutableTransitionState(
+            if(disableAnimation)
+                true
+            else
+                !isFullscreen
+        ).apply { targetState = true }
     }
 
     /* dismiss fullscreen dialog after animation */
@@ -87,7 +92,7 @@ actual fun AdaptiveFullscreenDialog(
     fun dismiss() {
         if(!onPreDismiss()) return
 
-        if(isFullscreen) {
+        if(isFullscreen && !disableAnimation) {
             dismissOnPostExit = true
             animVisibilityState.targetState = false
         } else {
@@ -143,9 +148,8 @@ actual fun AdaptiveFullscreenDialog(
             }
         }
 
-        AnimatedVisibility(
-            animVisibilityState
-        ) {
+        @Composable
+        fun dialogContent() {
             CommonAdaptiveFullscreenDialogContent(
                 containerColor = containerColor,
                 isFullscreen = isFullscreen,
@@ -162,6 +166,15 @@ actual fun AdaptiveFullscreenDialog(
                 applyPaddingValues = applyPaddingValues,
                 onDismiss = { dismiss() },
                 content = content
+            )
+        }
+
+        if(disableAnimation) {
+            dialogContent()
+        } else {
+            AnimatedVisibility(
+                visibleState = animVisibilityState,
+                content = { dialogContent() }
             )
         }
     }

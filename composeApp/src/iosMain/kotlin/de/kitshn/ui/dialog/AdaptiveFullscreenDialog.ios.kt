@@ -31,6 +31,7 @@ actual fun AdaptiveFullscreenDialog(
     bottomBar: @Composable ((isFullscreen: Boolean) -> Unit)?,
     forceFullscreen: Boolean,
     forceDialog: Boolean,
+    disableAnimation: Boolean,
     maxWidth: Dp,
     applyPaddingValues: Boolean,
     content: @Composable (nestedScrollConnection: NestedScrollConnection, isFullscreen: Boolean, pv: PaddingValues) -> Unit
