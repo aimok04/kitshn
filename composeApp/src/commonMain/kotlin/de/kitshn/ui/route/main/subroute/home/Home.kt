@@ -38,11 +38,16 @@ import de.kitshn.platformDetails
 import de.kitshn.ui.component.AutoFetchingFundingBanner
 import de.kitshn.ui.component.model.SpaceSwitchIconButton
 import de.kitshn.ui.component.text.DynamicGreetingTitle
-import de.kitshn.ui.dialog.recipe.RecipeImportDialog
 import de.kitshn.ui.dialog.recipe.creationandedit.RecipeCreationAndEditDialog
 import de.kitshn.ui.dialog.recipe.creationandedit.rememberRecipeCreationDialogState
 import de.kitshn.ui.dialog.recipe.creationandedit.rememberRecipeEditDialogState
-import de.kitshn.ui.dialog.recipe.rememberRecipeImportDialogState
+import de.kitshn.ui.dialog.recipe.import.RecipeImportAIDialog
+import de.kitshn.ui.dialog.recipe.import.RecipeImportType
+import de.kitshn.ui.dialog.recipe.import.RecipeImportTypeBottomSheet
+import de.kitshn.ui.dialog.recipe.import.RecipeImportUrlDialog
+import de.kitshn.ui.dialog.recipe.import.rememberRecipeImportAIDialogState
+import de.kitshn.ui.dialog.recipe.import.rememberRecipeImportTypeBottomSheetState
+import de.kitshn.ui.dialog.recipe.import.rememberRecipeImportUrlDialogState
 import de.kitshn.ui.layout.KitshnRecipeListRecipeDetailPaneScaffold
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.selectionMode.model.RecipeSelectionModeTopAppBar
@@ -68,8 +73,11 @@ fun RouteMainSubrouteHome(
 
     val homeSearchState by rememberHomeSearchState(key = "RouteMainSubrouteHome/homeSearch")
 
-    val recipeImportDialogState =
-        rememberRecipeImportDialogState(key = "RouteMainSubrouteHome/recipeImportDialogState")
+    val recipeImportTypeBottomSheetState = rememberRecipeImportTypeBottomSheetState()
+
+    val recipeImportUrlDialogState =
+        rememberRecipeImportUrlDialogState(key = "RouteMainSubrouteHome/recipeImportDialogState")
+    val recipeImportAIDialogState = rememberRecipeImportAIDialogState()
 
     val recipeCreationDialogState =
         rememberRecipeCreationDialogState(key = "RouteMainSubrouteHome/recipeCreationDialogState")
@@ -137,7 +145,7 @@ fun RouteMainSubrouteHome(
                         SmallFloatingActionButton(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                            onClick = { recipeImportDialogState.open() }
+                            onClick = { recipeImportTypeBottomSheetState.open() }
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.SaveAlt,
@@ -245,9 +253,26 @@ fun RouteMainSubrouteHome(
         )
     }
 
-    RecipeImportDialog(
+    RecipeImportTypeBottomSheet(
+        client = p.vm.tandoorClient!!,
+        state = recipeImportTypeBottomSheetState,
+        onSelect = {
+            when(it) {
+                RecipeImportType.URL -> recipeImportUrlDialogState.open()
+                RecipeImportType.AI -> recipeImportAIDialogState.open()
+            }
+        }
+    )
+
+    RecipeImportUrlDialog(
         vm = p.vm,
-        state = recipeImportDialogState,
+        state = recipeImportUrlDialogState,
+        onViewRecipe = { p.vm.viewRecipe(it.id) }
+    )
+
+    RecipeImportAIDialog(
+        vm = p.vm,
+        state = recipeImportAIDialogState,
         onViewRecipe = { p.vm.viewRecipe(it.id) }
     )
 

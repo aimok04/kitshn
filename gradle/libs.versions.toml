@@ -6,6 +6,7 @@ bugsnag = "0.9.0"
 compose-placeholder = "1.0.10"
 acra = "5.12.0"
 composeWebviewMultiplatform = "1.9.40"
+filekit = "0.10.0-beta02"
 humanReadable = "1.11.0"
 kermitBugsnag = "2.0.5"
 kotlin = "2.1.10"
@@ -54,6 +55,8 @@ bugsnag = { module = "co.touchlab.crashkios:bugsnag", version.ref = "bugsnag" }
 compose-placeholder = { module = "com.eygraber:compose-placeholder", version.ref = "compose-placeholder" }
 compose-placeholder-material = { module = "com.eygraber:compose-placeholder-material", version.ref = "compose-placeholder" }
 compose-webview-multiplatform = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "composeWebviewMultiplatform" }
+filekit-dialogs = { module = "io.github.vinceglb:filekit-dialogs", version.ref = "filekit" }
+filekit-dialogs-compose = { module = "io.github.vinceglb:filekit-dialogs-compose", version.ref = "filekit" }
 human-readable = { module = "nl.jacobras:Human-Readable", version.ref = "humanReadable" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 kermit-bugsnag = { module = "co.touchlab:kermit-bugsnag", version.ref = "kermitBugsnag" }

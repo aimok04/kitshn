@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TandoorServerSettings(
+    val enable_ai_import: Boolean = false,
     val version: String
 )
 

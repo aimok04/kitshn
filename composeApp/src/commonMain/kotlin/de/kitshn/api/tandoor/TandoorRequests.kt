@@ -218,6 +218,9 @@ suspend fun TandoorClient.putObject(endpoint: String, data: JsonObject) =
 suspend fun TandoorClient.putArray(endpoint: String, data: JsonArray) =
     reqArray(endpoint, HttpMethod.Put, data)
 
+suspend fun TandoorClient.postMultipart(endpoint: String, _formData: FormBuilder.() -> Unit) =
+    reqMultipart(endpoint, HttpMethod.Post, _formData)
+
 suspend fun TandoorClient.putMultipart(endpoint: String, _formData: FormBuilder.() -> Unit) =
     reqMultipart(endpoint, HttpMethod.Put, _formData)
 

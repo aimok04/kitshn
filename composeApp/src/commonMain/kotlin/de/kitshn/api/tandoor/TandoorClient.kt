@@ -1,5 +1,6 @@
 package de.kitshn.api.tandoor
 
+import de.kitshn.api.tandoor.route.TandoorAIImportRoute
 import de.kitshn.api.tandoor.route.TandoorCookLogRoute
 import de.kitshn.api.tandoor.route.TandoorFoodRoute
 import de.kitshn.api.tandoor.route.TandoorKeywordRoute
@@ -58,6 +59,7 @@ class TandoorClient(
     val container = TandoorContainer(this)
     val media = TandoorMedia(this)
 
+    val aiImport = TandoorAIImportRoute(this)
     val cookLog = TandoorCookLogRoute(this)
     val keyword = TandoorKeywordRoute(this)
     val food = TandoorFoodRoute(this)

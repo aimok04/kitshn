@@ -125,6 +125,7 @@
     <string name="common_food">Food</string>
     <string name="common_group_by">Group by</string>
     <string name="common_hour_short">h</string>
+    <string name="common_image">Image</string>
     <string name="common_import_recipe">Import recipe</string>
     <string name="common_info">Information</string>
     <string name="common_ingredients">Ingredients</string>
@@ -313,6 +314,10 @@
     <string name="recipe_edit_no_steps_added">No steps have been added to this recipe yet.</string>
     <string name="recipe_import_divide_steps">Divide steps</string>
     <string name="recipe_import_divide_steps_description">Divide steps by line breaks</string>
+    <string name="recipe_import_type_ai_label">Import with AI</string>
+    <string name="recipe_import_type_ai_description">Upload images or enter a recipe in text form</string>
+    <string name="recipe_import_type_url_label">Import from Website</string>
+    <string name="recipe_import_type_url_description">Enter an URL and import a recipe from the web</string>
     <string name="recipe_not_found">This recipe could not be found.</string>
     <string name="recipe_sorting_cooking_frequency">Cooking frequency</string>
     <string name="recipe_sorting_creation_date">Date of creation</string>

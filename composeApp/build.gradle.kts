@@ -103,6 +103,9 @@ kotlin {
             implementation(libs.coil)
             implementation(libs.coil.network.ktor)
 
+            implementation(libs.filekit.dialogs)
+            implementation(libs.filekit.dialogs.compose)
+
             implementation(libs.multiplatform.settings)
             implementation(libs.multiplatform.settings.no.arg)
             implementation(libs.multiplatform.settings.coroutines)

@@ -43,6 +43,36 @@ import nl.jacobras.humanreadable.HumanReadable
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.floor
 
+enum class FileFormats(val extensions: List<String>, val mimeType: String) {
+    EPUB(listOf("epub"), "application/epub+zip"),
+    JSON(listOf("json"), "application/json"),
+    JSON_LD(listOf("jsonld"), "application/ld+json"),
+    MS_WORD(listOf("doc"), "application/msword"),
+    MS_WORD_OPEN_XML(
+        listOf("docx"),
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ),
+    PDF(listOf("pdf"), "application/pdf"),
+    RTF(listOf("rtf"), "application/rtf"),
+    XML(listOf("xml"), "application/xml"),
+    BMP(listOf("bmp"), "image/bmp"),
+    GIF(listOf("gif"), "image/gif"),
+    JPEG(listOf("jpg", "jpeg"), "image/jpeg"),
+    PNG(listOf("png"), "image/png"),
+    SVG_XML(listOf("svg"), "image/svg+xml"),
+    TIFF(listOf("tif", "tiff"), "image/tiff"),
+    WEBP(listOf("webp"), "image/webp"),
+    HEIC(listOf("heic"), "image/heic"),
+    HEIF(listOf("heif"), "image/heif"),
+    AVIF(listOf("avif", "avifs"), "image/avif");
+
+    companion object {
+        fun findMimeType(extension: String): String? {
+            return entries.find { it.extensions.contains(extension) }?.mimeType
+        }
+    }
+}
+
 enum class HapticFeedbackType {
     LONG_PRESS,
     SHORT_TICK,
