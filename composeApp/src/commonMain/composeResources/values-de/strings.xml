@@ -394,4 +394,12 @@
     <string name="common_hour_short">h</string>
     <string name="settings_section_appearance_enlarge_shopping_mode_label">Einkaufsmodus vergrößern</string>
     <string name="shopping_list_dialog_clear_title">Einkaufsliste leeren</string>
+    <string name="recipe_import_type_url_description">Gebe eine URL ein und importiere ein Rezept aus dem Netz</string>
+    <string name="common_image">Bild</string>
+    <string name="action_take_photo">Foto aufnehmen</string>
+    <string name="permissions_camera_alert">Bitte erlaube kitshn den Zugriff auf deine Kamera um diese Funktion zu nutzen.</string>
+    <string name="recipe_import_type_ai_label">Importieren mit KI</string>
+    <string name="recipe_import_type_ai_description">Lade Bilder hoch oder füge ein Rezept in Textform ein</string>
+    <string name="recipe_import_type_url_label">Importieren einer Webseite</string>
+    <string name="action_switch_camera">Kamera wechseln</string>
 </resources>
