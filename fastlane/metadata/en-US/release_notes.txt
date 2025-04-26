@@ -1,10 +1,7 @@
 BETA: This beta introduces compatibility with Tandoor v2. This version is not compatible with servers running Tandoor v1.
 
-    1. Implemented fractional servings for meal plans.
-    2. Added support to display hours in duration chips.
-    3. Fixed food name cell width being too low in some scenarios.
-    4. Fixed ingredients appearing as duplicates when unchecking items in ingredient allocation dialog.
-    5. Fixed space switching dialog showing error message when logged in with API token.
-    6. Implemented small UI improvements.
-    7. Dutch has been brought up to date on Weblate (by @jstrvr).
-    8. French has been brought up to date on Weblate (by @letroll).
+    1. Added support for AI import, a new feature of Tandoor v2.
+    2. Implemented button to clear shopping list from all or done entries.
+    3. Added recipe name to sharing text for easier identification.
+    4. Enabled users to disable the shopping mode enlargement.
+    5. Checked compatibility with Tandoor version 2.0.0-alpha-2.
