@@ -1,4 +1,4 @@
-package de.kitshn.ui.dialog.external
+package de.kitshn.ui.dialog.peekaboo
 
 import androidx.compose.runtime.Composable
 

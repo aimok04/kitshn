@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.materialkolor.ktx.themeColorOrNull
 import de.kitshn.ui.component.ColorSchemePreviewCircle
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
-import de.kitshn.ui.dialog.external.PhotoPickerDialog
+import de.kitshn.ui.dialog.peekaboo.PhotoPickerDialog
 import de.kitshn.ui.theme.custom.AvailableColorSchemes
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_okay

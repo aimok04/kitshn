@@ -66,6 +66,12 @@ kotlin {
     }
 
     sourceSets {
+        val mobileMain by creating { dependsOn(commonMain.get()) }
+        androidMain { dependsOn(mobileMain) }
+        iosX64Main { dependsOn(mobileMain) }
+        iosArm64Main { dependsOn(mobileMain) }
+        iosSimulatorArm64Main { dependsOn(mobileMain) }
+
         commonMain.dependencies {
             implementation(compose.material3AdaptiveNavigationSuite)
             implementation(compose.materialIconsExtended)
@@ -146,8 +152,6 @@ kotlin {
             implementation(libs.androidx.media3.ui)
 
             implementation(libs.material)
-
-            implementation(libs.peekaboo.image.picker)
         }
 
         jvmMain.dependencies {
@@ -159,10 +163,13 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
 
-            implementation(libs.peekaboo.image.picker)
-
             implementation(libs.kermit.bugsnag)
             api(libs.bugsnag)
+        }
+
+        mobileMain.dependencies {
+            implementation(libs.peekaboo.ui)
+            implementation(libs.peekaboo.image.picker)
         }
     }
 }
