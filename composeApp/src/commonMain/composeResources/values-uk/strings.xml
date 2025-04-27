@@ -395,4 +395,12 @@
     <string name="shopping_list_dialog_clear_only_done">Видаляти лише записи, позначені як «Готово»</string>
     <string name="action_clear">Очистити</string>
     <string name="settings_section_appearance_enlarge_shopping_mode_label">Збільшити режим покупок</string>
+    <string name="action_switch_camera">Переключити камеру</string>
+    <string name="action_take_photo">Зробіть фото</string>
+    <string name="common_image">Зображення</string>
+    <string name="permissions_camera_alert">Щоб скористатися цією функцією, надайте kitshn доступ до камери.</string>
+    <string name="recipe_import_type_ai_label">Імпорт за допомогою ШІ</string>
+    <string name="recipe_import_type_url_label">Імпорт із веб-сайту</string>
+    <string name="recipe_import_type_url_description">Введіть URL-адресу та імпортуйте рецепт з Інтернету</string>
+    <string name="recipe_import_type_ai_description">Завантажте зображення або введіть рецепт у текстовій формі</string>
 </resources>
