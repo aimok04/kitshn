@@ -78,12 +78,32 @@ private fun KitshnViewModel.handleAppLinkImpl(
     val instanceUri = credentials?.instanceUrl?.let { Uri.parse(it) }
     val matchingHosts = instanceUri?.host == linkUri.host
 
-    // handle public accessible routes
-    if (!matchingHosts && linkArgs.size == 4 && linkArgs[0] == "view" && linkArgs[1] == "recipe") {
+    // handle public accessible routes (legacy)
+    if(!matchingHosts && linkArgs.size == 4 && linkArgs[0] == "view" && linkArgs[1] == "recipe") {
         viewModelScope.launch {
             val origin = linkUri.scheme + "://" + linkUri.host
             val recipeId = linkArgs[2]
             val shareToken = linkArgs[3]
+
+            uiState.shareClient =
+                TandoorClient(TandoorCredentials(instanceUrl = origin))
+
+            delay(100)
+            navHostController?.navigate("recipe/${recipeId}/public/${shareToken}") {
+                popUpTo("main") {
+                    inclusive = true
+                }
+            }
+        }
+        return true
+    }
+
+    // handle public accessible routes (v2)
+    if(!matchingHosts && linkArgs.size == 3 && linkArgs[0] == "recipe") {
+        viewModelScope.launch {
+            val origin = linkUri.scheme + "://" + linkUri.host
+            val recipeId = linkArgs[1]
+            val shareToken = linkArgs[2]
 
             uiState.shareClient =
                 TandoorClient(TandoorCredentials(instanceUrl = origin))
@@ -106,8 +126,16 @@ private fun KitshnViewModel.handleAppLinkImpl(
         return true
     }
 
-    if ((linkArgs.size == 3 || linkArgs.size == 4) && linkArgs[0] == "view" && linkArgs[1] == "recipe") {
+    // legacy
+    if((linkArgs.size == 3 || linkArgs.size == 4) && linkArgs[0] == "view" && linkArgs[1] == "recipe") {
         val recipeId = linkArgs[2]
+        navHostController?.navigate("recipe/${recipeId}/view")
+        return true
+    }
+
+    // v2
+    if((linkArgs.size == 2 || linkArgs.size == 3) && linkArgs[0] == "recipe") {
+        val recipeId = linkArgs[1]
         navHostController?.navigate("recipe/${recipeId}/view")
         return true
     }
