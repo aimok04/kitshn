@@ -28,6 +28,8 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.format
 import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 import kotlinx.datetime.format.byUnicodePattern
 import kotlinx.datetime.toLocalDateTime
@@ -289,20 +291,14 @@ fun String.parseTandoorDate(): LocalDate {
     return LocalDate.parse(this, LocalDate.Format { byUnicodePattern("yyyy-MM-dd") })
 }
 
-fun String.parseUtcTandoorDate(): LocalDate {
-    return Instant.parse(this)
-        .toLocalDateTime(TimeZone.currentSystemDefault())
-        .date
-}
-
 fun String.parseIsoTime(): LocalDateTime {
     return Instant.parse(this).toLocalDateTime(TimeZone.currentSystemDefault())
 }
 
-@OptIn(FormatStringsInDatetimeFormats::class)
-fun LocalDate.toTandoorDate(): String {
-    val dateFormat = LocalDate.Format { byUnicodePattern("yyyy-MM-dd") }
-    return dateFormat.format(this)
+fun LocalDate.toStartOfDayString(): String {
+    return this.atStartOfDayIn(TimeZone.currentSystemDefault())
+        .toLocalDateTime(TimeZone.UTC)
+        .format(LocalDateTime.Formats.ISO) + "Z"
 }
 
 fun Long.toLocalDate(

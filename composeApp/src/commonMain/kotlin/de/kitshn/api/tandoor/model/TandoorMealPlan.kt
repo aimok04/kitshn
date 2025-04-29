@@ -9,7 +9,7 @@ import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.json
 import de.kitshn.parseTandoorDate
 import de.kitshn.toColorInt
-import de.kitshn.toTandoorDate
+import de.kitshn.toStartOfDayString
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -91,15 +91,15 @@ class TandoorMealPlan(
             if(shared != null) put("shared", json.encodeToJsonElement(shared))
             if(addshopping != null) put("addshopping", JsonPrimitive(addshopping))
 
-            if(to_date != null) put("to_date", JsonPrimitive(to_date.toTandoorDate()))
+            if(to_date != null) put("to_date", JsonPrimitive(to_date.toStartOfDayString()))
             if(from_date != null) {
-                put("from_date", JsonPrimitive(from_date.toTandoorDate()))
+                put("from_date", JsonPrimitive(from_date.toStartOfDayString()))
 
                 if(to_date == null) {
                     val originalToDate = this@TandoorMealPlan.to_date.parseTandoorDate()
                     if(originalToDate < from_date) put(
                         "to_date",
-                        JsonPrimitive(from_date.toTandoorDate())
+                        JsonPrimitive(from_date.toStartOfDayString())
                     )
                 }
             }

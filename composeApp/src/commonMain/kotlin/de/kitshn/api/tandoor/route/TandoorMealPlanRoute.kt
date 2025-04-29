@@ -9,7 +9,7 @@ import de.kitshn.api.tandoor.model.TandoorPagedResponse
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
-import de.kitshn.toTandoorDate
+import de.kitshn.toStartOfDayString
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 import kotlinx.datetime.format.byUnicodePattern
@@ -35,8 +35,8 @@ class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             if(recipe != null) put("recipe", json.encodeToJsonElement(recipe))
             put("servings", JsonPrimitive(servings))
             put("note", JsonPrimitive(note))
-            put("from_date", JsonPrimitive(from_date.toTandoorDate()))
-            if(to_date != null) put("to_date", JsonPrimitive(to_date.toTandoorDate()))
+            put("from_date", JsonPrimitive(from_date.toStartOfDayString()))
+            if(to_date != null) put("to_date", JsonPrimitive(to_date.toStartOfDayString()))
             put("meal_type", json.encodeToJsonElement(meal_type))
             put("addshopping", JsonPrimitive(addshopping))
             shared?.let {
