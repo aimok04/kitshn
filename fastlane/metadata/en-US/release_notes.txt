@@ -1,7 +1,6 @@
 BETA: This beta introduces compatibility with Tandoor v2. This version is not compatible with servers running Tandoor v1.
 
-    1. Added support for AI import, a new feature of Tandoor v2.
-    2. Implemented button to clear shopping list from all or done entries.
-    3. Added recipe name to sharing text for easier identification.
-    4. Enabled users to disable the shopping mode enlargement.
-    5. Checked compatibility with Tandoor version 2.0.0-alpha-2.
+    1. Fixed issue were meal plan entries were added to wrong dates.
+    2. Fixed issue with opening app links created on Tandoor v2 due to changed URL.
+    3. Improved legibility of shopping list clearing dialog.
+    4. Checked compatibility with Tandoor version 2.0.0-alpha-3.

@@ -1,6 +1,5 @@
 Hey ✌️
-This is the third version of kitshn **compatible** with the API changes for *
-*[Tandoor v2](https://github.com/TandoorRecipes/recipes/releases/tag/2.0.0-alpha-2)**. 🥳
+This is the fourth version of kitshn **compatible** with the API changes for **[Tandoor v2](https://github.com/TandoorRecipes/recipes/releases/tag/2.0.0-alpha-2)**. 🥳
 New versions of kitshn will **no longer** support instances on **v1.5.***.
 
 This beta is available here on **GitHub**, through **[Google Play testing](https://play.google.com/apps/testing/de.kitshn.android)** and through **[TestFlight](https://testflight.apple.com/join/zx1xzSMg)**.
@@ -10,30 +9,17 @@ changes that I might have missed, so **please feel free** to comment on #95 or c
 
 ---
 
-1. Added support for **AI import**, a **new** feature of **Tandoor v2
-   ** ([learn more](https://github.com/TandoorRecipes/recipes/blob/feature/vue3/docs/system/configuration.md#ai-integration)) (
-   #95).
-2. Implemented button to **clear shopping list** from **all** or **done** entries (#95).
-3. Added **recipe name** to **sharing text** for easier identification (#185).
-4. Enabled users to **disable** the **shopping mode enlargement** (#181).
-5. Checked **compatibility** with Tandoor **version 2.0.0-alpha-2**.
+1. Fixed issue were **meal plan entries** were added to **wrong dates** (#191).
+2. Fixed issue with **opening app links** created on **Tandoor v2** due to **changed URL** (#189).
+3. Improved **legibility** of shopping list **clearing dialog**.
+4. Checked **compatibility** with Tandoor **version 2.0.0-alpha-3**.
 
 ## Highlights
 
-- feat(build.gradle): added new "mobileMain" source set to unify peekaboo for androidMain and
-  iosMain
-- feat(androidMain/ui): added disableAnimation parameter to AdaptiveFullscreenDialog
-- feat(commonMain/shopping): added "enlarge shopping mode" setting (resolved #181)
-- feat(commonMain/shopping): implemented clear shopping list dialog (#95)
-- feat(commonMain/ui): replaced peekaboo with FileKit in PhotoPickerDialog
-- feat(commonMain/import): implemented support for import using AI
-- feat(mobileMain/ui): added photo taking dialog using peekaboo library
-- feat(commonMain/recipes): added recipe name to sharing text (resolved #185)
-- fix(build.gradle): issue with applying default hierarchy template
-- fix(commonMain/shopping): don't purge checked items from cache
-- fix(commonMain/shopping): issue with deleting shopping list entries (resolved #184)
-- chore(commonMain/api): marked v2.0.0-alpha-2 as compatible
-- l10n(Ukrainian): translated using Weblate
-- l10n(German): translated using Weblate
-- l10n(Czech): added translation using Weblate
-- l10n(Portuguese (Brazil)): added translation using Weblate
+- feat(iosApp): added camera usage description in project.pbxproj
+- fix(commonMain/shopping): increased entries clear dialog width (resolved #188)
+- fix(androidMain/AndroidManifest.xml): removed unnecessary peekaboo READ_MEDIA_IMAGES permission
+- fix(commonMain/api): changed date values to include time in UTC time zone (resolved #191)
+- fix(commonMain): issue with converting the value of datePickerState to LocalDate (resolved #191)
+- fix(androidMain, iosMain): parsing issue with new v2 recipe url in AppLinkHandler (resolved #189)
+- chore(commonMain/api): marked v2.0.0-alpha-3 as compatible
