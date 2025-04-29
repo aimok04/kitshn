@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_abort
@@ -55,6 +56,9 @@ fun ShoppingListEntriesClearDialog(
 
     AlertDialog(
         modifier = Modifier.padding(16.dp),
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false
+        ),
         onDismissRequest = {
             state.dismiss()
         },
