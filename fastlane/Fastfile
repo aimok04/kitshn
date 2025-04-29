@@ -13,8 +13,6 @@ require 'fileutils'
 
 ENV["GYM_PROJECT"] = "iosApp/iosApp.xcodeproj"
 
-update_fastlane
-
 lane :release do
     Fastlane::LaneManager.cruise_lane("android", "build_release")
     Fastlane::LaneManager.cruise_lane("ios", "build_release")
@@ -144,4 +142,24 @@ lane :deploy_github_pre_release do
         is_draft: true,
         is_prerelease: true
     )
+end
+
+desc "Prepare new release"
+lane :prepare_release do |options|
+    change_version(
+        version_name: options[:version_name],
+        version_code: options[:version_code],
+        alternate_version_name: options[:alternate_version_name]
+    )
+
+    update_changelog()
+
+    update_release_notes(
+        version_code: options[:version_code]
+    )
+end
+
+desc "Commit new release"
+lane :commit_release do
+   check_and_commit_release()
 end
