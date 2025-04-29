@@ -13,8 +13,6 @@ require 'fileutils'
 
 ENV["GYM_PROJECT"] = "iosApp/iosApp.xcodeproj"
 
-update_fastlane
-
 lane :release do
     Fastlane::LaneManager.cruise_lane("android", "build_release")
     Fastlane::LaneManager.cruise_lane("ios", "build_release")
@@ -96,4 +94,45 @@ lane :deploy_github do
         upload_assets: ["fastlane/out/gh/android-release.apk", "fastlane/out/gh/ios-release.ipa"],
         is_draft: true
     )
+end
+
+desc "Prepare deployment on GitHub (as pre-release)"
+lane :deploy_github_pre_release do
+    version = retrieve_version()
+
+    FileUtils.mkdir_p("out/gh")
+    FileUtils.cp("out/android/release.apk", "out/gh/android-release.apk")
+    FileUtils.cp("out/ios/kitshn.ipa", "out/gh/ios-release.ipa")
+
+    set_github_release(
+        repository_name: "aimok04/kitshn",
+        api_token: ENV["GITHUB_TOKEN"],
+        name: "v#{version}",
+        tag_name: "v#{version}",
+        description: (File.read("metadata/changelog.md") rescue "No changelog provided"),
+        commitish: "main",
+        upload_assets: ["fastlane/out/gh/android-release.apk", "fastlane/out/gh/ios-release.ipa"],
+        is_draft: true,
+        is_prerelease: true
+    )
+end
+
+desc "Prepare new release"
+lane :prepare_release do |options|
+    change_version(
+        version_name: options[:version_name],
+        version_code: options[:version_code],
+        alternate_version_name: options[:alternate_version_name]
+    )
+
+    update_changelog()
+
+    update_release_notes(
+        version_code: options[:version_code]
+    )
+end
+
+desc "Commit new release"
+lane :commit_release do
+   check_and_commit_release()
 end
