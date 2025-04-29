@@ -34,6 +34,7 @@ import kitshn.composeapp.generated.resources.action_move
 import kitshn.composeapp.generated.resources.navigation_meal_plan
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -84,7 +85,8 @@ fun RouteMainSubrouteMealplanTopAppBar(
                 confirmButton = {
                     Button(onClick = {
                         val date =
-                            datePickerState.selectedDateMillis?.toLocalDate() ?: return@Button
+                            datePickerState.selectedDateMillis?.toLocalDate(TimeZone.UTC)
+                                ?: return@Button
 
                         coroutineScope.launch {
                             selectionModeState.selectedItems.forEach {

@@ -305,9 +305,11 @@ fun LocalDate.toTandoorDate(): String {
     return dateFormat.format(this)
 }
 
-fun Long.toLocalDate(): LocalDate {
+fun Long.toLocalDate(
+    timeZone: TimeZone = TimeZone.currentSystemDefault()
+): LocalDate {
     return Instant.fromEpochMilliseconds(this)
-        .toLocalDateTime(TimeZone.currentSystemDefault()).date
+        .toLocalDateTime(timeZone).date
 }
 
 @Composable

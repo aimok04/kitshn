@@ -56,6 +56,7 @@ import kitshn.composeapp.generated.resources.common_okay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import org.jetbrains.compose.resources.stringResource
@@ -96,7 +97,11 @@ fun RouteMainSubrouteMealplanScaffoldContent(
                     if(datePickerState.selectedDateMillis == null) return@Button
 
                     showDatePickerDialog = false
-                    onChangeMealPlanStartDate(datePickerState.selectedDateMillis!!.toLocalDate())
+                    onChangeMealPlanStartDate(
+                        datePickerState.selectedDateMillis!!.toLocalDate(
+                            TimeZone.UTC
+                        )
+                    )
                 }
             ) {
                 Text(stringResource(Res.string.common_okay))

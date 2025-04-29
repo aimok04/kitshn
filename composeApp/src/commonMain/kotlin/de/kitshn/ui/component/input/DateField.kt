@@ -32,7 +32,6 @@ import de.kitshn.toLocalDate
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_okay
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -74,9 +73,7 @@ fun BaseDateField(
     var showDatePickerDialog by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState(selectableDates = object : SelectableDates {
         override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-            val epochDays = Instant.fromEpochMilliseconds(utcTimeMillis)
-                .toLocalDateTime(TimeZone.currentSystemDefault())
-                .date.toEpochDays()
+            val epochDays = utcTimeMillis.toLocalDate(TimeZone.UTC).toEpochDays()
 
             if(utcTimeMillis < todayEpochDays) return false
             if(minDateEpochDays != 0 && epochDays < minDateEpochDays) return false
@@ -97,7 +94,7 @@ fun BaseDateField(
         confirmButton = {
             Button(onClick = {
                 showDatePickerDialog = false
-                onValueChange(datePickerState.selectedDateMillis?.toLocalDate())
+                onValueChange(datePickerState.selectedDateMillis?.toLocalDate(TimeZone.UTC))
             }) {
                 Text(stringResource(Res.string.common_okay))
             }
