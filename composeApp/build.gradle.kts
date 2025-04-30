@@ -31,15 +31,6 @@ val kitshnAlternateBuildVersionName = kitshnAlternateVersionName.split(".").run 
 val kitshnAndroidPackageName = "de.kitshn.android"
 val kitshnDesktopPackageName = "de.kitshn.desktop"
 
-/**
-for F-Droid (needed for fdroid checkupdates)
-
-applicationId = "de.kitshn.android"
-
-versionName = "1.2.0"
-versionCode = "10200"
- **/
-
 kotlin {
     jvmToolchain(17)
 
