@@ -6,10 +6,6 @@ module Fastlane
           .sub(/val kitshnVersionName = "[0-9a-z\.-]+"/, "val kitshnVersionName = \"" + params[:version_name] + "\"")
           .sub(/val kitshnVersionCode = [0-9]+/, "val kitshnVersionCode = " + params[:version_code].to_s)
           .sub(/val kitshnAlternateVersionName = "[0-9a-z\.-]+"/, "val kitshnAlternateVersionName = \"" + params[:alternate_version_name].to_s + "\"")
-          .sub(
-            /applicationId = "de.kitshn.android"\n\nversionName = "[0-9a-z\.-]+"\nversionCode = "[0-9]+"/, 
-            "applicationId = \"de.kitshn.android\"\n\nversionName = \"" + params[:version_name] + "\"\nversionCode = \"" + params[:version_code].to_s + "\""
-          )
           
         File.write("composeApp/build.gradle.kts", gradle)
         

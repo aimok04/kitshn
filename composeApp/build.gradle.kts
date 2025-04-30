@@ -33,15 +33,6 @@ val kitshnDesktopPackageName = "de.kitshn.desktop"
 
 val kitshnIsBeta = true
 
-/**
-for F-Droid (needed for fdroid checkupdates)
-
-applicationId = "de.kitshn.android"
-
-versionName = "2.0.0-beta.4"
-versionCode = "19040"
- **/
-
 kotlin {
     jvmToolchain(17)
 
