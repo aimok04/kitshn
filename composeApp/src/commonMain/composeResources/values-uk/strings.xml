@@ -403,4 +403,7 @@
     <string name="recipe_import_type_url_label">Імпорт із веб-сайту</string>
     <string name="recipe_import_type_url_description">Введіть URL-адресу та імпортуйте рецепт з Інтернету</string>
     <string name="recipe_import_type_ai_description">Завантажте зображення або введіть рецепт у текстовій формі</string>
+    <string name="action_edit_step">Редагувати крок</string>
+    <string name="action_create_step">Новий крок</string>
+    <string name="action_add_ingredient">Додати інгредієнт</string>
 </resources>
