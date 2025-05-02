@@ -1,6 +1,4 @@
 BETA: This beta introduces compatibility with Tandoor v2. This version is not compatible with servers running Tandoor v1.
 
-    1. Fixed issue were meal plan entries were added to wrong dates.
-    2. Fixed issue with opening app links created on Tandoor v2 due to changed URL.
-    3. Improved legibility of shopping list clearing dialog.
-    4. Checked compatibility with Tandoor version 2.0.0-alpha-3.
+    1. Implemented step editing and creation with markdown support.
+    2. Polish has been added on Weblate (thanks to @dhunter49).

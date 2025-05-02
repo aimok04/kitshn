@@ -19,8 +19,8 @@ val prop =
 val date = LocalDate.now().toString()
 
 // Android/linux version name can contain more information
-val kitshnVersionName = "2.0.0-beta.4"
-val kitshnVersionCode = 19040
+val kitshnVersionName = "2.0.0-beta.5"
+val kitshnVersionCode = 19050
 
 // iOS, dmg and MSI are limited to [Major].[Minor].[Patch] format
 val kitshnAlternateVersionName = "2.0.0"

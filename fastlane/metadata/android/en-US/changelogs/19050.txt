@@ -1,0 +1,4 @@
+BETA: This beta introduces compatibility with Tandoor v2. This version is not compatible with servers running Tandoor v1.
+
+1. Implemented step editing and creation with markdown support.
+2. 🇵🇱 Polish has been added on Weblate (thanks to @dhunter49).

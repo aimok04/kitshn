@@ -9,17 +9,18 @@ changes that I might have missed, so **please feel free** to comment on #95 or c
 
 ---
 
-1. Fixed issue were **meal plan entries** were added to **wrong dates** (#191).
-2. Fixed issue with **opening app links** created on **Tandoor v2** due to **changed URL** (#189).
-3. Improved **legibility** of shopping list **clearing dialog**.
-4. Checked **compatibility** with Tandoor **version 2.0.0-alpha-3**.
+1. Implemented **step editing** and **creation** with **markdown** support (thanks to https://github.com/MohamedRejeb/compose-rich-editor) (#177).
+2. 🇵🇱 **Polish** has been added on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (thanks to @dhunter49).
 
 ## Highlights
 
-- feat(iosApp): added camera usage description in project.pbxproj
-- fix(commonMain/shopping): increased entries clear dialog width (resolved #188)
-- fix(androidMain/AndroidManifest.xml): removed unnecessary peekaboo READ_MEDIA_IMAGES permission
-- fix(commonMain/api): changed date values to include time in UTC time zone (resolved #191)
-- fix(commonMain): issue with converting the value of datePickerState to LocalDate (resolved #191)
-- fix(androidMain, iosMain): parsing issue with new v2 recipe url in AppLinkHandler (resolved #189)
-- chore(commonMain/api): marked v2.0.0-alpha-3 as compatible
+- feat(commonMain/recipes): implemented step editing and creation with markdown support (resolved #177)
+- feat(build.gradle): removed F-Droid checkupdates fix (fdroid/fdroiddata#3531 on gitlab.com)
+- feat(fastlane): added prepare_release and commit_release for easier and faster changelog and release creation
+- fix(commonMain/recipes): fetch steps before creating new step to avoid discarding changes in StepCreationAndEditDialog
+- fix(commonMain/recipes): moved save/create button into TopAppBar in StepCreationAndEditDialog for usability
+- l10n(Russian): translated using Weblate
+- l10n(German): translated using Weblate
+- l10n(Ukrainian): translated using Weblate
+- l10n(Polish): translated using Weblate
+- l10n(Polish): added translation using Weblate
