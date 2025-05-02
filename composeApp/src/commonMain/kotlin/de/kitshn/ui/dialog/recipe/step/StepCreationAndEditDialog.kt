@@ -22,12 +22,15 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Receipt
+import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Scale
 import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.Button
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -61,6 +64,7 @@ import de.kitshn.model.form.item.field.KitshnFormRecipeSearchFieldItem
 import de.kitshn.model.form.item.field.KitshnFormTextFieldItem
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.editor.MarkdownEditor
+import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.component.input.DoubleField
 import de.kitshn.ui.component.input.FoodSearchField
 import de.kitshn.ui.component.input.UnitSearchField
@@ -344,13 +348,20 @@ fun StepCreationAndEditDialog(
                 )
             ),
             submitButton = {
-                Button(onClick = it) {
-                    Text(
-                        text = if(isEditDialog) {
-                            stringResource(Res.string.action_save)
-                        } else {
-                            stringResource(Res.string.action_create)
-                        }
+                FilledIconButton(
+                    onClick = it
+                ) {
+                    IconWithState(
+                        progressIndicatorTint = LocalContentColor.current,
+                        imageVector = when(isEditDialog) {
+                            true -> Icons.Rounded.Save
+                            else -> Icons.Rounded.Add
+                        },
+                        contentDescription = when(isEditDialog) {
+                            true -> stringResource(Res.string.action_save)
+                            else -> stringResource(Res.string.action_create)
+                        },
+                        state = requestStepState.state.toIconWithState()
                     )
                 }
             },
@@ -435,7 +446,7 @@ fun StepCreationAndEditDialog(
                 }
             )
         },
-        actions = {
+        topAppBarActions = {
             form.RenderSubmitButton()
         }
     ) { it, _, _ ->
