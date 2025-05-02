@@ -402,4 +402,7 @@
     <string name="recipe_import_type_ai_description">Lade Bilder hoch oder füge ein Rezept in Textform ein</string>
     <string name="recipe_import_type_url_label">Importieren einer Webseite</string>
     <string name="action_switch_camera">Kamera wechseln</string>
+    <string name="action_create_step">Neuer Schritt</string>
+    <string name="action_edit_step">Schritt bearbeiten</string>
+    <string name="action_add_ingredient">Zutat hinzufügen</string>
 </resources>
