@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import de.kitshn.ui.component.input.DateField
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.form_error_field_empty
@@ -42,11 +43,15 @@ class KitshnFormDateFieldItem(
 ) {
 
     @Composable
-    override fun Render() {
+    override fun Render(
+        modifier: Modifier
+    ) {
         var error by rememberSaveable { mutableStateOf<String?>(null) }
         val value = value()
 
         DateField(
+            modifier = modifier,
+
             value = value,
             label = {
                 Row {

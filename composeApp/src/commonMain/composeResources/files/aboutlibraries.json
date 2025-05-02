@@ -4240,6 +4240,146 @@
       ]
     },
     {
+      "uniqueId": "com.mohamedrejeb.ksoup:ksoup-entities",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Mohamed Rejeb"
+        }
+      ],
+      "artifactVersion": "0.5.0",
+      "description": "A lightweight Kotlin Multiplatform library to parse HTML/XML data.",
+      "scm": {
+        "connection": "https://github.com/MohamedRejeb/Ksoup.git",
+        "url": "https://github.com/MohamedRejeb/Ksoup"
+      },
+      "name": "Ksoup",
+      "website": "https://github.com/MohamedRejeb/Ksoup",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.mohamedrejeb.ksoup:ksoup-entities-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Mohamed Rejeb"
+        }
+      ],
+      "artifactVersion": "0.5.0",
+      "description": "A lightweight Kotlin Multiplatform library to parse HTML/XML data.",
+      "scm": {
+        "connection": "https://github.com/MohamedRejeb/Ksoup.git",
+        "url": "https://github.com/MohamedRejeb/Ksoup"
+      },
+      "name": "Ksoup",
+      "website": "https://github.com/MohamedRejeb/Ksoup",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.mohamedrejeb.ksoup:ksoup-html",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Mohamed Rejeb"
+        }
+      ],
+      "artifactVersion": "0.5.0",
+      "description": "A lightweight Kotlin Multiplatform library to parse HTML/XML data.",
+      "scm": {
+        "connection": "https://github.com/MohamedRejeb/Ksoup.git",
+        "url": "https://github.com/MohamedRejeb/Ksoup"
+      },
+      "name": "Ksoup",
+      "website": "https://github.com/MohamedRejeb/Ksoup",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.mohamedrejeb.ksoup:ksoup-html-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Mohamed Rejeb"
+        }
+      ],
+      "artifactVersion": "0.5.0",
+      "description": "A lightweight Kotlin Multiplatform library to parse HTML/XML data.",
+      "scm": {
+        "connection": "https://github.com/MohamedRejeb/Ksoup.git",
+        "url": "https://github.com/MohamedRejeb/Ksoup"
+      },
+      "name": "Ksoup",
+      "website": "https://github.com/MohamedRejeb/Ksoup",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.mohamedrejeb.richeditor:richeditor-compose",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Mohamed Rejeb"
+        }
+      ],
+      "artifactVersion": "1.0.0-rc11",
+      "description": "A Compose multiplatform library that provides a rich text editor.",
+      "scm": {
+        "connection": "https://github.com/MohamedRejeb/Compose-Rich-Editor.git",
+        "url": "https://github.com/MohamedRejeb/Compose-Rich-Editor"
+      },
+      "name": "Compose Rich Editor",
+      "website": "https://github.com/MohamedRejeb/Compose-Rich-Editor",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.mohamedrejeb.richeditor:richeditor-compose-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Mohamed Rejeb"
+        }
+      ],
+      "artifactVersion": "1.0.0-rc11",
+      "description": "A Compose multiplatform library that provides a rich text editor.",
+      "scm": {
+        "connection": "https://github.com/MohamedRejeb/Compose-Rich-Editor.git",
+        "url": "https://github.com/MohamedRejeb/Compose-Rich-Editor"
+      },
+      "name": "Compose Rich Editor",
+      "website": "https://github.com/MohamedRejeb/Compose-Rich-Editor",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.mohamedrejeb.richeditor:richeditor-compose-desktop",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Mohamed Rejeb"
+        }
+      ],
+      "artifactVersion": "1.0.0-rc11",
+      "description": "A Compose multiplatform library that provides a rich text editor.",
+      "scm": {
+        "connection": "https://github.com/MohamedRejeb/Compose-Rich-Editor.git",
+        "url": "https://github.com/MohamedRejeb/Compose-Rich-Editor"
+      },
+      "name": "Compose Rich Editor",
+      "website": "https://github.com/MohamedRejeb/Compose-Rich-Editor",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "com.rickclephas.kmp:nsexception-kt-core",
       "funding": [],
       "developers": [

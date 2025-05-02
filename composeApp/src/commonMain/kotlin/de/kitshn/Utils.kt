@@ -34,13 +34,10 @@ import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 import kotlinx.datetime.format.byUnicodePattern
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.JsonTransformingSerializer
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.internal.FormatLanguage
-import kotlinx.serialization.json.jsonPrimitive
 import nl.jacobras.humanreadable.HumanReadable
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.floor
@@ -113,11 +110,10 @@ fun String.toColorInt(): Int {
 
 val json = Json { ignoreUnknownKeys = true }
 
-object JsonAsStringSerializer :
-    JsonTransformingSerializer<String>(tSerializer = String.serializer()) {
-    override fun transformDeserialize(element: JsonElement): JsonElement {
-        return JsonPrimitive(value = element.jsonPrimitive.content)
-    }
+fun JsonObjectBuilder.copy(
+    jsonObject: JsonObject
+) {
+    jsonObject.forEach { put(it.key, it.value) }
 }
 
 @OptIn(InternalSerializationApi::class)

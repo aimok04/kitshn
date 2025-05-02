@@ -55,7 +55,9 @@ class KitshnFormImageUploadItem(
 ) : KitshnFormBaseItem() {
 
     @Composable
-    override fun Render() {
+    override fun Render(
+        modifier: Modifier
+    ) {
         val context = LocalPlatformContext.current
         val imageLoader = remember { ImageLoader(context) }
 
@@ -75,7 +77,7 @@ class KitshnFormImageUploadItem(
 
         Box {
             OutlinedCard(
-                Modifier
+                modifier
                     .height(170.dp)
                     .clickable {
                         showPhotoPicker = true

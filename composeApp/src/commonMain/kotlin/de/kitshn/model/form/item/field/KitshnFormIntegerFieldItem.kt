@@ -63,7 +63,9 @@ class KitshnFormIntegerFieldItem(
 ) {
 
     @Composable
-    override fun Render() {
+    override fun Render(
+        modifier: Modifier
+    ) {
         val focusManager = LocalFocusManager.current
 
         var error by rememberSaveable { mutableStateOf<String?>(null) }
@@ -84,7 +86,7 @@ class KitshnFormIntegerFieldItem(
         }
 
         Row(
-            Modifier.fillMaxWidth(),
+            modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {

@@ -47,7 +47,6 @@ Contributions are very welcome 😊
 - [x] Dynamic home screen with suggestions
 - [x] Recipes
     - [x] Adding, importing, editing and deleting
-        - [ ] Step editing
         - [x] Steps combining tool
         - [x] Share receiver for recipe imports via URL
     - [x] Extensive search
@@ -87,9 +86,6 @@ Contributions are very welcome 😊
   - [ ] Localize queries
   - [ ] Season-based recommendations
   - [ ] Commonly used keywords
-- [ ] Recipes
-  - [ ] Add step editing
-- [ ] Go stable
 
 ## 📜 License & Credits
 

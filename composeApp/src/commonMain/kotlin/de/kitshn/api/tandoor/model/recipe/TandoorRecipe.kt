@@ -102,6 +102,13 @@ class TandoorRecipe(
         }
     }
 
+    suspend fun fetchSteps(): TandoorRecipe {
+        val newRecipe = client!!.recipe.get(id = id)
+        steps.clear()
+        steps.addAll(newRecipe.steps)
+        return this
+    }
+
     suspend fun combineSteps(steps: List<TandoorStep>) {
         val base = steps[0]
         val remainingSteps = steps.drop(1)
@@ -195,10 +202,9 @@ class TandoorRecipe(
         waiting_time: Int? = null,
         source_url: String? = null,
         servings: Int? = null,
-        servings_text: String? = null
-    ) {
-        if(this.client == null) return
-
+        servings_text: String? = null,
+        steps: JsonArray? = null
+    ): TandoorRecipe {
         val data = buildJsonObject {
             if(name != null) put("name", name)
             if(description != null) put("description", description)
@@ -217,10 +223,11 @@ class TandoorRecipe(
             if(source_url != null) put("source_url", source_url)
             if(servings != null) put("servings", servings)
             if(servings_text != null) put("servings_text", servings_text)
+            if(steps != null) put("steps", steps)
         }
 
         Logger.d("TandoorRecipe / Edit") { data.toString() }
-        client!!.patchObject("/recipe/${id}/", data)
+        return parse(client!!, client!!.patchObject("/recipe/${id}/", data).toString())
     }
 
     /**
