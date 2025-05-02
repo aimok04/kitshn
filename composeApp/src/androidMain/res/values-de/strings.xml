@@ -23,4 +23,5 @@
     <string name="shortcuts_shopping_mode_label_short">Einkaufsmodus</string>
     <string name="shortcuts_books_label_long">Bücher öffnen</string>
     <string name="shortcuts_books_label_short">Bücher</string>
+    <string name="app_name">kitshn</string>
 </resources>
