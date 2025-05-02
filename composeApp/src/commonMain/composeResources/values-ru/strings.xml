@@ -78,4 +78,8 @@
     <string name="action_show_all_recipes">Показать все рецепты</string>
     <string name="action_plus_one_week">+ одна неделя</string>
     <string name="action_sign_out">Выйти</string>
+    <string name="action_add_ingredient">добавить ингредиент</string>
+    <string name="action_create_step">новый шаг</string>
+    <string name="action_clear">Очистить</string>
+    <string name="action_cook">Готовить</string>
 </resources>
