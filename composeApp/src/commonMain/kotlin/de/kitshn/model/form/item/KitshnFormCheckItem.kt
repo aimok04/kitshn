@@ -23,9 +23,11 @@ class KitshnFormCheckItem(
 ) : KitshnFormBaseItem() {
 
     @Composable
-    override fun Render() {
+    override fun Render(
+        modifier: Modifier
+    ) {
         ListItem(
-            modifier = Modifier
+            modifier = modifier
                 .clip(RoundedCornerShape(16.dp))
                 .clickable {
                     generalError = null

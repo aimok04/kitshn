@@ -10,6 +10,7 @@
 
     <string name="action_abort">Abort</string>
     <string name="action_add">Add</string>
+    <string name="action_add_ingredient">Add ingredient</string>
     <string name="action_add_to_favorites">Add to favorites</string>
     <string name="action_add_to_meal_plan">Add to meal plan</string>
     <string name="action_add_to_recipe_books">Add to recipe books</string>
@@ -27,6 +28,7 @@
     <string name="action_create_entry">New entry</string>
     <string name="action_create_recipe">New recipe</string>
     <string name="action_create_recipe_book">New recipe book</string>
+    <string name="action_create_step">New step</string>
     <string name="action_delete">Delete</string>
     <string name="action_delete_from_meal_plan">Delete from meal plan</string>
     <plurals name="action_delete_recipe_book_entries">
@@ -50,6 +52,7 @@
     <string name="action_edit_entry">Edit entry</string>
     <string name="action_edit_recipe">Edit recipe</string>
     <string name="action_edit_recipe_book">Edit recipe book</string>
+    <string name="action_edit_step">Edit step</string>
     <string name="action_expand_less">Expand less</string>
     <string name="action_import">Import</string>
     <string name="action_manage_recipe_books">Manage recipe books</string>

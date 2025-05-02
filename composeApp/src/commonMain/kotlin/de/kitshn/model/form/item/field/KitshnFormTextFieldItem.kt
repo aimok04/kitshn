@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
@@ -51,7 +52,9 @@ class KitshnFormTextFieldItem(
 ) {
 
     @Composable
-    override fun Render() {
+    override fun Render(
+        modifier: Modifier
+    ) {
         val focusManager = LocalFocusManager.current
 
         var error by rememberSaveable { mutableStateOf<String?>(null) }
@@ -60,6 +63,8 @@ class KitshnFormTextFieldItem(
         val coroutineScope = rememberCoroutineScope()
 
         TextField(
+            modifier = modifier,
+
             value = value,
             label = {
                 Row {

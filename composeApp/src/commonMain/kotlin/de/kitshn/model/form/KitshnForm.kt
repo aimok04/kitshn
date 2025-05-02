@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
@@ -15,14 +16,15 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 class KitshnForm(
-    private val sections: List<KitshnFormSection> = listOf(),
+    internal val sections: List<KitshnFormSection> = listOf(),
     val submitButton: @Composable (onClick: () -> Unit) -> Unit = { },
     val onSubmit: () -> Unit = { }
 ) {
 
     @Composable
     fun Render(
-        nestedScrollConnection: NestedScrollConnection? = null
+        nestedScrollConnection: NestedScrollConnection? = null,
+        additionalContent: LazyGridScope.() -> Unit = { }
     ) {
         LazyVerticalGrid(
             modifier = nestedScrollConnection?.let { Modifier.nestedScroll(it) } ?: Modifier,
@@ -47,7 +49,7 @@ class KitshnForm(
                         )
                     }
                 ) { index ->
-                    section.items[index].Render()
+                    section.items[index].Render(Modifier)
                 }
 
                 item(
@@ -59,6 +61,8 @@ class KitshnForm(
                         HorizontalDivider()
                 }
             }
+
+            additionalContent()
         }
     }
 

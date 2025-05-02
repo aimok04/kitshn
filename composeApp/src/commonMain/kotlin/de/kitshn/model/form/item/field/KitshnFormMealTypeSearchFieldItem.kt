@@ -47,14 +47,16 @@ class KitshnFormMealTypeSearchFieldItem(
 ) {
 
     @Composable
-    override fun Render() {
+    override fun Render(
+        modifier: Modifier
+    ) {
         val focusManager = LocalFocusManager.current
 
         var error by rememberSaveable { mutableStateOf<String?>(null) }
         val value = value()
 
         MealTypeSearchField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             client = client,
             value = value,
             label = {

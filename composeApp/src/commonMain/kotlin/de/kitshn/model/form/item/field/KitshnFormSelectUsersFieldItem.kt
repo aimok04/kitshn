@@ -36,14 +36,16 @@ class KitshnFormSelectUsersFieldItem(
 ) {
 
     @Composable
-    override fun Render() {
+    override fun Render(
+        modifier: Modifier
+    ) {
         var error by rememberSaveable { mutableStateOf<String?>(null) }
         val value = value()
 
         val coroutineScope = rememberCoroutineScope()
 
         SelectUsersField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             client = client,
             value = value,
             label = {

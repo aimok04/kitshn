@@ -15,6 +15,7 @@ import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorStepRecipeData
 import de.kitshn.api.tandoor.patchObject
+import de.kitshn.api.tandoor.putObject
 import de.kitshn.formatAmount
 import de.kitshn.json
 import kotlinx.serialization.SerialName
@@ -107,6 +108,15 @@ class TandoorStep(
         }
 
         client!!.patchObject("/step/${id}/", data)
+    }
+
+    suspend fun updateRaw(
+        obj: JsonObject
+    ): TandoorStep {
+        return json.decodeFromJsonElement<TandoorStep>(client!!.putObject("/step/${id}/", obj))
+            .also {
+                it.client = client
+            }
     }
 
     suspend fun delete() {
