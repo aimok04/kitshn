@@ -1,1 +1,1 @@
-Nieoficjalny klient do samodzielnie hostowanego oprogramowania Tandoor do zarządzania przepisami.
+Nieoficjalny klient Tandoor do zarządzania przepisami (self-hosted).
