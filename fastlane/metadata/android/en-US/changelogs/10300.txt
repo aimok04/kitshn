@@ -1,7 +1,7 @@
-Hey
+Hey ✌️
 This release contains the following changes:
 
     1. Implemented step editing and creation with markdown support (#177).
     2. Added recipe name to sharing text for easier identification (#185).
     3. Enabled users to disable the shopping mode enlargement (#181).
-    4. Polish has been added on Weblate (thanks to @dhunter49).
+    4. 🇵🇱 Polish has been added on Weblate (thanks to @dhunter49).

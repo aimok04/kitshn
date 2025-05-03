@@ -1,23 +1,25 @@
 Hey ✌️
-This release adds **some changes** from the **beta** that I decided to **implement for v1**:
+This release contains the **following changes**:
 
-1. Implemented **fractional servings** for **meal plans** (#168).
-2. Added support to display **hours** in duration chips (#173).
-3. Implemented **shortcuts** for *meal plan, shopping, shopping mode* and *books* on Android (#164).
-4. Fixed **food name** cell width being **too low** in some scenarios (#166).
-5. Fixed **ingredients** appearing as **duplicates** when unchecking items in **ingredient allocation dialog** (#174).
-6. 🇳🇱 **Dutch** has been brought **up to date** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @jstrvr).
-7. 🇫🇷 **French** has been brought **up to date** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @letroll).
+1. Implemented **step editing** and **creation** with **markdown** support (thanks to https://github.com/MohamedRejeb/compose-rich-editor) (#177).
+2. Added **recipe name** to **sharing text** for easier identification (#185).
+3. Enabled users to **disable** the **shopping mode enlargement** (#181).
+4. 🇵🇱 **Polish** has been added on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (thanks to @dhunter49).
 
 ## Highlights
 
-- feat(commonMain/recipes): added unified formatDuration method and support for displaying hours (#173)
-- feat(androidMain/shortcuts): added meal plan, shopping, shopping mode and books shortcuts (resolved #164)
-- feat(androidMain/shortcuts): modernized icon of new instance shortcut
-- feat(androidMain/acra): modernized icons in AcraCrashReportDialog
-- feat(commonMain/mealplan): implemented fractional servings (resolved #168)
-- fix(commonMain/recipes): keep food cell in ingredients table bigger (#166)
-- fix(commonMain/recipes): duplicate ingredients when unchecking item in RecipeIngredientAllocationDialog (#174)
-- l10n(French): translated using Weblate
-- l10n(Dutch): translated using Weblate
+- feat(commonMain/recipes): implemented step editing and creation with markdown support (#177)
+- feat(commonMain/shopping): added "enlarge shopping mode" setting (#181)
+- feat(commonMain/recipes): added recipe name to sharing text (#185)
+- feat(fastlane): changed deploy_github branch from main to v1
+- feat(fastlane): added prepare_release and commit_release for easier and faster changelog and release creation
+- feat(build.gradle): removed F-Droid checkupdates fix (fdroid/fdroiddata#3531 on gitlab.com)
+- fix(commonMain/recipes): fetch steps before creating new step to avoid discarding changes in StepCreationAndEditDialog
+- fix(commonMain/recipes): moved save/create button into TopAppBar in StepCreationAndEditDialog for usability
+- fix(commonMain): removed imports of de.kitshn.JsonAsStringSerializer
+- l10n(Polish): added translation using Weblate
+- l10n(Polish): translated using Weblate
+- l10n(Polish): fix short_description.txt being too long
+- l10n(Russian): translated using Weblate
 - l10n(German): translated using Weblate
+- l10n(Ukrainian): translated using Weblate
