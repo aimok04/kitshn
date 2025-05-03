@@ -359,4 +359,7 @@
     <string name="share_wrapper_dialog_title">Użyć prostego udostępniania?</string>
     <string name="settings_section_behavior_hide_funding_banner_this_year_description">­Ukryj baner zachęcający do finansowania na ten rok</string>
     <string name="settings_section_behavior_hide_funding_banner_this_year_label">Ukryj baner finansujący</string>
+    <string name="action_add_ingredient">Dodaj składnik</string>
+    <string name="action_edit_step">Edytuj krok</string>
+    <string name="action_create_step">Nowy krok</string>
 </resources>
