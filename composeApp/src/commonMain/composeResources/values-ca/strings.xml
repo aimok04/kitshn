@@ -1,2 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="action_back">Enrere</string>
+    <string name="action_add">Afegir</string>
+    <string name="action_add_to_meal_plan">Afegir a plà</string>
+    <string name="acra_dialog_button_positive">Enviar</string>
+    <string name="action_add_ingredient">Afegir ingredient</string>
+    <string name="acra_comment_helper">Si vols, pots comentar com a ocoregut aquest error.</string>
+    <string name="action_add_to_recipe_books">Afegur a llibre de receptes</string>
+    <string name="action_add_to_shopping">Afegir a compra</string>
+    <string name="acra_dialog_button_neutral">Veure resum</string>
+    <string name="action_add_to_favorites">Afegir a preferits</string>
+    <string name="acra_dialog_title">Ostres!</string>
+    <string name="action_abort">Avorta</string>
+    <string name="acra_dialog_button_negative">No enviar</string>
+    <string name="action_clear">Neteja</string>
+</resources>
