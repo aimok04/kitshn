@@ -372,4 +372,5 @@
     <string name="settings_section_appearance_color_scheme_label">Kleurschema</string>
     <string name="common_select_users_for_sharing_empty">Kies de gebruikers met wie je dit wilt delen.</string>
     <string name="common_select_users_for_sharing">Kies gebruikers om mee te delen</string>
+    <string name="action_add_ingredient">Ingrediënt toevoegen</string>
 </resources>
