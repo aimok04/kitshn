@@ -118,7 +118,7 @@
     <string name="shopping_list_dialog_clear_title">Wyczyść listę zakupów</string>
     <string name="shopping_list_empty">Aktualnie nie ma żadnych przedmiotów na liście zakupów.</string>
     <string name="shopping_list_items_done">Zrobione</string>
-    <string name="shortcuts_new_instance_label_long">Stwórz nową instancje</string>
+    <string name="shortcuts_new_instance_label_long">Stwórz nową instancję</string>
     <string name="shortcuts_new_instance_label_short">Nowa instancja</string>
     <string name="tandoor_compatibility_incompatible_description">Twój serwer Tandoor nie jest kompatybilny z tą aplikacją. Proszę zaaktualizuj twój serwer do jednej z tych wersji.</string>
     <string name="tandoor_compatibility_mixed_compatibility_description">Niektóre funkcje twojego serwera Tandoor mogą być nie wspierane przez tą aplikację. Aby używać wszystkich funkcji tej aplikacji zaaktualizuj twój serwer do jednej z tych wersji.</string>
