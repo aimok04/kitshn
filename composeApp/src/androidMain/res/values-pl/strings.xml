@@ -1,2 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="shortcuts_new_instance_label_short">Nowa instancja</string>
+    <string name="shortcuts_shopping_label_short">Zakupy</string>
+    <string name="common_import_recipe">Importuj przepis</string>
+    <string name="shortcuts_meal_plan_label_short">Plan żywieniowy</string>
+    <string name="acra_dialog_button_positive">Wyślij</string>
+    <string name="acra_dialog_title">Ups!</string>
+    <string name="acra_dialog_button_negative">Nie wysyłaj</string>
+    <string name="acra_dialog_button_neutral">Zobacz zgłoszenie</string>
+    <string name="acra_comment_helper">Jeżeli chcesz, możesz opisać jak doszło do tego błędu.</string>
+    <string name="acra_dialog_message">Aplikacja napotkała niespodziewany błąd. Proszę wyślij zgłoszenie aby pomóc w naprawie.\n\nMożesz wyświetlić całe zgłoszenie przed wysłaniem.</string>
+    <string name="action_back">Cofnij</string>
+    <string name="action_download">Pobierz</string>
+    <string name="app_name">kitshn</string>
+    <string name="common_comment">Komentarz</string>
+    <string name="common_email_address">Adres mailowy</string>
+    <string name="acra_email_address_helper">Jeżeli chcesz, możesz wpisać swój adres e-mail, aby otrzymać aktualizacje związane z twoim zgłoszeniem.</string>
+    <string name="common_error_report">Zgłoszenie błędu</string>
+    <string name="shortcuts_new_instance_label_long">Stwórz nową instancję</string>
+    <string name="shortcuts_meal_plan_label_long">Otwórz plan żywieniowy</string>
+    <string name="shortcuts_shopping_mode_label_long">Włącz tryb zakupów</string>
+    <string name="shortcuts_books_label_short">Książki</string>
+    <string name="shortcuts_shopping_mode_label_short">Tryb zakupów</string>
+</resources>
