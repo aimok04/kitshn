@@ -382,4 +382,10 @@
     <string name="settings_section_behavior_enable_meal_plan_promotion_description">Afficher les entrées d\'aujourd\'hui ou de demain</string>
     <string name="common_select_users_for_sharing_empty">Sélectionner les utilisateurs avec qui vous voulez partager.</string>
     <string name="common_select_users_for_sharing">Sélectionner les utilisateurs pour le partage</string>
+    <string name="action_add_ingredient">Ajouter un ingrédient</string>
+    <string name="action_create_step">Ajouter une étape</string>
+    <string name="action_edit_step">Modifier l’étape</string>
+    <string name="recipe_import_type_url_label">Importer depuis un site</string>
+    <string name="common_hour_short">h</string>
+    <string name="permissions_camera_alert">Autoriser kitshn d’accéder à la caméra pour utiliser cette fonctionnalité.</string>
 </resources>
