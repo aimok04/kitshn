@@ -388,4 +388,8 @@
     <string name="recipe_import_type_url_label">Importer depuis un site</string>
     <string name="common_hour_short">h</string>
     <string name="permissions_camera_alert">Autoriser kitshn d’accéder à la caméra pour utiliser cette fonctionnalité.</string>
+    <string name="action_switch_camera">changer de caméra</string>
+    <string name="action_take_photo">prendre une photo</string>
+    <string name="common_image">Photo</string>
+    <string name="recipe_import_type_ai_label">Importer avec IA</string>
 </resources>
