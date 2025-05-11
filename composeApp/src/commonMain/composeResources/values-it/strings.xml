@@ -178,4 +178,10 @@
     <string name="home_section_indian">🇮🇳🪷🕌🦚🪕</string>
     <string name="search_recipe_books">Cerca ricettari</string>
     <string name="search_food_including_all_label">Tutti gli ingredienti inclusi</string>
+    <string name="action_saving">Salvataggio …</string>
+    <string name="search_categories">Cerca nelle categorie</string>
+    <string name="settings_section_behavior_enable_dynamic_home_screen_description">Mostra raccomandazioni in base all\'ora e al periodo dell\'anno</string>
+    <string name="settings_section_appearance_color_scheme_description">Scegli un tema di colori che si abbini al tuo stile</string>
+    <string name="home_section_seasonal_christmas">I preferiti delle festività ☃️🎄</string>
+    <string name="tandoor_compatibility_full_compatibility_description">L\'applicazione è completamente compatibile con il tuo server Tandoor!</string>
 </resources>
