@@ -35,6 +35,14 @@ height="80">](https://play.google.com/store/apps/details?id=de.kitshn.android)
 alt="Download on the App Store"
 height="80">](https://apps.apple.com/us/app/kitshn-for-tandoor/id6740168361)
 
+## 🔑 Certificate Fingerprints
+```
+SHA1:
+CC:1A:8C:30:9B:DF:36:67:CE:E6:AC:FA:5D:74:FA:6A:56:70:73:A4
+
+SHA256:
+5D:1A:9A:D4:16:24:6D:76:75:3F:51:57:7E:00:CD:6D:72:DC:7C:3F:36:F5:F3:EC:1F:CB:DB:2B:C8:DD:31:7D
+```
 ## 🌍 l10n
 
 You can help translate kitshn on [Weblate](https://hosted.weblate.org/projects/kitshn/).
