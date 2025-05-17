@@ -16,4 +16,12 @@
     <string name="acra_email_address_helper">Si lo deseas, puedes ingresar tu correo electrónico para recibir actualizaciones sobre tu reporte.</string>
     <string name="acra_dialog_message">La aplicación ha experimentado un error inesperado. Por favor, envía un reporte de error para ayudar a corregir este problema.\n\nPuedes visualizar el reporte completo antes de enviarlo.</string>
     <string name="action_back">Atrás</string>
+    <string name="shortcuts_meal_plan_label_long">Abrir plan de comidas</string>
+    <string name="shortcuts_meal_plan_label_short">Plan de comidas</string>
+    <string name="shortcuts_shopping_label_long">Abrir compras</string>
+    <string name="shortcuts_shopping_label_short">Compras</string>
+    <string name="shortcuts_shopping_mode_label_long">Iniciar modo compras</string>
+    <string name="shortcuts_shopping_mode_label_short">Modo compras</string>
+    <string name="shortcuts_books_label_long">Abrir libros</string>
+    <string name="shortcuts_books_label_short">Libros</string>
 </resources>
