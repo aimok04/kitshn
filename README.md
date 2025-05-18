@@ -9,16 +9,9 @@ is built with **Compose Multiplatform**, and **Material You** to deliver a moder
 responsive
 user experience and is developed for Android, iOS and Desktop.
 
-Although kitshn is available to multiple platforms, the main focus is still on Android.
-Some features are exclusive to that platform.
-
 > [!IMPORTANT]
-> You can of course open issues for bugs, feedback, and feature ideas.
-> All suggestions are very welcome :)
-
-> [!WARNING]
-> I'm just a hobbyist developing this app in my spare time. This app not only might, but is
-> guaranteed to contain spaghetti code and actively ignores best practices.
+> Although kitshn is available to multiple platforms, the main focus is still on Android.
+> Some features are exclusive to that platform.
 
 ## 📦 Installation
 
