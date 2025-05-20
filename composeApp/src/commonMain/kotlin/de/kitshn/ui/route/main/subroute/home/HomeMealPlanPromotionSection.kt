@@ -29,6 +29,7 @@ import kitshn.composeapp.generated.resources.home_meal_plan_promotion_tomorrow_t
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.StringResource
@@ -59,19 +60,22 @@ fun RouteMainSubrouteHomeMealPlanPromotionSection(
         mainFetchRequest.wrapRequest {
             client.mealPlan.fetch(
                 Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-                    .plus(day.plus, DateTimeUnit.DAY),
+                    .minus(1, DateTimeUnit.DAY),
                 Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-                    .plus(day.plus, DateTimeUnit.DAY)
+                    .plus(day.plus + 1, DateTimeUnit.DAY)
             ).let {
                 val promotionDay =
                     Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                         .plus(day.plus, DateTimeUnit.DAY)
 
-                val filteredMealPlans = it.filter { mealplan ->
+                val filteredMealPlans = it.filter { mealPlan ->
+                    // filter recipes of the promotionDay
+                    val fromDate = mealPlan.from_date.parseIsoTime()
+                    promotionDay.year == fromDate.year && promotionDay.dayOfYear == fromDate.dayOfYear
+                }.filter { mealPlan ->
                     // filter already cooked recipes
-
-                    if(mealplan.recipe?.id == null) return@wrapRequest
-                    val recipe = client.recipe.get(mealplan.recipe.id)
+                    if (mealPlan.recipe?.id == null) return@wrapRequest
+                    val recipe = client.recipe.get(mealPlan.recipe.id)
 
                     recipe.last_cooked.run {
                         if(this == null) {
