@@ -1,0 +1,16 @@
+{
+  "name": "kitshn.app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "author": "aimok04",
+  "license": "GPL-3.0-or-later",
+  "description": "Project website for kitshn, an unofficial Tandoor recipes client",
+  "devDependencies": {
+    "vitepress": "^1.3.4"
+  }
+}
