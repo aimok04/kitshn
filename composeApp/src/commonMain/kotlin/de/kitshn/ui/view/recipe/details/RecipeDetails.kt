@@ -218,7 +218,7 @@ fun ViewRecipeDetails(
     var titleCheckpointX by remember { mutableFloatStateOf(0f) }
 
     // calculate top bar title visibility
-    LaunchedEffect(recipeOverview) {
+    LaunchedEffect(recipeId) {
         while(true) {
             delay(50)
 
@@ -234,7 +234,7 @@ fun ViewRecipeDetails(
     val recipe = p.vm.tandoorClient!!.container.recipe.getOrElse(recipeOverview.id) { null }
 
     val fetchRequestState = rememberTandoorRequestState()
-    LaunchedEffect(recipeOverview) {
+    LaunchedEffect(recipeId) {
         pageLoadingState = ErrorLoadingSuccessState.LOADING
 
         fetchRequestState.wrapRequest {
@@ -679,7 +679,7 @@ fun ViewRecipeDetails(
                 }
             }
 
-            if(pageLoadingState == ErrorLoadingSuccessState.LOADING && sortedStepsList.size == 0) {
+            if (pageLoadingState == ErrorLoadingSuccessState.LOADING) {
                 repeat(3) {
                     RecipeStepCard(
                         Modifier

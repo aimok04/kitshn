@@ -116,6 +116,7 @@ class TandoorRecipeRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         )
 
         client.container.recipe[recipe.id] = recipe
+        client.container.recipeOverview[recipe.id] = recipe.toOverview()
         return recipe
     }
 
