@@ -28,7 +28,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -81,7 +80,7 @@ fun ViewHomeSearch(
         state.openWithKeywordId(client, it)
     }
 
-    var query by rememberSaveable {
+    var query by remember {
         mutableStateOf(
             TextFieldValue(
                 text = state.query,
