@@ -74,7 +74,7 @@ fun KitshnListDetailPaneScaffold(
     var currentSelection by rememberSaveable { mutableStateOf<String?>(null) }
     LaunchedEffect(navigator.currentDestination) {
         if(navigator.currentDestination == null) return@LaunchedEffect
-        currentSelection = navigator.currentDestination!!.content
+        currentSelection = navigator.currentDestination!!.contentKey
     }
 
     var expandDetailPane by remember { mutableStateOf(false) }
@@ -95,12 +95,16 @@ fun KitshnListDetailPaneScaffold(
                 navigator.navigateBack()
             }
         } else {
-            navigator.navigateBack()
+            coroutineScope.launch {
+                navigator.navigateBack()
+            }
         }
     }
 
-    BackHandler(supportsMultiplePanes && navigator.currentDestination?.content != null) {
-        navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, null)
+    BackHandler(supportsMultiplePanes && navigator.currentDestination?.contentKey != null) {
+        coroutineScope.launch {
+            navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, null)
+        }
     }
 
     ListDetailPaneScaffold(
@@ -154,7 +158,9 @@ fun KitshnListDetailPaneScaffold(
                                 navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, id)
                             }
                         } else {
-                            navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, id)
+                            coroutineScope.launch {
+                                navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, id)
+                            }
                         }
                     }
                 }
@@ -190,7 +196,12 @@ fun KitshnListDetailPaneScaffold(
                                     expandDetailPane = !expandDetailPane
                                 }, {
                                     expandDetailPane = false
-                                    navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, null)
+                                    coroutineScope.launch {
+                                        navigator.navigateTo(
+                                            ListDetailPaneScaffoldRole.Detail,
+                                            null
+                                        )
+                                    }
                                 },
                                 (if(supportsMultiplePanes) null else {
                                     {
