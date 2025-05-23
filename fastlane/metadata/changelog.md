@@ -1,3 +1,9 @@
+## v2.0.0-beta.6.1
+
+This release reverts dependency upgrades which caused visual issues.
+
+---
+
 Hey ✌️
 This is the sixth version of kitshn **compatible** with the API changes for **[Tandoor v2](https://github.com/TandoorRecipes/recipes/releases/tag/2.0.0-alpha-2)**. 🥳
 New versions of kitshn will **no longer** support instances on **v1.5.***.
@@ -10,7 +16,7 @@ changes that I might have missed, so **please feel free** to comment on #95 or c
 ---
 
 1. Improved **search dialog** layout and actions (#203).
-2. Fixed issue where **wrong meal plan entries** where shown **on home** (#200). 
+2. Fixed issue where **wrong meal plan entries** where shown **on home** (#200).
 3. Fixed issue where some **recipe data** wasn't updated **correctly** (#171).
 4. 🇪🇸 **Spanish** has been brought **up to date** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @1024mb).
 5. 🇮🇹 **Italian** has been **updated** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @KindaArtsy).
