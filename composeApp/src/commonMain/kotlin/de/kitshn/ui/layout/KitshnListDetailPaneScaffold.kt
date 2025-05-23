@@ -74,7 +74,7 @@ fun KitshnListDetailPaneScaffold(
     var currentSelection by rememberSaveable { mutableStateOf<String?>(null) }
     LaunchedEffect(navigator.currentDestination) {
         if(navigator.currentDestination == null) return@LaunchedEffect
-        currentSelection = navigator.currentDestination!!.contentKey
+        currentSelection = navigator.currentDestination!!.content
     }
 
     var expandDetailPane by remember { mutableStateOf(false) }
@@ -95,16 +95,12 @@ fun KitshnListDetailPaneScaffold(
                 navigator.navigateBack()
             }
         } else {
-            coroutineScope.launch {
-                navigator.navigateBack()
-            }
+            navigator.navigateBack()
         }
     }
 
-    BackHandler(supportsMultiplePanes && navigator.currentDestination?.contentKey != null) {
-        coroutineScope.launch {
-            navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, null)
-        }
+    BackHandler(supportsMultiplePanes && navigator.currentDestination?.content != null) {
+        navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, null)
     }
 
     ListDetailPaneScaffold(
@@ -158,9 +154,7 @@ fun KitshnListDetailPaneScaffold(
                                 navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, id)
                             }
                         } else {
-                            coroutineScope.launch {
-                                navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, id)
-                            }
+                            navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, id)
                         }
                     }
                 }
@@ -196,12 +190,7 @@ fun KitshnListDetailPaneScaffold(
                                     expandDetailPane = !expandDetailPane
                                 }, {
                                     expandDetailPane = false
-                                    coroutineScope.launch {
-                                        navigator.navigateTo(
-                                            ListDetailPaneScaffoldRole.Detail,
-                                            null
-                                        )
-                                    }
+                                    navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, null)
                                 },
                                 (if(supportsMultiplePanes) null else {
                                     {
