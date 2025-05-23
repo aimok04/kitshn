@@ -1,6 +1,7 @@
 package de.kitshn.ui.view.settings
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -28,7 +29,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.mikepenz.aboutlibraries.ui.compose.m3.rememberLibraries
-import com.mikepenz.aboutlibraries.ui.compose.util.author
+import com.mikepenz.aboutlibraries.ui.compose.m3.util.author
 import de.kitshn.launchWebsiteHandler
 import de.kitshn.platformDetails
 import de.kitshn.ui.component.buttons.BackButton
@@ -50,10 +51,14 @@ import kitshn.composeapp.generated.resources.ic_logo_ico
 import kitshn.composeapp.generated.resources.settings_section_about_item_freepik
 import kitshn.composeapp.generated.resources.settings_section_about_item_new_issue_description
 import kitshn.composeapp.generated.resources.settings_section_about_label
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+    ExperimentalResourceApi::class
+)
 @Composable
 fun ViewSettingsAbout(
     p: ViewParameters
