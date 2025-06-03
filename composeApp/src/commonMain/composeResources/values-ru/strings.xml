@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="acra_dialog_button_positive">Отправить</string>
-    <string name="acra_dialog_button_neutral">Смотреть отчет</string>
-    <string name="acra_comment_helper">Если хотите, вы можете прокомментировать, как произошла эта ошибка.</string>
+    <string name="acra_dialog_button_neutral">Посмотреть отчет</string>
+    <string name="acra_comment_helper">Если хотите, можете прокомментировать, как возникла эта ошибка.</string>
     <string name="acra_dialog_message">Приложение столкнулось с неожиданной ошибкой. Пожалуйста, отправьте отчет об ошибке, чтобы помочь исправить проблему.\n\nВы можете просмотреть полный отчет перед отправкой.</string>
     <string name="acra_dialog_button_negative">Не отправлять</string>
-    <string name="acra_dialog_title">Ой-ёй!</string>
+    <string name="acra_dialog_title">Упс!</string>
     <string name="acra_email_address_helper">Если хотите, вы можете ввести свой адрес электронной почты, чтобы получать обновления о вашем отчете.</string>
     <string name="action_abort">Прервать</string>
     <string name="action_add">Добавить</string>
@@ -39,11 +39,11 @@
     <string name="action_edit_recipe">Редактировать рецепт</string>
     <string name="action_edit_recipe_book">Редактировать книгу рецептов</string>
     <string name="action_import">Импорт</string>
-    <string name="action_manage_recipe_books">Ведите книги рецептов</string>
-    <string name="action_mark_as_done">Пометить как сделано</string>
+    <string name="action_manage_recipe_books">Управление книгами рецептов</string>
+    <string name="action_mark_as_done">Отметить как выполненное</string>
     <string name="action_minus">Нижний</string>
     <string name="action_minus_one_week">- одна неделя</string>
-    <string name="action_more">Больше</string>
+    <string name="action_more">Подробнее</string>
     <string name="action_move">Переместить</string>
     <string name="action_next">Далее</string>
     <string name="action_no">Нет</string>
@@ -78,8 +78,10 @@
     <string name="action_show_all_recipes">Показать все рецепты</string>
     <string name="action_plus_one_week">+ одна неделя</string>
     <string name="action_sign_out">Выйти</string>
-    <string name="action_add_ingredient">добавить ингредиент</string>
-    <string name="action_create_step">новый шаг</string>
+    <string name="action_add_ingredient">Добавить ингредиент</string>
+    <string name="action_create_step">Новый шаг</string>
     <string name="action_clear">Очистить</string>
     <string name="action_cook">Готовить</string>
+    <string name="action_edit_step">Шаг редактирования</string>
+    <string name="action_expand_less">Расширить меньше</string>
 </resources>
