@@ -3,7 +3,7 @@
     <string name="acra_dialog_button_positive">Отправить</string>
     <string name="acra_dialog_button_neutral">Посмотреть отчет</string>
     <string name="acra_comment_helper">Если хотите, можете прокомментировать, как возникла эта ошибка.</string>
-    <string name="acra_dialog_message">Приложение столкнулось с неожиданной ошибкой. Пожалуйста, отправьте отчет об ошибке, чтобы помочь исправить проблему.\n\nВы можете просмотреть полный отчет перед отправкой.</string>
+    <string name="acra_dialog_message">В приложении произошла непредвиденная ошибка. Пожалуйста, отправьте отчет об ошибке, чтобы помочь устранить проблему.\nПеред отправкой вы можете просмотреть весь отчет.</string>
     <string name="acra_dialog_button_negative">Не отправлять</string>
     <string name="acra_dialog_title">Упс!</string>
     <string name="acra_email_address_helper">Если хотите, вы можете ввести свой адрес электронной почты, чтобы получать обновления о вашем отчете.</string>
@@ -49,7 +49,7 @@
     <string name="action_no">Нет</string>
     <string name="action_open_issue">Создать выпуск</string>
     <string name="action_open_original">Открыть оригинал</string>
-    <string name="action_open_source">Глянуть источники</string>
+    <string name="action_open_source">Просмотреть источник</string>
     <string name="action_remove">Удалить</string>
     <string name="action_remove_from_favorites">Удалить из избранного</string>
     <string name="action_reset">Сбросить</string>
@@ -84,4 +84,15 @@
     <string name="action_cook">Готовить</string>
     <string name="action_edit_step">Шаг редактирования</string>
     <string name="action_expand_less">Расширить меньше</string>
+    <string name="action_plus">Вверху</string>
+    <string name="shortcuts_new_instance_label_long">Создать новый экземпляр</string>
+    <string name="common_error_report">Отчет об ошибке</string>
+    <string name="common_import_recipe">Импортировать рецепт</string>
+    <string name="shortcuts_new_instance_label_short">Новый экземпляр</string>
+    <string name="common_comment">Как</string>
+    <string name="common_email_address">Почтовый адрес</string>
+    <string name="action_reorder">Повторный заказ</string>
+    <string name="action_sign_out_description">Забудьте об удостоверениях</string>
+    <string name="action_start_cooking">Запуск режима приготовления</string>
+    <string name="app_name">kitshn</string>
 </resources>
