@@ -1,2 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="acra_comment_helper">Если хотите, можете прокомментировать, как возникла эта ошибка.</string>
+    <string name="acra_dialog_button_negative">Не отправлять</string>
+    <string name="acra_dialog_button_neutral">Посмотреть отчет</string>
+    <string name="acra_dialog_button_positive">Отправить</string>
+    <string name="acra_dialog_message">В приложении произошла непредвиденная ошибка. Пожалуйста, отправьте отчет об ошибке, чтобы помочь устранить проблему.\nПеред отправкой вы можете просмотреть весь отчет.</string>
+    <string name="acra_dialog_title">Упс!</string>
+    <string name="acra_email_address_helper">Если хотите, вы можете ввести свой адрес электронной почты, чтобы получать обновления о вашем отчете.</string>
+    <string name="action_back">Назад</string>
+    <string name="action_download">Скачать</string>
+    <string name="app_name">kitshn</string>
+    <string name="common_comment">Как</string>
+    <string name="common_email_address">Почтовый адрес</string>
+    <string name="common_error_report">Отчет об ошибке</string>
+    <string name="common_import_recipe">Импортировать рецепт</string>
+    <string name="shortcuts_new_instance_label_long">Создать новый экземпляр</string>
+    <string name="shortcuts_new_instance_label_short">Новый экземпляр</string>
+    <string name="shortcuts_meal_plan_label_long">Открытый план питания</string>
+    <string name="shortcuts_meal_plan_label_short">План питания</string>
+    <string name="shortcuts_shopping_label_long">Открыть покупки</string>
+    <string name="shortcuts_shopping_label_short">Покупки</string>
+    <string name="shortcuts_shopping_mode_label_long">Запустить режим покупок</string>
+    <string name="shortcuts_shopping_mode_label_short">Режим покупок</string>
+    <string name="shortcuts_books_label_long">Открыть книги</string>
+    <string name="shortcuts_books_label_short">Книги</string>
+</resources>
