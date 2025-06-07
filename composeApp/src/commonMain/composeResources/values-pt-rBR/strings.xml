@@ -48,4 +48,7 @@
     <string name="action_create">Criar</string>
     <string name="action_plus">Superior</string>
     <string name="acra_email_address_helper">Se quiser, você pode inserir o seu endereço de e-mail para receber atualizações sobre o seu relatório.</string>
+    <string name="action_add_ingredient">Adicionar ingrediente</string>
+    <string name="action_clear">Limpar</string>
+    <string name="action_create_step">Nova etapa</string>
 </resources>
