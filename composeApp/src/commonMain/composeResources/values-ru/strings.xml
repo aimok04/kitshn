@@ -47,7 +47,7 @@
     <string name="action_move">Переместить</string>
     <string name="action_next">Далее</string>
     <string name="action_no">Нет</string>
-    <string name="action_open_issue">Создать выпуск</string>
+    <string name="action_open_issue">Опишите проблему</string>
     <string name="action_open_original">Открыть оригинал</string>
     <string name="action_open_source">Просмотреть источник</string>
     <string name="action_remove">Удалить</string>
@@ -95,4 +95,9 @@
     <string name="action_sign_out_description">Забудьте об удостоверениях</string>
     <string name="action_start_cooking">Запуск режима приготовления</string>
     <string name="app_name">kitshn</string>
+    <string name="action_support">Поддержка</string>
+    <string name="action_take_photo">Сделать фото</string>
+    <string name="action_start_shopping_mode">Начать режим покупок</string>
+    <string name="action_switch_space">Сменить пространство</string>
+    <string name="action_switch_camera">Сменить камеру</string>
 </resources>
