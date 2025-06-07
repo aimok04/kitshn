@@ -1,0 +1,2 @@
+- fix(build.gradle): удален минифицированный код
+- fix(mealplan): цвет mealplanType теперь может быть неопределенным
