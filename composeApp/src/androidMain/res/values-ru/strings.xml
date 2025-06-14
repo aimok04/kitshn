@@ -4,7 +4,7 @@
     <string name="acra_dialog_button_negative">Не отправлять</string>
     <string name="acra_dialog_button_neutral">Посмотреть отчет</string>
     <string name="acra_dialog_button_positive">Отправить</string>
-    <string name="acra_dialog_message">В приложении произошла непредвиденная ошибка. Пожалуйста, отправьте отчет об ошибке, чтобы помочь устранить проблему.\nПеред отправкой вы можете просмотреть весь отчет.</string>
+    <string name="acra_dialog_message">В приложении произошла непредвиденная ошибка. Пожалуйста, отправьте отчет об ошибке, чтобы помочь устранить проблему.\n\nПеред отправкой вы можете просмотреть весь отчёт.</string>
     <string name="acra_dialog_title">Упс!</string>
     <string name="acra_email_address_helper">Если хотите, вы можете ввести свой адрес электронной почты, чтобы получать обновления о вашем отчете.</string>
     <string name="action_back">Назад</string>
