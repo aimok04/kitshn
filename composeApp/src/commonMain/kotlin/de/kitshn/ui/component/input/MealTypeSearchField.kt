@@ -47,6 +47,7 @@ fun BaseMealTypeSearchField(
     client: TandoorClient,
     value: Int?,
     onValueChange: (Int?) -> Unit,
+    useDefaultMealTypeIfNull: Boolean,
     content: @Composable ExposedDropdownMenuBoxScope.(
         thumbnail: @Composable (() -> Unit)?,
         value: String,
@@ -74,6 +75,10 @@ fun BaseMealTypeSearchField(
             client.mealType.fetch().let {
                 mealTypeList.clear()
                 mealTypeList.addAll(it)
+
+                if (value == null && useDefaultMealTypeIfNull) {
+                    selectedMealType = mealTypeList.lastOrNull { it.default }
+                }
             }
         } catch(e: TandoorRequestsError) {
             Logger.e("MealTypeSearchField.kt", e)
@@ -132,6 +137,7 @@ fun OutlinedMealTypeSearchField(
     client: TandoorClient,
     value: Int?,
     onValueChange: (Int?) -> Unit,
+    useDefaultMealTypeIfNull: Boolean = false,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
     label: @Composable (() -> Unit)? = null,
@@ -150,7 +156,8 @@ fun OutlinedMealTypeSearchField(
 ) = BaseMealTypeSearchField(
     client = client,
     value = value,
-    onValueChange = onValueChange
+    onValueChange = onValueChange,
+    useDefaultMealTypeIfNull = useDefaultMealTypeIfNull
 ) { t, v, vc ->
     OutlinedTextField(
         value = v,
@@ -182,6 +189,7 @@ fun MealTypeSearchField(
     client: TandoorClient,
     value: Int?,
     onValueChange: (Int?) -> Unit,
+    useDefaultMealTypeIfNull: Boolean = false,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
     label: @Composable (() -> Unit)? = null,
@@ -200,7 +208,8 @@ fun MealTypeSearchField(
 ) = BaseMealTypeSearchField(
     client = client,
     value = value,
-    onValueChange = onValueChange
+    onValueChange = onValueChange,
+    useDefaultMealTypeIfNull = useDefaultMealTypeIfNull
 ) { t, v, vc ->
     TextField(
         value = v,

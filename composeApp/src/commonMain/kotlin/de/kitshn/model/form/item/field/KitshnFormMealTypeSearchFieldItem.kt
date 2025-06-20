@@ -59,6 +59,7 @@ class KitshnFormMealTypeSearchFieldItem(
             modifier = modifier.fillMaxWidth(),
             client = client,
             value = value,
+            useDefaultMealTypeIfNull = true,
             label = {
                 Row {
                     label()
