@@ -1,5 +1,6 @@
 package de.kitshn.ui.route.main.subroute.mealplan
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -172,11 +173,15 @@ fun RouteMainSubrouteMealplan(
                         border = null,
                         shape = CircleShape,
                         label = {
-                            Text(
-                                modifier = Modifier.padding(12.dp),
-                                style = Typography().labelMedium,
-                                text = "${startDate.toHumanReadableDateLabel()} — ${endDate.toHumanReadableDateLabel()}"
-                            )
+                            AnimatedContent(
+                                targetState = startDate
+                            ) {
+                                Text(
+                                    modifier = Modifier.padding(12.dp),
+                                    style = Typography().labelMedium,
+                                    text = "${it.toHumanReadableDateLabel()} — ${endDate.toHumanReadableDateLabel()}"
+                                )
+                            }
                         }
                     )
 
