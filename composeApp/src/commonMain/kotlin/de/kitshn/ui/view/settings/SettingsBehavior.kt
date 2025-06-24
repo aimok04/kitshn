@@ -11,11 +11,10 @@ import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material.icons.rounded.WarningAmber
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -28,10 +27,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.unit.dp
 import de.kitshn.Platforms
 import de.kitshn.platformDetails
 import de.kitshn.ui.component.buttons.BackButton
+import de.kitshn.ui.component.settings.SettingsListItemPosition
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
 import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
@@ -72,7 +71,7 @@ fun ViewSettingsBehavior(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 navigationIcon = { BackButton(p.back) },
                 title = { Text(stringResource(Res.string.settings_section_behavior_label)) },
                 scrollBehavior = scrollBehavior
@@ -108,6 +107,7 @@ fun ViewSettingsBehavior(
 
             item {
                 SettingsSwitchListItem(
+                    position = SettingsListItemPosition.TOP,
                     label = { Text(stringResource(Res.string.settings_section_behavior_use_share_wrapper_label)) },
                     description = { Text(stringResource(Res.string.settings_section_behavior_use_share_wrapper_description)) },
                     icon = Icons.Rounded.Share,
@@ -122,6 +122,7 @@ fun ViewSettingsBehavior(
 
             item {
                 SettingsSwitchListItem(
+                    position = SettingsListItemPosition.BOTTOM,
                     label = { Text(stringResource(Res.string.settings_section_behavior_hide_ingredient_allocation_action_chip_label)) },
                     description = { Text(stringResource(Res.string.settings_section_behavior_hide_ingredient_allocation_action_chip_description)) },
                     icon = Icons.Rounded.WarningAmber,
@@ -135,13 +136,8 @@ fun ViewSettingsBehavior(
             }
 
             item {
-                HorizontalDivider(
-                    Modifier.padding(top = 8.dp, bottom = 8.dp)
-                )
-            }
-
-            item {
                 SettingsSwitchListItem(
+                    position = SettingsListItemPosition.TOP,
                     label = { Text(stringResource(Res.string.settings_section_behavior_enable_meal_plan_promotion_label)) },
                     description = { Text(stringResource(Res.string.settings_section_behavior_enable_meal_plan_promotion_description)) },
                     icon = Icons.Rounded.Campaign,
@@ -156,6 +152,7 @@ fun ViewSettingsBehavior(
 
             item {
                 SettingsSwitchListItem(
+                    position = SettingsListItemPosition.BOTTOM,
                     label = { Text(stringResource(Res.string.settings_section_behavior_promote_tomorrows_meal_plan_label)) },
                     description = { Text(stringResource(Res.string.settings_section_behavior_promote_tomorrows_meal_plan_description)) },
                     icon = Icons.Rounded.Schedule,
@@ -170,13 +167,8 @@ fun ViewSettingsBehavior(
             }
 
             item {
-                HorizontalDivider(
-                    Modifier.padding(top = 8.dp, bottom = 8.dp)
-                )
-            }
-
-            item {
                 SettingsSwitchListItem(
+                    position = SettingsListItemPosition.SINGULAR,
                     label = { Text(stringResource(Res.string.settings_section_behavior_enable_dynamic_home_screen_label)) },
                     description = { Text(stringResource(Res.string.settings_section_behavior_enable_dynamic_home_screen_description)) },
                     icon = Icons.Rounded.DynamicFeed,
@@ -190,13 +182,8 @@ fun ViewSettingsBehavior(
             }
 
             item {
-                HorizontalDivider(
-                    Modifier.padding(top = 8.dp, bottom = 8.dp)
-                )
-            }
-
-            item {
                 SettingsSwitchListItem(
+                    position = SettingsListItemPosition.TOP,
                     label = { Text(stringResource(Res.string.settings_section_behavior_ingredients_show_fractional_values_label)) },
                     description = { Text(stringResource(Res.string.settings_section_behavior_ingredients_show_fractional_values_description)) },
                     icon = Icons.Rounded.Numbers,
@@ -211,6 +198,7 @@ fun ViewSettingsBehavior(
 
             item {
                 SettingsSwitchListItem(
+                    position = SettingsListItemPosition.BOTTOM,
                     label = { Text(stringResource(Res.string.settings_section_behavior_properties_show_fractional_values_label)) },
                     description = { Text(stringResource(Res.string.settings_section_behavior_properties_show_fractional_values_description)) },
                     icon = Icons.Rounded.Numbers,
@@ -225,12 +213,6 @@ fun ViewSettingsBehavior(
 
             if(platformDetails.platform == Platforms.IOS) {
                 item {
-                    HorizontalDivider(
-                        Modifier.padding(top = 8.dp, bottom = 8.dp)
-                    )
-                }
-
-                item {
                     var enabled by remember { mutableStateOf(false) }
                     LaunchedEffect(fundingBannerHideUntil.value) {
                         val currentYear = Clock.System.now()
@@ -244,6 +226,7 @@ fun ViewSettingsBehavior(
                     }
 
                     SettingsSwitchListItem(
+                        position = SettingsListItemPosition.SINGULAR,
                         label = { Text(stringResource(Res.string.settings_section_behavior_hide_funding_banner_this_year_label)) },
                         description = { Text(stringResource(Res.string.settings_section_behavior_hide_funding_banner_this_year_description)) },
                         icon = Icons.Rounded.VisibilityOff,

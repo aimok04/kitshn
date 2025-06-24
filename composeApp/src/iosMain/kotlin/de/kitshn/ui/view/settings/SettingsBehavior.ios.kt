@@ -1,19 +1,16 @@
 package de.kitshn.ui.view.settings
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CarCrash
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.unit.dp
+import de.kitshn.ui.component.settings.SettingsListItemPosition
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_option_requires_restart
@@ -35,6 +32,7 @@ actual fun LazyListScope.prependItems() {
         }
 
         SettingsSwitchListItem(
+            position = SettingsListItemPosition.SINGULAR,
             label = { Text(stringResource(Res.string.settings_section_behavior_enable_crash_reporting)) },
             description = {
                 Text(
@@ -48,11 +46,5 @@ actual fun LazyListScope.prependItems() {
         ) {
             NSUserDefaults.standardUserDefaults.setBool(it, KEY_ALLOW_CRASH_REPORTING)
         }
-    }
-
-    item {
-        HorizontalDivider(
-            Modifier.padding(top = 8.dp, bottom = 8.dp)
-        )
     }
 }

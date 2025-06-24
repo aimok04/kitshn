@@ -10,12 +10,12 @@ import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Web
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -38,6 +38,7 @@ import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.launchWebsiteHandler
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.settings.SettingsListItem
+import de.kitshn.ui.component.settings.SettingsListItemPosition
 import de.kitshn.ui.dialog.version.TandoorServerVersionCompatibilityDialog
 import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
@@ -80,7 +81,7 @@ fun ViewSettingsServer(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 navigationIcon = { BackButton(p.back) },
                 title = { Text(stringResource(Res.string.settings_section_server_label)) },
                 scrollBehavior = scrollBehavior
@@ -94,6 +95,7 @@ fun ViewSettingsServer(
         ) {
             item {
                 SettingsListItem(
+                    position = SettingsListItemPosition.TOP,
                     label = { Text(stringResource(Res.string.common_account)) },
                     description = {
                         Text(
@@ -108,6 +110,7 @@ fun ViewSettingsServer(
                 )
 
                 SettingsListItem(
+                    position = SettingsListItemPosition.BETWEEN,
                     label = { Text(stringResource(Res.string.common_instance_url)) },
                     description = {
                         Text(
@@ -120,6 +123,7 @@ fun ViewSettingsServer(
                 )
 
                 SettingsListItem(
+                    position = SettingsListItemPosition.BOTTOM,
                     label = { Text(stringResource(Res.string.common_version)) },
                     description = {
                         Text(
@@ -137,6 +141,7 @@ fun ViewSettingsServer(
                 }
 
                 SettingsListItem(
+                    position = SettingsListItemPosition.SINGULAR,
                     label = { Text(stringResource(Res.string.action_sign_out)) },
                     description = { Text(stringResource(Res.string.action_sign_out_description)) },
                     icon = Icons.AutoMirrored.Rounded.Logout,
@@ -147,6 +152,7 @@ fun ViewSettingsServer(
 
                 // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)
                 SettingsListItem(
+                    position = SettingsListItemPosition.SINGULAR,
                     label = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_label)) },
                     description = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_description)) },
                     icon = Icons.Rounded.Delete,

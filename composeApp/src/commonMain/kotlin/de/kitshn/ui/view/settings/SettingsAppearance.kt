@@ -7,11 +7,10 @@ import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.Loupe
 import androidx.compose.material.icons.rounded.Palette
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -26,10 +25,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.unit.dp
 import de.kitshn.ui.component.ColorSchemePreviewCircle
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.settings.SettingsListItem
+import de.kitshn.ui.component.settings.SettingsListItemPosition
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
 import de.kitshn.ui.dialog.ColorSchemeSelectionBottomSheet
 import de.kitshn.ui.dialog.rememberColorSchemeSelectionBottomSheetState
@@ -75,7 +74,7 @@ fun ViewSettingsAppearance(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 navigationIcon = { BackButton(p.back) },
                 title = { Text(stringResource(Res.string.settings_section_appearance_label)) },
                 scrollBehavior = scrollBehavior
@@ -91,6 +90,7 @@ fun ViewSettingsAppearance(
         ) {
             item {
                 SettingsSwitchListItem(
+                    position = SettingsListItemPosition.TOP,
                     label = { Text(stringResource(Res.string.settings_section_appearance_follow_system_label)) },
                     description = { Text(stringResource(Res.string.settings_section_appearance_follow_system_description)) },
                     icon = Icons.Rounded.AutoAwesome,
@@ -107,6 +107,7 @@ fun ViewSettingsAppearance(
                 val checked = p.vm.settings.getEnableDarkTheme.collectAsState(initial = false)
 
                 SettingsSwitchListItem(
+                    position = SettingsListItemPosition.BOTTOM,
                     label = { Text(stringResource(Res.string.settings_section_appearance_dark_mode_label)) },
                     description = { Text(stringResource(Res.string.settings_section_appearance_dark_mode_description)) },
                     icon = Icons.Rounded.DarkMode,
@@ -121,13 +122,8 @@ fun ViewSettingsAppearance(
             }
 
             item {
-                HorizontalDivider(
-                    Modifier.padding(top = 8.dp, bottom = 8.dp)
-                )
-            }
-
-            item {
                 SettingsListItem(
+                    position = SettingsListItemPosition.SINGULAR,
                     label = { Text(stringResource(Res.string.settings_section_appearance_color_scheme_label)) },
                     description = { Text(stringResource(Res.string.settings_section_appearance_color_scheme_description)) },
                     icon = Icons.Rounded.Palette,
@@ -144,15 +140,10 @@ fun ViewSettingsAppearance(
             }
 
             item {
-                HorizontalDivider(
-                    Modifier.padding(top = 8.dp, bottom = 8.dp)
-                )
-            }
-
-            item {
                 val enlarge = p.vm.settings.getEnlargeShoppingMode.collectAsState(initial = true)
 
                 SettingsSwitchListItem(
+                    position = SettingsListItemPosition.SINGULAR,
                     label = { Text(stringResource(Res.string.settings_section_appearance_enlarge_shopping_mode_label)) },
                     description = { Text(stringResource(Res.string.settings_section_appearance_enlarge_shopping_mode_description)) },
                     icon = Icons.Rounded.Loupe,

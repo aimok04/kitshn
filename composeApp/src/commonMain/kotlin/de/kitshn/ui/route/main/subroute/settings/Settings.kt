@@ -13,12 +13,12 @@ import androidx.compose.material.icons.rounded.Diamond
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Tune
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -36,6 +36,7 @@ import de.kitshn.model.SettingsDividerModel
 import de.kitshn.model.SettingsItemModel
 import de.kitshn.platformDetails
 import de.kitshn.ui.component.settings.SettingsListItem
+import de.kitshn.ui.component.settings.SettingsListItemPosition
 import de.kitshn.ui.layout.KitshnListDetailPaneScaffold
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.view.ViewParameters
@@ -76,6 +77,7 @@ fun RouteMainSubrouteSettings(
 
         ).apply {
             if(platformDetails.debug) add(SettingsItemModel(
+                position = SettingsListItemPosition.SINGULAR,
                 id = "DEBUG",
                 icon = Icons.Rounded.DeveloperBoard,
                 contentDescription = "Test experimental settings",
@@ -92,6 +94,7 @@ fun RouteMainSubrouteSettings(
     LaunchedEffect(Unit) {
         settingsModelList.addAll(listOf(
             SettingsItemModel(
+                position = SettingsListItemPosition.SINGULAR,
                 id = "SERVER",
                 icon = Icons.Rounded.Cloud,
                 contentDescription = getString(Res.string.settings_section_server_description),
@@ -100,6 +103,7 @@ fun RouteMainSubrouteSettings(
                 content = { ViewSettingsServer(ViewParameters(p.vm, it)) }
             ),
             SettingsItemModel(
+                position = SettingsListItemPosition.TOP,
                 id = "APPEARANCE",
                 icon = Icons.Rounded.Palette,
                 contentDescription = getString(Res.string.settings_section_appearance_description),
@@ -108,6 +112,7 @@ fun RouteMainSubrouteSettings(
                 content = { ViewSettingsAppearance(ViewParameters(p.vm, it)) }
             ),
             SettingsItemModel(
+                position = SettingsListItemPosition.BOTTOM,
                 id = "BEHAVIOR",
                 icon = Icons.Rounded.Tune,
                 contentDescription = getString(Res.string.settings_section_behavior_description),
@@ -116,6 +121,7 @@ fun RouteMainSubrouteSettings(
                 content = { ViewSettingsBehavior(ViewParameters(p.vm, it)) }
             ),
             SettingsItemModel(
+                position = SettingsListItemPosition.SINGULAR,
                 id = "ABOUT",
                 icon = Icons.Rounded.Info,
                 contentDescription = getString(Res.string.settings_section_about_description),
@@ -129,7 +135,7 @@ fun RouteMainSubrouteSettings(
     KitshnListDetailPaneScaffold(
         key = "RouteMainSubrouteSettings",
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = { Text(stringResource(Res.string.navigation_settings)) },
                 colors = it,
                 actions = {
@@ -173,6 +179,7 @@ fun RouteMainSubrouteSettings(
                             HorizontalDivider()
                         } else if(model is SettingsItemModel) {
                             SettingsListItem(
+                                position = model.position,
                                 icon = model.icon,
                                 contentDescription = model.contentDescription,
                                 label = { Text(model.label) },
@@ -188,6 +195,7 @@ fun RouteMainSubrouteSettings(
 
                 if(platformDetails.platform == Platforms.IOS) {
                     SettingsListItem(
+                        position = SettingsListItemPosition.SINGULAR,
                         modifier = Modifier.padding(bottom = 8.dp),
                         icon = Icons.Rounded.Diamond,
                         label = { Text(stringResource(Res.string.ios_support_manage_subscription_label)) },
@@ -198,6 +206,7 @@ fun RouteMainSubrouteSettings(
                     }
                 } else {
                     SettingsListItem(
+                        position = SettingsListItemPosition.SINGULAR,
                         modifier = Modifier.padding(bottom = 8.dp),
                         icon = Icons.Rounded.Diamond,
                         label = { Text(stringResource(Res.string.kofi_support_label)) },

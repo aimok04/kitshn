@@ -19,15 +19,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
+enum class SettingsListItemPosition {
+    TOP,
+    BETWEEN,
+    BOTTOM,
+    SINGULAR
+}
+
 @Composable
 fun SettingsListItem(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(
-        start = 16.dp,
-        end = 16.dp,
-        top = 8.dp,
-        bottom = 8.dp
-    ),
+    position: SettingsListItemPosition = SettingsListItemPosition.SINGULAR,
     overlineContent: @Composable () -> Unit = { },
     label: @Composable () -> Unit,
     description: @Composable (() -> Unit)? = null,
@@ -50,9 +52,58 @@ fun SettingsListItem(
 
     ListItem(
         modifier = modifier
-            .padding(contentPadding)
+            .padding(
+                when(position) {
+                    SettingsListItemPosition.TOP -> PaddingValues(
+                        top = 8.dp,
+                        bottom = 1.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    )
+
+                    SettingsListItemPosition.BETWEEN -> PaddingValues(
+                        top = 1.dp,
+                        bottom = 1.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    )
+
+                    SettingsListItemPosition.BOTTOM -> PaddingValues(
+                        top = 1.dp,
+                        bottom = 8.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    )
+
+                    SettingsListItemPosition.SINGULAR -> PaddingValues(
+                        top = 8.dp,
+                        bottom = 8.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    )
+                }
+            )
+            .clip(
+                when(position) {
+                    SettingsListItemPosition.TOP -> RoundedCornerShape(
+                        topStart = 16.dp,
+                        topEnd = 16.dp,
+                        bottomStart = 4.dp,
+                        bottomEnd = 4.dp
+                    )
+
+                    SettingsListItemPosition.BETWEEN -> RoundedCornerShape(4.dp)
+                    SettingsListItemPosition.BOTTOM -> RoundedCornerShape(
+                        topStart = 4.dp,
+                        topEnd = 4.dp,
+                        bottomStart = 16.dp,
+                        bottomEnd = 16.dp
+                    )
+
+                    SettingsListItemPosition.SINGULAR -> RoundedCornerShape(16.dp)
+                }
+            )
             .alpha(if(enabled) 1f else 0.5f)
-            .clip(RoundedCornerShape(16.dp))
             .clickable { if(enabled) onClick() },
         colors = ListItemDefaults.colors(
             containerColor = containerColor,

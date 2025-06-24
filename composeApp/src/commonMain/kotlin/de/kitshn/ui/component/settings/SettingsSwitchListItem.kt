@@ -1,21 +1,14 @@
 package de.kitshn.ui.component.settings
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
+import de.kitshn.ui.component.input.expressive.ExpressiveSwitch
 
 @Composable
 fun SettingsSwitchListItem(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(
-        start = 16.dp,
-        end = 16.dp,
-        top = 8.dp,
-        bottom = 8.dp
-    ),
+    position: SettingsListItemPosition = SettingsListItemPosition.SINGULAR,
     label: @Composable () -> Unit,
     description: (@Composable () -> Unit)? = null,
     icon: ImageVector? = null,
@@ -26,14 +19,14 @@ fun SettingsSwitchListItem(
 ) {
     SettingsListItem(
         modifier = modifier,
-        contentPadding = contentPadding,
+        position = position,
         label = label,
         description = description,
         icon = icon,
         enabled = enabled,
         contentDescription = contentDescription,
         trailingContent = {
-            Switch(
+            ExpressiveSwitch(
                 checked = checked,
                 onCheckedChange = { if(enabled) onCheckedChanged(it) },
                 enabled = enabled
