@@ -3,9 +3,9 @@ package de.kitshn.ui.component.buttons
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -19,6 +19,7 @@ enum class BackButtonType {
     CLOSE
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun BackButton(
     onBack: (() -> Unit)?,
@@ -44,9 +45,18 @@ fun BackButton(
             colors = IconButtonDefaults.filledIconButtonColors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainer
             )
-        ) { Icon() }
+        ) {
+            Icon()
+        }
         return
     }
 
-    IconButton(onClick = onBack) { Icon() }
+    FilledIconButton(
+        onClick = onBack,
+        colors = IconButtonDefaults.filledIconButtonColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        )
+    ) {
+        Icon()
+    }
 }
