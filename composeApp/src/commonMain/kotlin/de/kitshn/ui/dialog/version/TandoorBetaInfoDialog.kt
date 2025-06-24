@@ -15,7 +15,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -49,8 +48,6 @@ fun TandoorBetaInfoDialog(
 ) {
     if(!BuildConfig.PACKAGE_IS_BETA) return
 
-    val sheetState = rememberModalBottomSheetState()
-
     val coroutineScope = rememberCoroutineScope()
 
     var mShown by remember { mutableStateOf(false) }
@@ -61,25 +58,20 @@ fun TandoorBetaInfoDialog(
             if(platformDetails.packageExtendedVersion == latestBetaVersionCheck) return@LaunchedEffect
 
             mShown = true
-            sheetState.expand()
         }
     }
 
     LaunchedEffect(shown) {
         if(shown) {
             mShown = true
-            sheetState.expand()
         } else {
             mShown = false
-            sheetState.hide()
         }
     }
 
     fun dismiss() {
         coroutineScope.launch {
             vm.settings.setLatestBetaVersionCheck(platformDetails.packageExtendedVersion)
-
-            sheetState.hide()
             mShown = false
 
             onDismiss()
@@ -87,7 +79,6 @@ fun TandoorBetaInfoDialog(
     }
 
     if(mShown) ModalBottomSheet(
-        sheetState = sheetState,
         onDismissRequest = { dismiss() }
     ) {
         Column(
