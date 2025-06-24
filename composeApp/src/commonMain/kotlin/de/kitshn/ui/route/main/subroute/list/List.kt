@@ -6,9 +6,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -28,6 +29,7 @@ import de.kitshn.reachedBottom
 import de.kitshn.ui.component.LoadingGradientWrapper
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
 import de.kitshn.ui.component.buttons.BackButton
+import de.kitshn.ui.component.loading.LazyGridAnimatedContainedLoadingIndicator
 import de.kitshn.ui.component.model.recipe.HorizontalRecipeCardLink
 import de.kitshn.ui.layout.KitshnRecipeListRecipeDetailPaneScaffold
 import de.kitshn.ui.route.RouteParameters
@@ -43,7 +45,7 @@ import kitshn.composeapp.generated.resources.navigation_list
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun RouteMainSubrouteList(
     p: RouteParameters
@@ -140,7 +142,7 @@ fun RouteMainSubrouteList(
             RecipeSelectionModeTopAppBar(
                 vm = p.vm,
                 topAppBar = {
-                    TopAppBar(
+                    CenterAlignedTopAppBar(
                         navigationIcon = {
                             BackButton(onBack = { p.vm.mainSubNavHostController?.popBackStack() })
                         },
@@ -188,6 +190,11 @@ fun RouteMainSubrouteList(
                             selectionState = selectionModeState
                         ) { r -> onSelect(r.id.toString()) }
                     }
+
+                    LazyGridAnimatedContainedLoadingIndicator(
+                        nextPageExists = nextPageExists,
+                        extendedRequestState = extendedListRequestState
+                    )
                 }
             }
         }
