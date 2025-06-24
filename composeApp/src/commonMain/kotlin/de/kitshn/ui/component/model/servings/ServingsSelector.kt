@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -79,11 +80,16 @@ fun ServingsSelector(
             onClick = {
                 servingsChangeDialogState.open(value)
             },
+            colors = AssistChipDefaults.assistChipColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                labelColor = MaterialTheme.colorScheme.onPrimaryContainer
+            ),
+            border = null,
+            shape = FloatingActionButtonDefaults.smallShape,
             label = {
                 Text(
                     modifier = Modifier.padding(12.dp),
                     style = Typography().labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
                     text = if(label.isNotBlank()) {
                         "${value.formatAmount(fractional = false)} $label"
                     } else {

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.OpenInNew
@@ -30,9 +31,9 @@ import androidx.compose.material.icons.rounded.Reviews
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -41,11 +42,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumExtendedFloatingActionButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -63,11 +64,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
@@ -146,7 +149,10 @@ import org.jetbrains.compose.resources.stringResource
 
 val RecipeServingsAmountSaveMap = mutableMapOf<Int, Double>()
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+    ExperimentalMaterial3ExpressiveApi::class
+)
 @Composable
 fun ViewRecipeDetails(
     p: ViewParameters,
@@ -367,7 +373,7 @@ fun ViewRecipeDetails(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent
                 ),
@@ -388,7 +394,7 @@ fun ViewRecipeDetails(
                 },
                 actions = {
                     // hide if recipe is shared
-                    if(shareToken != null) return@TopAppBar
+                    if(shareToken != null) return@CenterAlignedTopAppBar
 
                     var isMenuExpanded by rememberSaveable { mutableStateOf(false) }
 
@@ -449,7 +455,7 @@ fun ViewRecipeDetails(
         floatingActionButton = {
             if(hideFab) return@Scaffold
 
-            ExtendedFloatingActionButton(
+            MediumExtendedFloatingActionButton(
                 expanded = scrollState.isScrollingUp(),
                 icon = {
                     Icon(
@@ -488,6 +494,7 @@ fun ViewRecipeDetails(
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(16f / 9f)
+                        .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
                 )
             }
 
@@ -502,29 +509,34 @@ fun ViewRecipeDetails(
                     notEnoughSpace = !enoughSpace
 
                     Column(
-                        Modifier.padding(
-                            start = 16.dp,
-                            end = 16.dp,
-                            top = 16.dp,
-                            bottom = 8.dp
-                        )
+                        Modifier
+                            .padding(
+                                start = 16.dp,
+                                end = 16.dp,
+                                top = 16.dp,
+                                bottom = 8.dp
+                            )
                     ) {
                         Text(
+                            modifier = Modifier
+                                .onGloballyPositioned { lc ->
+                                    titleCheckpointX = lc.boundsInRoot().bottom
+                                }
+                                .fillMaxWidth(),
                             text = recipeOverview.name,
-                            Modifier.onGloballyPositioned { lc ->
-                                titleCheckpointX = lc.boundsInRoot().bottom
-                            },
-                            style = Typography().titleLarge
+                            style = Typography().titleLarge,
+                            textAlign = TextAlign.Center
                         )
                     }
 
                     LazyRow(
-                        Modifier.padding(bottom = 16.dp)
+                        Modifier.padding(bottom = 16.dp),
+                        contentPadding = PaddingValues(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            8.dp,
+                            Alignment.CenterHorizontally
+                        )
                     ) {
-                        item {
-                            Spacer(Modifier.width(16.dp))
-                        }
-
                         items(
                             recipeOverview.keywords.size,
                             key = { recipeOverview.keywords[it].id })
@@ -537,8 +549,6 @@ fun ViewRecipeDetails(
                             }, label = {
                                 Text(keywordOverview.label)
                             }, selected = true)
-
-                            Spacer(Modifier.width(16.dp))
                         }
                     }
 
@@ -654,27 +664,25 @@ fun ViewRecipeDetails(
                         }
                     }
 
-                    Card(
+                    Box(
                         Modifier.padding(
                             start = 16.dp,
                             end = 16.dp,
                             bottom = 16.dp
                         )
                     ) {
-                        Box {
-                            IngredientsList(
-                                list = sortedIngredientsList,
-                                factor = servingsFactor,
-                                loadingState = pageLoadingState,
-                                colors = ListItemDefaults.colors(
-                                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                                ),
-                                showFractionalValues = ingredientsShowFractionalValues.value,
-                                onNotEnoughSpace = {
-                                    disableSideBySideLayout = true
-                                }
-                            )
-                        }
+                        IngredientsList(
+                            list = sortedIngredientsList,
+                            factor = servingsFactor,
+                            loadingState = pageLoadingState,
+                            colors = ListItemDefaults.colors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                            ),
+                            showFractionalValues = ingredientsShowFractionalValues.value,
+                            onNotEnoughSpace = {
+                                disableSideBySideLayout = true
+                            }
+                        )
                     }
                 }
             }

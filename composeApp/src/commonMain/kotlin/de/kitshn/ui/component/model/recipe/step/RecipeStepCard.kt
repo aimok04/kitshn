@@ -13,9 +13,9 @@ import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -150,14 +150,14 @@ fun RecipeStepCard(
                         Instructions()
                     }
                 ) {
-                    if(!it) HorizontalDivider()
-
-                    Box {
+                    Box(
+                        Modifier.padding(8.dp)
+                    ) {
                         IngredientsList(
                             list = step.ingredients,
                             factor = servingsFactor,
                             colors = ListItemDefaults.colors(
-                                containerColor = colors.containerColor
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
                             ),
                             onNotEnoughSpace = {
                                 disableSideBySideLayout = true

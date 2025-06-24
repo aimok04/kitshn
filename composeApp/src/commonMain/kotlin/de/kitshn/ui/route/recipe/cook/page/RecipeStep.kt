@@ -16,7 +16,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.AssistChip
-import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItemDefaults
@@ -220,22 +219,20 @@ fun RouteRecipeCookPageStep(
                             }
                         }
 
-                        Card(
+                        Box(
                             Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                         ) {
-                            Box {
-                                IngredientsList(
-                                    list = step.ingredients,
-                                    factor = servingsFactor,
-                                    colors = ListItemDefaults.colors(
-                                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-                                    ),
-                                    onNotEnoughSpace = {
-                                        disableSideBySideLayout = true
-                                    },
-                                    showFractionalValues = showFractionalValues
-                                )
-                            }
+                            IngredientsList(
+                                list = step.ingredients,
+                                factor = servingsFactor,
+                                colors = ListItemDefaults.colors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+                                ),
+                                onNotEnoughSpace = {
+                                    disableSideBySideLayout = true
+                                },
+                                showFractionalValues = showFractionalValues
+                            )
                         }
                     }
                 }

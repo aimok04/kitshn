@@ -1,13 +1,11 @@
 package de.kitshn.ui.route.recipe
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.closeAppHandler
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -83,12 +81,7 @@ fun RouteRecipePublic(
                 icon = Icons.Rounded.Share,
                 label = { Text(text = stringResource(Res.string.common_shared_recipe)) },
                 description = { Text(text = "${stringResource(Res.string.common_source)}: ${client.credentials.instanceUrl}") },
-                contentDescription = stringResource(Res.string.common_shared_recipe),
-                contentPadding = PaddingValues(
-                    start = 16.dp,
-                    end = 16.dp,
-                    bottom = 16.dp
-                ),
+                contentDescription = stringResource(Res.string.common_shared_recipe)
             )
         },
 

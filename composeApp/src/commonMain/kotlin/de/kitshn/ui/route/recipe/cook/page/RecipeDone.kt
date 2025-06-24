@@ -1,5 +1,7 @@
 package de.kitshn.ui.route.recipe.cook.page
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,14 +11,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ContainedLoadingIndicator
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LoadingIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -28,7 +33,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -47,9 +54,11 @@ import kitshn.composeapp.generated.resources.action_save
 import kitshn.composeapp.generated.resources.common_done
 import kitshn.composeapp.generated.resources.recipe_cook_done_description
 import kitshn.composeapp.generated.resources.recipe_cook_done_title
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun RouteRecipeCookPageDone(
     topPadding: Dp,
@@ -62,7 +71,26 @@ fun RouteRecipeCookPageDone(
     val coroutineScope = rememberCoroutineScope()
     val requestCookLogCreateState = rememberTandoorRequestState()
 
+    val hapticFeedback = LocalHapticFeedback.current
+
     var starRatingValue by remember { mutableIntStateOf(0) }
+
+    fun sendRating() {
+        coroutineScope.launch {
+            requestCookLogCreateState.wrapRequest {
+                delay(500)
+
+                recipe.client?.cookLog?.create(
+                    recipe = recipe,
+                    servings = servings,
+                    rating = starRatingValue,
+                    comment = ""
+                )
+            }
+
+            hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
+        }
+    }
 
     Box(
         Modifier
@@ -123,54 +151,66 @@ fun RouteRecipeCookPageDone(
                 ) {
                     if(!it) {
                         HorizontalDivider()
-                        Spacer(Modifier.height(16.dp))
+                        Spacer(Modifier.height(24.dp))
                     }
 
-                    when(requestCookLogCreateState.state) {
-                        TandoorRequestStateState.LOADING -> {
-                            CircularProgressIndicator()
-                        }
-
-                        TandoorRequestStateState.SUCCESS -> {
-                            Icon(
-                                modifier = Modifier
-                                    .height(48.dp)
-                                    .width(48.dp),
-                                imageVector = Icons.Rounded.Check,
-                                contentDescription = stringResource(Res.string.common_done)
-                            )
-                        }
-
-                        else -> {
-                            StarRatingSelectionInput(
-                                iconModifier = if(it) Modifier
-                                    .height(256.dp)
-                                    .width(256.dp) else null,
-                                value = starRatingValue
-                            ) {
-                                starRatingValue = it
+                    AnimatedContent(
+                        targetState = requestCookLogCreateState.state,
+                        contentAlignment = Alignment.Center
+                    ) { targetState ->
+                        when(targetState) {
+                            TandoorRequestStateState.LOADING -> {
+                                ContainedLoadingIndicator()
                             }
 
-                            Spacer(Modifier.height(24.dp))
-
-                            Button(
-                                enabled = requestCookLogCreateState.state != TandoorRequestStateState.LOADING,
-                                onClick = {
-                                    coroutineScope.launch {
-                                        requestCookLogCreateState.wrapRequest {
-                                            recipe.client?.cookLog?.create(
-                                                recipe = recipe,
-                                                servings = servings,
-                                                rating = starRatingValue,
-                                                comment = ""
+                            TandoorRequestStateState.SUCCESS -> {
+                                Box(
+                                    modifier =
+                                        Modifier
+                                            .size(
+                                                width = LoadingIndicatorDefaults.ContainerWidth,
+                                                height = LoadingIndicatorDefaults.ContainerHeight
                                             )
-                                        }
-                                    }
+                                            .fillMaxSize()
+                                            .clip(LoadingIndicatorDefaults.containerShape)
+                                            .background(LoadingIndicatorDefaults.containedContainerColor),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        modifier = Modifier
+                                            .height(48.dp)
+                                            .width(48.dp)
+                                            .padding(12.dp),
+                                        imageVector = Icons.Rounded.Check,
+                                        contentDescription = stringResource(Res.string.common_done),
+                                        tint = LoadingIndicatorDefaults.containedIndicatorColor
+                                    )
                                 }
+                            }
+
+                            else -> Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
                             ) {
-                                Text(
-                                    text = stringResource(Res.string.action_save)
-                                )
+                                StarRatingSelectionInput(
+                                    iconModifier = if(it) Modifier
+                                        .height(256.dp)
+                                        .width(256.dp) else null,
+                                    value = starRatingValue
+                                ) {
+                                    starRatingValue = it
+                                }
+
+                                Spacer(Modifier.height(24.dp))
+
+                                Button(
+                                    enabled = requestCookLogCreateState.state != TandoorRequestStateState.LOADING,
+                                    onClick = { sendRating() }
+                                ) {
+                                    Text(
+                                        text = stringResource(Res.string.action_save)
+                                    )
+                                }
                             }
                         }
                     }

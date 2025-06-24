@@ -108,8 +108,8 @@ fun RecipeLinkDialog(
             hideFab = hideFab,
 
             onClickKeyword = {
-                state.dismiss()
                 p.vm.searchKeyword(it.id)
+                state.dismiss()
             },
             onServingsChange = {
                 onServingsChange(it)

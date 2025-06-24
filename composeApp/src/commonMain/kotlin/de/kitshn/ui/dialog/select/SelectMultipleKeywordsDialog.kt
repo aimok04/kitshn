@@ -54,6 +54,7 @@ import de.kitshn.removeIf
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.input.AlwaysDockedSearchBar
+import de.kitshn.ui.component.loading.LazyListAnimatedContainedLoadingIndicator
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
@@ -410,6 +411,11 @@ fun KeywordSearchBar(
                     onCheckedChange(keyword, keyword.id, !selectedKeywordIds.contains(keyword.id))
                 }
             }
+
+            LazyListAnimatedContainedLoadingIndicator(
+                nextPageExists = nextPageExists,
+                extendedRequestState = extendedSearchRequestState
+            )
         }
     }
 

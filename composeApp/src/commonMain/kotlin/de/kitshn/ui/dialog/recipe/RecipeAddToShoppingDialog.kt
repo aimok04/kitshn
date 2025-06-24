@@ -3,9 +3,12 @@ package de.kitshn.ui.dialog.recipe
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.model.TandoorIngredient
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.ui.component.model.ingredient.IngredientsList
@@ -116,43 +120,49 @@ fun RecipeAddToShoppingDialog(
             }
 
             item {
-                IngredientsList(
-                    list = state.ingredients,
+                Box(Modifier.padding(16.dp)) {
+                    IngredientsList(
+                        list = state.ingredients,
 
-                    itemModifier = {
-                        Modifier
-                            .alpha(
-                                if(state.selectedIngredients.contains(it)) {
-                                    1f
-                                } else {
-                                    0.2f
+                        itemModifier = {
+                            Modifier
+                                .alpha(
+                                    if(state.selectedIngredients.contains(it)) {
+                                        1f
+                                    } else {
+                                        0.2f
+                                    }
+                                )
+                                .clickable {
+                                    if(state.selectedIngredients.contains(it)) {
+                                        state.selectedIngredients.remove(it)
+                                    } else {
+                                        state.selectedIngredients.add(it)
+                                    }
+                                }
+                        },
+                        itemTrailingContent = {
+                            Checkbox(
+                                checked = state.selectedIngredients.contains(it),
+                                onCheckedChange = { value ->
+                                    if(value) {
+                                        state.selectedIngredients.add(it)
+                                    } else {
+                                        state.selectedIngredients.remove(it)
+                                    }
                                 }
                             )
-                            .clickable {
-                                if(state.selectedIngredients.contains(it)) {
-                                    state.selectedIngredients.remove(it)
-                                } else {
-                                    state.selectedIngredients.add(it)
-                                }
-                            }
-                    },
-                    itemTrailingContent = {
-                        Checkbox(
-                            checked = state.selectedIngredients.contains(it),
-                            onCheckedChange = { value ->
-                                if(value) {
-                                    state.selectedIngredients.add(it)
-                                } else {
-                                    state.selectedIngredients.remove(it)
-                                }
-                            }
-                        )
-                    },
+                        },
 
-                    factor = servingsFactor,
-                    showFractionalValues = showFractionalValues,
-                    onNotEnoughSpace = { }
-                )
+                        colors = ListItemDefaults.colors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainer
+                        ),
+
+                        factor = servingsFactor,
+                        showFractionalValues = showFractionalValues,
+                        onNotEnoughSpace = { }
+                    )
+                }
             }
         }
     }
