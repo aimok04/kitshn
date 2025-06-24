@@ -2,7 +2,6 @@ package de.kitshn.ui.component.model.ingredient
 
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.runtime.Composable
@@ -82,13 +81,16 @@ fun IngredientsList(
         Column {
             if(loadingState == ErrorLoadingSuccessState.LOADING) {
                 repeat(10) {
-                    if(it != 0) HorizontalDivider()
-
                     IngredientItem(
                         ingredient = null,
                         servingsFactor = factor,
 
                         colors = colors,
+                        position = when(it) {
+                            0 -> IngredientItemPosition.TOP
+                            9 -> IngredientItemPosition.BOTTOM
+                            else -> IngredientItemPosition.BETWEEN
+                        },
 
                         maxWidth = maxWidth,
                         minAmountWidth = minAmountWidth,
@@ -101,8 +103,6 @@ fun IngredientsList(
                 }
             } else {
                 repeat(list.size) {
-                    if(it != 0) HorizontalDivider()
-
                     val ingredient = list[it]
                     IngredientItem(
                         modifier = itemModifier(ingredient),
@@ -112,6 +112,11 @@ fun IngredientsList(
                         servingsFactor = factor,
 
                         colors = colors,
+                        position = when(it) {
+                            0 -> if(list.size > 1) IngredientItemPosition.TOP else IngredientItemPosition.SINGULAR
+                            list.size - 1 -> IngredientItemPosition.BOTTOM
+                            else -> IngredientItemPosition.BETWEEN
+                        },
 
                         maxWidth = maxWidth,
                         minAmountWidth = minAmountWidth,
