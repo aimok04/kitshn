@@ -18,6 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import de.kitshn.formatAmount
 import de.kitshn.ui.dialog.servings.ServingsChangeDialog
@@ -40,6 +42,8 @@ fun ServingsSelector(
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
     onChange: (value: Double) -> Unit
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
+
     fun valueChange(value: Double) {
         if(value < 0) return
 
@@ -55,6 +59,7 @@ fun ServingsSelector(
         },
         state = servingsChangeDialogState
     ) {
+        hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
         onChange(it)
     }
 
@@ -68,7 +73,10 @@ fun ServingsSelector(
             elevation = FloatingActionButtonDefaults.elevation(
                 defaultElevation = 0.dp
             ),
-            onClick = { valueChange(value - 1) }
+            onClick = {
+                hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                valueChange(value - 1)
+            }
         ) {
             Icon(Icons.Rounded.Remove, stringResource(Res.string.action_minus))
         }
@@ -116,7 +124,10 @@ fun ServingsSelector(
             elevation = FloatingActionButtonDefaults.elevation(
                 defaultElevation = 0.dp
             ),
-            onClick = { valueChange(value + 1) }
+            onClick = {
+                hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                valueChange(value + 1)
+            }
         ) {
             Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
         }

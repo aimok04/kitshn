@@ -10,8 +10,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.hapticfeedback.HapticFeedback
 import androidx.compose.ui.platform.LocalHapticFeedback
 import co.touchlab.kermit.Logger
+import de.kitshn.api.tandoor.TandoorRequestState
+import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.TandoorKeyword
 import kitshn.composeapp.generated.resources.Res
@@ -92,6 +95,16 @@ fun HapticFeedbackHandler(): (type: HapticFeedbackType) -> Unit {
     }
 
     return handler
+}
+
+fun HapticFeedback.handleTandoorRequestState(state: TandoorRequestState) {
+    performHapticFeedback(
+        when(state.state) {
+            TandoorRequestStateState.SUCCESS -> androidx.compose.ui.hapticfeedback.HapticFeedbackType.Confirm
+            TandoorRequestStateState.ERROR -> androidx.compose.ui.hapticfeedback.HapticFeedbackType.Reject
+            else -> androidx.compose.ui.hapticfeedback.HapticFeedbackType.SegmentFrequentTick
+        }
+    )
 }
 
 //source code from androidX

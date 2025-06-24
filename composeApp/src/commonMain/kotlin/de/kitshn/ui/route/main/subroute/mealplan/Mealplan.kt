@@ -38,9 +38,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.toHumanReadableDateLabel
 import de.kitshn.toLocalDate
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -76,6 +79,8 @@ fun RouteMainSubrouteMealplan(
     p: RouteParameters
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
+
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     var pageLoadingState by rememberErrorLoadingSuccessState()
@@ -122,6 +127,8 @@ fun RouteMainSubrouteMealplan(
                 )
             }
         }
+
+        hapticFeedback.handleTandoorRequestState(mainFetchRequestState)
     }
 
     var showDatePickerDialog by remember { mutableStateOf(false) }
@@ -147,6 +154,8 @@ fun RouteMainSubrouteMealplan(
                     FilledIconButton(
                         onClick = {
                             coroutineScope.launch {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+
                                 pageLoadingState = ErrorLoadingSuccessState.LOADING
                                 delay(300)
                                 startDate = startDate.minus(7, DateTimeUnit.DAY)
@@ -190,6 +199,8 @@ fun RouteMainSubrouteMealplan(
                     FilledIconButton(
                         onClick = {
                             coroutineScope.launch {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+
                                 pageLoadingState = ErrorLoadingSuccessState.LOADING
                                 delay(300)
                                 startDate = startDate.plus(7, DateTimeUnit.DAY)
@@ -260,6 +271,8 @@ fun RouteMainSubrouteMealplan(
 
                     showDatePickerDialog = false
                     coroutineScope.launch {
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+
                         pageLoadingState = ErrorLoadingSuccessState.LOADING
                         delay(300)
                         startDate = datePickerState.selectedDateMillis!!.toLocalDate(
