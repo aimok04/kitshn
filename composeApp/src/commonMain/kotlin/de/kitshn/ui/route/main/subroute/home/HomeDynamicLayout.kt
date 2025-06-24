@@ -9,8 +9,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.List
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SearchBarScrollBehavior
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -55,7 +55,7 @@ import org.jetbrains.compose.resources.stringResource
 fun HomeDynamicLayout(
     p: RouteParameters,
 
-    scrollBehavior: TopAppBarScrollBehavior,
+    searchBarScrollBehavior: SearchBarScrollBehavior,
     selectionModeState: SelectionModeState<Int>,
     homeSearchState: HomeSearchState,
 
@@ -141,7 +141,7 @@ fun HomeDynamicLayout(
             LoadingGradientWrapper(
                 Modifier
                     .padding(pv)
-                    .nestedScroll(scrollBehavior.nestedScrollConnection),
+                    .nestedScroll(searchBarScrollBehavior.nestedScrollConnection),
                 loadingState = pageLoadingState,
                 backgroundColor = background
             ) {
@@ -204,11 +204,6 @@ fun HomeDynamicLayout(
                     }
 
                     SettingsListItem(
-                        contentPadding = PaddingValues(
-                            start = 16.dp,
-                            end = 16.dp,
-                            bottom = 16.dp
-                        ),
                         label = { Text(text = stringResource(Res.string.action_show_all_recipes)) },
                         description = { },
                         icon = Icons.AutoMirrored.Rounded.List,

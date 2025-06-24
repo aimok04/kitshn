@@ -13,6 +13,7 @@ import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.TandoorKeyword
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
+import de.kitshn.ui.component.search.AdditionalSearchSettingsChipRowState
 import de.kitshn.ui.state.foreverRememberNotSavable
 import kotlinx.coroutines.delay
 
@@ -27,7 +28,6 @@ fun rememberHomeSearchState(
 }
 
 data class HomeSearchStateDefaultValues(
-    val autoFocusSearchField: Boolean = true,
     val query: String = "",
     val new: Boolean = false,
     val random: Boolean = false,
@@ -45,6 +45,7 @@ class HomeSearchState(
     var extendedSearchRequestState = TandoorRequestState()
 
     var query by mutableStateOf("")
+    var additionalSearchSettingsChipRowState = AdditionalSearchSettingsChipRowState()
 
     val searchResultIds = mutableStateListOf<Int>()
     var currentPage by mutableIntStateOf(1)
@@ -81,7 +82,6 @@ class HomeSearchState(
 
             open(
                 HomeSearchStateDefaultValues(
-                    autoFocusSearchField = false,
                     keywords = listOf(keyword)
                 )
             )

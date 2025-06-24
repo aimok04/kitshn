@@ -12,7 +12,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.SearchBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -33,6 +33,7 @@ import de.kitshn.isScrollingUp
 import de.kitshn.reachedBottom
 import de.kitshn.ui.component.LoadingGradientWrapper
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
+import de.kitshn.ui.component.loading.LazyGridAnimatedContainedLoadingIndicator
 import de.kitshn.ui.component.model.recipe.RecipeCard
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.selectionMode.SelectionModeState
@@ -51,7 +52,7 @@ import kotlinx.coroutines.launch
 fun HomeTraditionalLayout(
     p: RouteParameters,
 
-    scrollBehavior: TopAppBarScrollBehavior,
+    searchBarScrollBehavior: SearchBarScrollBehavior,
     selectionModeState: SelectionModeState<Int>,
     homeSearchState: HomeSearchState,
 
@@ -164,13 +165,13 @@ fun HomeTraditionalLayout(
             LoadingGradientWrapper(
                 Modifier
                     .padding(pv)
-                    .nestedScroll(scrollBehavior.nestedScrollConnection),
+                    .nestedScroll(searchBarScrollBehavior.nestedScrollConnection),
                 loadingState = pageLoadingState,
                 backgroundColor = background
             ) {
                 LazyVerticalGrid(
                     modifier = Modifier
-                        .nestedScroll(scrollBehavior.nestedScrollConnection),
+                        .nestedScroll(searchBarScrollBehavior.nestedScrollConnection),
 
                     state = gridState,
 
@@ -246,6 +247,11 @@ fun HomeTraditionalLayout(
                             }
                         }
                     }
+
+                    LazyGridAnimatedContainedLoadingIndicator(
+                        nextPageExists = nextPageExists,
+                        extendedRequestState = extendedListRequestState
+                    )
                 }
             }
         }

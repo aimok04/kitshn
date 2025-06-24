@@ -1,25 +1,19 @@
 package de.kitshn.ui.route.main.subroute.home
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.SaveAlt
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FloatingToolbarDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SmallFloatingActionButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.VerticalFloatingToolbar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -37,7 +31,6 @@ import de.kitshn.Platforms
 import de.kitshn.platformDetails
 import de.kitshn.ui.component.AutoFetchingFundingBanner
 import de.kitshn.ui.component.model.SpaceSwitchIconButton
-import de.kitshn.ui.component.text.DynamicGreetingTitle
 import de.kitshn.ui.dialog.recipe.creationandedit.RecipeCreationAndEditDialog
 import de.kitshn.ui.dialog.recipe.creationandedit.rememberRecipeCreationDialogState
 import de.kitshn.ui.dialog.recipe.creationandedit.rememberRecipeEditDialogState
@@ -52,19 +45,18 @@ import de.kitshn.ui.layout.KitshnRecipeListRecipeDetailPaneScaffold
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.selectionMode.model.RecipeSelectionModeTopAppBar
 import de.kitshn.ui.selectionMode.rememberSelectionModeState
-import de.kitshn.ui.view.home.search.ViewHomeSearch
+import de.kitshn.ui.view.home.search.HomeSearchTopBar
 import de.kitshn.ui.view.home.search.rememberHomeSearchState
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_add
 import kitshn.composeapp.generated.resources.action_import
-import kitshn.composeapp.generated.resources.common_search
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun RouteMainSubrouteHome(
     p: RouteParameters
@@ -72,6 +64,11 @@ fun RouteMainSubrouteHome(
     val coroutineScope = rememberCoroutineScope()
 
     val homeSearchState by rememberHomeSearchState(key = "RouteMainSubrouteHome/homeSearch")
+
+    // handle keyword passing
+    p.vm.uiState.searchKeyword.WatchAndConsume {
+        homeSearchState.openWithKeywordId(p.vm.tandoorClient!!, it)
+    }
 
     val recipeImportTypeBottomSheetState = rememberRecipeImportTypeBottomSheetState()
 
@@ -86,7 +83,7 @@ fun RouteMainSubrouteHome(
 
     val selectionModeState = rememberSelectionModeState<Int>()
 
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    val searchBarScrollBehavior = SearchBarDefaults.enterAlwaysSearchBarScrollBehavior()
 
     var isScrollingUp by rememberSaveable { mutableStateOf(true) }
 
@@ -106,29 +103,10 @@ fun RouteMainSubrouteHome(
                 RecipeSelectionModeTopAppBar(
                     vm = p.vm,
                     topAppBar = {
-                        TopAppBar(
-                            title = {
-                                DynamicGreetingTitle()
-                            },
-                            actions = {
-                                SpaceSwitchIconButton(
-                                    client = p.vm.tandoorClient,
-                                    onRefresh = {
-                                        p.vm.refreshApp()
-                                    }
-                                )
-
-                                IconButton(onClick = {
-                                    homeSearchState.open()
-                                }) {
-                                    Icon(
-                                        Icons.Rounded.Search,
-                                        stringResource(Res.string.common_search)
-                                    )
-                                }
-                            },
-                            colors = it,
-                            scrollBehavior = scrollBehavior
+                        HomeSearchTopBar(
+                            vm = p.vm,
+                            state = homeSearchState,
+                            scrollBehavior = searchBarScrollBehavior
                         )
                     },
                     state = selectionModeState
@@ -138,27 +116,35 @@ fun RouteMainSubrouteHome(
                 Column(
                     horizontalAlignment = Alignment.End
                 ) {
-                    Box(
-                        Modifier.size(56.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        SmallFloatingActionButton(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                            onClick = { recipeImportTypeBottomSheetState.open() }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.SaveAlt,
-                                contentDescription = stringResource(Res.string.action_import)
-                            )
-                        }
-                    }
-
-                    ExtendedFloatingActionButton(
+                    VerticalFloatingToolbar(
                         expanded = isScrollingUp,
-                        icon = { Icon(Icons.Rounded.Add, stringResource(Res.string.action_add)) },
-                        text = { Text(stringResource(Res.string.action_add)) },
-                        onClick = { recipeCreationDialogState.open() }
+                        content = {
+                            SpaceSwitchIconButton(
+                                client = p.vm.tandoorClient
+                            ) {
+                                p.vm.refreshApp()
+                            }
+
+                            IconButton(
+                                onClick = {
+                                    recipeImportTypeBottomSheetState.open()
+                                }
+                            ) {
+                                Icon(
+                                    Icons.Rounded.SaveAlt,
+                                    contentDescription = stringResource(Res.string.action_import)
+                                )
+                            }
+                        },
+                        floatingActionButton = {
+                            FloatingToolbarDefaults.StandardFloatingActionButton(
+                                onClick = {
+                                    recipeCreationDialogState.open()
+                                }
+                            ) {
+                                Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
+                            }
+                        }
                     )
 
                     // showing funding banner on iOS when user isn't subscribed
@@ -183,8 +169,9 @@ fun RouteMainSubrouteHome(
                                     min = 100.dp,
                                     max = 600.dp
                                 ).padding(
-                                    start = 32.dp,
-                                    top = 16.dp
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    bottom = 16.dp
                                 ),
                                 onClickSupport = {
                                     p.vm.navHostController?.navigate("ios/manageSubscription")
@@ -208,23 +195,10 @@ fun RouteMainSubrouteHome(
                     }
                 }
             }
-        ) { pv, value, supportsMultiplePanes, background, onSelect ->
+        ) { pv, _, supportsMultiplePanes, background, onSelect ->
             // handle recipe passing
             p.vm.uiState.viewRecipe.WatchAndConsume {
                 onSelect(it.toString())
-            }
-
-            ViewHomeSearch(
-                vm = p.vm,
-                state = homeSearchState,
-
-                handleBack = supportsMultiplePanes && value != null,
-                onBack = {
-                    // needed for back gesture to work correctly in search view
-                    onSelect(null)
-                }
-            ) {
-                onSelect(it.id.toString())
             }
 
             it(pv, supportsMultiplePanes, background, onSelect)
@@ -236,7 +210,7 @@ fun RouteMainSubrouteHome(
     if(enableDynamicHomeScreen) {
         HomeDynamicLayout(
             p = p,
-            scrollBehavior = scrollBehavior,
+            searchBarScrollBehavior = searchBarScrollBehavior,
             selectionModeState = selectionModeState,
             homeSearchState = homeSearchState,
             onIsScrollingUpChanged = { isScrollingUp = it },
@@ -245,7 +219,7 @@ fun RouteMainSubrouteHome(
     } else {
         HomeTraditionalLayout(
             p = p,
-            scrollBehavior = scrollBehavior,
+            searchBarScrollBehavior = searchBarScrollBehavior,
             selectionModeState = selectionModeState,
             homeSearchState = homeSearchState,
             onIsScrollingUpChanged = { isScrollingUp = it },

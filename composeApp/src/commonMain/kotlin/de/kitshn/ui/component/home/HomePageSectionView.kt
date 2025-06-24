@@ -26,10 +26,8 @@ import de.kitshn.ui.theme.Typography
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.allStringResources
 import kitshn.composeapp.generated.resources.lorem_ipsum_title
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun HomePageSectionView(
     client: TandoorClient?,
