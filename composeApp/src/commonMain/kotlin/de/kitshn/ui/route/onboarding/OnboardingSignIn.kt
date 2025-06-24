@@ -30,6 +30,7 @@ import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Web
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
@@ -38,8 +39,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -285,7 +284,7 @@ fun RouteOnboardingSignIn(
                         .fillMaxSize()
                 ) {
                     Row {
-                        OutlinedTextField(
+                        TextField(
                             modifier = Modifier
                                 .weight(1f, true)
                                 .focusRequester(instanceUrlFocusRequester),
@@ -376,7 +375,7 @@ fun RouteOnboardingSignIn(
 
                     Spacer(Modifier.height(16.dp))
 
-                    OutlinedTextField(
+                    TextField(
                         modifier = Modifier
                             .fillMaxSize()
                             .semantics {
@@ -412,7 +411,7 @@ fun RouteOnboardingSignIn(
                         }
                     )
 
-                    OutlinedTextField(
+                    TextField(
                         modifier = Modifier
                             .fillMaxSize()
                             .semantics {
@@ -454,7 +453,7 @@ fun RouteOnboardingSignIn(
 
                     HorizontalDividerWithLabel(text = stringResource(Res.string.common_or_upper))
 
-                    OutlinedTextField(
+                    TextField(
                         modifier = Modifier
                             .fillMaxSize()
                             .semantics {
@@ -578,7 +577,7 @@ fun RouteOnboardingSignIn(
                         header.value = value
                     }
 
-                    OutlinedCard {
+                    Card {
                         Column(
                             Modifier
                                 .padding(8.dp)

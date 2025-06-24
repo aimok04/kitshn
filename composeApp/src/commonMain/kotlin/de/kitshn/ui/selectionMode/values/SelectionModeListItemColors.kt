@@ -11,7 +11,8 @@ fun ListItemDefaults.selectionModeListItemColors(
     defaultColors: ListItemColors = colors(),
     selectionModeColors: ListItemColors = colors(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
-        headlineColor = MaterialTheme.colorScheme.onPrimaryContainer
+        headlineColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        supportingColor = MaterialTheme.colorScheme.onPrimaryContainer
     )
 ): ListItemColors {
     return if(selected) {
