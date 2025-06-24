@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -27,13 +26,6 @@ import de.kitshn.ui.component.search.chips.NewSearchSettingChip
 import de.kitshn.ui.component.search.chips.RandomSearchSettingChip
 import de.kitshn.ui.component.search.chips.SortingSearchSettingChip
 import kotlinx.datetime.Clock
-
-@Composable
-fun rememberAdditionalSearchSettingsChipRowState(): AdditionalSearchSettingsChipRowState {
-    return remember {
-        AdditionalSearchSettingsChipRowState()
-    }
-}
 
 class AdditionalSearchSettingsChipRowState {
 
@@ -54,6 +46,19 @@ class AdditionalSearchSettingsChipRowState {
 
     var random by mutableStateOf(false)
     var new by mutableStateOf(false)
+
+    fun reset() {
+        sortOrder = null
+        selectedKeywords.clear()
+        selectedFoods.clear()
+        keywordsAnd = true
+        foodsAnd = true
+        minimumRating = null
+        random = false
+        new = false
+
+        update()
+    }
 
 }
 

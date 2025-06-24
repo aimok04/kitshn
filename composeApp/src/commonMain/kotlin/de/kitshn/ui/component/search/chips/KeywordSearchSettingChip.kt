@@ -1,12 +1,10 @@
 package de.kitshn.ui.component.search.chips
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AllInclusive
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.ui.component.search.AdditionalSearchSettingsChipRowState
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
@@ -30,7 +28,6 @@ fun KeywordSearchSettingChip(
         client = client,
         prepend = {
             SettingsSwitchListItem(
-                contentPadding = PaddingValues(bottom = 16.dp),
                 label = {
                     Text(text = stringResource(Res.string.search_keyword_including_all_label))
                 },
