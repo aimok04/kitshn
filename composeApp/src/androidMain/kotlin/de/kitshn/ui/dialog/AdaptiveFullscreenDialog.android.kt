@@ -6,6 +6,8 @@ import android.widget.FrameLayout
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -174,8 +176,11 @@ actual fun AdaptiveFullscreenDialog(
         } else {
             AnimatedVisibility(
                 visibleState = animVisibilityState,
-                content = { dialogContent() }
-            )
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                dialogContent()
+            }
         }
     }
 }

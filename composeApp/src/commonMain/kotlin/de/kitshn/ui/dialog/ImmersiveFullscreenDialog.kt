@@ -2,6 +2,8 @@ package de.kitshn.ui.dialog
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -9,10 +11,10 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -137,14 +139,16 @@ fun CommonImmersiveFullscreenDialog(
         )
     ) {
         AnimatedVisibility(
-            animVisibleState
+            animVisibleState,
+            enter = fadeIn(),
+            exit = fadeOut()
         ) {
             Surface(
                 Modifier
                     .fillMaxSize()
             ) {
                 val mTopBar = topBar ?: {
-                    TopAppBar(
+                    CenterAlignedTopAppBar(
                         navigationIcon = {
                             BackButton(
                                 onBack = { dismiss() },

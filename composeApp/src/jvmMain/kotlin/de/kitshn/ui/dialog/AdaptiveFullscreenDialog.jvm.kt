@@ -2,6 +2,8 @@ package de.kitshn.ui.dialog
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -56,7 +58,9 @@ actual fun AdaptiveFullscreenDialog(
         )
     ) {
         AnimatedVisibility(
-            animVisibilityState
+            visibleState = animVisibilityState,
+            enter = fadeIn(),
+            exit = fadeOut()
         ) {
             CommonAdaptiveFullscreenDialogContent(
                 containerColor = containerColor,
