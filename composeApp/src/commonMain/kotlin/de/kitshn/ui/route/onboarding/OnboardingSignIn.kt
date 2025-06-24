@@ -30,6 +30,7 @@ import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Web
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
@@ -42,7 +43,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -59,7 +59,9 @@ import androidx.compose.ui.autofill.AutofillType
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -74,7 +76,7 @@ import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.crash.crashReportHandler
 import de.kitshn.ui.component.HorizontalDividerWithLabel
-import de.kitshn.ui.component.buttons.LoadingExtendedFloatingActionButton
+import de.kitshn.ui.component.buttons.LoadingMediumExtendedFloatingActionButton
 import de.kitshn.ui.modifier.autofill
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.state.ErrorLoadingSuccessState
@@ -116,7 +118,9 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 fun RouteOnboardingSignIn(
     p: RouteParameters
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
     val focusManager = LocalFocusManager.current
+
     val crashReportHandler = crashReportHandler()
 
     val coroutineScope = rememberCoroutineScope()
@@ -145,13 +149,19 @@ fun RouteOnboardingSignIn(
             try {
                 client.serverSettings.current()
                 instanceUrlState = ErrorLoadingSuccessState.SUCCESS
+
+                hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
             } catch(e: Exception) {
                 instanceUrlV1Error = true
                 instanceUrlState = ErrorLoadingSuccessState.ERROR
+
+                hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
             }
         } else {
             instanceUrlV1Error = false
             instanceUrlState = ErrorLoadingSuccessState.ERROR
+
+            hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
         }
     }
 
@@ -165,6 +175,8 @@ fun RouteOnboardingSignIn(
     fun done() {
         coroutineScope.launch {
             loginState.wrapRequest {
+                delay(250)
+
                 if(tokenValue.isNotBlank()) {
                     val credentials = TandoorCredentials(
                         instanceUrl = instanceUrlValue,
@@ -190,6 +202,8 @@ fun RouteOnboardingSignIn(
                         p.vm.settings.saveTandoorCredentials(credentials)
 
                         p.vm.navHostController?.navigate("onboarding/welcome")
+
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                         return@wrapRequest
                     }
 
@@ -212,18 +226,23 @@ fun RouteOnboardingSignIn(
                         }
 
                         p.vm.signIn(client, credentials)
+
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                         return@wrapRequest
                     }
 
                     throw Error("UNDEFINED_TOKEN")
                 }
             }
+
+            if(loginState.state == TandoorRequestStateState.ERROR)
+                hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
         }
     }
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = { Text(stringResource(Res.string.onboarding_sign_in_title)) },
                 actions = {
                     if(crashReportHandler != null) IconButton(
@@ -240,8 +259,9 @@ fun RouteOnboardingSignIn(
             )
         },
         floatingActionButton = {
-            LoadingExtendedFloatingActionButton(
-                loading = loginState.state == TandoorRequestStateState.LOADING,
+            LoadingMediumExtendedFloatingActionButton(
+                loading = loginState.state == TandoorRequestStateState.LOADING
+                        || loginState.state == TandoorRequestStateState.SUCCESS,
                 text = { Text(text = stringResource(Res.string.action_sign_in)) },
                 icon = {
                     Icon(

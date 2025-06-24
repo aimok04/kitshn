@@ -20,7 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -75,8 +74,6 @@ fun ColorSchemeSelectionBottomSheet(
     onChangeCustomColorSchemeSeed: (seedColor: Color) -> Unit,
     onSelect: (colorScheme: AvailableColorSchemes) -> Unit
 ) {
-    val modalBottomSheetState = rememberModalBottomSheetState()
-
     var render by remember { mutableStateOf(false) }
     val availableColorSchemes = remember { mutableStateListOf<AvailableColorSchemes>() }
 
@@ -98,20 +95,15 @@ fun ColorSchemeSelectionBottomSheet(
             availableColorSchemes.remove(AvailableColorSchemes.CUSTOM)
 
             render = true
-            modalBottomSheetState.show()
         } else {
-            modalBottomSheetState.hide()
             render = false
         }
     }
 
-    if(!render) return
-
-    ModalBottomSheet(
+    if(render) ModalBottomSheet(
         onDismissRequest = {
             state.dismiss()
-        },
-        sheetState = modalBottomSheetState
+        }
     ) {
         if(AvailableColorSchemes.ANDROID_DYNAMIC_COLOR_SCHEME.isAvailable()) SettingsSwitchListItem(
             label = { Text(stringResource(Res.string.settings_section_appearance_color_scheme_dynamic_label)) },

@@ -1,6 +1,8 @@
 package de.kitshn.ui.route.onboarding
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -8,17 +10,23 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
-import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LoadingIndicatorDefaults
+import androidx.compose.material3.MaterialShapes
+import androidx.compose.material3.MediumFloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +34,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.ui.component.onboarding.KitshnLogoAnimationWrapper
+import de.kitshn.ui.randomBackgroundShape
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.theme.KitshnYellowBright
 import de.kitshn.ui.theme.KitshnYellowDark
@@ -37,7 +46,7 @@ import kitshn.composeapp.generated.resources.onboarding_welcome
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun RouteOnboardingWelcome(
     p: RouteParameters
@@ -53,7 +62,7 @@ fun RouteOnboardingWelcome(
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = {
+            MediumFloatingActionButton(onClick = {
                 coroutineScope.launch {
                     p.vm.settings.setOnboardingCompleted(true)
                 }
@@ -85,12 +94,24 @@ fun RouteOnboardingWelcome(
                         .widthIn(100.dp, 400.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    KitshnLogoAnimationWrapper { modifier, tint ->
-                        Text(
-                            modifier = modifier,
-                            text = "\uD83D\uDE03",
-                            style = Typography().displayLarge
-                        )
+                    KitshnLogoAnimationWrapper { modifier, _ ->
+                        Box(
+                            modifier
+                                .size(164.dp)
+                                .background(
+                                    LoadingIndicatorDefaults.containedContainerColor,
+                                    remember {
+                                        MaterialShapes.randomBackgroundShape()
+                                    }.toShape(0)
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                modifier = modifier,
+                                text = "\uD83D\uDE03",
+                                style = Typography().displayLarge
+                            )
+                        }
                     }
 
                     Spacer(Modifier.height(24.dp))
