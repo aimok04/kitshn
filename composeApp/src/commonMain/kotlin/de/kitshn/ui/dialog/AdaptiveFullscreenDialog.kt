@@ -17,10 +17,10 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -95,7 +95,7 @@ fun CommonAdaptiveFullscreenDialogContent(
         }
     ) {
         val mTopBar = topBar ?: {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = containerColor
                 ),
