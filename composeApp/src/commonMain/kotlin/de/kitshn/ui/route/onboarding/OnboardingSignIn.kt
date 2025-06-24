@@ -55,13 +55,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.autofill.AutofillType
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -77,7 +78,6 @@ import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.crash.crashReportHandler
 import de.kitshn.ui.component.HorizontalDividerWithLabel
 import de.kitshn.ui.component.buttons.LoadingMediumExtendedFloatingActionButton
-import de.kitshn.ui.modifier.autofill
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.theme.Success
@@ -379,10 +379,9 @@ fun RouteOnboardingSignIn(
                     OutlinedTextField(
                         modifier = Modifier
                             .fillMaxSize()
-                            .autofill(
-                                autofillTypes = listOf(AutofillType.Username),
-                                onFill = { v -> usernameValue = v }
-                            ),
+                            .semantics {
+                                contentType = androidx.compose.ui.autofill.ContentType.Username
+                            },
 
                         enabled = instanceUrlState == ErrorLoadingSuccessState.SUCCESS,
                         label = { Text(stringResource(Res.string.common_username)) },
@@ -416,13 +415,9 @@ fun RouteOnboardingSignIn(
                     OutlinedTextField(
                         modifier = Modifier
                             .fillMaxSize()
-                            .autofill(
-                                autofillTypes = listOf(AutofillType.Password),
-                                onFill = { v ->
-                                    if(!v.startsWith("tda_"))
-                                        passwordValue = v
-                                }
-                            ),
+                            .semantics {
+                                contentType = androidx.compose.ui.autofill.ContentType.Password
+                            },
 
                         enabled = instanceUrlState == ErrorLoadingSuccessState.SUCCESS,
                         label = { Text(stringResource(Res.string.common_password)) },
@@ -462,13 +457,9 @@ fun RouteOnboardingSignIn(
                     OutlinedTextField(
                         modifier = Modifier
                             .fillMaxSize()
-                            .autofill(
-                                autofillTypes = listOf(AutofillType.Password),
-                                onFill = { v ->
-                                    if(v.startsWith("tda_"))
-                                        tokenValue = v
-                                }
-                            ),
+                            .semantics {
+                                contentType = androidx.compose.ui.autofill.ContentType.Password
+                            },
 
                         enabled = instanceUrlState == ErrorLoadingSuccessState.SUCCESS,
                         label = { Text(stringResource(Res.string.common_api_token)) },
@@ -499,7 +490,11 @@ fun RouteOnboardingSignIn(
 
                         value = tokenValue,
                         onValueChange = { value ->
-                            tokenValue = value
+                            tokenValue = if(value.length > 10 && !value.startsWith("tda_")) {
+                                ""
+                            } else {
+                                value
+                            }
                         }
                     )
 
