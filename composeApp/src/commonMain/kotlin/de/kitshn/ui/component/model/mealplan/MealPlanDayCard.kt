@@ -13,8 +13,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -69,7 +69,7 @@ fun MealPlanDayCard(
                     style = Typography().titleLarge
                 )
 
-                IconButton(onClick = onClickCreate) {
+                FilledTonalIconButton(onClick = onClickCreate) {
                     Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
                 }
             }

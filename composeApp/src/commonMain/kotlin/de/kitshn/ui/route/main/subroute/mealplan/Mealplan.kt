@@ -1,8 +1,30 @@
 package de.kitshn.ui.route.main.subroute.mealplan
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Remove
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.FloatingToolbarDefaults
+import androidx.compose.material3.HorizontalFloatingToolbar
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,8 +36,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.toHumanReadableDateLabel
+import de.kitshn.toLocalDate
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
 import de.kitshn.ui.dialog.mealplan.MealPlanCreationAndEditDialog
@@ -27,7 +53,12 @@ import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.selectionMode.rememberSelectionModeState
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.rememberErrorLoadingSuccessState
+import de.kitshn.ui.theme.Typography
 import de.kitshn.ui.view.ViewParameters
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_minus_one_week
+import kitshn.composeapp.generated.resources.action_plus_one_week
+import kitshn.composeapp.generated.resources.common_okay
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -36,8 +67,9 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun RouteMainSubrouteMealplan(
     p: RouteParameters
@@ -91,6 +123,9 @@ fun RouteMainSubrouteMealplan(
         }
     }
 
+    var showDatePickerDialog by remember { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState()
+
     Scaffold(
         topBar = {
             if(p.vm.tandoorClient == null) return@Scaffold
@@ -102,7 +137,70 @@ fun RouteMainSubrouteMealplan(
                 mealPlanMoveRequestState = moveRequestState,
                 mealPlanDeleteRequestState = deleteRequestState
             ) { lastMealPlanUpdate = Clock.System.now().toEpochMilliseconds() }
-        }
+        },
+        floatingActionButton = {
+            HorizontalFloatingToolbar(
+                colors = FloatingToolbarDefaults.vibrantFloatingToolbarColors(),
+                expanded = true,
+                content = {
+                    FilledIconButton(
+                        onClick = {
+                            coroutineScope.launch {
+                                pageLoadingState = ErrorLoadingSuccessState.LOADING
+                                delay(300)
+                                startDate = startDate.minus(7, DateTimeUnit.DAY)
+                            }
+                        },
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        )
+                    ) {
+                        Icon(Icons.Rounded.Remove, stringResource(Res.string.action_minus_one_week))
+                    }
+
+                    Spacer(Modifier.width(4.dp))
+
+                    AssistChip(
+                        onClick = {
+                            showDatePickerDialog = true
+                        },
+                        colors = AssistChipDefaults.assistChipColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            labelColor = MaterialTheme.colorScheme.onPrimary
+                        ),
+                        border = null,
+                        shape = CircleShape,
+                        label = {
+                            Text(
+                                modifier = Modifier.padding(12.dp),
+                                style = Typography().labelMedium,
+                                text = "${startDate.toHumanReadableDateLabel()} — ${endDate.toHumanReadableDateLabel()}"
+                            )
+                        }
+                    )
+
+                    Spacer(Modifier.width(4.dp))
+
+                    FilledIconButton(
+                        onClick = {
+                            coroutineScope.launch {
+                                pageLoadingState = ErrorLoadingSuccessState.LOADING
+                                delay(300)
+                                startDate = startDate.plus(7, DateTimeUnit.DAY)
+                            }
+                        },
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        )
+                    ) {
+                        Icon(Icons.Rounded.Add, stringResource(Res.string.action_plus_one_week))
+                    }
+                }
+            )
+        },
+        floatingActionButtonPosition = FabPosition.Center
     ) {
         LoadingErrorAlertPaneWrapper(
             loadingState = pageLoadingState
@@ -120,13 +218,7 @@ fun RouteMainSubrouteMealplan(
                 selectionModeState = selectionModeState,
                 detailsDialogState = detailsDialogState,
                 creationDialogState = creationDialogState
-            ) { date ->
-                coroutineScope.launch {
-                    pageLoadingState = ErrorLoadingSuccessState.LOADING
-                    delay(300)
-                    startDate = date
-                }
-            }
+            )
         }
     }
 
@@ -152,6 +244,30 @@ fun RouteMainSubrouteMealplan(
         onUpdateList = { lastMealPlanUpdate = Clock.System.now().toEpochMilliseconds() }
     ) {
         editDialogState.open(it)
+    }
+
+    if(showDatePickerDialog) DatePickerDialog(
+        onDismissRequest = { showDatePickerDialog = false },
+        confirmButton = {
+            Button(
+                onClick = {
+                    if(datePickerState.selectedDateMillis == null) return@Button
+
+                    showDatePickerDialog = false
+                    coroutineScope.launch {
+                        pageLoadingState = ErrorLoadingSuccessState.LOADING
+                        delay(300)
+                        startDate = datePickerState.selectedDateMillis!!.toLocalDate(
+                            TimeZone.UTC
+                        )
+                    }
+                }
+            ) {
+                Text(stringResource(Res.string.common_okay))
+            }
+        }
+    ) {
+        DatePicker(state = datePickerState)
     }
 
     TandoorRequestErrorHandler(state = moveRequestState)
