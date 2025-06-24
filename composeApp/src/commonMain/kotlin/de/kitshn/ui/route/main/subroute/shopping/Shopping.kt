@@ -1,11 +1,11 @@
 package de.kitshn.ui.route.main.subroute.shopping
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
@@ -14,20 +14,19 @@ import androidx.compose.material.icons.rounded.CleaningServices
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.RemoveShoppingCart
 import androidx.compose.material.icons.rounded.Storefront
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.BottomAppBarDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FloatingToolbarDefaults
+import androidx.compose.material3.FloatingToolbarDefaults.ScreenOffset
+import androidx.compose.material3.FloatingToolbarDefaults.floatingToolbarVerticalNestedScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.VerticalFloatingToolbar
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,8 +36,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -58,6 +57,7 @@ import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.LoadingGradientWrapper
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.icons.IconWithState
+import de.kitshn.ui.component.loading.AnimatedContainedLoadingIndicator
 import de.kitshn.ui.component.model.shopping.ShoppingListEntryListItem
 import de.kitshn.ui.component.model.shopping.ShoppingListEntryListItemPlaceholder
 import de.kitshn.ui.component.model.shopping.ShoppingListGroupHeaderListItem
@@ -84,14 +84,13 @@ import kitshn.composeapp.generated.resources.action_clear
 import kitshn.composeapp.generated.resources.action_delete
 import kitshn.composeapp.generated.resources.action_mark_as_done
 import kitshn.composeapp.generated.resources.action_start_shopping_mode
-import kitshn.composeapp.generated.resources.common_shopping_mode
 import kitshn.composeapp.generated.resources.navigation_shopping
 import kitshn.composeapp.generated.resources.shopping_list_empty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun RouteMainSubrouteShopping(
     p: RouteParameters,
@@ -164,21 +163,8 @@ fun RouteMainSubrouteShopping(
         topBar = {
             SelectionModeTopAppBar(
                 topAppBar = {
-                    TopAppBar(
+                    CenterAlignedTopAppBar(
                         title = { Text(stringResource(Res.string.navigation_shopping)) },
-                        actions = {
-                            IconButton(
-                                onClick = {
-                                    shoppingListEntriesClearDialogState.open()
-                                }
-                            ) {
-                                IconWithState(
-                                    imageVector = Icons.Rounded.CleaningServices,
-                                    contentDescription = stringResource(Res.string.action_clear),
-                                    state = entriesClearRequestState.state.toIconWithState()
-                                )
-                            }
-                        },
                         scrollBehavior = scrollBehavior
                     )
                 },
@@ -231,13 +217,113 @@ fun RouteMainSubrouteShopping(
                 },
                 state = selectionModeState
             )
-        },
-        bottomBar = {
-            BottomAppBar(
-                actions = {
-                    FilledTonalButton(
-                        modifier = Modifier
-                            .padding(start = 12.dp, bottom = 4.dp),
+        }
+    ) { pv ->
+        var expandedToolbar by remember { mutableStateOf(true) }
+
+        Box(
+            Modifier.padding(pv)
+        ) {
+            Column {
+                if(client != null) AdditionalShoppingSettingsChipRow(
+                    client = client,
+                    state = additionalShoppingSettingsChipRowState,
+                    cache = supermarketCache
+                )
+
+                HorizontalDivider()
+
+                LoadingGradientWrapper(
+                    loadingState = if(vm.loaded) ErrorLoadingSuccessState.SUCCESS else ErrorLoadingSuccessState.LOADING
+                ) {
+                    if(vm.items.isEmpty() && vm.loaded) {
+                        FullSizeAlertPane(
+                            imageVector = Icons.Rounded.RemoveShoppingCart,
+                            contentDescription = stringResource(Res.string.shopping_list_empty),
+                            text = stringResource(Res.string.shopping_list_empty)
+                        )
+                    } else {
+                        LazyColumn(
+                            Modifier
+                                .fillMaxSize()
+                                .floatingToolbarVerticalNestedScroll(
+                                    expanded = expandedToolbar,
+                                    onExpand = { expandedToolbar = true },
+                                    onCollapse = { expandedToolbar = false }
+                                )
+                                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                        ) {
+                            if(!vm.loaded) {
+                                item { ShoppingListGroupHeaderListItemPlaceholder() }
+                                item { ShoppingListEntryListItemPlaceholder() }
+                                item { ShoppingListEntryListItemPlaceholder() }
+                                item { ShoppingListEntryListItemPlaceholder() }
+                                item { ShoppingListEntryListItemPlaceholder() }
+                                item {
+                                    HorizontalDivider(
+                                        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                                    )
+                                }
+                                item { ShoppingListGroupHeaderListItemPlaceholder() }
+                                item { ShoppingListEntryListItemPlaceholder() }
+                                item { ShoppingListEntryListItemPlaceholder() }
+                                item { ShoppingListEntryListItemPlaceholder() }
+                            } else {
+                                items(vm.items.size, key = { vm.items[it].key }) {
+                                    when(val item = vm.items[it]) {
+                                        is GroupHeaderShoppingListItemModel -> {
+                                            ShoppingListGroupHeaderListItem(
+                                                label = { item.label }
+                                            )
+                                        }
+
+                                        is GroupedFoodShoppingListItemModel -> {
+                                            ShoppingListEntryListItem(
+                                                food = item.food,
+                                                entries = item.entries,
+                                                showFractionalValues = ingredientsShowFractionalValues.value,
+                                                selectionState = selectionModeState,
+                                                onClick = {
+                                                    shoppingListEntryDetailsBottomSheetState.open(
+                                                        item.entries
+                                                    )
+                                                }
+                                            )
+                                        }
+
+                                        is GroupDividerShoppingListItemModel -> {
+                                            HorizontalDivider(
+                                                modifier = Modifier.padding(
+                                                    start = 16.dp,
+                                                    end = 16.dp
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Box(
+                Modifier.fillMaxWidth()
+                    .offset(y = 58.dp)
+                    .offset(y = 16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                AnimatedContainedLoadingIndicator(
+                    visible = vm.shoppingListEntriesFetchRequest.state == TandoorRequestStateState.LOADING
+                )
+            }
+
+            VerticalFloatingToolbar(
+                modifier = Modifier.align(Alignment.BottomEnd)
+                    .offset(x = -ScreenOffset, y = -ScreenOffset),
+                expanded = expandedToolbar,
+                content = {
+                    IconButton(
                         onClick = {
                             p.vm.navHostController?.navigate("shopping/shoppingMode")
                         }
@@ -246,16 +332,22 @@ fun RouteMainSubrouteShopping(
                             Icons.Rounded.Storefront,
                             stringResource(Res.string.action_start_shopping_mode)
                         )
+                    }
 
-                        Spacer(Modifier.width(8.dp))
-
-                        Text(stringResource(Res.string.common_shopping_mode))
+                    IconButton(
+                        onClick = {
+                            shoppingListEntriesClearDialogState.open()
+                        }
+                    ) {
+                        IconWithState(
+                            imageVector = Icons.Rounded.CleaningServices,
+                            contentDescription = stringResource(Res.string.action_clear),
+                            state = entriesClearRequestState.state.toIconWithState()
+                        )
                     }
                 },
                 floatingActionButton = {
-                    if(!p.vm.uiState.offlineState.isOffline) FloatingActionButton(
-                        containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    FloatingToolbarDefaults.StandardFloatingActionButton(
                         onClick = {
                             shoppingListEntryCreationDialogState.open()
                         }
@@ -264,94 +356,6 @@ fun RouteMainSubrouteShopping(
                     }
                 }
             )
-        }
-    ) { pv ->
-        Column(
-            Modifier.padding(pv)
-        ) {
-            LinearProgressIndicator(
-                Modifier
-                    .fillMaxWidth()
-                    .alpha(
-                        if(vm.shoppingListEntriesFetchRequest.state == TandoorRequestStateState.LOADING) 1f else 0f
-                    )
-            )
-
-            if(client != null) AdditionalShoppingSettingsChipRow(
-                client = client,
-                state = additionalShoppingSettingsChipRowState,
-                cache = supermarketCache
-            )
-
-            HorizontalDivider()
-
-            LoadingGradientWrapper(
-                loadingState = if(vm.loaded) ErrorLoadingSuccessState.SUCCESS else ErrorLoadingSuccessState.LOADING
-            ) {
-                if(vm.items.isEmpty() && vm.loaded) {
-                    FullSizeAlertPane(
-                        imageVector = Icons.Rounded.RemoveShoppingCart,
-                        contentDescription = stringResource(Res.string.shopping_list_empty),
-                        text = stringResource(Res.string.shopping_list_empty)
-                    )
-                } else {
-                    LazyColumn(
-                        Modifier
-                            .fillMaxSize()
-                            .nestedScroll(scrollBehavior.nestedScrollConnection)
-                    ) {
-                        if(!vm.loaded) {
-                            item { ShoppingListGroupHeaderListItemPlaceholder() }
-                            item { ShoppingListEntryListItemPlaceholder() }
-                            item { ShoppingListEntryListItemPlaceholder() }
-                            item { ShoppingListEntryListItemPlaceholder() }
-                            item { ShoppingListEntryListItemPlaceholder() }
-                            item {
-                                HorizontalDivider(
-                                    modifier = Modifier.padding(start = 16.dp, end = 16.dp)
-                                )
-                            }
-                            item { ShoppingListGroupHeaderListItemPlaceholder() }
-                            item { ShoppingListEntryListItemPlaceholder() }
-                            item { ShoppingListEntryListItemPlaceholder() }
-                            item { ShoppingListEntryListItemPlaceholder() }
-                        } else {
-                            items(vm.items.size, key = { vm.items[it].key }) {
-                                when(val item = vm.items[it]) {
-                                    is GroupHeaderShoppingListItemModel -> {
-                                        ShoppingListGroupHeaderListItem(
-                                            label = { item.label }
-                                        )
-                                    }
-
-                                    is GroupedFoodShoppingListItemModel -> {
-                                        ShoppingListEntryListItem(
-                                            food = item.food,
-                                            entries = item.entries,
-                                            showFractionalValues = ingredientsShowFractionalValues.value,
-                                            selectionState = selectionModeState,
-                                            onClick = {
-                                                shoppingListEntryDetailsBottomSheetState.open(
-                                                    item.entries
-                                                )
-                                            }
-                                        )
-                                    }
-
-                                    is GroupDividerShoppingListItemModel -> {
-                                        HorizontalDivider(
-                                            modifier = Modifier.padding(
-                                                start = 16.dp,
-                                                end = 16.dp
-                                            )
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 
