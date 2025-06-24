@@ -14,14 +14,22 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.FilterAlt
 import androidx.compose.material.icons.rounded.Receipt
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.FloatingToolbarDefaults
+import androidx.compose.material3.FloatingToolbarDefaults.floatingToolbarVerticalNestedScroll
+import androidx.compose.material3.FloatingToolbarDefaults.standardFloatingToolbarColors
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MediumFloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.VerticalFloatingToolbar
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,10 +49,10 @@ import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.model.TandoorRecipeBookEntry
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.rememberTandoorRequestState
-import de.kitshn.isScrollingUp
 import de.kitshn.reachedBottom
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
+import de.kitshn.ui.component.loading.LazyStaggeredGridAnimatedContainedLoadingIndicator
 import de.kitshn.ui.component.model.recipe.RecipeCard
 import de.kitshn.ui.component.model.recipe.RecipeCardInfoTag
 import de.kitshn.ui.dialog.recipeBook.RecipeBookCreationAndEditDialog
@@ -56,12 +64,13 @@ import de.kitshn.ui.selectionMode.rememberSelectionModeState
 import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_add
+import kitshn.composeapp.generated.resources.action_edit
 import kitshn.composeapp.generated.resources.recipe_book_empty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ViewBooksDetails(
     p: ViewParameters,
@@ -82,9 +91,9 @@ fun ViewBooksDetails(
 
     val selectRecipeDialogState = rememberSelectRecipeDialogState()
     val creationDialogState =
-        rememberRecipeBookCreationDialogState(key = "RouteMainSubrouteBooks/creationDialogState")
+        rememberRecipeBookCreationDialogState(key = "RouteMainSubrouteBooks/details/creationDialogState")
     val editDialogState =
-        rememberRecipeBookEditDialogState(key = "RouteMainSubrouteBooks/editDialogState")
+        rememberRecipeBookEditDialogState(key = "RouteMainSubrouteBooks/details/editDialogState")
 
     val recipes = remember { mutableStateListOf<TandoorRecipeBookEntry>() }
     LaunchedEffect(book.entries.toList()) {
@@ -141,6 +150,8 @@ fun ViewBooksDetails(
         }
     }
 
+    var expandedToolbar by remember { mutableStateOf(true) }
+
     Scaffold(
         topBar = {
             ViewBooksDetailsTopAppBar(
@@ -157,18 +168,46 @@ fun ViewBooksDetails(
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(
-                expanded = lazyStaggeredGridState.isScrollingUp(),
-                icon = {
+            if(isFavoriteBook) {
+                MediumFloatingActionButton(
+                    shape = FloatingActionButtonDefaults.shape,
+                    containerColor = standardFloatingToolbarColors().fabContainerColor,
+                    contentColor = standardFloatingToolbarColors().fabContentColor,
+                    elevation = FloatingActionButtonDefaults.elevation(FloatingToolbarDefaults.ContainerCollapsedElevationWithFab),
+                    onClick = {
+                        selectRecipeDialogState.open()
+                    }
+                ) {
                     Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
-                },
-                text = {
-                    Text(stringResource(Res.string.action_add))
-                },
-                onClick = {
-                    selectRecipeDialogState.open()
                 }
-            )
+            } else {
+                VerticalFloatingToolbar(
+                    expanded = expandedToolbar,
+                    content = {
+                        IconButton(
+                            onClick = {
+                                coroutineScope.launch {
+                                    editDialogState.open(book)
+                                }
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Edit,
+                                contentDescription = stringResource(Res.string.action_edit)
+                            )
+                        }
+                    },
+                    floatingActionButton = {
+                        FloatingToolbarDefaults.StandardFloatingActionButton(
+                            onClick = {
+                                selectRecipeDialogState.open()
+                            }
+                        ) {
+                            Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
+                        }
+                    }
+                )
+            }
         }
     ) { pv ->
         if(recipes.isEmpty() && filterRecipes.isEmpty()) {
@@ -187,6 +226,11 @@ fun ViewBooksDetails(
             LazyVerticalStaggeredGrid(
                 modifier = Modifier
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
+                    .floatingToolbarVerticalNestedScroll(
+                        expanded = expandedToolbar,
+                        onExpand = { expandedToolbar = true },
+                        onCollapse = { expandedToolbar = false }
+                    )
                     .padding(pv),
                 state = lazyStaggeredGridState,
                 columns = StaggeredGridCells.Adaptive(minSize = 200.dp),
@@ -237,6 +281,11 @@ fun ViewBooksDetails(
                         onClick = { onClick(entry) }
                     )
                 }
+
+                LazyStaggeredGridAnimatedContainedLoadingIndicator(
+                    nextPageExists = nextPageExists,
+                    extendedRequestState = listFilterRecipesRequestState
+                )
             }
         }
     }

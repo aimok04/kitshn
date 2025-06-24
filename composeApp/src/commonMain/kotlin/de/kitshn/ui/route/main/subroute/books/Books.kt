@@ -3,9 +3,12 @@ package de.kitshn.ui.route.main.subroute.books
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.FloatingToolbarDefaults
+import androidx.compose.material3.FloatingToolbarDefaults.standardFloatingToolbarColors
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.material3.MediumFloatingActionButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -19,7 +22,6 @@ import androidx.compose.runtime.setValue
 import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.rememberTandoorRequestState
-import de.kitshn.isScrollingUp
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
@@ -40,7 +42,7 @@ import kitshn.composeapp.generated.resources.action_add
 import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun RouteMainSubrouteBooks(
     p: RouteParameters
@@ -129,18 +131,17 @@ fun RouteMainSubrouteBooks(
             }
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(
-                expanded = lazyListState.isScrollingUp(),
-                icon = {
-                    Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
-                },
-                text = {
-                    Text(stringResource(Res.string.action_add))
-                },
+            MediumFloatingActionButton(
+                shape = FloatingActionButtonDefaults.shape,
+                containerColor = standardFloatingToolbarColors().fabContainerColor,
+                contentColor = standardFloatingToolbarColors().fabContentColor,
+                elevation = FloatingActionButtonDefaults.elevation(FloatingToolbarDefaults.ContainerCollapsedElevationWithFab),
                 onClick = {
                     creationDialogState.open()
                 }
-            )
+            ) {
+                Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
+            }
         }
     ) { selectId, _, _, _, _, back ->
         client.container.recipeBook[selectId.toInt()]?.let { recipeBook ->

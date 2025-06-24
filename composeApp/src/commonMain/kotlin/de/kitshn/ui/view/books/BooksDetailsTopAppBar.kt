@@ -2,15 +2,14 @@ package de.kitshn.ui.view.books
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,7 +30,6 @@ import kitshn.composeapp.generated.resources.action_abort
 import kitshn.composeapp.generated.resources.action_delete
 import kitshn.composeapp.generated.resources.action_delete_recipe_book_entries
 import kitshn.composeapp.generated.resources.action_delete_recipe_book_entries_description
-import kitshn.composeapp.generated.resources.action_edit
 import kitshn.composeapp.generated.resources.common_favorites
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -56,7 +54,7 @@ fun ViewBooksDetailsTopAppBar(
 
     SelectionModeTopAppBar(
         topAppBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 navigationIcon = {
                     BackButton(onBack)
                 },
@@ -66,20 +64,6 @@ fun ViewBooksDetailsTopAppBar(
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1
                     )
-                },
-                actions = {
-                    if(!isFavoriteBook) IconButton(
-                        onClick = {
-                            coroutineScope.launch {
-                                editDialogState.open(book)
-                            }
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Edit,
-                            contentDescription = stringResource(Res.string.action_edit)
-                        )
-                    }
                 },
                 scrollBehavior = scrollBehavior
             )
