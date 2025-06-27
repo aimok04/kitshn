@@ -2,6 +2,8 @@ package de.kitshn.ui.route.main.subroute.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
@@ -164,14 +166,14 @@ fun RouteMainSubrouteHome(
                         }
 
                         if(showBanner) {
+                            Spacer(Modifier.height(16.dp))
+
                             AutoFetchingFundingBanner(
                                 Modifier.widthIn(
                                     min = 100.dp,
                                     max = 600.dp
                                 ).padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    bottom = 16.dp
+                                    start = 32.dp
                                 ),
                                 onClickSupport = {
                                     p.vm.navHostController?.navigate("ios/manageSubscription")

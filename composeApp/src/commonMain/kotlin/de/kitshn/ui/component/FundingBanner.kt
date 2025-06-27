@@ -14,10 +14,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -70,6 +71,7 @@ fun AutoFetchingFundingBanner(
     }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FundingBanner(
     modifier: Modifier = Modifier,
@@ -160,7 +162,7 @@ fun FundingBanner(
 
             Spacer(Modifier.height(8.dp))
 
-            LinearProgressIndicator(
+            LinearWavyProgressIndicator(
                 progress = { event.percentage },
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.tertiary,
