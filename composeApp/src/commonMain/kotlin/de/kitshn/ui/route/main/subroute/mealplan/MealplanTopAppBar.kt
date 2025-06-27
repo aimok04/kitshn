@@ -96,8 +96,15 @@ fun RouteMainSubrouteMealplanTopAppBar(
                                 val mealPlan = client.container.mealPlan[it] ?: return@forEach
                                 mealPlanMoveRequestState.wrapRequest {
                                     mealPlan.partialUpdate(
+                                        title = mealPlan.title,
+                                        recipe = mealPlan.recipe,
+                                        servings = mealPlan.servings,
+                                        note = mealPlan.note,
                                         from_date = date,
-                                        to_date = date
+                                        to_date = date,
+                                        meal_type = mealPlan.meal_type,
+                                        shared = mealPlan.shared,
+                                        addshopping = mealPlan.shopping
                                     )
 
                                     hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
