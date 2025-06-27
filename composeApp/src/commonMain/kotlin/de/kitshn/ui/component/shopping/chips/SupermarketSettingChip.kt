@@ -24,6 +24,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
@@ -48,6 +50,8 @@ fun SupermarketSettingChip(
     state: AdditionalShoppingSettingsChipRowState,
     cache: ShoppingSupermarketCache
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
+
     var showDialog by rememberSaveable { mutableStateOf(false) }
 
     FilterChip(
@@ -128,6 +132,8 @@ fun SupermarketSettingChip(
                                     state.supermarket = supermarkets[it]
 
                                     state.update()
+
+                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                                 },
                                 headlineContent = {
                                     Text(text = supermarkets[it].name)

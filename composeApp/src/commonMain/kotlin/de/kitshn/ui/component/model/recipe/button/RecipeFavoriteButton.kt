@@ -7,9 +7,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalHapticFeedback
 import de.kitshn.FavoritesViewModel
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_add_to_favorites
@@ -23,6 +25,8 @@ fun RecipeFavoriteButton(
     favoritesViewModel: FavoritesViewModel
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
+
     val isFavorite = favoritesViewModel.isFavorite(recipeOverview)
 
     val toggleFavoriteRequestState = rememberTandoorRequestState()
@@ -32,6 +36,8 @@ fun RecipeFavoriteButton(
             toggleFavoriteRequestState.wrapRequest {
                 favoritesViewModel.toggleFavorite(recipeOverview)
             }
+
+            hapticFeedback.handleTandoorRequestState(toggleFavoriteRequestState)
         }
     }) {
         when(isFavorite) {

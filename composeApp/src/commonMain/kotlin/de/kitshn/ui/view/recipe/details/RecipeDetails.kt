@@ -71,10 +71,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -86,12 +88,14 @@ import de.kitshn.KITSHN_KEYWORD_FLAG_PREFIX
 import de.kitshn.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP
 import de.kitshn.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP_DESC
 import de.kitshn.api.tandoor.TandoorClient
+import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.TandoorIngredient
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.formatDuration
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.launchWebsiteHandler
 import de.kitshn.shareContentHandler
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -187,6 +191,7 @@ fun ViewRecipeDetails(
     val shareContentHandler = shareContentHandler()
 
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
 
     // settings
     val hideIngredientAllocationActionChips =
@@ -330,6 +335,8 @@ fun ViewRecipeDetails(
                         "${getString(Res.string.share_incentive)}\n \n» ${recipe.name} «\n$link"
                     )
                 }
+
+                hapticFeedback.handleTandoorRequestState(shareRequestState)
             }
         }
     }
@@ -489,6 +496,7 @@ fun ViewRecipeDetails(
                     FloatingToolbarDefaults.StandardFloatingActionButton(
                         onClick = {
                             p.vm.navHostController?.navigate("recipe/${recipeOverview.id}/cook/${servingsValue}")
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                         }
                     ) {
                         Icon(
@@ -682,6 +690,8 @@ fun ViewRecipeDetails(
                                                 description = KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP_DESC
                                             )
                                         }
+
+                                        hapticFeedback.handleTandoorRequestState(addFlagRequestState)
                                     }
                                 }
                             ) {
@@ -837,8 +847,14 @@ fun ViewRecipeDetails(
             state = recipeDeleteDialogState,
             onConfirm = {
                 coroutineScope.launch {
-                    it.delete()
-                    p.back?.let { it() }
+                    val request = TandoorRequestState().apply {
+                        wrapRequest {
+                            it.delete()
+                            p.back?.let { it() }
+                        }
+                    }
+
+                    hapticFeedback.handleTandoorRequestState(request)
                 }
             }
         )

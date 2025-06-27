@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,7 @@ import de.kitshn.Platforms
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.platformDetails
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.input.FoodSearchField
@@ -80,6 +82,7 @@ fun ShoppingListEntryCreationDialog(
     if(!state.shown.value) return
 
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
 
     val foodInputFocusRequester = remember { FocusRequester() }
     val amountInputFocusRequester = remember { FocusRequester() }
@@ -99,6 +102,8 @@ fun ShoppingListEntryCreationDialog(
 
                 state.dismiss()
             }
+
+            hapticFeedback.handleTandoorRequestState(addRequestState)
         }
     }
 

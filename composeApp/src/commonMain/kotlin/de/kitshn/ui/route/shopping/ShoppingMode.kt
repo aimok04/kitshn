@@ -27,7 +27,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -38,6 +40,7 @@ import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.cache.ShoppingListEntriesCache
 import de.kitshn.cache.ShoppingListEntryOfflineActions
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.model.route.GroupDividerShoppingListItemModel
 import de.kitshn.model.route.GroupHeaderShoppingListItemModel
 import de.kitshn.model.route.GroupedFoodShoppingListItemModel
@@ -80,6 +83,7 @@ fun RouteShoppingMode(
     }
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
     val layoutDirection = LocalLayoutDirection.current
 
     val additionalShoppingSettingsChipRowState = p.vm.uiState.additionalShoppingSettingsChipRowState
@@ -191,6 +195,10 @@ fun RouteShoppingMode(
                                                             ShoppingListEntryOfflineActions.CHECK
                                                         )
                                                     }
+
+                                                    hapticFeedback.performHapticFeedback(
+                                                        HapticFeedbackType.SegmentTick
+                                                    )
                                                     return@ShoppingModeListEntryListItem
                                                 }
 
@@ -204,6 +212,10 @@ fun RouteShoppingMode(
 
                                                         vm.renderItems()
                                                     }
+
+                                                    hapticFeedback.handleTandoorRequestState(
+                                                        entriesCheckRequestState
+                                                    )
                                                 }
                                             }
                                         )

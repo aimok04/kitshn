@@ -121,7 +121,9 @@ fun RecipeIngredientAllocationDialog(
     onRefresh: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
+
     val density = LocalDensity.current
+    val hapticFeedback = LocalHapticFeedback.current
 
     if(!state.shown.value) return
     val recipe = state.linkContent.value!!
@@ -144,6 +146,8 @@ fun RecipeIngredientAllocationDialog(
     ) {
         recipe.steps.size
     }
+
+    hapticFeedback.handlePagerState(pagerState)
 
     LaunchedEffect(Unit, state.linkContent.value, state.shown.value) {
         ingredients.clear()

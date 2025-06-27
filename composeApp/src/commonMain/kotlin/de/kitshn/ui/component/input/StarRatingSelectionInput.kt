@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import de.kitshn.ui.component.icons.StarIcon
 
@@ -15,13 +17,18 @@ fun StarRatingSelectionInput(
     value: Int = 0,
     onChange: (value: Int) -> Unit
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
+
     @Composable
     fun StarIconButton(
         rating: Int
     ) {
-        IconButton(onClick = {
-            onChange(rating)
-        }) {
+        IconButton(
+            onClick = {
+                onChange(rating)
+                hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+            }
+        ) {
             StarIcon(
                 iconModifier ?: Modifier.size(96.dp),
                 enabled = value >= rating

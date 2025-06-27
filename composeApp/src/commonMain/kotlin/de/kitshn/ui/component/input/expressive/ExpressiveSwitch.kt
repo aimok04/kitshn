@@ -12,6 +12,8 @@ import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 
 /**
  * Implementation of Switch using checkmark and x icons (like in expressive Android UI).
@@ -25,9 +27,19 @@ fun ExpressiveSwitch(
     colors: SwitchColors = SwitchDefaults.colors(),
     interactionSource: MutableInteractionSource? = null,
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
+
     Switch(
         checked = checked,
-        onCheckedChange = onCheckedChange,
+        onCheckedChange = { value ->
+            onCheckedChange?.let { it(value) }
+            hapticFeedback.performHapticFeedback(
+                when(value) {
+                    true -> HapticFeedbackType.ToggleOn
+                    false -> HapticFeedbackType.ToggleOff
+                }
+            )
+        },
         thumbContent = {
             AnimatedContent(
                 targetState = checked

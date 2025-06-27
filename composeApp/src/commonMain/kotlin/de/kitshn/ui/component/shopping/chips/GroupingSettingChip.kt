@@ -21,6 +21,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRowState
@@ -53,6 +55,8 @@ enum class GroupingOptions(
 fun GroupingSettingChip(
     state: AdditionalShoppingSettingsChipRowState
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
+
     var showDialog by rememberSaveable { mutableStateOf(false) }
 
     FilterChip(
@@ -98,6 +102,8 @@ fun GroupingSettingChip(
                             state.grouping = it
 
                             state.update()
+
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                         },
                         headlineContent = {
                             Text(text = it.itemLabel())

@@ -110,6 +110,8 @@ fun RouteMainSubrouteMealplan(
     val mealPlanList = remember { mutableStateListOf<TandoorMealPlan>() }
     var lastMealPlanUpdate by remember { mutableLongStateOf(0L) }
 
+    var initialLoad by remember { mutableStateOf(true) }
+
     LaunchedEffect(lastMealPlanUpdate, startDate) {
         pageLoadingState = ErrorLoadingSuccessState.LOADING
 
@@ -126,6 +128,11 @@ fun RouteMainSubrouteMealplan(
                     it
                 )
             }
+        }
+
+        if(initialLoad) {
+            initialLoad = false
+            return@LaunchedEffect
         }
 
         hapticFeedback.handleTandoorRequestState(mainFetchRequestState)

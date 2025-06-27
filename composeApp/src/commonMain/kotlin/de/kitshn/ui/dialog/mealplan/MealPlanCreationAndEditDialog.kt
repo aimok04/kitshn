@@ -22,12 +22,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalHapticFeedback
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.api.tandoor.route.TandoorUser
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.model.form.KitshnForm
 import de.kitshn.model.form.KitshnFormSection
 import de.kitshn.model.form.item.KitshnFormCheckItem
@@ -164,6 +166,7 @@ fun MealPlanCreationAndEditDialog(
     if(creationState?.shown?.value != true && editState?.shown?.value != true) return
 
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
 
     val defaultValues =
         if(creationState?.shown?.value == true) creationState.defaultValues else editState?.defaultValues
@@ -469,6 +472,8 @@ fun MealPlanCreationAndEditDialog(
                             )
                         }
 
+                        hapticFeedback.handleTandoorRequestState(requestMealPlanState)
+
                         onRefresh()
                         editState?.dismiss()
                     } else {
@@ -505,6 +510,8 @@ fun MealPlanCreationAndEditDialog(
                             onRefresh()
                             creationState?.dismiss()
                         }
+
+                        hapticFeedback.handleTandoorRequestState(requestMealPlanState)
                     }
                 }
             }
@@ -547,6 +554,8 @@ fun MealPlanCreationAndEditDialog(
                     onRefresh()
                     creationState?.dismiss()
                 }
+
+                hapticFeedback.handleTandoorRequestState(requestRecipeAddToShoppingState)
             }
         }
     )

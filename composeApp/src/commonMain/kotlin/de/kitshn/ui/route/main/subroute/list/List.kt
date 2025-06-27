@@ -21,10 +21,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.reachedBottom
 import de.kitshn.ui.component.LoadingGradientWrapper
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
@@ -51,6 +53,8 @@ fun RouteMainSubrouteList(
     p: RouteParameters
 ) {
     val client = p.vm.tandoorClient ?: return
+
+    val hapticFeedback = LocalHapticFeedback.current
 
     val selectionModeState = rememberSelectionModeState<Int>()
 
@@ -130,6 +134,8 @@ fun RouteMainSubrouteList(
 
                 if(!reachedBottom) fetchNewItems = false
             }
+
+            hapticFeedback.handleTandoorRequestState(extendedListRequestState)
 
             delay(500)
         }

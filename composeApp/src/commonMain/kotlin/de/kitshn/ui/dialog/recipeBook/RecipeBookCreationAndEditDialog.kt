@@ -15,11 +15,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.api.tandoor.route.TandoorUser
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.model.form.KitshnForm
 import de.kitshn.model.form.KitshnFormSection
 import de.kitshn.model.form.item.field.KitshnFormSelectUsersFieldItem
@@ -121,6 +123,7 @@ fun RecipeBookCreationAndEditDialog(
     if(creationState?.shown?.value != true && editState?.shown?.value != true) return
 
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
 
     val defaultValues =
         if(creationState?.shown?.value == true) creationState.defaultValues else editState?.defaultValues
@@ -237,6 +240,8 @@ fun RecipeBookCreationAndEditDialog(
                             )
                         }
 
+                        hapticFeedback.handleTandoorRequestState(requestRecipeBookState)
+
                         onRefresh()
                         editState?.dismiss()
                     } else {
@@ -247,6 +252,8 @@ fun RecipeBookCreationAndEditDialog(
                                 shared = shared
                             )
                         }
+
+                        hapticFeedback.handleTandoorRequestState(requestRecipeBookState)
 
                         if(recipeBook != null) {
                             onRefresh()

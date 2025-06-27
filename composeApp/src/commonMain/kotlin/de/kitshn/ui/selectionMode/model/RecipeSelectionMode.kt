@@ -8,9 +8,12 @@ import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import de.kitshn.KitshnViewModel
 import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.dialog.common.CommonDeletionDialog
 import de.kitshn.ui.dialog.common.rememberCommonDeletionDialogState
@@ -23,6 +26,7 @@ import kitshn.composeapp.generated.resources.action_add_to_favorites
 import kitshn.composeapp.generated.resources.action_add_to_recipe_books
 import kitshn.composeapp.generated.resources.action_delete
 import kitshn.composeapp.generated.resources.action_remove_from_favorites
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -33,6 +37,7 @@ fun RecipeSelectionModeTopAppBar(
     state: SelectionModeState<Int>
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
 
     val addRecipesToBookRequestState = rememberTandoorRequestState()
     val addRecipesToFavoritesRequestState = rememberTandoorRequestState()
@@ -59,11 +64,17 @@ fun RecipeSelectionModeTopAppBar(
                                         )
                                     ) return@forEach
                                     vm.favorites.removeFromFavorites(id)
+
+                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                                    delay(25)
                                 }
                             } else {
                                 state.selectedItems.forEach { id ->
                                     if(vm.favorites.isFavorite(recipeId = id, false)) return@forEach
                                     vm.favorites.addToFavorites(id)
+
+                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                                    delay(25)
                                 }
                             }
                         }
@@ -119,6 +130,8 @@ fun RecipeSelectionModeTopAppBar(
                         recipeBook.createEntry(recipeId)
                     }
                 }
+
+                hapticFeedback.handleTandoorRequestState(addRecipesToBookRequestState)
             }
         }
 
@@ -129,6 +142,9 @@ fun RecipeSelectionModeTopAppBar(
                     recipesDeleteRequestState.wrapRequest {
                         state.selectedItems.forEach { recipeId ->
                             vm.tandoorClient!!.delete("/recipe/${recipeId}/")
+
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                            delay(25)
                         }
                     }
                 }

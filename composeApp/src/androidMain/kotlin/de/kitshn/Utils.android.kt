@@ -6,9 +6,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.provider.AlarmClock
-import android.view.HapticFeedbackConstants
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
@@ -44,27 +42,6 @@ fun getActivityWindow(): Window? = LocalView.current.context.getActivityWindow()
 
 actual fun saveBreadcrumb(key: String, value: String) {
     ACRA.errorReporter.putCustomData(key, value)
-}
-
-@Composable
-actual fun osDependentHapticFeedbackHandler(): ((type: HapticFeedbackType) -> Unit)? {
-    val view = LocalView.current
-
-    return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-        {
-            view.performHapticFeedback(
-                when(it) {
-                    HapticFeedbackType.SHORT_TICK -> HapticFeedbackConstants.SEGMENT_FREQUENT_TICK
-                    HapticFeedbackType.DRAG_START -> HapticFeedbackConstants.DRAG_START
-                    HapticFeedbackType.GESTURE_START -> HapticFeedbackConstants.GESTURE_START
-                    HapticFeedbackType.GESTURE_END -> HapticFeedbackConstants.GESTURE_END
-                    else -> HapticFeedbackConstants.LONG_PRESS
-                }
-            )
-        }
-    } else {
-        null
-    }
 }
 
 @Composable

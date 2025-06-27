@@ -94,7 +94,7 @@ fun RouteOnboardingWelcome(
                         .widthIn(100.dp, 400.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    KitshnLogoAnimationWrapper { modifier, _ ->
+                    KitshnLogoAnimationWrapper { modifier ->
                         Box(
                             modifier
                                 .size(164.dp)

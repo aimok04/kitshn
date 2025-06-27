@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -49,6 +50,7 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.TandoorKeyword
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.reachedBottom
 import de.kitshn.removeIf
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -242,6 +244,7 @@ fun KeywordSearchBar(
     onCheckedChange: (keyword: TandoorKeyword, keywordId: Int, value: Boolean) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
     var query by rememberSaveable { mutableStateOf("") }
@@ -314,6 +317,8 @@ fun KeywordSearchBar(
 
                 if(!reachedBottom) fetchNewItems = false
             }
+
+            hapticFeedback.handleTandoorRequestState(extendedSearchRequestState)
 
             delay(500)
         }

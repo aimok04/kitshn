@@ -205,6 +205,8 @@ fun RecipeCreationAndEditDialog(
     if(creationState?.shown?.value != true && editState?.shown?.value != true) return
 
     val coroutineScope = rememberCoroutineScope()
+
+    val hapticFeedback = LocalHapticFeedback.current
     val density = LocalDensity.current
 
     val defaultValues =
@@ -280,6 +282,8 @@ fun RecipeCreationAndEditDialog(
     }
 
     val pagerState = foreverRememberPagerState(key = "${rememberKey}/pagerState") { pages.size }
+    hapticFeedback.handlePagerState(pagerState)
+
     val requestRecipeState = rememberTandoorRequestState()
 
     fun dismiss() {
@@ -324,6 +328,11 @@ fun RecipeCreationAndEditDialog(
 
                                     recipe?.combineSteps(steps)
                                     values.updateSteps()
+
+                                    repeat(steps.size) {
+                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                                        delay(25)
+                                    }
 
                                     stepsSelectionModeState.disable()
                                 }
@@ -398,6 +407,8 @@ fun RecipeCreationAndEditDialog(
                                 editState?.dismiss()
                                 creationState?.dismiss()
                             }
+
+                            hapticFeedback.handleTandoorRequestState(requestRecipeState)
                         }
                     }
                 }

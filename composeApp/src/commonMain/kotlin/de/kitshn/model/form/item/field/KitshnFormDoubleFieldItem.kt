@@ -22,7 +22,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -67,6 +69,7 @@ class KitshnFormDoubleFieldItem(
         modifier: Modifier
     ) {
         val focusManager = LocalFocusManager.current
+        val hapticFeedback = LocalHapticFeedback.current
 
         var error by rememberSaveable { mutableStateOf<String?>(null) }
         val value = value()
@@ -140,10 +143,15 @@ class KitshnFormDoubleFieldItem(
                         val min = min()
 
                         val newValue = value?.let { it - 1 } ?: min() ?: 1.0
-                        if(min != null && newValue < min) return@SmallFloatingActionButton
+                        if(min != null && newValue < min) {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
+                            return@SmallFloatingActionButton
+                        }
 
                         focusManager.clearFocus(force = true)
                         checkValueChange(newValue)
+
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                     }
                 ) {
                     Icon(Icons.Rounded.Remove, stringResource(Res.string.action_minus))
@@ -156,10 +164,15 @@ class KitshnFormDoubleFieldItem(
                         val max = max()
 
                         val newValue = value?.let { it + 1 } ?: min() ?: 1.0
-                        if(max != null && newValue > max) return@SmallFloatingActionButton
+                        if(max != null && newValue > max) {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
+                            return@SmallFloatingActionButton
+                        }
 
                         focusManager.clearFocus(force = true)
                         checkValueChange(newValue)
+
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                     }
                 ) {
                     Icon(Icons.Rounded.Add, stringResource(Res.string.action_plus))

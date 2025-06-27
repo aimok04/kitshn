@@ -41,6 +41,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
@@ -50,6 +51,7 @@ import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryListRecipeData
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.formatAmount
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.component.model.shopping.recipeMealplan.HorizontalListRecipeDataCard
@@ -97,6 +99,8 @@ fun ShoppingListEntryDetailsBottomSheet(
     onUpdate: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
+
     val modalBottomSheetState = rememberModalBottomSheetState()
 
     val entries = state.linkContent.value ?: return
@@ -253,6 +257,10 @@ fun ShoppingListEntryDetailsBottomSheet(
                                         changeSupermarketCategoryValue = food.supermarket_category
                                         onUpdate()
                                     }
+
+                                    hapticFeedback.handleTandoorRequestState(
+                                        categoryChangeRequestState
+                                    )
                                 }
                             }
                         ) {
@@ -292,6 +300,8 @@ fun ShoppingListEntryDetailsBottomSheet(
                             changeSupermarketCategoryValue = food.supermarket_category
                             onUpdate()
                         }
+
+                        hapticFeedback.handleTandoorRequestState(categoryChangeRequestState)
                     }
                 }
             }

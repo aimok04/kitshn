@@ -42,6 +42,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
@@ -49,6 +50,7 @@ import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.model.TandoorRecipeBookEntry
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.reachedBottom
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
@@ -80,6 +82,7 @@ fun ViewBooksDetails(
     onClick: (recipeOverview: TandoorRecipeOverview) -> Unit = {}
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val lazyStaggeredGridState = rememberLazyStaggeredGridState()
@@ -303,6 +306,7 @@ fun ViewBooksDetails(
         ) {
             coroutineScope.launch {
                 createEntryRequestState.wrapRequest { book.createEntry(it.id) }
+                hapticFeedback.handleTandoorRequestState(createEntryRequestState)
 
                 delay(100)
                 createEntryRequestState.reset()

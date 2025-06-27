@@ -10,8 +10,10 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
@@ -78,10 +80,15 @@ class KitshnForm(
     @Composable
     fun RenderSubmitButton() {
         val coroutine = rememberCoroutineScope()
+        val hapticFeedback = LocalHapticFeedback.current
 
         submitButton {
             coroutine.launch {
-                if(checkSubmit()) onSubmit()
+                if(checkSubmit()) {
+                    onSubmit()
+                } else {
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
+                }
             }
         }
     }

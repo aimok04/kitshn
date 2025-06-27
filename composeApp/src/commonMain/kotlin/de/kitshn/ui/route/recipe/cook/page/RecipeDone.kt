@@ -33,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
@@ -45,6 +44,7 @@ import coil3.compose.LocalPlatformContext
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.input.StarRatingSelectionInput
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
@@ -88,7 +88,7 @@ fun RouteRecipeCookPageDone(
                 )
             }
 
-            hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
+            hapticFeedback.handleTandoorRequestState(requestCookLogCreateState)
         }
     }
 

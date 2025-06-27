@@ -23,12 +23,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import de.kitshn.KeepScreenOn
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.handlePagerState
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.buttons.BackButtonType
 import de.kitshn.ui.component.model.recipe.step.RecipeStepIndicator
@@ -45,6 +47,8 @@ fun RouteRecipeCook(
     p: RouteParameters
 ) {
     val layoutDirection = LocalLayoutDirection.current
+    val hapticFeedback = LocalHapticFeedback.current
+
     val coroutineScope = rememberCoroutineScope()
 
     val recipeId = p.bse.arguments?.getString("recipeId")
@@ -84,6 +88,8 @@ fun RouteRecipeCook(
 
     val pagerState =
         foreverRememberPagerState(key = "RouteRecipeCook/pagerState/${recipe!!.id}") { sortedSteps.size + 1 }
+
+    hapticFeedback.handlePagerState(pagerState)
 
     // ensure that the screen stays on, during the cooking
     KeepScreenOn()

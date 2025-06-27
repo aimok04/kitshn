@@ -44,18 +44,20 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
-import de.kitshn.HapticFeedbackHandler
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorIngredient
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.copy
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.json
 import de.kitshn.model.form.KitshnForm
 import de.kitshn.model.form.KitshnFormSection
@@ -230,7 +232,7 @@ fun StepCreationAndEditDialog(
     if(creationState?.shown?.value != true && editState?.shown?.value != true) return
 
     val coroutineScope = rememberCoroutineScope()
-    val hapticFeedbackHandler = HapticFeedbackHandler()
+    val hapticFeedback = LocalHapticFeedback.current
 
     val defaultValues =
         if(creationState?.shown?.value == true) creationState.defaultValues else editState?.defaultValues
@@ -259,7 +261,7 @@ fun StepCreationAndEditDialog(
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
         ingredients.apply { add(to.index - 4, removeAt(from.index - 4)) }
-        hapticFeedbackHandler(de.kitshn.HapticFeedbackType.SHORT_TICK)
+        hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
     }
 
     val requestStepState = rememberTandoorRequestState()
@@ -393,6 +395,8 @@ fun StepCreationAndEditDialog(
                             onUpdate(updatedStep)
                             editState.dismiss()
                         }
+
+                        hapticFeedback.handleTandoorRequestState(requestStepState)
                     } else {
                         val recipe = creationState!!.recipe!!
 
@@ -428,6 +432,8 @@ fun StepCreationAndEditDialog(
                             onCreate(updatedRecipe.steps.last())
                             creationState.dismiss()
                         }
+
+                        hapticFeedback.handleTandoorRequestState(requestStepState)
                     }
                 }
             }
@@ -516,10 +522,10 @@ fun StepCreationAndEditDialog(
                                 onClick = { },
                                 modifier = Modifier.longPressDraggableHandle(
                                     onDragStarted = {
-                                        hapticFeedbackHandler(de.kitshn.HapticFeedbackType.DRAG_START)
+                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                                     },
                                     onDragStopped = {
-                                        hapticFeedbackHandler(de.kitshn.HapticFeedbackType.GESTURE_END)
+                                        hapticFeedback.performHapticFeedback(HapticFeedbackType.GestureEnd)
                                     },
                                     interactionSource = interactionSource
                                 )

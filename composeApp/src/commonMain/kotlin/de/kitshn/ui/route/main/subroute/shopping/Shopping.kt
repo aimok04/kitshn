@@ -38,7 +38,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.PlatformContext
@@ -48,6 +50,7 @@ import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.cache.ShoppingListEntriesCache
 import de.kitshn.cache.ShoppingListEntryOfflineActions
 import de.kitshn.cache.ShoppingSupermarketCache
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.model.route.GroupDividerShoppingListItemModel
 import de.kitshn.model.route.GroupHeaderShoppingListItemModel
 import de.kitshn.model.route.GroupedFoodShoppingListItemModel
@@ -114,6 +117,7 @@ fun RouteMainSubrouteShopping(
     }
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
 
     val additionalShoppingSettingsChipRowState = p.vm.uiState.additionalShoppingSettingsChipRowState
 
@@ -177,6 +181,13 @@ fun RouteMainSubrouteShopping(
                                         .flatMap { id -> vm.entries.filter { it.food.id == id } }
                                         .let {
                                             client!!.shopping.check(it)
+
+                                            repeat(it.size) {
+                                                hapticFeedback.performHapticFeedback(
+                                                    HapticFeedbackType.SegmentTick
+                                                )
+                                                delay(25)
+                                            }
                                         }
 
                                     vm.renderItems()
@@ -200,6 +211,13 @@ fun RouteMainSubrouteShopping(
                                         .flatMap { id -> vm.entries.filter { it.food.id == id } }
                                         .let {
                                             client!!.shopping.delete(it)
+
+                                            repeat(it.size) {
+                                                hapticFeedback.performHapticFeedback(
+                                                    HapticFeedbackType.SegmentTick
+                                                )
+                                                delay(25)
+                                            }
                                         }
 
                                     vm.renderItems()
@@ -326,6 +344,7 @@ fun RouteMainSubrouteShopping(
                     IconButton(
                         onClick = {
                             p.vm.navHostController?.navigate("shopping/shoppingMode")
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                         }
                     ) {
                         Icon(
@@ -369,6 +388,10 @@ fun RouteMainSubrouteShopping(
                         if (onlyDoneEntries) entries.removeIf { !it.checked }
 
                         client.shopping.delete(entries)
+                        repeat(entries.size) {
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                            delay(25)
+                        }
 
                         vm.renderItems()
                         vm.update()
@@ -420,6 +443,7 @@ fun RouteMainSubrouteShopping(
                         vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.CHECK)
                     }
 
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
                     return@ShoppingListEntryDetailsBottomSheet
                 }
 
@@ -434,11 +458,14 @@ fun RouteMainSubrouteShopping(
                         vm.renderItems()
                         vm.update()
                     }
+
+                    hapticFeedback.handleTandoorRequestState(actionRequestState)
                 }
             },
             onDelete = { entries ->
                 if(p.vm.uiState.offlineState.isOffline) {
                     vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.DELETE)
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
                     return@ShoppingListEntryDetailsBottomSheet
                 }
 
@@ -447,6 +474,8 @@ fun RouteMainSubrouteShopping(
                         client.shopping.delete(entries)
                         vm.renderItems()
                     }
+
+                    hapticFeedback.handleTandoorRequestState(actionRequestState)
                 }
             },
             onClickMealplan = { mealPlan -> mealPlanDetailsDialogState.open(mealPlan) },

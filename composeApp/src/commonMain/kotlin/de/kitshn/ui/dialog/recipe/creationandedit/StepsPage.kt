@@ -1,6 +1,5 @@
 package de.kitshn.ui.dialog.recipe.creationandedit
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -34,10 +33,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
-import de.kitshn.HapticFeedbackHandler
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.removeIf
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.model.recipe.step.RecipeStepCard
@@ -61,7 +60,6 @@ import org.jetbrains.compose.resources.stringResource
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun StepsPage(
     selectionState: SelectionModeState<Int>,
@@ -69,10 +67,8 @@ fun StepsPage(
     values: RecipeCreationAndEditDialogValue,
     showFractionalValues: Boolean
 ) {
-    val hapticFeedback = LocalHapticFeedback.current
-    val hapticFeedbackHandler = HapticFeedbackHandler()
-
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
 
     val stepById = remember { mutableStateMapOf<Int, TandoorStep>() }
     LaunchedEffect(recipe, values._stepsUpdate) {
@@ -88,7 +84,7 @@ fun StepsPage(
     val lazyListState = rememberLazyListState()
     val reorderableLazyListState = rememberReorderableLazyListState(lazyListState) { from, to ->
         values.stepsOrder.apply { add(to.index, removeAt(from.index)) }
-        hapticFeedbackHandler(de.kitshn.HapticFeedbackType.SHORT_TICK)
+        hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
     }
 
     val stepDeletionDialogState = rememberCommonDeletionDialogState<TandoorStep>()
@@ -170,10 +166,14 @@ fun StepsPage(
                                         onClick = { },
                                         modifier = Modifier.longPressDraggableHandle(
                                             onDragStarted = {
-                                                hapticFeedbackHandler(de.kitshn.HapticFeedbackType.DRAG_START)
+                                                hapticFeedback.performHapticFeedback(
+                                                    HapticFeedbackType.LongPress
+                                                )
                                             },
                                             onDragStopped = {
-                                                hapticFeedbackHandler(de.kitshn.HapticFeedbackType.GESTURE_END)
+                                                hapticFeedback.performHapticFeedback(
+                                                    HapticFeedbackType.GestureEnd
+                                                )
                                             },
                                             interactionSource = interactionSource
                                         )
@@ -235,8 +235,14 @@ fun StepsPage(
         state = stepDeletionDialogState,
         onConfirm = { step ->
             coroutineScope.launch {
-                recipe?.deleteStep(step)
-                values.updateSteps()
+                val request = TandoorRequestState().apply {
+                    wrapRequest {
+                        recipe?.deleteStep(step)
+                        values.updateSteps()
+                    }
+                }
+
+                hapticFeedback.handleTandoorRequestState(request)
             }
         }
     )

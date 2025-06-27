@@ -28,9 +28,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.component.model.mealplan.MealPlanDetailsCard
@@ -78,6 +81,7 @@ fun MealPlanDetailsDialog(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val requestMealPlanDeleteState = rememberTandoorRequestState()
+    val hapticFeedback = LocalHapticFeedback.current
 
     if(reopenOnLaunchKey != null) {
         var reopenOnLaunch by foreverRememberNotSavable<TandoorMealPlan?>(
@@ -113,6 +117,7 @@ fun MealPlanDetailsDialog(
                 if(mealPlan.recipe != null) FloatingActionButton(
                     onClick = {
                         p.vm.navHostController?.navigate("recipe/${mealPlan.recipe.id}/cook/$servings")
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
                     },
                     elevation = FloatingActionButtonDefaults.elevation(
                         0.dp, 0.dp, 0.dp, 0.dp
@@ -161,6 +166,8 @@ fun MealPlanDetailsDialog(
                                 val data = requestMealPlanDeleteState.wrapRequest {
                                     mealPlan.delete()
                                 }
+
+                                hapticFeedback.handleTandoorRequestState(requestMealPlanDeleteState)
 
                                 if(data == null) return@launch
 

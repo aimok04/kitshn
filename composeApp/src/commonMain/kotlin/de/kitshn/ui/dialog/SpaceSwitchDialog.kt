@@ -24,11 +24,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.TandoorSpace
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
 import de.kitshn.ui.component.icons.IconWithState
@@ -50,6 +52,7 @@ fun SpaceSwitchDialog(
     onDismiss: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
 
     val scrapeRequestState = rememberTandoorRequestState()
     val switchRequestState = rememberTandoorRequestState()
@@ -123,6 +126,8 @@ fun SpaceSwitchDialog(
                                             onRefresh()
                                             onDismiss()
                                         }
+
+                                        hapticFeedback.handleTandoorRequestState(switchRequestState)
                                     }
                                 },
                                 headlineContent = {

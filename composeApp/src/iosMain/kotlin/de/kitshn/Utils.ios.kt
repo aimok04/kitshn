@@ -21,9 +21,6 @@ actual fun saveBreadcrumb(key: String, value: String) {
 }
 
 @Composable
-actual fun osDependentHapticFeedbackHandler(): ((type: HapticFeedbackType) -> Unit)? = null
-
-@Composable
 actual fun LocalDate.format(pattern: String): String = NSDateFormatter().run {
     setLocale(Locale.current.platformLocale)
     setLocalizedDateFormatFromTemplate(pattern)

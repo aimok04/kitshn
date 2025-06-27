@@ -15,9 +15,10 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Camera
 import androidx.compose.material.icons.rounded.UploadFile
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -32,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import com.eygraber.uri.Uri
@@ -41,6 +43,7 @@ import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.api.tandoor.route.TandoorAIImportRoute
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.HorizontalDividerWithLabel
 import de.kitshn.ui.component.icons.IconWithState
@@ -101,6 +104,7 @@ fun RecipeImportAIDialog(
     if(!state.shown.value) return
 
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
 
     val fetchRequestState = rememberTandoorRequestState()
     fun fetch() = coroutineScope.launch {
@@ -125,6 +129,8 @@ fun RecipeImportAIDialog(
                 state.data.populate()
             }
         }
+
+        hapticFeedback.handleTandoorRequestState(fetchRequestState)
     }
 
     var showPhotoTakingDialog by remember { mutableStateOf(false) }
@@ -160,6 +166,8 @@ fun RecipeImportAIDialog(
                                 }
                             )
                         }
+
+                        hapticFeedback.handleTandoorRequestState(recipeImportRequestState)
                     }
                 }
             ) {

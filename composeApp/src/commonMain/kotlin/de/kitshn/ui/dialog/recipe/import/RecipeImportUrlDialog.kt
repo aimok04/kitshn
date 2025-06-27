@@ -13,11 +13,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.Receipt
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -33,6 +34,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
@@ -42,6 +44,7 @@ import de.kitshn.KitshnViewModel
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
@@ -117,6 +120,7 @@ fun RecipeImportUrlDialog(
 
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
+    val hapticFeedback = LocalHapticFeedback.current
 
     val fetchRequestState = rememberTandoorRequestState()
     fun fetch() = coroutineScope.launch {
@@ -139,6 +143,8 @@ fun RecipeImportUrlDialog(
                 state.data.populate()
             }
         }
+
+        hapticFeedback.handleTandoorRequestState(fetchRequestState)
     }
 
     LaunchedEffect(state.autoFetch) {
@@ -166,6 +172,8 @@ fun RecipeImportUrlDialog(
                                 }
                             )
                         }
+
+                        hapticFeedback.handleTandoorRequestState(recipeImportRequestState)
                     }
                 }
             ) {

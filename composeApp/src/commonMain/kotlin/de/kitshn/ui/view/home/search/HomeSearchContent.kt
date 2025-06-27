@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DinnerDining
 import androidx.compose.material.icons.rounded.NoMeals
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,12 +20,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
 import de.kitshn.foodToIdList
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.keywordToIdList
 import de.kitshn.reachedBottom
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -45,7 +47,6 @@ import org.jetbrains.compose.resources.stringResource
 
 const val HOME_SEARCH_PAGING_SIZE = 36
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ViewHomeSearchContent(
     client: TandoorClient,
@@ -53,6 +54,8 @@ fun ViewHomeSearchContent(
     selectionModeState: SelectionModeState<Int>? = null,
     onClick: (recipe: TandoorRecipeOverview) -> Unit
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
+
     var firstUpdate by remember { mutableStateOf(true) }
 
     val additionalSearchSettingsChipRowState = state.additionalSearchSettingsChipRowState
@@ -100,20 +103,32 @@ fun ViewHomeSearchContent(
 
         state.currentPage = 1
 
-        state.searchRequestState.wrapRequest {
+        val response = state.searchRequestState.wrapRequest {
             client.recipe.list(
                 parameters = collectQueryParameters(),
                 pageSize = HOME_SEARCH_PAGING_SIZE,
                 page = state.currentPage
             )
-        }?.let {
-            state.currentPage++
-
-            state.nextPageExists = it.next != null
-
-            state.searchResultIds.clear()
-            it.results.forEach { recipe -> state.searchResultIds.add(recipe.id) }
         }
+
+        if(response == null) {
+            hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
+            return@LaunchedEffect
+        }
+
+        state.currentPage++
+
+        state.nextPageExists = response.next != null
+
+        state.searchResultIds.clear()
+        response.results.forEach { recipe -> state.searchResultIds.add(recipe.id) }
+
+        hapticFeedback.performHapticFeedback(
+            when(response.results.size) {
+                0 -> HapticFeedbackType.Reject
+                else -> HapticFeedbackType.Confirm
+            }
+        )
     }
 
     val searchLazyListState by foreverRememberNotSavable(
@@ -150,6 +165,8 @@ fun ViewHomeSearchContent(
 
                 if(!reachedBottom) fetchNewItems = false
             }
+
+            hapticFeedback.handleTandoorRequestState(state.extendedSearchRequestState)
 
             delay(500)
         }

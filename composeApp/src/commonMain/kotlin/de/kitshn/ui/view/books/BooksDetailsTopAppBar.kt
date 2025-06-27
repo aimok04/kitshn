@@ -17,6 +17,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextOverflow
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
@@ -51,6 +53,7 @@ fun ViewBooksDetailsTopAppBar(
     onBack: (() -> Unit)?
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
 
     SelectionModeTopAppBar(
         topAppBar = {
@@ -107,6 +110,9 @@ fun ViewBooksDetailsTopAppBar(
                                     deleteRequestState.wrapRequest {
                                         book.entryByRecipeId[recipeId]?.delete()
                                     }
+
+                                    hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                                    delay(25)
                                 }
 
                                 selectionModeState.disable()

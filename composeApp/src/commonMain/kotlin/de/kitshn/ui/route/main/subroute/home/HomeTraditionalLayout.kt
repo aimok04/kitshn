@@ -25,10 +25,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.isScrollingUp
 import de.kitshn.reachedBottom
 import de.kitshn.ui.component.LoadingGradientWrapper
@@ -69,6 +71,7 @@ fun HomeTraditionalLayout(
     ) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val hapticFeedback = LocalHapticFeedback.current
 
     var pageLoadingState by rememberErrorLoadingSuccessState()
 
@@ -149,6 +152,8 @@ fun HomeTraditionalLayout(
 
                 if(!reachedBottom) fetchNewItems = false
             }
+
+            hapticFeedback.handleTandoorRequestState(extendedListRequestState)
 
             delay(500)
         }

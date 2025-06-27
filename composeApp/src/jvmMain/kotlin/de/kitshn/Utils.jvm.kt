@@ -27,9 +27,6 @@ import kotlin.system.exitProcess
 actual fun saveBreadcrumb(key: String, value: String) {}
 
 @Composable
-actual fun osDependentHapticFeedbackHandler(): ((type: HapticFeedbackType) -> Unit)? = null
-
-@Composable
 actual fun LocalDate.format(pattern: String): String = DateTimeFormatter.ofPattern(pattern)
     .format(java.time.LocalDate.ofEpochDay(this.toEpochDays().toLong()))
 

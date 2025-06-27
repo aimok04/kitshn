@@ -27,8 +27,8 @@ fun KitshnLogoAnimation(
     onCompleted: () -> Unit = { }
 ) {
     KitshnLogoAnimationWrapper(
-        onCompleted
-    ) { modifier, tint ->
+        onCompleted = onCompleted
+    ) { modifier ->
         Box(
             modifier
                 .size(164.dp)
@@ -46,7 +46,7 @@ fun KitshnLogoAnimation(
                     .width(100.dp),
                 painter = painterResource(Res.drawable.ic_logo),
                 contentDescription = stringResource(Res.string.app_name),
-                tint = tint
+                tint = LoadingIndicatorDefaults.containedIndicatorColor
             )
         }
     }

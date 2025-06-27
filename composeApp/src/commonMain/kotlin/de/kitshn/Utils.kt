@@ -4,14 +4,17 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.hapticfeedback.HapticFeedback
-import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
@@ -26,6 +29,7 @@ import kitshn.composeapp.generated.resources.common_today
 import kitshn.composeapp.generated.resources.common_tomorrow
 import kitshn.composeapp.generated.resources.common_yesterday
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.delay
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
@@ -43,6 +47,7 @@ import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.internal.FormatLanguage
 import nl.jacobras.humanreadable.HumanReadable
 import org.jetbrains.compose.resources.stringResource
+import kotlin.math.absoluteValue
 import kotlin.math.floor
 
 enum class FileFormats(val extensions: List<String>, val mimeType: String) {
@@ -75,36 +80,41 @@ enum class FileFormats(val extensions: List<String>, val mimeType: String) {
     }
 }
 
-enum class HapticFeedbackType {
-    LONG_PRESS,
-    SHORT_TICK,
-    DRAG_START,
-    GESTURE_START,
-    GESTURE_END
-}
-
-@Composable
-expect fun osDependentHapticFeedbackHandler(): ((type: HapticFeedbackType) -> Unit)?
-
-@Composable
-fun HapticFeedbackHandler(): (type: HapticFeedbackType) -> Unit {
-    val hapticFeedback = LocalHapticFeedback.current
-
-    val handler = osDependentHapticFeedbackHandler() ?: {
-        hapticFeedback.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
-    }
-
-    return handler
-}
-
 fun HapticFeedback.handleTandoorRequestState(state: TandoorRequestState) {
     performHapticFeedback(
         when(state.state) {
-            TandoorRequestStateState.SUCCESS -> androidx.compose.ui.hapticfeedback.HapticFeedbackType.Confirm
-            TandoorRequestStateState.ERROR -> androidx.compose.ui.hapticfeedback.HapticFeedbackType.Reject
-            else -> androidx.compose.ui.hapticfeedback.HapticFeedbackType.SegmentFrequentTick
+            TandoorRequestStateState.SUCCESS -> HapticFeedbackType.Confirm
+            TandoorRequestStateState.ERROR -> HapticFeedbackType.Reject
+            else -> HapticFeedbackType.SegmentFrequentTick
         }
     )
+}
+
+@Composable
+fun HapticFeedback.handlePagerState(state: PagerState) {
+    var timeout by remember { mutableStateOf(0L) }
+
+    var lastPageOffsetFraction by remember { mutableStateOf(0.0f) }
+    var lastPage by remember { mutableStateOf(state.currentPage) }
+
+    LaunchedEffect(state.currentPageOffsetFraction, state.currentPage) {
+        val diff = (state.currentPageOffsetFraction - lastPageOffsetFraction).absoluteValue
+        val timeoutDiff = Clock.System.now().toEpochMilliseconds() - timeout
+        if(diff < 0.1f) return@LaunchedEffect
+        if(timeoutDiff < 50L) return@LaunchedEffect
+
+        lastPageOffsetFraction = state.currentPageOffsetFraction
+
+        if(lastPage != state.currentPage) {
+            lastPage = state.currentPage
+            performHapticFeedback(HapticFeedbackType.Confirm)
+            delay(100)
+        } else {
+            performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
+        }
+
+        timeout = Clock.System.now().toEpochMilliseconds()
+    }
 }
 
 //source code from androidX
