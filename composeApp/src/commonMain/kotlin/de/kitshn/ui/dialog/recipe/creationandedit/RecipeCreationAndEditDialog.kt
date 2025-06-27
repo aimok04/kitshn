@@ -10,11 +10,12 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +28,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
@@ -37,6 +40,8 @@ import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.formEquals
 import de.kitshn.formEqualsInt
+import de.kitshn.handlePagerState
+import de.kitshn.handleTandoorRequestState
 import de.kitshn.model.form.KitshnForm
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.icons.IconWithState
@@ -60,6 +65,7 @@ import kitshn.composeapp.generated.resources.common_keywords
 import kitshn.composeapp.generated.resources.common_steps
 import kitshn.composeapp.generated.resources.common_unsaved_changes
 import kitshn.composeapp.generated.resources.common_unsaved_changes_description
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.stringResource
@@ -193,6 +199,7 @@ class RecipeCreationAndEditDialogValue(
     }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun RecipeCreationAndEditDialog(
     client: TandoorClient,
@@ -481,7 +488,7 @@ fun RecipeCreationAndEditDialog(
         icon = { Icon(Icons.Rounded.Save, stringResource(Res.string.action_save)) },
         title = { Text(text = stringResource(Res.string.action_saving)) },
         text = {
-            LinearProgressIndicator()
+            LinearWavyProgressIndicator()
         }
     )
 

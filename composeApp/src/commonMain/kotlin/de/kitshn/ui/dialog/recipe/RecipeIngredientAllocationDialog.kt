@@ -20,10 +20,11 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -45,6 +46,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorRequestStateState
@@ -52,6 +54,7 @@ import de.kitshn.api.tandoor.model.TandoorIngredient
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.handlePagerState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.ui.component.model.ingredient.IngredientsList
@@ -114,6 +117,7 @@ class RecipeIngredientAllocationDialogState(
     }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun RecipeIngredientAllocationDialog(
     state: RecipeIngredientAllocationDialogState,
@@ -443,7 +447,7 @@ fun RecipeIngredientAllocationDialog(
         icon = { Icon(Icons.Rounded.Save, stringResource(Res.string.action_save)) },
         title = { Text(text = stringResource(Res.string.action_saving)) },
         text = {
-            LinearProgressIndicator()
+            LinearWavyProgressIndicator()
         }
     )
 

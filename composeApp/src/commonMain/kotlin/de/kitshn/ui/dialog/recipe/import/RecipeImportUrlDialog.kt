@@ -94,6 +94,7 @@ class RecipeImportUrlDialogState(
     }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun RecipeImportUrlDialog(
     vm: KitshnViewModel,
@@ -187,7 +188,7 @@ fun RecipeImportUrlDialog(
         }
     ) { nsc, _, _ ->
         Column {
-            LinearProgressIndicator(
+            LinearWavyProgressIndicator(
                 Modifier
                     .alpha(if(fetchRequestState.state == TandoorRequestStateState.LOADING) 1f else 0f)
                     .fillMaxWidth()

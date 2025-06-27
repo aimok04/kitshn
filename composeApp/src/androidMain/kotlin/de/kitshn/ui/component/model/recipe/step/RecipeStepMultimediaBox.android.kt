@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBar
@@ -27,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.loadFile
 import de.kitshn.api.tandoor.rememberTandoorRequestState
@@ -48,7 +51,7 @@ actual fun isVideoSupported(): Boolean {
     return true
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 actual fun VideoDialog(
     onDismiss: () -> Unit,
@@ -114,8 +117,10 @@ actual fun VideoDialog(
                         .align(Alignment.Center)
                 )
             } else {
-                CircularProgressIndicator(
-                    Modifier.align(Alignment.Center)
+                ContainedLoadingIndicator(
+                    Modifier
+                        .align(Alignment.Center)
+                        .size(96.dp)
                 )
             }
 
