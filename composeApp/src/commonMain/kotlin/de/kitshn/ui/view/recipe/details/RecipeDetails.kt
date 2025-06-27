@@ -22,6 +22,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.OpenInNew
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Link
 import androidx.compose.material.icons.rounded.LocalDining
 import androidx.compose.material.icons.rounded.MoreVert
@@ -29,20 +31,23 @@ import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Reviews
 import androidx.compose.material.icons.rounded.SearchOff
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.FloatingToolbarDefaults
+import androidx.compose.material3.FloatingToolbarDefaults.floatingToolbarVerticalNestedScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.HorizontalFloatingToolbar
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MediumExtendedFloatingActionButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallFloatingActionButton
@@ -87,7 +92,6 @@ import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.formatDuration
-import de.kitshn.isScrollingUp
 import de.kitshn.launchWebsiteHandler
 import de.kitshn.shareContentHandler
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -100,6 +104,7 @@ import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.component.model.ingredient.IngredientsList
 import de.kitshn.ui.component.model.recipe.RecipeInfoBlob
 import de.kitshn.ui.component.model.recipe.RecipePropertiesCard
+import de.kitshn.ui.component.model.recipe.button.RecipeFavoriteButton
 import de.kitshn.ui.component.model.recipe.step.RecipeStepCard
 import de.kitshn.ui.component.model.servings.ServingsSelector
 import de.kitshn.ui.dialog.UseShareWrapperDialog
@@ -127,10 +132,12 @@ import de.kitshn.ui.view.ViewParameters
 import kitshn.composeApp.BuildConfig
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_close
-import kitshn.composeapp.generated.resources.action_cook
+import kitshn.composeapp.generated.resources.action_delete
+import kitshn.composeapp.generated.resources.action_edit
 import kitshn.composeapp.generated.resources.action_more
 import kitshn.composeapp.generated.resources.action_open_original
 import kitshn.composeapp.generated.resources.action_open_source
+import kitshn.composeapp.generated.resources.action_share
 import kitshn.composeapp.generated.resources.action_start_cooking
 import kitshn.composeapp.generated.resources.common_okay
 import kitshn.composeapp.generated.resources.common_review
@@ -371,6 +378,7 @@ fun ViewRecipeDetails(
     }
 
     val scrollState = rememberScrollState()
+    var expandedToolbar by remember { mutableStateOf(true) }
 
     Scaffold(
         topBar = {
@@ -393,82 +401,101 @@ fun ViewRecipeDetails(
                         maxLines = 1
                     )
                 },
-                actions = {
-                    // hide if recipe is shared
-                    if(shareToken != null) return@CenterAlignedTopAppBar
-
-                    var isMenuExpanded by rememberSaveable { mutableStateOf(false) }
-
-                    FilledIconButton(
-                        onClick = {
-                            isMenuExpanded = true
-                        },
-                        colors = IconButtonDefaults.filledIconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceContainer
-                        )
-                    ) {
-                        Icon(Icons.Rounded.MoreVert, stringResource(Res.string.action_more))
-                    }
-
-                    RecipeDetailsDropdown(
-                        vm = p.vm,
-                        recipeOverview = recipeOverview,
-                        expanded = isMenuExpanded,
-                        onEdit = { recipe?.let { recipeEditDialogState.open(it) } },
-                        onDelete = { recipe?.let { recipeDeleteDialogState.open(it) } },
-                        onShare = { share() },
-                        onManageRecipeBooks = { manageRecipeInRecipeBooksDialogState.open(recipeId) },
-                        onAddToMealPlan = {
-                            coroutineScope.launch {
-                                val userPreference = client.userPreference.fetch()
-
-                                mealPlanCreationDialogState.open(
-                                    MealPlanCreationAndEditDefaultValues(
-                                        recipeId = recipeOverview.id,
-                                        servings = recipeOverview.servings.toDouble(),
-                                        shared = userPreference.plan_share
-                                    )
-                                )
-                            }
-                        },
-                        onAddToShopping = {
-                            recipe?.let {
-                                recipeAddToShoppingDialogState.open(
-                                    recipe = it,
-                                    servings = servingsValue
-                                )
-                            }
-                        },
-                        onAllocateIngredients = {
-                            recipe?.let {
-                                recipeIngredientAllocationDialogState.open(
-                                    it
-                                )
-                            }
-                        }
-                    ) {
-                        isMenuExpanded = false
-                    }
-                },
                 scrollBehavior = scrollBehavior
             )
         },
         floatingActionButton = {
             if(hideFab) return@Scaffold
 
-            MediumExtendedFloatingActionButton(
-                expanded = scrollState.isScrollingUp(),
-                icon = {
-                    Icon(
-                        imageVector = Icons.Rounded.LocalDining,
-                        contentDescription = stringResource(Res.string.action_start_cooking)
+            HorizontalFloatingToolbar(
+                expanded = expandedToolbar,
+                content = {
+                    RecipeFavoriteButton(
+                        recipeOverview = recipeOverview,
+                        favoritesViewModel = p.vm.favorites
                     )
+
+                    IconButton(
+                        onClick = { recipe?.let { recipeEditDialogState.open(it) } }
+                    ) {
+                        Icon(Icons.Rounded.Edit, stringResource(Res.string.action_edit))
+                    }
+
+                    IconButton(
+                        onClick = { recipe?.let { recipeDeleteDialogState.open(it) } }
+                    ) {
+                        Icon(Icons.Rounded.Delete, stringResource(Res.string.action_delete))
+                    }
+
+                    IconButton(
+                        onClick = { share() }
+                    ) {
+                        Icon(Icons.Rounded.Share, stringResource(Res.string.action_share))
+                    }
+
+                    var isMenuExpanded by rememberSaveable { mutableStateOf(false) }
+
+                    Box {
+                        IconButton(
+                            onClick = { isMenuExpanded = true },
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceContainer
+                            )
+                        ) {
+                            Icon(Icons.Rounded.MoreVert, stringResource(Res.string.action_more))
+                        }
+
+                        RecipeDetailsDropdown(
+                            expanded = isMenuExpanded,
+                            onManageRecipeBooks = {
+                                manageRecipeInRecipeBooksDialogState.open(
+                                    recipeId
+                                )
+                            },
+                            onAddToMealPlan = {
+                                coroutineScope.launch {
+                                    val userPreference = client.userPreference.fetch()
+
+                                    mealPlanCreationDialogState.open(
+                                        MealPlanCreationAndEditDefaultValues(
+                                            recipeId = recipeOverview.id,
+                                            servings = recipeOverview.servings.toDouble(),
+                                            shared = userPreference.plan_share
+                                        )
+                                    )
+                                }
+                            },
+                            onAddToShopping = {
+                                recipe?.let {
+                                    recipeAddToShoppingDialogState.open(
+                                        recipe = it,
+                                        servings = servingsValue
+                                    )
+                                }
+                            },
+                            onAllocateIngredients = {
+                                recipe?.let {
+                                    recipeIngredientAllocationDialogState.open(
+                                        it
+                                    )
+                                }
+                            }
+                        ) {
+                            isMenuExpanded = false
+                        }
+                    }
                 },
-                text = {
-                    Text(stringResource(Res.string.action_cook))
-                },
-                onClick = {
-                    p.vm.navHostController?.navigate("recipe/${recipeOverview.id}/cook/${servingsValue}")
+                floatingActionButton = {
+                    FloatingToolbarDefaults.StandardFloatingActionButton(
+                        onClick = {
+                            p.vm.navHostController?.navigate("recipe/${recipeOverview.id}/cook/${servingsValue}")
+                        }
+                    ) {
+                        Icon(
+                            Icons.Rounded.LocalDining,
+                            stringResource(Res.string.action_start_cooking)
+                        )
+                    }
                 }
             )
         },
@@ -479,6 +506,11 @@ fun ViewRecipeDetails(
         Column(
             Modifier
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .floatingToolbarVerticalNestedScroll(
+                    expanded = expandedToolbar,
+                    onExpand = { expandedToolbar = true },
+                    onCollapse = { expandedToolbar = false }
+                )
                 .padding(
                     bottom = pv.calculateBottomPadding()
                 )
@@ -857,3 +889,6 @@ fun ViewRecipeDetails(
 
 @Composable
 expect fun StatusBarBackground()
+
+@Composable
+expect fun getImageRoundness(): Dp
