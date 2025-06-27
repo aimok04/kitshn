@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.savedstate.read
 import de.kitshn.KeepScreenOn
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
@@ -51,8 +52,10 @@ fun RouteRecipeCook(
 
     val coroutineScope = rememberCoroutineScope()
 
-    val recipeId = p.bse.arguments?.getString("recipeId")
-    val servings = p.bse.arguments?.getString("servings")?.toDouble() ?: 1.0
+    p.bse.arguments?.read { getString("") }
+
+    val recipeId = p.bse.arguments?.read { getString("recipeId") }
+    val servings = p.bse.arguments?.read { getString("servings") }?.toDouble() ?: 1.0
 
     if(recipeId == null) {
         p.onBack?.let { it() }

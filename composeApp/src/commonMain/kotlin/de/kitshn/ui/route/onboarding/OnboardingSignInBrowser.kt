@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.savedstate.read
 import com.multiplatform.webview.web.LoadingState
 import com.multiplatform.webview.web.WebView
 import com.multiplatform.webview.web.rememberWebViewNavigator
@@ -54,7 +55,7 @@ fun RouteOnboardingSignInBrowser(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-    val instanceUrlEncoded = p.bse.arguments?.getString("instanceUrl")
+    val instanceUrlEncoded = p.bse.arguments?.read { getString("instanceUrl") }
     if(instanceUrlEncoded == null) {
         FullSizeAlertPane(
             imageVector = Icons.Rounded.ErrorOutline,

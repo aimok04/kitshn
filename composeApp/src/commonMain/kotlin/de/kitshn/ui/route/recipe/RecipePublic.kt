@@ -6,6 +6,7 @@ import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.savedstate.read
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.closeAppHandler
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -28,8 +29,8 @@ fun RouteRecipePublic(
 ) {
     val closeAppHandler = closeAppHandler()
 
-    val recipeId = p.bse.arguments?.getString("recipeId")
-    val shareToken = p.bse.arguments?.getString("shareToken")
+    val recipeId = p.bse.arguments?.read { getString("recipeId") }
+    val shareToken = p.bse.arguments?.read { getString("shareToken") }
 
     if(recipeId == null || shareToken == null) {
         FullSizeAlertPane(

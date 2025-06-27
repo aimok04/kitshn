@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.savedstate.read
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
@@ -19,7 +20,7 @@ import org.jetbrains.compose.resources.stringResource
 fun RouteRecipeView(
     p: RouteParameters
 ) {
-    val recipeId = p.bse.arguments?.getString("recipeId")
+    val recipeId = p.bse.arguments?.read { getString("recipeId") }
     if(recipeId == null) {
         FullSizeAlertPane(
             imageVector = Icons.Rounded.SearchOff,
