@@ -72,6 +72,7 @@ import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
@@ -486,6 +487,8 @@ fun ViewRecipeDetails(
             var notEnoughSpace by remember { mutableStateOf(false) }
 
             Box {
+                val roundness = getImageRoundness()
+
                 AsyncImage(
                     model = recipeOverview.loadThumbnail(),
                     contentDescription = recipeOverview.name,
@@ -494,7 +497,12 @@ fun ViewRecipeDetails(
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(16f / 9f)
-                        .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
+                        .clip(
+                            RoundedCornerShape(
+                                bottomStart = roundness,
+                                bottomEnd = roundness
+                            )
+                        )
                 )
             }
 
