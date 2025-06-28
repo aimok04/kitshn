@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		962208B12E1075AE00A10F30 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 962208B02E1075AE00A10F30 /* AppIcon.icon */; };
 		9623FB682D7217B1005BBD7C /* com.apple.uikit.inputalternatives.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9623FB672D7217B1005BBD7C /* com.apple.uikit.inputalternatives.plist */; };
 		96272D432D3EB193004E9764 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96272D422D3EB193004E9764 /* SubscriptionView.swift */; };
 		965BA0D32D25FE1E00B22A28 /* Bugsnag in Frameworks */ = {isa = PBXBuildFile; productRef = 965BA0D22D25FE1E00B22A28 /* Bugsnag */; };
@@ -43,6 +44,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		962208B02E1075AE00A10F30 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		9623FB672D7217B1005BBD7C /* com.apple.uikit.inputalternatives.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = com.apple.uikit.inputalternatives.plist; sourceTree = "<group>"; };
 		96272D422D3EB193004E9764 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
 		966E2C162D3AF0F6002FA006 /* iosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosApp.entitlements; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 		A93A952E29CC810C00F8E227 = {
 			isa = PBXGroup;
 			children = (
+				962208B02E1075AE00A10F30 /* AppIcon.icon */,
 				A93A953929CC810C00F8E227 /* iosApp */,
 				96B8CA252D3D9C7C006BC2DA /* import */,
 				A93A953829CC810C00F8E227 /* Products */,
@@ -233,6 +236,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				962208B12E1075AE00A10F30 /* AppIcon.icon in Resources */,
 				9623FB682D7217B1005BBD7C /* com.apple.uikit.inputalternatives.plist in Resources */,
 				A93A954229CC810D00F8E227 /* Preview Assets.xcassets in Resources */,
 				A93A953F29CC810D00F8E227 /* Assets.xcassets in Resources */,
