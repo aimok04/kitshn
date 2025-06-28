@@ -34,7 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.mikepenz.aboutlibraries.entity.Library
-import com.mikepenz.aboutlibraries.ui.compose.m3.util.author
+import com.mikepenz.aboutlibraries.ui.compose.util.author
 import de.kitshn.launchWebsiteHandler
 import de.kitshn.ui.theme.Typography
 import kitshn.composeapp.generated.resources.Res

@@ -26,8 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import com.mikepenz.aboutlibraries.ui.compose.m3.rememberLibraries
-import com.mikepenz.aboutlibraries.ui.compose.m3.util.author
+import com.mikepenz.aboutlibraries.ui.compose.rememberLibraries
+import com.mikepenz.aboutlibraries.ui.compose.util.author
 import de.kitshn.launchWebsiteHandler
 import de.kitshn.platformDetails
 import de.kitshn.ui.component.buttons.BackButton
