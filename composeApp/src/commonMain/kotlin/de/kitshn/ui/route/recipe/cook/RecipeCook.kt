@@ -52,8 +52,6 @@ fun RouteRecipeCook(
 
     val coroutineScope = rememberCoroutineScope()
 
-    p.bse.arguments?.read { getString("") }
-
     val recipeId = p.bse.arguments?.read { getString("recipeId") }
     val servings = p.bse.arguments?.read { getString("servings") }?.toDouble() ?: 1.0
 
