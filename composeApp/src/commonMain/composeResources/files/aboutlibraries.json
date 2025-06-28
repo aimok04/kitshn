@@ -8740,7 +8740,7 @@
       ]
     },
     {
-      "uniqueId": "org.jetbrains.compose.desktop:desktop-jvm-macos-arm64",
+      "uniqueId": "org.jetbrains.compose.desktop:desktop-jvm-linux-x64",
       "funding": [],
       "developers": [
         {
@@ -10473,7 +10473,7 @@
       ]
     },
     {
-      "uniqueId": "org.jetbrains.skiko:skiko-awt-runtime-macos-arm64",
+      "uniqueId": "org.jetbrains.skiko:skiko-awt-runtime-linux-x64",
       "funding": [],
       "developers": [
         {
@@ -10488,7 +10488,7 @@
         "url": "https://www.github.com/JetBrains/skiko",
         "developerConnection": "scm:git:https://www.github.com/JetBrains/skiko.git"
       },
-      "name": "Skiko JVM Runtime for MacOS Arm64",
+      "name": "Skiko JVM Runtime for Linux X64",
       "website": "https://www.github.com/JetBrains/skiko",
       "licenses": [
         "Apache-2.0"
