@@ -1,8 +1,10 @@
 BETA: This beta introduces compatibility with Tandoor v2. This version is not compatible with servers running Tandoor v1.
 
-    1. Improved search dialog layout and actions (#203).
-    2. Fixed issue where wrong meal plan entries where shown on home (#200).
-    3. Fixed issue where some recipe data wasn't updated correctly (#171).
-    4. Spanish has been brought up to date (by @1024mb).
-    5. Italian has been updated (by @KindaArtsy).
-    6. French has been updated (by @whayn).
+    1. Redesigned app with Material 3 Expressive.
+    2. Added more haptic feedback.
+    3. Added liquid glass effect icon on Apple devices.
+    4. Now using default meal type when creating new meal plan entry.
+    5. Checked compatibility with Tandoor version 2.0.0-alpha-5.
+    6. Checked compatibility with Tandoor version 2.0.0-alpha-6.
+    7. Checked compatibility with Tandoor version 2.0.0-alpha-7.
+    8. Checked compatibility with Tandoor version 2.0.0-beta-1.

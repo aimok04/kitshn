@@ -1,0 +1,6 @@
+BETA: This beta introduces compatibility with Tandoor v2. This version is not compatible with servers running Tandoor v1.
+
+    1. Redesigned app with Material 3 Expressive.
+    2. Added more haptic feedback.
+    3. Now using default meal type when creating new meal plan entry.
+    4. Checked compatibility with Tandoor version 2.0.0-beta-1.
