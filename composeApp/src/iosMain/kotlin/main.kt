@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.UIKitViewController
@@ -33,10 +34,14 @@ import platform.UIKit.UIViewController
 var deepLinkUrl by mutableStateOf("")
 var mIsSubscribed by mutableStateOf(false)
 
-@OptIn(ExperimentalKermitApi::class)
+@OptIn(ExperimentalKermitApi::class, ExperimentalComposeUiApi::class)
 fun MainViewController(
     subscriptionUI: () -> UIViewController
-): UIViewController = ComposeUIViewController {
+): UIViewController = ComposeUIViewController(
+    configure = {
+        enableBackGesture = false
+    }
+) {
     Logger.setLogWriters(OSLogWriter(), NSLogWriter(), BugsnagLogWriter())
 
     var vm by remember { mutableStateOf<KitshnViewModel?>(null) }
