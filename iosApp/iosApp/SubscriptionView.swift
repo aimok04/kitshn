@@ -1,4 +1,3 @@
-import SwiftUICore
 import SwiftUI
 import StoreKit
 import ComposeApp
