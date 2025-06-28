@@ -1,5 +1,7 @@
 package de.kitshn.ui.route.main.subroute
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -16,7 +18,9 @@ fun MainSubrouteNavigation(
 
     NavHost(
         navController = controller,
-        startDestination = "home"
+        startDestination = "home",
+        enterTransition = { fadeIn() },
+        exitTransition = { fadeOut() }
     ) {
         mainSubroutes.forEach { route ->
             composable(
