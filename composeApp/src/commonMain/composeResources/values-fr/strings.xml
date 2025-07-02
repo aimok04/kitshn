@@ -388,4 +388,10 @@
     <string name="common_image">Photo</string>
     <string name="recipe_import_type_ai_label">Importer avec IA</string>
     <string name="action_clear">Effacer</string>
+    <string name="recipe_import_type_ai_description">Charger une image ou entrer une recette au format texte</string>
+    <string name="recipe_import_type_url_description">Entrer une URL ou importer une recette depuis le web</string>
+    <string name="settings_section_appearance_enlarge_shopping_mode_description">Fournit une meilleure lisibilité en mode courses</string>
+    <string name="settings_section_appearance_enlarge_shopping_mode_label">Aggrandir le mode courses</string>
+    <string name="shopping_list_dialog_clear_title">Effacer la liste de courses</string>
+    <string name="shopping_list_dialog_clear_only_done">Supprimer uniquement les entrées marquées comme » Complétées «</string>
 </resources>
