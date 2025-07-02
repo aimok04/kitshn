@@ -16,8 +16,12 @@
     <string name="shortcuts_new_instance_label_short">Nouvelle instance</string>
     <string name="acra_dialog_button_positive">Envoyer</string>
     <string name="acra_email_address_helper">Si vous le souhaitez, vous pouvez indiquer votre adresse électronique pour recevoir des mises à jour de votre rapport.</string>
-    <string name="shortcuts_meal_plan_label_short">Menu</string>
+    <string name="shortcuts_meal_plan_label_short">Planning des repas</string>
     <string name="shortcuts_shopping_label_short">Shopping</string>
     <string name="shortcuts_shopping_mode_label_short">Mode shopping</string>
     <string name="shortcuts_books_label_short">Livres</string>
+    <string name="shortcuts_meal_plan_label_long">Ouvrir le planning des repas</string>
+    <string name="shortcuts_shopping_label_long">Ouvrir les achats</string>
+    <string name="shortcuts_shopping_mode_label_long">Démarrer le mode courses</string>
+    <string name="shortcuts_books_label_long">Ouvrir les livres de recettes</string>
 </resources>
