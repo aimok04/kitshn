@@ -24,6 +24,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,9 +41,13 @@ import kitshn.composeApp.BuildConfig
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_close
 import kitshn.composeapp.generated.resources.action_support
-import kitshn.composeapp.generated.resources.funding_banner_text
+import kitshn.composeapp.generated.resources.funding_banner_text_current_year
+import kitshn.composeapp.generated.resources.funding_banner_text_year
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.pluralStringResource
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import nl.jacobras.humanreadable.HumanReadable
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -112,13 +117,19 @@ fun FundingBanner(
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
+                val euro by derivedStateOf {
+                    HumanReadable.number((event.goal - event.total), 2)
+                }
+
                 Markdown(
                     modifier = Modifier,
-                    content = pluralStringResource(
-                        Res.plurals.funding_banner_text,
-                        event.remainingSubscriptions,
-                        event.remainingSubscriptions
-                    )
+                    content = if(event.year == Clock.System.now()
+                            .toLocalDateTime(TimeZone.currentSystemDefault()).year
+                    ) {
+                        stringResource(Res.string.funding_banner_text_current_year, euro)
+                    } else {
+                        stringResource(Res.string.funding_banner_text_year, euro, event.year)
+                    }
                 )
 
                 event.additionalContent?.let {

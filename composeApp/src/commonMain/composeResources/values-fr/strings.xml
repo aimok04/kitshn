@@ -311,11 +311,6 @@
     <string name="home_section_seasonal_christmas">Pour la saison froide ☃️🎄</string>
     <string name="recipe_cook_done_description">Délicieux ? Laissez un avis et gardez une trace de la préparation.</string>
     <string name="settings_section_behavior_use_share_wrapper_label">Partager le wrapper</string>
-    <plurals name="funding_banner_text">
-        <item quantity="one">**Un supporter supplémentaire** est nécessaire pour couvrir les coûts</item>
-        <item quantity="many">**%1$d supporters supplémentaires** sont nécessaires pour couvrir les coûts</item>
-        <item quantity="other">**%1$d supporters supplémentaires** sont nécessaires pour couvrir les coûts</item>
-    </plurals>
     <string name="home_search_empty_query">Entrez une requête pour rechercher dans Tandoor.</string>
     <string name="form_error_portions_text_max_32">Le texte des portions peut contenir un maximum de 32 caractères.</string>
     <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">Vous pouvez essayer » Se connecter via le navigateur web «, si vous utilisez SSO.</string>

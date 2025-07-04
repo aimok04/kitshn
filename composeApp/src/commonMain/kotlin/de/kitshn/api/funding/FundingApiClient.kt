@@ -20,7 +20,7 @@ class FundingApiClient(
     suspend fun state(): FundingStateResponse? {
         try {
             val response = httpClient.request {
-                url("${this@FundingApiClient.url}/v1/state/")
+                url("${this@FundingApiClient.url}/v2/state/")
             }
 
             if(!response.status.isSuccess())

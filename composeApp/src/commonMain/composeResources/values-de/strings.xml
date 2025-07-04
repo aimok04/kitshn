@@ -208,6 +208,8 @@
         <item quantity="one">**Einen weiteren** regulären Unterstützenden benötigt um Kosten zu decken</item>
         <item quantity="other">**%1$d weitere** reguläre Unterstützende benötigt um Kosten zu decken</item>
     </plurals>
+    <string name="funding_banner_text_year">**%1$d €** benötigt, um die Kosten für **%2$s** zu decken.</string>
+    <string name="funding_banner_text_current_year">**%1$d €** benötigt, um die Kosten für **dieses Jahr** zu decken.</string>
     <string name="greeting_christmas">Frohe Weihnachtszeit 🎅🎄🦌</string>
     <string name="greeting_good_evening">Guten Abend 🌅</string>
     <string name="greeting_good_morning">Guten Morgen 🌞</string>

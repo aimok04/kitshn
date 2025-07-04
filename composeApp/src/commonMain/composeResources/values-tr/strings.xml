@@ -214,11 +214,6 @@
     <string name="form_error_source_max_1024">Kaynak en fazla 1024 karakter içerebilir.</string>
     <string name="form_error_title_max_64">Başlık en fazla 64 karakter içerebilir.</string>
 
-    <plurals name="funding_banner_text">
-        <item quantity="one">Maliyetleri karşılamak için **bir tane daha** düzenli destekçi gerekiyor</item>
-        <item quantity="other">Maliyetleri karşılamak için **%1$d tane daha** düzenli destekçi gerekiyor</item>
-    </plurals>
-
     <string name="greeting_christmas">Mutlu Noeller &#127877;&#127876;&#129420;</string>
     <string name="greeting_good_evening">İyi Akşamlar &#127749;</string>
     <string name="greeting_good_morning">Günaydın &#127774;</string>

@@ -339,12 +339,6 @@
     <string name="ios_support_thanks">Дякуємо за підтримку kitshn! Ваш внесок допомагає підтримувати цей проект.</string>
     <string name="settings_section_behavior_hide_funding_banner_this_year_description">Приховати банер фінансування на поточний рік</string>
     <string name="action_support">Підтримка</string>
-    <plurals name="funding_banner_text">
-        <item quantity="one">**Для покриття витрат потрібен ще %1$d ** постійний спонсор</item>
-        <item quantity="few">**Щоб покрити витрати, потрібно ще %1$d** постійних прихильників</item>
-        <item quantity="many">**Ще %1$d** постійних прихильників, щоб покрити витрати</item>
-        <item quantity="other">**Ще %1$d** постійних прихильників, щоб покрити витрати</item>
-    </plurals>
     <string name="common_custom_headers">Спеціальні заголовки</string>
     <string name="common_field">Поле</string>
     <string name="common_value">Значення</string>

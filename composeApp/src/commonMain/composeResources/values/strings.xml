@@ -229,10 +229,8 @@
     <string name="form_error_source_max_1024">The source may contain a maximum of 1024 characters.</string>
     <string name="form_error_title_max_64">The title may contain a maximum of 64 characters.</string>
 
-    <plurals name="funding_banner_text">
-        <item quantity="one">**One more** regular supporter needed to cover costs</item>
-        <item quantity="other">**%1$d more** regular supporters needed to cover costs</item>
-    </plurals>
+    <string name="funding_banner_text_year">**%1$d €** needed to cover costs for **%2$s**.</string>
+    <string name="funding_banner_text_current_year">**%1$d €** needed to cover costs for **this year**.</string>
 
     <string name="greeting_christmas">Merry Christmas &#127877;&#127876;&#129420;</string>
     <string name="greeting_good_evening">Good evening &#127749;</string>
