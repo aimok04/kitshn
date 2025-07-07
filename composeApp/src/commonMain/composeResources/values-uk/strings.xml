@@ -400,4 +400,6 @@
     <string name="action_edit_step">Редагувати крок</string>
     <string name="action_create_step">Новий крок</string>
     <string name="action_add_ingredient">Додати інгредієнт</string>
+    <string name="funding_banner_text_year">Для покриття витрат на **%2$s** потрібно **%1$d €**.</string>
+    <string name="funding_banner_text_current_year">Для покриття витрат на **цього року** потрібно **%1$d €**.</string>
 </resources>
