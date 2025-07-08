@@ -386,4 +386,6 @@
     <string name="common_select_users_for_sharing">Выберите пользователей для обмена</string>
     <string name="common_select_users_for_sharing_empty">Выберите пользователей, с которыми вы хотите поделиться.</string>
     <string name="lorem_ipsum_title">Lorem ipsum dolor sit amet</string>
+    <string name="funding_banner_text_year">**%1$d €** необходимо для покрытия расходов на **%2$s**.</string>
+    <string name="funding_banner_text_current_year">**%1$d €** необходимо для покрытия расходов на **этот год**.</string>
 </resources>
