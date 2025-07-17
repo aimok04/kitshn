@@ -394,4 +394,6 @@
     <string name="settings_section_appearance_enlarge_shopping_mode_label">Aggrandir le mode courses</string>
     <string name="shopping_list_dialog_clear_title">Effacer la liste de courses</string>
     <string name="shopping_list_dialog_clear_only_done">Supprimer uniquement les entrées marquées comme » Complétées «</string>
+    <string name="funding_banner_text_year">**%1$d €** nécessaire pour couvrir les coûts pour **%2$s**.</string>
+    <string name="funding_banner_text_current_year">**%1$d €** nécessaire pour couvrir les coûts pour ** cette année**.</string>
 </resources>
