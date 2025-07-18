@@ -269,6 +269,7 @@ fun ViewRecipeDetails(
     // calculate ingredients list
     val sortedStepsList = remember { mutableStateListOf<TandoorStep>() }
     val sortedIngredientsList = remember { mutableStateListOf<TandoorIngredient>() }
+    val sortedAndMergedIngredientsList = remember { mutableStateListOf<TandoorIngredient>() }
 
     // sort steps and ingredients
     LaunchedEffect(recipe) {
@@ -285,6 +286,46 @@ fun ViewRecipeDetails(
         sortedStepsList.addAll(recipe.sortSteps())
 
         sortedStepsList.forEach {
+            sortedIngredientsList.addAll(it.ingredients)
+
+            // merge ingredients if they have equal food, unit and note
+            it.ingredients.forEach { ingredient ->
+                val duplicateIngredientIndex =
+                    sortedAndMergedIngredientsList.indexOfFirst { duplIngredient ->
+                        if(duplIngredient.is_header) return@indexOfFirst false
+                        if(duplIngredient.no_amount) return@indexOfFirst false
+                        if(ingredient.food?.id != duplIngredient.food?.id) return@indexOfFirst false
+                        if(ingredient.unit?.id != duplIngredient.unit?.id) return@indexOfFirst false
+                        if(ingredient.note != duplIngredient.note) return@indexOfFirst false
+                        return@indexOfFirst true
+                    }
+
+                if(duplicateIngredientIndex == -1) {
+                    sortedAndMergedIngredientsList.add(ingredient)
+                } else {
+                    val duplicateIngredient =
+                        sortedAndMergedIngredientsList[duplicateIngredientIndex]
+
+                    sortedAndMergedIngredientsList.removeAt(duplicateIngredientIndex)
+                    sortedAndMergedIngredientsList.add(
+                        duplicateIngredientIndex,
+                        TandoorIngredient(
+                            id = -1,
+                            food = ingredient.food,
+                            unit = ingredient.unit,
+                            amount = ingredient.amount + duplicateIngredient.amount,
+                            note = ingredient.note,
+                            order = -1,
+                            is_header = ingredient.is_header,
+                            no_amount = ingredient.no_amount,
+                            original_text = "-1",
+                            always_use_plural_unit = ingredient.always_use_plural_unit,
+                            always_use_plural_food = ingredient.always_use_plural_food
+                        )
+                    )
+                }
+            }
+
             sortedIngredientsList.addAll(it.ingredients)
         }
 
@@ -722,7 +763,7 @@ fun ViewRecipeDetails(
                         )
                     ) {
                         IngredientsList(
-                            list = sortedIngredientsList,
+                            list = sortedAndMergedIngredientsList,
                             factor = servingsFactor,
                             loadingState = pageLoadingState,
                             colors = ListItemDefaults.colors(
