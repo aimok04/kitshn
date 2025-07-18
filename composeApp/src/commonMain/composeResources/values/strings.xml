@@ -100,6 +100,7 @@
     <string name="bugsnag_dialog_title">Allow crash reporting?</string>
 
     <string name="common_account">Account</string>
+    <string name="common_activity">Activity</string>
     <string name="common_add_to_shopping_list">Add to shopping list</string>
     <string name="common_allocate_ingredients">Allocate ingredients</string>
     <string name="common_amount">Amount</string>

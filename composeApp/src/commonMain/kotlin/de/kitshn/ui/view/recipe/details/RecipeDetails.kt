@@ -5,7 +5,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -108,6 +107,7 @@ import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.component.model.ingredient.IngredientsList
 import de.kitshn.ui.component.model.recipe.RecipeInfoBlob
 import de.kitshn.ui.component.model.recipe.RecipePropertiesCard
+import de.kitshn.ui.component.model.recipe.activity.RecipeActivityPreviewCard
 import de.kitshn.ui.component.model.recipe.button.RecipeFavoriteButton
 import de.kitshn.ui.component.model.recipe.step.RecipeStepCard
 import de.kitshn.ui.component.model.servings.ServingsSelector
@@ -117,11 +117,13 @@ import de.kitshn.ui.dialog.common.rememberCommonDeletionDialogState
 import de.kitshn.ui.dialog.mealplan.MealPlanCreationAndEditDefaultValues
 import de.kitshn.ui.dialog.mealplan.MealPlanCreationAndEditDialog
 import de.kitshn.ui.dialog.mealplan.rememberMealPlanCreationDialogState
+import de.kitshn.ui.dialog.recipe.RecipeActivitiesBottomSheet
 import de.kitshn.ui.dialog.recipe.RecipeAddToShoppingDialog
 import de.kitshn.ui.dialog.recipe.RecipeIngredientAllocationDialog
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.ui.dialog.recipe.creationandedit.RecipeCreationAndEditDialog
 import de.kitshn.ui.dialog.recipe.creationandedit.rememberRecipeEditDialogState
+import de.kitshn.ui.dialog.recipe.rememberRecipeActivitiesBottomSheetState
 import de.kitshn.ui.dialog.recipe.rememberRecipeAddToShoppingDialogState
 import de.kitshn.ui.dialog.recipe.rememberRecipeIngredientAllocationDialogState
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
@@ -162,7 +164,7 @@ import org.jetbrains.compose.resources.stringResource
 val RecipeServingsAmountSaveMap = mutableMapOf<Int, Double>()
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+    ExperimentalMaterial3Api::class,
     ExperimentalMaterial3ExpressiveApi::class
 )
 @Composable
@@ -215,6 +217,8 @@ fun ViewRecipeDetails(
     val recipeAddToShoppingRequestState = rememberTandoorRequestState()
 
     val recipeDeleteDialogState = rememberCommonDeletionDialogState<TandoorRecipe>()
+
+    val recipeActivitiesBottomSheetState = rememberRecipeActivitiesBottomSheetState()
 
     val recipeOverview = client?.container?.recipeOverview?.get(recipeId)
     if(recipeOverview == null) {
@@ -691,6 +695,19 @@ fun ViewRecipeDetails(
                         )
                     )
 
+                    RecipeActivityPreviewCard(
+                        Modifier
+                            .padding(
+                                start = 16.dp,
+                                end = 16.dp,
+                                bottom = 8.dp
+                            )
+                            .fillMaxWidth(),
+                        recipe = recipe
+                    ) {
+                        recipe?.let { recipeActivitiesBottomSheetState.open(it) }
+                    }
+
                     if(enoughSpace) SourceButton()
                 }
             ) {
@@ -927,6 +944,11 @@ fun ViewRecipeDetails(
                     }
                 }
             }
+        )
+
+        RecipeActivitiesBottomSheet(
+            client = client,
+            state = recipeActivitiesBottomSheetState
         )
     }
 
