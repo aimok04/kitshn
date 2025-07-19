@@ -280,6 +280,7 @@ fun ViewRecipeDetails(
         val beginLoading = Clock.System.now().toEpochMilliseconds()
 
         sortedIngredientsList.clear()
+        sortedAndMergedIngredientsList.clear()
         if(recipe == null) return@LaunchedEffect
 
         sortedStepsList.clear()
