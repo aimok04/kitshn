@@ -4,8 +4,4 @@ BETA: This beta introduces compatibility with Tandoor v2. This version is not co
     2. Added auto ingredient sorting when importing recipes (#186).
     3. Added option to add a comment when creating a cook log.
     4. Added merging ingredients with shared food, unit and note in recipe details view (#217).
-    5. Reimplemented auto focus of food input field when adding item to shopping list (#141).
-    6. Checked compatibility with Tandoor version 2.0.0-beta-2.
-    7. Checked compatibility with Tandoor version 2.0.0-beta-3.
-    8. Checked compatibility with Tandoor version 2.0.0-beta-4.
-    9. Checked compatibility with Tandoor version 2.0.0-beta-5.
+    5. Checked compatibility with Tandoor version 2.0.0-beta-(2,3,4,5)
