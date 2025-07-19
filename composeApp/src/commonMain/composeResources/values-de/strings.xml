@@ -275,6 +275,8 @@
     <string name="recipe_cook_done_title">Guten Appetit 🤌</string>
     <string name="recipe_edit_no_keywords_added">Zu diesem Rezept wurden noch keine Schlagwörter hinzugefügt.</string>
     <string name="recipe_edit_no_steps_added">Zu diesem Rezept wurden noch keine Schritte hinzugefügt.</string>
+    <string name="recipe_import_auto_sort_ingredients">Zutaten automatisch zuordnen</string>
+    <string name="recipe_import_auto_sort_ingredients_description">Zutat automatisch zuordnen wenn Schritttext Namen enthält</string>
     <string name="recipe_import_divide_steps">Schritte teilen</string>
     <string name="recipe_import_divide_steps_description">Schritte nach Zeilenumbrüche teilen</string>
     <string name="recipe_not_found">Dieses Rezept konnte nicht gefunden werden.</string>

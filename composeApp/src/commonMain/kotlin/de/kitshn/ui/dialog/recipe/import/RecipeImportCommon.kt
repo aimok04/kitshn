@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Sort
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Compress
 import androidx.compose.material.icons.rounded.Upload
@@ -52,6 +53,8 @@ import kitshn.composeapp.generated.resources.common_selected
 import kitshn.composeapp.generated.resources.common_steps
 import kitshn.composeapp.generated.resources.common_tags
 import kitshn.composeapp.generated.resources.common_title_image
+import kitshn.composeapp.generated.resources.recipe_import_auto_sort_ingredients
+import kitshn.composeapp.generated.resources.recipe_import_auto_sort_ingredients_description
 import kitshn.composeapp.generated.resources.recipe_import_divide_steps
 import kitshn.composeapp.generated.resources.recipe_import_divide_steps_description
 import org.jetbrains.compose.resources.stringResource
@@ -71,6 +74,7 @@ class RecipeImportCommonStateData {
     val selectedKeywords = mutableStateListOf<String>()
 
     var splitSteps by mutableStateOf(true)
+    var autoSortIngredients by mutableStateOf(true)
 
     fun populate() {
         availableImageUrls.clear()
@@ -98,7 +102,8 @@ class RecipeImportCommonStateData {
         val recipe = recipeFromSource!!.create(
             imageUrl = selectedImageUrl,
             keywords = selectedKeywords,
-            splitSteps = splitSteps
+            splitSteps = splitSteps,
+            autoSortIngredients = autoSortIngredients
         )
 
         if(uploadImage != null) {
@@ -328,6 +333,18 @@ fun LazyListScope.RecipeImportCommon(
                 checked = data.splitSteps
             ) {
                 data.splitSteps = it
+            }
+        }
+
+        item {
+            SettingsSwitchListItem(
+                label = { Text(text = stringResource(Res.string.recipe_import_auto_sort_ingredients)) },
+                description = { Text(text = stringResource(Res.string.recipe_import_auto_sort_ingredients_description)) },
+                icon = Icons.AutoMirrored.Rounded.Sort,
+                contentDescription = stringResource(Res.string.recipe_import_auto_sort_ingredients),
+                checked = data.autoSortIngredients
+            ) {
+                data.autoSortIngredients = it
             }
         }
     }

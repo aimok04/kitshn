@@ -42,7 +42,8 @@ class TandoorRecipeFromSource(
     suspend fun create(
         imageUrl: String,
         keywords: List<String> = recipe.keywords.map { it.name ?: "" },
-        splitSteps: Boolean = true
+        splitSteps: Boolean = true,
+        autoSortIngredients: Boolean = true
     ): TandoorRecipe {
         // fixes issue where part of note wasn't detected
         recipe.steps.map { it.ingredients }.forEach {
@@ -56,6 +57,54 @@ class TandoorRecipeFromSource(
             }
         }
 
+        val steps = recipe.steps.toMutableList()
+
+        if(splitSteps && recipe.steps.size == 1) {
+            val motherStep = recipe.steps[0]
+
+            steps.clear()
+            motherStep.instruction.split("\n").forEachIndexed { index, s ->
+                if(index == 0) {
+                    motherStep.instruction = s
+                    steps.add(motherStep)
+                } else if(s.isNotBlank()) {
+                    steps.add(
+                        TandoorRecipeFromSourceStep(
+                            instruction = s,
+                            ingredients = listOf(),
+                            showIngredientsTable = true
+                        )
+                    )
+                }
+            }
+        }
+
+        if(autoSortIngredients && steps.size > 1) {
+            val allIngredients = steps.flatMap { it.ingredients }.toMutableList()
+
+            repeat(steps.size) { index ->
+                if(index == 0) return@repeat
+
+                val step = steps[index]
+                val lowerCaseInstruction = step.instruction.lowercase()
+
+                val assignedIngredients = allIngredients.filter {
+                    lowerCaseInstruction.contains(
+                        it.food.name.trim().lowercase()
+                    )
+                }
+                allIngredients.removeAll(assignedIngredients)
+
+                steps[index] = step.copy(ingredients = assignedIngredients)
+            }
+
+            // all remaining ingredients will be added to the first step
+            val firstStep = steps.first()
+            steps[0] = firstStep.copy(
+                ingredients = allIngredients
+            )
+        }
+
         val data = JsonObject(json.encodeToJsonElement(recipe).jsonObject.toMutableMap().apply {
             put("image", JsonPrimitive(imageUrl))
 
@@ -64,29 +113,7 @@ class TandoorRecipeFromSource(
                     .forEach { add(json.encodeToJsonElement(it)) }
             })
 
-            if(splitSteps && recipe.steps.size == 1) put("steps", buildJsonArray {
-                val instructions = recipe.steps[0].instruction.split("\n")
-
-                instructions.forEachIndexed { index, s ->
-                    if(index == 0) {
-                        add(
-                            json.encodeToJsonElement(recipe.steps[0].apply {
-                                instruction = s
-                            })
-                        )
-                    } else if (s.isNotBlank()) {
-                        add(
-                            json.encodeToJsonElement(
-                                TandoorRecipeFromSourceStep(
-                                    instruction = s,
-                                    ingredients = listOf(),
-                                    showIngredientsTable = true
-                                )
-                            )
-                        )
-                    }
-                }
-            })
+            put("steps", json.encodeToJsonElement(steps))
         })
 
         return client!!.recipe.create(data = data)

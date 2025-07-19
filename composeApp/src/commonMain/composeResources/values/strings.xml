@@ -314,6 +314,8 @@
     <string name="recipe_cook_done_title">Bon appétit &#129292;</string>
     <string name="recipe_edit_no_keywords_added">No keywords have been added to this recipe yet.</string>
     <string name="recipe_edit_no_steps_added">No steps have been added to this recipe yet.</string>
+    <string name="recipe_import_auto_sort_ingredients">Auto sort ingredients</string>
+    <string name="recipe_import_auto_sort_ingredients_description">Assign ingredient if step text includes ingredient name</string>
     <string name="recipe_import_divide_steps">Divide steps</string>
     <string name="recipe_import_divide_steps_description">Divide steps by line breaks</string>
     <string name="recipe_import_type_ai_label">Import with AI</string>
