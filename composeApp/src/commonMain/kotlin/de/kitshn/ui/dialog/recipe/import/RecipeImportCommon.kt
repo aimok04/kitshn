@@ -44,6 +44,7 @@ import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeFromSource
+import de.kitshn.ui.component.settings.SettingsListItemPosition
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
 import de.kitshn.ui.dialog.PhotoPickerDialog
 import de.kitshn.ui.theme.Typography
@@ -326,6 +327,7 @@ fun LazyListScope.RecipeImportCommon(
 
         item {
             SettingsSwitchListItem(
+                position = SettingsListItemPosition.TOP,
                 label = { Text(text = stringResource(Res.string.recipe_import_divide_steps)) },
                 description = { Text(text = stringResource(Res.string.recipe_import_divide_steps_description)) },
                 icon = Icons.Rounded.Compress,
@@ -338,6 +340,7 @@ fun LazyListScope.RecipeImportCommon(
 
         item {
             SettingsSwitchListItem(
+                position = SettingsListItemPosition.BOTTOM,
                 label = { Text(text = stringResource(Res.string.recipe_import_auto_sort_ingredients)) },
                 description = { Text(text = stringResource(Res.string.recipe_import_auto_sort_ingredients_description)) },
                 icon = Icons.AutoMirrored.Rounded.Sort,
