@@ -74,7 +74,11 @@ enum class TandoorServerVersionCompatibility(
     V2_0_0_ALPHA_4("2.0.0-alpha-4", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
     V2_0_0_ALPHA_5("2.0.0-alpha-5", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
     V2_0_0_ALPHA_6("2.0.0-alpha-6", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V2_0_0_BETA_1("2.0.0-beta-1", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY);
+    V2_0_0_BETA_1("2.0.0-beta-1", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
+    V2_0_0_BETA_2("2.0.0-beta-2", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
+    V2_0_0_BETA_3("2.0.0-beta-3", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
+    V2_0_0_BETA_4("2.0.0-beta-4", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
+    V2_0_0_BETA_5("2.0.0-beta-5", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY);
 
     fun getLabel(): String {
         return this.name.substring(1).replace("_", ".")
