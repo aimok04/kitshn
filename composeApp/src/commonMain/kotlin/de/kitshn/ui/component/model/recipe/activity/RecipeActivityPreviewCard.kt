@@ -25,6 +25,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.model.log.TandoorCookLog
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.theme.Typography
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_activity
@@ -39,19 +41,28 @@ fun RecipeActivityPreviewCard(
 ) {
     if(recipe == null) return
 
+    val requestState = rememberTandoorRequestState()
+
     var latestCookLog by remember { mutableStateOf<TandoorCookLog?>(null) }
     LaunchedEffect(recipe) {
-        val result = recipe.client!!.cookLog.list(
-            recipeId = recipe.id,
-            pageSize = 1,
-            page = 1
-        )
+        requestState.wrapRequest {
+            val result = recipe.client!!.cookLog.list(
+                recipeId = recipe.id,
+                pageSize = 1,
+                page = 1
+            )
 
-        latestCookLog = recipe.client!!.cookLog.list(
-            recipeId = recipe.id,
-            page = result.count,
-            pageSize = 1
-        ).results.first()
+            if(result.count == 0) {
+                latestCookLog = null
+                return@wrapRequest
+            }
+
+            latestCookLog = recipe.client!!.cookLog.list(
+                recipeId = recipe.id,
+                page = result.count,
+                pageSize = 1
+            ).results.first()
+        }
     }
 
     AnimatedVisibility(
@@ -94,4 +105,6 @@ fun RecipeActivityPreviewCard(
             }
         }
     }
+
+    TandoorRequestErrorHandler(state = requestState)
 }
