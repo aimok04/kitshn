@@ -402,4 +402,7 @@
     <string name="action_add_ingredient">Додати інгредієнт</string>
     <string name="funding_banner_text_year">Для покриття витрат на **%2$s** потрібно **%1$d €**.</string>
     <string name="funding_banner_text_current_year">Для покриття витрат на **цього року** потрібно **%1$d €**.</string>
+    <string name="common_activity">Активність</string>
+    <string name="recipe_import_auto_sort_ingredients">Автоматичне сортування інгредієнтів</string>
+    <string name="recipe_import_auto_sort_ingredients_description">Призначте інгредієнт, якщо текст кроку містить назву інгредієнта</string>
 </resources>
