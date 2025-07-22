@@ -93,7 +93,8 @@ fun RecipeStepCard(
                 Text(
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
-                        .loadingPlaceHolder(loadingState),
+                        .loadingPlaceHolder(loadingState)
+                        .weight(1f, false),
                     text = stepName,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
