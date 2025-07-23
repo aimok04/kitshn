@@ -388,4 +388,7 @@
     <string name="lorem_ipsum_title">Lorem ipsum dolor sit amet</string>
     <string name="funding_banner_text_year">**%1$d €** необходимо для покрытия расходов на **%2$s**.</string>
     <string name="funding_banner_text_current_year">**%1$d €** необходимо для покрытия расходов на **этот год**.</string>
+    <string name="common_activity">Активность</string>
+    <string name="recipe_import_auto_sort_ingredients">Авто сортировка составляющих ингредиентов</string>
+    <string name="recipe_import_auto_sort_ingredients_description">Назначить ингредиент, если текст шага включает название этого продукта</string>
 </resources>
