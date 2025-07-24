@@ -327,7 +327,7 @@
     <string name="search_users">Buscar usuarios</string>
     <string name="settings_section_appearance_color_scheme_custom_from_image_error_message">No se puedo extraer el color principal desde la imagen seleccionada. Por favor, intenta con otra imagen o usa un esquema predefinido.</string>
     <string name="settings_section_appearance_enlarge_shopping_mode_description">Proporciona mayor facilidad de lectura en el modo compras</string>
-    <string name="settings_section_appearance_enlarge_shopping_mode_label">Modo compras ampliado</string>
+    <string name="settings_section_appearance_enlarge_shopping_mode_label">Ampliar modo compras</string>
     <string name="shopping_list_dialog_clear_title">Limpiar lista de compras</string>
     <string name="shopping_list_dialog_clear_only_done">Solo borrar las entradas marcadas como «Terminado»</string>
     <string name="common_hour_short">h</string>
@@ -364,4 +364,6 @@
     <string name="common_select_users_for_sharing_empty">Selecciona a los usuarios con los que quieras compartir esto.</string>
     <string name="common_ungrouped">Desagrupado</string>
     <string name="common_unit">Unidad</string>
+    <string name="funding_banner_text_year">Se necesitan **%1$d €** para cubrir los costos de **%2$s**.</string>
+    <string name="funding_banner_text_current_year">Se necesitan **%1$d €** para cubrir los gastos de **este año**.</string>
 </resources>
