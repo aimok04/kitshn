@@ -396,4 +396,7 @@
     <string name="shopping_list_dialog_clear_only_done">Supprimer uniquement les entrées marquées comme » Complétées «</string>
     <string name="funding_banner_text_year">**%1$d €** nécessaire pour couvrir les coûts pour **%2$s**.</string>
     <string name="funding_banner_text_current_year">**%1$d €** nécessaire pour couvrir les coûts pour ** cette année**.</string>
+    <string name="recipe_import_auto_sort_ingredients">Trier automatiquement les ingrédients</string>
+    <string name="recipe_import_auto_sort_ingredients_description">Attribuer un ingrédient si le texte de l'étape comprend le nom de l'ingrédient</string>
+    <string name="common_activity">Activité</string>
 </resources>
