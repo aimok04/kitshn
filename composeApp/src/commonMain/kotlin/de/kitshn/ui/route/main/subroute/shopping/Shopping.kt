@@ -147,21 +147,21 @@ fun RouteMainSubrouteShopping(
 
     // update shopping list entries
     LaunchedEffect(client) {
-        if(client == null) return@LaunchedEffect
+        if (client == null) return@LaunchedEffect
 
         if (isInitialLoad) {
             vm.update()
             isInitialLoad = false
         }
 
-        while(true) {
+        while (true) {
             delay(5000)
             vm.update()
         }
     }
     var firstRun by remember { mutableStateOf(true) }
     LaunchedEffect(additionalShoppingSettingsChipRowState.updateState) {
-        if(firstRun) {
+        if (firstRun) {
             firstRun = false
             return@LaunchedEffect
         }
@@ -249,7 +249,7 @@ fun RouteMainSubrouteShopping(
             Modifier.padding(pv)
         ) {
             Column {
-                if(client != null) AdditionalShoppingSettingsChipRow(
+                if (client != null) AdditionalShoppingSettingsChipRow(
                     client = client,
                     state = additionalShoppingSettingsChipRowState,
                     cache = supermarketCache
@@ -258,9 +258,9 @@ fun RouteMainSubrouteShopping(
                 HorizontalDivider()
 
                 LoadingGradientWrapper(
-                    loadingState = if(vm.loaded) ErrorLoadingSuccessState.SUCCESS else ErrorLoadingSuccessState.LOADING
+                    loadingState = if (vm.loaded) ErrorLoadingSuccessState.SUCCESS else ErrorLoadingSuccessState.LOADING
                 ) {
-                    if(vm.items.isEmpty() && vm.loaded) {
+                    if (vm.items.isEmpty() && vm.loaded) {
                         FullSizeAlertPane(
                             imageVector = Icons.Rounded.RemoveShoppingCart,
                             contentDescription = stringResource(Res.string.shopping_list_empty),
@@ -268,16 +268,22 @@ fun RouteMainSubrouteShopping(
                         )
                     } else {
                         LazyColumn(
-                            Modifier
+                            modifier = Modifier
                                 .fillMaxSize()
-                                .floatingToolbarVerticalNestedScroll(
-                                    expanded = expandedToolbar,
-                                    onExpand = { expandedToolbar = true },
-                                    onCollapse = { expandedToolbar = false }
+                                .then(
+                                    if (vm.loaded) { // Only apply if NOT loading
+                                        Modifier.floatingToolbarVerticalNestedScroll(
+                                            expanded = expandedToolbar,
+                                            onExpand = { expandedToolbar = true },
+                                            onCollapse = { expandedToolbar = false }
+                                        )
+                                    } else {
+                                        Modifier
+                                    }
                                 )
-                                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                                .nestedScroll(scrollBehavior.nestedScrollConnection),
                         ) {
-                            if(!vm.loaded) {
+                            if (!vm.loaded) {
                                 item { ShoppingListGroupHeaderListItemPlaceholder() }
                                 item { ShoppingListEntryListItemPlaceholder() }
                                 item { ShoppingListEntryListItemPlaceholder() }
@@ -294,7 +300,7 @@ fun RouteMainSubrouteShopping(
                                 item { ShoppingListEntryListItemPlaceholder() }
                             } else {
                                 items(vm.items.size, key = { vm.items[it].key }) {
-                                    when(val item = vm.items[it]) {
+                                    when (val item = vm.items[it]) {
                                         is GroupHeaderShoppingListItemModel -> {
                                             ShoppingListGroupHeaderListItem(
                                                 label = { item.label }
@@ -442,8 +448,8 @@ fun RouteMainSubrouteShopping(
             state = shoppingListEntryDetailsBottomSheetState,
             isOffline = p.vm.uiState.offlineState.isOffline,
             onCheck = { entries ->
-                if(p.vm.uiState.offlineState.isOffline) {
-                    if(entries.all { entry -> entry.checked }) {
+                if (p.vm.uiState.offlineState.isOffline) {
+                    if (entries.all { entry -> entry.checked }) {
                         vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.UNCHECK)
                     } else {
                         vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.CHECK)
@@ -455,7 +461,7 @@ fun RouteMainSubrouteShopping(
 
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
-                        if(entries.all { entry -> entry.checked }) {
+                        if (entries.all { entry -> entry.checked }) {
                             client.shopping.uncheck(entries)
                         } else {
                             client.shopping.check(entries)
@@ -469,7 +475,7 @@ fun RouteMainSubrouteShopping(
                 }
             },
             onDelete = { entries ->
-                if(p.vm.uiState.offlineState.isOffline) {
+                if (p.vm.uiState.offlineState.isOffline) {
                     vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.DELETE)
                     hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
                     return@ShoppingListEntryDetailsBottomSheet
