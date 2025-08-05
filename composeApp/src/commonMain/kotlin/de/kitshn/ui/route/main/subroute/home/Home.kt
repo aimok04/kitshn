@@ -12,10 +12,10 @@ import androidx.compose.material.icons.rounded.SaveAlt
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingToolbarDefaults
+import androidx.compose.material3.HorizontalFloatingToolbar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.VerticalFloatingToolbar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -118,7 +118,7 @@ fun RouteMainSubrouteHome(
                 Column(
                     horizontalAlignment = Alignment.End
                 ) {
-                    VerticalFloatingToolbar(
+                    HorizontalFloatingToolbar(
                         expanded = isScrollingUp,
                         content = {
                             SpaceSwitchIconButton(
