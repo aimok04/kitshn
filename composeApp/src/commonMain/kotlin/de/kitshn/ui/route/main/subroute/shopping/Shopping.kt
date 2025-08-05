@@ -143,14 +143,20 @@ fun RouteMainSubrouteShopping(
         p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
 
     val client = p.vm.tandoorClient
+    var isInitialLoad by remember { mutableStateOf(true) }
 
     // update shopping list entries
     LaunchedEffect(client) {
         if(client == null) return@LaunchedEffect
 
-        while(true) {
+        if (isInitialLoad) {
             vm.update()
+            isInitialLoad = false
+        }
+
+        while(true) {
             delay(5000)
+            vm.update()
         }
     }
     var firstRun by remember { mutableStateOf(true) }
@@ -332,7 +338,7 @@ fun RouteMainSubrouteShopping(
                 contentAlignment = Alignment.Center
             ) {
                 AnimatedContainedLoadingIndicator(
-                    visible = vm.shoppingListEntriesFetchRequest.state == TandoorRequestStateState.LOADING
+                    visible = (vm.shoppingListEntriesFetchRequest.state == TandoorRequestStateState.LOADING) && isInitialLoad
                 )
             }
 
