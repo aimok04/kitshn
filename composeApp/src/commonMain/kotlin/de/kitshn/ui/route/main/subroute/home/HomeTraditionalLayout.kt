@@ -58,6 +58,8 @@ fun HomeTraditionalLayout(
     selectionModeState: SelectionModeState<Int>,
     homeSearchState: HomeSearchState,
 
+    onIsScrollingUpChanged: (isScrollingUp: Boolean) -> Unit,
+
     wrap: @Composable (
         @Composable (
             pv: PaddingValues,
@@ -156,6 +158,9 @@ fun HomeTraditionalLayout(
             delay(500)
         }
     }
+
+    val isScrollingUp = gridState.isScrollingUp()
+    LaunchedEffect(isScrollingUp) { onIsScrollingUpChanged(isScrollingUp) }
 
     val enableMealPlanPromotion by p.vm.settings.getEnableMealPlanPromotion.collectAsState(initial = true)
     val promoteTomorrowsMealPlan by p.vm.settings.getPromoteTomorrowsMealPlan.collectAsState(initial = false)

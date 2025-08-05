@@ -59,6 +59,8 @@ fun HomeDynamicLayout(
     selectionModeState: SelectionModeState<Int>,
     homeSearchState: HomeSearchState,
 
+    onIsScrollingUpChanged: (isScrollingUp: Boolean) -> Unit,
+
     wrap: @Composable (
         @Composable (
             pv: PaddingValues,
@@ -130,6 +132,9 @@ fun HomeDynamicLayout(
             }
         }
     }
+
+    val isScrollingUp = scrollState.isScrollingUp()
+    LaunchedEffect(isScrollingUp) { onIsScrollingUpChanged(isScrollingUp) }
 
     wrap { pv, supportsMultiplePanes, background, onSelect ->
         LoadingErrorAlertPaneWrapper(loadingState = pageLoadingState) {
