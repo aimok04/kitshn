@@ -268,7 +268,7 @@ fun RouteMainSubrouteShopping(
                         )
                     } else {
                         LazyColumn(
-                            modifier = Modifier
+                            Modifier
                                 .fillMaxSize()
                                 .then(
                                     if (vm.loaded) { // Only apply if NOT loading
@@ -281,7 +281,7 @@ fun RouteMainSubrouteShopping(
                                         Modifier
                                     }
                                 )
-                                .nestedScroll(scrollBehavior.nestedScrollConnection),
+                                .nestedScroll(scrollBehavior.nestedScrollConnection)
                         ) {
                             if (!vm.loaded) {
                                 item { ShoppingListGroupHeaderListItemPlaceholder() }
