@@ -271,7 +271,7 @@ fun RouteMainSubrouteShopping(
                             Modifier
                                 .fillMaxSize()
                                 .then(
-                                    if (vm.loaded) { // Only apply if NOT loading
+                                    if (vm.loaded) { // Prevent scrolling if content has not loaded
                                         Modifier.floatingToolbarVerticalNestedScroll(
                                             expanded = expandedToolbar,
                                             onExpand = { expandedToolbar = true },
