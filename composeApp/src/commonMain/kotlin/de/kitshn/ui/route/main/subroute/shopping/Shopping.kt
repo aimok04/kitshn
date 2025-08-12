@@ -264,10 +264,16 @@ fun RouteMainSubrouteShopping(
                         LazyColumn(
                             Modifier
                                 .fillMaxSize()
-                                .floatingToolbarVerticalNestedScroll(
-                                    expanded = expandedToolbar,
-                                    onExpand = { expandedToolbar = true },
-                                    onCollapse = { expandedToolbar = false }
+                                .then(
+                                    if (vm.loaded) { // Prevent scrolling if content has not loaded
+                                        Modifier.floatingToolbarVerticalNestedScroll(
+                                            expanded = expandedToolbar,
+                                            onExpand = { expandedToolbar = true },
+                                            onCollapse = { expandedToolbar = false }
+                                        )
+                                    } else {
+                                        Modifier
+                                    }
                                 )
                                 .nestedScroll(scrollBehavior.nestedScrollConnection)
                         ) {
