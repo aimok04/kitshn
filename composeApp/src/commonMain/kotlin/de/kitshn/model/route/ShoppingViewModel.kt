@@ -367,7 +367,7 @@ class ShoppingViewModel(
         val foodIdMap = mutableMapOf<Int, TandoorFood>()
         entries
             .onEach { foodIdMap[it.food.id] = it.food }
-            .sortedBy { it.food.name }
+            .sortedBy { it.food.name.lowercase() }
             .groupBy { it.food.id }
             .forEach { entry ->
                 foodIdMap[entry.key]?.let { food ->
