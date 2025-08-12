@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowOutward
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.LocalDining
@@ -45,6 +46,7 @@ import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_delete_from_meal_plan
 import kitshn.composeapp.generated.resources.action_edit
+import kitshn.composeapp.generated.resources.action_open_original
 import kitshn.composeapp.generated.resources.action_start_cooking
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -149,6 +151,17 @@ fun MealPlanDetailsDialog(
                     Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
                 ) {
+                    IconButton(
+                        onClick = {
+                            p.vm.viewRecipe(mealPlan.recipe!!.id)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.ArrowOutward,
+                            contentDescription = stringResource(Res.string.action_open_original)
+                        )
+                    }
+
                     IconButton(
                         onClick = {
                             onEdit(mealPlan)
