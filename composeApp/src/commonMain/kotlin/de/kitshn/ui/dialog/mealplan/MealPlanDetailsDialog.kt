@@ -153,7 +153,8 @@ fun MealPlanDetailsDialog(
                 ) {
                     IconButton(
                         onClick = {
-                            p.vm.viewRecipe(mealPlan.recipe!!.id)
+                            if (mealPlan.recipe == null) return@IconButton
+                            p.vm.viewRecipe(mealPlan.recipe.id)
                         }
                     ) {
                         Icon(
