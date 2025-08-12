@@ -95,6 +95,7 @@ import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.formatDuration
 import de.kitshn.handleTandoorRequestState
+import de.kitshn.launchTimerHandler
 import de.kitshn.launchWebsiteHandler
 import de.kitshn.shareContentHandler
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -111,6 +112,7 @@ import de.kitshn.ui.component.model.recipe.activity.RecipeActivityPreviewCard
 import de.kitshn.ui.component.model.recipe.button.RecipeFavoriteButton
 import de.kitshn.ui.component.model.recipe.step.RecipeStepCard
 import de.kitshn.ui.component.model.servings.ServingsSelector
+import de.kitshn.ui.dialog.LaunchTimerInfoBottomSheet
 import de.kitshn.ui.dialog.UseShareWrapperDialog
 import de.kitshn.ui.dialog.common.CommonDeletionDialog
 import de.kitshn.ui.dialog.common.rememberCommonDeletionDialogState
@@ -129,6 +131,7 @@ import de.kitshn.ui.dialog.recipe.rememberRecipeIngredientAllocationDialogState
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.ui.dialog.recipeBook.ManageRecipeInRecipeBooksDialog
 import de.kitshn.ui.dialog.recipeBook.rememberManageRecipeInRecipeBooksDialogState
+import de.kitshn.ui.dialog.rememberLaunchTimerInfoBottomSheetState
 import de.kitshn.ui.dialog.rememberUseShareWrapperDialogState
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.state.ErrorLoadingSuccessState
@@ -219,6 +222,9 @@ fun ViewRecipeDetails(
     val recipeDeleteDialogState = rememberCommonDeletionDialogState<TandoorRecipe>()
 
     val recipeActivitiesBottomSheetState = rememberRecipeActivitiesBottomSheetState()
+
+    val launchTimerInfoBottomSheetState = rememberLaunchTimerInfoBottomSheetState()
+    val launchTimerHandler = launchTimerHandler(p.vm, launchTimerInfoBottomSheetState)
 
     val recipeOverview = client?.container?.recipeOverview?.get(recipeId)
     if(recipeOverview == null) {
@@ -808,8 +814,12 @@ fun ViewRecipeDetails(
                             .fillMaxWidth(),
                         loadingState = pageLoadingState,
                         servingsFactor = servingsFactor,
-                        showFractionalValues = ingredientsShowFractionalValues.value
-                    ) { }
+                        showFractionalValues = ingredientsShowFractionalValues.value,
+                        onClickRecipeLink = { },
+                        onStartTimer = { seconds, timerName ->
+                            launchTimerHandler(seconds, timerName)
+                        }
+                    )
                 }
             } else {
                 var index = 0
@@ -827,11 +837,15 @@ fun ViewRecipeDetails(
                         stepIndex = index,
                         hideIngredients = step.ingredients.size == sortedIngredientsList.size,
                         servingsFactor = servingsFactor,
-                        showFractionalValues = ingredientsShowFractionalValues.value
-                    ) { recipe ->
-                        // show recipe link bottom sheet
-                        recipeLinkDialogState.open(recipe.toOverview())
-                    }
+                        showFractionalValues = ingredientsShowFractionalValues.value,
+                        onClickRecipeLink = { recipe ->
+                            // show recipe link bottom sheet
+                            recipeLinkDialogState.open(recipe.toOverview())
+                        },
+                        onStartTimer = { seconds, timerName ->
+                            launchTimerHandler(seconds, timerName)
+                        }
+                    )
 
                     index++
                 }
@@ -899,6 +913,9 @@ fun ViewRecipeDetails(
                         }
                     }
                 }
+            },
+            onStartTimer = { seconds, timerName ->
+                launchTimerHandler(seconds, timerName)
             }
         )
 
@@ -960,6 +977,11 @@ fun ViewRecipeDetails(
 
     UseShareWrapperDialog(
         state = useShareWrapperDialogState
+    )
+
+    LaunchTimerInfoBottomSheet(
+        vm = p.vm,
+        state = launchTimerInfoBottomSheetState
     )
 
     TandoorRequestErrorHandler(fetchRequestState)

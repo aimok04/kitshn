@@ -2,10 +2,16 @@ package de.kitshn
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.intl.Locale
 import co.touchlab.crashkios.bugsnag.BugsnagKotlin
+import co.touchlab.kermit.Logger
+import com.eygraber.uri.Uri
+import de.kitshn.ui.dialog.LaunchTimerInfoBottomSheetState
 import kitshn.composeApp.BuildConfig
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import platform.Foundation.NSDate
 import platform.Foundation.NSDateFormatter
@@ -61,13 +67,35 @@ actual fun launchWebsiteHandler(): (url: String) -> Unit {
 }
 
 @Composable
-actual fun launchTimerHandler(): (seconds: Int, name: String) -> Unit {
-    return { seconds, name ->
-        throw Exception("CURRENTLY_NOT_SUPPORTED_IOS")
+actual fun launchTimerHandler(
+    vm: KitshnViewModel,
+    infoBottomSheetState: LaunchTimerInfoBottomSheetState
+): (seconds: Int, name: String) -> Unit {
+    val coroutineScope = rememberCoroutineScope()
+    val uriHandler = LocalUriHandler.current
+
+    return { seconds, _ ->
+        coroutineScope.launch {
+            val isShortcutInstalled = vm.settings.getIosTimerShortcutInstalled.first()
+            if (!isShortcutInstalled) {
+                infoBottomSheetState.open()
+                return@launch
+            }
+
+            val builder = Uri.parse("shortcuts://run-shortcut")
+                .buildUpon()
+                .appendQueryParameter("name", BuildConfig.IOS_TIMER_SHORTCUT_NAME)
+                .appendQueryParameter("input", "text")
+                .appendQueryParameter("text", seconds.toString())
+
+            Logger.d("launchTimerHandler") { builder.build().toString() }
+
+            uriHandler.openUri(builder.build().toString())
+        }
     }
 }
 
-actual val isLaunchTimerHandlerImplemented = false
+actual val isLaunchTimerHandlerImplemented = true
 
 @Composable
 actual fun shareContentHandler(): (title: String, text: String) -> Unit {

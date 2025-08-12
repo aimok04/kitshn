@@ -31,7 +31,6 @@ import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.formatDuration
 import de.kitshn.isLaunchTimerHandlerImplemented
-import de.kitshn.launchTimerHandler
 import de.kitshn.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.ui.component.model.ingredient.IngredientsList
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
@@ -58,7 +57,8 @@ fun RecipeStepCard(
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
     appendAction: @Composable () -> Unit = {},
     showFractionalValues: Boolean,
-    onClickRecipeLink: (recipe: TandoorRecipe) -> Unit
+    onClickRecipeLink: (recipe: TandoorRecipe) -> Unit,
+    onStartTimer: (seconds: Int, timerName: String) -> Unit
 ) {
     var showIngredientsTable by remember { mutableStateOf(false) }
     LaunchedEffect(step, hideIngredients) {
@@ -67,8 +67,6 @@ fun RecipeStepCard(
                 (step.show_ingredients_table) &&
                 (!hideIngredients)
     }
-
-    val launchTimerHandler = launchTimerHandler()
 
     Card(
         modifier = modifier,
@@ -106,7 +104,7 @@ fun RecipeStepCard(
                         modifier = Modifier.padding(top = 8.dp, end = 16.dp),
                         onClick = {
                             if(isLaunchTimerHandlerImplemented)
-                                launchTimerHandler(step.time * 60, stepName)
+                                onStartTimer(step.time * 60, stepName)
                         },
                         leadingIcon = {
                             Icon(
@@ -127,7 +125,10 @@ fun RecipeStepCard(
                     .loadingPlaceHolder(loadingState),
                 timerName = stepName,
                 markdown = step?.instructionsWithTemplating(servingsFactor, showFractionalValues)
-                    ?: stringResource(Res.string.lorem_ipsum_medium)
+                    ?: stringResource(Res.string.lorem_ipsum_medium),
+                onStartTimer = { seconds, timerName ->
+                    onStartTimer(seconds, timerName)
+                }
             )
         }
 

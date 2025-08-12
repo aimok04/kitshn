@@ -20,6 +20,7 @@ import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.TandoorKeyword
+import de.kitshn.ui.dialog.LaunchTimerInfoBottomSheetState
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_day_after_tomorrow
 import kitshn.composeapp.generated.resources.common_day_before_yesterday
@@ -461,7 +462,10 @@ expect fun launchMarketPageHandler(): () -> Unit
 expect fun launchWebsiteHandler(): (url: String) -> Unit
 
 @Composable
-expect fun launchTimerHandler(): (seconds: Int, name: String) -> Unit
+expect fun launchTimerHandler(
+    vm: KitshnViewModel,
+    infoBottomSheetState: LaunchTimerInfoBottomSheetState
+): (seconds: Int, name: String) -> Unit
 
 expect val isLaunchTimerHandlerImplemented: Boolean
 

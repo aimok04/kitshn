@@ -208,7 +208,10 @@ fun StepsPage(
                                 }
                             },
                             showFractionalValues = showFractionalValues,
-                            onClickRecipeLink = { }
+                            onClickRecipeLink = { },
+                            onStartTimer = { seconds, timerName ->
+
+                            }
                         )
                     }
                 }

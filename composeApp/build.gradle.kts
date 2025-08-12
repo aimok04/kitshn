@@ -329,6 +329,12 @@ buildConfig {
 
     buildConfigField("FUNDING_API", prop.getProperty("funding.api"))
     buildConfigField("FUNDING_KOFI", prop.getProperty("funding.kofi"))
+
+    buildConfigField("IOS_TIMER_SHORTCUT_LINK", prop.getProperty("ios.timer.shortcut.link"))
+    buildConfigField(
+        "IOS_TIMER_SHORTCUT_NAME",
+        prop.getProperty("ios.timer.shortcut.name").replace("--", "—")
+    )
 }
 
 // fix for F-Droid

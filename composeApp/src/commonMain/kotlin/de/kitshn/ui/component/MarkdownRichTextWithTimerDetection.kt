@@ -25,7 +25,6 @@ import com.mikepenz.markdown.m3.Markdown
 import com.mikepenz.markdown.m3.markdownColor
 import com.mikepenz.markdown.m3.markdownTypography
 import de.kitshn.isLaunchTimerHandlerImplemented
-import de.kitshn.launchTimerHandler
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.timer_detection_and_definitions
 import kitshn.composeapp.generated.resources.timer_detection_hour_definitions
@@ -51,10 +50,10 @@ fun MarkdownRichTextWithTimerDetection(
     modifier: Modifier = Modifier.fillMaxSize(),
     timerName: String,
     markdown: String,
-    fontSize: TextUnit = TextUnit.Unspecified
+    fontSize: TextUnit = TextUnit.Unspecified,
+    onStartTimer: (seconds: Int, timerName: String) -> Unit
 ) {
     val uriHandler = LocalUriHandler.current
-    val launchTimerHandler = launchTimerHandler()
 
     var md by remember { mutableStateOf("") }
     LaunchedEffect(markdown) {
@@ -102,7 +101,7 @@ fun MarkdownRichTextWithTimerDetection(
     val markdownUriHandler = remember {
         MarkdownUriHandler(
             onTimerClick = {
-                launchTimerHandler(it, timerName)
+                onStartTimer(it, timerName)
             },
             onUriClick = {
                 uriHandler.openUri(it)

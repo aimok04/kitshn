@@ -47,8 +47,10 @@ import de.kitshn.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.ui.component.model.ingredient.IngredientsList
 import de.kitshn.ui.component.model.recipe.step.RecipeStepMultimediaBox
 import de.kitshn.ui.component.model.recipe.step.RecipeStepRecipeLink
+import de.kitshn.ui.dialog.LaunchTimerInfoBottomSheet
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
+import de.kitshn.ui.dialog.rememberLaunchTimerInfoBottomSheetState
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.theme.Typography
 import de.kitshn.ui.view.ViewParameters
@@ -66,7 +68,8 @@ fun RouteRecipeCookPageStep(
     servingsFactor: Double,
     showFractionalValues: Boolean
 ) {
-    val launchTimerHandler = launchTimerHandler()
+    val launchTimerInfoBottomSheetState = rememberLaunchTimerInfoBottomSheetState()
+    val launchTimerHandler = launchTimerHandler(vm, launchTimerInfoBottomSheetState)
 
     @Composable
     fun StepBody(
@@ -128,7 +131,10 @@ fun RouteRecipeCookPageStep(
                         servingsFactor,
                         showFractionalValues
                     ),
-                    fontSize = fontSize
+                    fontSize = fontSize,
+                    onStartTimer = { seconds, timerName ->
+                        launchTimerHandler(seconds, timerName)
+                    }
                 )
             }
         }
@@ -253,5 +259,10 @@ fun RouteRecipeCookPageStep(
             vm, null
         ),
         state = recipeLinkDialogState
+    )
+
+    LaunchTimerInfoBottomSheet(
+        vm = vm,
+        state = launchTimerInfoBottomSheetState
     )
 }

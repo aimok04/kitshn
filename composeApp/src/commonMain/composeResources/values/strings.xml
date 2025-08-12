@@ -273,6 +273,10 @@
     <string name="ios_support_manage_subscription_description">Manage your supporter subscription</string>
     <string name="ios_support_manage_subscription_label">Manage subscription</string>
     <string name="ios_support_thanks">Thank you for supporting kitshn! Your contribution helps to keep this project alive.</string>
+    <string name="ios_timer_dialog_action_install_shortcut">Install shortcut</string>
+    <string name="ios_timer_dialog_body">Apple does not allow third-party apps to start timers directly on iOS. kitshn uses a workaround involving the Shortcuts app. You'll need to install the » %1$s « shortcut to get started.</string>
+    <string name="ios_timer_dialog_shortcut_installed_switch">Shortcut installed?</string>
+    <string name="ios_timer_dialog_title">Shortcut required</string>
 
     <string name="kofi_support_description">You can support kitshn's development on Ko-Fi</string>
     <string name="kofi_support_label">Support on Ko-Fi</string>
@@ -383,6 +387,8 @@
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_label">Ignore unallocated ingredients</string>
     <string name="settings_section_behavior_ingredients_show_fractional_values_description">Might be easier to read but also less accurate</string>
     <string name="settings_section_behavior_ingredients_show_fractional_values_label">Fractional values for ingredients</string>
+    <string name="settings_section_behavior_ios_install_timer_shortcut_description">Needed to directly start timers from within the kitshn app</string>
+    <string name="settings_section_behavior_ios_install_timer_shortcut_label">Install iOS timer shortcut</string>
     <string name="settings_section_behavior_label">Behavior</string>
     <string name="settings_section_behavior_promote_tomorrows_meal_plan_description">Show the entries of tomorrow instead of today's entries</string>
     <string name="settings_section_behavior_promote_tomorrows_meal_plan_label">Promote tomorrow's meal plan instead</string>

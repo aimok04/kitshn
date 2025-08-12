@@ -42,6 +42,8 @@ const val KEY_SETTINGS_BEHAVIOR_HIDE_FUNDING_BANNER_UNTIL =
 const val KEY_SETTINGS_ONBOARDING_COMPLETED = "onboarding_completed"
 const val KEY_SETTINGS_TANDOOR_CREDENTIALS = "tandoor_credentials"
 
+const val KEY_SETTINGS_IOS_TIMER_SHORTCUT_INSTALLED = "ios_timer_shortcut_installed"
+
 const val KEY_SETTINGS_LATEST_VERSION_CHECK = "latest_version_check"
 
 const val KEY_SETTINGS_LATEST_BETA_VERSION_CHECK = "latest_beta_version_check"
@@ -89,6 +91,13 @@ class SettingsViewModel : ViewModel() {
 
     fun saveTandoorCredentials(credentials: TandoorCredentials?) =
         obs.putString(KEY_SETTINGS_TANDOOR_CREDENTIALS, json.encodeToString(credentials))
+
+    // iOS timer shortcut installed
+    val getIosTimerShortcutInstalled: Flow<Boolean> =
+        obs.getBooleanFlow(KEY_SETTINGS_IOS_TIMER_SHORTCUT_INSTALLED, false)
+
+    fun setIosTimerShortcutInstalled(done: Boolean) =
+        obs.putBoolean(KEY_SETTINGS_IOS_TIMER_SHORTCUT_INSTALLED, done)
 
     // design
     val getColorScheme: Flow<String?> =

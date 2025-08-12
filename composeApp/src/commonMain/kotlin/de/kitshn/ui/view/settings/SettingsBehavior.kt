@@ -27,6 +27,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import de.kitshn.KitshnViewModel
 import de.kitshn.Platforms
 import de.kitshn.platformDetails
 import de.kitshn.ui.component.buttons.BackButton
@@ -103,7 +104,7 @@ fun ViewSettingsBehavior(
                 .padding(it)
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
-            prependItems()
+            prependItems(p.vm)
 
             item {
                 SettingsSwitchListItem(
@@ -256,4 +257,6 @@ fun ViewSettingsBehavior(
     }
 }
 
-expect fun LazyListScope.prependItems()
+expect fun LazyListScope.prependItems(
+    vm: KitshnViewModel
+)

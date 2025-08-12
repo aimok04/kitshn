@@ -385,7 +385,8 @@ fun RecipeIngredientAllocationDialog(
                         MarkdownRichTextWithTimerDetection(
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                             timerName = step.name,
-                            markdown = step.instructionsWithTemplating()
+                            markdown = step.instructionsWithTemplating(),
+                            onStartTimer = { _, _ -> }
                         )
                     }
                 ) { enoughSpace ->

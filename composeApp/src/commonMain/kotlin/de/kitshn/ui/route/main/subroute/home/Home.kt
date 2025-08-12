@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import de.kitshn.Platforms
+import de.kitshn.launchTimerHandler
 import de.kitshn.platformDetails
 import de.kitshn.ui.component.AutoFetchingFundingBanner
 import de.kitshn.ui.component.model.SpaceSwitchIconButton
@@ -43,6 +44,7 @@ import de.kitshn.ui.dialog.recipe.import.RecipeImportUrlDialog
 import de.kitshn.ui.dialog.recipe.import.rememberRecipeImportAIDialogState
 import de.kitshn.ui.dialog.recipe.import.rememberRecipeImportTypeBottomSheetState
 import de.kitshn.ui.dialog.recipe.import.rememberRecipeImportUrlDialogState
+import de.kitshn.ui.dialog.rememberLaunchTimerInfoBottomSheetState
 import de.kitshn.ui.layout.KitshnRecipeListRecipeDetailPaneScaffold
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.selectionMode.model.RecipeSelectionModeTopAppBar
@@ -64,6 +66,9 @@ fun RouteMainSubrouteHome(
     p: RouteParameters
 ) {
     val coroutineScope = rememberCoroutineScope()
+
+    val launchTimerInfoBottomSheetState = rememberLaunchTimerInfoBottomSheetState()
+    val launchTimerHandler = launchTimerHandler(p.vm, launchTimerInfoBottomSheetState)
 
     val homeSearchState by rememberHomeSearchState(key = "RouteMainSubrouteHome/homeSearch")
 
@@ -262,7 +267,10 @@ fun RouteMainSubrouteHome(
             editState = recipeEditDialogState,
             showFractionalValues = ingredientsShowFractionalValues.value,
             onRefresh = { },
-            onViewRecipe = { p.vm.viewRecipe(it.id) }
+            onViewRecipe = { p.vm.viewRecipe(it.id) },
+            onStartTimer = { seconds, timerName ->
+                launchTimerHandler(seconds, timerName)
+            }
         )
     }
 }

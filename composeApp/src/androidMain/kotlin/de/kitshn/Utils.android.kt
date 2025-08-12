@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.window.DialogWindowProvider
 import co.touchlab.kermit.Logger
+import de.kitshn.ui.dialog.LaunchTimerInfoBottomSheetState
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.recipe_step_timer_created
 import kitshn.composeapp.generated.resources.recipe_step_timer_error_no_app
@@ -103,7 +104,10 @@ actual fun launchWebsiteHandler(): (url: String) -> Unit {
 }
 
 @Composable
-actual fun launchTimerHandler(): (seconds: Int, name: String) -> Unit {
+actual fun launchTimerHandler(
+    vm: KitshnViewModel,
+    infoBottomSheetState: LaunchTimerInfoBottomSheetState
+): (seconds: Int, name: String) -> Unit {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
