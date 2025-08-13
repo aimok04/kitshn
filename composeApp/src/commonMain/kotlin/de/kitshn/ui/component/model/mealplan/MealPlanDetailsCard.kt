@@ -29,12 +29,12 @@ fun MealPlanDetailsCard(
     if(mealPlan.title.isNotBlank() || !mealPlan.note.isNullOrBlank()) Card(
         modifier = modifier
     ) {
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            SelectionContainer {
+        SelectionContainer {
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
                 if(mealPlan.title.isNotBlank()) {
                     Row(
                         Modifier.fillMaxWidth(),
