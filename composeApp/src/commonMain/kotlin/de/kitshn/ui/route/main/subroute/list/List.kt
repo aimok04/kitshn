@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -193,7 +195,10 @@ fun RouteMainSubrouteList(
 
                         if(recipeOverview != null) HorizontalRecipeCardLink(
                             recipeOverview = recipeOverview,
-                            selectionState = selectionModeState
+                            selectionState = selectionModeState,
+                            defaultColors = ListItemDefaults.colors(
+                                containerColor = CardDefaults.cardColors().containerColor
+                            )
                         ) { r -> onSelect(r.id.toString()) }
                     }
 
