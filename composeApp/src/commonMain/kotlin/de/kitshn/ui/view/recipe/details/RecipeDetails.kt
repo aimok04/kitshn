@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -49,6 +51,7 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -181,8 +184,9 @@ fun ViewRecipeDetails(
     navigationIcon: @Composable (() -> Unit)? = null,
     prependContent: @Composable () -> Unit = { },
 
+    contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     overridePaddingValues: PaddingValues? = null,
-    hideFab: Boolean = false,
+    offsetFab: Boolean = false,
 
     onClickKeyword: (keyword: TandoorKeywordOverview) -> Unit = {},
     onServingsChange: (servings: Double) -> Unit = {},
@@ -440,6 +444,7 @@ fun ViewRecipeDetails(
     var expandedToolbar by remember { mutableStateOf(true) }
 
     Scaffold(
+        contentWindowInsets = contentWindowInsets,
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -464,9 +469,12 @@ fun ViewRecipeDetails(
             )
         },
         floatingActionButton = {
-            if(hideFab) return@Scaffold
-
             HorizontalFloatingToolbar(
+                modifier = if(offsetFab) {
+                    Modifier.offset(y = -(80.dp))
+                } else {
+                    Modifier
+                },
                 expanded = expandedToolbar,
                 content = {
                     RecipeFavoriteButton(

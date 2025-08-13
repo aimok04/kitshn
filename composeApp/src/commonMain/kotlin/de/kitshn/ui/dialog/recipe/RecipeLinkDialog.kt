@@ -1,5 +1,7 @@
 package de.kitshn.ui.dialog.recipe
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -47,7 +49,7 @@ fun RecipeLinkDialog(
     state: RecipeLinkDialogState,
     leadingContent: @Composable () -> Unit = {},
     bottomBar: @Composable ((isFullscreen: Boolean) -> Unit)? = {},
-    hideFab: Boolean = false,
+    offsetFab: Boolean = false,
     onServingsChange: (servings: Double) -> Unit = {},
     onDismiss: () -> Unit = {}
 ) {
@@ -83,7 +85,7 @@ fun RecipeLinkDialog(
         topBarWrapper = { },
         bottomBar = bottomBar,
         applyPaddingValues = false,
-    ) { _, _, pv ->
+    ) { _, isFullscreen, pv ->
         ViewRecipeDetails(
             p = p,
 
@@ -105,7 +107,11 @@ fun RecipeLinkDialog(
             },
 
             overridePaddingValues = pv,
-            hideFab = hideFab,
+            contentWindowInsets = if(isFullscreen)
+                ScaffoldDefaults.contentWindowInsets
+            else
+                WindowInsets(),
+            offsetFab = isFullscreen && offsetFab,
 
             onClickKeyword = {
                 p.vm.searchKeyword(it.id)
