@@ -78,6 +78,8 @@ fun ViewHomeSearchContent(
         additionalSearchSettingsChipRowState.selectedFoods.clear()
         additionalSearchSettingsChipRowState.selectedFoods.addAll(state.defaultValues.foods)
 
+        additionalSearchSettingsChipRowState.createdBy = state.defaultValues.createdBy
+
         additionalSearchSettingsChipRowState.update()
     }
 
@@ -90,6 +92,7 @@ fun ViewHomeSearchContent(
             keywordsAnd = additionalSearchSettingsChipRowState.keywordsAnd,
             foods = additionalSearchSettingsChipRowState.selectedFoods.foodToIdList(),
             foodsAnd = additionalSearchSettingsChipRowState.foodsAnd,
+            createdBy = additionalSearchSettingsChipRowState.createdBy,
             rating = additionalSearchSettingsChipRowState.minimumRating,
             sortOrder = additionalSearchSettingsChipRowState.sortOrder
         )

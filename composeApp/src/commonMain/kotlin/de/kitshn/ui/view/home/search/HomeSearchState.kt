@@ -13,6 +13,7 @@ import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.TandoorKeyword
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
+import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.ui.component.search.AdditionalSearchSettingsChipRowState
 import de.kitshn.ui.state.foreverRememberNotSavable
 import kotlinx.coroutines.delay
@@ -33,6 +34,7 @@ data class HomeSearchStateDefaultValues(
     val random: Boolean = false,
     val keywords: List<TandoorKeyword> = listOf(),
     val foods: List<TandoorFood> = listOf(),
+    val createdBy: TandoorUser? = null,
     val minimumRating: Int? = null,
     val sortOrder: TandoorRecipeQueryParametersSortOrder? = null
 )
@@ -83,6 +85,26 @@ class HomeSearchState(
             open(
                 HomeSearchStateDefaultValues(
                     keywords = listOf(keyword)
+                )
+            )
+        }
+    }
+
+    fun openWithCreatedBy(user: TandoorUser) {
+        open(
+            HomeSearchStateDefaultValues(
+                createdBy = user
+            )
+        )
+    }
+
+    suspend fun openWithCreatedById(client: TandoorClient, userId: Int) {
+        TandoorRequestState().wrapRequest {
+            val user = client.user.getUsers().find { it.id == userId }
+
+            open(
+                HomeSearchStateDefaultValues(
+                    createdBy = user
                 )
             )
         }

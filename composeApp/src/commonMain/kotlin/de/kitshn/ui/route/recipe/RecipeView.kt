@@ -53,6 +53,10 @@ fun RouteRecipeView(
         recipeId = recipeId.toInt(),
         client = client,
 
+        onClickUser = {
+            p.vm.searchCreatedBy(id = it.id)
+        },
+
         onClickKeyword = {
             p.vm.searchKeyword(id = it.id)
         }

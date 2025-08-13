@@ -105,6 +105,7 @@
     <string name="common_allocate_ingredients">Allocate ingredients</string>
     <string name="common_amount">Amount</string>
     <string name="common_api_token">API token</string>
+    <string name="common_by">by</string>
     <string name="common_category">Category</string>
     <string name="common_comment">Comment</string>
     <string name="common_contact">Contact</string>

@@ -20,6 +20,7 @@ import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.patchObject
 import de.kitshn.api.tandoor.put
 import de.kitshn.api.tandoor.putMultipart
+import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.json
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
@@ -49,6 +50,7 @@ class TandoorRecipe(
     val stepsRaw: JsonArray,
     val working_time: Int,
     val waiting_time: Int,
+    val created_by: TandoorUser? = null,
     val created_at: String,
     val updated_at: String,
     val source_url: String? = null,

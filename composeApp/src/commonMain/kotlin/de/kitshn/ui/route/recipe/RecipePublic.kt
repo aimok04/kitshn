@@ -90,6 +90,7 @@ fun RouteRecipePublic(
         client = client,
         shareToken = shareToken,
 
+        onClickUser = { },
         onClickKeyword = { }
     )
 

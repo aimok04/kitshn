@@ -5,6 +5,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
+import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -23,6 +24,7 @@ class TandoorRecipeOverview(
     val keywords: List<TandoorKeywordOverview>,
     val working_time: Int,
     val waiting_time: Int,
+    val created_by: TandoorUser? = null,
     val created_at: String,
     val updated_at: String,
     val internal: Boolean,

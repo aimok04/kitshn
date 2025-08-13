@@ -164,6 +164,9 @@ fun RouteMainSubrouteList(
                 state = selectionModeState
             )
         },
+        onClickUser = {
+            p.vm.searchCreatedBy(it.id)
+        },
         onClickKeyword = {
             p.vm.searchKeyword(it.id)
         }

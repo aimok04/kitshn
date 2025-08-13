@@ -19,6 +19,7 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.TandoorKeyword
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
+import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.ui.component.search.chips.FoodSearchSettingChip
 import de.kitshn.ui.component.search.chips.KeywordSearchSettingChip
 import de.kitshn.ui.component.search.chips.MinimumRatingSearchSettingChip
@@ -42,6 +43,8 @@ class AdditionalSearchSettingsChipRowState {
     var keywordsAnd by mutableStateOf(true)
     var foodsAnd by mutableStateOf(true)
 
+    var createdBy by mutableStateOf<TandoorUser?>(null)
+
     var minimumRating by mutableStateOf<Int?>(null)
 
     var random by mutableStateOf(false)
@@ -53,6 +56,7 @@ class AdditionalSearchSettingsChipRowState {
         selectedFoods.clear()
         keywordsAnd = true
         foodsAnd = true
+        createdBy = null
         minimumRating = null
         random = false
         new = false

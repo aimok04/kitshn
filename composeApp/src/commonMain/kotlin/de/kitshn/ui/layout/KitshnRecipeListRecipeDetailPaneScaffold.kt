@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import de.kitshn.KitshnViewModel
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
+import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.ui.view.ViewParameters
 import de.kitshn.ui.view.recipe.details.ViewRecipeDetails
 import kitshn.composeapp.generated.resources.Res
@@ -34,6 +35,7 @@ fun KitshnRecipeListRecipeDetailPaneScaffold(
     key: String,
     topBar: @Composable (colors: TopAppBarColors) -> Unit,
     floatingActionButton: @Composable () -> Unit = {},
+    onClickUser: (user: TandoorUser) -> Unit = {},
     onClickKeyword: (keyword: TandoorKeywordOverview) -> Unit = {},
     listContent: @Composable (pv: PaddingValues, selectedId: String?, supportsMultiplePages: Boolean, background: Color, select: (id: String?) -> Unit) -> Unit,
 ) {
@@ -102,6 +104,11 @@ fun KitshnRecipeListRecipeDetailPaneScaffold(
 
             recipeId = selectId.toInt(),
             client = vm.tandoorClient,
+
+            onClickUser = { user ->
+                back?.let { it() }
+                onClickUser(user)
+            },
 
             onClickKeyword = { keyword ->
                 back?.let { it() }

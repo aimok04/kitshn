@@ -117,6 +117,10 @@ fun RecipeLinkDialog(
                 p.vm.searchKeyword(it.id)
                 state.dismiss()
             },
+            onClickUser = {
+                p.vm.searchCreatedBy(it.id)
+                state.dismiss()
+            },
             onServingsChange = {
                 onServingsChange(it)
             }

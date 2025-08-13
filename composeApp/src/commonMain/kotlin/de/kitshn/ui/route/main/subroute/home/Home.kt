@@ -78,6 +78,11 @@ fun RouteMainSubrouteHome(
         homeSearchState.openWithKeywordId(p.vm.tandoorClient!!, it)
     }
 
+    // handle createdBy passing
+    p.vm.uiState.searchCreatedBy.WatchAndConsume {
+        homeSearchState.openWithCreatedById(p.vm.tandoorClient!!, it)
+    }
+
     val recipeImportTypeBottomSheetState = rememberRecipeImportTypeBottomSheetState()
 
     val recipeImportUrlDialogState =
@@ -193,6 +198,15 @@ fun RouteMainSubrouteHome(
                                 }
                             )
                         }
+                    }
+                }
+            },
+            onClickUser = {
+                coroutineScope.launch {
+                    delay(500)
+
+                    homeSearchState.reopen {
+                        homeSearchState.openWithCreatedBy(it)
                     }
                 }
             },

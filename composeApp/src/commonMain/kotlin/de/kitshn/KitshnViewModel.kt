@@ -59,6 +59,13 @@ class KitshnViewModel(
         }
     }
 
+    fun searchCreatedBy(id: Int) {
+        viewModelScope.launch {
+            navigateTo("main", "home")
+            uiState.searchCreatedBy.set(id)
+        }
+    }
+
     fun viewRecipe(id: Int) {
         viewModelScope.launch {
             navigateTo("main", "home")

@@ -46,6 +46,7 @@ class UiStateModel : ViewModel() {
 
     var importRecipeUrl = UiStateLink<String>()
     var searchKeyword = UiStateLink<Int>()
+    var searchCreatedBy = UiStateLink<Int>()
     var viewRecipe = UiStateLink<Int>()
 
     var additionalShoppingSettingsChipRowState = AdditionalShoppingSettingsChipRowState()

@@ -2,6 +2,7 @@ package de.kitshn.ui.view.recipe.details
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,9 +32,9 @@ import androidx.compose.material.icons.rounded.LocalDining
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material.icons.rounded.Reviews
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material.icons.rounded.Stars
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -80,8 +81,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
@@ -97,11 +101,14 @@ import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.formatDuration
 import de.kitshn.handleTandoorRequestState
 import de.kitshn.launchTimerHandler
 import de.kitshn.launchWebsiteHandler
+import de.kitshn.parseTandoorDate
 import de.kitshn.shareContentHandler
+import de.kitshn.toHumanReadableDateLabel
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.buttons.BackButton
@@ -152,6 +159,7 @@ import kitshn.composeapp.generated.resources.action_open_original
 import kitshn.composeapp.generated.resources.action_open_source
 import kitshn.composeapp.generated.resources.action_share
 import kitshn.composeapp.generated.resources.action_start_cooking
+import kitshn.composeapp.generated.resources.common_by
 import kitshn.composeapp.generated.resources.common_okay
 import kitshn.composeapp.generated.resources.common_review
 import kitshn.composeapp.generated.resources.common_source
@@ -190,6 +198,7 @@ fun ViewRecipeDetails(
     offsetFab: Boolean = false,
 
     onClickKeyword: (keyword: TandoorKeywordOverview) -> Unit = {},
+    onClickUser: (user: TandoorUser) -> Unit = {},
     onServingsChange: (servings: Double) -> Unit = {},
 
     overrideServings: Double? = null
@@ -636,11 +645,94 @@ fun ViewRecipeDetails(
                             style = Typography().titleLarge,
                             textAlign = TextAlign.Center
                         )
+
+                        Spacer(Modifier.height(8.dp))
+
+                        Box(
+                            Modifier
+                                .fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                modifier = Modifier.run {
+                                    when(recipeOverview.created_by) {
+                                        null -> this
+                                        else -> clip(RoundedCornerShape(4.dp)).clickable {
+                                            onClickUser(recipeOverview.created_by)
+                                        }
+                                    }
+                                },
+                                text = buildAnnotatedString {
+                                    if(recipeOverview.created_by != null) {
+                                        append(stringResource(Res.string.common_by))
+                                        append(" ")
+
+                                        withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                                            append(recipeOverview.created_by.display_name)
+                                        }
+
+                                        append(" — ")
+                                    }
+
+                                    append(
+                                        recipeOverview.created_at.parseTandoorDate()
+                                            .toHumanReadableDateLabel()
+                                    )
+                                },
+                                style = MaterialTheme.typography.bodyMedium,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+
+                        recipeOverview.created_by?.let {
+
+                        }
+                    }
+
+                    prependContent()
+
+                    FlowRow(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp, bottom = 16.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        val workingTime = recipe?.working_time ?: 1
+                        if(workingTime > 0) RecipeInfoBlob(
+                            icon = Icons.Rounded.Person,
+                            label = stringResource(Res.string.common_time_work),
+                            loadingState = pageLoadingState
+                        ) {
+                            Text(
+                                text = workingTime.formatDuration()
+                            )
+                        }
+
+                        val waitingTime = recipe?.waiting_time ?: 1
+                        if(waitingTime > 0) RecipeInfoBlob(
+                            icon = Icons.Rounded.Pause,
+                            label = stringResource(Res.string.common_time_wait),
+                            loadingState = pageLoadingState
+                        ) {
+                            Text(
+                                text = waitingTime.formatDuration()
+                            )
+                        }
+
+                        if(recipe == null || recipe.rating != null) RecipeInfoBlob(
+                            icon = Icons.Rounded.Stars,
+                            label = stringResource(Res.string.common_review),
+                            loadingState = pageLoadingState
+                        ) {
+                            FiveStarIconRow(
+                                rating = recipe?.rating ?: 5.0
+                            )
+                        }
                     }
 
                     LazyRow(
-                        Modifier.padding(bottom = 16.dp),
-                        contentPadding = PaddingValues(16.dp),
+                        Modifier.padding(bottom = 8.dp),
+                        contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(
                             8.dp,
                             Alignment.CenterHorizontally
@@ -658,47 +750,6 @@ fun ViewRecipeDetails(
                             }, label = {
                                 Text(keywordOverview.label)
                             }, selected = true)
-                        }
-                    }
-
-                    prependContent()
-
-                    FlowRow(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 16.dp),
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        val workingTime = recipe?.working_time ?: 1
-                        if(workingTime > 0) RecipeInfoBlob(
-                            icon = Icons.Rounded.Person,
-                            label = stringResource(Res.string.common_time_work),
-                            loadingState = pageLoadingState
-                        ) {
-                            Text(
-                                text = workingTime.formatDuration()
-                            )
-                        }
-
-                        if(recipe == null || recipe.rating != null) RecipeInfoBlob(
-                            icon = Icons.Rounded.Reviews,
-                            label = stringResource(Res.string.common_review),
-                            loadingState = pageLoadingState
-                        ) {
-                            FiveStarIconRow(
-                                rating = recipe?.rating ?: 5.0
-                            )
-                        }
-
-                        val waitingTime = recipe?.waiting_time ?: 1
-                        if(waitingTime > 0) RecipeInfoBlob(
-                            icon = Icons.Rounded.Pause,
-                            label = stringResource(Res.string.common_time_wait),
-                            loadingState = pageLoadingState
-                        ) {
-                            Text(
-                                text = waitingTime.formatDuration()
-                            )
                         }
                     }
 
