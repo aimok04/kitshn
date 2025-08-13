@@ -102,7 +102,7 @@ fun RecipeStepMultimediaBox(
             modifier = Modifier
                 .padding(contentPadding)
                 .fillMaxWidth()
-                .heightIn(0.dp, 400.dp)
+                .heightIn(200.dp, 400.dp)
                 .loadingPlaceHolder(
                     loadingState = imageLoadingState.translateState(),
                     shape = RectangleShape
