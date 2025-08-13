@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ViewList
 import androidx.compose.material.icons.rounded.Campaign
 import androidx.compose.material.icons.rounded.DynamicFeed
 import androidx.compose.material.icons.rounded.Numbers
@@ -35,6 +36,8 @@ import de.kitshn.ui.component.settings.SettingsListItemPosition
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
 import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.settings_section_behavior_enable_compact_home_screen_description
+import kitshn.composeapp.generated.resources.settings_section_behavior_enable_compact_home_screen_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_enable_dynamic_home_screen_description
 import kitshn.composeapp.generated.resources.settings_section_behavior_enable_dynamic_home_screen_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_enable_meal_plan_promotion_description
@@ -90,6 +93,8 @@ fun ViewSettingsBehavior(
 
         val enableDynamicHomeScreen =
             p.vm.settings.getEnableDynamicHomeScreen.collectAsState(initial = true)
+        val enableCompactHomeScreen =
+            p.vm.settings.getEnableCompactHomeScreen.collectAsState(initial = false)
 
         val ingredientsShowFractionalValues =
             p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
@@ -169,7 +174,7 @@ fun ViewSettingsBehavior(
 
             item {
                 SettingsSwitchListItem(
-                    position = SettingsListItemPosition.SINGULAR,
+                    position = SettingsListItemPosition.TOP,
                     label = { Text(stringResource(Res.string.settings_section_behavior_enable_dynamic_home_screen_label)) },
                     description = { Text(stringResource(Res.string.settings_section_behavior_enable_dynamic_home_screen_description)) },
                     icon = Icons.Rounded.DynamicFeed,
@@ -178,6 +183,20 @@ fun ViewSettingsBehavior(
                 ) {
                     coroutineScope.launch {
                         p.vm.settings.setEnableDynamicHomeScreen(it)
+                    }
+                }
+
+                SettingsSwitchListItem(
+                    position = SettingsListItemPosition.BOTTOM,
+                    label = { Text(stringResource(Res.string.settings_section_behavior_enable_compact_home_screen_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_behavior_enable_compact_home_screen_description)) },
+                    icon = Icons.AutoMirrored.Rounded.ViewList,
+                    contentDescription = stringResource(Res.string.settings_section_behavior_enable_compact_home_screen_label),
+                    checked = enableCompactHomeScreen.value,
+                    enabled = !enableDynamicHomeScreen.value
+                ) {
+                    coroutineScope.launch {
+                        p.vm.settings.setEnableCompactHomeScreen(it)
                     }
                 }
             }

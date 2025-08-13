@@ -2,17 +2,25 @@ package de.kitshn.ui.route.main.subroute.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.SearchBarScrollBehavior
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -23,9 +31,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
@@ -36,18 +46,26 @@ import de.kitshn.reachedBottom
 import de.kitshn.ui.component.LoadingGradientWrapper
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
 import de.kitshn.ui.component.loading.LazyGridAnimatedContainedLoadingIndicator
+import de.kitshn.ui.component.model.recipe.HorizontalRecipeCardLink
 import de.kitshn.ui.component.model.recipe.RecipeCard
+import de.kitshn.ui.modifier.loadingPlaceHolder
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.selectionMode.SelectionModeState
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.foreverRememberMutableStateList
 import de.kitshn.ui.state.foreverRememberNotSavable
 import de.kitshn.ui.state.rememberErrorLoadingSuccessState
+import de.kitshn.ui.theme.Typography
+import de.kitshn.ui.theme.playfairDisplay
 import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
 import de.kitshn.ui.view.home.search.HomeSearchState
 import de.kitshn.ui.view.recipe.details.RecipeServingsAmountSaveMap
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.lorem_ipsum_medium
+import kitshn.composeapp.generated.resources.lorem_ipsum_title
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -167,6 +185,8 @@ fun HomeTraditionalLayout(
     val enableMealPlanPromotion by p.vm.settings.getEnableMealPlanPromotion.collectAsState(initial = true)
     val promoteTomorrowsMealPlan by p.vm.settings.getPromoteTomorrowsMealPlan.collectAsState(initial = false)
 
+    val enableCompactHomeScreen by p.vm.settings.getEnableCompactHomeScreen.collectAsState(initial = false)
+
     wrap { pv, _, background, onSelect ->
         LoadingErrorAlertPaneWrapper(loadingState = pageLoadingState) {
             LoadingGradientWrapper(
@@ -185,7 +205,13 @@ fun HomeTraditionalLayout(
                     contentPadding = PaddingValues(16.dp),
                     userScrollEnabled = pageLoadingState != ErrorLoadingSuccessState.LOADING,
 
-                    columns = GridCells.Adaptive(minSize = 250.dp),
+                    columns = GridCells.Adaptive(
+                        minSize =
+                            when(enableCompactHomeScreen) {
+                                true -> 300.dp
+                                false -> 250.dp
+                            }
+                    ),
 
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -217,40 +243,106 @@ fun HomeTraditionalLayout(
 
                     if(resultIds.size == 0 && pageLoadingState != ErrorLoadingSuccessState.SUCCESS) {
                         items(20) {
-                            Box {
-                                RecipeCard(
-                                    Modifier.height(300.dp)
-                                        .fillMaxWidth(),
-                                    alternateCoverSize = true,
-                                    loadingState = pageLoadingState,
-                                    onClickKeyword = { }
-                                ) { }
+                            when(enableCompactHomeScreen) {
+                                true -> {
+                                    Card(
+                                        onClick = { }
+                                    ) {
+                                        ListItem(
+                                            colors = ListItemDefaults.colors(
+                                                containerColor = CardDefaults.cardColors().containerColor
+                                            ),
+                                            leadingContent = {
+                                                Box(
+                                                    modifier = Modifier
+                                                        .size(48.dp)
+                                                        .clip(RoundedCornerShape(8.dp))
+                                                        .loadingPlaceHolder()
+                                                )
+                                            },
+                                            headlineContent = {
+                                                Column {
+                                                    Text(
+                                                        modifier = Modifier
+                                                            .loadingPlaceHolder(),
+                                                        text = stringResource(Res.string.lorem_ipsum_title),
+                                                        style = Typography().bodyLarge.copy(
+                                                            fontFamily = playfairDisplay()
+                                                        ),
+                                                        maxLines = 1,
+                                                        overflow = TextOverflow.Ellipsis
+                                                    )
+
+                                                    Spacer(Modifier.height(2.dp))
+                                                }
+                                            },
+                                            supportingContent = {
+                                                Column {
+                                                    Spacer(Modifier.height(2.dp))
+
+                                                    Text(
+                                                        modifier = Modifier
+                                                            .loadingPlaceHolder(),
+                                                        text = stringResource(Res.string.lorem_ipsum_medium),
+                                                        maxLines = 1,
+                                                        overflow = TextOverflow.Ellipsis
+                                                    )
+                                                }
+                                            }
+                                        )
+                                    }
+                                }
+
+                                false -> {
+                                    Box {
+                                        RecipeCard(
+                                            Modifier.height(300.dp)
+                                                .fillMaxWidth(),
+                                            alternateCoverSize = true,
+                                            loadingState = pageLoadingState,
+                                            onClickKeyword = { }
+                                        ) { }
+                                    }
+                                }
                             }
                         }
                     } else {
                         items(resultIds.size) {
                             val recipeOverview =
                                 p.vm.tandoorClient?.container?.recipeOverview?.get(resultIds[it])
+                                    ?: return@items
 
-                            if(recipeOverview != null) Box {
-                                RecipeCard(
-                                    Modifier.height(300.dp)
-                                        .fillMaxWidth(),
-                                    alternateCoverSize = true,
-                                    fillChipRow = true,
-                                    recipeOverview = recipeOverview,
-                                    loadingState = pageLoadingState,
-                                    selectionState = selectionModeState,
-                                    onClickKeyword = {
-                                        coroutineScope.launch {
-                                            homeSearchState.openWithKeyword(
-                                                p.vm.tandoorClient!!,
-                                                it
-                                            )
-                                        }
-                                    },
-                                    onClick = { recipe -> onSelect(recipe.id.toString()) }
-                                )
+                            when(enableCompactHomeScreen) {
+                                true -> {
+                                    HorizontalRecipeCardLink(
+                                        recipeOverview = recipeOverview,
+                                        selectionState = selectionModeState,
+                                        defaultColors = ListItemDefaults.colors(
+                                            containerColor = CardDefaults.cardColors().containerColor
+                                        )
+                                    ) { recipe -> onSelect(recipe.id.toString()) }
+                                }
+
+                                false -> Box {
+                                    RecipeCard(
+                                        Modifier.height(300.dp)
+                                            .fillMaxWidth(),
+                                        alternateCoverSize = true,
+                                        fillChipRow = true,
+                                        recipeOverview = recipeOverview,
+                                        loadingState = pageLoadingState,
+                                        selectionState = selectionModeState,
+                                        onClickKeyword = {
+                                            coroutineScope.launch {
+                                                homeSearchState.openWithKeyword(
+                                                    p.vm.tandoorClient!!,
+                                                    it
+                                                )
+                                            }
+                                        },
+                                        onClick = { recipe -> onSelect(recipe.id.toString()) }
+                                    )
+                                }
                             }
                         }
                     }

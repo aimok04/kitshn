@@ -327,6 +327,8 @@
     <string name="settings_section_appearance_label">Erscheinung</string>
     <string name="settings_section_behavior_description">Ändere das Verhalten von kitshn</string>
     <string name="settings_section_behavior_enable_crash_reporting">Fehlerberichte senden</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_description">Zeigt eine Listenansicht anstatt großer Karten</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_label">Kompakten Startbildschirm nutzen</string>
     <string name="settings_section_behavior_enable_dynamic_home_screen_description">Zeigt Empfehlungen basiert auf Uhrzeit und Jahreszeit</string>
     <string name="settings_section_behavior_enable_dynamic_home_screen_label">Dynamischen Startbildschirm nutzen</string>
     <string name="settings_section_behavior_hide_funding_banner_this_year_description">Unterstützer-Banner für das aktuelle Jahr verstecken</string>

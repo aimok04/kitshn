@@ -377,6 +377,8 @@
     <string name="settings_section_appearance_label">Appearance</string>
     <string name="settings_section_behavior_description">Change kitshn's behavior</string>
     <string name="settings_section_behavior_enable_crash_reporting">Enable crash reporting</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_description">Show list view instead of big cards</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_label">Enable compact home screen</string>
     <string name="settings_section_behavior_enable_dynamic_home_screen_description">Show recommendations based on time of day and year</string>
     <string name="settings_section_behavior_enable_dynamic_home_screen_label">Enable dynamic home screen</string>
     <string name="settings_section_behavior_enable_meal_plan_promotion_description">Either show today's or tomorrow's entries</string>
