@@ -54,6 +54,7 @@ import de.kitshn.ui.view.home.search.rememberHomeSearchState
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_add
 import kitshn.composeapp.generated.resources.action_import
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
@@ -197,6 +198,8 @@ fun RouteMainSubrouteHome(
             },
             onClickKeyword = {
                 coroutineScope.launch {
+                    delay(500)
+
                     homeSearchState.reopen {
                         homeSearchState.openWithKeyword(p.vm.tandoorClient!!, it)
                     }
