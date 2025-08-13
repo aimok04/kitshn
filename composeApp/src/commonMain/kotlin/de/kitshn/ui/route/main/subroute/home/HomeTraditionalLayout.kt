@@ -140,7 +140,9 @@ fun HomeTraditionalLayout(
 
             extendedListRequestState.wrapRequest {
                 p.vm.tandoorClient!!.recipe.list(
-                    parameters = TandoorRecipeQueryParameters(),
+                    parameters = TandoorRecipeQueryParameters(
+                        new = true
+                    ),
                     pageSize = HOME_SEARCH_PAGING_SIZE,
                     page = currentPage
                 )
