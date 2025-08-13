@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -33,39 +34,41 @@ fun MealPlanDetailsCard(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            if(mealPlan.title.isNotBlank()) {
-                Row(
-                    Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(end = 8.dp)
-                            .weight(1f, true),
-                        text = mealPlan.title,
-                        style = Typography().titleLarge
-                    )
+            SelectionContainer {
+                if(mealPlan.title.isNotBlank()) {
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .weight(1f, true),
+                            text = mealPlan.title,
+                            style = Typography().titleLarge
+                        )
 
-                    if(mealPlan.recipe == null) Text(
-                        modifier = Modifier
-                            .weight(1f, false)
-                            .padding(top = 6.dp),
-                        text = pluralStringResource(
-                            Res.plurals.common_plural_portion,
-                            mealPlan.servings.roundToInt(),
-                            mealPlan.servings.roundToInt()
-                        ),
-                        style = Typography().labelMedium,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                        if(mealPlan.recipe == null) Text(
+                            modifier = Modifier
+                                .weight(1f, false)
+                                .padding(top = 6.dp),
+                            text = pluralStringResource(
+                                Res.plurals.common_plural_portion,
+                                mealPlan.servings.roundToInt(),
+                                mealPlan.servings.roundToInt()
+                            ),
+                            style = Typography().labelMedium,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+
+                    Spacer(Modifier.height(8.dp))
                 }
 
-                Spacer(Modifier.height(8.dp))
+                if(!mealPlan.note.isNullOrBlank()) Text(
+                    text = mealPlan.note ?: ""
+                )
             }
-
-            if(!mealPlan.note.isNullOrBlank()) Text(
-                text = mealPlan.note ?: ""
-            )
         }
     }
 }

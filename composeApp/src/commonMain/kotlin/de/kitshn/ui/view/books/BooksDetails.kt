@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Edit
@@ -243,7 +244,9 @@ fun ViewBooksDetails(
             ) {
                 if(book.description.isNotBlank() && !isFavoriteBook) {
                     item(span = StaggeredGridItemSpan.FullLine) {
-                        Text(text = book.description)
+                        SelectionContainer {
+                            Text(text = book.description)
+                        }
                     }
 
                     item(span = StaggeredGridItemSpan.FullLine) {

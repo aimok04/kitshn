@@ -1,6 +1,7 @@
 package de.kitshn.ui.component
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -132,30 +133,32 @@ fun MarkdownRichTextWithTimerDetection(
             }
         }
 
-        Markdown(
-            modifier = modifier,
-            content = md,
-            imageTransformer = Coil3ImageTransformerImpl,
-            colors = markdownColor(
-                linkText = MaterialTheme.colorScheme.primary
-            ),
-            typography = markdownTypography(
-                text = bodyLarge,
-                paragraph = bodyLarge,
-                ordered = bodyLarge,
-                bullet = bodyLarge,
-                list = bodyLarge,
-                link = bodyLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    textDecoration = TextDecoration.Underline,
-                    color = MaterialTheme.colorScheme.primary
+        SelectionContainer {
+            Markdown(
+                modifier = modifier,
+                content = md,
+                imageTransformer = Coil3ImageTransformerImpl,
+                colors = markdownColor(
+                    linkText = MaterialTheme.colorScheme.primary
                 ),
-                inlineCode = bodyLarge.copy(
-                    fontFamily = FontFamily.Monospace
-                ),
-                code = bodyMedium.copy(fontFamily = FontFamily.Monospace),
-                quote = bodyMedium.plus(SpanStyle(fontStyle = FontStyle.Italic))
+                typography = markdownTypography(
+                    text = bodyLarge,
+                    paragraph = bodyLarge,
+                    ordered = bodyLarge,
+                    bullet = bodyLarge,
+                    list = bodyLarge,
+                    link = bodyLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        textDecoration = TextDecoration.Underline,
+                        color = MaterialTheme.colorScheme.primary
+                    ),
+                    inlineCode = bodyLarge.copy(
+                        fontFamily = FontFamily.Monospace
+                    ),
+                    code = bodyMedium.copy(fontFamily = FontFamily.Monospace),
+                    quote = bodyMedium.plus(SpanStyle(fontStyle = FontStyle.Italic))
+                )
             )
-        )
+        }
     }
 }

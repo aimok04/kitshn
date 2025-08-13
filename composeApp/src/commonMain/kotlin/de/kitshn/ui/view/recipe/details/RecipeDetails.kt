@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.OpenInNew
@@ -701,14 +702,16 @@ fun ViewRecipeDetails(
                         }
                     }
 
-                    if(!recipeOverview.description.isNullOrBlank()) Text(
-                        text = recipeOverview.description,
-                        Modifier.padding(
-                            start = 16.dp,
-                            end = 16.dp,
-                            bottom = 16.dp
+                    if(!recipeOverview.description.isNullOrBlank()) SelectionContainer {
+                        Text(
+                            text = recipeOverview.description,
+                            Modifier.padding(
+                                start = 16.dp,
+                                end = 16.dp,
+                                bottom = 16.dp
+                            )
                         )
-                    )
+                    }
 
                     RecipeActivityPreviewCard(
                         Modifier
