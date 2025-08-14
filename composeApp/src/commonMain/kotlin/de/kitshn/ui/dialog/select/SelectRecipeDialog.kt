@@ -7,9 +7,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Receipt
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
@@ -172,7 +174,10 @@ fun RecipeSearchBar(
 
                 HorizontalRecipeCardLink(
                     recipeOverview = recipeOverview,
-                    onClick = onSelect
+                    onClick = onSelect,
+                    defaultColors = ListItemDefaults.colors(
+                        containerColor = CardDefaults.cardColors().containerColor
+                    )
                 )
             }
         }
