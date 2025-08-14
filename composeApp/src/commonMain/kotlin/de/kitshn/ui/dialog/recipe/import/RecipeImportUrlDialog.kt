@@ -99,16 +99,10 @@ class RecipeImportUrlDialogState(
 fun RecipeImportUrlDialog(
     vm: KitshnViewModel,
     state: RecipeImportUrlDialogState,
-    onViewRecipe: (recipe: TandoorRecipe) -> Unit = { }
+    onViewRecipe: (recipe: TandoorRecipe) -> Unit = { },
+    onSocialMediaImport: (url: String) -> Unit = { }
 ) {
     val client = vm.tandoorClient ?: return
-
-    // handle import recipe url passing
-    vm.uiState.importRecipeUrl.WatchAndConsume {
-        state.dismiss()
-        delay(50)
-        state.open(url = it, autoFetch = true)
-    }
 
     if(!state.shown.value) {
         LaunchedEffect(Unit) {
@@ -127,11 +121,19 @@ fun RecipeImportUrlDialog(
     fun fetch() = coroutineScope.launch {
         val url = state.data.url.replaceFirst(BuildConfig.SHARE_WRAPPER_URL, "")
 
+        // detect social media import domain and forward to RecipeImportSocialMediaDialog
+        val uri = Uri.parse(url)
+        if(SOCIAL_MEDIA_IMPORT_DOMAINS.contains(uri.host)) {
+            state.dismiss()
+            onSocialMediaImport(url)
+            return@launch
+        }
+
         fetchRequestState.wrapRequest {
             val response = client.recipeFromSource.fetch(url)
             if(response.link != null) {
-                val uri = Uri.parse(response.link)
-                val pathArgs = (uri.path ?: "").split("/").toMutableList().apply {
+                val responseLinkUri = Uri.parse(response.link)
+                val pathArgs = (responseLinkUri.path ?: "").split("/").toMutableList().apply {
                     removeFirstOrNull()
                 }
 
@@ -185,7 +187,8 @@ fun RecipeImportUrlDialog(
                     state = recipeImportRequestState.state.toIconWithState()
                 )
             }
-        }
+        },
+        maxWidth = 600.dp
     ) { nsc, _, _ ->
         Column {
             LinearWavyProgressIndicator(
@@ -248,6 +251,8 @@ fun RecipeImportUrlDialog(
                             }
 
                             LaunchedEffect(Unit) {
+                                delay(500)
+
                                 try {
                                     this.coroutineContext.job.invokeOnCompletion {
                                         focusRequester.requestFocus()

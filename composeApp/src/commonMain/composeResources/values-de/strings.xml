@@ -414,6 +414,9 @@
     <string name="permissions_camera_alert">Bitte erlaube kitshn den Zugriff auf deine Kamera um diese Funktion zu nutzen.</string>
     <string name="recipe_import_type_ai_label">Importieren mit KI</string>
     <string name="recipe_import_type_ai_description">Lade Bilder hoch oder füge ein Rezept in Textform ein</string>
+    <string name="recipe_import_type_social_media_label">Importieren aus Social Media</string>
+    <string name="recipe_import_type_social_media_description">Rezepte von Instagram oder TikTok hinzufügen mithilfe von KI</string>
+    <string name="recipe_import_type_social_media_disclaimer">Aktuell werden Instagram und TikTok aktiv unterstützt. Eventuell können auch Rezepte von anderen Platformen importiert werden.</string>
     <string name="recipe_import_type_url_label">Importieren einer Webseite</string>
     <string name="action_switch_camera">Kamera wechseln</string>
     <string name="action_create_step">Neuer Schritt</string>

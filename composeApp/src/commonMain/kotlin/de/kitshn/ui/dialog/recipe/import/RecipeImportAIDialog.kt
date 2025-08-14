@@ -179,7 +179,8 @@ fun RecipeImportAIDialog(
                     state = recipeImportRequestState.state.toIconWithState()
                 )
             }
-        }
+        },
+        maxWidth = 600.dp
     ) { nsc, _, _ ->
         Column {
             LinearWavyProgressIndicator(
@@ -272,7 +273,8 @@ fun RecipeImportAIDialog(
                                     .padding(
                                         top = 8.dp,
                                         start = 16.dp,
-                                        end = 16.dp
+                                        end = 16.dp,
+                                        bottom = 16.dp
                                     )
                                     .fillMaxWidth(),
                                 onClick = {

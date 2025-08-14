@@ -38,10 +38,12 @@ import de.kitshn.ui.dialog.recipe.creationandedit.RecipeCreationAndEditDialog
 import de.kitshn.ui.dialog.recipe.creationandedit.rememberRecipeCreationDialogState
 import de.kitshn.ui.dialog.recipe.creationandedit.rememberRecipeEditDialogState
 import de.kitshn.ui.dialog.recipe.import.RecipeImportAIDialog
+import de.kitshn.ui.dialog.recipe.import.RecipeImportSocialMediaDialog
 import de.kitshn.ui.dialog.recipe.import.RecipeImportType
 import de.kitshn.ui.dialog.recipe.import.RecipeImportTypeBottomSheet
 import de.kitshn.ui.dialog.recipe.import.RecipeImportUrlDialog
 import de.kitshn.ui.dialog.recipe.import.rememberRecipeImportAIDialogState
+import de.kitshn.ui.dialog.recipe.import.rememberRecipeImportSocialMediaDialogState
 import de.kitshn.ui.dialog.recipe.import.rememberRecipeImportTypeBottomSheetState
 import de.kitshn.ui.dialog.recipe.import.rememberRecipeImportUrlDialogState
 import de.kitshn.ui.dialog.rememberLaunchTimerInfoBottomSheetState
@@ -88,6 +90,7 @@ fun RouteMainSubrouteHome(
     val recipeImportUrlDialogState =
         rememberRecipeImportUrlDialogState(key = "RouteMainSubrouteHome/recipeImportDialogState")
     val recipeImportAIDialogState = rememberRecipeImportAIDialogState()
+    val recipeImportSocialMediaDialogState = rememberRecipeImportSocialMediaDialogState()
 
     val recipeCreationDialogState =
         rememberRecipeCreationDialogState(key = "RouteMainSubrouteHome/recipeCreationDialogState")
@@ -258,19 +261,41 @@ fun RouteMainSubrouteHome(
             when(it) {
                 RecipeImportType.URL -> recipeImportUrlDialogState.open()
                 RecipeImportType.AI -> recipeImportAIDialogState.open()
+                RecipeImportType.SOCIAL_MEDIA -> recipeImportSocialMediaDialogState.open()
             }
         }
     )
 
+    // handle import recipe url passing
+    p.vm.uiState.importRecipeUrl.WatchAndConsume {
+        recipeImportUrlDialogState.dismiss()
+        recipeImportAIDialogState.dismiss()
+        recipeImportSocialMediaDialogState.dismiss()
+        delay(50)
+        recipeImportUrlDialogState.open(url = it, autoFetch = true)
+    }
+
     RecipeImportUrlDialog(
         vm = p.vm,
         state = recipeImportUrlDialogState,
-        onViewRecipe = { p.vm.viewRecipe(it.id) }
+        onViewRecipe = { p.vm.viewRecipe(it.id) },
+        onSocialMediaImport = {
+            recipeImportSocialMediaDialogState.open(
+                url = it,
+                autoFetch = true
+            )
+        }
     )
 
     RecipeImportAIDialog(
         vm = p.vm,
         state = recipeImportAIDialogState,
+        onViewRecipe = { p.vm.viewRecipe(it.id) }
+    )
+
+    RecipeImportSocialMediaDialog(
+        vm = p.vm,
+        state = recipeImportSocialMediaDialogState,
         onViewRecipe = { p.vm.viewRecipe(it.id) }
     )
 

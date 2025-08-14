@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.Language
+import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
@@ -18,6 +19,8 @@ import de.kitshn.ui.component.settings.SettingsListItemPosition
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.recipe_import_type_ai_description
 import kitshn.composeapp.generated.resources.recipe_import_type_ai_label
+import kitshn.composeapp.generated.resources.recipe_import_type_social_media_description
+import kitshn.composeapp.generated.resources.recipe_import_type_social_media_label
 import kitshn.composeapp.generated.resources.recipe_import_type_url_description
 import kitshn.composeapp.generated.resources.recipe_import_type_url_label
 import org.jetbrains.compose.resources.StringResource
@@ -38,6 +41,12 @@ enum class RecipeImportType(
         icon = Icons.Rounded.AutoAwesome,
         label = Res.string.recipe_import_type_ai_label,
         description = Res.string.recipe_import_type_ai_description,
+        enabled = { it.container.serverSettings?.enable_ai_import ?: false }
+    ),
+    SOCIAL_MEDIA(
+        icon = Icons.Rounded.Tag,
+        label = Res.string.recipe_import_type_social_media_label,
+        description = Res.string.recipe_import_type_social_media_description,
         enabled = { it.container.serverSettings?.enable_ai_import ?: false }
     )
 }
@@ -83,7 +92,8 @@ fun RecipeImportTypeBottomSheet(
 
                 SettingsListItem(
                     position = when(it) {
-                        0 -> SettingsListItemPosition.TOP
+                        0 -> SettingsListItemPosition.SINGULAR
+                        1 -> SettingsListItemPosition.TOP
                         types.size - 1 -> SettingsListItemPosition.BOTTOM
                         else -> SettingsListItemPosition.BETWEEN
                     },

@@ -325,6 +325,9 @@
     <string name="recipe_import_divide_steps_description">Divide steps by line breaks</string>
     <string name="recipe_import_type_ai_label">Import with AI</string>
     <string name="recipe_import_type_ai_description">Upload images or enter a recipe in text form</string>
+    <string name="recipe_import_type_social_media_label">Import from Social Media</string>
+    <string name="recipe_import_type_social_media_description">Add recipes from Instagram or TikTok using AI</string>
+    <string name="recipe_import_type_social_media_disclaimer">Currently, only Instagram and TikTok are actively supported. Other platforms may be supported as well.</string>
     <string name="recipe_import_type_url_label">Import from Website</string>
     <string name="recipe_import_type_url_description">Enter an URL and import a recipe from the web</string>
     <string name="recipe_not_found">This recipe could not be found.</string>
