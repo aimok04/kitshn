@@ -323,7 +323,7 @@ fun ShoppingListEntryDetailsBottomSheet(
                                     requestState.wrapRequest {
                                         onClickMealplan(client.mealPlan.get(id = it.mealplan))
                                     }
-                                } else {
+                                } else if (it.recipe != null) {
                                     requestState.wrapRequest {
                                         onClickRecipe(client.recipe.get(id = it.recipe))
                                     }

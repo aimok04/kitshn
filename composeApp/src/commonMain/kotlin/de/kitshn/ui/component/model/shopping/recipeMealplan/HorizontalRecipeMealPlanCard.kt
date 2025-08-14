@@ -44,7 +44,7 @@ fun HorizontalListRecipeDataCard(
                 },
                 headlineContent = {
                     Text(
-                        text = data.recipe_data.name,
+                        text = data.recipe_data?.name ?: data.meal_plan_data?.title ?: "",
                         style = Typography().bodyLarge.copy(
                             fontFamily = playfairDisplay()
                         ),

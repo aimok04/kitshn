@@ -268,6 +268,7 @@ class ShoppingViewModel(
                 entries
                     .onEach {
                         it.list_recipe_data?.let { data ->
+                            if (data.recipe == null || data.recipe_data == null) return@let
                             groupIdMap[data.recipe] = data.recipe_data.name
                         }
                     }

@@ -56,8 +56,8 @@ class TandoorShoppingListEntry(
 data class TandoorShoppingListEntryListRecipeData(
     val id: Long,
     val name: String,
-    val recipe: Int,
-    val recipe_data: TandoorRecipeOverview,
+    val recipe: Int? = null,
+    val recipe_data: TandoorRecipeOverview? = null,
     val mealplan: Int? = null,
     val meal_plan_data: TandoorMealPlan? = null,
     val servings: Double
