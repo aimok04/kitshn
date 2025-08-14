@@ -5,8 +5,15 @@
     if(window.location.hostname.includes("tiktok"))
         imageURL = document.getElementsByTagName("video")[0].parentElement.parentElement.parentElement.parentElement.querySelector("img").src
 
-    return {
-        description: description,
-        imageURL: imageURL
+    if(PLATFORM == "IOS") {
+        return JSON.stringify({
+            description: description,
+            imageURL: imageURL
+        })
+    }else{
+        return {
+            description: description,
+            imageURL: imageURL
+        }
     }
 })();

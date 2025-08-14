@@ -60,6 +60,7 @@ import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.handleTandoorRequestState
+import de.kitshn.platformDetails
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
@@ -167,6 +168,7 @@ fun RecipeImportSocialMediaDialog(
     val webViewState = rememberWebViewState(url = state.data.url).apply {
         webSettings.customUserAgentString =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+        webSettings.supportZoom = false
         webSettings.androidWebSettings.domStorageEnabled = true
     }
 
@@ -174,7 +176,9 @@ fun RecipeImportSocialMediaDialog(
     LaunchedEffect(webViewState.loadingState) {
         if(webViewState.loadingState != LoadingState.Finished) return@LaunchedEffect
 
-        delay(1000)
+        webViewNavigator.evaluateJavaScript("const PLATFORM = '${platformDetails.platform.name}';")
+
+        delay(1500)
 
         fetchWebsiteRequestState.wrapRequest {
             val response = webViewNavigator.runSocialMediaImportScript()
