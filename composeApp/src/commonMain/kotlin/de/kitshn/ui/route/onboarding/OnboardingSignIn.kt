@@ -64,7 +64,6 @@ import androidx.compose.ui.semantics.contentType
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
@@ -433,7 +432,6 @@ fun RouteOnboardingSignIn(
                                 Text(stringResource(Res.string.onboarding_sign_in_error_sign_in_failed))
                         },
 
-                        visualTransformation = PasswordVisualTransformation(),
                         keyboardActions = KeyboardActions(
                             onDone = {
                                 done()
@@ -475,7 +473,6 @@ fun RouteOnboardingSignIn(
                                 Text(stringResource(Res.string.onboarding_sign_in_error_sign_in_failed))
                         },
 
-                        visualTransformation = PasswordVisualTransformation(),
                         keyboardActions = KeyboardActions(
                             onDone = {
                                 done()
