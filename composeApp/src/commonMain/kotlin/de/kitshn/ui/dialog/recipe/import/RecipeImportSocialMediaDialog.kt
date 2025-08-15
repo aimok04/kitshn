@@ -60,7 +60,6 @@ import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.handleTandoorRequestState
-import de.kitshn.platformDetails
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
@@ -175,8 +174,6 @@ fun RecipeImportSocialMediaDialog(
     val fetchWebsiteRequestState = rememberTandoorRequestState()
     LaunchedEffect(webViewState.loadingState) {
         if(webViewState.loadingState != LoadingState.Finished) return@LaunchedEffect
-
-        webViewNavigator.evaluateJavaScript("const PLATFORM = '${platformDetails.platform.name}';")
 
         delay(1500)
 
