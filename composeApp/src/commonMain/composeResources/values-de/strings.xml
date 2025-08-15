@@ -267,6 +267,7 @@
     <string name="navigation_shopping">Einkaufen</string>
     <string name="onboarding_introduction">Willkommen in kitshn (für Tandoor). Bitte melde dich bei deiner Tandoor-Instanz an um fortzufahren.</string>
     <string name="onboarding_sign_in_error_instance_not_reachable">Die angegebene Instanz-URL kann nicht erreicht werden.</string>
+    <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">Aktiviere » Lokales Netzwerk « Berechtigung für kitshn in den Systemeinstellungen, wenn du dich mit einem lokalen Server verbindest.</string>
     <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">Probiere » Mit Webbrowser anmelden «, wenn du SSO benutzt.</string>
     <string name="onboarding_sign_in_error_sign_in_failed">Anmeldung fehlgeschlagen. Bitte überprüfe deine Eingabe!</string>
     <string name="onboarding_sign_in_ios_social_login_unsupported">Diese App unterstützt Social Login nicht. Bitte generiere einen API-Token oder nutze Nutzername/Password-Authentifizierung.</string>

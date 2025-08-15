@@ -303,6 +303,7 @@
 
     <string name="onboarding_introduction">Welcome to kitshn (for Tandoor). Please log in to your Tandoor instance to continue.</string>
     <string name="onboarding_sign_in_error_instance_not_reachable">The specified instance URL cannot be reached.</string>
+    <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">Enable » Local Network « permission for kitshn in system settings when connecting to a local server.</string>
     <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">You can try » Log in using web browser «, if you are using SSO.</string>
     <string name="onboarding_sign_in_error_sign_in_failed">Login failed. Please check your inputs!</string>
     <string name="onboarding_sign_in_ios_social_login_unsupported">This app does not support Social Login. Please generate an API-Token or use username/password authentication.</string>

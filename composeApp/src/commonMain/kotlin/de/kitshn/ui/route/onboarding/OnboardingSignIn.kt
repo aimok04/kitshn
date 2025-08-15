@@ -66,6 +66,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
+import de.kitshn.Platforms
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorCredentialsCustomHeader
@@ -74,6 +75,7 @@ import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.crash.crashReportHandler
+import de.kitshn.platformDetails
 import de.kitshn.ui.component.HorizontalDividerWithLabel
 import de.kitshn.ui.component.buttons.LoadingMediumExtendedFloatingActionButton
 import de.kitshn.ui.route.RouteParameters
@@ -98,6 +100,7 @@ import kitshn.composeapp.generated.resources.common_username
 import kitshn.composeapp.generated.resources.common_value
 import kitshn.composeapp.generated.resources.error_outdated_v1_instance
 import kitshn.composeapp.generated.resources.onboarding_sign_in_error_instance_not_reachable
+import kitshn.composeapp.generated.resources.onboarding_sign_in_error_instance_not_reachable_local_network_hint
 import kitshn.composeapp.generated.resources.onboarding_sign_in_error_instance_not_reachable_sso_hint
 import kitshn.composeapp.generated.resources.onboarding_sign_in_error_sign_in_failed
 import kitshn.composeapp.generated.resources.onboarding_sign_in_title
@@ -327,9 +330,16 @@ fun RouteOnboardingSignIn(
                                     Text(stringResource(Res.string.error_outdated_v1_instance))
                                 } else {
                                     Text(
-                                        stringResource(Res.string.onboarding_sign_in_error_instance_not_reachable) + "\n\n" + stringResource(
-                                            Res.string.onboarding_sign_in_error_instance_not_reachable_sso_hint
-                                        )
+                                        buildString {
+                                            append(stringResource(Res.string.onboarding_sign_in_error_instance_not_reachable))
+                                            append("\n\n")
+                                            append(stringResource(Res.string.onboarding_sign_in_error_instance_not_reachable_sso_hint))
+
+                                            if (platformDetails.platform == Platforms.IOS) {
+                                                append("\n\n")
+                                                append(stringResource(Res.string.onboarding_sign_in_error_instance_not_reachable_local_network_hint))
+                                            }
+                                        }
                                     )
                                 }
                             },
