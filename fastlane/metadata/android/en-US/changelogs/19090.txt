@@ -1,0 +1,8 @@
+BETA: This beta introduces compatibility with Tandoor v2. This version is not compatible with servers running Tandoor v1.
+
+1. Added social media import using AI (Instagram and TikTok).
+2. Added compact mode for the home screen.
+3. Improved the design of multiple components.
+4. Now ignoring casing when sorting shopping list items alphabetically.
+5. Fixed shopping list not updating when adding shopping list items to meal plan entries with empty recipe field.
+6. Translation improvements and more.
