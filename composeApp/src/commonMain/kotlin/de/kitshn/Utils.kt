@@ -48,7 +48,6 @@ import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.internal.FormatLanguage
 import nl.jacobras.humanreadable.HumanReadable
 import org.jetbrains.compose.resources.stringResource
-import kotlin.math.absoluteValue
 import kotlin.math.floor
 
 enum class FileFormats(val extensions: List<String>, val mimeType: String) {
@@ -93,28 +92,14 @@ fun HapticFeedback.handleTandoorRequestState(state: TandoorRequestState) {
 
 @Composable
 fun HapticFeedback.handlePagerState(state: PagerState) {
-    var timeout by remember { mutableStateOf(0L) }
-
-    var lastPageOffsetFraction by remember { mutableStateOf(0.0f) }
     var lastPage by remember { mutableStateOf(state.currentPage) }
 
     LaunchedEffect(state.currentPageOffsetFraction, state.currentPage) {
-        val diff = (state.currentPageOffsetFraction - lastPageOffsetFraction).absoluteValue
-        val timeoutDiff = Clock.System.now().toEpochMilliseconds() - timeout
-        if(diff < 0.1f) return@LaunchedEffect
-        if(timeoutDiff < 50L) return@LaunchedEffect
-
-        lastPageOffsetFraction = state.currentPageOffsetFraction
-
         if(lastPage != state.currentPage) {
             lastPage = state.currentPage
             performHapticFeedback(HapticFeedbackType.Confirm)
             delay(100)
-        } else {
-            performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
         }
-
-        timeout = Clock.System.now().toEpochMilliseconds()
     }
 }
 
