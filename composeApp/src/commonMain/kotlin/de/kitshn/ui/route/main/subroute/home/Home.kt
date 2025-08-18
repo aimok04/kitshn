@@ -1,21 +1,31 @@
 package de.kitshn.ui.route.main.subroute.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Sort
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.SaveAlt
+import androidx.compose.material.icons.rounded.SyncAlt
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingToolbarDefaults
 import androidx.compose.material3.HorizontalFloatingToolbar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,9 +37,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import de.kitshn.Platforms
+import de.kitshn.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
 import de.kitshn.launchTimerHandler
 import de.kitshn.platformDetails
 import de.kitshn.ui.component.AutoFetchingFundingBanner
@@ -56,6 +68,8 @@ import de.kitshn.ui.view.home.search.rememberHomeSearchState
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_add
 import kitshn.composeapp.generated.resources.action_import
+import kitshn.composeapp.generated.resources.action_remove
+import kitshn.composeapp.generated.resources.common_sorting
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -103,6 +117,11 @@ fun RouteMainSubrouteHome(
 
     var isScrollingUp by rememberSaveable { mutableStateOf(true) }
 
+    val enableDynamicHomeScreen by p.vm.settings.getEnableDynamicHomeScreen.collectAsState(initial = true)
+    val homeScreenSorting by p.vm.settings.getHomeScreenSorting.collectAsState(initial = "")
+
+    var showSortingSelectionDialog by rememberSaveable { mutableStateOf(false) }
+
     val wrap: @Composable (
         @Composable (
             pv: PaddingValues,
@@ -135,6 +154,15 @@ fun RouteMainSubrouteHome(
                     HorizontalFloatingToolbar(
                         expanded = isScrollingUp,
                         content = {
+                            if(!enableDynamicHomeScreen) IconButton(
+                                onClick = { showSortingSelectionDialog = true }
+                            ) {
+                                Icon(
+                                    Icons.AutoMirrored.Rounded.Sort,
+                                    stringResource(Res.string.common_sorting)
+                                )
+                            }
+
                             SpaceSwitchIconButton(
                                 client = p.vm.tandoorClient
                             ) {
@@ -232,8 +260,6 @@ fun RouteMainSubrouteHome(
         }
     }
 
-    val enableDynamicHomeScreen by p.vm.settings.getEnableDynamicHomeScreen.collectAsState(initial = true)
-
     if(enableDynamicHomeScreen) {
         HomeDynamicLayout(
             p = p,
@@ -315,4 +341,45 @@ fun RouteMainSubrouteHome(
             }
         )
     }
+
+    if(showSortingSelectionDialog) AlertDialog(
+        modifier = Modifier.padding(top = 24.dp, bottom = 24.dp),
+        onDismissRequest = {
+            showSortingSelectionDialog = false
+        },
+        icon = {
+            Icon(Icons.Rounded.SyncAlt, stringResource(Res.string.common_sorting))
+        },
+        title = {
+            Text(text = stringResource(Res.string.common_sorting))
+        },
+        text = {
+            Column(
+                Modifier
+                    .clip(RoundedCornerShape(16.dp))
+                    .verticalScroll(rememberScrollState())
+            ) {
+                TandoorRecipeQueryParametersSortOrder.entries.forEach {
+                    ListItem(
+                        modifier = Modifier.clickable {
+                            showSortingSelectionDialog = false
+                            p.vm.settings.setHomeScreenSorting(it.name)
+                        },
+                        headlineContent = {
+                            Text(text = it.itemLabel())
+                        }
+                    )
+                }
+            }
+        },
+        dismissButton = {
+            if(homeScreenSorting.isNotBlank()) FilledTonalButton(onClick = {
+                showSortingSelectionDialog = false
+                p.vm.settings.setHomeScreenSorting("")
+            }) {
+                Text(text = stringResource(Res.string.action_remove))
+            }
+        },
+        confirmButton = { }
+    )
 }

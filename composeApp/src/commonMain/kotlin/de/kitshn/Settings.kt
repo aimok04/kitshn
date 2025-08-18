@@ -34,6 +34,8 @@ const val KEY_SETTINGS_BEHAVIOR_ENABLE_DYNAMIC_HOME_SCREEN =
     "behavior_enable_dynamic_home_screen"
 const val KEY_SETTINGS_BEHAVIOR_ENABLE_COMPACT_HOME_SCREEN =
     "behavior_enable_compact_home_screen"
+const val KEY_SETTINGS_BEHAVIOR_HOME_SCREEN_SORTING =
+    "behavior_home_screen_sorting"
 const val KEY_SETTINGS_BEHAVIOR_INGREDIENTS_SHOW_FRACTIONAL_VALUES =
     "behavior_ingredients_show_fractional_values"
 const val KEY_SETTINGS_BEHAVIOR_PROPERTIES_SHOW_FRACTIONAL_VALUES =
@@ -174,6 +176,12 @@ class SettingsViewModel : ViewModel() {
 
     fun setEnableCompactHomeScreen(enable: Boolean) =
         obs.putBoolean(KEY_SETTINGS_BEHAVIOR_ENABLE_COMPACT_HOME_SCREEN, enable)
+
+    val getHomeScreenSorting: Flow<String> =
+        obs.getStringFlow(KEY_SETTINGS_BEHAVIOR_HOME_SCREEN_SORTING, "")
+
+    fun setHomeScreenSorting(sorting: String) =
+        obs.putString(KEY_SETTINGS_BEHAVIOR_HOME_SCREEN_SORTING, sorting)
 
     val getIngredientsShowFractionalValues: Flow<Boolean> =
         obs.getBooleanFlow(KEY_SETTINGS_BEHAVIOR_INGREDIENTS_SHOW_FRACTIONAL_VALUES, true)

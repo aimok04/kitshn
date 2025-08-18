@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
+import de.kitshn.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
 import de.kitshn.handleTandoorRequestState
 import de.kitshn.isScrollingUp
 import de.kitshn.reachedBottom
@@ -106,8 +107,27 @@ fun HomeTraditionalLayout(
         initialValue = true
     )
 
-    LaunchedEffect(p.vm.tandoorClient) {
+    val homeScreenSorting by p.vm.settings.getHomeScreenSorting.collectAsState(initial = "")
+    var queryParameters by remember { mutableStateOf(TandoorRecipeQueryParameters(new = true)) }
+
+    LaunchedEffect(homeScreenSorting) {
+        resultIds.clear()
+        pageLoadingState = ErrorLoadingSuccessState.LOADING
+
+        queryParameters = try {
+            TandoorRecipeQueryParameters(
+                sortOrder = TandoorRecipeQueryParametersSortOrder.valueOf(homeScreenSorting)
+            )
+        } catch(e: Exception) {
+            TandoorRecipeQueryParameters(
+                new = true
+            )
+        }
+    }
+
+    LaunchedEffect(p.vm.tandoorClient, homeScreenSorting) {
         if(p.vm.tandoorClient == null) return@LaunchedEffect
+        delay(100)
 
         if(resultIds.size > 0) {
             pageLoadingState = ErrorLoadingSuccessState.SUCCESS
@@ -118,9 +138,7 @@ fun HomeTraditionalLayout(
 
         listRequestState.wrapRequest {
             p.vm.tandoorClient!!.recipe.list(
-                parameters = TandoorRecipeQueryParameters(
-                    new = true
-                ),
+                parameters = queryParameters,
                 pageSize = HOME_SEARCH_PAGING_SIZE,
                 page = currentPage
             )
@@ -158,9 +176,7 @@ fun HomeTraditionalLayout(
 
             extendedListRequestState.wrapRequest {
                 p.vm.tandoorClient!!.recipe.list(
-                    parameters = TandoorRecipeQueryParameters(
-                        new = true
-                    ),
+                    parameters = queryParameters,
                     pageSize = HOME_SEARCH_PAGING_SIZE,
                     page = currentPage
                 )
