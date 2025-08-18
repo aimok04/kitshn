@@ -135,6 +135,16 @@ fun RouteMainSubrouteMealplan(
             return@LaunchedEffect
         }
 
+        // update details dialog
+        if(detailsDialogState.shown.value) {
+            val entry = mealPlanList.find { it.id == detailsDialogState.linkContent.value?.id }
+            if(entry != null) {
+                detailsDialogState.dismiss()
+                delay(250)
+                detailsDialogState.open(entry)
+            }
+        }
+
         hapticFeedback.handleTandoorRequestState(mainFetchRequestState)
     }
 
