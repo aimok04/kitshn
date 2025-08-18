@@ -48,13 +48,12 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
-import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryListRecipeData
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.formatAmount
 import de.kitshn.handleTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.icons.IconWithState
-import de.kitshn.ui.component.model.shopping.recipeMealplan.HorizontalListRecipeDataCard
+import de.kitshn.ui.component.model.shopping.IndividualShoppingListEntryDetailCard
 import de.kitshn.ui.dialog.select.SelectSupermarketCategoryDialog
 import de.kitshn.ui.dialog.select.rememberSelectSupermarketCategoryDialogState
 import kitshn.composeapp.generated.resources.Res
@@ -118,8 +117,6 @@ fun ShoppingListEntryDetailsBottomSheet(
     }
 
     val amountChips = remember { mutableStateListOf<Pair<String, Boolean>>() }
-    val listRecipeDataList =
-        remember { mutableStateListOf<TandoorShoppingListEntryListRecipeData>() }
 
     LaunchedEffect(entries) {
         amountChips.clear()
@@ -137,12 +134,6 @@ fun ShoppingListEntryDetailsBottomSheet(
                         entryList.all { it.checked }
                     )
                 }
-        )
-
-        listRecipeDataList.clear()
-        listRecipeDataList.addAll(
-            entries.filter { it.list_recipe_data != null }
-                .map { it.list_recipe_data!! }
         )
     }
 
@@ -307,28 +298,31 @@ fun ShoppingListEntryDetailsBottomSheet(
             }
         }
 
-        if(listRecipeDataList.size > 0) {
+        if(entries.isNotEmpty()) {
             HorizontalDivider()
 
             Column(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                listRecipeDataList.forEach {
-                    HorizontalListRecipeDataCard(
-                        data = it,
+                entries.forEach {
+                    IndividualShoppingListEntryDetailCard(
+                        entry = it,
                         onClick = {
                             coroutineScope.launch {
-                                if(it.mealplan != null) {
+                                if(it.list_recipe_data?.mealplan != null) {
                                     requestState.wrapRequest {
-                                        onClickMealplan(client.mealPlan.get(id = it.mealplan))
+                                        onClickMealplan(client.mealPlan.get(id = it.list_recipe_data.mealplan))
                                     }
-                                } else if (it.recipe != null) {
+                                } else if(it.list_recipe_data?.recipe != null) {
                                     requestState.wrapRequest {
-                                        onClickRecipe(client.recipe.get(id = it.recipe))
+                                        onClickRecipe(client.recipe.get(id = it.list_recipe_data.recipe))
                                     }
                                 }
                             }
+                        },
+                        onClickCheck = {
+                            onCheck(listOf(it))
                         }
                     )
                 }

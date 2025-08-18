@@ -311,6 +311,11 @@ fun RouteMainSubrouteShopping(
                                                     shoppingListEntryDetailsBottomSheetState.open(
                                                         item.entries
                                                     )
+                                                },
+                                                onClickExpand = {
+                                                    shoppingListEntryDetailsBottomSheetState.open(
+                                                        item.entries
+                                                    )
                                                 }
                                             )
                                         }

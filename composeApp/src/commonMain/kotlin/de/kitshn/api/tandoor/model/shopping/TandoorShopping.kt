@@ -32,6 +32,7 @@ class TandoorShoppingListEntry(
     @SerialName("checked")
     var _checked: Boolean,
     val created_by: TandoorShoppingListEntryCreatedBy,
+    val created_at: String? = null,
     val list_recipe_data: TandoorShoppingListEntryListRecipeData? = null
 ) {
     @Transient

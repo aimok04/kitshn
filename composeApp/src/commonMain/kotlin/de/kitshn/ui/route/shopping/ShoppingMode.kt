@@ -45,6 +45,7 @@ import de.kitshn.model.route.GroupDividerShoppingListItemModel
 import de.kitshn.model.route.GroupHeaderShoppingListItemModel
 import de.kitshn.model.route.GroupedFoodShoppingListItemModel
 import de.kitshn.model.route.ShoppingViewModel
+import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.LoadingGradientWrapper
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.buttons.BackButton
@@ -54,8 +55,15 @@ import de.kitshn.ui.component.model.shopping.shoppingMode.ShoppingModeListEntryL
 import de.kitshn.ui.component.model.shopping.shoppingMode.ShoppingModeListEntryListItemPlaceholder
 import de.kitshn.ui.component.model.shopping.shoppingMode.ShoppingModeListGroupHeaderListItem
 import de.kitshn.ui.component.model.shopping.shoppingMode.ShoppingModeListGroupHeaderListItemPlaceholder
+import de.kitshn.ui.dialog.mealplan.MealPlanDetailsDialog
+import de.kitshn.ui.dialog.mealplan.rememberMealPlanDetailsDialogState
+import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
+import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
+import de.kitshn.ui.dialog.shopping.ShoppingListEntryDetailsBottomSheet
+import de.kitshn.ui.dialog.shopping.rememberShoppingListEntryDetailsBottomSheetState
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.state.ErrorLoadingSuccessState
+import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_shopping_mode
 import kitshn.composeapp.generated.resources.shopping_list_empty
@@ -88,6 +96,13 @@ fun RouteShoppingMode(
 
     val additionalShoppingSettingsChipRowState = p.vm.uiState.additionalShoppingSettingsChipRowState
 
+    val mealPlanDetailsDialogState = rememberMealPlanDetailsDialogState()
+    val recipeLinkDialogState = rememberRecipeLinkDialogState()
+
+    val shoppingListEntryDetailsBottomSheetState =
+        rememberShoppingListEntryDetailsBottomSheetState()
+
+    val actionRequestState = rememberTandoorRequestState()
     val entriesCheckRequestState = rememberTandoorRequestState()
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -217,6 +232,9 @@ fun RouteShoppingMode(
                                                         entriesCheckRequestState
                                                     )
                                                 }
+                                            },
+                                            onLongClick = {
+                                                shoppingListEntryDetailsBottomSheetState.open(item.entries)
                                             }
                                         )
                                     }
@@ -240,4 +258,84 @@ fun RouteShoppingMode(
             }
         }
     }
+
+    client?.let {
+        MealPlanDetailsDialog(
+            p = ViewParameters(
+                vm = p.vm,
+                back = p.onBack
+            ),
+            state = mealPlanDetailsDialogState,
+            // not needed
+            onUpdateList = { },
+            onEdit = { }
+        )
+
+        RecipeLinkDialog(
+            p = ViewParameters(
+                vm = p.vm,
+                back = p.onBack
+            ),
+            state = recipeLinkDialogState
+        )
+
+        ShoppingListEntryDetailsBottomSheet(
+            client = it,
+            showFractionalValues = ingredientsShowFractionalValues.value,
+            state = shoppingListEntryDetailsBottomSheetState,
+            isOffline = p.vm.uiState.offlineState.isOffline,
+            onCheck = { entries ->
+                if(p.vm.uiState.offlineState.isOffline) {
+                    if(entries.all { entry -> entry.checked }) {
+                        vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.UNCHECK)
+                    } else {
+                        vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.CHECK)
+                    }
+
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                    return@ShoppingListEntryDetailsBottomSheet
+                }
+
+                coroutineScope.launch {
+                    actionRequestState.wrapRequest {
+                        if(entries.all { entry -> entry.checked }) {
+                            client.shopping.uncheck(entries)
+                        } else {
+                            client.shopping.check(entries)
+                        }
+
+                        vm.renderItems()
+                        vm.update()
+                    }
+
+                    hapticFeedback.handleTandoorRequestState(actionRequestState)
+                }
+            },
+            onDelete = { entries ->
+                if(p.vm.uiState.offlineState.isOffline) {
+                    vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.DELETE)
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+                    return@ShoppingListEntryDetailsBottomSheet
+                }
+
+                coroutineScope.launch {
+                    actionRequestState.wrapRequest {
+                        client.shopping.delete(entries)
+                        vm.renderItems()
+                    }
+
+                    hapticFeedback.handleTandoorRequestState(actionRequestState)
+                }
+            },
+            onClickMealplan = { mealPlan -> mealPlanDetailsDialogState.open(mealPlan) },
+            onClickRecipe = { recipe -> recipeLinkDialogState.open(recipe.toOverview()) },
+            onUpdate = {
+                coroutineScope.launch {
+                    vm.renderItems()
+                }
+            }
+        )
+    }
+
+    TandoorRequestErrorHandler(actionRequestState)
 }

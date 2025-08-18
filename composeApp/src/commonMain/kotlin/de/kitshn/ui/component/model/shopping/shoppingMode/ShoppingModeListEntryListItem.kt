@@ -1,6 +1,7 @@
 package de.kitshn.ui.component.model.shopping.shoppingMode
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedCard
@@ -48,7 +49,8 @@ fun ShoppingModeListEntryListItem(
     showFractionalValues: Boolean,
     enlarge: Boolean,
 
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onLongClick: () -> Unit
 ) {
     OutlinedCard(
         modifier = modifier.padding(
@@ -58,16 +60,18 @@ fun ShoppingModeListEntryListItem(
         )
     ) {
         Box(
-            Modifier.clickable {
-                onClick()
-            }
+            Modifier.combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick
+            )
         ) {
             ShoppingListEntryListItem(
                 modifier = Modifier.padding(if (enlarge) 8.dp else 0.dp),
                 food = food,
                 entries = entries,
                 showFractionalValues = showFractionalValues,
-                enlarge = enlarge
+                enlarge = enlarge,
+                onClickExpand = onLongClick
             )
         }
     }

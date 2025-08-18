@@ -1,6 +1,5 @@
 package de.kitshn.ui.component.model.shopping
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
@@ -10,14 +9,22 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ElevatedAssistChip
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
@@ -43,6 +50,7 @@ import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.theme.Typography
 import de.kitshn.ui.theme.playfairDisplay
 import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_more
 import kitshn.composeapp.generated.resources.lorem_ipsum_short
 import org.jetbrains.compose.resources.stringResource
 
@@ -107,7 +115,7 @@ fun ShoppingListEntryListItemPlaceholder(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ShoppingListEntryListItem(
     modifier: Modifier = Modifier,
@@ -121,7 +129,8 @@ fun ShoppingListEntryListItem(
 
     enlarge: Boolean = false,
 
-    onClick: (() -> Unit)? = null
+    onClick: (() -> Unit)? = null,
+    onClickExpand: (() -> Unit)? = null
 ) {
     val amountChips = remember { mutableStateListOf<Pair<String, Boolean>>() }
     val mealplans =
@@ -134,7 +143,10 @@ fun ShoppingListEntryListItem(
                 .groupBy { it.unit?.id ?: -100 }
                 .values
                 .map { entryList ->
-                    val sharedAmount = entryList.sumOf { it.amount }
+                    val allItemsChecked = entryList.all { it.checked }
+
+                    val sharedAmount =
+                        entryList.filter { (!it.checked || allItemsChecked) }.sumOf { it.amount }
                     val sharedUnit = entryList[0].unit
 
                     val value = StringBuilder()
@@ -143,7 +155,7 @@ fun ShoppingListEntryListItem(
 
                     Pair(
                         value.toString(),
-                        entryList.all { it.checked }
+                        allItemsChecked
                     )
                 }
         )
@@ -189,6 +201,28 @@ fun ShoppingListEntryListItem(
                 }
             },
         colors = colors,
+        leadingContent = if(entries.size > 1 && onClickExpand != null) {
+            {
+                FilledTonalIconButton(
+                    onClick = onClickExpand,
+                    modifier =
+                        Modifier.minimumInteractiveComponentSize()
+                            .size(
+                                IconButtonDefaults.smallContainerSize(
+                                    IconButtonDefaults.IconButtonWidthOption.Narrow
+                                )
+                            )
+                ) {
+                    Icon(
+                        Icons.Rounded.ExpandMore,
+                        contentDescription = stringResource(Res.string.action_more),
+                        modifier = Modifier.size(IconButtonDefaults.smallIconSize)
+                    )
+                }
+            }
+        } else {
+            null
+        },
         headlineContent = {
             if (enlarge) {
                 Text(
