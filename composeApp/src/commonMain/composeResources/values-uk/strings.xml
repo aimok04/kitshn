@@ -405,4 +405,17 @@
     <string name="common_activity">Активність</string>
     <string name="recipe_import_auto_sort_ingredients">Автоматичне сортування інгредієнтів</string>
     <string name="recipe_import_auto_sort_ingredients_description">Призначте інгредієнт, якщо текст кроку містить назву інгредієнта</string>
+    <string name="common_by">від</string>
+    <string name="ios_timer_dialog_action_install_shortcut">Встановити ярлик</string>
+    <string name="ios_timer_dialog_body">Apple не дозволяє стороннім програмам запускати таймери безпосередньо на iOS. kitshn використовує тимчасове рішення, що включає програму «Швидкі команди». Щоб розпочати, вам потрібно буде встановити ярлик » %1$s «.</string>
+    <string name="ios_timer_dialog_shortcut_installed_switch">Ярлик встановлено?</string>
+    <string name="ios_timer_dialog_title">Потрібне скорочення</string>
+    <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">Увімкніть дозвіл »Локальна мережа« для kitshn у системних налаштуваннях під час підключення до локального сервера.</string>
+    <string name="recipe_import_type_social_media_label">Імпорт із соціальних мереж</string>
+    <string name="recipe_import_type_social_media_description">Додайте рецепти з Instagram або TikTok за допомогою ШІ</string>
+    <string name="recipe_import_type_social_media_disclaimer">Наразі активно підтримуються лише Instagram та TikTok. Можливо, також підтримуватимуться інші платформи.</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_description">Показувати список замість великих карток</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_label">Увімкнути компактний головний екран</string>
+    <string name="settings_section_behavior_ios_install_timer_shortcut_description">Потрібно запускати таймери безпосередньо з програми Kitshn</string>
+    <string name="settings_section_behavior_ios_install_timer_shortcut_label">Встановлення ярлика таймера для iOS</string>
 </resources>
