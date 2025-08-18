@@ -75,6 +75,10 @@ class ShoppingViewModel(
                 ?: listOf()
         )
 
+        entries.forEach {
+            it.client = p.vm.tandoorClient
+        }
+
         // display cached items after waiting 3 seconds
         viewModelScope.launch {
             if(!p.vm.uiState.offlineState.isOffline)

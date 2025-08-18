@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedAssistChip
@@ -34,6 +35,7 @@ import de.kitshn.toHumanReadableDateLabel
 import de.kitshn.ui.theme.Typography
 import de.kitshn.ui.theme.playfairDisplay
 import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_edit_entry
 import kitshn.composeapp.generated.resources.action_mark_as_done
 import kitshn.composeapp.generated.resources.common_plural_portion
 import org.jetbrains.compose.resources.pluralStringResource
@@ -45,7 +47,8 @@ fun IndividualShoppingListEntryDetailCard(
     entry: TandoorShoppingListEntry,
     fractional: Boolean = true,
     onClick: () -> Unit = {},
-    onClickCheck: () -> Unit = {}
+    onClickCheck: () -> Unit = {},
+    onClickEdit: () -> Unit = {}
 ) {
     Card(
         onClick = onClick
@@ -189,10 +192,21 @@ fun IndividualShoppingListEntryDetailCard(
                     }
                 },
                 trailingContent = {
-                    IconButton(
-                        onClick = onClickCheck
-                    ) {
-                        Icon(Icons.Rounded.Check, stringResource(Res.string.action_mark_as_done))
+                    Row {
+                        IconButton(
+                            onClick = onClickCheck
+                        ) {
+                            Icon(
+                                Icons.Rounded.Check,
+                                stringResource(Res.string.action_mark_as_done)
+                            )
+                        }
+
+                        IconButton(
+                            onClick = onClickEdit
+                        ) {
+                            Icon(Icons.Rounded.Edit, stringResource(Res.string.action_edit_entry))
+                        }
                     }
                 }
             )

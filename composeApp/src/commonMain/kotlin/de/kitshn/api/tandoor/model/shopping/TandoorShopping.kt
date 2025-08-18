@@ -8,10 +8,13 @@ import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.TandoorUnit
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
+import de.kitshn.api.tandoor.patchObject
 import de.kitshn.json
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
 
 @Serializable
 data class TandoorParsedIngredient(
@@ -43,6 +46,19 @@ class TandoorShoppingListEntry(
     var destroyed = false
     @Transient
     var _destroyed = destroyed
+
+    suspend fun partialUpdate(
+        amount: Double? = null
+    ): TandoorShoppingListEntry {
+        val data = buildJsonObject {
+            if(amount != null) put("amount", JsonPrimitive(amount))
+        }
+
+        return parse(
+            client!!,
+            client!!.patchObject("/shopping-list-entry/${id}/", data).toString()
+        )
+    }
 
     companion object {
         fun parse(client: TandoorClient, data: String): TandoorShoppingListEntry {

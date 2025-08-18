@@ -327,6 +327,21 @@ fun RouteShoppingMode(
                     hapticFeedback.handleTandoorRequestState(actionRequestState)
                 }
             },
+            onChangeAmount = { entry, amount ->
+                coroutineScope.launch {
+                    actionRequestState.wrapRequest {
+                        val newEntry = entry.partialUpdate(
+                            amount = amount
+                        )
+
+                        shoppingListEntryDetailsBottomSheetState.entries[shoppingListEntryDetailsBottomSheetState.entries.indexOf(
+                            entry
+                        )] = newEntry
+                        vm.entries[vm.entries.indexOf(entry)] = newEntry
+                        vm.renderItems()
+                    }
+                }
+            },
             onClickMealplan = { mealPlan -> mealPlanDetailsDialogState.open(mealPlan) },
             onClickRecipe = { recipe -> recipeLinkDialogState.open(recipe.toOverview()) },
             onUpdate = {

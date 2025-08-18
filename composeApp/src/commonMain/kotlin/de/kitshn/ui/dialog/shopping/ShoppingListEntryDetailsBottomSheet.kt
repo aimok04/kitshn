@@ -40,6 +40,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextDecoration
@@ -72,10 +73,11 @@ fun rememberShoppingListEntryDetailsBottomSheetState(): ShoppingListEntryDetails
 
 class ShoppingListEntryDetailsBottomSheetState(
     val shown: MutableState<Boolean> = mutableStateOf(false),
-    val linkContent: MutableState<List<TandoorShoppingListEntry>?> = mutableStateOf(null)
+    val entries: SnapshotStateList<TandoorShoppingListEntry> = mutableStateListOf()
 ) {
-    fun open(linkContent: List<TandoorShoppingListEntry>) {
-        this.linkContent.value = linkContent
+    fun open(entries: List<TandoorShoppingListEntry>) {
+        this.entries.clear()
+        this.entries.addAll(entries)
         this.shown.value = true
     }
 
@@ -93,6 +95,7 @@ fun ShoppingListEntryDetailsBottomSheet(
     isOffline: Boolean,
     onCheck: (entries: List<TandoorShoppingListEntry>) -> Unit,
     onDelete: (entries: List<TandoorShoppingListEntry>) -> Unit,
+    onChangeAmount: (entry: TandoorShoppingListEntry, amount: Double?) -> Unit,
     onClickMealplan: (mealplan: TandoorMealPlan) -> Unit,
     onClickRecipe: (recipe: TandoorRecipe) -> Unit,
     onUpdate: () -> Unit
@@ -101,9 +104,12 @@ fun ShoppingListEntryDetailsBottomSheet(
     val hapticFeedback = LocalHapticFeedback.current
 
     val modalBottomSheetState = rememberModalBottomSheetState()
+    val shoppingListEntryChangeDialogState = rememberShoppingListEntryChangeDialogState()
 
-    val entries = state.linkContent.value ?: return
-    val food = state.linkContent.value!!.first().food
+    val entries = state.entries
+    if(entries.isEmpty()) return
+
+    val food = state.entries.first().food
 
     LaunchedEffect(
         state.shown.value
@@ -112,13 +118,13 @@ fun ShoppingListEntryDetailsBottomSheet(
             modalBottomSheetState.show()
         } else {
             modalBottomSheetState.hide()
-            state.linkContent.value = null
+            state.entries.clear()
         }
     }
 
     val amountChips = remember { mutableStateListOf<Pair<String, Boolean>>() }
 
-    LaunchedEffect(entries) {
+    LaunchedEffect(entries.toList()) {
         amountChips.clear()
         amountChips.addAll(
             entries.filter { it.amount != 0.0 || it.unit != null }
@@ -323,12 +329,20 @@ fun ShoppingListEntryDetailsBottomSheet(
                         },
                         onClickCheck = {
                             onCheck(listOf(it))
+                        },
+                        onClickEdit = {
+                            shoppingListEntryChangeDialogState.open(it)
                         }
                     )
                 }
             }
         }
     }
+
+    ShoppingListEntryChangeDialog(
+        state = shoppingListEntryChangeDialogState,
+        onChangeAmount = onChangeAmount
+    )
 
     TandoorRequestErrorHandler(categoryChangeRequestState)
 
