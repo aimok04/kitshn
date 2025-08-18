@@ -1,7 +1,5 @@
 package de.kitshn.ui.dialog.recipe
 
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -107,10 +105,7 @@ fun RecipeLinkDialog(
             },
 
             overridePaddingValues = pv,
-            contentWindowInsets = if(isFullscreen)
-                ScaffoldDefaults.contentWindowInsets
-            else
-                WindowInsets(),
+            isDialog = !isFullscreen,
             offsetFab = isFullscreen && offsetFab,
 
             onClickKeyword = {

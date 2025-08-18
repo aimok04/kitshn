@@ -193,7 +193,7 @@ fun ViewRecipeDetails(
     navigationIcon: @Composable (() -> Unit)? = null,
     prependContent: @Composable () -> Unit = { },
 
-    contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
+    isDialog: Boolean = false,
     overridePaddingValues: PaddingValues? = null,
     offsetFab: Boolean = false,
 
@@ -454,7 +454,6 @@ fun ViewRecipeDetails(
     var expandedToolbar by remember { mutableStateOf(true) }
 
     Scaffold(
-        contentWindowInsets = contentWindowInsets,
         topBar = {
             CenterAlignedTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -475,7 +474,11 @@ fun ViewRecipeDetails(
                         maxLines = 1
                     )
                 },
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                windowInsets = when(isDialog) {
+                    true -> WindowInsets()
+                    else -> TopAppBarDefaults.windowInsets
+                }
             )
         },
         floatingActionButton = {
@@ -577,7 +580,11 @@ fun ViewRecipeDetails(
                 }
             )
         },
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = MaterialTheme.colorScheme.background,
+        contentWindowInsets = when(isDialog) {
+            true -> WindowInsets()
+            else -> ScaffoldDefaults.contentWindowInsets
+        }
     ) { pvOg ->
         val pv = overridePaddingValues ?: pvOg
 
@@ -942,7 +949,8 @@ fun ViewRecipeDetails(
             }
         }
 
-        StatusBarBackground()
+        if(!isDialog)
+            StatusBarBackground()
     }
 
     RecipeIngredientAllocationDialog(

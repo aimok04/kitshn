@@ -2,12 +2,14 @@ package de.kitshn.ui.dialog.mealplan
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -104,7 +106,7 @@ fun MealPlanDetailsDialog(
 
     var servings by remember { mutableStateOf(mealPlan.servings) }
 
-    val bottomBar = @Composable {
+    val bottomBar = @Composable { isFullscreen: Boolean ->
         BottomAppBar(
             actions = {
                 FilterChip(
@@ -162,6 +164,10 @@ fun MealPlanDetailsDialog(
                         )
                     }
                 }
+            },
+            windowInsets = when(isFullscreen) {
+                true -> BottomAppBarDefaults.windowInsets
+                else -> WindowInsets()
             }
         )
     }
@@ -194,7 +200,7 @@ fun MealPlanDetailsDialog(
                 )
             },
             bottomBar = {
-                bottomBar()
+                bottomBar(it)
             },
             offsetFab = true,
             onServingsChange = {
@@ -210,7 +216,7 @@ fun MealPlanDetailsDialog(
             },
             title = { },
             bottomBar = {
-                bottomBar()
+                bottomBar(it)
             }
         ) { _, _, _ ->
             MealPlanDetailsCard(

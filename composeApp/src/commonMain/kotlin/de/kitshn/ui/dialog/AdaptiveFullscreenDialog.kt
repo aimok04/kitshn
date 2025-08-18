@@ -1,11 +1,14 @@
 package de.kitshn.ui.dialog
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
@@ -13,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -21,6 +25,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -76,97 +81,120 @@ fun CommonAdaptiveFullscreenDialogContent(
         hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
     }
 
-    Surface(
+    // detect clicks around Surface padding to close dialog
+    Box(
         Modifier
-            .widthIn(
-                max = if(isFullscreen) {
-                    Dp.Unspecified
-                } else {
-                    maxWidth
-                }
-            )
-            .run {
-                if(isFullscreen) {
-                    this.fillMaxSize()
-                } else {
-                    this.padding(40.dp)
-                }
+            .padding(40.dp)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) {
+                onDismiss()
             }
-            .imePadding(),
-        color = containerColor,
-        shape = if(isFullscreen) {
-            RectangleShape
-        } else {
-            AlertDialogDefaults.shape
-        }
     ) {
-        val mTopBar = topBar ?: {
-            CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = containerColor
-                ),
-                navigationIcon = {
-                    BackButton(
-                        onBack = { onDismiss() },
-                        type = BackButtonType.CLOSE
-                    )
-                },
-                title = title,
-                actions = topAppBarActions,
-                scrollBehavior = scrollBehavior
-            )
-        }
-
-        val internalBottomBar = @Composable {
-            if(bottomBar != null) {
-                bottomBar(isFullscreen)
-            } else if(actions != null) {
-                BottomAppBar(
-                    actions = {},
-                    floatingActionButton = {
-                        Row {
-                            actions()
-                        }
+        Surface(
+            Modifier
+                .widthIn(
+                    max = if(isFullscreen) {
+                        Dp.Unspecified
+                    } else {
+                        maxWidth
                     }
                 )
-            }
-        }
-
-        if(isFullscreen) {
-            Scaffold(
-                topBar = { topBarWrapper(mTopBar) },
-                bottomBar = internalBottomBar,
-                containerColor = containerColor
-            ) {
-                Box(
-                    if(applyPaddingValues) {
-                        Modifier.padding(it)
-                    } else {
-                        Modifier
+                .then(
+                    when(isFullscreen) {
+                        true -> Modifier.fillMaxSize()
+                        else -> Modifier.padding(40.dp)
                     }
-                ) {
-                    content(scrollBehavior.nestedScrollConnection, true, it)
+                )
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { }
+                .imePadding(),
+            color = containerColor,
+            shape = if(isFullscreen) {
+                RectangleShape
+            } else {
+                AlertDialogDefaults.shape
+            }
+        ) {
+            val mTopBar = topBar ?: {
+                CenterAlignedTopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = containerColor
+                    ),
+                    navigationIcon = {
+                        BackButton(
+                            onBack = { onDismiss() },
+                            type = BackButtonType.CLOSE
+                        )
+                    },
+                    title = title,
+                    actions = topAppBarActions,
+                    windowInsets = when(isFullscreen) {
+                        true -> TopAppBarDefaults.windowInsets
+                        else -> WindowInsets()
+                    },
+                    scrollBehavior = scrollBehavior
+                )
+            }
+
+            val internalBottomBar = @Composable {
+                if(bottomBar != null) {
+                    bottomBar(isFullscreen)
+                } else if(actions != null) {
+                    BottomAppBar(
+                        actions = {},
+                        floatingActionButton = {
+                            Row {
+                                actions()
+                            }
+                        },
+                        windowInsets = when(isFullscreen) {
+                            true -> BottomAppBarDefaults.windowInsets
+                            else -> WindowInsets()
+                        }
+                    )
                 }
             }
-        } else {
-            Column {
-                topBarWrapper(mTopBar)
 
-                BoxWithConstraints {
-                    val maxHeight = this.maxHeight
-
-                    Column {
-                        Box(
-                            Modifier.heightIn(max = maxHeight - 80.dp)
-                        ) {
-                            content(
-                                scrollBehavior.nestedScrollConnection,
-                                false,
-                                PaddingValues()
-                            )
+            if(isFullscreen) {
+                Scaffold(
+                    topBar = { topBarWrapper(mTopBar) },
+                    bottomBar = internalBottomBar,
+                    containerColor = containerColor
+                ) {
+                    Box(
+                        if(applyPaddingValues) {
+                            Modifier.padding(it)
+                        } else {
+                            Modifier
                         }
+                    ) {
+                        content(scrollBehavior.nestedScrollConnection, true, it)
+                    }
+                }
+            } else {
+                Column {
+                    topBarWrapper(mTopBar)
 
-                        internalBottomBar()
+                    BoxWithConstraints {
+                        val maxHeight = this.maxHeight
+
+                        Column {
+                            Box(
+                                Modifier.heightIn(max = maxHeight - 80.dp)
+                            ) {
+                                content(
+                                    scrollBehavior.nestedScrollConnection,
+                                    false,
+                                    PaddingValues()
+                                )
+                            }
+
+                            internalBottomBar()
+                        }
                     }
                 }
             }
