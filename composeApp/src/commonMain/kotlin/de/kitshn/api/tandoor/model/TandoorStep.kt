@@ -154,10 +154,36 @@ class TandoorStep(
         var value by rememberSaveable { mutableStateOf("") }
         LaunchedEffect(scale) {
             value =
-                instruction.replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\] *\\}\\}")) { // replaces ingredient templates
-                    val index = it.destructured.component1().toInt()
-                    ingredients.getOrNull(index)?.toString(scale) ?: "Invalid ingredient template"
-                }
+                instruction
+                    .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\] *\\}\\}")) { // replaces ingredient templates
+                        val index = it.destructured.component1().toInt()
+                        ingredients.getOrNull(index)?.toString(
+                            scale = scale,
+                            fractional = fractional
+                        ) ?: "Invalid ingredient template"
+                    }
+                    .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.amount *\\}\\}")) { // replaces ingredient amount templates
+                        val index = it.destructured.component1().toInt()
+                        ingredients.getOrNull(index)?.amount?.formatAmount(
+                            fractional = fractional
+                        ) ?: "Invalid ingredient template"
+                    }
+                    .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.unit *\\}\\}")) { // replaces ingredient unit templates
+                        val index = it.destructured.component1().toInt()
+                        val ingredient = ingredients.getOrNull(index)
+                        ingredient?.getUnitLabel(amount = ingredient.amount * scale)
+                            ?: "Invalid ingredient template"
+                    }
+                    .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.food *\\}\\}")) { // replaces ingredient food templates
+                        val index = it.destructured.component1().toInt()
+                        val ingredient = ingredients.getOrNull(index)
+                        ingredient?.getLabel(amount = ingredient.amount * scale)
+                            ?: "Invalid ingredient template"
+                    }
+                    .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.note *\\}\\}")) { // replaces ingredient note templates
+                        val index = it.destructured.component1().toInt()
+                        ingredients.getOrNull(index)?.note ?: "Invalid ingredient template"
+                    }
                     .replace(Regex("\\{\\{ *scale\\(((\\d|\\.)+)\\) *\\}\\}")) { // replaces scale templates
                         val number = it.destructured.component1().toDoubleOrNull()
 

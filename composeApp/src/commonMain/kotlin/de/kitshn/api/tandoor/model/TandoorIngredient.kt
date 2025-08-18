@@ -34,11 +34,12 @@ class TandoorIngredient(
     }
 
     fun toString(
-        scale: Double
+        scale: Double,
+        fractional: Boolean = true
     ): String {
         val builder = StringBuilder()
 
-        if(!no_amount && amount > 0.0) builder.append(formatAmount(amount * scale))
+        if(!no_amount && amount > 0.0) builder.append(formatAmount(amount * scale, fractional))
             .append(" ")
 
         if(!no_amount && unit != null) builder.append(getUnitLabel(amount * scale))
