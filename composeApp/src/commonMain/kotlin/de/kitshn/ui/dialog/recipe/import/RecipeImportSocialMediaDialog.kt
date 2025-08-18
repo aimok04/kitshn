@@ -154,6 +154,8 @@ fun RecipeImportSocialMediaDialog(
                     vm.viewRecipe(pathArgs[2].toInt())
                 }
             } else if(response.recipeFromSource != null) {
+                response.recipeFromSource!!.recipe.sourceUrl = state.data.url
+
                 state.data.recipeFromSource = response.recipeFromSource
                 state.data.populate()
             }
