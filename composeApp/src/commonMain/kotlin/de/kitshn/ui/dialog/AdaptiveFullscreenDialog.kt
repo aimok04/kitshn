@@ -84,13 +84,17 @@ fun CommonAdaptiveFullscreenDialogContent(
     // detect clicks around Surface padding to close dialog
     Box(
         Modifier
-            .padding(40.dp)
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) {
-                onDismiss()
-            }
+            .then(
+                when(isFullscreen) {
+                    true -> Modifier.fillMaxSize()
+                    else -> Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
+                        onDismiss()
+                    }
+                }
+            )
     ) {
         Surface(
             Modifier
