@@ -1,7 +1,7 @@
 package de.kitshn.actions.handlers
 
 import android.content.Intent
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import de.kitshn.KitshnViewModel
 import de.kitshn.api.tandoor.TandoorClient
@@ -54,19 +54,23 @@ private fun KitshnViewModel.handleAppLinkImpl(
             else -> null
         } ?: return false
 
-        val linkUri = Uri.parse(linkUrl.let {
-            if(it.startsWith("http://") || it.startsWith("https://")) {
+        val linkUri = linkUrl.let {
+            if(it.startsWith("https//")) {
+                it.replaceFirst("https//", "https://")
+            } else if(it.startsWith("http//")) {
+                it.replaceFirst("http//", "http://")
+            } else if(it.startsWith("http://") || it.startsWith("https://")) {
                 it
             } else {
                 "https://$it"
             }
-        })
+        }.toUri()
 
         val linkArgs = linkUri.path?.split("/")?.toMutableList() ?: mutableListOf()
         if(linkArgs.firstOrNull()?.isBlank() == true) linkArgs.removeFirstOrNull()
         if(linkArgs.lastOrNull()?.isBlank() == true) linkArgs.removeLastOrNull()
 
-        val instanceUri = credentials?.instanceUrl?.let { Uri.parse(it) }
+        val instanceUri = credentials?.instanceUrl?.let { it.toUri() }
         val matchingHosts = instanceUri?.host == linkUri.host
 
         // handle public accessible routes (legacy)
@@ -90,11 +94,11 @@ private fun KitshnViewModel.handleAppLinkImpl(
         }
 
         // handle public accessible routes (v2)
-        if(!matchingHosts && linkArgs.size == 3 && linkArgs[0] == "recipe") {
+        if(!matchingHosts && linkArgs.size == 2 && linkArgs[0] == "recipe") {
             viewModelScope.launch {
                 val origin = linkUri.scheme + "://" + linkUri.host
                 val recipeId = linkArgs[1]
-                val shareToken = linkArgs[2]
+                val shareToken = linkUri.getQueryParameter("share")
 
                 uiState.shareClient =
                     TandoorClient(TandoorCredentials(instanceUrl = origin))
