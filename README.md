@@ -81,13 +81,6 @@ Contributions are very welcome 😊
 [![View light mode](/images/btn_light_mode.png#gh-dark-mode-only)](/images/screenshots_light.md#gh-dark-mode-only)
 [![View dark mode](/images/btn_dark_mode.png#gh-light-mode-only)](/images/screenshots_dark.md#gh-light-mode-only)
 
-## 🚧 Roadmap
-
-- [ ] Home
-  - [ ] Localize queries
-  - [ ] Season-based recommendations
-  - [ ] Commonly used keywords
-
 ## 📜 License & Credits
 
 [GNU General Public License v3.0](/LICENSE)<br>
