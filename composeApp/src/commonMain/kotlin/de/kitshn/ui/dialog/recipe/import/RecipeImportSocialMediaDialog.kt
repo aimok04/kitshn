@@ -176,7 +176,7 @@ fun RecipeImportSocialMediaDialog(
     LaunchedEffect(webViewState.loadingState) {
         if(webViewState.loadingState != LoadingState.Finished) return@LaunchedEffect
 
-        delay(1500)
+        delay(2000)
 
         fetchWebsiteRequestState.wrapRequest {
             val response = webViewNavigator.runSocialMediaImportScript()
