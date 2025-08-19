@@ -1,0 +1,9 @@
+1. Now showing all individual entries when viewing bottom sheet dialog of shopping list item.
+2. Added dialog to edit amounts of shopping list entries.
+3. Added support for all ingredient templates.
+4. Added custom sorting button when using traditional home screen layout.
+5. Fixed some text fields being unreadable while typing.
+6. Fixed unable to view shared recipes.
+7. Fixed source url not being saved on import.
+8. Checked compatibility with v2.0.2.
+9. 🇺🇦 Ukrainian has been updated.

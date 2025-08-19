@@ -1,23 +1,14 @@
 BETA: This beta introduces compatibility with Tandoor v2. This version is not compatible with servers running Tandoor v1.
 
-    1. Added social media import using AI (currently supporting Instagram and TikTok) (#219).
-    2. Added support for creating native timers on iOS (#115).
-    3. Added created by and created at info to recipe details view.
-    4. Added compact mode for the home screen (#239).
-    5. Made multiple text areas selectable (#225).
-    6. Enabled easier editing of recipes inside meal plan dialog (#242).
-    7. Improved the design of multiple components.
-    8. Now ignoring casing when sorting shopping list items alphabetically (#237) (by @D3v01dZA).
-    9. Changed floating toolbar on home screen to be horizontal to resolve scrolling issues (#230) (by @Monforton).
-    10. Fixed issue where the paste dialog wasn't showing on iOS (#227).
-    11. Fixed shopping list not updating when adding shopping list items to meal plan entries with empty recipe field (#244).
-    12. Fixed issue where floating toolbar was not expanding on shopping page (#230) (by @Monforton).
-    13. Fixed layout issues when step has long title string (#223).
-    14. Checked compatibility with Tandoor version 2.0.0.
-    15. Checked compatibility with Tandoor version 2.0.1.
-    16. Catalan has been updated on Weblate (by pedro miguel plasencia).
-    17. Dutch has been updated on Weblate (by @jstrvr).
-    18. French has been updated on Weblate (by @wachkyri).
-    19. Russian has been updated on Weblate (by @yurtpage).
-    20. Ukrainian has been updated on Weblate (by Максим Горпиніч).
-    21. Spanish has been updated on Weblate (by 1024mb).
+    1. Added expand button to shopping list items containing multiple entries (#249).
+    2. Now showing all individual entries when viewing bottom sheet dialog of shopping list item (#249).
+    3. Added dialog to edit amounts of shopping list entries.
+    4. Added support for all ingredient templates (#250).
+    5. Added custom sorting button when using traditional home screen layout (#251).
+    6. Improved recipe details view when viewing shared recipes.
+    7. Fixed text fields being unreadable while typing when located at the bottom of a page (#247).
+    8. Fixed unable to view shared recipes when opening x.kitshn.app or kitshn:// link (#253).
+    9. Fixed meal plan dialog not updating when editing meal plan (#246).
+    10. Fixed source url not being saved when using social media import (#248).
+    11. Checked compatibility with Tandoor version 2.0.2.
+    12. Ukrainian has been updated on Weblate (by Максим Горпиніч).
