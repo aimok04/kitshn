@@ -70,6 +70,7 @@ Contributions are very welcome 😊
 - [x] UI
     - [x] Built with Jetpack Compose
     - [x] Material You dynamic colors
+    - [x] Using Material 3 Expressive
     - [x] Responsive two pane layouts for tablets and foldables
 
 ## 🖼️ Impressions
