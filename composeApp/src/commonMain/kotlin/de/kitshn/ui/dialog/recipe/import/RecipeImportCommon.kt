@@ -79,7 +79,7 @@ class RecipeImportCommonStateData {
 
     fun populate() {
         availableImageUrls.clear()
-        recipeFromSource!!.recipe.imageUrl.ifBlank { null }?.let {
+        recipeFromSource!!.recipe!!.imageUrl.ifBlank { null }?.let {
             availableImageUrls.add(it)
         }
         availableImageUrls.addAll(recipeFromSource!!.images)
@@ -87,7 +87,7 @@ class RecipeImportCommonStateData {
         selectedImageUrl = availableImageUrls.getOrNull(0) ?: ""
 
         selectedKeywords.clear()
-        selectedKeywords.addAll(recipeFromSource!!.recipe.keywords.map { it.name ?: "" })
+        selectedKeywords.addAll(recipeFromSource!!.recipe!!.keywords.map { it.name ?: "" })
     }
 
     suspend fun import(
@@ -283,7 +283,7 @@ fun LazyListScope.RecipeImportCommon(
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.surfaceContainer)
             ) {
-                val keywords = data.recipeFromSource!!.recipe.keywords
+                val keywords = data.recipeFromSource!!.recipe!!.keywords
 
                 items(keywords.size) {
                     val keyword = keywords[it]

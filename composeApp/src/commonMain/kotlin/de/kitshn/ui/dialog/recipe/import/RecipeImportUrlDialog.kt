@@ -42,6 +42,7 @@ import co.touchlab.kermit.Logger
 import com.eygraber.uri.Uri
 import de.kitshn.KitshnViewModel
 import de.kitshn.api.tandoor.TandoorRequestStateState
+import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.handleTandoorRequestState
@@ -131,20 +132,22 @@ fun RecipeImportUrlDialog(
 
         fetchRequestState.wrapRequest {
             val response = client.recipeFromSource.fetch(url)
-            if(response.link != null) {
-                val responseLinkUri = Uri.parse(response.link)
-                val pathArgs = (responseLinkUri.path ?: "").split("/").toMutableList().apply {
-                    removeFirstOrNull()
-                }
-
-                if(pathArgs.size > 2 && pathArgs[0] == "view" && pathArgs[1] == "recipe") {
-                    state.dismiss()
-                    vm.viewRecipe(pathArgs[2].toInt())
-                }
-            } else if(response.recipeFromSource != null) {
-                state.data.recipeFromSource = response.recipeFromSource
-                state.data.populate()
+            if(response.recipe == null && response.recipeId != null) {
+                state.dismiss()
+                vm.viewRecipe(response.recipeId)
+                return@wrapRequest
             }
+
+            if(response.error) {
+                throw TandoorRequestsError(
+                    null,
+                    null,
+                    overrideMessage = response.msg
+                )
+            }
+
+            state.data.recipeFromSource = response
+            state.data.populate()
         }
 
         hapticFeedback.handleTandoorRequestState(fetchRequestState)
@@ -233,7 +236,7 @@ fun RecipeImportUrlDialog(
                                 isError = fetchRequestState.state == TandoorRequestStateState.ERROR,
                                 supportingText = {
                                     if(fetchRequestState.state == TandoorRequestStateState.ERROR)
-                                        Text(text = stringResource(Res.string.error_recipe_could_not_be_loaded))
+                                        Text(text = "${stringResource(Res.string.error_recipe_could_not_be_loaded)}: ${fetchRequestState.error?.message}")
                                 },
 
                                 onValueChange = { state.data.url = it }

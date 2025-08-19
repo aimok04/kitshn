@@ -12,27 +12,13 @@ import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.jsonObject
 
 @Serializable
-data class TandoorRecipeImportResponse(
-    val link: String? = null,
-    var recipeFromSource: TandoorRecipeFromSource? = null
-) {
-    companion object {
-        fun parse(client: TandoorClient, data: String): TandoorRecipeImportResponse {
-            val obj = json.decodeFromString<TandoorRecipeImportResponse>(data)
-
-            if(obj.link == null)
-                obj.recipeFromSource = json.decodeFromString<TandoorRecipeFromSource>(data)
-
-            obj.recipeFromSource?.let { it.client = client }
-            return obj
-        }
-    }
-}
-
-@Serializable
 class TandoorRecipeFromSource(
-    val recipe: TandoorRecipeFromSourceRecipeJson,
+    val recipe: TandoorRecipeFromSourceRecipeJson? = null,
+    @SerialName("recipe_id")
+    val recipeId: Int? = null,
     val images: List<String>,
+    val error: Boolean = false,
+    val msg: String? = "",
     val duplicates: List<TandoorRecipeFromSourceDuplicateRecipe>
 ) {
 
@@ -41,12 +27,12 @@ class TandoorRecipeFromSource(
 
     suspend fun create(
         imageUrl: String,
-        keywords: List<String> = recipe.keywords.map { it.name ?: "" },
+        keywords: List<String> = recipe!!.keywords.map { it.name ?: "" },
         splitSteps: Boolean = true,
         autoSortIngredients: Boolean = true
     ): TandoorRecipe {
         // fixes issue where part of note wasn't detected
-        recipe.steps.map { it.ingredients }.forEach {
+        recipe!!.steps.map { it.ingredients }.forEach {
             it.forEach forEachIngredient@{ ingredient ->
                 val split = ingredient.food.name.split(" (")
                 if(split.size == 1) return@forEachIngredient

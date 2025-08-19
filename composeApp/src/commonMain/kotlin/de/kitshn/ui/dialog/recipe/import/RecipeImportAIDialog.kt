@@ -20,6 +20,7 @@ import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -36,10 +37,10 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
-import com.eygraber.uri.Uri
 import de.kitshn.FileFormats
 import de.kitshn.KitshnViewModel
 import de.kitshn.api.tandoor.TandoorRequestStateState
+import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.api.tandoor.route.TandoorAIImportRoute
@@ -60,6 +61,7 @@ import kitshn.composeapp.generated.resources.action_take_photo
 import kitshn.composeapp.generated.resources.action_upload
 import kitshn.composeapp.generated.resources.common_or_upper
 import kitshn.composeapp.generated.resources.common_recipe
+import kitshn.composeapp.generated.resources.error_recipe_could_not_be_loaded
 import kitshn.composeapp.generated.resources.recipe_import_type_ai_label
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -114,21 +116,22 @@ fun RecipeImportAIDialog(
                 file = state.additionalData.file,
                 text = state.additionalData.text.ifBlank { null }
             )
-
-            if(response.link != null) {
-                val uri = Uri.parse(response.link)
-                val pathArgs = (uri.path ?: "").split("/").toMutableList().apply {
-                    removeFirstOrNull()
-                }
-
-                if(pathArgs.size > 2 && pathArgs[0] == "view" && pathArgs[1] == "recipe") {
-                    state.dismiss()
-                    vm.viewRecipe(pathArgs[2].toInt())
-                }
-            } else if(response.recipeFromSource != null) {
-                state.data.recipeFromSource = response.recipeFromSource
-                state.data.populate()
+            if(response.recipe == null && response.recipeId != null) {
+                state.dismiss()
+                vm.viewRecipe(response.recipeId)
+                return@wrapRequest
             }
+
+            if(response.error) {
+                throw TandoorRequestsError(
+                    null,
+                    null,
+                    overrideMessage = response.msg
+                )
+            }
+
+            state.data.recipeFromSource = response
+            state.data.populate()
         }
 
         hapticFeedback.handleTandoorRequestState(fetchRequestState)
@@ -197,6 +200,13 @@ fun RecipeImportAIDialog(
                     Modifier.nestedScroll(nsc)
                 ) {
                     if(state.data.recipeFromSource == null) {
+                        item {
+                            if(fetchRequestState.state == TandoorRequestStateState.ERROR) Text(
+                                text = "${stringResource(Res.string.error_recipe_could_not_be_loaded)}: ${fetchRequestState.error?.message}",
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+
                         item {
                             if(state.additionalData.text.isEmpty()) Row(
                                 Modifier.padding(16.dp)

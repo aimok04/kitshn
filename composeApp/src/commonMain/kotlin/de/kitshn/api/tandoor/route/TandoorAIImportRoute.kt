@@ -1,8 +1,9 @@
 package de.kitshn.api.tandoor.route
 
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.model.recipe.TandoorRecipeImportResponse
+import de.kitshn.api.tandoor.model.recipe.TandoorRecipeFromSource
 import de.kitshn.api.tandoor.postMultipart
+import de.kitshn.json
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
@@ -18,7 +19,7 @@ class TandoorAIImportRoute(client: TandoorClient) : TandoorBaseRoute(client) {
     suspend fun fetch(
         file: File?,
         text: String?
-    ): TandoorRecipeImportResponse {
+    ): TandoorRecipeFromSource {
         val response = client.postMultipart(
             "/ai-import/"
         ) {
@@ -34,10 +35,9 @@ class TandoorAIImportRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             append("text", value = text ?: "")
         }
 
-        return TandoorRecipeImportResponse.parse(
-            client,
-            response.bodyAsText()
-        )
+        val recipeFromSource = json.decodeFromString<TandoorRecipeFromSource>(response.bodyAsText())
+        recipeFromSource.client = client
+        return recipeFromSource
     }
 
 }

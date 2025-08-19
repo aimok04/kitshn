@@ -49,7 +49,6 @@ import co.touchlab.kermit.Logger
 import com.eygraber.compose.placeholder.PlaceholderHighlight
 import com.eygraber.compose.placeholder.placeholder
 import com.eygraber.compose.placeholder.shimmer
-import com.eygraber.uri.Uri
 import com.multiplatform.webview.web.LoadingState
 import com.multiplatform.webview.web.WebView
 import com.multiplatform.webview.web.rememberWebViewNavigator
@@ -57,6 +56,7 @@ import com.multiplatform.webview.web.rememberWebViewState
 import de.kitshn.KitshnViewModel
 import de.kitshn.api.import.runSocialMediaImportScript
 import de.kitshn.api.tandoor.TandoorRequestStateState
+import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.handleTandoorRequestState
@@ -142,23 +142,22 @@ fun RecipeImportSocialMediaDialog(
                 file = null,
                 text = state.recipeDescription
             )
-
-            if(response.link != null) {
-                val uri = Uri.parse(response.link)
-                val pathArgs = (uri.path ?: "").split("/").toMutableList().apply {
-                    removeFirstOrNull()
-                }
-
-                if(pathArgs.size > 2 && pathArgs[0] == "view" && pathArgs[1] == "recipe") {
-                    state.dismiss()
-                    vm.viewRecipe(pathArgs[2].toInt())
-                }
-            } else if(response.recipeFromSource != null) {
-                response.recipeFromSource!!.recipe.sourceUrl = state.data.url
-
-                state.data.recipeFromSource = response.recipeFromSource
-                state.data.populate()
+            if(response.recipe == null && response.recipeId != null) {
+                state.dismiss()
+                vm.viewRecipe(response.recipeId)
+                return@wrapRequest
             }
+
+            if(response.error) {
+                throw TandoorRequestsError(
+                    null,
+                    null,
+                    overrideMessage = response.msg
+                )
+            }
+
+            state.data.recipeFromSource = response
+            state.data.populate()
         }
 
         hapticFeedback.handleTandoorRequestState(fetchAiRequestState)
@@ -288,9 +287,11 @@ fun RecipeImportSocialMediaDialog(
                                         supportingText = {
                                             Text(
                                                 text = when(fetchWebsiteRequestState.state) {
-                                                    TandoorRequestStateState.ERROR -> stringResource(
-                                                        Res.string.error_recipe_could_not_be_loaded
-                                                    )
+                                                    TandoorRequestStateState.ERROR -> "${
+                                                        stringResource(
+                                                            Res.string.error_recipe_could_not_be_loaded
+                                                        )
+                                                    }: ${fetchAiRequestState.error?.message}"
 
                                                     else -> stringResource(Res.string.recipe_import_type_social_media_disclaimer)
                                                 }
