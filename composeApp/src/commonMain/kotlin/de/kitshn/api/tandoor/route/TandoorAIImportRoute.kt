@@ -23,6 +23,9 @@ class TandoorAIImportRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         val response = client.postMultipart(
             "/ai-import/"
         ) {
+            // needed for server v2.0.2 and up
+            append("recipe_id", value = "")
+
             if(file != null) {
                 append("file", value = file.byteArray, headers = Headers.build {
                     append(HttpHeaders.ContentType, file.mimeType)
