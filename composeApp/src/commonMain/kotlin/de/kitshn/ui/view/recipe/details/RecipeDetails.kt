@@ -32,6 +32,7 @@ import androidx.compose.material.icons.rounded.LocalDining
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.SaveAlt
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Stars
@@ -91,6 +92,7 @@ import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
+import com.eygraber.uri.Uri
 import de.kitshn.KITSHN_KEYWORD_FLAG_PREFIX
 import de.kitshn.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP
 import de.kitshn.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP_DESC
@@ -154,6 +156,7 @@ import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_close
 import kitshn.composeapp.generated.resources.action_delete
 import kitshn.composeapp.generated.resources.action_edit
+import kitshn.composeapp.generated.resources.action_import
 import kitshn.composeapp.generated.resources.action_more
 import kitshn.composeapp.generated.resources.action_open_original
 import kitshn.composeapp.generated.resources.action_open_source
@@ -175,6 +178,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
+import kotlin.math.absoluteValue
 
 val RecipeServingsAmountSaveMap = mutableMapOf<Int, Double>()
 
@@ -276,14 +280,16 @@ fun ViewRecipeDetails(
 
     val recipe = p.vm.tandoorClient!!.container.recipe.getOrElse(recipeOverview.id) { null }
 
+    // recipe cannot be refreshed if shared
     val fetchRequestState = rememberTandoorRequestState()
     LaunchedEffect(recipeId) {
+        if(shareToken != null) return@LaunchedEffect
+
         pageLoadingState = ErrorLoadingSuccessState.LOADING
 
         fetchRequestState.wrapRequest {
             p.vm.tandoorClient?.recipe?.get(
-                id = recipeOverview.id,
-                share = shareToken
+                id = recipeOverview.id
             )
         }
     }
@@ -490,78 +496,96 @@ fun ViewRecipeDetails(
                 },
                 expanded = expandedToolbar,
                 content = {
-                    RecipeFavoriteButton(
-                        recipeOverview = recipeOverview,
-                        favoritesViewModel = p.vm.favorites
-                    )
-
-                    IconButton(
-                        onClick = { recipe?.let { recipeEditDialogState.open(it) } }
-                    ) {
-                        Icon(Icons.Rounded.Edit, stringResource(Res.string.action_edit))
-                    }
-
-                    IconButton(
-                        onClick = { recipe?.let { recipeDeleteDialogState.open(it) } }
-                    ) {
-                        Icon(Icons.Rounded.Delete, stringResource(Res.string.action_delete))
-                    }
-
-                    IconButton(
-                        onClick = { share() }
-                    ) {
-                        Icon(Icons.Rounded.Share, stringResource(Res.string.action_share))
-                    }
-
-                    var isMenuExpanded by rememberSaveable { mutableStateOf(false) }
-
-                    Box {
+                    if(shareToken != null) {
                         IconButton(
-                            onClick = { isMenuExpanded = true },
-                            colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceContainer
-                            )
-                        ) {
-                            Icon(Icons.Rounded.MoreVert, stringResource(Res.string.action_more))
-                        }
+                            onClick = {
+                                val url = "${recipe!!.client!!.credentials.instanceUrl}${
+                                    Uri.Builder()
+                                        .appendEncodedPath("recipe/${recipe.id.absoluteValue}/")
+                                        .appendQueryParameter("share", shareToken)
+                                        .build()
+                                }"
 
-                        RecipeDetailsDropdown(
-                            expanded = isMenuExpanded,
-                            onManageRecipeBooks = {
-                                manageRecipeInRecipeBooksDialogState.open(
-                                    recipeId
-                                )
-                            },
-                            onAddToMealPlan = {
-                                coroutineScope.launch {
-                                    val userPreference = client.userPreference.fetch()
-
-                                    mealPlanCreationDialogState.open(
-                                        MealPlanCreationAndEditDefaultValues(
-                                            recipeId = recipeOverview.id,
-                                            servings = recipeOverview.servings.toDouble(),
-                                            shared = userPreference.plan_share
-                                        )
-                                    )
-                                }
-                            },
-                            onAddToShopping = {
-                                recipe?.let {
-                                    recipeAddToShoppingDialogState.open(
-                                        recipe = it,
-                                        servings = servingsValue
-                                    )
-                                }
-                            },
-                            onAllocateIngredients = {
-                                recipe?.let {
-                                    recipeIngredientAllocationDialogState.open(
-                                        it
-                                    )
-                                }
+                                p.vm.navigateTo("main", "home")
+                                p.vm.uiState.importRecipeUrl.set(url)
                             }
                         ) {
-                            isMenuExpanded = false
+                            Icon(Icons.Rounded.SaveAlt, stringResource(Res.string.action_import))
+                        }
+                    } else {
+                        RecipeFavoriteButton(
+                            recipeOverview = recipeOverview,
+                            favoritesViewModel = p.vm.favorites
+                        )
+
+                        IconButton(
+                            onClick = { recipe?.let { recipeEditDialogState.open(it) } }
+                        ) {
+                            Icon(Icons.Rounded.Edit, stringResource(Res.string.action_edit))
+                        }
+
+                        IconButton(
+                            onClick = { recipe?.let { recipeDeleteDialogState.open(it) } }
+                        ) {
+                            Icon(Icons.Rounded.Delete, stringResource(Res.string.action_delete))
+                        }
+
+                        IconButton(
+                            onClick = { share() }
+                        ) {
+                            Icon(Icons.Rounded.Share, stringResource(Res.string.action_share))
+                        }
+
+                        var isMenuExpanded by rememberSaveable { mutableStateOf(false) }
+
+                        Box {
+                            IconButton(
+                                onClick = { isMenuExpanded = true },
+                                colors = IconButtonDefaults.filledIconButtonColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceContainer
+                                )
+                            ) {
+                                Icon(Icons.Rounded.MoreVert, stringResource(Res.string.action_more))
+                            }
+
+                            RecipeDetailsDropdown(
+                                expanded = isMenuExpanded,
+                                onManageRecipeBooks = {
+                                    manageRecipeInRecipeBooksDialogState.open(
+                                        recipeId
+                                    )
+                                },
+                                onAddToMealPlan = {
+                                    coroutineScope.launch {
+                                        val userPreference = client.userPreference.fetch()
+
+                                        mealPlanCreationDialogState.open(
+                                            MealPlanCreationAndEditDefaultValues(
+                                                recipeId = recipeOverview.id,
+                                                servings = recipeOverview.servings.toDouble(),
+                                                shared = userPreference.plan_share
+                                            )
+                                        )
+                                    }
+                                },
+                                onAddToShopping = {
+                                    recipe?.let {
+                                        recipeAddToShoppingDialogState.open(
+                                            recipe = it,
+                                            servings = servingsValue
+                                        )
+                                    }
+                                },
+                                onAllocateIngredients = {
+                                    recipe?.let {
+                                        recipeIngredientAllocationDialogState.open(
+                                            it
+                                        )
+                                    }
+                                }
+                            ) {
+                                isMenuExpanded = false
+                            }
                         }
                     }
                 },
@@ -771,7 +795,8 @@ fun ViewRecipeDetails(
                         )
                     }
 
-                    RecipeActivityPreviewCard(
+                    // cook logs cannot be fetched when viewing a shared recipe
+                    if(shareToken == null) RecipeActivityPreviewCard(
                         Modifier
                             .padding(
                                 start = 16.dp,

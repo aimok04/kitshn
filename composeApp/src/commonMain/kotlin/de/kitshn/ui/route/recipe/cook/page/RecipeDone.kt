@@ -149,14 +149,15 @@ fun RouteRecipeCookPageDone(
                         textAlign = TextAlign.Center
                     )
 
-                    Text(
+                    if(recipe.id > 0) Text(
                         text = stringResource(Res.string.recipe_cook_done_description),
                         textAlign = TextAlign.Center
                     )
                 }
             }
         ) {
-            Row {
+            // don't display rating menu when viewing shared recipe (negative id)
+            if(recipe.id > 0) Row {
                 if(it) VerticalDivider()
 
                 Column(
