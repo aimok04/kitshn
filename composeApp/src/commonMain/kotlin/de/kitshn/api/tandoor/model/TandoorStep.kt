@@ -164,9 +164,11 @@ class TandoorStep(
                     }
                     .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.amount *\\}\\}")) { // replaces ingredient amount templates
                         val index = it.destructured.component1().toInt()
-                        ingredients.getOrNull(index)?.amount?.formatAmount(
-                            fractional = fractional
-                        ) ?: "Invalid ingredient template"
+                        ingredients.getOrNull(index)?.amount?.let { amount ->
+                            (amount * scale).formatAmount(
+                                fractional = fractional
+                            )
+                        } ?: "Invalid ingredient template"
                     }
                     .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.unit *\\}\\}")) { // replaces ingredient unit templates
                         val index = it.destructured.component1().toInt()
