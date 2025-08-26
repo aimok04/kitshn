@@ -112,8 +112,6 @@ fun ViewBooksDetails(
         }
     }
 
-    LaunchedEffect(Unit) { book.listAllEntries() }
-
     val listFilterRecipesRequestState = rememberTandoorRequestState()
     var nextPageExists by remember { mutableStateOf(true) }
     var currentPage by remember { mutableStateOf(1) }
@@ -152,6 +150,18 @@ fun ViewBooksDetails(
 
             delay(500)
         }
+    }
+
+    LaunchedEffect(book) {
+        book.listAllEntries()
+
+        // reset filter recipe search
+        filterRecipes.clear()
+        filterRecipesIds.clear()
+
+        currentPage = 1
+        nextPageExists = true
+        fetchNewItems = true
     }
 
     var expandedToolbar by remember { mutableStateOf(true) }
