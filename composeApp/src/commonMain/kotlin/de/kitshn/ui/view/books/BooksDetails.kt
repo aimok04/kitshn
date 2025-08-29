@@ -46,6 +46,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
+import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.model.TandoorRecipeBookEntry
@@ -153,15 +154,17 @@ fun ViewBooksDetails(
     }
 
     LaunchedEffect(book) {
-        book.listAllEntries()
+        TandoorRequestState().wrapRequest {
+            book.listAllEntries()
 
-        // reset filter recipe search
-        filterRecipes.clear()
-        filterRecipesIds.clear()
+            // reset filter recipe search
+            filterRecipes.clear()
+            filterRecipesIds.clear()
 
-        currentPage = 1
-        nextPageExists = true
-        fetchNewItems = true
+            currentPage = 1
+            nextPageExists = true
+            fetchNewItems = true
+        }
     }
 
     var expandedToolbar by remember { mutableStateOf(true) }
