@@ -39,8 +39,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import de.kitshn.Platforms
+import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
 import de.kitshn.launchTimerHandler
 import de.kitshn.platformDetails
@@ -182,6 +184,7 @@ fun RouteMainSubrouteHome(
                         },
                         floatingActionButton = {
                             FloatingToolbarDefaults.StandardFloatingActionButton(
+                                modifier = Modifier.testTag(TestTagRepository.ACTION_ADD.name),
                                 onClick = {
                                     recipeCreationDialogState.open()
                                 }

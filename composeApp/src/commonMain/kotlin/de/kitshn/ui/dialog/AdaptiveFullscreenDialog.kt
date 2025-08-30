@@ -32,8 +32,10 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import de.kitshn.TestTagRepository
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.buttons.BackButtonType
 
@@ -130,6 +132,7 @@ fun CommonAdaptiveFullscreenDialogContent(
                     ),
                     navigationIcon = {
                         BackButton(
+                            modifier = Modifier.testTag(TestTagRepository.ACTION_CLOSE_DIALOG.name),
                             onBack = { onDismiss() },
                             type = BackButtonType.CLOSE
                         )

@@ -1,5 +1,8 @@
 import com.android.build.gradle.internal.tasks.CompileArtProfileTask
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 import java.io.FileInputStream
 import java.time.LocalDate
 import java.util.Properties
@@ -173,6 +176,24 @@ kotlin {
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.okhttp)
         }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+        }
+
+        androidTarget {
+            @OptIn(ExperimentalKotlinGradlePluginApi::class)
+            instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
+
+            dependencies {
+                androidTestImplementation(libs.screengrab)
+                androidTestImplementation(libs.androidx.ui.test.junit4.android)
+                debugImplementation(libs.androidx.ui.test.manifest)
+            }
+        }
     }
 }
 
@@ -336,6 +357,8 @@ buildConfig {
         "IOS_TIMER_SHORTCUT_NAME",
         prop.getProperty("ios.timer.shortcut.name").replace("--", "—")
     )
+
+    buildConfigField("TEST_DEMO_URL", prop.getProperty("test.demo.url"))
 }
 
 // fix for F-Droid

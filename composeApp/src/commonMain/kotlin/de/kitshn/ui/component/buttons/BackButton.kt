@@ -9,6 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_back
 import kitshn.composeapp.generated.resources.action_close
@@ -24,7 +25,8 @@ enum class BackButtonType {
 fun BackButton(
     onBack: (() -> Unit)?,
     overlay: Boolean = false,
-    type: BackButtonType = BackButtonType.DEFAULT
+    type: BackButtonType = BackButtonType.DEFAULT,
+    modifier: Modifier = Modifier
 ) {
     if(onBack == null) return
 
@@ -41,6 +43,7 @@ fun BackButton(
 
     if(overlay) {
         FilledIconButton(
+            modifier = modifier,
             onClick = onBack,
             colors = IconButtonDefaults.filledIconButtonColors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -52,6 +55,7 @@ fun BackButton(
     }
 
     FilledIconButton(
+        modifier = modifier,
         onClick = onBack,
         colors = IconButtonDefaults.filledIconButtonColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainer

@@ -82,6 +82,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
@@ -96,6 +97,7 @@ import com.eygraber.uri.Uri
 import de.kitshn.KITSHN_KEYWORD_FLAG_PREFIX
 import de.kitshn.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP
 import de.kitshn.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP_DESC
+import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.TandoorIngredient
@@ -469,7 +471,11 @@ fun ViewRecipeDetails(
                     if(navigationIcon != null) {
                         navigationIcon()
                     } else {
-                        BackButton(p.back, true)
+                        BackButton(
+                            modifier = Modifier.testTag(TestTagRepository.ACTION_CLOSE_RECIPE.name),
+                            onBack = p.back,
+                            overlay = true
+                        )
                     }
                 },
                 title = {

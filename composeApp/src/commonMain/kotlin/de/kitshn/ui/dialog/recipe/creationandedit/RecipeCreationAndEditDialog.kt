@@ -28,10 +28,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.TandoorRequestsError
@@ -467,17 +470,23 @@ fun RecipeCreationAndEditDialog(
         title = { Text(text = stringResource(Res.string.common_unsaved_changes)) },
         text = { Text(text = stringResource(Res.string.common_unsaved_changes_description)) },
         dismissButton = {
-            FilledTonalButton(onClick = {
-                showUnsavedChangesDialog = false
-            }) {
+            FilledTonalButton(
+                modifier = Modifier.testTag(TestTagRepository.ACTION_ABORT.name),
+                onClick = {
+                    showUnsavedChangesDialog = false
+                }
+            ) {
                 Text(text = stringResource(Res.string.action_abort))
             }
         },
         confirmButton = {
-            Button(onClick = {
-                showUnsavedChangesDialog = false
-                dismiss()
-            }) {
+            Button(
+                modifier = Modifier.testTag(TestTagRepository.ACTION_CONTINUE.name),
+                onClick = {
+                    showUnsavedChangesDialog = false
+                    dismiss()
+                }
+            ) {
                 Text(text = stringResource(Res.string.action_continue))
             }
         }

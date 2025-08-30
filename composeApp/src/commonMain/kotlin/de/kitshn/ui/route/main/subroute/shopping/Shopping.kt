@@ -41,10 +41,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.PlatformContext
 import coil3.compose.LocalPlatformContext
+import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.cache.ShoppingListEntriesCache
@@ -164,6 +166,7 @@ fun RouteMainSubrouteShopping(
     }
 
     Scaffold(
+        modifier = Modifier.testTag(TestTagRepository.SCAFFOLD_SHOPPING.active(vm.loaded)),
         topBar = {
             SelectionModeTopAppBar(
                 topAppBar = {

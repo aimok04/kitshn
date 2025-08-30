@@ -33,5 +33,6 @@ Pods/
 /fastlane/report.xml
 /fastlane/Preview.html
 /fastlane/out
+/fastlane/tmp
 
 Package.resolved

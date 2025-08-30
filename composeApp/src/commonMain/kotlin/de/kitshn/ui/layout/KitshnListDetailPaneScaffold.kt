@@ -50,6 +50,7 @@ import org.jetbrains.compose.resources.stringResource
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun KitshnListDetailPaneScaffold(
+    modifier: Modifier = Modifier,
     key: String,
     topBar: @Composable (colors: TopAppBarColors) -> Unit,
     floatingActionButton: @Composable () -> Unit = {},
@@ -107,6 +108,7 @@ fun KitshnListDetailPaneScaffold(
     }
 
     ListDetailPaneScaffold(
+        modifier = modifier,
         directive = navigator.scaffoldDirective,
         value = navigator.scaffoldValue,
         listPane = {

@@ -29,6 +29,7 @@ import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.cache.FoodNameIdMapCache
 import de.kitshn.cache.KeywordNameIdMapCache
+import de.kitshn.homepage.builder.HomePageSectionEnum
 import de.kitshn.homepage.model.HomePage
 import de.kitshn.homepage.model.HomePageSection
 import de.kitshn.isScrollingUp
@@ -87,26 +88,45 @@ fun HomeDynamicLayout(
         if(p.vm.tandoorClient == null) return@LaunchedEffect
         if(homePage != null) return@LaunchedEffect
 
-        HomePageBuilder(p.vm.tandoorClient!!).apply {
-            val keywordNameIdMapCache = KeywordNameIdMapCache(context, client)
-            val foodNameIdMapCache = FoodNameIdMapCache(context, client)
+        val keywordNameIdMapCache = KeywordNameIdMapCache(context, p.vm.tandoorClient!!)
+        val foodNameIdMapCache = FoodNameIdMapCache(context, p.vm.tandoorClient!!)
 
-            // retrieve keywords and foods to map names to ids
+        // retrieve keywords and foods to map names to ids
+        TandoorRequestState().wrapRequest {
+            if(!keywordNameIdMapCache.isValid()) keywordNameIdMapCache.update(coroutineScope)
+            if(!foodNameIdMapCache.isValid()) foodNameIdMapCache.update(coroutineScope)
+        }
+
+        if(p.vm.isTest) {
             TandoorRequestState().wrapRequest {
-                if(!keywordNameIdMapCache.isValid()) keywordNameIdMapCache.update(coroutineScope)
-                if(!foodNameIdMapCache.isValid()) foodNameIdMapCache.update(coroutineScope)
+                val section = HomePageSectionEnum.NEW.toHomePageSection(
+                    keywordNameIdMapCache = keywordNameIdMapCache,
+                    foodNameIdMapCache = foodNameIdMapCache
+                )
+
+                section.populate(client = p.vm.tandoorClient!!)
+
+                homePage = HomePage(
+                    sections = mutableListOf(section, section),
+                    validUntil = -1
+                ).apply {
+                    sectionsStateList.add(section)
+                    sectionsStateList.add(section)
+                }
             }
+        } else {
+            HomePageBuilder(p.vm.tandoorClient!!).apply {
+                val requestState = TandoorRequestState()
+                requestState.wrapRequest {
+                    homePage = this.homePage
+                    build(keywordNameIdMapCache, foodNameIdMapCache)
 
-            val requestState = TandoorRequestState()
-            requestState.wrapRequest {
-                homePage = this.homePage
-                build(keywordNameIdMapCache, foodNameIdMapCache)
+                    pageLoadingState = ErrorLoadingSuccessState.SUCCESS
+                }
 
-                pageLoadingState = ErrorLoadingSuccessState.SUCCESS
+                if(requestState.state == TandoorRequestStateState.ERROR)
+                    pageLoadingState = ErrorLoadingSuccessState.ERROR
             }
-
-            if(requestState.state == TandoorRequestStateState.ERROR)
-                pageLoadingState = ErrorLoadingSuccessState.ERROR
         }
     }
 

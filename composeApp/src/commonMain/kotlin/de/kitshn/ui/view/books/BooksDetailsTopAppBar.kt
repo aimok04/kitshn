@@ -17,9 +17,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
+import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.ui.component.buttons.BackButton
@@ -59,7 +62,10 @@ fun ViewBooksDetailsTopAppBar(
         topAppBar = {
             CenterAlignedTopAppBar(
                 navigationIcon = {
-                    BackButton(onBack)
+                    BackButton(
+                        modifier = Modifier.testTag(TestTagRepository.ACTION_CLOSE_RECIPE_BOOK.name),
+                        onBack = onBack
+                    )
                 },
                 title = {
                     Text(

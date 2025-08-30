@@ -31,11 +31,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
+import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -105,7 +107,12 @@ fun HorizontalRecipeBookCard(
     }
 
     Card(
-        modifier = modifier.loadingPlaceHolder(loadingState),
+        modifier = modifier.loadingPlaceHolder(loadingState)
+            .testTag(
+                TestTagRepository.CARD_HORIZONTAL_RECIPE_BOOK.active(
+                    loadingState == ErrorLoadingSuccessState.SUCCESS
+                )
+            ),
         onClick = { }
     ) {
         ListItem(

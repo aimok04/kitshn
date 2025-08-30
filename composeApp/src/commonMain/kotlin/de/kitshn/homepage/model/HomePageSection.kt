@@ -1,5 +1,6 @@
 package de.kitshn.homepage.model
 
+import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -15,5 +16,23 @@ class HomePageSection(
 
     @Transient
     val recipeIds = mutableListOf<Int>()
+
+    suspend fun populate(
+        client: TandoorClient
+    ): Boolean {
+        val recipeIdList = mutableListOf<Int>()
+        queryParameters.forEach { qp ->
+            val recipes =
+                client.recipe.list(parameters = qp, pageSize = 20).results.filter { r ->
+                    !recipeIdList.contains(r.id)
+                }
+
+            recipes.forEach { r -> recipeIdList.add(r.id) }
+        }
+
+        if(recipeIdList.size < 2) return false
+        recipeIds.addAll(recipeIdList)
+        return true
+    }
 
 }

@@ -18,9 +18,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.toHumanReadableDateLabel
 import de.kitshn.ui.modifier.loadingPlaceHolder
@@ -50,7 +52,12 @@ fun MealPlanDayCard(
     Card(
         modifier = modifier
             .widthIn(min = 150.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .testTag(
+                TestTagRepository.CARD_MEAL_PLAN_DAY.active(
+                    loadingState == ErrorLoadingSuccessState.SUCCESS
+                )
+            ),
         onClick = { }
     ) {
         Column(
@@ -69,7 +76,10 @@ fun MealPlanDayCard(
                     style = Typography().titleLarge
                 )
 
-                FilledTonalIconButton(onClick = onClickCreate) {
+                FilledTonalIconButton(
+                    modifier = Modifier.testTag(TestTagRepository.ACTION_ADD.name),
+                    onClick = onClickCreate
+                ) {
                     Icon(Icons.Rounded.Add, stringResource(Res.string.action_add))
                 }
             }

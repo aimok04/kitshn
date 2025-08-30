@@ -37,6 +37,7 @@ kotlinx-datetime = "0.6.2"
 kstore = "1.0.0"
 buildConfig = "5.6.7"
 richeditor = "1.0.0-rc13"
+screengrab = "2.1.1"
 uiAndroid = "1.9.0"
 uriKmp = "0.0.20"
 
@@ -53,6 +54,8 @@ androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", versi
 androidx-media3-session = { module = "androidx.media3:media3-session", version.ref = "media3" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiAndroid" }
+androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiAndroid" }
 bugsnag = { module = "co.touchlab.crashkios:bugsnag", version.ref = "bugsnag" }
 compose-material-expressive = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-material-expressive" }
 compose-placeholder = { module = "com.eygraber:compose-placeholder", version.ref = "compose-placeholder" }
@@ -99,6 +102,7 @@ androidx-browser = { group = "androidx.browser", name = "browser", version.ref =
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kstore = { module = "io.github.xxfast:kstore", version.ref = "kstore" }
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
+screengrab = { module = "tools.fastlane:screengrab", version.ref = "screengrab" }
 uri-kmp = { module = "com.eygraber:uri-kmp", version.ref = "uriKmp" }
 
 [plugins]

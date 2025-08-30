@@ -14,9 +14,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import de.kitshn.KitshnViewModel
+import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.route.TandoorUser
@@ -31,6 +34,7 @@ import org.jetbrains.compose.resources.stringResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun KitshnRecipeListRecipeDetailPaneScaffold(
+    modifier: Modifier = Modifier,
     vm: KitshnViewModel,
     key: String,
     topBar: @Composable (colors: TopAppBarColors) -> Unit,
@@ -42,6 +46,7 @@ fun KitshnRecipeListRecipeDetailPaneScaffold(
     val focusManager = LocalFocusManager.current
 
     KitshnListDetailPaneScaffold(
+        modifier = modifier,
         key = key,
         topBar = topBar,
         floatingActionButton = floatingActionButton,
@@ -67,6 +72,7 @@ fun KitshnRecipeListRecipeDetailPaneScaffold(
                 {
                     Row {
                         FilledIconButton(
+                            modifier = Modifier.testTag(TestTagRepository.ACTION_CLOSE_RECIPE.name),
                             onClick = close,
                             colors = IconButtonDefaults.filledIconButtonColors(
                                 containerColor = MaterialTheme.colorScheme.surfaceContainer

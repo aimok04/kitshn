@@ -40,6 +40,8 @@ class KitshnViewModel(
     val onLaunched: () -> Unit = { }
 ) : ViewModel() {
 
+    var isTest: Boolean = false
+
     var navHostController: NavHostController? = null
     var mainSubNavHostController: NavHostController? = null
 

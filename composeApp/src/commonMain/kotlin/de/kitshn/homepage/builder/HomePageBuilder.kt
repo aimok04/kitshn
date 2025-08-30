@@ -55,19 +55,7 @@ class HomePageBuilder(
                     foodNameIdMapCache
                 )
 
-                val recipeIdList = mutableListOf<Int>()
-                section.queryParameters.forEach { qp ->
-                    val recipes =
-                        client.recipe.list(parameters = qp, pageSize = 20).results.filter { r ->
-                            !recipeIdList.contains(r.id)
-                        }
-
-                    recipes.forEach { r -> recipeIdList.add(r.id) }
-                }
-
-                if(recipeIdList.size < 2) continue
-
-                section.recipeIds.addAll(recipeIdList)
+                if(!section.populate(client)) continue
                 childSectionList.add(section)
 
                 homePage.sections.add(section)

@@ -9,7 +9,7 @@ import de.kitshn.actions.handleIntent
 import de.kitshn.actions.preHandleIntent
 
 class AppActivity : ComponentActivity() {
-    private var vm: KitshnViewModel? = null
+    var vm: KitshnViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

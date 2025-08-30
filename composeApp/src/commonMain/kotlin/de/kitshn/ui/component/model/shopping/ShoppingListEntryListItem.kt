@@ -35,10 +35,12 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
@@ -199,7 +201,8 @@ fun ShoppingListEntryListItem(
                 } else {
                     this
                 }
-            },
+            }
+            .testTag(TestTagRepository.LIST_ITEM_SHOPPING_LIST_ENTRY.name),
         colors = colors,
         leadingContent = if(entries.size > 1 && onClickExpand != null) {
             {

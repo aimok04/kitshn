@@ -25,9 +25,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import de.kitshn.KitshnViewModel
+import de.kitshn.TestTagRepository
 import de.kitshn.platformDetails
 import de.kitshn.ui.theme.Typography
 import kitshn.composeApp.BuildConfig
@@ -112,6 +114,7 @@ fun TandoorBetaInfoDialog(
             Spacer(Modifier.height(16.dp))
 
             Button(
+                modifier = Modifier.testTag(TestTagRepository.ACTION_OKAY.name),
                 onClick = { dismiss() }
             ) {
                 Text(
