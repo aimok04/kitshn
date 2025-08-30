@@ -66,6 +66,30 @@ platform :android do
             aab: "fastlane/out/android/release.aab"
         )
     end
+
+    desc "Start emulators and take screenshots"
+    lane :take_screenshots do
+        gradle(task: "clean assembleDebug")
+        FileUtils.cp("../composeApp/build/outputs/apk/debug/composeApp-debug.apk", "tmp/debug.apk")
+
+        gradle(task: "clean assembleAndroidTest")
+        FileUtils.cp("../composeApp/build/outputs/apk/androidTest/debug/composeApp-debug-androidTest.apk", "tmp/androidTest.apk")
+
+        take_android_screenshots(
+            avd: "Screenshots_Pixel_9a",
+            device_type: "phone"
+        )
+
+        take_android_screenshots(
+            avd: "Screenshots_Pixel_9_Pro_Fold",
+            device_type: "sevenInch"
+        )
+
+        take_android_screenshots(
+            avd: "Screenshots_Pixel_Tablet",
+            device_type: "tenInch"
+        )
+    end
 end
 
 platform :ios do

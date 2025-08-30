@@ -1,0 +1,8 @@
+clear_previous_screenshots true
+reinstall_app true
+use_timestamp_suffix false
+
+app_package_name 'de.kitshn.android.debug'
+tests_apk_path 'fastlane/tmp/androidTest.apk'
+app_apk_path 'fastlane/tmp/debug.apk'
+output_directory 'fastlane/metadata/screenshots'
