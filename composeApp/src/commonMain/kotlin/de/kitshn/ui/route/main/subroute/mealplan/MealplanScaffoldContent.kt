@@ -103,7 +103,7 @@ fun RouteMainSubrouteMealplanScaffoldContent(
                             mealPlanItems = list.toMutableList().filter { mealPlan ->
                                 mealPlan.from_date.parseTandoorDate() == day || mealPlan.to_date.parseTandoorDate() == day
                             }.sortedBy { mealPlan ->
-                                mealPlan.meal_type.order
+                                mealPlan.meal_type.time
                             },
 
                             loadingState = pageLoadingState,

@@ -23,6 +23,7 @@ data class TandoorMealType(
     val id: Int,
     val name: String,
     val order: Int,
+    val time: String? = null,
     @SerialName("color")
     val colorStr: String? = null,
     val default: Boolean,
