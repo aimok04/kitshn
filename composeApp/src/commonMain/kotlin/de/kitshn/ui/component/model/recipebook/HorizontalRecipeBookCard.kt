@@ -89,7 +89,9 @@ fun HorizontalRecipeBookCard(
                 && recipeBook.filter != null
             ) recipeBook.listFilterEntries(1)
 
-            showPlaceholderIcon = recipeBook.entries.isEmpty() && recipeBook.filterEntries.isEmpty()
+            showPlaceholderIcon =
+                recipeBook.entries.all { (it.recipe_content.image ?: "").isBlank() }
+                        && recipeBook.filterEntries.all { (it.image ?: "").isBlank() }
         }
     }
 

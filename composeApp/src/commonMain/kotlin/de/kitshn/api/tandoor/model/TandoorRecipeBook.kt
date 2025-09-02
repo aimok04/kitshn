@@ -44,9 +44,8 @@ class TandoorRecipeBook(
 
     @Composable
     fun loadThumbnail(): ImageRequest? {
-        if(entries.size == 0)
-            return filterEntries.firstOrNull { (it.image ?: "").isNotBlank() }?.loadThumbnail()
-
+        if(entries.isEmpty()) return filterEntries.firstOrNull { (it.image ?: "").isNotBlank() }
+            ?.loadThumbnail()
         return entries.firstOrNull { (it.recipe_content.image ?: "").isNotBlank() }?.loadThumbnail()
     }
 
