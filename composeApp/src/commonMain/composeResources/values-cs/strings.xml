@@ -251,4 +251,10 @@
     <string name="search_ingredients">Prohledat ingredience</string>
     <string name="onboarding_introduction">Vítejte v kitshn (pro Tandoor). Pro pokračování se prosím přihlaste do svého účtu Tandoor.</string>
     <string name="recipe_sorting_last_cooked">Naposledy uvařeno</string>
+    <string name="action_add_ingredient">Přidat ingredienci</string>
+    <string name="action_clear">Smazat</string>
+    <string name="action_create_step">Nový krok</string>
+    <string name="action_edit_step">Upravit krok</string>
+    <string name="action_minus">Snížit</string>
+    <string name="action_plus">Zvýšit</string>
 </resources>
