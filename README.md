@@ -75,6 +75,10 @@ Contributions are very welcome 😊
 
 ## 🖼️ Impressions
 
+> [!TIP]
+> More screenshots available here:
+> https://kitshn.app/screenshots
+
 <div>    
     <img height="500" alt="Home" src="/web/public/images/screenshots/sevenInchScreenshots/LIGHT_02_HOME_RECIPE_VIEW.png#gh-light-mode-only" />
     <img height="500" alt="Home" src="/web/public/images/screenshots/sevenInchScreenshots/DARK_02_HOME_RECIPE_VIEW.png#gh-dark-mode-only" />
