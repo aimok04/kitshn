@@ -1,35 +1,18 @@
 <script setup>
-const props = defineProps(["images", "imagesMobile", "imagesTablet"])
-
-const imgM = [ ...(props.imagesMobile || []), ...(props.images || []) ]
-const imgT = [ ...(props.imagesTablet || []), ...(props.images || []) ]
+const props = defineProps(["images", "deviceType"])
 </script>
 
 <template>
     <div class="screenshots-row">
-        <template v-for="image of imgM">
-            <a :href="`/images/screenshots/light_phone_${ image }.png`">
-                <img :src="`/images/screenshots/light_phone_${ image }.png`" />
+        <template v-for="image of props.images">
+            <a :href="`/images/screenshots/${ props.deviceType }Screenshots/LIGHT_${ image }.png`">
+                <img :src="`/images/screenshots/${ props.deviceType }Screenshots/LIGHT_${ image }.png`" />
             </a>
         </template>
 
-        <template v-for="image of imgM">
-            <a :href="`/images/screenshots/dark_phone_${ image }.png`">
-                <img :src="`/images/screenshots/dark_phone_${ image }.png`" />
-            </a>
-        </template>
-    </div>
-
-    <div class="screenshots-row">
-        <template v-for="image of imgT">
-            <a :href="`/images/screenshots/light_tablet_${ image }.png`">
-                <img alt="" :src="`/images/screenshots/light_tablet_${ image }.png`" />
-            </a>
-        </template>
-
-        <template v-for="image of imgT">
-            <a :href="`/images/screenshots/dark_tablet_${ image }.png`">
-                <img alt="" :src="`/images/screenshots/dark_tablet_${ image }.png`" />
+        <template v-for="image of props.images">
+            <a :href="`/images/screenshots/${ props.deviceType }Screenshots/DARK_${ image }.png`">
+                <img :src="`/images/screenshots/${ props.deviceType }Screenshots/DARK_${ image }.png`" />
             </a>
         </template>
     </div>
@@ -41,8 +24,8 @@ const imgT = [ ...(props.imagesTablet || []), ...(props.images || []) ]
     flex-direction: row;
     flex-wrap: wrap;
     
-    gap: 24px;
-    margin-top: 16px;
+    gap: 4px;
+    margin-top: 24px;
 }
 
 .screenshots-row > a > img {
