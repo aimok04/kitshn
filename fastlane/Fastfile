@@ -89,6 +89,8 @@ platform :android do
             avd: "Screenshots_Pixel_Tablet",
             device_type: "tenInch"
         )
+
+        system "rsync -axvP tmp/screenshots/en-US/images/ ../web/public/images/screenshots"
     end
 end
 

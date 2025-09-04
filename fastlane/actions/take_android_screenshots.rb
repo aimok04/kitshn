@@ -41,7 +41,7 @@ module Fastlane
         Process.kill('QUIT', pid)
         Process.wait(pid)
 
-        metadataScreenshots = "fastlane/metadata/screenshots/en-US/images/#{ params[:device_type] }Screenshots"
+        metadataScreenshots = "fastlane/tmp/screenshots/en-US/images/#{ params[:device_type] }Screenshots"
         metadataAndroid = "fastlane/metadata/android/en-US/images/#{ params[:device_type] }Screenshots"
 
         if params[:device_type] == "phone"
