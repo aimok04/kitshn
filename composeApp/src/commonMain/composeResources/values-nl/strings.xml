@@ -266,14 +266,14 @@
     <string name="settings_section_behavior_description">Bewerk kitshn's gedrag</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_label">Negeer ongedefineerde ingrediënten</string>
     <string name="settings_section_behavior_ingredients_show_fractional_values_description">Is mogelijk makkelijker om te lezen maar ook minder accuraat</string>
-    <string name="settings_section_behavior_ingredients_show_fractional_values_label">Fractionele waardes voor ingrediënten</string>
+    <string name="settings_section_behavior_ingredients_show_fractional_values_label">Breuken voor ingrediënten</string>
     <string name="settings_section_behavior_label">Gedrag</string>
     <string name="settings_section_about_item_review_description">Beoordeel kitshn in de Play Store</string>
     <string name="settings_section_about_label">Over</string>
     <string name="settings_section_appearance_label">Uiterlijk</string>
     <string name="tandoor_compatibility_incompatible_label">Incompatibel</string>
     <string name="settings_section_appearance_dynamic_color_description">Gebruik het dynamische kleuren schema van je apparaat</string>
-    <string name="tandoor_compatibility_incompatible_description">Je Tandoor server is niet compatibel met deze app. Update je server naar een van de volgende versies</string>
+    <string name="tandoor_compatibility_incompatible_description">Je Tandoor server is niet compatibel met deze app. Update je server naar een van de volgende versies.</string>
     <string name="tandoor_compatibility_not_checkable_description">De versie van je Tandoor server kon niet opgevraagd worden. Controleer of de versie van de server overeenkomt met de volgende versies zodat alle functionaliteiten gebruikt kunnen worden.</string>
     <string name="settings_section_server_label">Server</string>
     <string name="share_title">Deel dit recept op Tandoor</string>
@@ -288,7 +288,7 @@
     <string name="select_recipe_book">Selecteer receptenboek</string>
     <string name="settings_section_about_item_freepik">Oorsprong van het app icoon</string>
     <string name="settings_section_behavior_properties_show_fractional_values_description">Is mogelijk makkelijker om te lezen maar ook minder accuraat</string>
-    <string name="settings_section_behavior_properties_show_fractional_values_label">Fractionele waardes voor aangepaste eigenschappen</string>
+    <string name="settings_section_behavior_properties_show_fractional_values_label">Breuken voor aangepaste eigenschappen</string>
     <string name="settings_section_server_description">Informatie over je instantie</string>
     <string name="share_incentive">Hey! Bekijk dit recept dat ik heb gevonden op Tandoor:</string>
     <string name="shopping_list_empty">Er zijn momenteel geen artikelen in je boodschappenlijst.</string>
@@ -394,4 +394,17 @@
     <string name="shopping_list_dialog_clear_only_done">Wis alleen items die gemarkeerd zijn met » Gedaan «</string>
     <string name="common_hour_short">u</string>
     <string name="settings_section_appearance_enlarge_shopping_mode_label">Vergroot boodschappenmodus</string>
+    <string name="ios_timer_dialog_action_install_shortcut">Installeer snelkoppeling</string>
+    <string name="ios_timer_dialog_shortcut_installed_switch">Snelkoppeling geïnstalleerd?</string>
+    <string name="ios_timer_dialog_title">Snelkoppeling vereist</string>
+    <string name="recipe_import_type_social_media_label">Importeer van Social Media</string>
+    <string name="recipe_import_type_social_media_description">Voeg recepten toe van Instagram of TikTok met behulp van AI</string>
+    <string name="recipe_import_type_social_media_disclaimer">Momenteel worden alleen Instagram en TikTok actief ondersteund. Andere platforms kunnen in de toekomst ook worden ondersteund.</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_description">Toon lijstweergave in plaats van grote kaarten</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_label">Compacte startscherm inschakelen</string>
+    <string name="common_by">door</string>
+    <string name="ios_timer_dialog_body">Apple staat niet toe dat apps van derden rechtstreeks timers starten op iOS. kitshn gebruikt hiervoor een omweg via de Shortcuts-app. Je moet de shortcut » %1$s « installeren om te beginnen.</string>
+    <string name="settings_section_behavior_ios_install_timer_shortcut_description">Benodigd om rechtstreeks timers te starten vanuit de kitshn-app</string>
+    <string name="settings_section_behavior_ios_install_timer_shortcut_label">Installeer iOS timer snelkoppeling</string>
+    <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">Schakel de machtiging »Lokale netwerk« in voor kitshn in de systeeminstellingen wanneer je verbinding maakt met een lokale server.</string>
 </resources>
