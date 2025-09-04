@@ -13,7 +13,7 @@ module Fastlane
             puts adb_check
         end
 
-        sleep(10)
+        sleep(20)
 
         # start demo mode
         system "$ANDROID_HOME/platform-tools/adb -s emulator-5600 shell settings put system time_12_24 24"
