@@ -78,32 +78,32 @@ Contributions are very welcome 😊
 <div>    
     <img height="500" alt="Home" src="/web/public/images/screenshots/sevenInchScreenshots/LIGHT_02_HOME_RECIPE_VIEW.png#gh-light-mode-only" />
     <img height="500" alt="Home" src="/web/public/images/screenshots/sevenInchScreenshots/DARK_02_HOME_RECIPE_VIEW.png#gh-dark-mode-only" />
-    <img height="500" alt="Cooking mode" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_03_RECIPE_COOKING_MODE.png#gh-light-mode-only" />
-    <img height="500" alt="Cooking mode" src="/web/public/images/screenshots/phoneScreenshots/DARK_03_RECIPE_COOKING_MODE.png#gh-dark-mode-only" />
     <img height="500" alt="Meal plan" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_05_MEAL_PLAN.png#gh-light-mode-only" />
     <img height="500" alt="Meal plan" src="/web/public/images/screenshots/phoneScreenshots/DARK_05_MEAL_PLAN.png#gh-dark-mode-only" />
-    <img height="500" alt="Shopping" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_07_SHOPPING.png#gh-light-mode-only" />
-    <img height="500" alt="Shopping" src="/web/public/images/screenshots/phoneScreenshots/DARK_07_SHOPPING.png#gh-dark-mode-only" />
+    <img height="500" alt="Shopping" src="/web/public/images/screenshots/sevenInchScreenshots/LIGHT_07_SHOPPING.png#gh-light-mode-only" />
+    <img height="500" alt="Shopping" src="/web/public/images/screenshots/sevenInchScreenshots/DARK_07_SHOPPING.png#gh-dark-mode-only" />
     <img height="500" alt="Shopping mode" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_08_SHOPPING_MODE.png#gh-light-mode-only" />
     <img height="500" alt="Shopping mode" src="/web/public/images/screenshots/phoneScreenshots/DARK_08_SHOPPING_MODE.png#gh-dark-mode-only" />
     <img height="500" alt="Books" src="/web/public/images/screenshots/sevenInchScreenshots/LIGHT_10_BOOKS_DETAILS_VIEW.png#gh-light-mode-only" />
     <img height="500" alt="Books" src="/web/public/images/screenshots/sevenInchScreenshots/DARK_10_BOOKS_DETAILS_VIEW.png#gh-dark-mode-only" />
+    <img height="500" alt="Cooking mode" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_03_RECIPE_COOKING_MODE.png#gh-light-mode-only" />
+    <img height="500" alt="Cooking mode" src="/web/public/images/screenshots/phoneScreenshots/DARK_03_RECIPE_COOKING_MODE.png#gh-dark-mode-only" />
 </div>
 
 <details>
     <summary>Dark mode / light mode</summary>
     <img height="500" alt="Home" src="/web/public/images/screenshots/sevenInchScreenshots/LIGHT_02_HOME_RECIPE_VIEW.png#gh-dark-mode-only" />
     <img height="500" alt="Home" src="/web/public/images/screenshots/sevenInchScreenshots/DARK_02_HOME_RECIPE_VIEW.png#gh-light-mode-only" />
-    <img height="500" alt="Cooking mode" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_03_RECIPE_COOKING_MODE.png#gh-dark-mode-only" />
-    <img height="500" alt="Cooking mode" src="/web/public/images/screenshots/phoneScreenshots/DARK_03_RECIPE_COOKING_MODE.png#gh-light-mode-only" />
     <img height="500" alt="Meal plan" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_05_MEAL_PLAN.png#gh-dark-mode-only" />
     <img height="500" alt="Meal plan" src="/web/public/images/screenshots/phoneScreenshots/DARK_05_MEAL_PLAN.png#gh-light-mode-only" />
-    <img height="500" alt="Shopping" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_07_SHOPPING.png#gh-dark-mode-only" />
-    <img height="500" alt="Shopping" src="/web/public/images/screenshots/phoneScreenshots/DARK_07_SHOPPING.png#gh-light-mode-only" />
+    <img height="500" alt="Shopping" src="/web/public/images/screenshots/sevenInchScreenshots/LIGHT_07_SHOPPING.png#gh-dark-mode-only" />
+    <img height="500" alt="Shopping" src="/web/public/images/screenshots/sevenInchScreenshots/DARK_07_SHOPPING.png#gh-light-mode-only" />
     <img height="500" alt="Shopping mode" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_08_SHOPPING_MODE.png#gh-dark-mode-only" />
     <img height="500" alt="Shopping mode" src="/web/public/images/screenshots/phoneScreenshots/DARK_08_SHOPPING_MODE.png#gh-light-mode-only" />
     <img height="500" alt="Books" src="/web/public/images/screenshots/sevenInchScreenshots/LIGHT_10_BOOKS_DETAILS_VIEW.png#gh-dark-mode-only" />
     <img height="500" alt="Books" src="/web/public/images/screenshots/sevenInchScreenshots/DARK_10_BOOKS_DETAILS_VIEW.png#gh-light-mode-only" />
+    <img height="500" alt="Cooking mode" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_03_RECIPE_COOKING_MODE.png#gh-dark-mode-only" />
+    <img height="500" alt="Cooking mode" src="/web/public/images/screenshots/phoneScreenshots/DARK_03_RECIPE_COOKING_MODE.png#gh-light-mode-only" />
 </details>
 
 ## 📜 License & Credits
