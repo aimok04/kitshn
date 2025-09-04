@@ -75,12 +75,36 @@ Contributions are very welcome 😊
 
 ## 🖼️ Impressions
 
-![Screenshots light](/images/screenshots_light.png#gh-light-mode-only)
-![Screenshots dark](/images/screenshots_dark.png#gh-dark-mode-only)
-![Screenshots tablet light](/images/screenshots_tablet_light.png#gh-light-mode-only)
-![Screenshots tablet dark](/images/screenshots_tablet_dark.png#gh-dark-mode-only)
-[![View light mode](/images/btn_light_mode.png#gh-dark-mode-only)](/images/screenshots_light.md#gh-dark-mode-only)
-[![View dark mode](/images/btn_dark_mode.png#gh-light-mode-only)](/images/screenshots_dark.md#gh-light-mode-only)
+<div>    
+    <img height="500" alt="Home" src="/web/public/images/screenshots/sevenInchScreenshots/LIGHT_02_HOME_RECIPE_VIEW.png#gh-light-mode-only" />
+    <img height="500" alt="Home" src="/web/public/images/screenshots/sevenInchScreenshots/DARK_02_HOME_RECIPE_VIEW.png#gh-dark-mode-only" />
+    <img height="500" alt="Cooking mode" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_03_RECIPE_COOKING_MODE.png#gh-light-mode-only" />
+    <img height="500" alt="Cooking mode" src="/web/public/images/screenshots/phoneScreenshots/DARK_03_RECIPE_COOKING_MODE.png#gh-dark-mode-only" />
+    <img height="500" alt="Meal plan" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_05_MEAL_PLAN.png#gh-light-mode-only" />
+    <img height="500" alt="Meal plan" src="/web/public/images/screenshots/phoneScreenshots/DARK_05_MEAL_PLAN.png#gh-dark-mode-only" />
+    <img height="500" alt="Shopping" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_07_SHOPPING.png#gh-light-mode-only" />
+    <img height="500" alt="Shopping" src="/web/public/images/screenshots/phoneScreenshots/DARK_07_SHOPPING.png#gh-dark-mode-only" />
+    <img height="500" alt="Shopping mode" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_08_SHOPPING_MODE.png#gh-light-mode-only" />
+    <img height="500" alt="Shopping mode" src="/web/public/images/screenshots/phoneScreenshots/DARK_08_SHOPPING_MODE.png#gh-dark-mode-only" />
+    <img height="500" alt="Books" src="/web/public/images/screenshots/sevenInchScreenshots/LIGHT_10_BOOKS_DETAILS_VIEW.png#gh-light-mode-only" />
+    <img height="500" alt="Books" src="/web/public/images/screenshots/sevenInchScreenshots/DARK_10_BOOKS_DETAILS_VIEW.png#gh-dark-mode-only" />
+</div>
+
+<details>
+    <summary>Dark mode / light mode</summary>
+    <img height="500" alt="Home" src="/web/public/images/screenshots/sevenInchScreenshots/LIGHT_02_HOME_RECIPE_VIEW.png#gh-dark-mode-only" />
+    <img height="500" alt="Home" src="/web/public/images/screenshots/sevenInchScreenshots/DARK_02_HOME_RECIPE_VIEW.png#gh-light-mode-only" />
+    <img height="500" alt="Cooking mode" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_03_RECIPE_COOKING_MODE.png#gh-dark-mode-only" />
+    <img height="500" alt="Cooking mode" src="/web/public/images/screenshots/phoneScreenshots/DARK_03_RECIPE_COOKING_MODE.png#gh-light-mode-only" />
+    <img height="500" alt="Meal plan" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_05_MEAL_PLAN.png#gh-dark-mode-only" />
+    <img height="500" alt="Meal plan" src="/web/public/images/screenshots/phoneScreenshots/DARK_05_MEAL_PLAN.png#gh-light-mode-only" />
+    <img height="500" alt="Shopping" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_07_SHOPPING.png#gh-dark-mode-only" />
+    <img height="500" alt="Shopping" src="/web/public/images/screenshots/phoneScreenshots/DARK_07_SHOPPING.png#gh-light-mode-only" />
+    <img height="500" alt="Shopping mode" src="/web/public/images/screenshots/phoneScreenshots/LIGHT_08_SHOPPING_MODE.png#gh-dark-mode-only" />
+    <img height="500" alt="Shopping mode" src="/web/public/images/screenshots/phoneScreenshots/DARK_08_SHOPPING_MODE.png#gh-light-mode-only" />
+    <img height="500" alt="Books" src="/web/public/images/screenshots/sevenInchScreenshots/LIGHT_10_BOOKS_DETAILS_VIEW.png#gh-dark-mode-only" />
+    <img height="500" alt="Books" src="/web/public/images/screenshots/sevenInchScreenshots/DARK_10_BOOKS_DETAILS_VIEW.png#gh-light-mode-only" />
+</details>
 
 ## 📜 License & Credits
 
