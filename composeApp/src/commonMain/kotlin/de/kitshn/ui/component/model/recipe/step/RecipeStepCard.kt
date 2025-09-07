@@ -58,7 +58,7 @@ fun RecipeStepCard(
     appendAction: @Composable () -> Unit = {},
     showFractionalValues: Boolean,
     onClickRecipeLink: (recipe: TandoorRecipe) -> Unit,
-    onStartTimer: (seconds: Int, timerName: String) -> Unit
+    onStartTimer: (fromSeconds: Int, toSeconds: Int, timerName: String) -> Unit
 ) {
     var showIngredientsTable by remember { mutableStateOf(false) }
     LaunchedEffect(step, hideIngredients) {
@@ -104,7 +104,7 @@ fun RecipeStepCard(
                         modifier = Modifier.padding(top = 8.dp, end = 16.dp),
                         onClick = {
                             if(isLaunchTimerHandlerImplemented)
-                                onStartTimer(step.time * 60, stepName)
+                                onStartTimer(step.time * 60, step.time * 60, stepName)
                         },
                         leadingIcon = {
                             Icon(
@@ -126,8 +126,8 @@ fun RecipeStepCard(
                 timerName = stepName,
                 markdown = step?.instructionsWithTemplating(servingsFactor, showFractionalValues)
                     ?: stringResource(Res.string.lorem_ipsum_medium),
-                onStartTimer = { seconds, timerName ->
-                    onStartTimer(seconds, timerName)
+                onStartTimer = { fromSeconds, toSeconds, timerName ->
+                    onStartTimer(fromSeconds, toSeconds, timerName)
                 }
             )
         }

@@ -128,6 +128,7 @@ import de.kitshn.ui.component.model.recipe.button.RecipeFavoriteButton
 import de.kitshn.ui.component.model.recipe.step.RecipeStepCard
 import de.kitshn.ui.component.model.servings.ServingsSelector
 import de.kitshn.ui.dialog.LaunchTimerInfoBottomSheet
+import de.kitshn.ui.dialog.LaunchTimerRangeBottomSheet
 import de.kitshn.ui.dialog.UseShareWrapperDialog
 import de.kitshn.ui.dialog.common.CommonDeletionDialog
 import de.kitshn.ui.dialog.common.rememberCommonDeletionDialogState
@@ -147,6 +148,7 @@ import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.ui.dialog.recipeBook.ManageRecipeInRecipeBooksDialog
 import de.kitshn.ui.dialog.recipeBook.rememberManageRecipeInRecipeBooksDialogState
 import de.kitshn.ui.dialog.rememberLaunchTimerInfoBottomSheetState
+import de.kitshn.ui.dialog.rememberLaunchTimerRangeBottomSheetState
 import de.kitshn.ui.dialog.rememberUseShareWrapperDialogState
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.state.ErrorLoadingSuccessState
@@ -244,7 +246,12 @@ fun ViewRecipeDetails(
     val recipeActivitiesBottomSheetState = rememberRecipeActivitiesBottomSheetState()
 
     val launchTimerInfoBottomSheetState = rememberLaunchTimerInfoBottomSheetState()
-    val launchTimerHandler = launchTimerHandler(p.vm, launchTimerInfoBottomSheetState)
+    val launchTimerRangeBottomSheetState = rememberLaunchTimerRangeBottomSheetState()
+    val launchTimerHandler = launchTimerHandler(
+        vm = p.vm,
+        infoBottomSheetState = launchTimerInfoBottomSheetState,
+        rangeBottomSheetState = launchTimerRangeBottomSheetState
+    )
 
     val recipeOverview = client?.container?.recipeOverview?.get(recipeId)
     if(recipeOverview == null) {
@@ -916,8 +923,8 @@ fun ViewRecipeDetails(
                         servingsFactor = servingsFactor,
                         showFractionalValues = ingredientsShowFractionalValues.value,
                         onClickRecipeLink = { },
-                        onStartTimer = { seconds, timerName ->
-                            launchTimerHandler(seconds, timerName)
+                        onStartTimer = { fromSeconds, toSeconds, timerName ->
+                            launchTimerHandler(fromSeconds, toSeconds, timerName)
                         }
                     )
                 }
@@ -942,8 +949,8 @@ fun ViewRecipeDetails(
                             // show recipe link bottom sheet
                             recipeLinkDialogState.open(recipe.toOverview())
                         },
-                        onStartTimer = { seconds, timerName ->
-                            launchTimerHandler(seconds, timerName)
+                        onStartTimer = { fromSeconds, toSeconds, timerName ->
+                            launchTimerHandler(fromSeconds, toSeconds, timerName)
                         }
                     )
 
@@ -1014,9 +1021,6 @@ fun ViewRecipeDetails(
                         }
                     }
                 }
-            },
-            onStartTimer = { seconds, timerName ->
-                launchTimerHandler(seconds, timerName)
             }
         )
 
@@ -1083,6 +1087,10 @@ fun ViewRecipeDetails(
     LaunchTimerInfoBottomSheet(
         vm = p.vm,
         state = launchTimerInfoBottomSheetState
+    )
+
+    LaunchTimerRangeBottomSheet(
+        state = launchTimerRangeBottomSheetState
     )
 
     TandoorRequestErrorHandler(fetchRequestState)

@@ -30,15 +30,23 @@ import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.timer_detection_and_definitions
 import kitshn.composeapp.generated.resources.timer_detection_hour_definitions
 import kitshn.composeapp.generated.resources.timer_detection_minute_definitions
+import kitshn.composeapp.generated.resources.timer_detection_to_definitions
 import org.jetbrains.compose.resources.getStringArray
 
 class MarkdownUriHandler(
     val onTimerClick: (seconds: Int) -> Unit,
+    val onTimerRangeClick: (fromSeconds: Int, toSeconds: Int) -> Unit,
     val onUriClick: (uri: String) -> Unit
 ) : UriHandler {
     override fun openUri(uri: String) {
         if(uri.startsWith("timer://")) {
             onTimerClick(uri.replaceFirst("timer://", "").toInt() * 60)
+            return
+        } else if(uri.startsWith("timer-range://")) {
+            val components = uri.replaceFirst("timer-range://", "")
+                .split("/")
+
+            onTimerRangeClick(components[0].toInt() * 60, components[1].toInt() * 60)
             return
         }
 
@@ -52,7 +60,7 @@ fun MarkdownRichTextWithTimerDetection(
     timerName: String,
     markdown: String,
     fontSize: TextUnit = TextUnit.Unspecified,
-    onStartTimer: (seconds: Int, timerName: String) -> Unit
+    onStartTimer: (fromSeconds: Int, toSeconds: Int, timerName: String) -> Unit
 ) {
     val uriHandler = LocalUriHandler.current
 
@@ -80,19 +88,32 @@ fun MarkdownRichTextWithTimerDetection(
             val minuteDefinitionsStr =
                 minuteDefinitions.sortedByDescending { it.length }.joinToString("|")
 
+            val rangeDefinitions =
+                mutableSetOf(" ?- ?").apply { addAll(getStringArray(Res.array.timer_detection_to_definitions).map { " $it " }) }
+            val rangeDefinitionsStr =
+                rangeDefinitions.sortedByDescending { it.length }.joinToString("|")
+
             md = markdown.replace(
                 Regex(
-                    "(?:([0-9]+) ?(?:$hourDefinitionsStr) ?(?:$andDefinitionsStr)? ?)?([0-9]+) ?(?:$minuteDefinitionsStr)|([0-9]+) ?(?:$hourDefinitionsStr)",
+                    "([0-9]+)(?:$rangeDefinitionsStr)([0-9]+) ?(?:$minuteDefinitionsStr)|(?:([0-9]+) ?(?:$hourDefinitionsStr) ?(?:$andDefinitionsStr)? ?)?([0-9]+) ?(?:$minuteDefinitionsStr)|([0-9]+) ?(?:$hourDefinitionsStr)",
                     RegexOption.IGNORE_CASE
                 )
             ) {
-                val hours =
-                    it.groupValues[1].ifBlank { "0" }.toInt() + it.groupValues[3].ifBlank { "0" }
-                        .toInt()
-                val minutes = it.groupValues[2].ifBlank { "0" }.toInt()
+                if(it.groupValues[1].isNotBlank()) {
+                    val fromMinutes = it.groupValues[1].toInt()
+                    val toMinutes = it.groupValues[2].toInt()
 
-                val totalMinutes = (hours * 60) + minutes
-                "[**⏲ ${it.value}**](timer://$totalMinutes)"
+                    "[**⏲ ${it.value}**](timer-range://$fromMinutes/$toMinutes)"
+                } else {
+                    val hours =
+                        it.groupValues[2].ifBlank { "0" }
+                            .toInt() + it.groupValues[5].ifBlank { "0" }
+                            .toInt()
+                    val minutes = it.groupValues[4].ifBlank { "0" }.toInt()
+
+                    val totalMinutes = (hours * 60) + minutes
+                    "[**⏲ ${it.value}**](timer://$totalMinutes)"
+                }
             }
         } else {
             md = markdown
@@ -102,7 +123,10 @@ fun MarkdownRichTextWithTimerDetection(
     val markdownUriHandler = remember {
         MarkdownUriHandler(
             onTimerClick = {
-                onStartTimer(it, timerName)
+                onStartTimer(it, it, timerName)
+            },
+            onTimerRangeClick = { from, to ->
+                onStartTimer(from, to, timerName)
             },
             onUriClick = {
                 uriHandler.openUri(it)

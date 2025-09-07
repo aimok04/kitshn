@@ -48,9 +48,11 @@ import de.kitshn.ui.component.model.ingredient.IngredientsList
 import de.kitshn.ui.component.model.recipe.step.RecipeStepMultimediaBox
 import de.kitshn.ui.component.model.recipe.step.RecipeStepRecipeLink
 import de.kitshn.ui.dialog.LaunchTimerInfoBottomSheet
+import de.kitshn.ui.dialog.LaunchTimerRangeBottomSheet
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.ui.dialog.rememberLaunchTimerInfoBottomSheetState
+import de.kitshn.ui.dialog.rememberLaunchTimerRangeBottomSheetState
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.theme.Typography
 import de.kitshn.ui.view.ViewParameters
@@ -69,7 +71,12 @@ fun RouteRecipeCookPageStep(
     showFractionalValues: Boolean
 ) {
     val launchTimerInfoBottomSheetState = rememberLaunchTimerInfoBottomSheetState()
-    val launchTimerHandler = launchTimerHandler(vm, launchTimerInfoBottomSheetState)
+    val launchTimerRangeBottomSheetState = rememberLaunchTimerRangeBottomSheetState()
+    val launchTimerHandler = launchTimerHandler(
+        vm = vm,
+        infoBottomSheetState = launchTimerInfoBottomSheetState,
+        rangeBottomSheetState = launchTimerRangeBottomSheetState
+    )
 
     @Composable
     fun StepBody(
@@ -132,8 +139,8 @@ fun RouteRecipeCookPageStep(
                         showFractionalValues
                     ),
                     fontSize = fontSize,
-                    onStartTimer = { seconds, timerName ->
-                        launchTimerHandler(seconds, timerName)
+                    onStartTimer = { fromSeconds, toSeconds, timerName ->
+                        launchTimerHandler(fromSeconds, toSeconds, timerName)
                     }
                 )
             }
@@ -174,7 +181,7 @@ fun RouteRecipeCookPageStep(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                 onClick = {
                     if(isLaunchTimerHandlerImplemented)
-                        launchTimerHandler(step.time * 60, step.name)
+                        launchTimerHandler(step.time * 60, step.time * 60, step.name)
                 },
                 leadingIcon = {
                     Icon(
@@ -264,5 +271,9 @@ fun RouteRecipeCookPageStep(
     LaunchTimerInfoBottomSheet(
         vm = vm,
         state = launchTimerInfoBottomSheetState
+    )
+
+    LaunchTimerRangeBottomSheet(
+        state = launchTimerRangeBottomSheetState
     )
 }

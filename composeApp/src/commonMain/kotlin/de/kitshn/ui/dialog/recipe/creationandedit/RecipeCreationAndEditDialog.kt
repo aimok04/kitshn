@@ -209,9 +209,7 @@ fun RecipeCreationAndEditDialog(
     creationState: RecipeCreationDialogState? = null,
     editState: RecipeEditDialogState? = null,
     showFractionalValues: Boolean,
-    onRefresh: () -> Unit,
-    onViewRecipe: (recipe: TandoorRecipe) -> Unit = { },
-    onStartTimer: (seconds: Int, timerName: String) -> Unit
+    onRefresh: () -> Unit
 ) {
     if(creationState?.shown?.value != true && editState?.shown?.value != true) return
 

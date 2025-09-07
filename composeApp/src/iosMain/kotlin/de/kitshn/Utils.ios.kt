@@ -6,9 +6,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.intl.Locale
 import co.touchlab.crashkios.bugsnag.BugsnagKotlin
-import co.touchlab.kermit.Logger
 import com.eygraber.uri.Uri
 import de.kitshn.ui.dialog.LaunchTimerInfoBottomSheetState
+import de.kitshn.ui.dialog.LaunchTimerRangeBottomSheetState
 import kitshn.composeApp.BuildConfig
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -69,12 +69,13 @@ actual fun launchWebsiteHandler(): (url: String) -> Unit {
 @Composable
 actual fun launchTimerHandler(
     vm: KitshnViewModel,
-    infoBottomSheetState: LaunchTimerInfoBottomSheetState
-): (seconds: Int, name: String) -> Unit {
+    infoBottomSheetState: LaunchTimerInfoBottomSheetState,
+    rangeBottomSheetState: LaunchTimerRangeBottomSheetState
+): (fromSeconds: Int, toSeconds: Int, name: String) -> Unit {
     val coroutineScope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
 
-    return { seconds, _ ->
+    fun startTimer(seconds: Int) {
         coroutineScope.launch {
             val isShortcutInstalled = vm.settings.getIosTimerShortcutInstalled.first()
             if (!isShortcutInstalled) {
@@ -88,9 +89,21 @@ actual fun launchTimerHandler(
                 .appendQueryParameter("input", "text")
                 .appendQueryParameter("text", seconds.toString())
 
-            Logger.d("launchTimerHandler") { builder.build().toString() }
-
             uriHandler.openUri(builder.build().toString())
+        }
+    }
+
+    return handler@{ fromSeconds, toSeconds, name ->
+        if(fromSeconds == toSeconds) {
+            startTimer(fromSeconds)
+            return@handler
+        }
+
+        rangeBottomSheetState.open(
+            from = fromSeconds,
+            to = toSeconds
+        ) {
+            startTimer(it)
         }
     }
 }

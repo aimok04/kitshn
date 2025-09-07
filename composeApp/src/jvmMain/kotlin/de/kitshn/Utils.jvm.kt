@@ -13,6 +13,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalUriHandler
 import de.kitshn.ui.dialog.LaunchTimerInfoBottomSheetState
+import de.kitshn.ui.dialog.LaunchTimerRangeBottomSheetState
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_copied_to_clipboard
 import kotlinx.coroutines.delay
@@ -58,9 +59,10 @@ actual fun launchWebsiteHandler(): (url: String) -> Unit {
 @Composable
 actual fun launchTimerHandler(
     vm: KitshnViewModel,
-    infoBottomSheetState: LaunchTimerInfoBottomSheetState
-): (seconds: Int, name: String) -> Unit {
-    return { seconds, name ->
+    infoBottomSheetState: LaunchTimerInfoBottomSheetState,
+    rangeBottomSheetState: LaunchTimerRangeBottomSheetState
+): (fromSeconds: Int, toSeconds: Int, name: String) -> Unit {
+    return { fromSeconds, toSeconds, name ->
         throw Exception("CURRENTLY_NOT_SUPPORTED_JVM")
     }
 }

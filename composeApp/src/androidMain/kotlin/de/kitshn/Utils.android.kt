@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.window.DialogWindowProvider
 import co.touchlab.kermit.Logger
 import de.kitshn.ui.dialog.LaunchTimerInfoBottomSheetState
+import de.kitshn.ui.dialog.LaunchTimerRangeBottomSheetState
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.recipe_step_timer_created
 import kitshn.composeapp.generated.resources.recipe_step_timer_error_no_app
@@ -106,12 +107,13 @@ actual fun launchWebsiteHandler(): (url: String) -> Unit {
 @Composable
 actual fun launchTimerHandler(
     vm: KitshnViewModel,
-    infoBottomSheetState: LaunchTimerInfoBottomSheetState
-): (seconds: Int, name: String) -> Unit {
+    infoBottomSheetState: LaunchTimerInfoBottomSheetState,
+    rangeBottomSheetState: LaunchTimerRangeBottomSheetState
+): (fromSeconds: Int, toSeconds: Int, name: String) -> Unit {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
-    return { seconds, name ->
+    fun startTimer(seconds: Int, name: String) {
         try {
             context.startActivity(
                 Intent().apply {
@@ -137,6 +139,20 @@ actual fun launchTimerHandler(
                     getString(Res.string.recipe_step_timer_error_no_app), Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+    }
+
+    return handler@{ fromSeconds, toSeconds, name ->
+        if(fromSeconds == toSeconds) {
+            startTimer(fromSeconds, name)
+            return@handler
+        }
+
+        rangeBottomSheetState.open(
+            from = fromSeconds,
+            to = toSeconds
+        ) {
+            startTimer(it, name)
         }
     }
 }

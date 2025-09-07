@@ -450,4 +450,8 @@
         <item>mins</item>
         <item>min</item>
     </string-array>
+
+    <string-array name="timer_detection_to_definitions">
+        <item>to</item>
+    </string-array>
 </resources>

@@ -397,6 +397,9 @@
         <item>mins</item>
         <item>min</item>
     </string-array>
+    <string-array name="timer_detection_to_definitions">
+        <item>bis</item>
+    </string-array>
     <string name="error_outdated_v1_instance">Diese Version von kitshn unterstützt Tandoor v1 nicht. Bitte aktualisiere entweder auf Tandoor v2 oder installiere eine ältere Version von kitshn.</string>
     <string name="kofi_support_description">Du kannst die Entwicklung von kitshn auf Ko-Fi unterstützen</string>
     <string name="error_outdated_v1_instance_title">Nicht unterstützte Instanz</string>
