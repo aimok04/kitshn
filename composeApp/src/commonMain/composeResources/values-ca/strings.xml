@@ -367,4 +367,11 @@
     <string name="common_portions_text">Text de racions</string>
     <string name="common_review">Resenya</string>
     <string name="action_start_cooking">Inicia el mode de cuina</string>
+    <string name="common_by">per</string>
+    <string name="ios_timer_dialog_title">Drecera requerida</string>
+    <string name="recipe_import_type_social_media_label">Importa desde xarxa social</string>
+    <string name="recipe_import_type_social_media_description">Afegir receptes desde Instagram o TikTok emprant IA</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_description">Mostra vista de llista en comptes de targes grans</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_label">Habilita inici compacte</string>
+    <string name="settings_section_behavior_ios_install_timer_shortcut_label">Instalar drecera de temps d'IOS</string>
 </resources>
