@@ -48,7 +48,7 @@ import kitshn.composeapp.generated.resources.action_abort
 import kitshn.composeapp.generated.resources.common_ai_provider
 import kitshn.composeapp.generated.resources.common_selected
 import kitshn.composeapp.generated.resources.lorem_ipsum_short
-import kitshn.composeapp.generated.resources.search_categories
+import kitshn.composeapp.generated.resources.search_providers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.job
 import org.jetbrains.compose.resources.stringResource
@@ -164,10 +164,10 @@ fun AIProviderSearchBar(
                 leadingIcon = {
                     Icon(
                         Icons.Rounded.Search,
-                        stringResource(Res.string.search_categories)
+                        stringResource(Res.string.search_providers)
                     )
                 },
-                placeholder = { Text(stringResource(Res.string.search_categories)) },
+                placeholder = { Text(stringResource(Res.string.search_providers)) },
                 expanded = true,
                 onExpandedChange = { }
             )
