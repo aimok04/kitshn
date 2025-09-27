@@ -131,10 +131,6 @@ kotlin {
             implementation(libs.uri.kmp)
         }
 
-        mobileMain.dependencies {
-            implementation(libs.peekaboo.ui)
-        }
-
         androidMain {
             dependsOn(mobileMain)
 

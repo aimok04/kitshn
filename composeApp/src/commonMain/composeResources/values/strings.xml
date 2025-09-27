@@ -18,6 +18,7 @@
     <string name="action_allocate_ingredients">Allocate ingredients</string>
     <string name="action_apply">Apply</string>
     <string name="action_back">Back</string>
+    <string name="action_choose_existing_photo">Choose an existing photo</string>
     <string name="action_clear">Clear</string>
     <string name="action_click_to_upload_image">Click to upload an image.</string>
     <string name="action_close">Close</string>
@@ -86,6 +87,7 @@
     <string name="action_switch_camera">Switch camera</string>
     <string name="action_switch_space">Switch space</string>
     <string name="action_take_photo">Take photo</string>
+    <string name="action_take_new_photo">Take new photo</string>
     <string name="action_upload">Upload</string>
     <string name="action_yes">Yes</string>
 

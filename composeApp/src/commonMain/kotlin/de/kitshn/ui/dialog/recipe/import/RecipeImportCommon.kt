@@ -46,7 +46,7 @@ import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeFromSource
 import de.kitshn.ui.component.settings.SettingsListItemPosition
 import de.kitshn.ui.component.settings.SettingsSwitchListItem
-import de.kitshn.ui.dialog.PhotoPickerDialog
+import de.kitshn.ui.dialog.ChoosePhotoBottomSheet
 import de.kitshn.ui.theme.Typography
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_click_to_upload_image
@@ -146,7 +146,7 @@ fun LazyListScope.RecipeImportCommon(
             val context = LocalPlatformContext.current
             val imageLoader = remember { ImageLoader(context) }
 
-            var showPhotoPicker by remember { mutableStateOf(false) }
+            var showChoosePhotoDialog by remember { mutableStateOf(false) }
 
             HorizontalMultiBrowseCarousel(
                 state = rememberCarouselState { data.availableImageUrls.size + 1 },
@@ -168,7 +168,7 @@ fun LazyListScope.RecipeImportCommon(
                                     .height(containerSize)
                                     .maskClip(MaterialTheme.shapes.extraLarge)
                                     .clickable {
-                                        showPhotoPicker = true
+                                        showChoosePhotoDialog = true
                                     },
                                 model = data.uploadImage,
                                 contentDescription = "",
@@ -183,7 +183,7 @@ fun LazyListScope.RecipeImportCommon(
                                     .maskClip(MaterialTheme.shapes.extraLarge)
                                     .background(Color.Black.copy(alpha = 0.3f))
                                     .clickable {
-                                        showPhotoPicker = true
+                                        showChoosePhotoDialog = true
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
@@ -200,7 +200,7 @@ fun LazyListScope.RecipeImportCommon(
                                     .maskClip(MaterialTheme.shapes.extraLarge)
                                     .background(MaterialTheme.colorScheme.primaryContainer)
                                     .clickable {
-                                        showPhotoPicker = true
+                                        showChoosePhotoDialog = true
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
@@ -255,13 +255,13 @@ fun LazyListScope.RecipeImportCommon(
                 }
             }
 
-            PhotoPickerDialog(
-                shown = showPhotoPicker,
+            ChoosePhotoBottomSheet(
+                shown = showChoosePhotoDialog,
                 onSelect = {
                     data.uploadImage = it
                 },
                 onDismiss = {
-                    showPhotoPicker = false
+                    showChoosePhotoDialog = false
                 }
             )
         }

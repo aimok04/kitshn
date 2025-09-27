@@ -77,8 +77,8 @@ fun ColorSchemeSelectionBottomSheet(
     var render by remember { mutableStateOf(false) }
     val availableColorSchemes = remember { mutableStateListOf<AvailableColorSchemes>() }
 
-    var showPhotoPickerDialog by remember { mutableStateOf(false) }
-    var showPhotoPickerErrorDialog by remember { mutableStateOf(false) }
+    var showChoosePhotoBottomSheet by remember { mutableStateOf(false) }
+    var showChoosePhotoErrorDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(
         state.shown.value
@@ -152,7 +152,7 @@ fun ColorSchemeSelectionBottomSheet(
                 ) {
                     Surface(
                         modifier = Modifier.size(48.dp).clickable {
-                            showPhotoPickerDialog = true
+                            showChoosePhotoBottomSheet = true
                         },
                         shape = RoundedCornerShape(16.dp),
                         color = MaterialTheme.colorScheme.primaryContainer,
@@ -173,16 +173,16 @@ fun ColorSchemeSelectionBottomSheet(
         }
     }
 
-    PhotoPickerDialog(
-        shown = showPhotoPickerDialog,
-        onDismiss = { showPhotoPickerDialog = false },
+    ChoosePhotoBottomSheet(
+        shown = showChoosePhotoBottomSheet,
+        onDismiss = { showChoosePhotoBottomSheet = false },
         onSelect = {
             val color = it.decodeToImageBitmap()
                 .themeColorOrNull()
 
             if(color == null) {
-                showPhotoPickerErrorDialog = true
-                return@PhotoPickerDialog
+                showChoosePhotoErrorDialog = true
+                return@ChoosePhotoBottomSheet
             }
 
             onChangeCustomColorSchemeSeed(color)
@@ -190,9 +190,9 @@ fun ColorSchemeSelectionBottomSheet(
         }
     )
 
-    if(showPhotoPickerErrorDialog) AlertDialog(
+    if(showChoosePhotoErrorDialog) AlertDialog(
         onDismissRequest = {
-            showPhotoPickerErrorDialog = false
+            showChoosePhotoErrorDialog = false
         },
         icon = {
             Icon(
@@ -209,7 +209,7 @@ fun ColorSchemeSelectionBottomSheet(
         confirmButton = {
             Button(
                 onClick = {
-                    showPhotoPickerErrorDialog = false
+                    showChoosePhotoErrorDialog = false
                 }
             ) {
                 Text(stringResource(Res.string.common_okay))

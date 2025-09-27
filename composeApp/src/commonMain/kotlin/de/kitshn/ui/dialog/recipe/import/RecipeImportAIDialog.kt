@@ -137,9 +137,22 @@ fun RecipeImportAIDialog(
         hapticFeedback.handleTandoorRequestState(fetchRequestState)
     }
 
-    var showPhotoTakingDialog by remember { mutableStateOf(false) }
     val filePickerLauncher = rememberFilePickerLauncher { file ->
         if(file == null) return@rememberFilePickerLauncher
+
+        coroutineScope.launch {
+            state.additionalData.file = TandoorAIImportRoute.File(
+                name = file.name,
+                byteArray = file.readBytes(),
+                mimeType = FileFormats.findMimeType(file.extension.lowercase()) ?: "unknown"
+            )
+            state.additionalData.text = ""
+            fetch()
+        }
+    }
+
+    val cameraPickerLauncher = rememberCameraPickerLauncherIfAvailable { file ->
+        if(file == null) return@rememberCameraPickerLauncherIfAvailable
 
         coroutineScope.launch {
             state.additionalData.file = TandoorAIImportRoute.File(
@@ -232,7 +245,7 @@ fun RecipeImportAIDialog(
                                 OutlinedButton(
                                     modifier = Modifier.fillMaxWidth(),
                                     onClick = {
-                                        showPhotoTakingDialog = true
+                                        cameraPickerLauncher()
                                     }
                                 ) {
                                     Icon(
@@ -307,20 +320,10 @@ fun RecipeImportAIDialog(
         }
     }
 
-    PhotoTakingDialog(
-        shown = showPhotoTakingDialog,
-        onSelect = {
-            state.additionalData.file = TandoorAIImportRoute.File(
-                name = "image.png",
-                byteArray = it,
-                mimeType = "image/png"
-            )
-            state.additionalData.text = ""
-            fetch()
-        }
-    ) {
-        showPhotoTakingDialog = false
-    }
-
     TandoorRequestErrorHandler(state = recipeImportRequestState)
 }
+
+@Composable
+expect fun rememberCameraPickerLauncherIfAvailable(
+    onResult: (PlatformFile?) -> Unit
+): () -> Unit

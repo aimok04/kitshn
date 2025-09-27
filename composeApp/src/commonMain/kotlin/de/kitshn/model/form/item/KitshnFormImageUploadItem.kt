@@ -35,7 +35,7 @@ import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
-import de.kitshn.ui.dialog.PhotoPickerDialog
+import de.kitshn.ui.dialog.ChoosePhotoBottomSheet
 import de.kitshn.ui.modifier.loadingPlaceHolder
 import de.kitshn.ui.state.translateState
 import de.kitshn.ui.theme.Typography
@@ -67,20 +67,20 @@ class KitshnFormImageUploadItem(
             )
         }
 
-        var showPhotoPicker by remember { mutableStateOf(false) }
-        PhotoPickerDialog(
-            shown = showPhotoPicker,
+        var showChoosePhotoBottomSheet by remember { mutableStateOf(false) }
+        ChoosePhotoBottomSheet(
+            shown = showChoosePhotoBottomSheet,
             onSelect = {
                 onValueChange(it)
             }
-        ) { showPhotoPicker = false }
+        ) { showChoosePhotoBottomSheet = false }
 
         Box {
             OutlinedCard(
                 modifier
                     .height(170.dp)
                     .clickable {
-                        showPhotoPicker = true
+                        showChoosePhotoBottomSheet = true
                     }
             ) {
                 if(currentImage() != null || value() != null) {
@@ -168,7 +168,7 @@ class KitshnFormImageUploadItem(
 
                 FloatingActionButton(
                     onClick = {
-                        showPhotoPicker = true
+                        showChoosePhotoBottomSheet = true
                     }
                 ) {
                     Icon(Icons.Rounded.Upload, stringResource(Res.string.action_upload))

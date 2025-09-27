@@ -1,5 +1,6 @@
 package de.kitshn.ui.dialog
 
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -8,8 +9,9 @@ import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.readBytes
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PhotoPickerDialog(
+actual fun ChoosePhotoBottomSheet(
     shown: Boolean,
     onSelect: (uri: ByteArray) -> Unit,
     onDismiss: () -> Unit
