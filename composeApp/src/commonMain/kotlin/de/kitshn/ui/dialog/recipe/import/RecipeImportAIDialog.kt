@@ -40,6 +40,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.coerceAtLeast
@@ -58,6 +59,7 @@ import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.HorizontalDividerWithLabel
 import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
+import de.kitshn.ui.dialog.select.SelectAIProviderDialog
 import de.kitshn.ui.dialog.select.rememberSelectAIProviderDialogState
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
@@ -374,6 +376,14 @@ fun RecipeImportAIDialog(
                 }
             }
         }
+    }
+
+    SelectAIProviderDialog(
+        client = client,
+        state = selectAIProviderDialogState
+    ) {
+        aiProvider = it
+        hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
     }
 
     TandoorRequestErrorHandler(state = recipeImportRequestState)
