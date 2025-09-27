@@ -253,107 +253,6 @@
       }
     },
     {
-      "uniqueId": "androidx.camera:camera-camera2",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.3.2",
-      "description": "Camera2 implementation and extensions for the Jetpack Camera Library, a library providing a consistent and reliable camera foundation that enables great camera driven experiences across all of Android.",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Camera2",
-      "website": "https://developer.android.com/jetpack/androidx/releases/camera#1.3.2",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.camera:camera-core",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.3.2",
-      "description": "Core components for the Jetpack Camera Library, a library providing a consistent and reliable camera foundation that enables great camera driven experiences across all of Android.",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Camera Core",
-      "website": "https://developer.android.com/jetpack/androidx/releases/camera#1.3.2",
-      "licenses": [
-        "Apache-2.0",
-        "44d1a25c593283261968a15c8cc213cd"
-      ]
-    },
-    {
-      "uniqueId": "androidx.camera:camera-lifecycle",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.3.2",
-      "description": "Lifecycle components for the Jetpack Camera Library, a library providing a consistent and reliable camera foundation that enables great camera driven experiences across all of Android.",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Camera Lifecycle",
-      "website": "https://developer.android.com/jetpack/androidx/releases/camera#1.3.2",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.camera:camera-video",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.3.2",
-      "description": "Video components for the Jetpack Camera Library, a library providing a consistent and reliable camera foundation that enables great camera driven experiences across all of Android.",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Camera Video",
-      "website": "https://developer.android.com/jetpack/androidx/releases/camera#1.3.2",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.camera:camera-view",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.3.2",
-      "description": "UI tools for the Jetpack Camera Library, a library providing a consistent and reliable camera foundation that enables great camera driven experiences across all of Android.",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Camera View",
-      "website": "https://developer.android.com/jetpack/androidx/releases/camera#1.3.2",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "androidx.cardview:cardview",
       "funding": [],
       "developers": [
@@ -3162,98 +3061,6 @@
       }
     },
     {
-      "uniqueId": "androidx.paging:paging-common",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "3.3.0-alpha02",
-      "description": "Android Paging-Common",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Paging-Common",
-      "website": "https://developer.android.com/jetpack/androidx/releases/paging#3.3.0-alpha02",
-      "licenses": [
-        "Apache-2.0"
-      ],
-      "organization": {
-        "name": "The Android Open Source Project"
-      }
-    },
-    {
-      "uniqueId": "androidx.paging:paging-common-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "3.3.0-alpha02",
-      "description": "Android Paging-Common",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Paging-Common",
-      "website": "https://developer.android.com/jetpack/androidx/releases/paging#3.3.0-alpha02",
-      "licenses": [
-        "Apache-2.0"
-      ],
-      "organization": {
-        "name": "The Android Open Source Project"
-      }
-    },
-    {
-      "uniqueId": "androidx.paging:paging-compose",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "3.3.0-alpha02",
-      "description": "Compose integration with Paging",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Paging-Compose",
-      "website": "https://developer.android.com/jetpack/androidx/releases/paging#3.3.0-alpha02",
-      "licenses": [
-        "Apache-2.0"
-      ],
-      "organization": {
-        "name": "The Android Open Source Project"
-      }
-    },
-    {
-      "uniqueId": "androidx.paging:paging-compose-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "3.3.0-alpha02",
-      "description": "Compose integration with Paging",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Paging-Compose",
-      "website": "https://developer.android.com/jetpack/androidx/releases/paging#3.3.0-alpha02",
-      "licenses": [
-        "Apache-2.0"
-      ],
-      "organization": {
-        "name": "The Android Open Source Project"
-      }
-    },
-    {
       "uniqueId": "androidx.print:print",
       "funding": [],
       "developers": [
@@ -3968,90 +3775,6 @@
       "website": "http://www.antlr.org/",
       "licenses": [
         "7fcfcc3d264c3c96aee27ca4c3031c95"
-      ]
-    },
-    {
-      "uniqueId": "app.cash.paging:paging-common",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Cash App"
-        }
-      ],
-      "artifactVersion": "3.3.0-alpha02-0.5.1",
-      "description": "Packages AndroidX's Paging library for Kotlin/Multiplatform.",
-      "scm": {
-        "connection": "scm:git:https://github.com/cashapp/multiplatform-paging.git",
-        "url": "https://github.com/cashapp/multiplatform-paging/",
-        "developerConnection": "scm:git:ssh://git@github.com/cashapp/multiplatform-paging.git"
-      },
-      "name": "paging-common",
-      "website": "https://github.com/cashapp/multiplatform-paging/",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "app.cash.paging:paging-common-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Cash App"
-        }
-      ],
-      "artifactVersion": "3.3.0-alpha02-0.5.1",
-      "description": "Packages AndroidX's Paging library for Kotlin/Multiplatform.",
-      "scm": {
-        "connection": "scm:git:https://github.com/cashapp/multiplatform-paging.git",
-        "url": "https://github.com/cashapp/multiplatform-paging/",
-        "developerConnection": "scm:git:ssh://git@github.com/cashapp/multiplatform-paging.git"
-      },
-      "name": "paging-common",
-      "website": "https://github.com/cashapp/multiplatform-paging/",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "app.cash.paging:paging-compose-common",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Cash App"
-        }
-      ],
-      "artifactVersion": "3.3.0-alpha02-0.5.1",
-      "description": "Packages AndroidX's Paging library for Kotlin/Multiplatform.",
-      "scm": {
-        "connection": "scm:git:https://github.com/cashapp/multiplatform-paging.git",
-        "url": "https://github.com/cashapp/multiplatform-paging/",
-        "developerConnection": "scm:git:ssh://git@github.com/cashapp/multiplatform-paging.git"
-      },
-      "name": "paging-compose-common",
-      "website": "https://github.com/cashapp/multiplatform-paging/",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "app.cash.paging:paging-compose-common-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Cash App"
-        }
-      ],
-      "artifactVersion": "3.3.0-alpha02-0.5.1",
-      "description": "Packages AndroidX's Paging library for Kotlin/Multiplatform.",
-      "scm": {
-        "connection": "scm:git:https://github.com/cashapp/multiplatform-paging.git",
-        "url": "https://github.com/cashapp/multiplatform-paging/",
-        "developerConnection": "scm:git:ssh://git@github.com/cashapp/multiplatform-paging.git"
-      },
-      "name": "paging-compose-common",
-      "website": "https://github.com/cashapp/multiplatform-paging/",
-      "licenses": [
-        "Apache-2.0"
       ]
     },
     {
@@ -4919,27 +4642,6 @@
         "developerConnection": "scm:git:git://github.com/google/accompanist.git"
       },
       "name": "Accompanist Drawable Painter library",
-      "website": "https://github.com/google/accompanist/",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.google.accompanist:accompanist-permissions",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Google"
-        }
-      ],
-      "artifactVersion": "0.34.0",
-      "description": "Utilities for Jetpack Compose",
-      "scm": {
-        "connection": "scm:git:git://github.com/google/accompanist.git",
-        "url": "https://github.com/google/accompanist/",
-        "developerConnection": "scm:git:git://github.com/google/accompanist.git"
-      },
-      "name": "Accompanist Permissions",
       "website": "https://github.com/google/accompanist/",
       "licenses": [
         "Apache-2.0"
@@ -7115,46 +6817,6 @@
       },
       "name": "Compose WebView Multiplatform",
       "website": "https://github.com/KevinnZou/compose-webview-multiplatform",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.onseok:peekaboo-ui",
-      "funding": [],
-      "developers": [
-        {
-          "name": "onseok"
-        }
-      ],
-      "artifactVersion": "0.5.2",
-      "description": "Kotlin Multiplatform library for Compose Multiplatform, designed for seamless integration of an image picker feature in iOS and Android applications.",
-      "scm": {
-        "connection": "https://github.com/onseok/peekaboo.git",
-        "url": "https://github.com/onseok/peekaboo"
-      },
-      "name": "peekaboo",
-      "website": "https://github.com/onseok/peekaboo",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.onseok:peekaboo-ui-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "onseok"
-        }
-      ],
-      "artifactVersion": "0.5.2",
-      "description": "Kotlin Multiplatform library for Compose Multiplatform, designed for seamless integration of an image picker feature in iOS and Android applications.",
-      "scm": {
-        "connection": "https://github.com/onseok/peekaboo.git",
-        "url": "https://github.com/onseok/peekaboo"
-      },
-      "name": "peekaboo",
-      "website": "https://github.com/onseok/peekaboo",
       "licenses": [
         "Apache-2.0"
       ]
@@ -10817,26 +10479,6 @@
       ]
     },
     {
-      "uniqueId": "org.jetbrains.kotlinx:kotlinx-coroutines-guava",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "1.10.2",
-      "description": "Coroutines support libraries for Kotlin",
-      "scm": {
-        "url": "https://github.com/Kotlin/kotlinx.coroutines"
-      },
-      "name": "kotlinx-coroutines-guava",
-      "website": "https://github.com/Kotlin/kotlinx.coroutines",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "org.jetbrains.kotlinx:kotlinx-coroutines-slf4j",
       "funding": [],
       "developers": [
@@ -11555,11 +11197,6 @@
       "hash": "3a5db9ddcd59b5dd62575916ff97ce10",
       "url": "http://oss.sgi.com/projects/FreeB",
       "name": "SGI Free Software License B"
-    },
-    "44d1a25c593283261968a15c8cc213cd": {
-      "hash": "44d1a25c593283261968a15c8cc213cd",
-      "url": "https://chromium.googlesource.com/libyuv/libyuv/+/refs/heads/main/README.chromium",
-      "name": "BSD License"
     },
     "5b459f801cbc05db8033c813c0fceff2": {
       "hash": "5b459f801cbc05db8033c813c0fceff2",
