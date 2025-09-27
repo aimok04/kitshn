@@ -429,4 +429,5 @@
     <string name="action_choose_existing_photo">Wähle ein bestehendes Foto</string>
     <string name="action_take_new_photo">Nehme ein neues Foto auf</string>
     <string name="common_ai_provider">KI Anbieter</string>
+    <string name="search_providers">Anbieter durchsuchen</string>
 </resources>
