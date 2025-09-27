@@ -1,10 +1,14 @@
 package de.kitshn.ui.dialog.recipe.import
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.FocusInteraction
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +20,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.Flare
 import androidx.compose.material.icons.rounded.Receipt
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
@@ -40,6 +46,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.input.ImeAction
@@ -55,20 +62,25 @@ import com.multiplatform.webview.web.rememberWebViewNavigator
 import com.multiplatform.webview.web.rememberWebViewState
 import de.kitshn.KitshnViewModel
 import de.kitshn.api.import.runSocialMediaImportScript
+import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.api.tandoor.route.TandoorAIProvider
 import de.kitshn.handleTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
+import de.kitshn.ui.dialog.select.SelectAIProviderDialog
+import de.kitshn.ui.dialog.select.rememberSelectAIProviderDialogState
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsBytes
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_download
 import kitshn.composeapp.generated.resources.action_import
+import kitshn.composeapp.generated.resources.common_ai_provider
 import kitshn.composeapp.generated.resources.common_recipe_url
 import kitshn.composeapp.generated.resources.error_recipe_could_not_be_loaded
 import kitshn.composeapp.generated.resources.recipe_import_type_social_media_disclaimer
@@ -135,12 +147,23 @@ fun RecipeImportSocialMediaDialog(
     val focusRequester = remember { FocusRequester() }
     val hapticFeedback = LocalHapticFeedback.current
 
+    val selectAIProviderDialogState = rememberSelectAIProviderDialogState()
+    var aiProvider by remember { mutableStateOf<TandoorAIProvider?>(null) }
+
+    LaunchedEffect(Unit) {
+        TandoorRequestState().wrapRequest {
+            val space = vm.tandoorClient!!.space.current()
+            aiProvider = space.ai_default_provider
+        }
+    }
+
     val fetchAiRequestState = rememberTandoorRequestState()
     fun fetchAi() = coroutineScope.launch {
         fetchAiRequestState.wrapRequest {
             val response = client.aiImport.fetch(
                 file = null,
-                text = state.recipeDescription
+                text = state.recipeDescription,
+                aiProviderId = aiProvider?.id ?: -1
             )
             if(response.recipe == null && response.recipeId != null) {
                 state.dismiss()
@@ -236,6 +259,40 @@ fun RecipeImportSocialMediaDialog(
                     imageVector = Icons.Rounded.Add,
                     contentDescription = stringResource(Res.string.action_import),
                     state = recipeImportRequestState.state.toIconWithState()
+                )
+            }
+        },
+        bottomBar = {
+            BottomAppBar(
+                contentPadding = PaddingValues(8.dp)
+            ) {
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+
+                    readOnly = true,
+
+                    leadingIcon = {
+                        Icon(
+                            Icons.Rounded.Flare,
+                            stringResource(Res.string.common_ai_provider)
+                        )
+                    },
+                    label = { Text(text = stringResource(Res.string.common_ai_provider)) },
+                    value = aiProvider?.name ?: "",
+
+                    interactionSource = remember { MutableInteractionSource() }
+                        .also { interactionSource ->
+                            LaunchedEffect(interactionSource) {
+                                interactionSource.interactions.collect {
+                                    if(it !is FocusInteraction.Focus && it !is PressInteraction.Release) return@collect
+                                    selectAIProviderDialogState.open(
+                                        aiProvider
+                                    )
+                                }
+                            }
+                        },
+
+                    onValueChange = { }
                 )
             }
         },
@@ -365,6 +422,14 @@ fun RecipeImportSocialMediaDialog(
                 )
             }
         }
+    }
+
+    SelectAIProviderDialog(
+        client = client,
+        state = selectAIProviderDialogState
+    ) {
+        aiProvider = it
+        hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
     }
 
     TandoorRequestErrorHandler(state = fetchWebsiteRequestState)

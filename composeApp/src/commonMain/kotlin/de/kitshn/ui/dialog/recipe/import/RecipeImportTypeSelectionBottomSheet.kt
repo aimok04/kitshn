@@ -9,11 +9,15 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import de.kitshn.api.tandoor.TandoorClient
+import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.component.settings.SettingsListItemPosition
 import kitshn.composeapp.generated.resources.Res
@@ -30,7 +34,7 @@ enum class RecipeImportType(
     val icon: ImageVector,
     val label: StringResource,
     val description: StringResource,
-    val enabled: (client: TandoorClient) -> Boolean = { true }
+    val requiresAI: Boolean = false
 ) {
     URL(
         icon = Icons.Rounded.Language,
@@ -41,13 +45,13 @@ enum class RecipeImportType(
         icon = Icons.Rounded.AutoAwesome,
         label = Res.string.recipe_import_type_ai_label,
         description = Res.string.recipe_import_type_ai_description,
-        enabled = { it.container.serverSettings?.enable_ai_import ?: false }
+        requiresAI = true
     ),
     SOCIAL_MEDIA(
         icon = Icons.Rounded.Tag,
         label = Res.string.recipe_import_type_social_media_label,
         description = Res.string.recipe_import_type_social_media_description,
-        enabled = { it.container.serverSettings?.enable_ai_import ?: false }
+        requiresAI = true
     )
 }
 
@@ -81,6 +85,14 @@ fun RecipeImportTypeBottomSheet(
 
     val types = remember { RecipeImportType.entries }
 
+    var aiEnabled by remember { mutableStateOf(false) }
+    LaunchedEffect(client) {
+        TandoorRequestState().wrapRequest {
+            val space = client.space.current()
+            aiEnabled = space.ai_enabled
+        }
+    }
+
     ModalBottomSheet(
         onDismissRequest = {
             state.dismiss()
@@ -101,7 +113,7 @@ fun RecipeImportTypeBottomSheet(
                     label = { Text(stringResource(type.label)) },
                     description = { Text(stringResource(type.description)) },
                     contentDescription = stringResource(type.description),
-                    enabled = type.enabled(client)
+                    enabled = !type.requiresAI || aiEnabled
                 ) {
                     onSelect(type)
                     state.dismiss()

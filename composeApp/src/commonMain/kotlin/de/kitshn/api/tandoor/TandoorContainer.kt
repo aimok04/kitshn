@@ -16,6 +16,7 @@ import de.kitshn.api.tandoor.model.log.TandoorCookLog
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
+import de.kitshn.api.tandoor.route.TandoorAIProvider
 import de.kitshn.api.tandoor.route.TandoorServerSettings
 
 class TandoorContainer(
@@ -23,6 +24,8 @@ class TandoorContainer(
 ) {
 
     var serverSettings by mutableStateOf<TandoorServerSettings?>(null)
+
+    val aiProvider = mutableStateMapOf<Int, TandoorAIProvider?>()
 
     val cookLog = mutableStateMapOf<Int, TandoorCookLog?>()
 

@@ -1,8 +1,12 @@
 package de.kitshn.ui.dialog.recipe.import
 
+import androidx.compose.foundation.interaction.FocusInteraction
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +17,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Camera
+import androidx.compose.material.icons.rounded.Flare
 import androidx.compose.material.icons.rounded.UploadFile
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilledIconButton
@@ -25,6 +31,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,17 +46,20 @@ import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import de.kitshn.FileFormats
 import de.kitshn.KitshnViewModel
+import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.api.tandoor.route.TandoorAIImportRoute
+import de.kitshn.api.tandoor.route.TandoorAIProvider
 import de.kitshn.handleTandoorRequestState
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.HorizontalDividerWithLabel
 import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
-import de.kitshn.ui.dialog.peekaboo.PhotoTakingDialog
+import de.kitshn.ui.dialog.select.rememberSelectAIProviderDialogState
+import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.extension
 import io.github.vinceglb.filekit.name
@@ -59,6 +69,7 @@ import kitshn.composeapp.generated.resources.action_continue
 import kitshn.composeapp.generated.resources.action_import
 import kitshn.composeapp.generated.resources.action_take_photo
 import kitshn.composeapp.generated.resources.action_upload
+import kitshn.composeapp.generated.resources.common_ai_provider
 import kitshn.composeapp.generated.resources.common_or_upper
 import kitshn.composeapp.generated.resources.common_recipe
 import kitshn.composeapp.generated.resources.error_recipe_could_not_be_loaded
@@ -109,12 +120,23 @@ fun RecipeImportAIDialog(
     val coroutineScope = rememberCoroutineScope()
     val hapticFeedback = LocalHapticFeedback.current
 
+    val selectAIProviderDialogState = rememberSelectAIProviderDialogState()
+    var aiProvider by remember { mutableStateOf<TandoorAIProvider?>(null) }
+
+    LaunchedEffect(Unit) {
+        TandoorRequestState().wrapRequest {
+            val space = vm.tandoorClient!!.space.current()
+            aiProvider = space.ai_default_provider
+        }
+    }
+
     val fetchRequestState = rememberTandoorRequestState()
     fun fetch() = coroutineScope.launch {
         fetchRequestState.wrapRequest {
             val response = client.aiImport.fetch(
                 file = state.additionalData.file,
-                text = state.additionalData.text.ifBlank { null }
+                text = state.additionalData.text.ifBlank { null },
+                aiProviderId = aiProvider?.id ?: -1
             )
             if(response.recipe == null && response.recipeId != null) {
                 state.dismiss()
@@ -193,6 +215,40 @@ fun RecipeImportAIDialog(
                     imageVector = Icons.Rounded.Add,
                     contentDescription = stringResource(Res.string.action_import),
                     state = recipeImportRequestState.state.toIconWithState()
+                )
+            }
+        },
+        bottomBar = {
+            BottomAppBar(
+                contentPadding = PaddingValues(8.dp)
+            ) {
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+
+                    readOnly = true,
+
+                    leadingIcon = {
+                        Icon(
+                            Icons.Rounded.Flare,
+                            stringResource(Res.string.common_ai_provider)
+                        )
+                    },
+                    label = { Text(text = stringResource(Res.string.common_ai_provider)) },
+                    value = aiProvider?.name ?: "",
+
+                    interactionSource = remember { MutableInteractionSource() }
+                        .also { interactionSource ->
+                            LaunchedEffect(interactionSource) {
+                                interactionSource.interactions.collect {
+                                    if(it !is FocusInteraction.Focus && it !is PressInteraction.Release) return@collect
+                                    selectAIProviderDialogState.open(
+                                        aiProvider
+                                    )
+                                }
+                            }
+                        },
+
+                    onValueChange = { }
                 )
             }
         },

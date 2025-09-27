@@ -17,6 +17,7 @@ class TandoorAIImportRoute(client: TandoorClient) : TandoorBaseRoute(client) {
     )
 
     suspend fun fetch(
+        aiProviderId: Int,
         file: File?,
         text: String?
     ): TandoorRecipeFromSource {
@@ -36,6 +37,8 @@ class TandoorAIImportRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             }
 
             append("text", value = text ?: "")
+
+            append("ai_provider_id", aiProviderId)
         }
 
         val recipeFromSource = json.decodeFromString<TandoorRecipeFromSource>(response.bodyAsText())
