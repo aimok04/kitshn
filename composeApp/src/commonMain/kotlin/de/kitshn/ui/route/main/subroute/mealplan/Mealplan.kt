@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.ui.route.main.subroute.mealplan
 
 import androidx.compose.animation.AnimatedContent
@@ -65,13 +67,14 @@ import kitshn.composeapp.generated.resources.action_plus_one_week
 import kitshn.composeapp.generated.resources.common_okay
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable

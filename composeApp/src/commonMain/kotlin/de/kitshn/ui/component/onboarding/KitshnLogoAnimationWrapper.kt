@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.ui.component.onboarding
 
 import androidx.compose.animation.core.Animatable
@@ -14,7 +16,8 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Composable
 fun KitshnLogoAnimationWrapper(

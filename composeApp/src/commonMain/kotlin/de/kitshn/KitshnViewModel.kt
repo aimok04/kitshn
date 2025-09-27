@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn
 
 import androidx.compose.runtime.Composable
@@ -23,8 +25,9 @@ import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.serialization.SerializationException
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class KitshnViewModel(
     defaultTandoorClient: TandoorClient? = null,

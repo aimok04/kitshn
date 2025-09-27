@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.ui.route.main.subroute.home
 
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +28,6 @@ import de.kitshn.ui.theme.Typography
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.home_meal_plan_promotion_today_title
 import kitshn.composeapp.generated.resources.home_meal_plan_promotion_tomorrow_title
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
@@ -34,6 +35,8 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 enum class MealPlanPromotionSectionDay(
     val plus: Int,

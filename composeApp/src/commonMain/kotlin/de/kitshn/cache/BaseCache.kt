@@ -1,9 +1,12 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.cache
 
 import coil3.PlatformContext
 import com.russhwolf.settings.Settings
 import de.kitshn.api.tandoor.TandoorClient
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 open class BaseCache(
     val id: String,

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn
 
 import androidx.lifecycle.ViewModel
@@ -13,7 +15,8 @@ import com.russhwolf.settings.observable.makeObservable
 import de.kitshn.api.tandoor.TandoorCredentials
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 const val KEY_SETTINGS_APPEARANCE_SYSTEM_THEME = "appearance_system_theme"
 const val KEY_SETTINGS_APPEARANCE_DARK_THEME = "appearance_dark_theme"

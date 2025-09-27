@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn
 
 import androidx.compose.foundation.ScrollState
@@ -32,7 +34,6 @@ import kitshn.composeapp.generated.resources.common_tomorrow
 import kitshn.composeapp.generated.resources.common_yesterday
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -50,6 +51,8 @@ import kotlinx.serialization.json.internal.FormatLanguage
 import nl.jacobras.humanreadable.HumanReadable
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.floor
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 enum class FileFormats(val extensions: List<String>, val mimeType: String) {
     EPUB(listOf("epub"), "application/epub+zip"),
@@ -323,15 +326,15 @@ fun LocalDate.toHumanReadableDateLabel(): String {
     val diff = this.toEpochDays() - today.toEpochDays()
 
     return when(diff) {
-        in 3..6 -> {
+        in 3L..6L -> {
             this.format("EEEE")
         }
 
-        2 -> stringResource(Res.string.common_day_after_tomorrow)
-        1 -> stringResource(Res.string.common_tomorrow)
-        0 -> stringResource(Res.string.common_today)
-        -1 -> stringResource(Res.string.common_yesterday)
-        -2 -> stringResource(Res.string.common_day_before_yesterday)
+        2L -> stringResource(Res.string.common_day_after_tomorrow)
+        1L -> stringResource(Res.string.common_tomorrow)
+        0L -> stringResource(Res.string.common_today)
+        -1L -> stringResource(Res.string.common_yesterday)
+        -2L -> stringResource(Res.string.common_day_before_yesterday)
         else -> {
             if(this.year == today.year) {
                 this.format("EE, dd. MMM")

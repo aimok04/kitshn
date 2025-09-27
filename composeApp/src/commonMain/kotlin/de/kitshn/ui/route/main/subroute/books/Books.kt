@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.ui.route.main.subroute.books
 
 import androidx.compose.foundation.layout.Box
@@ -43,8 +45,9 @@ import de.kitshn.ui.view.ViewParameters
 import de.kitshn.ui.view.books.ViewBooksDetails
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_add
-import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable

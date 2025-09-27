@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.android.homepage.builder
 
 import androidx.compose.runtime.getValue
@@ -10,9 +12,10 @@ import de.kitshn.homepage.builder.HomePageSectionEnum
 import de.kitshn.homepage.builder.HomePageSectionEnumCheckData
 import de.kitshn.homepage.model.HomePage
 import de.kitshn.homepage.model.HomePageSection
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class HomePageBuilder(
     val client: TandoorClient

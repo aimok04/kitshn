@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.cache
 
 import coil3.PlatformContext
@@ -6,7 +8,8 @@ import de.kitshn.api.tandoor.model.TandoorKeyword
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class KeywordNameIdMapCache(
     context: PlatformContext,

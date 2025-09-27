@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.ui.component.text
 
 import androidx.compose.material3.Text
@@ -13,12 +15,13 @@ import kitshn.composeapp.generated.resources.greeting_good_evening
 import kitshn.composeapp.generated.resources.greeting_good_morning
 import kitshn.composeapp.generated.resources.greeting_good_night
 import kitshn.composeapp.generated.resources.greeting_noon
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.getString
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 data class DynamicGreetingCheckData(
     val dateTime: LocalDateTime

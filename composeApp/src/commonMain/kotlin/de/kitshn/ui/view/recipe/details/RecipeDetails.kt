@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.ui.view.recipe.details
 
 import androidx.compose.animation.core.Animatable
@@ -179,10 +181,11 @@ import kitshn.composeapp.generated.resources.share_incentive
 import kitshn.composeapp.generated.resources.share_title
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.absoluteValue
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 val RecipeServingsAmountSaveMap = mutableMapOf<Int, Double>()
 

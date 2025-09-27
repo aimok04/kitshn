@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.ui.component.input
 
 import androidx.compose.foundation.interaction.FocusInteraction
@@ -31,11 +33,12 @@ import de.kitshn.toHumanReadableDateLabel
 import de.kitshn.toLocalDate
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_okay
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,14 +60,14 @@ fun BaseDateField(
     var maxDateEpochDays by rememberSaveable { mutableIntStateOf(0) }
 
     LaunchedEffect(minDate) {
-        minDateEpochDays = minDate?.toEpochDays() ?: 0
+        minDateEpochDays = (minDate?.toEpochDays() ?: 0).toInt()
 
         if(minDate == null || value == null) return@LaunchedEffect
         if(value < minDate) onValueChange(minDate)
     }
 
     LaunchedEffect(maxDate) {
-        maxDateEpochDays = maxDate?.toEpochDays() ?: 0
+        maxDateEpochDays = (maxDate?.toEpochDays() ?: 0).toInt()
 
         if(maxDate == null || value == null) return@LaunchedEffect
         if(value > maxDate) onValueChange(minDate)

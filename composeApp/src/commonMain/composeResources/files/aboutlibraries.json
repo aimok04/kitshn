@@ -10567,7 +10567,7 @@
           "name": "JetBrains Team"
         }
       ],
-      "artifactVersion": "0.6.2",
+      "artifactVersion": "0.7.1",
       "description": "Kotlin Datetime Library",
       "scm": {
         "url": "https://github.com/Kotlin/kotlinx-datetime"
@@ -10587,7 +10587,7 @@
           "name": "JetBrains Team"
         }
       ],
-      "artifactVersion": "0.6.2",
+      "artifactVersion": "0.7.1",
       "description": "Kotlin Datetime Library",
       "scm": {
         "url": "https://github.com/Kotlin/kotlinx-datetime"

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.ui.component.shopping
 
 import androidx.compose.foundation.horizontalScroll
@@ -23,7 +25,8 @@ import de.kitshn.cache.ShoppingSupermarketCache
 import de.kitshn.ui.component.shopping.chips.GroupingOptions
 import de.kitshn.ui.component.shopping.chips.GroupingSettingChip
 import de.kitshn.ui.component.shopping.chips.SupermarketSettingChip
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Composable
 fun rememberAdditionalShoppingSettingsChipRowState(): AdditionalShoppingSettingsChipRowState {

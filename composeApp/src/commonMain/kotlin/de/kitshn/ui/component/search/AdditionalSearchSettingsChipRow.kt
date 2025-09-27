@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.ui.component.search
 
 import androidx.compose.foundation.horizontalScroll
@@ -26,7 +28,8 @@ import de.kitshn.ui.component.search.chips.MinimumRatingSearchSettingChip
 import de.kitshn.ui.component.search.chips.NewSearchSettingChip
 import de.kitshn.ui.component.search.chips.RandomSearchSettingChip
 import de.kitshn.ui.component.search.chips.SortingSearchSettingChip
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class AdditionalSearchSettingsChipRowState {
 

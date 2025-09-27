@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.ui.dialog.recipe.creationandedit
 
 import androidx.compose.foundation.layout.WindowInsets
@@ -70,8 +72,9 @@ import kitshn.composeapp.generated.resources.common_unsaved_changes
 import kitshn.composeapp.generated.resources.common_unsaved_changes_description
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 data class RecipeCreationAndEditDefaultValues(
     var rememberKey: String = "",

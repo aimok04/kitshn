@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.ui.view.settings
 
 import androidx.compose.foundation.layout.padding
@@ -56,13 +58,14 @@ import kitshn.composeapp.generated.resources.settings_section_behavior_propertie
 import kitshn.composeapp.generated.resources.settings_section_behavior_use_share_wrapper_description
 import kitshn.composeapp.generated.resources.settings_section_behavior_use_share_wrapper_label
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

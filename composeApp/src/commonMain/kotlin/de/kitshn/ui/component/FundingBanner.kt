@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package de.kitshn.ui.component
 
 import androidx.compose.animation.core.Animatable
@@ -44,11 +46,12 @@ import kitshn.composeapp.generated.resources.action_support
 import kitshn.composeapp.generated.resources.funding_banner_text_current_year
 import kitshn.composeapp.generated.resources.funding_banner_text_year
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import nl.jacobras.humanreadable.HumanReadable
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Composable
 fun AutoFetchingFundingBanner(
