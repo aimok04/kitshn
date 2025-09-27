@@ -36,6 +36,7 @@ It's been some time. Here are the changes that have accumulated:
 - feat(commonMain & androidTest): added automatic screenshot creation for Android
 - feat(README.md): update features
 - feat(README.md): removed roadmap
+- fix(commonMain): replaced kotlinx.datetime.Clock with kotlin.time.Clock and updated kotlinx-datetime
 - fix(images): added testflight badge
 - fix(commonMain/strings.xml): added search_providers string
 - fix(commonMain/import): replaced search_categories with search_providers string in SelectAIProviderDialog.kt
