@@ -351,6 +351,7 @@
     <string name="search_ingredients_filter_empty">Select the ingredients you want to search for.</string>
     <string name="search_keyword_including_all_description">The recipes must include all keywords</string>
     <string name="search_keyword_including_all_label">All keywords included</string>
+    <string name="search_providers">Search providers</string>
     <string name="search_rating_filter">Filter by rating</string>
     <string name="search_recipe_books">Search recipe books</string>
     <string name="search_recipes">Search recipes</string>
