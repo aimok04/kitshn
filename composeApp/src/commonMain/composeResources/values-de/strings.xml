@@ -426,4 +426,7 @@
     <string name="action_create_step">Neuer Schritt</string>
     <string name="action_edit_step">Schritt bearbeiten</string>
     <string name="action_add_ingredient">Zutat hinzufügen</string>
+    <string name="action_choose_existing_photo">Wähle ein bestehendes Foto</string>
+    <string name="action_take_new_photo">Nehme ein neues Foto auf</string>
+    <string name="common_ai_provider">KI Anbieter</string>
 </resources>
