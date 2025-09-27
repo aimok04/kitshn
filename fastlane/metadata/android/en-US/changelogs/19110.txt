@@ -1,0 +1,8 @@
+1. Added » Take new photo « option to every image upload field.
+2. Added support for timer ranges (e.g. 2 to 5 mins).
+3. Added AI provider selector to AI and social media import.
+4. Fixed AI import options being disabled due to API changes.
+5. Fixed recipes list not updating when selecting different recipe book.
+6. Fixed issue where ingredient amount template wasn't scaling.
+7. Changed sorting order of meal plan entries to time value.
+8. Checked compatibility with Tandoor v2.0.3 to v2.2.7.

@@ -1,14 +1,14 @@
 BETA: This beta introduces compatibility with Tandoor v2. This version is not compatible with servers running Tandoor v1.
 
-    1. Added expand button to shopping list items containing multiple entries (#249).
-    2. Now showing all individual entries when viewing bottom sheet dialog of shopping list item (#249).
-    3. Added dialog to edit amounts of shopping list entries.
-    4. Added support for all ingredient templates (#250).
-    5. Added custom sorting button when using traditional home screen layout (#251).
-    6. Improved recipe details view when viewing shared recipes.
-    7. Fixed text fields being unreadable while typing when located at the bottom of a page (#247).
-    8. Fixed unable to view shared recipes when opening x.kitshn.app or kitshn:// link (#253).
-    9. Fixed meal plan dialog not updating when editing meal plan (#246).
-    10. Fixed source url not being saved when using social media import (#248).
-    11. Checked compatibility with Tandoor version 2.0.2.
-    12. Ukrainian has been updated on Weblate (by Максим Горпиніч).
+    1.  Added » Take new photo « option to every image upload field.
+    2.  Added support for timer ranges (e.g. 2 to 5 minutes) (#169).
+    3.  Added AI provider selector to AI and social media import.
+    4.  Fixed AI import options being disabled due to API changes.
+    5.  Fixed recipes list not updating when selecting different recipe book (#256).
+    6.  Fixed issue where ingredient amount template wasn't scaling (#264).
+    7.  Changed sorting order of meal plan entries to time value (#268).
+    8.  Checked compatibility with Tandoor version 2.0.3 to version 2.2.7.
+    9.  Ukrainian has been updated (by Максим Горпиніч).
+    10. Czech has been updated (by @hernikplays).
+    11. Catalan has been updated (by @rubenixnagios).
+    12. Dutch has been updated (by @jstrvr).

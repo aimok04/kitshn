@@ -6,36 +6,58 @@ Feel free to comment on #95 or create **a new issue** if you **encounter any iss
 
 ---
 
-This release includes some **new features** and fixes:
+It's been some time. Here are the changes that have accumulated:
 
-1. Added **expand** button to shopping list items **containing multiple** entries (#249).
-2. Now showing **all individual** entries when viewing **bottom sheet dialog** of shopping list item (#249).
-3. Added **dialog** to edit **amounts** of shopping list entries.
-4. Added support for **all** ingredient **templates** (#250) ([learn more about templating](https://kitshn.app/docs/features/templating.html)).
-5. Added **custom sorting** button when using **traditional** home screen layout (#251).
-6. Improved **recipe details** view when viewing **shared recipes**.
-7. Fixed **text fields** being **unreadable** while typing when located at the **bottom** of a page (#247).
-8. Fixed unable to view **shared recipes** when opening *x.kitshn.app* or *kitshn://* link (#253).
-9. Fixed **meal plan** dialog **not updating** when **editing** meal plan (#246).
-10. Fixed **source url** not being **saved** when using **social media import** (#248).
-11. Checked **compatibility** with Tandoor **version 2.0.2**.
-12. 🇺🇦 **Ukrainian** has been **updated** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by Максим Горпиніч).
+1. Added **» Take new photo «** option to every **image upload** field.
+2. Added support for **timer ranges** (e.g. *2 to 5 minutes*) (#169).
+3. Added **AI provider** selector to **AI** and **social media** import.
+4. Fixed **AI import** options being disabled due to **API changes**.
+5. Fixed **recipes list** not updating when selecting different **recipe book** (#256).
+6. Fixed issue where **ingredient amount template** wasn't scaling (#264).
+7. Changed **sorting order** of meal plan entries to *time* value (#268). 
+8. Checked **compatibility** with Tandoor **version 2.0.3** to **version 2.2.7**. 
+9. 🇺🇦 **Ukrainian** has been **updated** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by Максим Горпиніч).**
+10. 🇨🇿 **Czech** has been **updated** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @hernikplays).**
+11. 🟡🔴 **Catalan** has been **updated** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @rubenixnagios).**
+12. 🇳🇱 **Dutch** has been **updated** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @jstrvr).**
 
 ## Commits
 
-- feat(commonMain/shopping): show individual entries in ShoppingListEntryDetailsBottomSheet and added button to open it in shopping mode (resolved #249)
-- feat(commonMain/shopping): added amount edit dialog to shopping list entries (resolved #232)
-- feat(commonMain/recipes): added ingredients.amount, ingredients.unit, ingredients.food, and ingredients.note templates (resolved #250)
-- feat(commonMain/home): added sorting option to HomeTraditionalLayout (resolved #251)
-- feat(commonMain/recipes): improved details view when viewing shared recipes
-- feat(commonMain/import): adapted RecipeFromSource model and fetch functions to v2 api
-- feat(commonMain/import): improved social media import script
-- feat(web/docs): update templating.md
-- fix(commonMain/ui): added .imePadding in AdaptiveFullscreenDialog to make text fields accessible when focused (resolved #247)
-- fix(commonMain/recipes): issue with parsing shared recipe link (resolved #253)
-- fix(commonMain/mealplan): update details dialog when editing entry (resolved #246)
-- fix(commonMain/import): save social media url as source url when importing (resolved #248)
-- fix(commonMain/ui): layout issues when AdaptiveFullscreenDialog is fullscreen
-- fix(commonMain/ui): removed window insets from AdaptiveFullscreenDialog when not fullscreen and enlarged click to dismiss area (resolved #252)
-- chore(commonMain/api): marked v2.0.2 as compatible
+- feat(README.md): added kitshn beta invite links to installation section
+- feat(commonMain/import): added AI provider selector and adapted to AI related API changes
+- feat(commonMain/ui): removed peekaboo and implemented ChoosePhotoBottomSheet for every photo upload situation
+- feat(commonMain/recipes): implemented timer ranges regex and bottom sheet (resolved #169)
+- feat(web/funding): update to funding api v2
+- feat(README.md): add kitshn.app screenshots page link to impressions
+- feat(README.md): improve impressions layout
+- feat(README.md): update impressions to kitshn v2
+- feat(web/screenshots): update screenshots to kitshn v2
+- feat(fastlane): added Android take_screenshots lane and take_android_screenshots actions
+- feat(commonMain & androidTest): added automatic screenshot creation for Android
+- feat(README.md): update features
+- feat(README.md): removed roadmap
+- fix(images): added testflight badge
+- fix(commonMain/strings.xml): added search_providers string
+- fix(commonMain/import): replaced search_categories with search_providers string in SelectAIProviderDialog.kt
+- fix(commonMain/import): added SelectAIProviderDialog to RecipeImportAIDialog.kt
+- fix(fastlane): increased sleep in take_android_screenshots.rb to ensure system ui demo mode being enabled
+- fix(fastlane): changed Android take_screenshots lane to copy screenshots to web
+- fix(fastlane): added missing screenshots
+- fix(commonMain/books): also show placeholder icon when all recipes have no images
+- fix(commonMain/mealplan): changed sorting order of mealplans to meal type time value (resolved #268)
+- fix(commonMain/books): wrapped listAllEntries with TandoorRequestState to prevent exception
+- fix(commonMain/books): filter recipes were not cleared/ updated when selecting different book (resolved #256)
+- fix(commonMain/recipes): issue where ingredient amount template wasn't scaling (resolved #264)
+- chore(fastlane): ran android take_screenshots
+- chore(fastlane): ran android take_screenshots
+- chore(libs): version bumps
+- chore(fastlane): ran android take_screenshots
+- chore(composeApp/composeResources): update aboutlibraries.json
+- chore(commonMain/api): marked v2.0.3 - v2.2.7 as compatible
+- l10n(German): translated using Weblate
 - l10n(Ukrainian): translated using Weblate
+- l10n(German): translated using Weblate
+- l10n(Czech): translated using Weblate
+- l10n(Catalan): translated using Weblate
+- l10n(Czech): translated using Weblate
+- l10n(Dutch): translated using Weblate
