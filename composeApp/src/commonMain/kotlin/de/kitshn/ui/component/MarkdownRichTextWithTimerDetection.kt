@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -23,7 +24,6 @@ import androidx.compose.ui.unit.isSpecified
 import androidx.compose.ui.unit.sp
 import com.mikepenz.markdown.coil3.Coil3ImageTransformerImpl
 import com.mikepenz.markdown.m3.Markdown
-import com.mikepenz.markdown.m3.markdownColor
 import com.mikepenz.markdown.m3.markdownTypography
 import de.kitshn.isLaunchTimerHandlerImplemented
 import kitshn.composeapp.generated.resources.Res
@@ -162,19 +162,18 @@ fun MarkdownRichTextWithTimerDetection(
                 modifier = modifier,
                 content = md,
                 imageTransformer = Coil3ImageTransformerImpl,
-                colors = markdownColor(
-                    linkText = MaterialTheme.colorScheme.primary
-                ),
                 typography = markdownTypography(
                     text = bodyLarge,
                     paragraph = bodyLarge,
                     ordered = bodyLarge,
                     bullet = bodyLarge,
                     list = bodyLarge,
-                    link = bodyLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        textDecoration = TextDecoration.Underline,
-                        color = MaterialTheme.colorScheme.primary
+                    textLink = TextLinkStyles(
+                        style = bodyLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            textDecoration = TextDecoration.Underline,
+                            color = MaterialTheme.colorScheme.primary
+                        ).toSpanStyle()
                     ),
                     inlineCode = bodyLarge.copy(
                         fontFamily = FontFamily.Monospace
