@@ -185,6 +185,8 @@ fun RecipeImportSocialMediaDialog(
                 )
             }
 
+            response.recipe?.sourceUrl = state.data.url
+
             state.data.recipeFromSource = response
             state.data.populate()
         }
