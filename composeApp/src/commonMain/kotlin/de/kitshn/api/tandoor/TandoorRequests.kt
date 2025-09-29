@@ -160,7 +160,7 @@ suspend fun TandoorClient.reqMultipart(
             "${credentials.instanceUrl}/api${endpoint}"
         }
 
-        val response = httpClient.request {
+        val response = longHttpClient.request {
             url(url)
             method = _method
             headers {

@@ -20,6 +20,7 @@ import de.kitshn.api.tandoor.route.TandoorUserPreferenceRoute
 import de.kitshn.api.tandoor.route.TandoorUserRoute
 import de.kitshn.json
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
@@ -56,6 +57,16 @@ class TandoorClient(
 
     val httpClient = HttpClient {
         followRedirects = true
+    }
+
+    val longHttpClient = HttpClient {
+        followRedirects = true
+
+        install(HttpTimeout) {
+            connectTimeoutMillis = 30000
+            requestTimeoutMillis = 30000
+            socketTimeoutMillis = 30000
+        }
     }
 
     val container = TandoorContainer(this)
