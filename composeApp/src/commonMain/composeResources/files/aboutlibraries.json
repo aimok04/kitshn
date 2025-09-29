@@ -243,14 +243,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.9.0",
+      "artifactVersion": "1.8.0",
       "description": "Provides support for embedding Custom Tabs in an app.",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Browser",
-      "website": "https://developer.android.com/jetpack/androidx/releases/browser#1.9.0",
+      "website": "https://developer.android.com/jetpack/androidx/releases/browser#1.8.0",
       "licenses": [
         "Apache-2.0"
       ],
@@ -8991,7 +8991,7 @@
       ]
     },
     {
-      "uniqueId": "org.jetbrains.compose.desktop:desktop-jvm-macos-arm64",
+      "uniqueId": "org.jetbrains.compose.desktop:desktop-jvm-linux-x64",
       "funding": [],
       "developers": [
         {
@@ -10830,7 +10830,7 @@
       ]
     },
     {
-      "uniqueId": "org.jetbrains.skiko:skiko-awt-runtime-macos-arm64",
+      "uniqueId": "org.jetbrains.skiko:skiko-awt-runtime-linux-x64",
       "funding": [],
       "developers": [
         {
@@ -10845,7 +10845,7 @@
         "url": "https://www.github.com/JetBrains/skiko",
         "developerConnection": "scm:git:https://www.github.com/JetBrains/skiko.git"
       },
-      "name": "Skiko JVM Runtime for MacOS Arm64",
+      "name": "Skiko JVM Runtime for Linux X64",
       "website": "https://www.github.com/JetBrains/skiko",
       "licenses": [
         "Apache-2.0"
