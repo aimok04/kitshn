@@ -61,6 +61,7 @@ import com.multiplatform.webview.web.WebView
 import com.multiplatform.webview.web.rememberWebViewNavigator
 import com.multiplatform.webview.web.rememberWebViewState
 import de.kitshn.KitshnViewModel
+import de.kitshn.Platforms
 import de.kitshn.api.import.runSocialMediaImportScript
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
@@ -69,6 +70,7 @@ import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.api.tandoor.route.TandoorAIProvider
 import de.kitshn.handleTandoorRequestState
+import de.kitshn.platformDetails
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
@@ -443,5 +445,6 @@ fun RecipeImportSocialMediaDialog(
     }
 
     TandoorRequestErrorHandler(state = fetchWebsiteRequestState)
+    TandoorRequestErrorHandler(state = fetchAiRequestState) { state.dismiss() /* hide dialog to prevent crash on iOS */ }
     TandoorRequestErrorHandler(state = recipeImportRequestState)
 }
