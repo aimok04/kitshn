@@ -160,6 +160,9 @@ fun RecipeImportSocialMediaDialog(
     val fetchAiRequestState = rememberTandoorRequestState()
     fun fetchAi() = coroutineScope.launch {
         fetchAiRequestState.wrapRequest {
+            if(state.recipeDescription.length <= 3)
+                throw Error("Recipe description has to be longer than three characters.")
+
             val response = client.aiImport.fetch(
                 file = null,
                 text = state.recipeDescription,
