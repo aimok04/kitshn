@@ -17,12 +17,16 @@
         }else if(window.location.hostname.includes("instagram")) {
             platformSpecificImageURL = document.getElementsByTagName("video")[0].parentElement.parentElement.parentElement.parentElement.querySelector("img").src
         }
+
+        if(platformSpecificImageURL.length < 3) platformSpecificImageURL = undefined
     }catch(e) {
         console.error(e)
     }
 
     const description = descriptionValues[0]
-    const imageURL = platformSpecificImageURL || document.querySelector("meta[property='og:image']")?.content
+    let imageURL = platformSpecificImageURL || document.querySelector("meta[property='og:image']")?.content
+
+    if(imageURL.length < 3) imageURL = undefined
 
     // return different content when using WebKit
     if(/kitshnWebKit/.test(navigator.userAgent)) {
