@@ -14,6 +14,8 @@
     try {
         if(window.location.hostname.includes("tiktok")) {
             platformSpecificImageURL = document.querySelector("video").parentElement.querySelector("img").src
+        }else if(window.location.hostname.includes("instagram")) {
+            platformSpecificImageURL = document.getElementsByTagName("video")[0].parentElement.parentElement.parentElement.parentElement.querySelector("img").src
         }
     }catch(e) {
         console.error(e)
