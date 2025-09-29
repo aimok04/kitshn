@@ -62,6 +62,7 @@ import com.multiplatform.webview.web.rememberWebViewNavigator
 import com.multiplatform.webview.web.rememberWebViewState
 import de.kitshn.KitshnViewModel
 import de.kitshn.Platforms
+import de.kitshn.api.import.SocialMediaImportScriptResponse
 import de.kitshn.api.import.runSocialMediaImportScript
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
@@ -195,7 +196,7 @@ fun RecipeImportSocialMediaDialog(
     val webViewNavigator = rememberWebViewNavigator()
     val webViewState = rememberWebViewState(url = state.data.url).apply {
         val userAgentBuilder = StringBuilder()
-            .append("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36")
+            .append("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36")
 
         if(platformDetails.platform == Platforms.IOS) {
             userAgentBuilder.append(" ")
@@ -214,7 +215,11 @@ fun RecipeImportSocialMediaDialog(
         delay(2000)
 
         fetchWebsiteRequestState.wrapRequest {
-            val response = webViewNavigator.runSocialMediaImportScript()
+            var response: SocialMediaImportScriptResponse? = null
+            while(response == null) {
+                delay(1000)
+                response = webViewNavigator.runSocialMediaImportScript()
+            }
 
             if(response.imageURL != null) {
                 val httpClient = HttpClient {

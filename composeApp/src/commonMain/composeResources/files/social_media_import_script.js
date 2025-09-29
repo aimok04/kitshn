@@ -1,23 +1,26 @@
 (()=>{
-    let description = ""
-    let imageURL = ""
+    const descriptionQuerySelector = [ "meta[property='og:description']", "meta[property='twitter:description']" ]
+    const descriptionValues = []
 
-    if(document.querySelector("meta[property='og:description']") != null) {
-        description = document.querySelector("meta[property='og:description']").content
-    }else if(document.querySelector("meta[property='twitter:description']")) {
-        description = document.querySelector("meta[property='twitter:description']").content
-    }
+    descriptionQuerySelector.forEach((s) => {
+        let content = document.querySelector(s)?.content
+        if(content !== undefined) descriptionValues.push(content)
+    })
 
-    if(document.querySelector("meta[property='og:image']") != null) {
-        imageURL = document.querySelector("meta[property='og:image']").content
-    }
+    if(descriptionValues.length == 0) return null
+
+    let platformSpecificImageURL = undefined
 
     try {
-        if(window.location.hostname.includes("tiktok"))
-                imageURL = document.getElementsByTagName("video")[0].parentElement.parentElement.parentElement.parentElement.querySelector("img").src
+        if(window.location.hostname.includes("tiktok")) {
+            platformSpecificImageURL = document.querySelector("video").parentElement.querySelector("img").src
+        }
     }catch(e) {
         console.error(e)
     }
+
+    const description = descriptionValues[0]
+    const imageURL = platformSpecificImageURL || document.querySelector("meta[property='og:image']")?.content
 
     // return different content when using WebKit
     if(/kitshnWebKit/.test(navigator.userAgent)) {
