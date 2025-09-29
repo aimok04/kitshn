@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.component.settings.SettingsListItemPosition
-import io.github.vinceglb.filekit.dialogs.FileKitCameraType
 import io.github.vinceglb.filekit.dialogs.FileKitType
 import io.github.vinceglb.filekit.dialogs.compose.rememberCameraPickerLauncher
 import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
@@ -44,7 +43,7 @@ actual fun ChoosePhotoBottomSheet(
     }
 
     val cameraPickerLauncher =
-        rememberCameraPickerLauncher(type = FileKitCameraType.Photo) { file ->
+        rememberCameraPickerLauncher { file ->
             onDismiss()
 
             coroutineScope.launch {
