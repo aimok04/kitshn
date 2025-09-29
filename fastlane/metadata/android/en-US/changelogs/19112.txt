@@ -1,0 +1,8 @@
+One release never comes alone 🐞
+So here is the cleanup of the mess that v2.0.0-beta.11.1 caused:
+
+1. Fixed crash when using social media import twice.
+2. Fixed social media import of TikTok videos not working.
+3. Fixed session timeout issue when using social media import.
+4. Fixed url not being set as sourceUrl value of recipe when using social media import.
+5. Added better image fetching for Instagram posts (previously included play arrow overlay for reels).
