@@ -2,7 +2,6 @@ package de.kitshn.api.import
 
 import com.multiplatform.webview.web.WebViewNavigator
 import de.kitshn.json
-import de.kitshn.platformDetails
 import kitshn.composeapp.generated.resources.Res
 import kotlinx.serialization.Serializable
 import kotlin.coroutines.resume
@@ -18,8 +17,6 @@ suspend fun WebViewNavigator.runSocialMediaImportScript(): SocialMediaImportScri
     val js = Res.readBytes("files/social_media_import_script.js").decodeToString()
 
     val responseString = suspendCoroutine { cont ->
-        evaluateJavaScript("var PLATFORM = '${platformDetails.platform.name}';")
-
         evaluateJavaScript(
             script = js,
             callback = { response ->

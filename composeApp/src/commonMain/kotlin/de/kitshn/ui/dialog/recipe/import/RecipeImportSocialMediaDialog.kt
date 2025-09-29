@@ -192,8 +192,15 @@ fun RecipeImportSocialMediaDialog(
     var displayWebView by remember { mutableStateOf(false) }
     val webViewNavigator = rememberWebViewNavigator()
     val webViewState = rememberWebViewState(url = state.data.url).apply {
-        webSettings.customUserAgentString =
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+        val userAgentBuilder = StringBuilder()
+            .append("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36")
+
+        if(platformDetails.platform == Platforms.IOS) {
+            userAgentBuilder.append(" ")
+            userAgentBuilder.append("kitshnWebKit")
+        }
+
+        webSettings.customUserAgentString = userAgentBuilder.toString()
         webSettings.supportZoom = false
         webSettings.androidWebSettings.domStorageEnabled = true
     }

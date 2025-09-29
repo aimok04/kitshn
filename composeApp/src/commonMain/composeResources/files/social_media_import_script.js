@@ -19,7 +19,8 @@
         console.error(e)
     }
 
-    if(PLATFORM == "IOS") {
+    // return different content when using WebKit
+    if(/kitshnWebKit/.test(navigator.userAgent)) {
         return JSON.stringify({
             description: description,
             imageURL: imageURL
