@@ -145,25 +145,20 @@ inline fun <reified T> Json.maybeDecodeFromString(
 }
 
 fun formatDecimalToFraction(decimal: Double): String {
-    if(decimal == 0.0) return ""
-
-    if(decimal <= 0.2) {
-        return "⅕"
-    } else if(decimal <= 0.27) {
-        return "¼"
-    } else if(decimal <= 0.35) {
-        return "⅓"
-    } else if(decimal <= 0.55) {
-        return "½"
-    } else if(decimal <= 0.68) {
-        return "⅔"
-    } else if(decimal <= 0.78) {
-        return "¾"
-    } else if(decimal > 0.8) {
-        return "⅘"
-    }
-
-    return ""
+    return if(decimal == 0.0) ""
+    else if(decimal <= 0.16) "⅛"
+    else if(decimal <= 0.23) "⅕"
+    else if(decimal <= 0.29) "¼"
+    else if(decimal <= 0.35) "⅓"
+    else if(decimal <= 0.39) "⅜"
+    else if(decimal <= 0.45) "⅖"
+    else if(decimal <= 0.55) "½"
+    else if(decimal <= 0.61) "⅗"
+    else if(decimal <= 0.65) "⅝"
+    else if(decimal <= 0.71) "⅔"
+    else if(decimal <= 0.78) "¾"
+    else if(decimal <= 0.84) "⅘"
+    else "⅞"
 }
 
 fun Double.formatAmount(fractional: Boolean = true): String {
