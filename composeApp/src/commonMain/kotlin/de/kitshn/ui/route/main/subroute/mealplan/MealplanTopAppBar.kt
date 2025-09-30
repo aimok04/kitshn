@@ -22,8 +22,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import de.kitshn.KITSHN_DATE_PICKER_DISABLED_MESSAGE
+import de.kitshn.Platforms
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestState
+import de.kitshn.platformDetails
 import de.kitshn.toLocalDate
 import de.kitshn.ui.component.icons.IconWithState
 import de.kitshn.ui.dialog.mealplan.MealPlanEditDialogState
@@ -64,7 +67,9 @@ fun RouteMainSubrouteMealplanTopAppBar(
         },
         state = selectionModeState,
         actions = {
-            val datePickerState = rememberDatePickerState()
+            // TODO: remove when solved
+            val datePickerState =
+                if(platformDetails.platform == Platforms.ANDROID) rememberDatePickerState() else null
 
             if(selectionModeState.selectedItems.size == 1) IconButton(onClick = {
                 coroutineScope.launch {
@@ -87,6 +92,9 @@ fun RouteMainSubrouteMealplanTopAppBar(
                 onDismissRequest = { showDateMoveDialog = false },
                 confirmButton = {
                     Button(onClick = {
+                        // TODO: remove when solved
+                        if(datePickerState == null) return@Button
+
                         val date =
                             datePickerState.selectedDateMillis?.toLocalDate(TimeZone.UTC)
                                 ?: return@Button
@@ -123,6 +131,12 @@ fun RouteMainSubrouteMealplanTopAppBar(
                     }
                 }
             ) {
+                // TODO: remove when solved
+                if(datePickerState == null) {
+                    Text(text = KITSHN_DATE_PICKER_DISABLED_MESSAGE)
+                    return@DatePickerDialog
+                }
+
                 DatePicker(state = datePickerState)
             }
 

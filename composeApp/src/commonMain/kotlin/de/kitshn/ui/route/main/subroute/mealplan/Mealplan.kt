@@ -43,9 +43,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
+import de.kitshn.KITSHN_DATE_PICKER_DISABLED_MESSAGE
+import de.kitshn.Platforms
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.handleTandoorRequestState
+import de.kitshn.platformDetails
 import de.kitshn.toHumanReadableDateLabel
 import de.kitshn.toLocalDate
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -152,7 +155,9 @@ fun RouteMainSubrouteMealplan(
     }
 
     var showDatePickerDialog by remember { mutableStateOf(false) }
-    val datePickerState = rememberDatePickerState()
+    // TODO: remove when solved
+    val datePickerState =
+        if(platformDetails.platform == Platforms.ANDROID) rememberDatePickerState() else null
 
     Scaffold(
         topBar = {
@@ -287,6 +292,9 @@ fun RouteMainSubrouteMealplan(
         confirmButton = {
             Button(
                 onClick = {
+                    // TODO: remove when solved
+                    if(datePickerState == null) return@Button
+
                     if(datePickerState.selectedDateMillis == null) return@Button
 
                     showDatePickerDialog = false
@@ -305,6 +313,12 @@ fun RouteMainSubrouteMealplan(
             }
         }
     ) {
+        // TODO: remove when solved
+        if(datePickerState == null) {
+            Text(text = KITSHN_DATE_PICKER_DISABLED_MESSAGE)
+            return@DatePickerDialog
+        }
+
         DatePicker(state = datePickerState)
     }
 
