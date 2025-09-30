@@ -247,6 +247,17 @@ fun RecipeImportSocialMediaDialog(
         if(!state.autoFetch) return@LaunchedEffect
         state.autoFetch = false
 
+        if (aiProvider == null) {
+            // refetch space to gain default AI provider
+            TandoorRequestState().wrapRequest {
+                val space = vm.tandoorClient!!.space.current()
+                aiProvider = space.ai_default_provider
+            }
+
+            // don't proceed when there is no AI provider
+            if (aiProvider == null) return@LaunchedEffect
+        }
+
         fetchWebsite()
     }
 
