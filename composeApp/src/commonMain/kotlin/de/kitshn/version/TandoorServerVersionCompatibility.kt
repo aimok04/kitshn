@@ -82,7 +82,10 @@ enum class TandoorServerVersionCompatibility(
     V2_2_4("2.2.4", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
     V2_2_5("2.2.5", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
     V2_2_6("2.2.6", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
-    V2_2_7("2.2.7", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY);
+    V2_2_7("2.2.7", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
+    V2_3_0("2.3.0", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
+    V2_3_1("2.3.1", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY),
+    V2_3_2("2.3.2", TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY);
 
     fun getLabel(): String {
         return this.name.substring(1).replace("_", ".")
