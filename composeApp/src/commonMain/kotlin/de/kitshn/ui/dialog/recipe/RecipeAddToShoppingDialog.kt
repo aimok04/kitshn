@@ -160,6 +160,7 @@ fun RecipeAddToShoppingDialog(
 
                         factor = servingsFactor,
                         showFractionalValues = showFractionalValues,
+                        onOpenRecipe = { },
                         onNotEnoughSpace = { }
                     )
                 }

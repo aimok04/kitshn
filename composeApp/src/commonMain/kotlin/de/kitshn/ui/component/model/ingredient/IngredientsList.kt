@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
+import de.kitshn.api.tandoor.model.TandoorFoodRecipe
 import de.kitshn.api.tandoor.model.TandoorIngredient
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 
@@ -31,7 +32,8 @@ fun IngredientsList(
 
     showFractionalValues: Boolean,
 
-    onNotEnoughSpace: () -> Unit
+    onNotEnoughSpace: () -> Unit,
+    onOpenRecipe: (recipe: TandoorFoodRecipe) -> Unit
 ) {
     val density = LocalDensity.current
 
@@ -98,7 +100,9 @@ fun IngredientsList(
 
                         showFractionalValues = showFractionalValues,
 
-                        loadingState = loadingState
+                        loadingState = loadingState,
+
+                        onOpenRecipe = onOpenRecipe
                     )
                 }
             } else {
@@ -124,7 +128,9 @@ fun IngredientsList(
 
                         showFractionalValues = showFractionalValues,
 
-                        loadingState = loadingState
+                        loadingState = loadingState,
+
+                        onOpenRecipe = onOpenRecipe
                     )
                 }
             }

@@ -17,6 +17,7 @@ class TandoorFood(
     val plural_name: String? = null,
     val description: String,
     val url: String? = null,
+    val recipe: TandoorFoodRecipe? = null,
     val properties_food_amount: Double? = null,
     val properties_food_unit: TandoorUnit? = null,
     val fdc_id: Int? = null,
@@ -57,4 +58,11 @@ data class TandoorFoodProperty(
     val food_values: JsonObject? = null,
     val total_value: Double = 0.0,
     val missing_value: Boolean = false
+)
+
+@Serializable
+data class TandoorFoodRecipe(
+    val id: Int,
+    val name: String = "",
+    val url: String? = null
 )

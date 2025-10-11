@@ -58,6 +58,7 @@ fun RecipeStepCard(
     appendAction: @Composable () -> Unit = {},
     showFractionalValues: Boolean,
     onClickRecipeLink: (recipe: TandoorRecipe) -> Unit,
+    onOpenRecipeId: (recipeId: Int) -> Unit,
     onStartTimer: (fromSeconds: Int, toSeconds: Int, timerName: String) -> Unit
 ) {
     var showIngredientsTable by remember { mutableStateOf(false) }
@@ -164,7 +165,10 @@ fun RecipeStepCard(
                             onNotEnoughSpace = {
                                 disableSideBySideLayout = true
                             },
-                            showFractionalValues = showFractionalValues
+                            showFractionalValues = showFractionalValues,
+                            onOpenRecipe = {
+                                onOpenRecipeId(it.id)
+                            }
                         )
                     }
                 }

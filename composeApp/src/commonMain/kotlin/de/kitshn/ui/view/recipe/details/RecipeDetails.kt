@@ -904,6 +904,16 @@ fun ViewRecipeDetails(
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                             ),
                             showFractionalValues = ingredientsShowFractionalValues.value,
+                            onOpenRecipe = { recipe ->
+                                coroutineScope.launch {
+                                    fetchRequestState.wrapRequest {
+                                        // fetch full recipe using id and show recipe link dialog
+
+                                        val recipe = client.recipe.get(recipe.id)
+                                        recipeLinkDialogState.open(recipe.toOverview())
+                                    }
+                                }
+                            },
                             onNotEnoughSpace = {
                                 disableSideBySideLayout = true
                             }
@@ -926,6 +936,7 @@ fun ViewRecipeDetails(
                         servingsFactor = servingsFactor,
                         showFractionalValues = ingredientsShowFractionalValues.value,
                         onClickRecipeLink = { },
+                        onOpenRecipeId = { },
                         onStartTimer = { fromSeconds, toSeconds, timerName ->
                             launchTimerHandler(fromSeconds, toSeconds, timerName)
                         }
@@ -949,8 +960,18 @@ fun ViewRecipeDetails(
                         servingsFactor = servingsFactor,
                         showFractionalValues = ingredientsShowFractionalValues.value,
                         onClickRecipeLink = { recipe ->
-                            // show recipe link bottom sheet
+                            // show recipe link dialog
                             recipeLinkDialogState.open(recipe.toOverview())
+                        },
+                        onOpenRecipeId = { recipeId ->
+                            coroutineScope.launch {
+                                fetchRequestState.wrapRequest {
+                                    // fetch recipe using id and show recipe link dialog
+
+                                    val recipe = client.recipe.get(recipeId)
+                                    recipeLinkDialogState.open(recipe.toOverview())
+                                }
+                            }
                         },
                         onStartTimer = { fromSeconds, toSeconds, timerName ->
                             launchTimerHandler(fromSeconds, toSeconds, timerName)

@@ -26,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,9 +41,11 @@ import androidx.compose.ui.unit.sp
 import de.kitshn.KitshnViewModel
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
+import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.formatDuration
 import de.kitshn.isLaunchTimerHandlerImplemented
 import de.kitshn.launchTimerHandler
+import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.MarkdownRichTextWithTimerDetection
 import de.kitshn.ui.component.model.ingredient.IngredientsList
 import de.kitshn.ui.component.model.recipe.step.RecipeStepMultimediaBox
@@ -58,6 +61,7 @@ import de.kitshn.ui.theme.Typography
 import de.kitshn.ui.view.ViewParameters
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_minute_min
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.roundToInt
 
@@ -70,6 +74,9 @@ fun RouteRecipeCookPageStep(
     servingsFactor: Double,
     showFractionalValues: Boolean
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val fetchRequestState = rememberTandoorRequestState()
+
     val launchTimerInfoBottomSheetState = rememberLaunchTimerInfoBottomSheetState()
     val launchTimerRangeBottomSheetState = rememberLaunchTimerRangeBottomSheetState()
     val launchTimerHandler = launchTimerHandler(
@@ -244,6 +251,16 @@ fun RouteRecipeCookPageStep(
                                 onNotEnoughSpace = {
                                     disableSideBySideLayout = true
                                 },
+                                onOpenRecipe = {
+                                    coroutineScope.launch {
+                                        fetchRequestState.wrapRequest {
+                                            // fetch full recipe using id and show recipe link dialog
+
+                                            val recipe = vm.tandoorClient!!.recipe.get(recipe.id)
+                                            recipeLinkDialogState.open(recipe.toOverview())
+                                        }
+                                    }
+                                },
                                 showFractionalValues = showFractionalValues
                             )
                         }
@@ -276,4 +293,6 @@ fun RouteRecipeCookPageStep(
     LaunchTimerRangeBottomSheet(
         state = launchTimerRangeBottomSheetState
     )
+
+    TandoorRequestErrorHandler(fetchRequestState)
 }

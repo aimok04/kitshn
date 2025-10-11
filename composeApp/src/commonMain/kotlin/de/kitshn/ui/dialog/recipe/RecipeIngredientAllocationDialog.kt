@@ -432,6 +432,7 @@ fun RecipeIngredientAllocationDialog(
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
                             ),
                             showFractionalValues = showFractionalValues,
+                            onOpenRecipe = { },
                             onNotEnoughSpace = {
                                 disableSideBySideLayout = true
                             }

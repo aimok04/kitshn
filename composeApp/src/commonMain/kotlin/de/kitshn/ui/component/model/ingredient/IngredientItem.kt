@@ -1,5 +1,6 @@
 package de.kitshn.ui.component.model.ingredient
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -9,12 +10,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import de.kitshn.api.tandoor.model.TandoorFoodRecipe
 import de.kitshn.api.tandoor.model.TandoorIngredient
 import de.kitshn.ui.modifier.loadingPlaceHolder
 import de.kitshn.ui.state.ErrorLoadingSuccessState
@@ -44,9 +50,13 @@ fun IngredientItem(
 
     showFractionalValues: Boolean,
 
-    loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS
+    loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
+
+    onOpenRecipe: (recipe: TandoorFoodRecipe) -> Unit
 ) {
     val amount = (ingredient?.amount ?: 1.0) * servingsFactor
+
+    val foodHasRecipe = ingredient?.food?.recipe != null
 
     ListItem(
         modifier = modifier
@@ -71,7 +81,16 @@ fun IngredientItem(
                     IngredientItemPosition.SINGULAR -> RoundedCornerShape(16.dp)
                 }
             )
-            .loadingPlaceHolder(loadingState),
+            .loadingPlaceHolder(loadingState)
+            .then(
+                if(foodHasRecipe) {
+                    Modifier.clickable {
+                        onOpenRecipe(ingredient.food.recipe)
+                    }
+                }else{
+                    Modifier
+                }
+            ),
         colors = colors,
         trailingContent = trailingContent,
         leadingContent = {
@@ -108,7 +127,19 @@ fun IngredientItem(
             if(ingredient == null) return@ListItem
 
             Text(
-                text = ingredient.getLabel(amount)
+                text = ingredient.getLabel(amount),
+                color = when(foodHasRecipe) {
+                    true ->MaterialTheme.colorScheme.primary
+                    false -> Color.Unspecified
+                },
+                fontWeight = when(foodHasRecipe) {
+                    true -> FontWeight.Bold
+                    false -> null
+                },
+                textDecoration = when(foodHasRecipe) {
+                    true -> TextDecoration.Underline
+                    false -> null
+                }
             )
         },
         supportingContent = if((ingredient?.note ?: "").isNotBlank()) {
