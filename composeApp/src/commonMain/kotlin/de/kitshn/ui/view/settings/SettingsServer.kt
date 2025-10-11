@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import de.kitshn.api.tandoor.TandoorRequestState
+import de.kitshn.closeAppHandler
 import de.kitshn.launchWebsiteHandler
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.settings.SettingsListItem
@@ -67,6 +68,7 @@ fun ViewSettingsServer(
     val coroutineScope = rememberCoroutineScope()
 
     val launchWebsiteHandler = launchWebsiteHandler()
+    val closeAppHandler = closeAppHandler()
 
     var showVersionCompatibilityBottomSheet by remember { mutableStateOf(false) }
 
@@ -148,6 +150,7 @@ fun ViewSettingsServer(
                     contentDescription = stringResource(Res.string.action_sign_out)
                 ) {
                     p.vm.signOut()
+                    closeAppHandler()
                 }
 
                 // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)

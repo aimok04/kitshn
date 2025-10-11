@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
+import de.kitshn.closeAppHandler
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.theme.Typography
 import kitshn.composeapp.generated.resources.Res
@@ -40,6 +41,8 @@ fun RouteAlertOutdatedV1Instance(
 ) {
     val hapticFeedback = LocalHapticFeedback.current
     LaunchedEffect(Unit) { hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject) }
+
+    val closeAppHandler = closeAppHandler()
 
     Scaffold(
         topBar = {
@@ -87,6 +90,7 @@ fun RouteAlertOutdatedV1Instance(
                 Button(
                     onClick = {
                         p.vm.signOut()
+                        closeAppHandler()
                     }
                 ) {
                     Text(text = stringResource(Res.string.action_sign_out))

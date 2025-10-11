@@ -52,15 +52,6 @@ internal fun App(
      */
     onLaunched: () -> Unit = { }
 ) {
-    var deleteViewModel by remember { mutableStateOf(false) }
-    LaunchedEffect(deleteViewModel) {
-        if(!deleteViewModel) return@LaunchedEffect
-        delay(1)
-        deleteViewModel = false
-    }
-
-    if(deleteViewModel) return
-
     val vm = remember {
         KitshnViewModel(
             defaultTandoorClient = SavedTandoorClient.value,
@@ -99,8 +90,6 @@ internal fun App(
     LaunchedEffect(vm.uiState.blockUI) {
         alphaAnim.animateTo(if(vm.uiState.blockUI) 0f else 1f, tween(200))
     }
-
-    LaunchedEffect(vm.uiState.deleteViewModel) { deleteViewModel = vm.uiState.deleteViewModel }
 
     KitshnTheme(
         darkTheme = if(systemTheme.value) isSystemInDarkTheme() else darkMode.value,
