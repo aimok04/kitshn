@@ -6,15 +6,15 @@
     <string name="action_move">Przenieś</string>
     <string name="action_open_original">Otwórz oryginał</string>
     <string name="acra_dialog_button_negative">Nie wysyłaj</string>
-    <string name="acra_dialog_button_neutral">Zobacz zgłoszenie</string>
+    <string name="acra_dialog_button_neutral">Zobacz report błędu</string>
     <string name="acra_comment_helper">Jeżeli chcesz, możesz opisać jak doszło do tego błędu.</string>
-    <string name="acra_dialog_title">Ups!</string>
-    <string name="acra_email_address_helper">Jeżeli chcesz, możesz wpisać swój adres e-mail, aby otrzymać aktualizacje związane z twoim zgłoszeniem.</string>
+    <string name="acra_dialog_title">O nie, błąd!</string>
+    <string name="acra_email_address_helper">Jeśli chcesz, możesz wpisać swój email aby odtrzymać ajtualizacje na twój report.</string>
     <string name="action_add">Dodaj</string>
     <string name="action_add_to_favorites">Dodaj do ulubionych</string>
-    <string name="action_add_to_meal_plan">Dodaj do planu żywieniowego</string>
+    <string name="action_add_to_meal_plan">Dodaj do planu jedzenia</string>
     <string name="action_add_to_recipe_books">Dodaj do książki kucharskiej</string>
-    <string name="action_add_to_shopping">Dodaj do zakupów</string>
+    <string name="action_add_to_shopping">Dodaj do listy zakupów</string>
     <string name="action_allocate_ingredients">Przypisz składniki</string>
     <string name="action_apply">Zastosuj</string>
     <string name="action_click_to_upload_image">Kliknij aby przesłać zdjęcie.</string>
@@ -118,7 +118,7 @@
     <string name="shopping_list_dialog_clear_title">Wyczyść listę zakupów</string>
     <string name="shopping_list_empty">Aktualnie nie ma żadnych przedmiotów na liście zakupów.</string>
     <string name="shopping_list_items_done">Zrobione</string>
-    <string name="shortcuts_new_instance_label_long">Stwórz nową instancję</string>
+    <string name="shortcuts_new_instance_label_long">Stwórz nową instancję Tandoor</string>
     <string name="shortcuts_new_instance_label_short">Nowa instancja</string>
     <string name="tandoor_compatibility_incompatible_description">Twój serwer Tandoor nie jest kompatybilny z tą aplikacją. Proszę zaaktualizuj twój serwer do jednej z tych wersji.</string>
     <string name="tandoor_compatibility_mixed_compatibility_description">Niektóre funkcje twojego serwera Tandoor mogą być nie wspierane przez tą aplikację. Aby używać wszystkich funkcji tej aplikacji zaaktualizuj twój serwer do jednej z tych wersji.</string>
@@ -173,7 +173,7 @@
     <string name="home_section_burger">🍔</string>
     <string name="common_api_token">Token API</string>
     <string name="common_details">Szczegóły</string>
-    <string name="common_email_address">Adres mailowy</string>
+    <string name="common_email_address">Adres email</string>
     <string name="common_info">Informacja</string>
     <string name="common_ingredients">Składniki</string>
     <string name="common_keywords">Słowa kluczowe</string>
@@ -222,7 +222,7 @@
     <string name="settings_section_behavior_ingredients_show_fractional_values_description">Może być lepszy w odczytywaniu, lecz mniej dokładny</string>
     <string name="settings_section_behavior_label">Zachowanie</string>
     <string name="tandoor_compatibility_incompatible_label">Niekompatybilna</string>
-    <string name="acra_dialog_message">Aplikacja napotkała niespodziewany błąd. Proszę wyślij zgłoszenie aby pomóc w naprawie.\n\nMożesz wyświetlić całe zgłoszenie przed wysłaniem.</string>
+    <string name="acra_dialog_message">Aplikacja kitshn napotkała niespodziewany błąd. Proszę wyślij zgłoszenie aby pomóc naprawić błąd.\n\nMożesz wyświetlić cały report przed wysłaniem.</string>
     <string name="action_cook">Gotuj</string>
     <string name="common_creator">Twórca</string>
     <string name="common_contact">Kontakt</string>
@@ -330,7 +330,7 @@
     <string name="action_upload">Prześlij</string>
     <string name="common_comment">Komentarz</string>
     <string name="common_create_argument">Utwórz » %1$s «</string>
-    <string name="common_error_report">Zgłoszenie błędu</string>
+    <string name="common_error_report">Raport błędu</string>
     <string name="common_none">Nic</string>
     <string name="common_portions_text">Porcje-Tekst</string>
     <string name="common_properties">Właściwości</string>
@@ -362,4 +362,5 @@
     <string name="action_add_ingredient">Dodaj składnik</string>
     <string name="action_edit_step">Edytuj krok</string>
     <string name="action_create_step">Nowy krok</string>
+    <string name="action_choose_existing_photo">Wybierz zdjęcie</string>
 </resources>
