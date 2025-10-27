@@ -1,0 +1,1 @@
+Nieofficialny klient dla serverów Tandoor.
