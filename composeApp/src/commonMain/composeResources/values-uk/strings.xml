@@ -421,4 +421,5 @@
     <string name="action_choose_existing_photo">Виберіть існуюче фото</string>
     <string name="action_take_new_photo">Зробити нове фото</string>
     <string name="common_ai_provider">Постачальник штучного інтелекту</string>
+    <string name="search_providers">Пошук постачальників</string>
 </resources>
