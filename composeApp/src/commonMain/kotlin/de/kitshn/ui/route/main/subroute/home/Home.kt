@@ -134,13 +134,14 @@ fun RouteMainSubrouteHome(
         KitshnRecipeListRecipeDetailPaneScaffold(
             vm = p.vm,
             key = "RouteMainSubrouteHome",
-            topBar = {
+            topBar = { colors ->
                 RecipeSelectionModeTopAppBar(
                     vm = p.vm,
                     topAppBar = {
                         HomeSearchTopBar(
                             vm = p.vm,
                             state = homeSearchState,
+                            colors = colors,
                             scrollBehavior = searchBarScrollBehavior
                         )
                     },

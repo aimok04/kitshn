@@ -16,11 +16,11 @@ import androidx.compose.material3.ExpandedFullScreenSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.SearchBarScrollBehavior
 import androidx.compose.material3.SearchBarValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.rememberSearchBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -51,6 +51,7 @@ import org.jetbrains.compose.resources.stringResource
 fun HomeSearchTopBar(
     vm: KitshnViewModel,
     state: HomeSearchState,
+    colors: TopAppBarColors,
     scrollBehavior: SearchBarScrollBehavior
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -149,7 +150,8 @@ fun HomeSearchTopBar(
         state = searchBarState,
         inputField = inputField,
         colors = SearchBarDefaults.appBarWithSearchColors(
-            scrolledAppBarContainerColor = MaterialTheme.colorScheme.surface
+            appBarContainerColor = colors.containerColor,
+            scrolledAppBarContainerColor = colors.containerColor
         ),
         scrollBehavior = scrollBehavior
     )
