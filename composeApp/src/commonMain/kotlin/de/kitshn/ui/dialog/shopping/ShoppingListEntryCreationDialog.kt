@@ -17,6 +17,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -32,6 +33,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowWidthSizeClass
 import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
@@ -105,6 +107,8 @@ fun ShoppingListEntryCreationDialog(
         }
     }
 
+    val twoColumnLayout = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT
+
     AdaptiveFullscreenDialog(
         onDismiss = {
             state.dismiss()
@@ -125,54 +129,53 @@ fun ShoppingListEntryCreationDialog(
                 )
             }
         },
-        maxWidth = 400.dp
+        maxWidth = if(twoColumnLayout) 400.dp else 900.dp
     ) { _, _, _ ->
         Column(
             Modifier.padding(16.dp)
         ) {
-            FoodSearchField(
-                modifier = Modifier.fillMaxWidth(),
-                dropdownMenuModifier = Modifier
-                    .focusRequester(foodInputFocusRequester),
+            @Composable
+            fun Food(
+                fraction: Float
+            ) {
+                FoodSearchField(
+                    modifier = Modifier.fillMaxWidth(fraction),
+                    dropdownMenuModifier = Modifier
+                        .focusRequester(foodInputFocusRequester),
 
-                client = client,
-                value = food,
+                    client = client,
+                    value = food,
 
-                leadingIcon = {
-                    Icon(
-                        Icons.AutoMirrored.Rounded.Label,
-                        stringResource(Res.string.common_food)
-                    )
-                },
-                label = { Text(text = stringResource(Res.string.common_food)) },
+                    leadingIcon = {
+                        Icon(
+                            Icons.AutoMirrored.Rounded.Label,
+                            stringResource(Res.string.common_food)
+                        )
+                    },
+                    label = { Text(text = stringResource(Res.string.common_food)) },
 
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Next
-                ),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    ),
 
-                onValueChange = {
-                    food = it
-                },
+                    onValueChange = {
+                        food = it
+                    },
 
-                onSelect = {
-                    amountInputFocusRequester.requestFocus()
-                }
-            )
+                    onSelect = {
+                        amountInputFocusRequester.requestFocus()
+                    }
+                )
+            }
 
-            Spacer(Modifier.height(16.dp))
-
-            HorizontalDivider()
-
-            Spacer(Modifier.height(16.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            @Composable
+            fun Amount(
+                fraction: Float
             ) {
                 NumberField(
-                    modifier = Modifier.fillMaxWidth(0.5f)
-                        .focusRequester(amountInputFocusRequester),
-
                     value = amount,
+                    modifier = Modifier.fillMaxWidth(fraction)
+                        .focusRequester(amountInputFocusRequester),
 
                     leadingIcon = {
                         Icon(
@@ -191,9 +194,14 @@ fun ShoppingListEntryCreationDialog(
                         amount = it
                     }
                 )
+            }
 
+            @Composable
+            fun Unit(
+                fraction: Float
+            ) {
                 UnitSearchField(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(fraction)
                         .focusRequester(unitInputFocusRequester),
                     dropdownMenuModifier = Modifier,
 
@@ -225,6 +233,29 @@ fun ShoppingListEntryCreationDialog(
                         unitInputFocusRequester.freeFocus()
                     }
                 )
+            }
+
+            if(twoColumnLayout) {
+                Food(1f)
+
+                Spacer(Modifier.height(16.dp))
+                HorizontalDivider()
+                Spacer(Modifier.height(16.dp))
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Amount(0.5f)
+                    Unit(1f)
+                }
+            }else{
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Food(0.3f)
+                    Amount(0.5f)
+                    Unit(1f)
+                }
             }
         }
 
