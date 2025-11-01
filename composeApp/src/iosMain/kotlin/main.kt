@@ -37,11 +37,7 @@ var mIsSubscribed by mutableStateOf(false)
 @OptIn(ExperimentalKermitApi::class, ExperimentalComposeUiApi::class)
 fun MainViewController(
     subscriptionUI: () -> UIViewController
-): UIViewController = ComposeUIViewController(
-    configure = {
-        enableBackGesture = false
-    }
-) {
+): UIViewController = ComposeUIViewController {
     Logger.setLogWriters(OSLogWriter(), NSLogWriter(), BugsnagLogWriter())
 
     var vm by remember { mutableStateOf<KitshnViewModel?>(null) }
