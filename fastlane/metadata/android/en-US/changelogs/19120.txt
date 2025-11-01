@@ -1,3 +1,5 @@
+This release should fix some major issues like *broken reproducibility* which broke updates on *F-Droid* until now.
+
 1. Now showing recipe of food's in ingredient lists (#284).
 2. Fixed crash when clicking sign out.
 3. Reactivated date pickers on iOS (#282).

@@ -6,15 +6,19 @@ Feel free to comment on #95 or create **a new issue** if you **encounter any iss
 
 ---
 
-Yet another (mostly) bug fix release:
+This release should fix some major issues like *broken reproducibility* which broke updates on *F-Droid* until now.
+Also *date pickers* should work again on iOS. 😊
 
-1. Fixed **crash** when opening **meal plan** page on iOS (#282).
-   - *This is a very quick fix, which disables all date pickers on iOS.*
-2. Fixed **social media import** failing when **sharing** link to kitshn *without* default AI provider.
-3. Improved **decimal** to **fraction** conversion (#281).
+1. Now showing **recipe** of **food**'s in **ingredient lists** (#284).
+2. Fixed **crash** when clicking **sign out**.
+3. Reactivated **date pickers** on **iOS** (#282).
+4. Checked **compatibility** with Tandoor **version 2.3.0** to **version 2.3.3**.
 
 ## Commits
 
-- feat(commonMain/utils): improved formatDecimalToFraction with more accurate fraction matching (resolved #281)
-- fix(commonMain/import): don't proceed with autoFetch when there is no default ai provider in social media import
-- fix(commonMain/mealplan): disabled date picker temporarily for iOS because it depends on kotlinx.datetime.Clock (#282)
+- feat(commonMain/recipes): highlight IngredientItem when food has recipe value and open recipe link dialog on click (resolved #284)
+- fix(commonMain/settings): close app when signing out
+- Revert "fix(commonMain/mealplan): disabled date picker temporarily for iOS because it depends on kotlinx.datetime.Clock (#282)"
+- chore(libs): version bumps (resolved #282)
+- chore(commonMain/api): marked v2.3.3 as compatible
+- chore(commonMain/api): marked v2.3.0 - v2.3.2 as compatible
