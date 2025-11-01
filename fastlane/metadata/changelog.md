@@ -6,19 +6,14 @@ Feel free to comment on #95 or create **a new issue** if you **encounter any iss
 
 ---
 
-This release should fix some major issues like *broken reproducibility* which broke updates on *F-Droid* until now.
-Also *date pickers* should work again on iOS. 😊
+This release includes a *quickfix* which should make it possible again to use *text fields* on the home page 😅
 
-1. Now showing **recipe** of **food**'s in **ingredient lists** (#284).
-2. Fixed **crash** when clicking **sign out**.
-3. Reactivated **date pickers** on **iOS** (#282).
-4. Checked **compatibility** with Tandoor **version 2.3.0** to **version 2.3.3**.
+1. Replaced *home search bar* component as a quickfix (#289).
+2. Improved **search toolbar** color on *large* screen devices.
+3. Improved **shopping list entry** creation dialog on *large* screen devices.
 
 ## Commits
 
-- feat(commonMain/recipes): highlight IngredientItem when food has recipe value and open recipe link dialog on click (resolved #284)
-- fix(commonMain/settings): close app when signing out
-- Revert "fix(commonMain/mealplan): disabled date picker temporarily for iOS because it depends on kotlinx.datetime.Clock (#282)"
-- chore(libs): version bumps (resolved #282)
-- chore(commonMain/api): marked v2.3.3 as compatible
-- chore(commonMain/api): marked v2.3.0 - v2.3.2 as compatible
+- feat(commonMain/shopping): improved ShoppingListEntryCreationDialog for larger screens
+- fix(commonMain/home): replaced ExpandedFullScreenSearchBar with ExpandedDockedSearchbar as a quickfix (#289)
+- fix(commonMain/home): search toolbar color on large screen devices

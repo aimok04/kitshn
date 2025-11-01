@@ -1,4 +1,4 @@
-This release includes a quickfix which should make it possible again to use text fields on the home page ;)
+This release includes a quickfix which should make it possible again to use text fields on the home page 😅
 
 1. Replaced home search bar component as a quickfix (#289).
 2. Improved search toolbar color on large screen devices.
