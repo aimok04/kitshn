@@ -1,7 +1,7 @@
 [versions]
 aboutlibraries = "12.2.4"
 accompanist = "0.36.0"
-adaptive = "1.2.0-alpha05"
+adaptive = "1.2.0-beta01"
 bugsnag = "0.9.0"
 compose-placeholder = "1.0.12"
 acra = "5.12.0"
@@ -10,16 +10,15 @@ filekit = "0.11.0"
 humanReadable = "1.12.0"
 kermitBugsnag = "2.0.8"
 kotlin = "2.2.10"
-compose = "1.9.0"
-compose-material-expressive = "1.9.0-alpha04"
+compose = "1.10.0-alpha03"
 agp = "8.11.1"
 androidx-activityCompose = "1.10.1"
 kermit = "2.0.8"
 kotlinx-coroutines = "1.10.2"
 ksoup = "0.2.5"
 ktor = "3.3.0"
-androidx-lifecycle = "2.9.4"
-androidx-navigation = "2.9.0"
+androidx-lifecycle = "2.10.0-alpha03"
+androidx-navigation = "2.9.1"
 kotlinx-serialization = "1.9.0"
 coil = "3.3.0"
 composeVideo = "1.2.0"
@@ -56,7 +55,7 @@ androidx-activityCompose = { module = "androidx.activity:activity-compose", vers
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiAndroid" }
 androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiAndroid" }
 bugsnag = { module = "co.touchlab.crashkios:bugsnag", version.ref = "bugsnag" }
-compose-material-expressive = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-material-expressive" }
+compose-material-expressive = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose" }
 compose-placeholder = { module = "com.eygraber:compose-placeholder", version.ref = "compose-placeholder" }
 compose-placeholder-material = { module = "com.eygraber:compose-placeholder-material", version.ref = "compose-placeholder" }
 compose-webview-multiplatform = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "composeWebviewMultiplatform" }

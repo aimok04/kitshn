@@ -11,19 +11,26 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.AppBarWithSearch
 import androidx.compose.material3.ExpandedFullScreenSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.SearchBarScrollBehavior
 import androidx.compose.material3.SearchBarValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopSearchBar
 import androidx.compose.material3.rememberSearchBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import de.kitshn.KitshnViewModel
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
@@ -54,7 +61,9 @@ fun HomeSearchTopBar(
     val client = vm.tandoorClient ?: return
 
     val textFieldState = rememberTextFieldState()
-    val searchBarState = rememberSearchBarState()
+    val searchBarState = rememberSearchBarState(
+        initialValue = SearchBarValue.Collapsed
+    )
 
     LaunchedEffect(textFieldState.text) {
         delay(200)
@@ -66,12 +75,21 @@ fun HomeSearchTopBar(
     }
 
     LaunchedEffect(state.shown.value) {
-        if(state.shown.value)
+       if(state.shown.value)
             searchBarState.animateToExpanded()
+    }
+
+    var canFocusWorkaround by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        delay(1000)
+        canFocusWorkaround = true
     }
 
     val inputField = @Composable {
         SearchBarDefaults.InputField(
+            modifier = Modifier.focusProperties {
+                canFocus = canFocusWorkaround
+            },
             textFieldState = textFieldState,
             searchBarState = searchBarState,
             onSearch = {
@@ -127,9 +145,12 @@ fun HomeSearchTopBar(
 
     val recipeLinkDialogState = rememberRecipeLinkDialogState()
 
-    TopSearchBar(
+    AppBarWithSearch(
         state = searchBarState,
         inputField = inputField,
+        colors = SearchBarDefaults.appBarWithSearchColors(
+            scrolledAppBarContainerColor = MaterialTheme.colorScheme.surface
+        ),
         scrollBehavior = scrollBehavior
     )
 
