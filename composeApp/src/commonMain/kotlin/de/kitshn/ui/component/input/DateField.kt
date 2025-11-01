@@ -29,9 +29,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
-import de.kitshn.KITSHN_DATE_PICKER_DISABLED_MESSAGE
-import de.kitshn.Platforms
-import de.kitshn.platformDetails
 import de.kitshn.toHumanReadableDateLabel
 import de.kitshn.toLocalDate
 import kitshn.composeapp.generated.resources.Res
@@ -77,10 +74,7 @@ fun BaseDateField(
     }
 
     var showDatePickerDialog by remember { mutableStateOf(false) }
-    // TODO: remove when solved
-    val datePickerState =
-        if(platformDetails.platform == Platforms.ANDROID) rememberDatePickerState(selectableDates = object :
-            SelectableDates {
+    val datePickerState = rememberDatePickerState(selectableDates = object : SelectableDates {
         override fun isSelectableDate(utcTimeMillis: Long): Boolean {
             val epochDays = utcTimeMillis.toLocalDate(TimeZone.UTC).toEpochDays()
 
@@ -90,7 +84,7 @@ fun BaseDateField(
 
             return true
         }
-        }) else null
+    })
 
     content(
         value?.toHumanReadableDateLabel() ?: ""
@@ -102,9 +96,6 @@ fun BaseDateField(
         onDismissRequest = { showDatePickerDialog = false },
         confirmButton = {
             Button(onClick = {
-                // TODO: remove when solved
-                if(datePickerState == null) return@Button
-
                 showDatePickerDialog = false
                 onValueChange(datePickerState.selectedDateMillis?.toLocalDate(TimeZone.UTC))
             }) {
@@ -112,12 +103,6 @@ fun BaseDateField(
             }
         }
     ) {
-        // TODO: remove when solved
-        if(datePickerState == null) {
-            Text(text = KITSHN_DATE_PICKER_DISABLED_MESSAGE)
-            return@DatePickerDialog
-        }
-
         DatePicker(state = datePickerState)
     }
 }
