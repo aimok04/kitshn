@@ -1,4 +1,4 @@
-This release includes another fix which should make it possible again to use input fields on the home page (now also on iOS) :)
+This release includes another fix which should make it possible again to use input fields on the home page 😅
 
 1. Fixed issue which prevented using input fields on the home screen (#289).
 2. Changed number input field's software keyboard.

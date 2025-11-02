@@ -6,14 +6,12 @@ Feel free to comment on #95 or create **a new issue** if you **encounter any iss
 
 ---
 
-This release includes a *quickfix* which should make it possible again to use *text fields* on the home page 😅
+This release includes another *fix* which should make it possible again to use *input fields* on the home page (now also on iOS) 😅
 
-1. Replaced *home search bar* component as a quickfix (#289).
-2. Improved **search toolbar** color on *large* screen devices.
-3. Improved **shopping list entry** creation dialog on *large* screen devices.
+1. Fixed *issue* which *prevented* using **input fields** on the **home screen** (#289).
+2. Changed *number* input field's *software* keyboard.
 
 ## Commits
 
-- feat(commonMain/shopping): improved ShoppingListEntryCreationDialog for larger screens
-- fix(commonMain/home): replaced ExpandedFullScreenSearchBar with ExpandedDockedSearchbar as a quickfix (#289)
-- fix(commonMain/home): search toolbar color on large screen devices
+- fix(commonMain/home): replaced ExpandedDockedSearchbar with ExpandedFullScreenSearchbar again but its hidden when searchBarState != expanded (resolved #289)
+- fix(commonMain/ui): replaced every KeyboardType.Number with KeyboardType.Decimal
