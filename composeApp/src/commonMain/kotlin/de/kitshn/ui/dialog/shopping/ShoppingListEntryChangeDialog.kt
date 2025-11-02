@@ -105,7 +105,7 @@ fun ShoppingListEntryChangeDialog(
                     min = 0.1,
 
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
+                        keyboardType = KeyboardType.Decimal,
                         imeAction = ImeAction.Done
                     ),
                     keyboardActions = KeyboardActions(

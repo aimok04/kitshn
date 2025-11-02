@@ -186,7 +186,7 @@ fun ShoppingListEntryCreationDialog(
                     label = { Text(text = stringResource(Res.string.common_amount)) },
 
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
+                        keyboardType = KeyboardType.Decimal,
                         imeAction = ImeAction.Next
                     ),
 
