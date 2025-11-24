@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.tasks.CompileArtProfileTask
+import org.apache.tools.ant.taskdefs.condition.Os
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
@@ -32,7 +33,7 @@ val kitshnAlternateBuildVersionName = kitshnAlternateVersionName.split(".").run 
 }
 
 val kitshnAndroidPackageName = "de.kitshn.android"
-val kitshnDesktopPackageName = "de.kitshn.desktop"
+val kitshnDesktopPackageName = "kitshn"
 
 val kitshnIsBeta = true
 
@@ -290,11 +291,15 @@ compose.desktop {
         mainClass = "MainKt"
 
         nativeDistributions {
-            targetFormats(
+            val formats = listOfNotNull(
+                // https://github.com/JetBrains/compose-multiplatform/issues/3814
+                TargetFormat.AppImage.takeUnless { Os.isFamily(Os.FAMILY_MAC) },
                 TargetFormat.Dmg,
                 TargetFormat.Msi,
-                TargetFormat.Deb
-            )
+                TargetFormat.Deb,
+            ).toTypedArray()
+            targetFormats(*formats)
+
             packageName = kitshnDesktopPackageName
             packageVersion = kitshnVersionName
 
