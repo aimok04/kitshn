@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+
+Name=kitshn (for Tandoor)
+Comment=An unofficial client for the self-hosted Tandoor recipe management software.
+Categories=Network;Feed;
+
+Icon=app.kitshn.kitshn
+Exec=/app/bin/kitshn
+Terminal=false

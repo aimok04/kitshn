@@ -35,4 +35,6 @@ Pods/
 /fastlane/out
 /fastlane/tmp
 
+/flatpak/source
+
 Package.resolved
