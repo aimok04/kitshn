@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -31,6 +32,8 @@ import de.kitshn.KitshnViewModel
 import de.kitshn.ui.theme.Typography
 import de.kitshn.version.TandoorServerVersionCompatibility
 import de.kitshn.version.TandoorServerVersionCompatibilityState
+import kitshn.composeapp.generated.resources.Res
+import kitshn.composeapp.generated.resources.action_ignore
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -94,22 +97,24 @@ fun TandoorServerVersionCompatibilityDialog(
         TandoorServerVersionCompatibility.entries.filter { it.state == TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY }
     if(currentVersion == null || compatibilityState == null) return
 
+    fun dismiss() {
+        coroutineScope.launch {
+            vm.settings.setLatestVersionCheck(currentVersion!!)
+
+            if(compatibilityState?.disableDismiss == true) {
+                sheetState.expand()
+            } else {
+                sheetState.hide()
+                mShown = false
+            }
+
+            onDismiss()
+        }
+    }
+
     if(mShown) ModalBottomSheet(
         sheetState = sheetState,
-        onDismissRequest = {
-            coroutineScope.launch {
-                vm.settings.setLatestVersionCheck(currentVersion!!)
-
-                if(compatibilityState?.disableDismiss == true) {
-                    sheetState.expand()
-                } else {
-                    sheetState.hide()
-                    mShown = false
-                }
-
-                onDismiss()
-            }
-        }
+        onDismissRequest = { dismiss() }
     ) {
         Column(
             Modifier.fillMaxWidth(),
@@ -138,6 +143,14 @@ fun TandoorServerVersionCompatibilityDialog(
                 text = stringResource(compatibilityState!!.description),
                 textAlign = TextAlign.Center
             )
+
+            Spacer(Modifier.height(16.dp))
+
+            Button(
+                onClick = { dismiss() }
+            ) {
+                Text(text = stringResource(Res.string.action_ignore))
+            }
 
             if(compatibilityState?.hideCompatibleVersionsList == false) {
                 LazyRow(

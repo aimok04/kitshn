@@ -50,6 +50,7 @@
     <string name="action_edit_recipe">Rezept bearbeiten</string>
     <string name="action_edit_recipe_book">Rezeptbuch bearbeiten</string>
     <string name="action_expand_less">Verkleinern</string>
+    <string name="action_ignore">Ignorieren</string>
     <string name="action_import">Importieren</string>
     <string name="action_manage_recipe_books">Rezeptbücher verwalten</string>
     <string name="action_mark_as_done">Als fertig markieren</string>

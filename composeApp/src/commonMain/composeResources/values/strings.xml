@@ -56,6 +56,7 @@
     <string name="action_edit_recipe_book">Edit recipe book</string>
     <string name="action_edit_step">Edit step</string>
     <string name="action_expand_less">Expand less</string>
+    <string name="action_ignore">Ignore</string>
     <string name="action_import">Import</string>
     <string name="action_manage_recipe_books">Manage recipe books</string>
     <string name="action_mark_as_done">Mark as done</string>
