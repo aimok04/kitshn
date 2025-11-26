@@ -889,7 +889,7 @@ fun ViewRecipeDetails(
                         }
                     }
 
-                    Box(
+                    if(recipe?.steps?.size != 1) Box(
                         Modifier.padding(
                             start = 16.dp,
                             end = 16.dp,
