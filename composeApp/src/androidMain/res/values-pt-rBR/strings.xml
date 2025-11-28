@@ -9,4 +9,11 @@
     <string name="acra_dialog_message">O aplicativo encontrou um erro inesperado. Por favor, envie um relatório de erro para ajudar a corrigir o problema.\n\nVocê pode visualizar o relatório completo antes de enviar.</string>
     <string name="acra_dialog_title">Ops!</string>
     <string name="acra_email_address_helper">Se quiser, você pode inserir o seu endereço de e-mail para receber atualizações sobre o seu relatório.</string>
+    <string name="app_name">kitshn</string>
+    <string name="common_comment">Comentário</string>
+    <string name="common_email_address">E-mail</string>
+    <string name="common_error_report">Relatório de erros</string>
+    <string name="common_import_recipe">Importar receita</string>
+    <string name="shortcuts_meal_plan_label_long">Abrir plano de refeições</string>
+    <string name="shortcuts_meal_plan_label_short">Plano de refeições</string>
 </resources>
