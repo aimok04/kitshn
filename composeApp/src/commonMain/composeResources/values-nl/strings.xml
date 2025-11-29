@@ -407,4 +407,8 @@
     <string name="settings_section_behavior_ios_install_timer_shortcut_description">Benodigd om rechtstreeks timers te starten vanuit de kitshn-app</string>
     <string name="settings_section_behavior_ios_install_timer_shortcut_label">Installeer iOS timer snelkoppeling</string>
     <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">Schakel de machtiging »Lokale netwerk« in voor kitshn in de systeeminstellingen wanneer je verbinding maakt met een lokale server.</string>
+    <string name="action_choose_existing_photo">Kies een bestaande foto</string>
+    <string name="action_take_new_photo">Maak een nieuwe foto</string>
+    <string name="common_ai_provider">AI-provider</string>
+    <string name="search_providers">Zoekprovider</string>
 </resources>
