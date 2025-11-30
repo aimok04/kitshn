@@ -1,0 +1,2 @@
+- fix(build.gradle): вилучено kotlinCompilerExtensionVersion
+- fix(build.gradle): додано dependenciesInfo
