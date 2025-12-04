@@ -196,11 +196,11 @@ kotlin {
 
 android {
     namespace = "de.kitshn"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
 
         applicationId = kitshnAndroidPackageName
 
@@ -277,8 +277,8 @@ android {
 }
 
 aboutLibraries {
-    registerAndroidTasks = false
-    excludeFields = arrayOf("generated")
+    android.registerAndroidTasks = false
+    export.excludeFields.add("generated")
 }
 
 dependencies {
