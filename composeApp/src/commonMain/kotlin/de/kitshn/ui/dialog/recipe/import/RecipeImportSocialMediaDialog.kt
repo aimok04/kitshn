@@ -28,7 +28,6 @@ import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -41,8 +40,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -74,6 +73,7 @@ import de.kitshn.handleTandoorRequestState
 import de.kitshn.platformDetails
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.icons.IconWithState
+import de.kitshn.ui.component.loading.AnimatedContainedLoadingIndicator
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
 import de.kitshn.ui.dialog.select.SelectAIProviderDialog
 import de.kitshn.ui.dialog.select.rememberSelectAIProviderDialogState
@@ -328,14 +328,8 @@ fun RecipeImportSocialMediaDialog(
         },
         maxWidth = 600.dp
     ) { nsc, _, _ ->
-        when(displayWebView) {
-            false -> Column {
-                LinearWavyProgressIndicator(
-                    Modifier
-                        .alpha(if(fetchAiRequestState.state == TandoorRequestStateState.LOADING) 1f else 0f)
-                        .fillMaxWidth()
-                )
-
+        if(!displayWebView && fetchAiRequestState.state != TandoorRequestStateState.LOADING) {
+            Column {
                 BoxWithConstraints {
                     val containerSize = ((maxHeight - 350.dp) / 2).coerceAtLeast(205.dp)
 
@@ -423,8 +417,8 @@ fun RecipeImportSocialMediaDialog(
                     }
                 }
             }
-
-            true -> Box {
+        }else if(displayWebView){
+            Box {
                 WebView(
                     modifier = Modifier
                         .padding(16.dp)
@@ -451,6 +445,15 @@ fun RecipeImportSocialMediaDialog(
                         )
                 )
             }
+        }
+
+        Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            AnimatedContainedLoadingIndicator(
+                visible = fetchAiRequestState.state == TandoorRequestStateState.LOADING
+            )
         }
     }
 
