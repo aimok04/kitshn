@@ -391,4 +391,7 @@
     <string name="common_activity">Активность</string>
     <string name="recipe_import_auto_sort_ingredients">Авто сортировка составляющих ингредиентов</string>
     <string name="recipe_import_auto_sort_ingredients_description">Назначить ингредиент, если текст шага включает название этого продукта</string>
+    <string name="action_choose_existing_photo">Выберите существующее фото</string>
+    <string name="action_take_new_photo">Сделать новое фото</string>
+    <string name="common_ai_provider">AI Провайдер</string>
 </resources>
