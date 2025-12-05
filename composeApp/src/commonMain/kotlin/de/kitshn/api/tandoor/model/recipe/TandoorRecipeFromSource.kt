@@ -91,6 +91,7 @@ class TandoorRecipeFromSource(
             )
         }
 
+        if(recipe.servings == null) recipe.servings = 1
         if(recipe.servingsText.length < 6) recipe.servingsText = ""
 
         val data = JsonObject(json.encodeToJsonElement(recipe).jsonObject.toMutableMap().apply {
@@ -122,7 +123,7 @@ data class TandoorRecipeFromSourceRecipeJson(
     var sourceUrl: String,
     val name: String,
     val description: String,
-    val servings: Long,
+    var servings: Long? = null,
     @SerialName("servings_text")
     var servingsText: String,
     @SerialName("working_time")
