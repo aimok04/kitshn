@@ -428,12 +428,15 @@ fun RecipeImportSocialMediaDialog(
                     navigator = webViewNavigator
                 )
 
-                Box(
+                var hideWebViewOverlay by remember { mutableStateOf(false) }
+                if(!hideWebViewOverlay) Box(
                     Modifier
                         .padding(16.dp)
                         .fillMaxSize()
                         .clip(RoundedCornerShape(16.dp))
-                        .clickable { }
+                        .clickable {
+                            hideWebViewOverlay = true
+                        }
                         .placeholder(
                             visible = true,
                             color = MaterialTheme.colorScheme.background.copy(alpha = 0.6f),
