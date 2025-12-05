@@ -66,13 +66,13 @@ kotlin {
         val mobileMain by creating { dependsOn(commonMain.get()) }
 
         commonMain.dependencies {
-            implementation(compose.material3AdaptiveNavigationSuite)
-            implementation(compose.materialIconsExtended)
+            implementation(libs.material3.adaptive.navigation.suite)
+            implementation(libs.material.icons.extended)
 
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+            implementation(libs.runtime)
+            implementation(libs.foundation)
+            implementation(libs.components.resources)
+            implementation(libs.ui.tooling.preview)
             implementation(libs.lifecycle.viewmodel.compose)
 
             implementation(libs.compose.material.expressive)
