@@ -320,23 +320,23 @@ fun LocalDate.toHumanReadableDateLabel(): String {
     val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     val diff = this.toEpochDays() - today.toEpochDays()
 
-    return when(diff) {
-        in 3L..6L -> {
-            this.format("EEEE")
-        }
-
+    var label = when(diff) {
         2L -> stringResource(Res.string.common_day_after_tomorrow)
         1L -> stringResource(Res.string.common_tomorrow)
         0L -> stringResource(Res.string.common_today)
         -1L -> stringResource(Res.string.common_yesterday)
         -2L -> stringResource(Res.string.common_day_before_yesterday)
-        else -> {
-            if(this.year == today.year) {
-                this.format("EE, dd. MMM")
-            } else {
-                this.format("dd. MMMM yyyy")
-            }
-        }
+        else -> { null }
+    }
+
+    if(label == "null") label = null
+
+    return label ?: if(diff <= 6L) {
+        this.format("EEEE")
+    }else if(this.year == today.year) {
+        this.format("EE, dd. MMM")
+    } else {
+        this.format("dd. MMMM yyyy")
     }
 }
 

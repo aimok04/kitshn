@@ -119,8 +119,8 @@
     <string name="common_create_argument">Create » %1$s «</string>
     <string name="common_creator">Creator</string>
     <string name="common_custom_headers">Custom headers</string>
-    <string name="common_day_after_tomorrow">Day after tomorrow</string>
-    <string name="common_day_before_yesterday">Day before yesterday</string>
+    <string name="common_day_after_tomorrow">null</string>
+    <string name="common_day_before_yesterday">null</string>
     <string name="common_delete_permanently">Delete permanently</string>
     <string name="common_delete_permanently_text">This process cannot be reversed. Do you really want to continue?</string>
     <string name="common_description">Description</string>
