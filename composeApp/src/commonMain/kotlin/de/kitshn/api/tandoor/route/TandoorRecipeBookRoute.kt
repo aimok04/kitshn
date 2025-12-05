@@ -74,7 +74,7 @@ class TandoorRecipeBookRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return entries
     }
 
-    suspend fun listEntries(
+    private suspend fun listEntries(
         bookId: Int,
         page: Int = 1,
         pageSize: Int? = null
@@ -89,9 +89,6 @@ class TandoorRecipeBookRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         )
 
         client.container.recipeBook[bookId]?.apply {
-            entryByRecipeId.clear()
-            entries.clear()
-
             response.results.forEach { it.populate(this, client) }
         }
 
@@ -114,6 +111,16 @@ class TandoorRecipeBookRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
             entries.addAll(response.results)
             page++
+        }
+
+        client.container.recipeBook[bookId]?.let { book ->
+            book.entries.clear()
+            book.entryByRecipeId.clear()
+
+            entries.forEach {
+                book.entries.add(it)
+                book.entryByRecipeId[it.recipe] = it
+            }
         }
 
         return entries

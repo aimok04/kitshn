@@ -84,7 +84,7 @@ fun HorizontalRecipeBookCard(
     val listEntriesState = rememberTandoorRequestState()
     LaunchedEffect(recipeBook) {
         if(recipeBook?.entries?.size == 0) listEntriesState.wrapRequest {
-            recipeBook.listEntries()
+            recipeBook.listAllEntries()
             if(recipeBook.entries.isEmpty()
                 && recipeBook.filter != null
             ) recipeBook.listFilterEntries(1)

@@ -130,7 +130,7 @@ fun ViewBooksDetails(
     }
 
     LaunchedEffect(fetchNewItems) {
-        while(fetchNewItems && nextPageExists) {
+        while(fetchNewItems && nextPageExists && book.filter != null) {
             listFilterRecipesRequestState.wrapRequest {
                 book.listFilterEntries(
                     page = currentPage

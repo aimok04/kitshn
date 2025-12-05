@@ -49,18 +49,6 @@ class TandoorRecipeBook(
         return entries.firstOrNull { (it.recipe_content.image ?: "").isNotBlank() }?.loadThumbnail()
     }
 
-    suspend fun listEntries(
-        page: Int = 1,
-        pageSize: Int? = null
-    ): TandoorPagedResponse<TandoorRecipeBookEntry>? {
-        if(client == null) return null
-        return client!!.recipeBook.listEntries(
-            bookId = id,
-            page = page,
-            pageSize = pageSize
-        )
-    }
-
     suspend fun listAllEntries(): List<TandoorRecipeBookEntry>? {
         if(client == null) return null
         return client!!.recipeBook.listAllEntries(
@@ -168,12 +156,7 @@ class TandoorRecipeBookEntry(
         client?.container?.recipeOverview?.get(recipe)?.let { recipe_content = it }
         client?.container?.recipeBookEntry?.put(id, this)
 
-        book?.apply {
-            book_content = this
-
-            entries.add(this@TandoorRecipeBookEntry)
-            entryByRecipeId[recipe] = this@TandoorRecipeBookEntry
-        }
+        book?.apply { book_content = this }
 
         recipe_content.client = client
     }
