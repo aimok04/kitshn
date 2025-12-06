@@ -4,10 +4,10 @@ layout: home
 
 hero:
   name: "kitshn"
-  text: "Unofficial Tandoor recipes client"
-  tagline: Built with Compose Multiplatform and Material You<br>Available for Android and iOS
+  text: "Unofficial Tandoor Recipes client"
+  tagline: Built with Compose and Material 3 Expressive<br>Available for Android and iOS
   image:
-    src: /images/logo.png
+    src: /images/logo-lq.png
     alt: kitshn logo
   actions:
     - theme: brand
@@ -20,27 +20,26 @@ hero:
       text: Translate
       link: /docs/translate
 features:
-  - icon: 🚀
-    title: Responsive design
-    details: Looks great on phones, foldables and tablets
-    link: /screenshots#home-recipe-view
+  - icon: 🔗
+    title: Social Media Import
+    details: Imports posts from TikTok and Instagram 
+    link: /docs/features/social-media-import
   - icon: ✨
-    title: Dynamic home screen
+    title: Dynamic Home Screen
     details: Shows dynamic recommendations
     link: /screenshots#home-recipe-view
   - icon: 👩‍🍳
-    title: Cooking mode
+    title: Cooking Mode
     details: Fullscreen layout for easy cooking
     link: /screenshots#cooking-mode
   - icon: 🔎
-    title: Extensive search
+    title: Extensive Search
     details: Supports (almost) everything Tandoor has to offer
-    link: /screenshots#search
   - icon: ✍️
-    title: Supports markdown
+    title: Supports Markdown
     details: Displays instructions in all rich text glory
   - icon: 🧰
-    title: Unique tools
+    title: Unique Tools and Features
     details: Allocate ingredients or combine steps
-    link: /screenshots#tools
+    link: /docs/features/extensions
 ---
