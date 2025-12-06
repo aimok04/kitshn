@@ -1,4 +1,4 @@
-# Share wrapping
+# 🎁 Share Wrapping
 
 kitshn can prepend » **x.kitshn.app** « to links when sharing a recipe from within the app. This enables other kitshn users to open shared recipes directly inside the app, since the app can only intercept requests made to the » **x.kitshn.app** « domain.
 
