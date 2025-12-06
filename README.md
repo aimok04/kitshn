@@ -3,11 +3,7 @@
 ---
 ![GitHub](https://img.shields.io/github/license/aimok04/kitshn?style=for-the-badge) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/aimok04/kitshn?style=for-the-badge)
 
-**kitshn** is an unofficial multiplatform client for the
-self-hosted [Tandoor recipe management software](https://github.com/TandoorRecipes/recipes). The app
-is built with **Compose Multiplatform**, and **Material You** to deliver a modern, intuitive and
-responsive
-user experience and is developed for Android, iOS and Desktop.
+**kitshn** is an unofficial multiplatform client for the self-hosted [Tandoor recipe management software](https://github.com/TandoorRecipes/recipes). The app is built with **Compose**, and **Material 3 Expressive** to deliver a modern, intuitive and responsive user experience and is developed for Android, iOS and Desktop.
 
 > [!IMPORTANT]
 > Although kitshn is available to multiple platforms, the main focus is still on Android.
@@ -40,7 +36,7 @@ height="80">](https://play.google.com/store/apps/details?id=de.kitshn.android)
 alt="Download on the App Store"
 height="80">](https://apps.apple.com/us/app/kitshn-for-tandoor/id6740168361)
 
-## 🔑 Certificate Fingerprints
+## 🔑 Certificate Fingerprints (.apk)
 ```
 SHA1:
 CC:1A:8C:30:9B:DF:36:67:CE:E6:AC:FA:5D:74:FA:6A:56:70:73:A4
