@@ -54,7 +54,11 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/aimok04/kitshn' },
       { icon: 'kofi', link: 'https://ko-fi.com/aimok04' }
-    ]
+    ],
+
+    search: {
+      provider: 'local'
+    }
   },
   sitemap: {
     hostname: "https://kitshn.app"
