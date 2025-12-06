@@ -1,6 +1,6 @@
 ---
 title: Screenshots
-description: Design impressions from the kitshn app
+description: Design impressions from the kitshn app.
 
 aside: false
 outline: false
@@ -11,7 +11,11 @@ pageClass: page-screenshots
     import screenshots from "./components/screenshots.vue"
 </script>
 
-# Home / Recipe view
+# 🖼️ Screenshots
+
+[[toc]]
+
+## Home / Recipe view
 
 <screenshots
 deviceType="phone"
@@ -36,7 +40,7 @@ deviceType="tenInch"
 
 ---
 
-# Cooking mode
+## Cooking mode
 
 <screenshots
 deviceType="phone"
@@ -60,7 +64,7 @@ deviceType="tenInch"
 
 ---
 
-# Meal plan
+## Meal plan
 
 <screenshots
 deviceType="phone"
@@ -84,7 +88,7 @@ deviceType="tenInch"
 
 ---
 
-# Shopping
+## Shopping
 
 <screenshots
 deviceType="phone"
@@ -108,7 +112,7 @@ deviceType="tenInch"
 
 ---
 
-# Books
+## Books
 
 <screenshots
 deviceType="phone"
