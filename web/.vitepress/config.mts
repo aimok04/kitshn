@@ -18,28 +18,40 @@ export default defineConfig({
       {
         text: 'App',
         items: [
-          { text: 'Download', link: '/download' },
-          { text: 'Screenshots', link: '/screenshots' }
+          { text: '💾 Download', link: '/download' },
+          { text: '🖼️ Screenshots', link: '/screenshots' }
         ]
       },
       {
         text: 'Other',
         items: [
-          { text: 'Contact', link: '/contact' },
-          { text: 'Funding', link: '/funding' }
+          { text: '☎️ Contact', link: '/contact' },
+          { text: '💵 Funding', link: '/funding' }
         ]
       },
       {
         text: 'Docs',
         items: [
-          { text: "Translate", link: "/docs/translate" },
-          { text: "Build & Config", link: "/docs/build-and-config" },
+          { text: "🌍 Translate", link: "/docs/translate" },
+          { text: "🔨 Build & Config", link: "/docs/build-and-config" },
           { 
             text: 'Features', 
             items: [
-              { text: "Share wrapping", link: "/docs/features/share-wrapping" },
-              { text: "Embedding videos inside steps", link: "/docs/features/embedding-videos-inside-steps" },
-              { text: "Templating", link: "/docs/features/templating" },
+              { 
+                text: "🔨 Templating", 
+                link: "/docs/features/templating" 
+              },
+              { 
+                text: 'Extensions', 
+                link: '/docs/features/extensions.md',
+                items: [
+                  { text: "❤️ Favorites", link: "/docs/features/favorites" },
+                  { text: "🎁 Share Wrapping", link: "/docs/features/share-wrapping" },
+                  { text: "⌛ Timer Detection", link: "/docs/features/timer-detection" },
+                  { text: "🔗 Social Media Import", link: "/docs/features/social-media-import" },
+                  { text: "📽️ Embedding Videos Inside Steps", link: "/docs/features/embedding-videos-inside-steps" },
+                ]
+              }
             ]
           }
         ]
