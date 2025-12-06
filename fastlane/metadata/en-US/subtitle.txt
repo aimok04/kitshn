@@ -1,1 +1,1 @@
-Client for Tandoor recipes
+Client for Tandoor Recipes
