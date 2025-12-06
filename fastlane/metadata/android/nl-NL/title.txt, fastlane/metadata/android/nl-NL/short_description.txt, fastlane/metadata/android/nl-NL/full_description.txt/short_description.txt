@@ -1,0 +1,1 @@
+Een officieuze client voor het zelfgehoste Tandoor receptbeheersoftware.
