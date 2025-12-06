@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="acra_dialog_message">Er is een onverwachte fout opgetreden in de app. Stuur alsjeblieft een foutrapport om te helpen het probleem op te lossen.\n\nJe kan het volledige rapport inzien voordat je het verstuurd.</string>
-    <string name="acra_comment_helper">Als je wilt, kun je een bericht achterlaten hoe deze fout is ontstaan.</string>
+    <string name="acra_comment_helper">Als je wilt, kun je een bericht achterlaten over hoe deze fout is ontstaan.</string>
     <string name="acra_dialog_button_negative">Niet versturen</string>
     <string name="acra_dialog_button_neutral">Rapport weergeven</string>
     <string name="acra_dialog_button_positive">Versturen</string>
@@ -411,4 +411,5 @@
     <string name="action_take_new_photo">Maak een nieuwe foto</string>
     <string name="common_ai_provider">AI-provider</string>
     <string name="search_providers">Zoekprovider</string>
+    <string name="action_ignore">Negeer</string>
 </resources>
