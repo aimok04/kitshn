@@ -1,20 +1,46 @@
-# Build & Config
+# 🔨 Build & Config
 
 Building is pretty straight forward. The easiest way is to open the project in [Android Studio](https://developer.android.com/studio).
 
-Consider changing the [`kitshn.properties`](https://github.com/aimok04/kitshn/blob/main/kitshn.properties) when forking. It currently contains contact information, crash reporting server details and the [share wrapping URL](/docs/features/share-wrapping).
+# Multiplatform
+
+Since kitshn is a **Kotlin Multiplatform** project, installing the **Kotlin Multiplatform** plugin for Android Studio is recommended: https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform
+
+To *test* and *build* for iOS and iPad OS, **macOS** is required.
+
+You can build Desktop binaries on Linux and Windows by running `./gradlew[.bat] :composeApp:package*`, where `*` can be one of the following:
+- `AppImage`: creates a binary
+- `Msi` creates a installer for *Windows* systems
+- `Deb` creates a package for *Linux* systems supporting the `.deb` package format
+- `Rpm` creates a package for *Linux* systems supporting the `.rpm` package format
+
+# kitshn.properties
+
+Consider changing the [`kitshn.properties`](https://github.com/aimok04/kitshn/blob/main/kitshn.properties).
 
 ```txt
-about.github="https://www.github.com/aimok04/kitshn"
-about.github.new.issue="https://www.github.com/aimok04/kitshn/issues/new"
-about.contact.website="https://kitshn.app"
-about.contact.mailto="contact@kitshn.app"
+about.github=https://www.github.com/aimok04/kitshn
+about.github.new.issue=https://www.github.com/aimok04/kitshn/issues/new
+about.contact.website=https://kitshn.app
+about.contact.mailto=contact@kitshn.app
+about.apple.appstore=https://apps.apple.com/us/app/kitshn-for-tandoor/id6740168361
 
 # default kitshn crash receiver running on a cloudflare worker
-acra.http.uri="https://acra.kitshn.app/report/"
-acra.http.basic.auth.login="PDEogxtl3k4LMCnH"
-acra.http.basic.auth.password="zmeLkKkJvsnwdrHA"
+acra.http.uri=https://acra.kitshn.app/report/
+acra.http.basic.auth.login=PDEogxtl3k4LMCnH
+acra.http.basic.auth.password=zmeLkKkJvsnwdrHA
 
 # default kitshn share wrapper
-share.wrapper.url="https://x.kitshn.app/#"
+share.wrapper.url=https://x.kitshn.app/#
+
+# funding api running on a cloudflare worker
+funding.api=https://funding-api.kitshn.app
+funding.kofi=https://ko-fi.com/aimok04
+
+# iOS timer shortcut details
+ios.timer.shortcut.link=https://www.icloud.com/shortcuts/553d5017e07f4aebb79d7831d3f5f577
+ios.timer.shortcut.name=kitshn -- Start Timer
+
+# test
+test.demo.url=http://kitshn.demo
 ```
