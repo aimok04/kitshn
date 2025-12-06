@@ -2,7 +2,7 @@
 description: You can help translate kitshn on Weblate.
 ---
 
-# Translate
+# 🌍 Translate
 
 This project is available on [Weblate](https://hosted.weblate.org/projects/kitshn/). All contributions are very welcome. Please don't hesitate to [contact](/contact) me if you have questions/ideas/suggestions on translating.
 
