@@ -231,9 +231,9 @@
     <string name="common_yesterday">Вчора</string>
     <string name="home_section_chinese">🇨🇳 🏮🧧🐉🧨🎇⛩️🎎</string>
     <string name="select_recipe_book">Виберіть книгу рецептів</string>
-    <string name="common_day_after_tomorrow">Післязавтра</string>
+    <string name="common_day_after_tomorrow">нуль</string>
     <string name="greeting_good_evening">Доброго вечора🌅</string>
-    <string name="common_day_before_yesterday">Позавчора</string>
+    <string name="common_day_before_yesterday">нуль</string>
     <string name="common_delete_permanently_text">Цей процес не можна повернути назад. Ви дійсно хочете продовжити?</string>
     <string name="tandoor_compatibility_incompatible_description">Ваш сервер Tandoor несумісний із цією програмою. Будь ласка, оновіть свій сервер до однієї з наступних версій.</string>
     <string name="home_section_mexican">🇲🇽🌮🤠🥑</string>
