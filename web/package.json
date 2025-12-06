@@ -9,7 +9,7 @@
   },
   "author": "aimok04",
   "license": "GPL-3.0-or-later",
-  "description": "Project website for kitshn, an unofficial Tandoor recipes client",
+  "description": "Project website for kitshn, an unofficial Tandoor Recipes client",
   "devDependencies": {
     "vitepress": "^1.3.4"
   }

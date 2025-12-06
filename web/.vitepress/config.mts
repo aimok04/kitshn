@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "kitshn.app",
-  description: "Unofficial Tandoor recipes client for Android and iOS devices",
+  description: "Unofficial Tandoor Recipes client for Android and iOS devices",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: "/images/logo-lq.png",
