@@ -1,4 +1,4 @@
-# Templating <Badge style="margin-top: 14px" type="tip" text="v1.0.0-alpha.10" />
+# 🔨 Templating
 
 kitshn supports these three kinds of templating:
 
@@ -10,7 +10,7 @@ kitshn supports these three kinds of templating:
 
 </div>
 
-## Ingredient values <Badge style="margin-top: 14px" type="tip" text="v2.0.0-beta.10" />
+## Ingredient Values <Badge style="margin-top: 7px" type="tip" text="v2.0.0" />
 
 kitshn also supports templating for these ingredient values:
 
