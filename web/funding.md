@@ -16,7 +16,7 @@ onMounted(async () => {
 const currentYear = new Date().getFullYear()
 </script>
 
-# Funding
+# 💵 Funding
 
 <template v-if="funding.events?.[0] !== undefined && currentYear !== funding.events[0].year">
 
