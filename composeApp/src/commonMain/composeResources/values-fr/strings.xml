@@ -399,4 +399,19 @@
     <string name="recipe_import_auto_sort_ingredients">Trier automatiquement les ingrédients</string>
     <string name="recipe_import_auto_sort_ingredients_description">Attribuer un ingrédient si le texte de l'étape comprend le nom de l'ingrédient</string>
     <string name="common_activity">Activité</string>
+    <string name="ios_timer_dialog_action_install_shortcut">installer le raccourci</string>
+    <string name="ios_timer_dialog_title">Raccourcis nécessaire</string>
+    <string name="action_choose_existing_photo">Choisir une photo existante</string>
+    <string name="action_ignore">Ignorer</string>
+    <string name="action_take_new_photo">Prendre une nouvelle photo</string>
+    <string name="common_ai_provider">Fournisseur d'IA</string>
+    <string name="ios_timer_dialog_shortcut_installed_switch">raccourcis installé ?</string>
+    <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">Activez la "permission d'accès au réseau local" pour Kitshn dans les paramètres du système pour vous connecter à un réseau local.</string>
+    <string name="recipe_import_type_social_media_label">Importer d'un réseau social</string>
+    <string name="recipe_import_type_social_media_description">Ajouter des recettes depuis Instagram ou TikTok en utilisant l'IA</string>
+    <string name="recipe_import_type_social_media_disclaimer">Actuellement, seul Instagram et TikTok son supportées. D'autres plateformes pourraient être supportées également à l'avenir.</string>
+    <string name="search_providers">Chercher des fournisseurs</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_description">Afficher une liste plutôt que des cartes</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_label">Activer la page d'accueil compacte</string>
+    <string name="settings_section_behavior_ios_install_timer_shortcut_label">Installer le raccourci minuteur IOS</string>
 </resources>
