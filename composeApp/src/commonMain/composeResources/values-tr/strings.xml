@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="acra_comment_helper">İsterseniz, bu hatanın nasıl oluştuğuna dair yorum yapabilirsiniz.</string>
     <string name="acra_dialog_button_negative">Gönderme</string>
@@ -7,7 +7,6 @@
     <string name="acra_dialog_message">Uygulama beklenmeyen bir hatayla karşılaştı. Sorunun çözülmesine yardımcı olmak için lütfen bir hata raporu gönderin.\n\nGöndermeden önce tüm raporu görüntüleyebilirsiniz.</string>
     <string name="acra_dialog_title">Hata!</string>
     <string name="acra_email_address_helper">İsterseniz, raporunuzla ilgili güncellemeleri almak için e-posta adresinizi girebilirsiniz.</string>
-
     <string name="action_abort">İptal Et</string>
     <string name="action_add">Ekle</string>
     <string name="action_add_to_favorites">Favorilere Ekle</string>
@@ -82,14 +81,11 @@
     <string name="action_switch_space">Alanı Değiştir</string>
     <string name="action_upload">Yükle</string>
     <string name="action_yes">Evet</string>
-
     <string name="app_name">kitshn</string>
-
     <string name="bugsnag_dialog_button_negative">Hayır, izin verme</string>
     <string name="bugsnag_dialog_button_positive">Evet, izin ver</string>
     <string name="bugsnag_dialog_message">iOS için kitshn, geliştirme için kaza raporlamasına bağımlıdır. Uygulama bunu gerçekleştirmek için Bugsnag kütüphanesini/platformunu kullanır. Kaza ve hata detaylarının otomatik olarak yüklenmesine izin vermenizde sakınca var mı?\n\nBu seçim Ayarlar/Davranış bölümünden değiştirilebilir.</string>
     <string name="bugsnag_dialog_title">Kaza raporlamasına izin verilsin mi?</string>
-
     <string name="common_account">Hesap</string>
     <string name="common_add_to_shopping_list">Alışveriş Listesine Ekle</string>
     <string name="common_allocate_ingredients">Malzemeleri Ayır</string>
@@ -194,7 +190,6 @@
     <string name="common_website">Web Sitesi</string>
     <string name="common_welcome">Hoş Geldiniz</string>
     <string name="common_yesterday">Dün</string>
-
     <string name="error">Hata</string>
     <string name="error_couldnt_connect_to_tandoor">Tandoor sunucunuza bağlantı kurulamadı.</string>
     <string name="error_instance_inaccessible">Bağlanmaya çalıştığınız örnek bu uygulamada yapılandırılmamış.</string>
@@ -204,76 +199,65 @@
     <string name="error_unallocated_ingredients">Atanmamış Malzemeler</string>
     <string name="error_unallocated_ingredients_description">Değişiklikleri kaydedebilmeniz için hâlâ bir adıma atanması gereken malzemeler var.</string>
     <string name="error_video_playback_not_supported">Bu platformda video oynatma desteklenmiyor.</string>
-
     <string name="expand_more">Daha Fazla Genişlet</string>
-
     <string name="form_error_description_max_512">Açıklama en fazla 512 karakter içerebilir.</string>
     <string name="form_error_field_empty">Bu alan doldurulmalıdır.</string>
     <string name="form_error_name_max_128">İsim en fazla 128 karakter içerebilir.</string>
     <string name="form_error_portions_text_max_32">Porsiyon metni en fazla 32 karakter içerebilir.</string>
     <string name="form_error_source_max_1024">Kaynak en fazla 1024 karakter içerebilir.</string>
     <string name="form_error_title_max_64">Başlık en fazla 64 karakter içerebilir.</string>
-
-    <string name="greeting_christmas">Mutlu Noeller &#127877;&#127876;&#129420;</string>
-    <string name="greeting_good_evening">İyi Akşamlar &#127749;</string>
-    <string name="greeting_good_morning">Günaydın &#127774;</string>
-    <string name="greeting_good_night">İyi Geceler &#127770;</string>
-    <string name="greeting_noon">Merhaba &#129312;</string>
-
+    <string name="greeting_christmas">Mutlu Noeller 🎅🎄🦌</string>
+    <string name="greeting_good_evening">İyi Akşamlar 🌅</string>
+    <string name="greeting_good_morning">Günaydın 🌞</string>
+    <string name="greeting_good_night">İyi Geceler 🌚</string>
+    <string name="greeting_noon">Merhaba 🤠</string>
     <string name="home_meal_plan_promotion_today_title">Bugün Sırada</string>
     <string name="home_meal_plan_promotion_tomorrow_title">Yarının Menüsü</string>
     <string name="home_search_empty">Tandoor’un tamamı incelendi - uygun bir tarif bulunamadı.</string>
     <string name="home_search_empty_query">Tandoor’da arama yapmak için bir sorgu girin.</string>
     <string name="home_search_tandoor">Tandoor’da Ara</string>
-    <string name="home_section_american">&#127482;&#127480; &#129413; &#128509;</string>
-    <string name="home_section_asian">&#127982;&#129511;&#128009;&#129512;&#127879;⛩️&#127886;</string>
-    <string name="home_section_austrian">&#127462;&#127481;&#128247;&#127984;</string>
+    <string name="home_section_american">🇺🇸 🦅 🗽</string>
+    <string name="home_section_asian">🏮🧧🐉🧨🎇⛩️🎎</string>
+    <string name="home_section_austrian">🇦🇹📷🏰</string>
     <string name="home_section_baking">Pişirme</string>
-    <string name="home_section_burger">&#127828;</string>
-    <string name="home_section_chinese">&#127464;&#127475; &#127982;&#129511;&#128009;&#129512;&#127879;⛩️&#127886;</string>
+    <string name="home_section_burger">🍔</string>
+    <string name="home_section_chinese">🇨🇳 🏮🧧🐉🧨🎇⛩️🎎</string>
     <string name="home_section_dinner">Akşam Yemeği İçin Fikirler</string>
     <string name="home_section_enjoy_breakfast">Kahvaltınızın Tadını Çıkarın</string>
     <string name="home_section_fast_food">Hızlı Hazırlananlar</string>
     <string name="home_section_five_stars">⭐⭐⭐⭐⭐</string>
-    <string name="home_section_german">&#127465;&#127466;&#127866;&#129384;✨&#127984;</string>
+    <string name="home_section_german">🇩🇪🍺🥨✨🏰</string>
     <string name="home_section_go_tos">Sık Kullanılanlar</string>
-    <string name="home_section_indian">&#127470;&#127475;&#129719;&#128332;&#129434;&#129685;</string>
+    <string name="home_section_indian">🇮🇳🪷🕌🦚🪕</string>
     <string name="home_section_lunch_time">Öğle Yemeği Zamanı</string>
-    <string name="home_section_mexican">&#127474;&#127485;&#127790;&#129312;&#129361;</string>
+    <string name="home_section_mexican">🇲🇽🌮🤠🥑</string>
     <string name="home_section_never_cooked">Hiç Pişirilmemiş</string>
     <string name="home_section_new_recipes">Yeni Tarifler</string>
-    <string name="home_section_noodles">&#127836; Erişteler</string>
-    <string name="home_section_seasonal_christmas">Festif Favoriler ☃️&#127876;</string>
+    <string name="home_section_noodles">🍜 Erişteler</string>
+    <string name="home_section_seasonal_christmas">Festif Favoriler ☃️🎄</string>
     <string name="home_section_vegan">Vegan Fikirler</string>
     <string name="home_section_vegetarian">Vejetaryen Yemekler</string>
-
     <string name="internal_favorites_recipe_book_description">kitshn tarafından otomatik olarak oluşturuldu</string>
     <string name="internal_favorites_recipe_book_name">kitshn’dan Favoriler</string>
-
     <string name="ios_support_badge">Destekçi aboneliği</string>
     <string name="ios_support_manage_subscription_description">Destekçi aboneliğinizi yönetin</string>
     <string name="ios_support_manage_subscription_label">Aboneliği Yönet</string>
     <string name="ios_support_thanks">kitshn’ı desteklediğiniz için teşekkür ederiz! Katkınız bu projeyi canlı tutmaya yardımcı oluyor.</string>
-
     <string name="lorem_ipsum_medium">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</string>
     <string name="lorem_ipsum_short">Lorem ipsum</string>
     <string name="lorem_ipsum_title">Lorem ipsum dolor sit amet</string>
-
     <string name="manage_recipe_books_empty">Bu tarif henüz herhangi bir kitaba eklenmedi.</string>
-
     <string name="meal_plan_form_add_to_shopping_list_description">Gerekli malzemeleri otomatik olarak alışveriş listesine ekle.</string>
     <string name="meal_plan_form_error_entry_needs_title_or_recipe">Girişin bir başlığa veya belirtilmiş bir tarife ihtiyacı var.</string>
     <string name="meal_plan_form_review_add_to_shopping_list_description">Alışveriş listesine hangi malzemelerin gerçekten eklenmesi gerektiğini kontrol et.</string>
     <string name="meal_plan_form_review_add_to_shopping_list_label">Alışverişe eklemeden önce öğeleri gözden geçir</string>
     <string name="meal_plan_no_recipes_for_this_day">Bu gün için tarif eklenmedi</string>
-
     <string name="navigation_books">Kitaplar</string>
     <string name="navigation_home">Ana Sayfa</string>
     <string name="navigation_list">Tüm Tarifler</string>
     <string name="navigation_meal_plan">Yemek Planı</string>
     <string name="navigation_settings">Ayarlar</string>
     <string name="navigation_shopping">Alışveriş</string>
-
     <string name="onboarding_introduction">kitshn’a (Tandoor için) hoş geldiniz. Devam etmek için lütfen Tandoor örneğinize giriş yapın.</string>
     <string name="onboarding_sign_in_error_instance_not_reachable">Belirtilen örnek URL’sine ulaşılamıyor.</string>
     <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">SSO kullanıyorsanız » Web tarayıcısı kullanarak giriş yap « seçeneğini deneyebilirsiniz.</string>
@@ -282,12 +266,11 @@
     <string name="onboarding_sign_in_title">Tandoor’a Giriş Yap</string>
     <string name="onboarding_sign_in_using_web_browser">Web tarayıcısı kullanarak giriş yap</string>
     <string name="onboarding_welcome">kitshn ile yemek pişirmenin keyfini çıkarın. Hatalar, geri bildirimler ve özellik fikirleri için lütfen ayarlar içindeki » Hakkında « sayfasını kontrol ederek iletişim seçeneklerine ulaşın.</string>
-
     <string name="recipe_book_empty">Bu yemek kitabına henüz tarif eklenmedi.</string>
     <string name="recipe_book_favorites_description">Favori tariflerinizin koleksiyonu</string>
     <string name="recipe_books_empty">Henüz yemek kitabı oluşturulmadı — ilk yemek kitabınızı oluşturun!</string>
     <string name="recipe_cook_done_description">Lezzetli mi? Bir inceleme bırakın ve pişirme kaydını tutun.</string>
-    <string name="recipe_cook_done_title">Afiyet olsun &#129292;</string>
+    <string name="recipe_cook_done_title">Afiyet olsun 🤌</string>
     <string name="recipe_edit_no_keywords_added">Bu tarife henüz anahtar kelime eklenmedi.</string>
     <string name="recipe_edit_no_steps_added">Bu tarife henüz adım eklenmedi.</string>
     <string name="recipe_import_divide_steps">Adımları Böl</string>
@@ -300,7 +283,6 @@
     <string name="recipe_sorting_relevance">İlgililik</string>
     <string name="recipe_step_timer_created">Zamanlayıcı oluşturuldu.</string>
     <string name="recipe_step_timer_error_no_app">Bu işlem için desteklenen bir zamanlayıcı uygulamasını yüklemeniz gerekiyor!</string>
-
     <string name="search_categories">Kategorileri Ara</string>
     <string name="search_food_including_all_description">Tarifler tüm malzemeleri içermeli</string>
     <string name="search_food_including_all_label">Tüm malzemeler dahil</string>
@@ -315,10 +297,8 @@
     <string name="search_tags">Etiketleri Ara</string>
     <string name="search_tags_filter">Etiketlere Göre Filtrele</string>
     <string name="search_tags_filter_empty">Aramak istediğiniz etiketleri seçin.</string>
-
     <string name="select_recipe">Tarif Seç</string>
     <string name="select_recipe_book">Tarif Kitabı Seç</string>
-
     <string name="settings_section_about_description">Bu uygulama hakkında bilgi</string>
     <string name="settings_section_about_item_freepik">Uygulama simgesinin kökeni</string>
     <string name="settings_section_about_item_new_issue_description">Hataları bildirin, özellik önerin ve yardım alın</string>
@@ -364,18 +344,14 @@
     <string name="settings_section_server_delete_and_manage_data_label">Verileri sil ve yönet</string>
     <string name="settings_section_server_description">Örneğiniz hakkında bilgi</string>
     <string name="settings_section_server_label">Sunucu</string>
-
     <string name="share_incentive">Hey! Tandoor’da bulduğum bu tarife göz at:</string>
     <string name="share_title">Bu tarifi Tandoor’da paylaş</string>
     <string name="share_wrapper_dialog_message">Paylaşım URL’sinin önüne %1$s eklemek, diğer kitshn kullanıcılarının bağlantıyı doğrudan uygulamada açmasını sağlar.</string>
     <string name="share_wrapper_dialog_title">Paylaşım sarmalayıcı kullanılsın mı?</string>
-
     <string name="shopping_list_empty">Şu anda alışveriş listesinde öğe yok.</string>
     <string name="shopping_list_items_done">Tamamlandı</string>
-
     <string name="shortcuts_new_instance_label_long">Yeni örnek oluştur</string>
     <string name="shortcuts_new_instance_label_short">Yeni örnek</string>
-
     <string name="tandoor_compatibility_full_compatibility_description">Uygulama, Tandoor sunucunuzla tamamen uyumlu!</string>
     <string name="tandoor_compatibility_full_compatibility_label">Uyumlu</string>
     <string name="tandoor_compatibility_incompatible_description">Tandoor sunucunuz bu uygulamayla uyumlu değil. Lütfen sunucunuzu aşağıdaki sürümlerden birine güncelleyin.</string>
