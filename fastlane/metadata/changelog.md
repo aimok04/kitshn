@@ -6,24 +6,22 @@ Feel free to comment on #95 or create **a new issue** if you **encounter any iss
 
 ---
 
-New releases will include `.flatpak` bundles for x86_64 and aarch64 architectures.
-The flatpak/ jvm releases of kitshn is far from perfect and might be broken. Feel free to report any issues! :)
+This release mostly includes *big fixes*, especially for *social media* and *AI import*.
 
-1. Hide **ingredients list** when recipe has only one step (#294).
-2. Replacing **servings text** in import when it is smaller than 6 characters (#296).
-3. Checked **compatibility** with Tandoor **version 2.3.3** to **version 2.3.6**.
+Thank you for **500 stars** on GitHub! 🥳
+
+1. Increased *timeout values* for multipart requests (e.g. AI import) (#301).
+2. Fixed issue where **AI / social media import** fails, when there is no *servings* value given (#295). 
+3. Fixed issue where **post content** couldn't be fetched from **instagram** posts (#302).
+4. Fixed issue where **recipe books** wouldn't show some recipes when exceeding *50 recipes* (#297).
 
 ## Commits
 
-- feat(commonMain/import): replace servingsText when smaller than 6 characters (resolved #296)
-- feat(commonMain/dialog): added "ignore" button to version compatibility dialog (#293)
-- feat(commonMain/recipes): don't show merged ingredient list when recipe has only one step (resolved #294)
-- feat(flatpak): added new flatpak directory with metadata
-- feat(build.gradle): added appImage to targetFormats (for non Mac devices)
-- fix(flatpak): added .java/.userPrefs as persistent folder
-- fix(flatpak): changed socket to x11
+- fix(commonMain/api): increased timeout values for multipart requests to 60s (#301)
+- fix(commonMain/import): improved fetching post content for instagram posts (resolved #302)
+- fix(commonMain/books): issue when recipe book has more than 50 books (resolved #297)
+- fix(commonMain/import): allow interaction with webview in RecipeImportSocialMediaDialog.kt (resolved #278)
+- fix(commonMain/import): improved animation in RecipeImportSocialMediaDialog.kt (#278)
+- fix(commonMain/utils): disable "day_after_tomorrow" and "day_before_yesterday" labels in english
+- fix(commonMain/import): replace servings value with 1 if null (#295)
 - chore(libs): version bumps
-- chore(libs): version bumps
-- chore(gradle): bump compileSdk and targetSdk to 36
-- github(workflows): added "Build flatpak on new version tag" workflow
-- github(workflows): added "Build flatpak manually" workflow
