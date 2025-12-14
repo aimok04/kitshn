@@ -63,9 +63,9 @@ class TandoorClient(
         followRedirects = true
 
         install(HttpTimeout) {
-            connectTimeoutMillis = 30000
-            requestTimeoutMillis = 30000
-            socketTimeoutMillis = 30000
+            connectTimeoutMillis = 60000
+            requestTimeoutMillis = 60000
+            socketTimeoutMillis = 60000
         }
     }
 
