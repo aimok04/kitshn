@@ -1,5 +1,5 @@
 (()=>{
-    const descriptionQuerySelector = [ "meta[property='og:description']", "meta[property='twitter:description']" ]
+    const descriptionQuerySelector = [ "meta[property='og:description']", "meta[property='twitter:description']", "meta[property='og:title']" ]
     const descriptionValues = []
 
     descriptionQuerySelector.forEach((s) => {
@@ -23,7 +23,7 @@
         console.error(e)
     }
 
-    const description = descriptionValues[0]
+    const description = descriptionValues.sort(function (a, b) { return b.length - a.length; })[0];
     let imageURL = platformSpecificImageURL || document.querySelector("meta[property='og:image']")?.content
 
     if(imageURL.length < 3) imageURL = undefined
