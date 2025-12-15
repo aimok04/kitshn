@@ -1,47 +1,36 @@
-Built with <b>Jetpack Compose</b> and <b>Material You</b> to deliver a modern, intuitive and responsive user experience.
+Built with Compose and Material 3 Expressive to deliver a modern, intuitive and responsive user experience.
 
-<b>Supported features:</b>
+<b>💪 Notable Features</b>
 <ul>
-    <li>Dynamic home screen with suggestions</li>
+    <li>Dynamic <i>home screen</i></li>
+    <li>UI</i>
+    <ul>
+      <li>Material You customization</li>
+      <li>Material 3 <i>Expressive</i></li>
+      <li>Adaptive layout for <i>phones</i>, <i>tablets</i> and <i>foldables</i></li>
+    </ul>
     <li>Recipes</li>
     <ul>
-        <li>Adding, importing, editing and deleting</li>
-        <ul>
-            <li>Steps combining tool</li>
-            <li>Share receiver for recipe imports via URL</li>
-        </ul>
-        <li>Extensive search</li>
-        <li>Cooking mode</li>
-        <li>Step-ingredient allocation tool</li>
-        <li>App links</li>
-        <li>Markdown supported</li>
+      <li><i>Markdown</i> support</li>
+      <li>Cooking mode</li>
+        <li>Creating timers with <a href="https://kitshn.app/docs/features/timer-detection">timer detection</a></li>
+      <li><a href="https://kitshn.app/docs/features/share-wrapping.html">App links</a></li>
+      <li><a href="https://kitshn.app/docs/features/embedding-videos-inside-steps.html">Embedding videos</a> inside steps</li>
+      <li>Importing</li>
+        <li><a href="https://kitshn.app/docs/features/social-media-import.html">Social Media Importing</a> <i>powered by AI</i></li>
+        <li>Share links with <i>kitshn</i> for import</li>
+      <li>Easy ingredient allocation tool</li>
     </ul>
     <li>Meal plan</li>
-    <ul>
-        <li>Overview</li>
-        <li>Adding, editing and deleting</li>
-    </ul>
     <li>Shopping list</li>
     <ul>
-        <li>Adding and deleting</li>
-        <li>Categories and supermarkets</li>
-        <li>Shopping mode</li>
-        <li>Offline mode</li>
-        <li>Auto-Sync</li>
+      <li>Shopping mode</li>
+      <li>Offline sync</li>
     </ul>
     <li>Recipe books</li>
     <ul>
-        <li>Adding and deleting</li>
-        <li>Favorites feature</li>
-    </ul>
-    <li>UI</li>
-    <ul>
-        <li>Built with Jetpack Compose</li>
-        <li>Material You dynamic colors</li>
-        <li>Responsive two pane layouts for tablets and foldables</li>
+      <li><a href="https://kitshn.app/docs/features/favorites.html">Favorites</a> system</li>
     </ul>
 </ul>
-
-Please note that the app is currently in alpha phase. You can of course open issues on Github for bugs, feedback, and feature ideas.
 
 Icon made by Freepik from www.flaticon.com

@@ -1,34 +1,37 @@
-Mit Jetpack Compose und Material You gebaut um eine moderne, intuitive und responsive Nutzererfahrung zu bieten.
+Mit Compose und Material 3 Expressive gebaut um eine moderne, intuitive und responsive Nutzererfahrung zu bieten.
+Built with Compose and Material 3 Expressive to deliver a modern, intuitive and responsive user experience.
 
-Unterstützte Features:
-    - Dynamische Startseite mit Vorschlägen
-    Rezepte
-        - Erstellen, importieren, bearbeiten und löschen
-            - Schritt-Zusammenfassungs-Tool
-            - Teilen-Empfänger für Rezept-URL-Importe
-        - Umfangreiche Suche
-        - Kochmodus
-        - Schritt-Zutaten-Zuordnungs-Tool
-        - App-Links
-        - Markdown-Unterstützung
-    Essensplan
-        - Überblick
-        - Erstellen, bearbeiten und löschen
-    Einkaufsliste
-        - Erstellen und löschen
-        - Kategorien und Supermärkte
-        - Einkaufsmodus
-        - Offline-Modus
-        - Auto-Sync
-    Rezeptbücher
-        - Erstellen und löschen
-        - Favoriten-Feature
-    UI
-        - Mit Jetpack Compose gebaut
-        - Material You dynamisches Farbschema
-        - Angepasste Layouts für Tablets und Foldables
-
-
-Bitte beachte, dass sich die App derzeit in der Alpha-Phase befindet. Für Fehler, Bugs und Ideen kannst du gerne Issues auf der Github-Seite eröffnen.
+<b>💪 Bemerkenswerte Funktionen</b>
+<ul>
+    <li>Dynamischer <i>Startbildschirm</i></li>
+    <li>UI</i>
+    <ul>
+      <li>Material You</li>
+      <li>Material 3 <i>Expressive</i></li>
+      <li>Adaptives Layout für <i>Smartphones</i>, <i>Tablets</i> und <i>Foldables</i></li>
+    </ul>
+    <li>Rezepte</li>
+    <ul>
+      <li><i>Markdown</i>-Unterstützung</li>
+      <li>Kochmodus</li>
+        <li>Timer erstellen mit <a href="https://kitshn.app/docs/features/timer-detection">Timer-Erkennung</a></li>
+      <li><a href="https://kitshn.app/docs/features/share-wrapping.html">App-Links</a></li>
+      <li><a href="https://kitshn.app/docs/features/embedding-videos-inside-steps.html">Videos</a> in Schritte einbetten</li>
+      <li>Importieren</li>
+        <li><a href="https://kitshn.app/docs/features/social-media-import.html">Social-Media-Import</a> <i>powered by AI</i></li>
+        <li>Links mit <i>kitshn</i> teilen für Import</li>
+      <li>Einfaches Zutaten-Zuordnungs-Tool</li>
+    </ul>
+    <li>Essensplan</li>
+    <li>Einkaufsliste</li>
+    <ul>
+      <li>Einkaufsmodus</li>
+      <li>Offline-Synchronisierung</li>
+    </ul>
+    <li>Rezeptbücher</li>
+    <ul>
+      <li><a href="https://kitshn.app/docs/features/favorites.html">Favoriten</a>-System</li>
+    </ul>
+</ul>
 
 Icon made by Freepik from www.flaticon.com

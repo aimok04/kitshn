@@ -1,4 +1,4 @@
-An unofficial client for the self-hosted Tandoor recipe management software. Built with Jetpack Compose and Material You to deliver a modern, intuitive and responsive user experience.
+An unofficial client for the self-hosted Tandoor recipe management software. Built with Compose and Material 3 Expressive to deliver a modern, intuitive and responsive user experience.
 
 This is open source software.
 Learn more at https://github.com/aimok04/kitshn
