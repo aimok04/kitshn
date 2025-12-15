@@ -6,7 +6,8 @@ description: kitshn supports importing posts from TikTok and Instagram.
 
 # 🔗 Social Media Import <Badge style="margin-top: 7px" type="tip" text="v2.0.0" /> <Badge style="margin-top: 7px" type="warning" text="AI powered" />
 
-kitshn supports importing posts from **TikTok** and **Instagram**. This feature requires at least an *AI provider*.
+kitshn supports importing posts from **TikTok** and **Instagram**. This feature requires at least
+one *AI provider*.
 
 You can share a post with *kitshn* or open the *kitshn* app, click the **Import** icon, then **» Import from Social Media «**, then paste the post URL.
 
