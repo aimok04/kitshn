@@ -51,35 +51,32 @@ Contributions are very welcome 😊
 
 [![Translation status](https://hosted.weblate.org/widget/kitshn/app/multi-auto.svg)](https://hosted.weblate.org/engage/kitshn/)
 
-## 💪 Features
+## 💪 Notable Features
 
-- [x] Dynamic home screen with suggestions
-- [x] Recipes
-    - [x] Adding, importing, editing and deleting
-        - [x] Steps combining tool
-        - [x] Share receiver for recipe imports via URL
-    - [x] Extensive search
+- [x] Dynamic *home screen*
+- UI
+    - [x] Material You customization
+    - [x] Material 3 *Expressive*
+    - [x] Adaptive layout for *phones*, *tablets* and *foldables*
+- Recipes
+    - [x] *Markdown* support
     - [x] Cooking mode
-    - [x] Step-ingredient allocation tool
-  - [x] App links
-  - [x] Markdown supported
+        - [x] Creating timers
+          with [timer detection](https://kitshn.app/docs/features/timer-detection)
+    - [x] [App links](https://kitshn.app/docs/features/share-wrapping.html)
+    - [x] [Embedding videos](https://kitshn.app/docs/features/embedding-videos-inside-steps.html)
+      inside steps
+    - [x] Importing
+        - [x] [Social Media Importing](https://kitshn.app/docs/features/social-media-import.html)
+          *powered by AI*
+        - [x] Share links with *kitshn* for import
+    - [x] Easy ingredient allocation tool
 - [x] Meal plan
-    - [x] Overview
-    - [x] Adding, editing and deleting
 - [x] Shopping list
-    - [x] Adding and deleting
-    - [x] Categories and supermarkets
     - [x] Shopping mode
-    - [x] Offline mode  
-    - [x] Auto-Sync
+    - [x] Offline sync
 - [x] Recipe books
-    - [x] Adding and deleting
-    - [x] Favorites feature
-- [x] UI
-    - [x] Built with Jetpack Compose
-    - [x] Material You dynamic colors
-    - [x] Using Material 3 Expressive
-    - [x] Responsive two pane layouts for tablets and foldables
+    - [x] [Favorites](https://kitshn.app/docs/features/favorites.html) system
 
 ## 🖼️ Impressions
 
