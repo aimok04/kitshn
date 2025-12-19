@@ -23,8 +23,8 @@ val prop =
 val date = LocalDate.now().toString()
 
 // Android/linux version name can contain more information
-val kitshnVersionName = "2.0.0-beta.14"
-val kitshnVersionCode = 19140
+val kitshnVersionName = "2.0.0"
+val kitshnVersionCode = 20000
 
 // iOS, dmg and MSI are limited to [Major].[Minor].[Patch] format
 val kitshnAlternateVersionName = "2.0.0"
@@ -35,7 +35,7 @@ val kitshnAlternateBuildVersionName = kitshnAlternateVersionName.split(".").run 
 val kitshnAndroidPackageName = "de.kitshn.android"
 val kitshnDesktopPackageName = "kitshn"
 
-val kitshnIsBeta = true
+val kitshnIsBeta = false
 
 kotlin {
     jvmToolchain(17)
