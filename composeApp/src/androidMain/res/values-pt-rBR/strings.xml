@@ -16,4 +16,12 @@
     <string name="common_import_recipe">Importar receita</string>
     <string name="shortcuts_meal_plan_label_long">Abrir plano de refeições</string>
     <string name="shortcuts_meal_plan_label_short">Plano de refeições</string>
+    <string name="shortcuts_new_instance_label_long">Criar nova instância</string>
+    <string name="shortcuts_new_instance_label_short">Nova instância</string>
+    <string name="shortcuts_shopping_label_long">Abrir compras</string>
+    <string name="shortcuts_shopping_label_short">Compras</string>
+    <string name="shortcuts_shopping_mode_label_long">Iniciar modo de compras</string>
+    <string name="shortcuts_shopping_mode_label_short">Modo de compras</string>
+    <string name="shortcuts_books_label_long">Abrir livros</string>
+    <string name="shortcuts_books_label_short">Livros</string>
 </resources>
