@@ -1,3 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="acra_comment_helper">إذا كنت ترغب، يمكنك التعليق على كيفية حدوث هذا الخطأ.</string>
+    <string name="acra_dialog_button_negative">لا ترسل</string>
+    <string name="acra_dialog_button_neutral">عرض التقرير</string>
+    <string name="acra_dialog_button_positive">إرسال</string>
+    <string name="acra_dialog_message">حدث خطأ غير متوقع في التطبيق. يرجى إرسال تقرير عن الخطأ للمساعدة في حل المشكلة.\n\nيمكنك عرض التقرير بالكامل قبل إرساله.</string>
+    <string name="acra_dialog_title">عفواً!</string>
+    <string name="acra_email_address_helper">إذا كنت ترغب في ذلك، يمكنك إدخال عنوان بريدك الإلكتروني لتلقي تحديثات حول تقريرك.</string>
+    <string name="action_download">تنزيل</string>
+    <string name="app_name">kitshn</string>
+    <string name="common_comment">تعليق</string>
+    <string name="common_email_address">عنوان البريد الإلكتروني</string>
+    <string name="common_error_report">تقرير الأخطاء</string>
+    <string name="common_import_recipe">قم باستيراد الوصفة</string>
+    <string name="shortcuts_new_instance_label_long">إنشاء نسخة جديدة</string>
+    <string name="shortcuts_new_instance_label_short">نسخة جديدة</string>
 </resources>
