@@ -778,7 +778,8 @@ fun ViewRecipeDetails(
                     }
 
                     LazyRow(
-                        Modifier.padding(bottom = 8.dp),
+                        Modifier.padding(bottom = 8.dp)
+                            .fillMaxWidth(),
                         contentPadding = PaddingValues(start = 16.dp, end = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(
                             8.dp,
@@ -800,9 +801,9 @@ fun ViewRecipeDetails(
                         }
                     }
 
-                    if(!recipeOverview.description.isNullOrBlank()) SelectionContainer {
+                    SelectionContainer {
                         Text(
-                            text = recipeOverview.description,
+                            text = recipeOverview.description ?: "",
                             Modifier.padding(
                                 start = 16.dp,
                                 end = 16.dp,
