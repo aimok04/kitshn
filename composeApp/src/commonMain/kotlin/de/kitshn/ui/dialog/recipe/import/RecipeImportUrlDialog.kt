@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
@@ -118,8 +119,18 @@ fun RecipeImportUrlDialog(
     val focusRequester = remember { FocusRequester() }
     val hapticFeedback = LocalHapticFeedback.current
 
+    // used as a workaround because keyboardController.hide doesn't work on iOS
+    // https://github.com/aimok04/kitshn/issues/312
+    var disableTextField by remember { mutableStateOf(false) }
+    LaunchedEffect(disableTextField) {
+        delay(1000)
+        disableTextField = false
+    }
+
     val fetchRequestState = rememberTandoorRequestState()
     fun fetch() = coroutineScope.launch {
+        disableTextField = true
+
         val url = state.data.url.replaceFirst(BuildConfig.SHARE_WRAPPER_URL, "")
 
         // detect social media import domain and forward to RecipeImportSocialMediaDialog
@@ -220,6 +231,8 @@ fun RecipeImportUrlDialog(
 
                                 value = state.data.url,
                                 label = { Text(text = stringResource(Res.string.common_recipe_url)) },
+
+                                enabled = !disableTextField,
 
                                 leadingIcon = {
                                     Icon(

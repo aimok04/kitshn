@@ -76,6 +76,7 @@ import kitshn.composeapp.generated.resources.common_or_upper
 import kitshn.composeapp.generated.resources.common_recipe
 import kitshn.composeapp.generated.resources.error_recipe_could_not_be_loaded
 import kitshn.composeapp.generated.resources.recipe_import_type_ai_label
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -121,6 +122,14 @@ fun RecipeImportAIDialog(
 
     val coroutineScope = rememberCoroutineScope()
     val hapticFeedback = LocalHapticFeedback.current
+
+    // used as a workaround because keyboardController.hide doesn't work on iOS
+    // https://github.com/aimok04/kitshn/issues/312
+    var disableTextField by remember { mutableStateOf(false) }
+    LaunchedEffect(disableTextField) {
+        delay(1000)
+        disableTextField = false
+    }
 
     val selectAIProviderDialogState = rememberSelectAIProviderDialogState()
     var aiProvider by remember { mutableStateOf<TandoorAIProvider?>(null) }
@@ -335,6 +344,8 @@ fun RecipeImportAIDialog(
                                     state.additionalData.text = it
                                 },
 
+                                enabled = !disableTextField,
+
                                 modifier = Modifier
                                     .padding(
                                         top = 16.dp,
@@ -359,6 +370,7 @@ fun RecipeImportAIDialog(
                                     )
                                     .fillMaxWidth(),
                                 onClick = {
+                                    disableTextField = true
                                     fetch()
                                 }
                             ) {

@@ -150,6 +150,14 @@ fun RecipeImportSocialMediaDialog(
     val focusRequester = remember { FocusRequester() }
     val hapticFeedback = LocalHapticFeedback.current
 
+    // used as a workaround because keyboardController.hide doesn't work on iOS
+    // https://github.com/aimok04/kitshn/issues/312
+    var disableTextField by remember { mutableStateOf(false) }
+    LaunchedEffect(disableTextField) {
+        delay(1000)
+        disableTextField = false
+    }
+
     val selectAIProviderDialogState = rememberSelectAIProviderDialogState()
     var aiProvider by remember { mutableStateOf<TandoorAIProvider?>(null) }
 
@@ -241,8 +249,10 @@ fun RecipeImportSocialMediaDialog(
     }
 
     fun fetchWebsite() {
+        disableTextField = true
         displayWebView = true
     }
+
     LaunchedEffect(state.autoFetch) {
         if(!state.autoFetch) return@LaunchedEffect
         state.autoFetch = false
@@ -351,6 +361,8 @@ fun RecipeImportSocialMediaDialog(
 
                                         value = state.data.url,
                                         label = { Text(text = stringResource(Res.string.common_recipe_url)) },
+
+                                        enabled = !disableTextField,
 
                                         leadingIcon = {
                                             Icon(
