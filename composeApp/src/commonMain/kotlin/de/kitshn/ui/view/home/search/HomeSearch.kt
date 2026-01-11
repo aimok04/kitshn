@@ -57,6 +57,14 @@ fun HomeSearchTopBar(
     val coroutineScope = rememberCoroutineScope()
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    // used as a workaround because keyboardController.hide doesn't work on iOS
+    // https://github.com/aimok04/kitshn/issues/312
+    var disableTextField by remember { mutableStateOf(false) }
+    LaunchedEffect(disableTextField) {
+        delay(1000)
+        disableTextField = false
+    }
+
     val selectionModeState = rememberSelectionModeState<Int>()
 
     val client = vm.tandoorClient ?: return
@@ -91,6 +99,7 @@ fun HomeSearchTopBar(
             modifier = Modifier.focusProperties {
                 canFocus = canFocusWorkaround
             },
+            enabled = !disableTextField,
             textFieldState = textFieldState,
             searchBarState = searchBarState,
             onSearch = {
@@ -166,6 +175,8 @@ fun HomeSearchTopBar(
                 state = state,
                 selectionModeState = selectionModeState,
                 onClick = {
+                    // disable text field to hide keyboard on iOS
+                    disableTextField = true
                     recipeLinkDialogState.open(it)
                 }
             )
@@ -185,6 +196,9 @@ fun HomeSearchTopBar(
                 recipeLinkDialogState.dismiss()
             }
         ),
-        state = recipeLinkDialogState
+        state = recipeLinkDialogState,
+        onDismiss = {
+            disableTextField = false
+        }
     )
 }
