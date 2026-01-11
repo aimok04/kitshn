@@ -331,7 +331,7 @@ fun LocalDate.toHumanReadableDateLabel(): String {
 
     if(label == "null") label = null
 
-    return label ?: if(diff <= 6L) {
+    return label ?: if(diff in 0L..6L) {
         this.format("EEEE")
     }else if(this.year == today.year) {
         this.format("EE, dd. MMM")
