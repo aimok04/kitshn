@@ -43,6 +43,7 @@ import de.kitshn.api.tandoor.model.shopping.TandoorSupermarketCategory
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
 import de.kitshn.ui.component.input.AlwaysDockedSearchBar
+import de.kitshn.ui.component.input.iosKeyboardWorkaround.InputFieldWithIOSKeyboardWorkaround
 import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import de.kitshn.ui.modifier.loadingPlaceHolder
 import kitshn.composeapp.generated.resources.Res
@@ -160,7 +161,7 @@ fun SupermarketCategorySearchBar(
             dividerColor = Color.Transparent
         ),
         inputField = {
-            SearchBarDefaults.InputField(
+            SearchBarDefaults.InputFieldWithIOSKeyboardWorkaround(
                 modifier = Modifier.focusRequester(focusRequester),
                 query = query,
                 onQueryChange = { query = it },

@@ -32,6 +32,7 @@ import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.removeIf
 import de.kitshn.scoreMatch
 import de.kitshn.ui.component.input.AlwaysDockedSearchBar
+import de.kitshn.ui.component.input.iosKeyboardWorkaround.InputFieldWithIOSKeyboardWorkaround
 import de.kitshn.ui.component.model.recipebook.HorizontalRecipeBookCard
 import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import kitshn.composeapp.generated.resources.Res
@@ -144,7 +145,7 @@ fun RecipeBookSearchBar(
             dividerColor = Color.Transparent
         ),
         inputField = {
-            SearchBarDefaults.InputField(
+            SearchBarDefaults.InputFieldWithIOSKeyboardWorkaround(
                 query = query,
                 onQueryChange = { query = it },
                 onSearch = {

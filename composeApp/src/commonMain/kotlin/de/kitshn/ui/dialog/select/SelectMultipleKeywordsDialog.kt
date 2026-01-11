@@ -56,6 +56,7 @@ import de.kitshn.removeIf
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.input.AlwaysDockedSearchBar
+import de.kitshn.ui.component.input.iosKeyboardWorkaround.InputFieldWithIOSKeyboardWorkaround
 import de.kitshn.ui.component.loading.LazyListAnimatedContainedLoadingIndicator
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
@@ -363,7 +364,7 @@ fun KeywordSearchBar(
             dividerColor = Color.Transparent
         ),
         inputField = {
-            SearchBarDefaults.InputField(
+            SearchBarDefaults.InputFieldWithIOSKeyboardWorkaround(
                 query = query,
                 onQueryChange = { query = it },
                 onSearch = {

@@ -44,6 +44,7 @@ import de.kitshn.removeIf
 import de.kitshn.scoreMatch
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.input.AlwaysDockedSearchBar
+import de.kitshn.ui.component.input.iosKeyboardWorkaround.InputFieldWithIOSKeyboardWorkaround
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import kitshn.composeapp.generated.resources.Res
@@ -248,7 +249,7 @@ fun UserSearchBar(
             dividerColor = Color.Transparent
         ),
         inputField = {
-            SearchBarDefaults.InputField(
+            SearchBarDefaults.InputFieldWithIOSKeyboardWorkaround(
                 query = query,
                 onQueryChange = { query = it },
                 onSearch = {

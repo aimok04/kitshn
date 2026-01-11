@@ -41,6 +41,7 @@ import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.input.AlwaysDockedSearchBar
+import de.kitshn.ui.component.input.iosKeyboardWorkaround.InputFieldWithIOSKeyboardWorkaround
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
@@ -248,7 +249,7 @@ fun FoodSearchBar(
             dividerColor = Color.Transparent
         ),
         inputField = {
-            SearchBarDefaults.InputField(
+            SearchBarDefaults.InputFieldWithIOSKeyboardWorkaround(
                 query = query,
                 onQueryChange = { query = it },
                 onSearch = {

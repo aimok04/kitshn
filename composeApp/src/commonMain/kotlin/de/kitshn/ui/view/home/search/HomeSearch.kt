@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import de.kitshn.KitshnViewModel
+import de.kitshn.ui.component.input.iosKeyboardWorkaround.InputFieldWithIOSKeyboardWorkaround
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.ui.selectionMode.model.RecipeSelectionModeTopAppBar
@@ -95,7 +96,7 @@ fun HomeSearchTopBar(
     }
 
     val inputField = @Composable {
-        SearchBarDefaults.InputField(
+        SearchBarDefaults.InputFieldWithIOSKeyboardWorkaround(
             modifier = Modifier.focusProperties {
                 canFocus = canFocusWorkaround
             },
