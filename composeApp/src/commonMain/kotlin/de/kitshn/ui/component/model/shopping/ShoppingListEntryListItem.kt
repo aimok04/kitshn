@@ -27,8 +27,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -138,6 +141,8 @@ fun ShoppingListEntryListItem(
     val mealplans =
         remember { mutableStateListOf<TandoorMealPlan>() }
 
+    var usePluralName by remember { mutableStateOf(false) }
+
     LaunchedEffect(entries) {
         amountChips.clear()
         amountChips.addAll(
@@ -150,6 +155,8 @@ fun ShoppingListEntryListItem(
                     val sharedAmount =
                         entryList.filter { (!it.checked || allItemsChecked) }.sumOf { it.amount }
                     val sharedUnit = entryList[0].unit
+
+                    if(sharedAmount > 1.0) usePluralName = true
 
                     val value = StringBuilder()
                     value.append(sharedAmount.formatAmount(showFractionalValues))
@@ -229,7 +236,7 @@ fun ShoppingListEntryListItem(
         headlineContent = {
             if (enlarge) {
                 Text(
-                    text = food.name,
+                    text = if(usePluralName) food.plural_name ?: food.name else food.name,
                     style = Typography().headlineMedium,
                     fontFamily = playfairDisplay(),
                     textDecoration = if(allChecked) {
@@ -240,7 +247,10 @@ fun ShoppingListEntryListItem(
                 )
             } else {
                 Text(
-                    text = food.name,
+                    text = if(usePluralName)
+                        food.plural_name ?: food.name
+                    else
+                        food.name,
                     textDecoration = if(allChecked) {
                         TextDecoration.LineThrough
                     } else {

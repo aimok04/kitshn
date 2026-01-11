@@ -124,6 +124,8 @@ fun ShoppingListEntryDetailsBottomSheet(
 
     val amountChips = remember { mutableStateListOf<Pair<String, Boolean>>() }
 
+    var usePluralName by remember { mutableStateOf(false) }
+
     LaunchedEffect(entries.toList()) {
         amountChips.clear()
         amountChips.addAll(
@@ -133,6 +135,8 @@ fun ShoppingListEntryDetailsBottomSheet(
                 .map { entryList ->
                     val sharedAmount = entryList.sumOf { it.amount }
                     val sharedUnit = entryList[0].unit
+
+                    if(sharedAmount > 1.0) usePluralName = true
 
                     Pair(
                         sharedAmount.formatAmount(showFractionalValues) +
@@ -159,7 +163,10 @@ fun ShoppingListEntryDetailsBottomSheet(
             ),
             title = {
                 Text(
-                    text = food.name
+                    text = if(usePluralName)
+                        food.plural_name ?: food.name
+                    else
+                        food.name
                 )
             },
             actions = {
