@@ -1,0 +1,6 @@
+Happy New Year! 🥳
+
+This is the first minor bug fix release of kitshn v2.
+
+1. Fixed issue where past date's labels only included weekdays (#313).
+2. Fixed issue where plurals weren't used in shopping (#307).

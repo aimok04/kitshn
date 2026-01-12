@@ -1,7 +1,10 @@
-These are the highlights of kitshn v2:
+Happy New Year! :)
 
-1. Compatibility with Tandoor v2 (#95)
-2. Overhauled design using Material 3 Expressive (#204)
-3. New features and improved usability:
-    - New Social Media Import function which can import posts from Instagram and TikTok.
-    - ...
+This is the first minor bug fix release of kitshn v2.
+
+1. Fixed issue where past date's labels only included weekdays (#313).
+2. Fixed issue where plurals weren't used in shopping (#307).
+3. Fixed multiple iOS software keyboard-related issues.
+   - Fixed issue where keyboard wasn't closing in import dialog (#280).
+   - Fixed issue where keyboard wasn't closing when clicking on recipe in search (#312).
+   - Fixed issue where keyboard wasn't closing when clicking on search icon in search text fields (#312).
