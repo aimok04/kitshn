@@ -130,6 +130,7 @@ fun SupermarketSettingChip(
                                 modifier = Modifier.clickable {
                                     showDialog = false
                                     state.supermarket = supermarkets[it]
+                                    state.settings.setShoppingSupermarket(supermarkets[it])
 
                                     state.update()
 
@@ -154,6 +155,7 @@ fun SupermarketSettingChip(
                 if(state.supermarket != null) FilledTonalButton(onClick = {
                     showDialog = false
                     state.supermarket = null
+                    state.settings.setShoppingSupermarket(null)
 
                     state.update()
                 }) {

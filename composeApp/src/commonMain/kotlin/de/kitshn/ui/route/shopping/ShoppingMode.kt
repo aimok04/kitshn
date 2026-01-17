@@ -55,6 +55,8 @@ import de.kitshn.ui.component.model.shopping.shoppingMode.ShoppingModeListEntryL
 import de.kitshn.ui.component.model.shopping.shoppingMode.ShoppingModeListEntryListItemPlaceholder
 import de.kitshn.ui.component.model.shopping.shoppingMode.ShoppingModeListGroupHeaderListItem
 import de.kitshn.ui.component.model.shopping.shoppingMode.ShoppingModeListGroupHeaderListItemPlaceholder
+import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRowState
+import de.kitshn.ui.component.shopping.rememberAdditionalShoppingSettingsChipRowState
 import de.kitshn.ui.dialog.mealplan.MealPlanDetailsDialog
 import de.kitshn.ui.dialog.mealplan.rememberMealPlanDetailsDialogState
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
@@ -81,11 +83,13 @@ fun RouteShoppingMode(
             platformContext, p.vm.tandoorClient!!
         )
     },
+    additionalShoppingSettingsChipRowState: AdditionalShoppingSettingsChipRowState =
+        rememberAdditionalShoppingSettingsChipRowState(p.vm.settings),
     vm: ShoppingViewModel = viewModel {
         ShoppingViewModel(
             p = p,
             cache = cache,
-            additionalShoppingSettingsChipRowState = p.vm.uiState.additionalShoppingSettingsChipRowState,
+            additionalShoppingSettingsChipRowState = additionalShoppingSettingsChipRowState,
             moveDoneToBottom = true
         )
     }
@@ -93,8 +97,6 @@ fun RouteShoppingMode(
     val coroutineScope = rememberCoroutineScope()
     val hapticFeedback = LocalHapticFeedback.current
     val layoutDirection = LocalLayoutDirection.current
-
-    val additionalShoppingSettingsChipRowState = p.vm.uiState.additionalShoppingSettingsChipRowState
 
     val mealPlanDetailsDialogState = rememberMealPlanDetailsDialogState()
     val recipeLinkDialogState = rememberRecipeLinkDialogState()

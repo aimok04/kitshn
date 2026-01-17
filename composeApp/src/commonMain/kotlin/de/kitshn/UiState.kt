@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRowState
 
 class AppOfflineState {
     var isOffline by mutableStateOf(false)
@@ -47,8 +46,6 @@ class UiStateModel : ViewModel() {
     var searchKeyword = UiStateLink<Int>()
     var searchCreatedBy = UiStateLink<Int>()
     var viewRecipe = UiStateLink<Int>()
-
-    var additionalShoppingSettingsChipRowState = AdditionalShoppingSettingsChipRowState()
 
     var shareClient: TandoorClient? = null
 

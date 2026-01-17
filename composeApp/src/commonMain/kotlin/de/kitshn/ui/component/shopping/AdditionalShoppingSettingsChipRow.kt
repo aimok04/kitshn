@@ -19,9 +19,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import de.kitshn.KEY_SETTINGS_SHOPPING_GROUP_BY
+import de.kitshn.KEY_SETTINGS_SHOPPING_SUPERMARKET
+import de.kitshn.SettingsViewModel
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarket
 import de.kitshn.cache.ShoppingSupermarketCache
+import de.kitshn.json
 import de.kitshn.ui.component.shopping.chips.GroupingOptions
 import de.kitshn.ui.component.shopping.chips.GroupingSettingChip
 import de.kitshn.ui.component.shopping.chips.SupermarketSettingChip
@@ -29,13 +33,17 @@ import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 @Composable
-fun rememberAdditionalShoppingSettingsChipRowState(): AdditionalShoppingSettingsChipRowState {
+fun rememberAdditionalShoppingSettingsChipRowState(
+    settings: SettingsViewModel
+): AdditionalShoppingSettingsChipRowState {
     return remember {
-        AdditionalShoppingSettingsChipRowState()
+        AdditionalShoppingSettingsChipRowState(settings)
     }
 }
 
-class AdditionalShoppingSettingsChipRowState {
+class AdditionalShoppingSettingsChipRowState(
+    val settings: SettingsViewModel
+) {
 
     var updateState by mutableLongStateOf(0L)
     fun update() {
@@ -44,6 +52,16 @@ class AdditionalShoppingSettingsChipRowState {
 
     var grouping by mutableStateOf(GroupingOptions.BY_CATEGORY)
     var supermarket by mutableStateOf<TandoorSupermarket?>(null)
+
+    init {
+        settings.settings.getStringOrNull(KEY_SETTINGS_SHOPPING_GROUP_BY)?.let {
+            grouping = GroupingOptions.valueOf(it)
+        }
+
+        settings.settings.getStringOrNull(KEY_SETTINGS_SHOPPING_SUPERMARKET)?.let {
+            supermarket = json.decodeFromString<TandoorSupermarket>(it)
+        }
+    }
 
 }
 

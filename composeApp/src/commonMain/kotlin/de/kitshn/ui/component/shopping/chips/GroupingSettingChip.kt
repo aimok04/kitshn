@@ -99,7 +99,9 @@ fun GroupingSettingChip(
                     ListItem(
                         modifier = Modifier.clickable {
                             showDialog = false
+
                             state.grouping = it
+                            state.settings.setShoppingGroupBy(it.name)
 
                             state.update()
 
