@@ -30,6 +30,8 @@ fun IngredientsList(
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
     colors: ListItemColors = ListItemDefaults.colors(),
 
+    enableTickingOff: Boolean = false,
+
     showFractionalValues: Boolean,
 
     onNotEnoughSpace: () -> Unit,
@@ -98,6 +100,8 @@ fun IngredientsList(
                         minAmountWidth = minAmountWidth,
                         minUnitWidth = minUnitWidth,
 
+                        enableTickingOff = false,
+
                         showFractionalValues = showFractionalValues,
 
                         loadingState = loadingState,
@@ -125,6 +129,8 @@ fun IngredientsList(
                         maxWidth = maxWidth,
                         minAmountWidth = minAmountWidth,
                         minUnitWidth = minUnitWidth,
+
+                        enableTickingOff = enableTickingOff,
 
                         showFractionalValues = showFractionalValues,
 

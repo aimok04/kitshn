@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -48,6 +49,8 @@ fun IngredientItem(
     minAmountWidth: Dp = 0.dp,
     minUnitWidth: Dp = 0.dp,
 
+    enableTickingOff: Boolean,
+
     showFractionalValues: Boolean,
 
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
@@ -58,8 +61,11 @@ fun IngredientItem(
 
     val foodHasRecipe = ingredient?.food?.recipe != null
 
+    val showTickedOff = enableTickingOff && ingredient?.tickedOff == true
+
     ListItem(
         modifier = modifier
+            .alpha(if(showTickedOff) 0.7f else 1f)
             .padding(top = 1.dp, bottom = 1.dp)
             .clip(
                 when(position) {
@@ -87,6 +93,10 @@ fun IngredientItem(
                     Modifier.clickable {
                         onOpenRecipe(ingredient.food.recipe)
                     }
+                } else if(enableTickingOff) {
+                    Modifier.clickable {
+                        ingredient?.tickedOff = !ingredient.tickedOff
+                    }
                 }else{
                     Modifier
                 }
@@ -105,7 +115,8 @@ fun IngredientItem(
                         .widthIn(minAmountWidth)
                 ) {
                     if(!ingredient.no_amount && amount > 0.0) Text(
-                        text = ingredient.formatAmount(amount, fractional = showFractionalValues)
+                        text = ingredient.formatAmount(amount, fractional = showFractionalValues),
+                        textDecoration = if(showTickedOff) TextDecoration.LineThrough else null
                     )
 
                     Spacer(Modifier.width(8.dp))
@@ -116,7 +127,8 @@ fun IngredientItem(
                         .widthIn(minUnitWidth)
                 ) {
                     if(!ingredient.no_amount && ingredient.unit != null) Text(
-                        text = ingredient.getUnitLabel(amount)
+                        text = ingredient.getUnitLabel(amount),
+                        textDecoration = if(showTickedOff) TextDecoration.LineThrough else null
                     )
 
                     Spacer(Modifier.width(8.dp))
@@ -138,14 +150,15 @@ fun IngredientItem(
                 },
                 textDecoration = when(foodHasRecipe) {
                     true -> TextDecoration.Underline
-                    false -> null
+                    false -> if(showTickedOff) TextDecoration.LineThrough else null
                 }
             )
         },
         supportingContent = if((ingredient?.note ?: "").isNotBlank()) {
             {
                 Text(
-                    text = ingredient?.note ?: ""
+                    text = ingredient?.note ?: "",
+                    textDecoration = if(showTickedOff) TextDecoration.LineThrough else null
                 )
             }
         } else null

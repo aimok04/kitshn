@@ -56,6 +56,7 @@ fun RecipeStepCard(
     servingsFactor: Double,
     loadingState: ErrorLoadingSuccessState = ErrorLoadingSuccessState.SUCCESS,
     appendAction: @Composable () -> Unit = {},
+    enableTickingOff: Boolean = false,
     showFractionalValues: Boolean,
     onClickRecipeLink: (recipe: TandoorRecipe) -> Unit,
     onOpenRecipeId: (recipeId: Int) -> Unit,
@@ -165,6 +166,7 @@ fun RecipeStepCard(
                             onNotEnoughSpace = {
                                 disableSideBySideLayout = true
                             },
+                            enableTickingOff = enableTickingOff,
                             showFractionalValues = showFractionalValues,
                             onOpenRecipe = {
                                 onOpenRecipeId(it.id)

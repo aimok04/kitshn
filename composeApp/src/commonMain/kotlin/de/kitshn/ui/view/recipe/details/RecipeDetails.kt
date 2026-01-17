@@ -904,6 +904,7 @@ fun ViewRecipeDetails(
                             colors = ListItemDefaults.colors(
                                 containerColor = MaterialTheme.colorScheme.surfaceContainerLow
                             ),
+                            enableTickingOff = true,
                             showFractionalValues = ingredientsShowFractionalValues.value,
                             onOpenRecipe = { recipe ->
                                 coroutineScope.launch {
@@ -959,6 +960,7 @@ fun ViewRecipeDetails(
                         stepIndex = index,
                         hideIngredients = step.ingredients.size == sortedIngredientsList.size,
                         servingsFactor = servingsFactor,
+                        enableTickingOff = true,
                         showFractionalValues = ingredientsShowFractionalValues.value,
                         onClickRecipeLink = { recipe ->
                             // show recipe link dialog

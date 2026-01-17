@@ -261,6 +261,7 @@ fun RouteRecipeCookPageStep(
                                         }
                                     }
                                 },
+                                enableTickingOff = true,
                                 showFractionalValues = showFractionalValues
                             )
                         }

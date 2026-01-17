@@ -1,5 +1,8 @@
 package de.kitshn.api.tandoor.model
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import de.kitshn.formatAmount
 import kotlinx.serialization.Serializable
 
@@ -17,6 +20,11 @@ class TandoorIngredient(
     val always_use_plural_unit: Boolean,
     val always_use_plural_food: Boolean
 ) {
+    /**
+     * used in IngredientsList.kt and IngredientItem.kt to track if ingredient has been used already
+     */
+    var tickedOff by mutableStateOf(false)
+
     fun formatAmount(amount: Double = this.amount, fractional: Boolean = true): String {
         return amount.formatAmount(fractional)
     }
