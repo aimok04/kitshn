@@ -11,18 +11,6 @@
 
 ## 📦 Installation
 
-> [!TIP]
-> Install the kitshn beta for compatibility with Tandoor v2.
-
-[<img src="/images/badge_google.png"
-alt="Join the beta on Google Play"
-height="80">](https://play.google.com/apps/testing/de.kitshn.android)
-[<img src="/images/badge_testflight.png"
-alt="Join the beta through Testflight"
-height="80">](https://testflight.apple.com/join/zx1xzSMg)
-
----
-
 [<img src="/images/badge_github.png"
 alt="Get it on GitHub"
 height="80">](https://github.com/aimok04/kitshn/releases)
