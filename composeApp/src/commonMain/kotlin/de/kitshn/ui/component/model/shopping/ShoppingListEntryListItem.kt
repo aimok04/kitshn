@@ -44,9 +44,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.kitshn.TestTagRepository
-import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
+import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryFood
 import de.kitshn.formatAmount
 import de.kitshn.ui.modifier.loadingPlaceHolder
 import de.kitshn.ui.selectionMode.SelectionModeState
@@ -125,7 +125,7 @@ fun ShoppingListEntryListItemPlaceholder(
 fun ShoppingListEntryListItem(
     modifier: Modifier = Modifier,
 
-    food: TandoorFood,
+    food: TandoorShoppingListEntryFood,
     entries: List<TandoorShoppingListEntry>,
 
     selectionState: SelectionModeState<Int>? = null,

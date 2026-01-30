@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestsError
-import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
+import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryFood
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarketCategory
 import de.kitshn.cache.ShoppingListEntriesCache
 import de.kitshn.cache.ShoppingListEntryOfflineActions
@@ -40,7 +40,7 @@ class GroupHeaderShoppingListItemModel(
 
 class GroupedFoodShoppingListItemModel(
     val groupId: Int,
-    val food: TandoorFood,
+    val food: TandoorShoppingListEntryFood,
     val entries: List<TandoorShoppingListEntry>
 ) : ShoppingListItemModel(
     "group-$groupId-food${food.id}"
@@ -72,7 +72,6 @@ class ShoppingViewModel(
         // add cached items to entries list
         entries.addAll(
             cache.retrieve()
-                ?: listOf()
         )
 
         entries.forEach {
@@ -369,7 +368,7 @@ class ShoppingViewModel(
         groupId: Int,
         entries: List<TandoorShoppingListEntry>
     ) {
-        val foodIdMap = mutableMapOf<Int, TandoorFood>()
+        val foodIdMap = mutableMapOf<Int, TandoorShoppingListEntryFood>()
         entries
             .onEach { foodIdMap[it.food.id] = it.food }
             .sortedBy { it.food.name.lowercase() }

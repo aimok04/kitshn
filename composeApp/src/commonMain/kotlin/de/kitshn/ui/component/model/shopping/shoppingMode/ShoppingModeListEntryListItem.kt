@@ -8,8 +8,8 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import de.kitshn.api.tandoor.model.TandoorFood
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
+import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryFood
 import de.kitshn.ui.component.model.shopping.ShoppingListEntryListItem
 import de.kitshn.ui.component.model.shopping.ShoppingListEntryListItemPlaceholder
 import de.kitshn.ui.state.ErrorLoadingSuccessState
@@ -43,7 +43,7 @@ fun ShoppingModeListEntryListItemPlaceholder(
 fun ShoppingModeListEntryListItem(
     modifier: Modifier = Modifier,
 
-    food: TandoorFood,
+    food: TandoorShoppingListEntryFood,
     entries: List<TandoorShoppingListEntry>,
 
     showFractionalValues: Boolean,
