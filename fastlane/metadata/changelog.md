@@ -4,14 +4,15 @@
 
 ### Hey ✌️
 
-This is a small release with some minor improvements:
+This is a small release fixing compatibility with Tandoor v2.4.
+The new features are not supported yet (see #323).
 
-1. Now saving _supermarket_ and _grouping_ settings in _shopping_ even after closing app.
-2. Added new _ticking ingredients off_ feature in _recipe details_ view and _cooking_ mode (#314).
+1. Adapted to _API changes_ in Tandoor **v2.4.0** (#322).
 
 ---
 
 ## Commits
 
-- feat(commonMain/shopping): now saving grouping and supermarket settings forever
-- feat(commonMain/recipes): added ticking off ingredients in RecipeDetails.kt and in cooking mode (resolved #314)
+- fix(commonMain/shopping): improved ShoppingListEntriesCache.kt to allow saving larger entry lists
+- fix(commonMain/shopping): adapted to api changes in Tandoor v2.4.0 (resolved #322)
+- chore(commonMain/api): marked v2.4.0/1 as compatible
