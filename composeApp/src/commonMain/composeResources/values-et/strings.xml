@@ -1,3 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="acra_comment_helper">Võite kommenteerida kuidas viga esile tõusis.</string>
+    <string name="acra_dialog_button_negative">Ära saada</string>
+    <string name="acra_dialog_button_neutral">Vaata aruannet</string>
+    <string name="acra_dialog_button_positive">Saada</string>
+    <string name="acra_dialog_title">Oih!</string>
+    <string name="acra_email_address_helper">Teie aruande värskenduste saamiseks sisestage oma meiliaadress.</string>
+    <string name="action_abort">Katkesta</string>
+    <string name="action_back">Tagasi</string>
+    <string name="action_add">Lisa</string>
+    <string name="action_download">Lae alla</string>
+    <string name="action_add_ingredient">Lisa koostisosa</string>
+    <string name="app_name">kitshn</string>
+    <string name="action_add_to_favorites">Lisa lemmikuks</string>
+    <string name="common_comment">Kommenteeri</string>
+    <string name="action_add_to_meal_plan">Lisa menüüsse</string>
+    <string name="common_email_address">Meiliaadress</string>
+    <string name="action_add_to_recipe_books">Lisa retseptiraamatusse</string>
+    <string name="common_error_report">Vea aruanne</string>
+    <string name="action_add_to_shopping">Lisa ostunimekirja</string>
+    <string name="common_import_recipe">Retsepti import</string>
+    <string name="action_apply">Rakenda</string>
+    <string name="action_choose_existing_photo">Vali olemasolev foto</string>
+    <string name="action_clear">Tühjenda</string>
+    <string name="action_click_to_upload_image">Pildi üleslaadimiseks klõpsa.</string>
+    <string name="action_close">Sulge</string>
+    <string name="action_confirm">Kinnita</string>
+    <string name="action_continue">Jätka</string>
+    <string name="action_cook">Küpseta</string>
+    <string name="action_create">Loo</string>
+    <string name="action_create_entry">Uus kanne</string>
+    <string name="action_create_recipe">Uus retsept</string>
+    <string name="action_create_recipe_book">Uus retseptiraamat</string>
 </resources>
