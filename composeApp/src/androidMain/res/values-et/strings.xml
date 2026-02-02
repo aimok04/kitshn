@@ -1,3 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="acra_comment_helper">Võite kommenteerida kuidas viga esile tõusis.</string>
+    <string name="acra_dialog_button_negative">Ära saada</string>
+    <string name="acra_dialog_button_neutral">Vaata aruannet</string>
+    <string name="acra_dialog_button_positive">Saada</string>
+    <string name="acra_dialog_title">Oih!</string>
+    <string name="acra_email_address_helper">Teie aruande värskenduste saamiseks sisestage oma meiliaadress.</string>
+    <string name="action_back">Tagasi</string>
+    <string name="action_download">Lae alla</string>
+    <string name="app_name">kitshn</string>
+    <string name="common_comment">Kommenteeri</string>
+    <string name="common_email_address">Meiliaadress</string>
+    <string name="common_error_report">Vea aruanne</string>
+    <string name="common_import_recipe">Retsepti import</string>
+    <string name="shortcuts_meal_plan_label_long">Ava menüü</string>
+    <string name="shortcuts_shopping_label_long">Ava ostunimekiri</string>
+    <string name="shortcuts_shopping_label_short">Ostmine</string>
+    <string name="shortcuts_shopping_mode_label_long">Käivita ostlemine</string>
+    <string name="shortcuts_shopping_mode_label_short">Ostlemine</string>
+    <string name="shortcuts_books_label_long">Ava raamatud</string>
+    <string name="shortcuts_books_label_short">Raamatud</string>
 </resources>
