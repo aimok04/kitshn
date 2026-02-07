@@ -4,29 +4,38 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorPagedResponse
+import de.kitshn.api.tandoor.model.shopping.TandoorParsedIngredient
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
-import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.encodeToJsonElement
 
 class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
     suspend fun add(amount: Double?, food: String?, unit: String?): TandoorShoppingListEntry {
+        val ingredientParserData = buildJsonObject {
+            put(
+                "ingredient",
+                JsonPrimitive(
+                    "${amount?.let { "$it " } ?: ""}${unit?.let { "$it " } ?: ""}${food?.let { "$it " } ?: ""}"
+                )
+            )
+        }
+
+        val ingredientParserResponse =
+            client.postObject("/ingredient-parser/post/", ingredientParserData)
+        val ingredient = json.decodeFromJsonElement<TandoorParsedIngredient>(
+            ingredientParserResponse["ingredient"] ?: throw NullPointerException()
+        )
+
         val data = buildJsonObject {
-            put("amount", JsonPrimitive(amount ?: 0.0))
-            put(
-                "food",
-                food?.let { buildJsonObject { put("name", JsonPrimitive(food.trimEnd(' '))) } }
-                    ?: JsonNull
-            )
-            put(
-                "unit",
-                unit?.let { buildJsonObject { put("name", JsonPrimitive(unit.trimEnd(' '))) } }
-                    ?: JsonNull
-            )
+            put("amount", JsonPrimitive(ingredient.amount))
+            put("unit", json.encodeToJsonElement(ingredient.unit))
+            put("food", json.encodeToJsonElement(ingredient.food))
         }
 
         val response = TandoorShoppingListEntry.parse(

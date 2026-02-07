@@ -11,7 +11,7 @@ class TandoorIngredient(
     val id: Int,
     val food: TandoorFood? = null,
     val unit: TandoorUnit? = null,
-    val amount: Double,
+    val amount: Double = 0.0,
     val note: String? = null,
     val order: Int,
     val is_header: Boolean,

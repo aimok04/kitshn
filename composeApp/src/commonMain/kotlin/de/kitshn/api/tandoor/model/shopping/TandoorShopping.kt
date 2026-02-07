@@ -19,10 +19,10 @@ import kotlinx.serialization.json.buildJsonObject
 
 @Serializable
 data class TandoorParsedIngredient(
-    val amount: Double,
-    val unit: String,
-    val food: String,
-    val note: String
+    val food: TandoorFood? = null,
+    val unit: TandoorUnit? = null,
+    val amount: Double?,
+    val note: String? = null,
 )
 
 @Serializable
