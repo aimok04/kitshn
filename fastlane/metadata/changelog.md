@@ -4,15 +4,15 @@
 
 ### Hey ✌️
 
-This is a small release fixing compatibility with Tandoor v2.4.
-The new features are not supported yet (see #323).
+This is another small release:
 
-1. Adapted to _API changes_ in Tandoor **v2.4.0** (#322).
+1. Added *toggle* in settings to keep screen on in *recipe details view* (#326).
+2. Fixed unable to create _shopping list entries_ with new food's (#327).
 
 ---
 
 ## Commits
 
-- fix(commonMain/shopping): improved ShoppingListEntriesCache.kt to allow saving larger entry lists
-- fix(commonMain/shopping): adapted to api changes in Tandoor v2.4.0 (resolved #322)
-- chore(commonMain/api): marked v2.4.0/1 as compatible
+- feat(commonMain/recipes): added toggle to keep screen on in recipe details view (resolved #326)
+- fix(commonMain/shopping): creation of shopping list entries with new food items (resolved #327)
+- fix(commonMain/api): api compatibility with Tandoor v2.4
