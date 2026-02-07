@@ -99,6 +99,7 @@ import com.eygraber.uri.Uri
 import de.kitshn.KITSHN_KEYWORD_FLAG_PREFIX
 import de.kitshn.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP
 import de.kitshn.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP_DESC
+import de.kitshn.KeepScreenOn
 import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestState
@@ -230,6 +231,9 @@ fun ViewRecipeDetails(
         p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
     val propertiesShowFractionalValues =
         p.vm.settings.getPropertiesShowFractionalValues.collectAsState(initial = true)
+
+    val behaviorKeepScreenOnInRecipeDetails =
+        p.vm.settings.getKeepScreenOnInRecipeDetails.collectAsState(initial = false)
 
     var pageLoadingState by rememberErrorLoadingSuccessState()
 
@@ -1123,6 +1127,9 @@ fun ViewRecipeDetails(
     TandoorRequestErrorHandler(fetchRequestState)
     TandoorRequestErrorHandler(shareRequestState)
     TandoorRequestErrorHandler(recipeAddToShoppingRequestState)
+
+    if(behaviorKeepScreenOnInRecipeDetails.value)
+        KeepScreenOn()
 }
 
 @Composable

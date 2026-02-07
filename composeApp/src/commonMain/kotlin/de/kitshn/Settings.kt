@@ -44,6 +44,8 @@ const val KEY_SETTINGS_BEHAVIOR_INGREDIENTS_SHOW_FRACTIONAL_VALUES =
     "behavior_ingredients_show_fractional_values"
 const val KEY_SETTINGS_BEHAVIOR_PROPERTIES_SHOW_FRACTIONAL_VALUES =
     "behavior_properties_show_fractional_values"
+const val KEY_SETTINGS_BEHAVIOR_KEEP_SCREEN_ON_IN_RECIPE_DETAILS =
+    "behavior_keep_screen_on_in_recipe_details"
 const val KEY_SETTINGS_BEHAVIOR_HIDE_FUNDING_BANNER_UNTIL =
     "behavior_hide_funding_banner_until"
 
@@ -201,6 +203,12 @@ class SettingsViewModel : ViewModel() {
 
     fun setPropertiesShowFractionalValues(show: Boolean) =
         obs.putBoolean(KEY_SETTINGS_BEHAVIOR_PROPERTIES_SHOW_FRACTIONAL_VALUES, show)
+
+    val getKeepScreenOnInRecipeDetails: Flow<Boolean> =
+        obs.getBooleanFlow(KEY_SETTINGS_BEHAVIOR_KEEP_SCREEN_ON_IN_RECIPE_DETAILS, false)
+
+    fun setKeepScreenOnInRecipeDetails(keepScreenOn: Boolean) =
+        obs.putBoolean(KEY_SETTINGS_BEHAVIOR_KEEP_SCREEN_ON_IN_RECIPE_DETAILS, keepScreenOn)
 
     val getFundingBannerHideUntil: Flow<Long> =
         obs.getLongFlow(KEY_SETTINGS_BEHAVIOR_HIDE_FUNDING_BANNER_UNTIL, -1L)

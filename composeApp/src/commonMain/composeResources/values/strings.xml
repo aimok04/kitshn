@@ -401,6 +401,8 @@
     <string name="settings_section_behavior_ingredients_show_fractional_values_label">Fractional values for ingredients</string>
     <string name="settings_section_behavior_ios_install_timer_shortcut_description">Needed to directly start timers from within the kitshn app</string>
     <string name="settings_section_behavior_ios_install_timer_shortcut_label">Install iOS timer shortcut</string>
+    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Prevent the screen from sleeping while viewing recipe details, just like in Cooking Mode</string>
+    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Keep screen on in recipe overview</string>
     <string name="settings_section_behavior_label">Behavior</string>
     <string name="settings_section_behavior_promote_tomorrows_meal_plan_description">Show the entries of tomorrow instead of today's entries</string>
     <string name="settings_section_behavior_promote_tomorrows_meal_plan_label">Promote tomorrow's meal plan instead</string>

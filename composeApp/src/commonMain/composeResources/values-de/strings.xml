@@ -342,6 +342,8 @@
     <string name="settings_section_behavior_ingredients_show_fractional_values_label">Werte für Zutaten als Brüche anzeigen</string>
     <string name="settings_section_behavior_ios_install_timer_shortcut_description">Wird benötigt, um Timer direkt aus kitshn zu starten</string>
     <string name="settings_section_behavior_ios_install_timer_shortcut_label">iOS-Timer-Kurzbefehl installieren</string>
+    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Verhindert, dass der Bildschirm beim Ansehen von Rezeptdetails in den Ruhezustand wechselt – genau wie im Kochmodus.</string>
+    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Bildschirm in Rezeptübersicht eingeschaltet lassen</string>
     <string name="settings_section_behavior_label">Verhalten</string>
     <string name="settings_section_behavior_properties_show_fractional_values_description">Eventuell einfacher zu lesen, allerdings weniger akkurat</string>
     <string name="settings_section_behavior_properties_show_fractional_values_label">Werte für Eigenschaften als Brüche anzeigen</string>

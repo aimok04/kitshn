@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ViewList
 import androidx.compose.material.icons.rounded.Campaign
 import androidx.compose.material.icons.rounded.DynamicFeed
+import androidx.compose.material.icons.rounded.LightMode
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material.icons.rounded.Share
@@ -50,6 +51,8 @@ import kitshn.composeapp.generated.resources.settings_section_behavior_hide_ingr
 import kitshn.composeapp.generated.resources.settings_section_behavior_hide_ingredient_allocation_action_chip_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_ingredients_show_fractional_values_description
 import kitshn.composeapp.generated.resources.settings_section_behavior_ingredients_show_fractional_values_label
+import kitshn.composeapp.generated.resources.settings_section_behavior_keep_screen_on_in_recipe_details_description
+import kitshn.composeapp.generated.resources.settings_section_behavior_keep_screen_on_in_recipe_details_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_promote_tomorrows_meal_plan_description
 import kitshn.composeapp.generated.resources.settings_section_behavior_promote_tomorrows_meal_plan_label
@@ -103,6 +106,9 @@ fun ViewSettingsBehavior(
             p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
         val propertiesShowFractionalValues =
             p.vm.settings.getPropertiesShowFractionalValues.collectAsState(initial = true)
+
+        val behaviorKeepScreenOnInRecipeDetails =
+            p.vm.settings.getKeepScreenOnInRecipeDetails.collectAsState(initial = false)
 
         val fundingBannerHideUntil =
             p.vm.settings.getFundingBannerHideUntil.collectAsState(initial = -1L)
@@ -230,6 +236,21 @@ fun ViewSettingsBehavior(
                 ) {
                     coroutineScope.launch {
                         p.vm.settings.setPropertiesShowFractionalValues(it)
+                    }
+                }
+            }
+
+            item {
+                SettingsSwitchListItem(
+                    position = SettingsListItemPosition.SINGULAR,
+                    label = { Text(stringResource(Res.string.settings_section_behavior_keep_screen_on_in_recipe_details_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_behavior_keep_screen_on_in_recipe_details_description)) },
+                    icon = Icons.Rounded.LightMode,
+                    contentDescription = stringResource(Res.string.settings_section_behavior_keep_screen_on_in_recipe_details_label),
+                    checked = behaviorKeepScreenOnInRecipeDetails.value
+                ) {
+                    coroutineScope.launch {
+                        p.vm.settings.setKeepScreenOnInRecipeDetails(it)
                     }
                 }
             }
