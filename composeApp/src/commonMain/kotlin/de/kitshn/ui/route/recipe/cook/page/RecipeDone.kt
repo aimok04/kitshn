@@ -78,9 +78,6 @@ fun RouteRecipeCookPageDone(
     recipe: TandoorRecipe,
     servings: Int
 ) {
-    val context = LocalPlatformContext.current
-    val imageLoader = remember { ImageLoader(context) }
-
     val coroutineScope = rememberCoroutineScope()
     val requestCookLogCreateState = rememberTandoorRequestState()
 
@@ -135,7 +132,6 @@ fun RouteRecipeCookPageDone(
                         model = recipe.loadThumbnail(),
                         contentDescription = recipe.name,
                         contentScale = ContentScale.Crop,
-                        imageLoader = imageLoader,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(180.dp)
