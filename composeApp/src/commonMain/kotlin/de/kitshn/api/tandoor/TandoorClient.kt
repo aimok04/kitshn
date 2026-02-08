@@ -48,20 +48,28 @@ data class TandoorCredentials(
     val password: String = "",
     var token: TandoorCredentialsToken? = null,
     val cookie: String? = null,
-    val customHeaders: List<TandoorCredentialsCustomHeader> = listOf()
+    val customHeaders: List<TandoorCredentialsCustomHeader> = listOf(),
+    var clientCertificateAlias: String? = null
 )
+
+expect fun createTandoorHttpClient(
+    credentials: TandoorCredentials,
+    onCertificateRequested: () -> Unit
+): HttpClient
 
 class TandoorClient(
     val credentials: TandoorCredentials
 ) {
 
-    val httpClient = HttpClient {
-        followRedirects = true
+    var certificateRequested: Boolean = false
+
+    val httpClient = createTandoorHttpClient(credentials) {
+        certificateRequested = true
     }
 
-    val longHttpClient = HttpClient {
-        followRedirects = true
-
+    val longHttpClient = createTandoorHttpClient(credentials) {
+        certificateRequested = true
+    }.config { 
         install(HttpTimeout) {
             connectTimeoutMillis = 60000
             requestTimeoutMillis = 60000
