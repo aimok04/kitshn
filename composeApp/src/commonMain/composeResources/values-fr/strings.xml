@@ -335,14 +335,14 @@
     <string name="recipe_step_timer_created">Un minuteur a été créé.</string>
     <string name="meal_plan_form_review_add_to_shopping_list_label">Vérifiez les articles avant de les ajouter à vos achats</string>
     <string name="home_meal_plan_promotion_tomorrow_title">Menu de demain</string>
-    <string name="settings_section_behavior_enable_dynamic_home_screen_label">Activer l\'écran d\'accueil dynamique</string>
+    <string name="settings_section_behavior_enable_dynamic_home_screen_label">Activer l'écran d'accueil dynamique</string>
     <string name="search_users">Rechercher des utilisateurs</string>
-    <string name="settings_section_behavior_enable_meal_plan_promotion_label">Activer la promotion du planning des repas sur l\'accueil</string>
-    <string name="settings_section_behavior_promote_tomorrows_meal_plan_description">Afficher les entrées de demain au lieu de celles d\'aujourd\'hui</string>
+    <string name="settings_section_behavior_enable_meal_plan_promotion_label">Activer la promotion du planning des repas sur l'accueil</string>
+    <string name="settings_section_behavior_promote_tomorrows_meal_plan_description">Afficher les entrées de demain au lieu de celles d'aujourd'hui</string>
     <string name="common_value">Valeur</string>
     <string name="kofi_support_label">Supporter sur Ko-Fi</string>
     <string name="action_start_shopping_mode">Démarrer le mode shopping</string>
-    <string name="settings_section_behavior_enable_dynamic_home_screen_description">Afficher les recommandations en fonction de l\'heure de la journée et de l\'année</string>
+    <string name="settings_section_behavior_enable_dynamic_home_screen_description">Afficher les recommandations en fonction de l'heure de la journée et de l'année</string>
     <string name="action_switch_space">Changer d\'espace</string>
     <string name="common_amount">Montant</string>
     <string name="common_category">Catégorie</string>
@@ -374,7 +374,7 @@
     <string name="settings_section_appearance_color_scheme_custom_from_image_error_title">Erreur lors de l\'application du thème personnalisé</string>
     <string name="common_ungrouped">Dégroupé</string>
     <string name="error_outdated_v1_instance">Cette version de kitshn ne prend pas en charge Tandoor v1. Veuillez mettre à jour vers Tandoor v2 ou installer une version plus ancienne de kitshn.</string>
-    <string name="settings_section_behavior_enable_meal_plan_promotion_description">Afficher les entrées d\'aujourd\'hui ou de demain</string>
+    <string name="settings_section_behavior_enable_meal_plan_promotion_description">Afficher les entrées d'aujourd'hui ou de demain</string>
     <string name="common_select_users_for_sharing_empty">Sélectionner les utilisateurs avec qui vous voulez partager.</string>
     <string name="common_select_users_for_sharing">Sélectionner les utilisateurs pour le partage</string>
     <string name="action_add_ingredient">Ajouter un ingrédient</string>
