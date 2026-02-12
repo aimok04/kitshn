@@ -409,4 +409,6 @@
     <string name="settings_section_behavior_enable_compact_home_screen_label">Включить компактный домашний экран</string>
     <string name="settings_section_behavior_ios_install_timer_shortcut_description">Необходимо для запуска таймеров непосредственно из приложения kitshn</string>
     <string name="settings_section_behavior_ios_install_timer_shortcut_label">Установить ярлык на таймеры iOS</string>
+    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Поддержка режима готовки для рецептов</string>
+    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Экран не гаснет при просмотре рецептов</string>
 </resources>
