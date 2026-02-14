@@ -326,28 +326,23 @@ fun KeywordSearchBar(
     }
 
     var showKeywordCreationItem by rememberSaveable { mutableStateOf(false) }
-    LaunchedEffect(searchResults.toList()) {
+    LaunchedEffect(searchResults.toList(), query) {
         showKeywordCreationItem = if(query.length > 2) {
-            searchResults.getOrNull(0).let { keyword ->
-                when(keyword) {
-                    null -> true
-                    else -> keyword.name.lowercase() != query.lowercase()
-                }
+            when(searchResults.size) {
+                0 -> true
+                else -> searchResults.first().name.lowercase() != query.lowercase()
             }
         } else {
             false
         }
     }
 
-    LaunchedEffect(search) {
-        // hide keyword creation item when changing query
-        showKeywordCreationItem = false
-    }
-
     val createKeywordRequestState = rememberTandoorRequestState()
     fun createKeyword(name: String) = coroutineScope.launch {
         createKeywordRequestState.wrapRequest {
             try {
+                query = ""
+
                 client.keyword.create(name, name).let {
                     onCheckedChange(it, it.id, true)
                 }
