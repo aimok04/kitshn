@@ -109,7 +109,7 @@
     <string name="beta_dialog_title">kitshn Бета</string>
     <string name="beta_dialog_description">Спасибо за использование kitshn Beta. Эта версия может все еще содержать проблемы совместимости. Вы можете сообщать об ошибках и проблемах, используя любые контактные варианты, указанные в » Настройки / О программе «.\n\nНаслаждайтесь готовкой с kitshn! 😄</string>
     <string name="common_count">Количество</string>
-    <string name="common_day_after_tomorrow">Послезавтра</string>
+    <string name="common_day_after_tomorrow">пусто</string>
     <string name="common_done">Готово</string>
     <string name="bugsnag_dialog_message">kitshn для iOS зависит от улучшения отчетности о сбоях. Приложение использует библиотеку/платформу Bugsnag для этого. Вы согласны на автоматическую загрузку данных о сбоях и ошибках?\n\nЭтот выбор можно изменить в Настройках/Поведение.</string>
     <string name="bugsnag_dialog_title">Разрешить отчетность о сбоях?</string>
@@ -120,7 +120,7 @@
     <string name="common_cook_book">Кулинарная книга</string>
     <string name="common_copied_to_clipboard">Скопировано в буфер обмена!</string>
     <string name="common_delete_permanently">Удалить навсегда</string>
-    <string name="common_day_before_yesterday">Позавчера</string>
+    <string name="common_day_before_yesterday">пусто</string>
     <string name="common_account">Учетная запись</string>
     <string name="common_custom_headers">Пользовательские заголовки</string>
     <string name="common_delete_permanently_text">Этот процесс нельзя отменить. Вы действительно хотите продолжить?</string>
@@ -394,4 +394,21 @@
     <string name="action_choose_existing_photo">Выберите существующее фото</string>
     <string name="action_take_new_photo">Сделать новое фото</string>
     <string name="common_ai_provider">AI Провайдер</string>
+    <string name="action_ignore">Игнорировать</string>
+    <string name="common_by">от</string>
+    <string name="ios_timer_dialog_action_install_shortcut">Установить Shortcut</string>
+    <string name="ios_timer_dialog_body">Apple не позволяет сторонним приложениям запускать таймеры непосредственно в iOS. kitshn использует обходной путь с участием приложения Shortcuts. Чтобы начать вам необходимог установить ярлык » %1$s «.</string>
+    <string name="ios_timer_dialog_shortcut_installed_switch">Shortcut установлен?</string>
+    <string name="ios_timer_dialog_title">Необходим Shortcut</string>
+    <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">Включите разрешение » Локальная сеть « для kitshn в системный настройках когда подключаетесь к локальному серверу.</string>
+    <string name="recipe_import_type_social_media_label">Импорт из Социальных Сетей</string>
+    <string name="recipe_import_type_social_media_description">Добавить рецепты из Instagram или TikTok используя ИИ</string>
+    <string name="recipe_import_type_social_media_disclaimer">На данный момент активно поддерживаются только Instagram иTikTok. Другие платформы так же могут поддерживаться.</string>
+    <string name="search_providers">Поисковые системы</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_description">Показывать списком вместо больших картинок</string>
+    <string name="settings_section_behavior_enable_compact_home_screen_label">Включить компактный домашний экран</string>
+    <string name="settings_section_behavior_ios_install_timer_shortcut_description">Необходимо для запуска таймеров непосредственно из приложения kitshn</string>
+    <string name="settings_section_behavior_ios_install_timer_shortcut_label">Установить ярлык на таймеры iOS</string>
+    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Поддержка режима готовки для рецептов</string>
+    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Экран не гаснет при просмотре рецептов</string>
 </resources>
