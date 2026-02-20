@@ -1,0 +1,6 @@
+BETA: Denne beta introducerer kompatibilitet med Tandoor v2. Denne version er ikke kompatibel med servere, der kører Tandoor v1.
+
+1. Fast problem var måltid plan poster blev tilføjet til forkerte datoer.
+2. Fast problem med åbne app links oprettet på Tandoor v2 på grund af ændrede URL.
+3. Forbedret mulighed for shoppingliste clearing dialog.
+4. Kontrolleret kompatibilitet med Tandoor version 2.0.0-alpha-3.

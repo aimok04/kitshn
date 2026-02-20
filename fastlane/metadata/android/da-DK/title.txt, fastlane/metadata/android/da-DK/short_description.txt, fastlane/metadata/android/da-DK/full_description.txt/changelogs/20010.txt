@@ -1,0 +1,6 @@
+Godt Nytår! 🥳
+
+Dette er den første mindre fejl fix udgivelse af kitshn v2.
+
+1. Fast problem, hvor tidligere datos etiketter kun inkluderede hverdage (#313).
+2. Fast problem, hvor flertal ikke blev brugt i indkøb (#307).
