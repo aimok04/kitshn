@@ -1,0 +1,8 @@
+BETA: Denne beta introducerer kompatibilitet med Tandoor v2. Denne version er ikke kompatibel med servere, der kører Tandoor v1.
+
+1. Forbedret søgedialoglayout og handlinger.
+2. Fast problem, hvor forkerte måltid planer poster, hvor vist på hjemmet.
+3. Fast problem, hvor nogle opskriftsdata ikke blev opdateret korrekt.
+4. 🇪🇸 spansk er blevet bragt op til dato (af @1024mb).
+5. 🇮🇹 Italiensk er blevet opdateret (af @KindaArtsy).
+6. 🇫🇷 French er blevet opdateret (af @whayn).

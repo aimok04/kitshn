@@ -1,0 +1,14 @@
+Hej ✌️
+Denne uges udgivelse tilføjer farveordninger 🎨✨ og igen forbedrer shoppingoplevelsen 🛍️ 🛒
+Det indeholder også nogle nedbrud og fejlrettelser og UI forbedringer:
+
+1. Tilføjet flere farveordninger og brugerdefinerede farveordninger baseret på billeder (#103).
+2. Tilføjet evne til at fjerne indkøbsliste poster (#107).
+3. Forbedret tilføjelse til indkøbskurven for at undgå input problemer (#102).
+4. Tilføjet dedikeret dialog for at vælge kategori til indkøbsliste poster for at undgå input problemer (#102).
+5. Faste dialoger overlappende med navigationslinje på Android 15 (#109),
+6. Fast problem, hvor dialoger med søgebarer ikke kunne lukkes med tilbage handling (#110).
+7. Fast datovælger i måltid plan redigering/skabelse dialog ikke åbne på iOS (#105).
+8. Fast nedbrud, når du deler opskriften på iOS (#108).
+9. Fast kildeknap er synlig, når kilde_url er tom (#106).
+10. Multiple UI og layout forbedringer.

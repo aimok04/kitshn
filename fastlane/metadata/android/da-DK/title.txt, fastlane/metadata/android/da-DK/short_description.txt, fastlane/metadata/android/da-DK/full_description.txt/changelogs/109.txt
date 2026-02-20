@@ -1,0 +1,4 @@
+- bedrift(recipes): tilføjet understøttelse af trin video filer (udløst 15)
+- bedrift(recipes): Hold skærmen på (#18) (af @FineFindus)
+- bedrift(ui): opsnapning af konfigurationsændringer
+- fix(strings.xml): korrigeret adfærd beskrivelse

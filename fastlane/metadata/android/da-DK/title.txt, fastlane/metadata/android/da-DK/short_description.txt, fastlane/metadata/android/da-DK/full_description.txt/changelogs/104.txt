@@ -1,0 +1,6 @@
+- bedrift(recipes): tilføjet markeringsstøtte til trin instruktioner (#1)
+- bedrift(recipes): tilføjet app links
+- bedrift(recipes): tilføjet aktieknap
+- l10n(strings.xml): tilføjet tyrkisk (tr) (#3) (by @mikropsoft)
+- chore(libs): version kofanger
+- flere fejlrettelser og design forbedringer

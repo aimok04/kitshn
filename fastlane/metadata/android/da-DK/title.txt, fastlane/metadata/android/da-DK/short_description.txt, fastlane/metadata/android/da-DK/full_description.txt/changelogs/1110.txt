@@ -1,0 +1,4 @@
+- bedrift(behavior): tilføjet toggles for at vise fraktionsværdier (#24)
+- bedrift(indstillinger): tilføjet fejlrapport knap
+- bedrift(acra): tilføjet download knap
+- chore(api): markeret v1.5.20 som kompatibel

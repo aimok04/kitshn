@@ -1,0 +1,4 @@
+1. Gennemført understøttelse for at vælge deling af brugere i måltidsplan oprettelse / redigering dialog (#148).
+2. Gennemført understøttelse for at vælge deling af brugere i opskrift bogoprettelse / redigere dialog (#154).
+3. Tilføjet check for at forhindre tomme trin, når du importerer opskrifter (#157).
+4. Kontrolleret kompatibilitet med Tandoor version 1.5.34.

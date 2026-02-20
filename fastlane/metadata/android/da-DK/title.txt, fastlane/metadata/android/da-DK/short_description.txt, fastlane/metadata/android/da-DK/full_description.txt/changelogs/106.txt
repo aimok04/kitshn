@@ -1,0 +1,6 @@
+- bedrift(recipes): tilføjet understøttelse af trin billedfiler (opløst # 14)
+- bedrift(shopping): gruppering af indkøbsliste poster efter mad (opløst # 13)
+- bedrift(manifest): tilføjet støtte til selvsignede certifikater (udløst 11)
+- bedrift(app): tilføjet "ny forekomst" genvej
+- bedrift(recipes): tilføjet "til indkøb" element til dropdown menu
+- bedrift(recipes): tilføjet opskrift management dialog
