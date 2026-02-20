@@ -1,0 +1,6 @@
+Hej ✌️
+Denne uges udgivelse indeholder kun mindre forbedringer:
+
+1. Tilføjet supermarked kaching på indkøbssiden for offline tilstand (#142).
+2. Gennemføret fraktionelle portioner til opskrifter (#143).
+3. Kontrolleret kompatibilitet med Tandoor version 1.5.32.

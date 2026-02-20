@@ -1,0 +1,8 @@
+- bedrift(utils): sæt max decimaltal til 2 (#24)
+- bedrift(hjem): forbedret dynamisk startskærm ved kaching fødevarer og nøgleord
+- bedrift(hjem): tilføjet go-tos sektion
+- bedrift(hjem): tilføjet jule sektion
+- bedrift(api): nu genfinding version fra openapi slutpunkt
+- fix(mealplan): respekt for standard måltidplan deling indstillinger (udløst #19)
+- chore(api): markeret v1.5.23 som kompatibel
+- chore(api): markeret v1.5.21/22 som kompatibel

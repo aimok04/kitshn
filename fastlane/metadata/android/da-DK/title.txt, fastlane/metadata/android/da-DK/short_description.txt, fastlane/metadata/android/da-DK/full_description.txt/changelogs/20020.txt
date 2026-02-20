@@ -1,0 +1,4 @@
+Dette er en lille udgivelse med nogle mindre forbedringer:
+
+1. Nu gemme supermarked og gruppering indstillinger i shopping selv efter lukning app.
+2. Tilføjet nye ticking ingredienser off funktion i opskrift detaljer se og madlavning tilstand (#314).

@@ -1,0 +1,4 @@
+- bedrift(afdækning): tilføjet API token tegn på (#9)
+- bedrift(recipes): tilføjet autotimer links i instruktioner
+- bedrift(acra): tilføjet postadresse felt til AcraCrashReportDialog.kt
+- flere fejlrettelser

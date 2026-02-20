@@ -1,0 +1,9 @@
+Hotfix
+- fix(dialog): grimme layout/animationer i fuld skærm dialog
+
+Ændringer til v1.0.0-alpha.10
+- bedrift(recipes): tilføjet templating støtte til trin instruktioner (#25)
+- bedrift(recipes): tilføjet egenskaber kort (#24)
+- bedrift(mealplan): forbedret ui for tabletter/foldelige
+- bedrift(dialog): forbedret adaptiv fuldskærmsdialogstørrelse
+- bedrift(recipes): skjul FAB ved at nå bunden for benbarhed
