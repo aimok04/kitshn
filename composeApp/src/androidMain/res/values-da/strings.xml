@@ -1,3 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="acra_comment_helper">Hvis du har lyst, kan du kommentere på, hvordan denne fejl opstod.</string>
+    <string name="acra_dialog_button_negative">Send ikke</string>
+    <string name="acra_dialog_button_neutral">Se rapport</string>
+    <string name="acra_dialog_button_positive">Send</string>
+    <string name="acra_dialog_message">Appen har oplevet en uventet fejl. Indsend venligst en fejlrapport for at hjælpe med at løse problemet.\n\nDu kan se hele rapporten, før du sender.</string>
+    <string name="acra_dialog_title">Ups!</string>
+    <string name="acra_email_address_helper">Hvis du vil, kan du indtaste din e-mail adresse og modtage opdateringer om din rapport.</string>
+    <string name="action_back">Tilbage</string>
+    <string name="action_download">Download</string>
+    <string name="app_name">kitshn</string>
+    <string name="common_comment">Kommentar</string>
+    <string name="common_email_address">E-mail adresse</string>
+    <string name="common_error_report">Fejlrapport</string>
+    <string name="common_import_recipe">Importer opskrift</string>
+    <string name="shortcuts_new_instance_label_long">Opret ny forekomst</string>
+    <string name="shortcuts_new_instance_label_short">Ny installation</string>
+    <string name="shortcuts_meal_plan_label_long">Åben madplan</string>
+    <string name="shortcuts_meal_plan_label_short">Madplan</string>
+    <string name="shortcuts_shopping_label_long">Åben indkøbsliste</string>
+    <string name="shortcuts_shopping_label_short">Indkøb</string>
+    <string name="shortcuts_shopping_mode_label_long">Start indkøbstilstand</string>
+    <string name="shortcuts_shopping_mode_label_short">Indkøbstilstand</string>
+    <string name="shortcuts_books_label_long">Åben bøger</string>
+    <string name="shortcuts_books_label_short">Bøger</string>
 </resources>
