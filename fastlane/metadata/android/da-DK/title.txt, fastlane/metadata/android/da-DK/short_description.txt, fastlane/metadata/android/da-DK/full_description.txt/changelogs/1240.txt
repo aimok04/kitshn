@@ -1,0 +1,6 @@
+1. 🇨🇿 tjekkisk er blevet tilføjet på Weblate (af @hernikplays).
+2. Gennemført menneskelige læselige datomærker til iOS (already understøttet på Android).
+3. Nu som standard for opskriftens portioner værdi, når du tilføjer til måltidsplan (#147) (af @Monforton).
+4. Nu som standard for opskriftens portioner værdi, når du vælger en opskrift i måltidsplan oprettelse/redigering dialog.
+5. Fast fejl, når du forsøger at tilføje opskrift ingredienser til indkøbsliste.
+6. Kontrolleret kompatibilitet med Tandoor version 1.5.33.

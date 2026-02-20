@@ -1,0 +1,8 @@
+kithn blev migreret til Kotlin/Compos Multiplatform. Dette muliggør kompatibilitet med iOS.
+Der kan også være nogle forskelle / ersues, der påvirker Android-bygningen. Du er velkommen til at rapportere dem om GitHub! :)
+
+Ændringer til v1.0.0-alpha.15.2
+- fix(build.gradle): deaktivere CompileArtProfil Opgave til reproducability
+
+Ændringer til v1.0.0-alpha.15.1
+- fix(build.gradle): sæt jvmToolchain til 17 for F-Droid bygge
