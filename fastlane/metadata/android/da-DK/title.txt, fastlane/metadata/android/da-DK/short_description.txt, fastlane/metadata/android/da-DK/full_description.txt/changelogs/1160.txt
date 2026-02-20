@@ -1,0 +1,8 @@
+- bedrift(alMain/shopping): tilføjet dropdowns til enhed og madfelter (opløst #57)
+- bedrift(README.md): tilføjet badges til iOS
+- bedrift(iosApp & fællesMain): tilpasning til Apple App Store retningslinjer
+- fix(README.md): ændrede ording
+- fix(recipes): forbedret regex til skabelonkommentar (udløst #58)
+- l10n(Tamil): oversat med Weblate
+- l10n(Tamil): oversat med Weblate
+- l10n(Ukrainian): oversat ved hjælp af Weblate

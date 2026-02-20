@@ -1,0 +1,7 @@
+BETA: Denne beta introducerer kompatibilitet med Tandoor v2. Denne version er ikke kompatibel med servere, der kører Tandoor v1.
+
+1. Tilføjet understøttelse af AI import, en ny funktion af Tandoor v2.
+2. Gennemført knap til klar indkøbsliste fra alle eller færdige poster.
+3. Tilføjet opskriftsnavn for at dele tekst for lettere identifikation.
+4. Aktiverede brugere for at deaktivere udvidelse af indkøbstilstand.
+5. Kontrolleret kompatibilitet med Tandoor version 2.0.0-alpha-2.

@@ -1,0 +1,3 @@
+- bedrift(afdækning): tilføjet login via browser (udløst #30)
+- fix(recipes): sløring overløb i opskrift kort info tag
+- fix(api): csrf problem, når du bruger Cookie log ind (udløst #30)

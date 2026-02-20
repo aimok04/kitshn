@@ -1,0 +1,4 @@
+BETA: Denne beta introducerer kompatibilitet med Tandoor v2. Denne version er ikke kompatibel med servere, der kører Tandoor v1.
+
+1. Gennemført trinredigering og oprettelse med markeringsunderstøttelse.
+2. 🇵🇱 Polish er blevet tilføjet på Weblate (tak til @dhunter49).

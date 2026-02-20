@@ -1,0 +1,6 @@
+Denne udgivelse indeholder hovedsagelig store rettelser, især for sociale medier og AI import.
+
+1. Øget timeout værdier for multipart anmodninger (f.eks. AI import) (#301).
+2. Fast problem, hvor AI / sociale medier import fejler, når der ikke er nogen værdi givet (#295).
+3. Fast problem, hvor postindhold ikke kunne hentes fra instagram indlæg (#302).
+4. Fast problem, hvor opskrift bøger ikke ville vise nogle opskrifter, når over 50 opskrifter (#297).

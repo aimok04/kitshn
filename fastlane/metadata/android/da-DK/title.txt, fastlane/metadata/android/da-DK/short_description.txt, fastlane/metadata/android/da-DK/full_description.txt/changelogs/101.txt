@@ -1,0 +1,2 @@
+- fix(build.gradle): fjernet minifying
+- fix(mealplan): måltidplan Type farve kan nu være affinde

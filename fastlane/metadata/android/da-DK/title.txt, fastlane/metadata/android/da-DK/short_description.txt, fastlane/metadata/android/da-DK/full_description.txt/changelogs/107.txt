@@ -1,0 +1,8 @@
+- bedrift(ui): ændret opskrift og måltid plan bundplader til dialoger
+- bedrift(ui): tilføjet animation til fuldskærm dialog
+- bedrift(recipes): tilføjet mulighed for at skjule ingrediens tildeling handling chip (#16)
+- bedrifter (indstillinger): tilføjet toggle til at ignorere uønskede ingredienser (opløst #16)
+- chore(libs): version kofanger
+- bedrift(manifest): ændret app link vært
+- bedrift(share): afkortede share wrapper links
+- bedrift(about): tilføjet hjemmeside
