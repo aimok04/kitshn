@@ -1,0 +1,7 @@
+1. Tilføj ny » Tilføj til indkøb « dialog for individuel udvælgelse af ingredienser.
+2. Tilføj » Gennemgå varer, før du tilføjer til indkøb « skifte, når du opretter ny måltidsplan indgang.
+3. Tilføj mulighed for at få vist dagens måltidsplan poster på hjemmet.
+4. sæthn viser nu trinnavnet i madlavningstilstand.
+5. Fix portioner mængde nulstilles efter åbning af madlavningstilstand fra måltid plan indgang.
+6. Fix opskrift bog, der vises som tomme, når kun indeholder filtrerede opskrifter.
+9. Fix supermarked kategorier sorteret forkert.

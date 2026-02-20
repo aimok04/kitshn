@@ -1,0 +1,6 @@
+Endnu en (næsten) fejl fix udgivelse:
+
+1. Fast nedbrud, når du åbner måltid plan side på iOS (#282).
+- Dette er en meget hurtig fix, som deaktiverer alle dato pickers på iOS.
+2. Faste sociale medier import mislykkes, når du deler link til kitshn uden standard AI-udbyder.
+3. Forbedret decimal til fraktionskonvertering (#281).

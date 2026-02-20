@@ -1,0 +1,8 @@
+Hej ✌️
+Denne uges udgivelse er fokuseret omkring at bringe nogle store funktioner og forbedringer til iOS-platformen.
+Der er også nogle ændringer, der påvirker alle platforme:
+
+1. 🇸🇮 Slovensk er blevet tilføjet på Weblate (ved @vednolacni).
+2. sæthn bruger nu et nyt markeringsbibliotek, der forbedrer stilen.
+3. Forskellige sider med doven lastning er blevet forbedret.
+4. Opskrift bøger viser nu også opskrifter fra filtre (#67).
