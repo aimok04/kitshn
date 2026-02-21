@@ -385,4 +385,6 @@
     <string name="tandoor_compatibility_unknown_label">Compatibilidade desconhecida</string>
     <string name="common_day_after_tomorrow">null</string>
     <string name="common_day_before_yesterday">null</string>
+    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Evite que a tela apague enquanto visualiza os detalhes da receita, assim como no Modo de Culinária</string>
+    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Manter a tela ativa na visão geral da receita</string>
 </resources>
