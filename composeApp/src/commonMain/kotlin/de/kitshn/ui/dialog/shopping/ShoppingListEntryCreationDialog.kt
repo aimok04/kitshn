@@ -1,5 +1,9 @@
 package de.kitshn.ui.dialog.shopping
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +18,8 @@ import androidx.compose.material.icons.automirrored.rounded.Label
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Scale
 import androidx.compose.material3.Button
+import androidx.compose.material3.ContainedLoadingIndicator
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -73,6 +79,7 @@ class ShoppingListEntryCreationDialogState(
     }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ShoppingListEntryCreationDialog(
     client: TandoorClient,
@@ -92,16 +99,22 @@ fun ShoppingListEntryCreationDialog(
     var amount by remember { mutableStateOf<Int?>(null) }
     var unit by remember { mutableStateOf<String?>(null) }
 
+    var isLoading by remember { mutableStateOf(false) }
+
     val addRequestState = rememberTandoorRequestState()
 
     fun create() {
         coroutineScope.launch {
+            isLoading = true
+
             addRequestState.wrapRequest {
                 val entry = client.shopping.add(amount?.toDouble(), food, unit)
                 onUpdate(entry)
 
                 state.dismiss()
             }
+
+            isLoading = false
 
             hapticFeedback.handleTandoorRequestState(addRequestState)
         }
@@ -119,14 +132,28 @@ fun ShoppingListEntryCreationDialog(
             )
         },
         actions = {
-            Button(
-                onClick = {
-                    create()
+            AnimatedContent(
+                targetState = isLoading,
+                transitionSpec = {
+                    fadeIn()
+                        .togetherWith(fadeOut())
                 }
             ) {
-                Text(
-                    text = stringResource(Res.string.action_add)
-                )
+                when(it) {
+                    true -> {
+                        ContainedLoadingIndicator()
+                    }
+
+                    false -> Button(
+                        onClick = {
+                            create()
+                        }
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.action_add)
+                        )
+                    }
+                }
             }
         },
         maxWidth = if(twoColumnLayout) 400.dp else 900.dp
