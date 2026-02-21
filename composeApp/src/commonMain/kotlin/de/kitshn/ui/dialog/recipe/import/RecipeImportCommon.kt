@@ -37,9 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil3.ImageLoader
 import coil3.compose.AsyncImage
-import coil3.compose.LocalPlatformContext
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
@@ -143,9 +141,6 @@ fun LazyListScope.RecipeImportCommon(
         }
 
         item {
-            val context = LocalPlatformContext.current
-            val imageLoader = remember { ImageLoader(context) }
-
             var showChoosePhotoDialog by remember { mutableStateOf(false) }
 
             HorizontalMultiBrowseCarousel(
@@ -172,8 +167,7 @@ fun LazyListScope.RecipeImportCommon(
                                     },
                                 model = data.uploadImage,
                                 contentDescription = "",
-                                contentScale = ContentScale.Crop,
-                                imageLoader = imageLoader
+                                contentScale = ContentScale.Crop
                             )
 
                             Box(
@@ -229,8 +223,7 @@ fun LazyListScope.RecipeImportCommon(
                                 },
                             model = url,
                             contentDescription = url,
-                            contentScale = ContentScale.Crop,
-                            imageLoader = imageLoader
+                            contentScale = ContentScale.Crop
                         )
 
                         if(data.selectedImageUrl == url) Box(
