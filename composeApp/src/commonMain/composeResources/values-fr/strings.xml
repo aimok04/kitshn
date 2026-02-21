@@ -27,7 +27,7 @@
     <string name="common_delete_permanently_text">Ce processus est irréversible. Voulez-vous vraiment continuer ?</string>
     <string name="common_okay">D'accord</string>
     <string name="common_copied_to_clipboard">Copié dans votre presse-papier !</string>
-    <string name="common_day_before_yesterday">Nulle</string>
+    <string name="common_day_before_yesterday">null</string>
     <string name="common_learn_more">En savoir plus</string>
     <string name="common_favorites">Favoris</string>
     <string name="common_option_requires_restart">Cette option nécessite un redémarrage</string>
