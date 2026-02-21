@@ -4,8 +4,11 @@ import com.eygraber.uri.Uri
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorFood
+import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
 
 @Serializable
 data class TandoorFoodRouteListResponse(
@@ -16,6 +19,18 @@ data class TandoorFoodRouteListResponse(
 )
 
 class TandoorFoodRoute(client: TandoorClient) : TandoorBaseRoute(client) {
+
+    suspend fun create(
+        name: String
+    ): TandoorFood {
+        val data = buildJsonObject {
+            put("name", JsonPrimitive(name))
+        }
+
+        return json.decodeFromString<TandoorFood>(
+            client.postObject("/food/", data).toString()
+        )
+    }
 
     suspend fun list(
         query: String? = null,
