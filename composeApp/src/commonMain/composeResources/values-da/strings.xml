@@ -101,8 +101,8 @@
     <string name="common_create_argument">Opret » %1$s «</string>
     <string name="common_creator">Oprettet af</string>
     <string name="common_custom_headers">Tilpassede sidehoveder</string>
-    <string name="common_day_after_tomorrow">nul</string>
-    <string name="common_day_before_yesterday">nul</string>
+    <string name="common_day_after_tomorrow">null</string>
+    <string name="common_day_before_yesterday">null</string>
     <string name="tandoor_compatibility_unknown_label">Kompatibilitet ukendt</string>
     <string name="common_reachable">Tilgængelig</string>
     <string name="common_recipe">Opskrift</string>
