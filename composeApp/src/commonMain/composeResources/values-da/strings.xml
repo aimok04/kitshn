@@ -384,7 +384,7 @@
     <string name="common_per_serving">pr. servering</string>
     <string name="common_portions">Serveringer</string>
     <string name="common_portions_text">Serverings-Tekst</string>
-    <string name="common_prepairing">Forberedelse</string>
+    <string name="common_prepairing">Forberedelsestid</string>
     <string name="common_properties">Egenskaber</string>
     <string name="common_random">Tilfældigt</string>
 </resources>
