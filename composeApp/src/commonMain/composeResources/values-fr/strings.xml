@@ -27,7 +27,7 @@
     <string name="common_delete_permanently_text">Ce processus est irréversible. Voulez-vous vraiment continuer ?</string>
     <string name="common_okay">D'accord</string>
     <string name="common_copied_to_clipboard">Copié dans votre presse-papier !</string>
-    <string name="common_day_before_yesterday">null</string>
+    <string name="common_day_before_yesterday">avant-hier</string>
     <string name="common_learn_more">En savoir plus</string>
     <string name="common_favorites">Favoris</string>
     <string name="common_option_requires_restart">Cette option nécessite un redémarrage</string>
@@ -116,10 +116,10 @@
     <string name="common_contact">Contact</string>
     <string name="common_count">Nombre</string>
     <string name="common_create_argument">Créer » %1$s «</string>
-    <string name="common_day_after_tomorrow">null</string>
+    <string name="common_day_after_tomorrow">après-demain</string>
     <string name="common_delete_permanently">Supprimer définitivement</string>
     <string name="common_description">Description</string>
-    <string name="common_email_address">Adresse e-mail</string>
+    <string name="common_email_address">Adresse courriel</string>
     <string name="common_end_date">Date de fin</string>
     <string name="common_error_report">Rapport d'erreur</string>
     <string name="common_info">Informations</string>
@@ -240,7 +240,7 @@
     <string name="settings_section_behavior_properties_show_fractional_values_label">Afficher les valeurs des propriétés personnalisées sous forme de fractions</string>
     <string name="settings_section_behavior_use_share_wrapper_description">Les liens Tandoor partagés peuvent être ouverts directement dans l'application</string>
     <string name="settings_section_server_delete_and_manage_data_description">Vous ne pouvez gérer vos données que sur la page web</string>
-    <string name="settings_section_server_delete_and_manage_data_dialog_line_2">Vous pouvez demander la suppression en envoyant un mail à</string>
+    <string name="settings_section_server_delete_and_manage_data_dialog_line_2">Vous pouvez demander la suppression en envoyant un courriel à</string>
     <string name="settings_section_server_delete_and_manage_data_label">Supprimer et gérer les données</string>
     <string name="settings_section_server_description">Informations sur votre serveur</string>
     <string name="share_incentive">Hey ! Jettes un coup d'œil à cette recette que j'ai trouvée sur Tandoor :</string>
@@ -417,4 +417,6 @@
     <string name="common_by">par</string>
     <string name="ios_timer_dialog_body">Apple n'autorise pas les applications tierces à démarrer des minuteurs directement sur iOS. kitshn utilise une solution de contournement faisant usage de l'application Raccourcis. Vous aurez besoin d'installer le raccourci « %1$s » pour continuer.</string>
     <string name="settings_section_behavior_ios_install_timer_shortcut_description">Nécessaire pour démarrer des minuteurs directement depuis l'application kitshn</string>
+    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Empêcher l'écran de se mettre en veille pendant l’affichage de la recette, tout comme dans le Mode cuisine</string>
+    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Gardez l’affichage de la recette actif</string>
 </resources>
