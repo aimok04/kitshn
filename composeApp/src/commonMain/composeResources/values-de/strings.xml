@@ -6,7 +6,7 @@
     <string name="acra_dialog_button_positive">Senden</string>
     <string name="acra_dialog_message">Die App hat einen unerwarteten Fehler erfahren. Bitte sende den Fehlerbericht, damit die App verbessert werden kann.\n\nDu kannst den Bericht natürlich vorher ansehen.</string>
     <string name="acra_dialog_title">Ups!</string>
-    <string name="acra_email_address_helper">Wenn du möchtest, kannst du deine E-Mail Adresse hinterlassen, um Neuigkeiten zu deinem Bericht zu erhalten.</string>
+    <string name="acra_email_address_helper">Wenn du möchtest, kannst du deine E-Mail-Adresse hinterlassen, um Neuigkeiten zu deinem Bericht zu erhalten.</string>
     <string name="action_abort">Abbrechen</string>
     <string name="action_add">Hinzufügen</string>
     <string name="action_add_to_favorites">zu Favoriten hinzufügen</string>
@@ -109,7 +109,7 @@
     <string name="common_description">Beschreibung</string>
     <string name="common_details">Details</string>
     <string name="common_done">Fertig</string>
-    <string name="common_email_address">E-Mail Adresse</string>
+    <string name="common_email_address">E-Mail-Adresse</string>
     <string name="common_end_date">End-Datum</string>
     <string name="common_error_report">Fehlerbericht</string>
     <string name="common_favorites">Favoriten</string>
@@ -351,7 +351,7 @@
     <string name="settings_section_behavior_use_share_wrapper_label">Share-Wrapper</string>
     <string name="settings_section_server_delete_and_manage_data_description">Du kannst deine Daten nur auf der Webseite verwalten</string>
     <string name="settings_section_server_delete_and_manage_data_dialog_line_1">Du kannst deine Daten auf der Webseite deiner Instanz verwalten. Bitte kontaktiere den Verwalter deiner Instanz, um deinen Account löschen zu lassen.</string>
-    <string name="settings_section_server_delete_and_manage_data_dialog_line_2">Du kannst die Löschung beantragen, indem du eine Mail an</string>
+    <string name="settings_section_server_delete_and_manage_data_dialog_line_2">Du kannst die Löschung beantragen, indem du eine E-Mail an</string>
     <string name="settings_section_server_delete_and_manage_data_dialog_line_3">schickst, da du die offizielle, öffentliche Instanz benutzt.</string>
     <string name="settings_section_server_delete_and_manage_data_label">Daten löschen und verwalten</string>
     <string name="settings_section_server_description">Informationen über deinen Server</string>
