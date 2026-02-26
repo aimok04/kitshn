@@ -284,4 +284,20 @@
     <string name="recipe_books_empty">Még nincsenek szakácskönyvek – készítsd el az első szakácskönyvedet!</string>
     <string name="recipe_cook_done_description">Finom? Írj egy értékelést és vezess feljegyzést a főzésről.</string>
     <string name="recipe_cook_done_title">Jó étvágyat 🤌</string>
+    <string name="bugsnag_dialog_message">Az iOS-hez készült kitshn fejlesztése a hibajelentésektől függ. Az alkalmazás a Bugsnag könyvtárat/platformot használja ehhez. Elfogadja, hogy automatikusan feltöltsük a hibajelentések adatait?\n\nEzt a beállítás a Beállítások/Viselkedés menüpontban módosíthatod.</string>
+    <string name="meal_plan_form_error_entry_needs_title_or_recipe">A bejegyzésnek vagy címmel, vagy egy meghatározott recepttel kell rendelkeznie.</string>
+    <string name="meal_plan_form_review_add_to_shopping_list_label">Tekintse át a termékeket, mielőtt hozzáadná a vásárláshoz</string>
+    <string name="meal_plan_no_recipes_for_this_day">Nincsenek hozzáadott receptek erre a napra</string>
+    <string name="navigation_books">Könyvek</string>
+    <string name="navigation_home">Kezdőoldal</string>
+    <string name="recipe_edit_no_keywords_added">Ehhez a recepthez még nem adtak hozzá kulcsszavakat.</string>
+    <string name="recipe_edit_no_steps_added">Ehhez a recepthez még nem adtak hozzá lépéseket.</string>
+    <string name="recipe_import_divide_steps">Lépések felosztása</string>
+    <string name="recipe_import_divide_steps_description">Lépések felosztása sortörésekkel</string>
+    <string name="recipe_import_type_ai_label">Importálás mesterséges intelligenciával</string>
+    <string name="recipe_import_type_ai_description">Töltsön fel képeket, vagy írjon be egy receptet szöveges formában</string>
+    <string name="recipe_import_type_social_media_label">Importálás a közösségi médiából</string>
+    <string name="recipe_import_type_social_media_description">Adjon hozzá recepteket az Instagramból vagy a TikTok-ból mesterséges intelligencia segítségével</string>
+    <string name="recipe_import_type_social_media_disclaimer">Jelenleg csak az Instagram és a TikTok támogatott aktívan. Más platformok is támogatottak lehetnek.</string>
+    <string name="recipe_import_type_url_label">Importálás weboldalról</string>
 </resources>
