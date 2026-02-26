@@ -1,0 +1,2 @@
+- hibajavítás(build.gradle): eltávolítva a kicsinyítés
+- hibajavítás(étrend): az étrend típusának színe mostantól lehet nem meghatározott is
