@@ -1,0 +1,4 @@
+- új funkció(bejelentkezés): elérhető az API token alapú bejelentkezés (#9)
+- új funkció(receptek): automatikus időzítő linkek hozzáadva az utasításokhoz
+- új funkció(acra): e-mail cím mező hozzáadva az AcraCrashReportDialog.kt fájlhoz
+- több hibajavítás

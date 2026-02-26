@@ -1,0 +1,13 @@
+- új funkció: a receptek és étkezési tervek mostmár párbeszédablakok
+- új funkció: párbeszédablak animációk
+- új funkció(receptek): elrejthető összetevő-elosztási üzenet(#16)
+- új funkció(beállítások): váltás a nem hozzárendelt összetevők figyelmen kívül hagyására (megoldva #16)
+- chore(libs): új verzió
+- új alkalmazáslink-hoszt
+- új funkció(megosztás): rövidített linkek
+- új weboldal link
+- új elérhetőségi e-mail cím
+- új arca url
+- új megosztás url
+- hibajavítás(ui): állapotsor ikon színe a teljes képernyős módban
+- hibajavítás(étrend): billentyűzet elrejtése az étkezés típusának kiválasztása után
