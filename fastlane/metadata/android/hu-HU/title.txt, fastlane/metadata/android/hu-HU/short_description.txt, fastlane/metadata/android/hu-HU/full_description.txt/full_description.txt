@@ -1,0 +1,36 @@
+A Compose és a Material 3 Expressive segítségével készült, modern, intuitív és reszponzív felhasználói élményt nyújtva.
+
+<b>💪 Kiemelkedő funkciók</b>
+<ul>
+<li>Dinamikus <i>kezdőképernyő</i></li>
+<li>Felhasználói felület</i>
+<ul>
+<li>Material Saját testreszabása</li>
+<li>Material 3 <i> Expressive </i></li>
+<li>Adaptív elrendezés <i>telefonokhoz</i>, <i>táblagépekhez</i> és <i>összecsukható eszközökhöz</i></li>
+</ul>
+<li>Receptek</li>
+<ul>
+<li><i>Markdown</i> támogatás</li>
+<li>Főzés mód</li>
+<li>Időzítők létrehozása <a href="https://kitshn.app/docs/features/timer-detection">időzítőérzékeléssel</a></li>
+<li><a href="https://kitshn.app/docs/features/share-wrapping.html">Alkalmazáslinkek</a></li>
+<li><a href="https://kitshn.app/docs/features/embedding-videos-inside-steps.html">Videók beágyazása</a> a lépéseken belül</li>
+<li>Importálás</li>
+<li><a href="https://kitshn.app/docs/features/social-media-import.html">Közösségi média importálása</a> <i>mesterséges intelligenciával</i></li>
+<li>Linkek megosztása a <i>kitshn</i>-vel importáláshoz</li>
+<li>Egyszerű hozzávaló elrendezés</li>
+</ul>
+<li>Étkezésterv</li>
+<li>Bevásárlólista</li>
+<ul>
+<li>Vásárlási mód</li>
+<li>Offline szinkronizálás</li>
+</ul>
+<li>Receptkönyvek</li>
+<ul>
+<li><a href="https://kitshn.app/docs/features/favorites.html">Kedvencek</a></li>
+</ul>
+</ul>
+
+Az ikont a Freepik készítette a www.flaticon.com oldalról

@@ -1,0 +1,6 @@
+- új funkció(acra): mostantól acra-http-t használunk
+- új funkció(kezdőképernyő): jobb listateljesítmény
+- új funkció(kérések): jobb hibaüzenet
+- hibajavítás(kérések): összeomlások oka kijavítva
+- hibajavítás(vm): összeomlás, ha nem lehet elemezni a verziót
+- hibajavítás(build.gradle): kicsinyítés újra elérhető
