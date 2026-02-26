@@ -1,0 +1,12 @@
+- új funkció(receptek): kép hozzáadása az egyes lépésekhez (megoldva #14)
+- új funkció(bevásárlás): bevásárlólista-bejegyzések csoportosítása ételek szerint (megoldva #13)
+- új funkció(manifest): támogatás önaláírt tanúsítványokhoz (megoldva #11)
+- új funkció(alkalmazás): "új példány" parancsikon
+- új funkció(receptek): új "hozzáadás a vásárláshoz" elem a legördülő menüben
+- új funkció(receptek): új receptkönyv-kezelő párbeszédpanel
+- új funkció(általános): továbbfejlesztett, ember által olvasható dátumcímkék
+- új funkció(receptek): továbbfejlesztett vízszintes elrendezés táblagépekhez a főzés módban
+- chore(libs): új verzió
+- hibajavítás(receptek): migrálva egy másik markdown könyvtárra
+- hibajavítás(bevásárlás): a szövegmezők mostmár egysorosak
+- hibajavítás(bejelentkezés): token/jelszó előtag ellenőrzése az automatikus kitöltés előtt
