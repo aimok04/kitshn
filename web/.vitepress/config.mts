@@ -76,6 +76,8 @@ export default defineConfig({
     hostname: "https://kitshn.app"
   },
   head: [
+    ["script", { src: "https://keepandroidopen.org/banner.js" }],
+    ["link", { rel: "stylesheet", href: "/style.css" }],
     ["meta", { name: "darkreader-lock" }],
     ["link", { rel: "apple-touch-icon", sizes: "57x57", href: "/apple-icon-57x57.png" }],
     ["link", { rel: "apple-touch-icon", sizes: "60x60", href: "/apple-icon-60x60.png" }],
