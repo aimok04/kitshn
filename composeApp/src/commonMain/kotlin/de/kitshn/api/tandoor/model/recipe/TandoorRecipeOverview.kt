@@ -1,12 +1,14 @@
 package de.kitshn.api.tandoor.model.recipe
 
 import androidx.compose.runtime.Composable
+import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.json
+import kitshn.composeapp.generated.resources.Res
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.json.JsonObject
@@ -42,8 +44,12 @@ class TandoorRecipeOverview(
 
     @Composable
     fun loadThumbnail(): ImageRequest? {
-        return if(image == null || client == null) {
-            null
+        if(image == null || client == null) {
+            // Load local placeholder image if no image present
+            return ImageRequest.Builder(LocalPlatformContext.current)
+                .data(Res.getUri("drawable/placeholder_receipe_image.png"))
+                .crossfade(true)
+                .build()
         } else {
             return client!!.media.createImageBuilder(image)
                 .crossfade(true)
@@ -58,5 +64,4 @@ class TandoorRecipeOverview(
             return obj
         }
     }
-
 }
