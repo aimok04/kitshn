@@ -1,0 +1,7 @@
+Disse er højdepunkterne i Kithn v2:
+
+1. Kompatibilitet med Tandoor v2 (#95)
+2. Overhalet design ved hjælp af materiale 3 Expressive (#204)
+3. Nye funktioner og forbedret brugervenlighed:
+- Ny Social Media Import funktion, som kan importere indlæg fra Instagram og TikTok.
+- ...

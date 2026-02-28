@@ -1,0 +1,8 @@
+1. » Új fotó készítése « opció minden képfeltöltési mezőhöz.
+2. Időzítő tartományok támogatása (pl. 2-5 perc).
+3. MI szolgáltató választó az MI és közösségi média importáláshoz.
+4. Kijavítottuk a MI importálási opciók letiltását az API változásai miatt.
+5. Kijavítottuk a hibát ami megakadályozta a receptlista frissülését, amikor másik receptkönyvet választottunk.
+6. Kijavítottuk a hibát, amely miatt az összetevők mennyisége nem skálázódott.
+7. Az étrend bejegyzéseinek rendezési sorrendjét időértékre módosítottuk.
+8. Ellenőriztük a Tandoor v2.0.3 és v2.2.7 közötti kompatibilitást.

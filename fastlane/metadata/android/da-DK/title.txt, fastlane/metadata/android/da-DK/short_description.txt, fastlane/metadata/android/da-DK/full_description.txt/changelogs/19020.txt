@@ -1,0 +1,8 @@
+BETA: Denne beta introducerer kompatibilitet med Tandoor v2. Denne version er ikke kompatibel med servere, der kører Tandoor v1.
+
+1. Gennemført fraktional portioner til måltid planer.
+2. Tilføjet understøttelse til at vise timer i varighed chips.
+3. Gennemførte genveje til måltid plan, indkøb, indkøbstilstand og bøger på Android.
+4. Faste ingredienser, der vises som dubler, når du fjerner elementer i ingrediens tildelingsdialog.
+5. Hollandsk er blevet opdateret (af @jstrvr).
+6. Fransk er blevet opdateret (af @letroll).

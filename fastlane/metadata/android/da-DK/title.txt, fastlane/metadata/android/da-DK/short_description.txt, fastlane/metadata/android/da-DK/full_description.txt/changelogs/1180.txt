@@ -1,0 +1,9 @@
+Hej ✌️
+Denne uges udgivelse tilføjer to nye sprog og nogle mindre ændringer:
+
+1. 🇫🇷 fransk er blevet tilføjet på Weblate (af @KcivazB).
+2. 🇪🇸 spansk er blevet tilføjet på Weblate (af @1024mb).
+3. Tilføjet en mulighed for at deaktivere de dynamiske anbefalinger på startskærmen.
+4. Tilføjet understøttelse af brugerdefinerede overskrifter til godkendelse.
+5. Tilføjet fejlrapport knap på onboarding side.
+6. Løst nogle layout og UI problemer.

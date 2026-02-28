@@ -1,0 +1,1 @@
+Egy nem hivatalos kliens a saját üzemeltetésű Tandoor recept kezelőhöz.

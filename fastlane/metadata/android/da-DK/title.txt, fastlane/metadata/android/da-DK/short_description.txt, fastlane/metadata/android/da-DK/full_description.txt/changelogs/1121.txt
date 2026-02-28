@@ -1,0 +1,9 @@
+Hotfix
+- fix(recipes): problem med regex for skabelonkommentarer (udløst #27)
+
+Ændringer til v1.0.0-alpha.12
+- bedrift(utils): sæt max decimaltal til 2 (#24)
+- bedrift(hjem): forbedret dynamisk startskærm ved kaching fødevarer og nøgleord
+- bedrift(hjem): tilføjet go-tos sektion
+- bedrift(hjem): tilføjet jule sektion
+- bedrift(api): nu genfinding version fra openapi slutpunkt

@@ -1,0 +1,6 @@
+- bedrift(acra): skiftet til acra-http
+- bedrift(hjem): forbedret listeydelse
+- bedrift(kræver): forbedret fejldialog
+- fix(requests): faste nedbrud
+- fix(vm): crash, når de ikke kan parse version
+- fix(build.gradle): tilføjet minifying back

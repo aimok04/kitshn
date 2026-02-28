@@ -1,0 +1,8 @@
+1. Tilføjet » Tag ny foto « mulighed for hvert billede upload felt.
+2. Tilføjet understøttelse af timer intervaller (f.eks 2 til 5 minutter).
+3. Tilføjet AI-udbyder vælgeror til AI og sociale medier import.
+4. Fast AI import muligheder bliver deaktiveret på grund af API ændringer.
+5. Faste opskrifter liste ikke opdatering, når du vælger forskellige opskrift bog.
+6. Fast problem, hvor ingrediens mængde skabelon ikke blev scaling.
+7. Ændret sortering ordre af måltid plan poster til tidsværdi.
+8. Kontrolleret kompatibilitet med Tandoor v2.0.3 til v2.2.7.

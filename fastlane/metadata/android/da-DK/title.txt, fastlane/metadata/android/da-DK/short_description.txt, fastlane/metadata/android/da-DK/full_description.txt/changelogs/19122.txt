@@ -1,0 +1,4 @@
+Denne udgivelse indeholder en anden fix, som skal gøre det muligt igen at bruge inputfelter på startsiden 😅
+
+1. Fast problem, der forhindres ved hjælp af inputfelter på startskærmen (#289).
+2. Ændret nummer input felt software tastatur.

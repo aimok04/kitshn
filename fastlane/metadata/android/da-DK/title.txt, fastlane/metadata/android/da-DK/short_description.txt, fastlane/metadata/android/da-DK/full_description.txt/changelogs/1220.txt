@@ -1,0 +1,8 @@
+1. Forbedret størrelsesforhold på sider med listedetaljer layouts.
+2. Forbedret scrolling i shopping og shopping mode.
+3. Forbedret fejldialog og fejlhåndtering.
+4. Tilføjet pladsholder ikon til tomme opskrift bøger.
+5. Fast irriterende fejldialog, når du har tomme opskrift bøger.
+6. Fast » portioner « label være på tysk, når sproget er indstillet til engelsk.
+7. Fast nedbrud, når du vælger et supermarked uden tildelt kategorier.
+8. 🇹🇷 Tyrkisk er blevet bragt op til dato (af @mikropsoft).
