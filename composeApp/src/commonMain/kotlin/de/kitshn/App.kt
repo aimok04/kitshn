@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,12 +26,14 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import coil3.compose.LocalPlatformContext
+import coil3.compose.setSingletonImageLoaderFactory
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.cache.ShoppingListEntriesCache
 import de.kitshn.ui.route.navigation.PrimaryNavigation
 import de.kitshn.ui.theme.KitshnTheme
 import de.kitshn.ui.theme.custom.AvailableColorSchemes
+import de.kitshn.utils.createImageLoader
 import kotlinx.coroutines.delay
 
 private val SavedTandoorClient = mutableStateOf<TandoorClient?>(null)
@@ -61,6 +64,15 @@ internal fun App(
     }
 
     val density = LocalDensity.current
+
+    val credentials = vm.tandoorClient?.credentials
+    setSingletonImageLoaderFactory { context ->
+        if (credentials != null) {
+            createImageLoader(context, credentials)
+        } else {
+            coil3.ImageLoader.Builder(context).build()
+        }
+    }
 
     DisposableEffect(key1 = Unit) {
         onDispose {

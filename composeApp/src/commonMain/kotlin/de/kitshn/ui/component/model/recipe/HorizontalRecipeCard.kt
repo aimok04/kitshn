@@ -37,9 +37,6 @@ fun HorizontalRecipeCard(
     onClick: (recipeOverview: TandoorRecipeOverview) -> Unit,
     onLongClick: (recipeOverview: TandoorRecipeOverview) -> Unit
 ) {
-    val context = LocalPlatformContext.current
-    val imageLoader = remember { ImageLoader(context) }
-
     Card(
         modifier = modifier,
         onClick = { onClick(recipeOverview) }
@@ -60,7 +57,6 @@ fun HorizontalRecipeCard(
                         model = recipeOverview.loadThumbnail(),
                         contentDescription = recipeOverview.name,
                         contentScale = ContentScale.Crop,
-                        imageLoader = imageLoader,
                         modifier = Modifier
                             .size(64.dp)
                             .clip(RoundedCornerShape(16.dp))

@@ -24,9 +24,11 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.HighlightOff
 import androidx.compose.material.icons.rounded.Key
 import androidx.compose.material.icons.rounded.Password
 import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material.icons.rounded.VerifiedUser
 import androidx.compose.material.icons.rounded.Web
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -125,6 +127,7 @@ fun RouteOnboardingSignIn(
     val crashReportHandler = crashReportHandler()
 
     val coroutineScope = rememberCoroutineScope()
+    val certificateSelector = de.kitshn.utils.rememberClientCertificateSelector()
 
     var instanceUrlValue by rememberSaveable { mutableStateOf("https://app.tandoor.dev") }
     var instanceUrlDisplayValue by rememberSaveable { mutableStateOf("https://app.tandoor.dev") }
@@ -134,15 +137,17 @@ fun RouteOnboardingSignIn(
 
     var showCustomHeadersDialog by remember { mutableStateOf(false) }
     val customHeaders = remember { mutableStateListOf<TandoorCredentialsCustomHeader>() }
+    var clientCertificateAlias by rememberSaveable { mutableStateOf<String?>(null) }
 
-    LaunchedEffect(instanceUrlValue, showCustomHeadersDialog) {
+    LaunchedEffect(instanceUrlValue, showCustomHeadersDialog, clientCertificateAlias) {
         instanceUrlState = ErrorLoadingSuccessState.LOADING
         delay(1000)
 
         val client = TandoorClient(
             TandoorCredentials(
                 instanceUrl = instanceUrlValue,
-                customHeaders = customHeaders
+                customHeaders = customHeaders,
+                clientCertificateAlias = clientCertificateAlias
             )
         )
 
@@ -153,16 +158,39 @@ fun RouteOnboardingSignIn(
 
                 hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
             } catch(e: Exception) {
-                instanceUrlV1Error = true
+                if (client.certificateRequested && clientCertificateAlias == null) {
+                    certificateSelector.selectClientCertificate { alias ->
+                        if (alias != null) {
+                            clientCertificateAlias = alias
+                        } else {
+                            instanceUrlV1Error = true
+                            instanceUrlState = ErrorLoadingSuccessState.ERROR
+                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
+                        }
+                    }
+                } else {
+                    instanceUrlV1Error = true
+                    instanceUrlState = ErrorLoadingSuccessState.ERROR
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
+                }
+            }
+        } else {
+            if (client.certificateRequested && clientCertificateAlias == null) {
+                certificateSelector.selectClientCertificate { alias ->
+                    if (alias != null) {
+                        clientCertificateAlias = alias
+                    } else {
+                        instanceUrlV1Error = false
+                        instanceUrlState = ErrorLoadingSuccessState.ERROR
+                        hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
+                    }
+                }
+            } else {
+                instanceUrlV1Error = false
                 instanceUrlState = ErrorLoadingSuccessState.ERROR
 
                 hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
             }
-        } else {
-            instanceUrlV1Error = false
-            instanceUrlState = ErrorLoadingSuccessState.ERROR
-
-            hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
         }
     }
 
@@ -188,7 +216,8 @@ fun RouteOnboardingSignIn(
                             scope = "undefined",
                             expires = "undefined"
                         ),
-                        customHeaders = customHeaders
+                        customHeaders = customHeaders,
+                        clientCertificateAlias = clientCertificateAlias
                     )
 
                     p.vm.tandoorClient = TandoorClient(
@@ -214,7 +243,8 @@ fun RouteOnboardingSignIn(
                         instanceUrl = instanceUrlValue,
                         username = usernameValue,
                         password = passwordValue,
-                        customHeaders = customHeaders
+                        customHeaders = customHeaders,
+                        clientCertificateAlias = clientCertificateAlias
                     )
 
                     val client = TandoorClient(credentials)
@@ -376,6 +406,29 @@ fun RouteOnboardingSignIn(
                                 )
                             }
                         }
+                    }
+
+                    if (clientCertificateAlias != null) {
+                        Spacer(Modifier.height(8.dp))
+                        androidx.compose.material3.InputChip(
+                            selected = true,
+                            onClick = { clientCertificateAlias = null },
+                            label = { Text("Client Certificate: $clientCertificateAlias") },
+                            trailingIcon = {
+                                Icon(
+                                    Icons.Rounded.HighlightOff,
+                                    "Clear Certificate",
+                                    modifier = Modifier.size(18.dp)
+                                )
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Rounded.VerifiedUser,
+                                    "Certificate",
+                                    modifier = Modifier.size(18.dp)
+                                )
+                            }
+                        )
                     }
 
                     Spacer(Modifier.height(12.dp))
