@@ -1091,8 +1091,8 @@ fun ViewRecipeDetails(
             onSubmit = { ingredients, servings ->
                 coroutineScope.launch {
                     recipeAddToShoppingRequestState.wrapRequest {
-                        recipe?.shopping(
-                            ingredients = ingredients.map { ingredient -> ingredient.id },
+                        recipe?.addToShopping(
+                            entries = ingredients,
                             servings = servings
                         )
                     }

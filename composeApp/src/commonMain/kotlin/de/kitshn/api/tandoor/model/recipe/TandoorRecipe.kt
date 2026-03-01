@@ -14,10 +14,12 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorFoodProperty
+import de.kitshn.api.tandoor.model.TandoorIngredient
 import de.kitshn.api.tandoor.model.TandoorKeyword
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.patchObject
+import de.kitshn.api.tandoor.postObject
 import de.kitshn.api.tandoor.put
 import de.kitshn.api.tandoor.putMultipart
 import de.kitshn.api.tandoor.route.TandoorUser
@@ -152,6 +154,43 @@ class TandoorRecipe(
         // delete all other steps
         remainingSteps.forEach {
             deleteStep(it)
+        }
+    }
+
+    suspend fun addToShopping(
+        entries: List<TandoorIngredient>,
+        servings: Double
+    ) {
+        if(client == null) return
+
+        try {
+            val response = client!!.postObject("/shopping-list-recipe/", buildJsonObject {
+                put("recipe", id)
+                put("servings", servings)
+            })
+
+            val id = response["id"]!!.jsonPrimitive.content
+
+            val factor = servings / this.servings.toDouble()
+
+            client!!.postObject("/shopping-list-recipe/${ id }/bulk_create_entries/", buildJsonObject {
+                put("entries", buildJsonArray {
+                    entries.forEach {
+                        add(buildJsonObject {
+                            put("amount", factor * it.amount)
+                            put("unit_id", it.unit?.id)
+                            put("food_id", it.food?.id)
+                            put("ingredient_id", it.id)
+                        })
+                    }
+                })
+
+                put("shopping_lists_ids", buildJsonArray {  })
+            })
+        } catch (ex: Exception) {
+            // prevent HTTP 204 had non-zero Content-Length exception
+            if(ex.message?.contains("HTTP 204") == true) return
+            throw ex
         }
     }
 
