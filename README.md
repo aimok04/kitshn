@@ -1,3 +1,6 @@
+> [!CAUTION]
+> ‼️ Android will become a locked-down platform. Learn more: https://keepandroidopen.org/
+
 ![kitshn (for Tandoor)](/images/title_light.png#gh-light-mode-only)
 ![kitshn (for Tandoor)](/images/title_dark.png#gh-dark-mode-only)
 ---
