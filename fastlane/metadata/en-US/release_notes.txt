@@ -1,4 +1,1 @@
-1. Danish (by My Nameis), Estonian (by @beez276) and Arabic (by @Dkhil) have been added on Weblate.
-2. French (by @quentinrenoux and @Fymyte), Portuguese (Brazil) (by @lucasmc64), Dutch (by Tapir Dorro) and Russian (by @korn3r and @Xapitonov) have been updated on Weblate.
-3. Fixed parsing issues when creating shopping list items (#338).
-4. Fixed new keyword item not showing up when selecting keywords for a recipe (#335).
+1. Changed API calls for » add to shopping « in recipe detail view (#343).

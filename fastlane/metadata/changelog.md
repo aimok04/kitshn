@@ -20,29 +20,5 @@ This release includes *two fixes* and *language updates*:
 
 ## Commits
 
-- feat(commonMain/shopping): added loading icon in ShoppingListEntryCreationDialog.kt
-- fix(commonMain/shopping): improved add method by creating food and unit directly without using ingredient-parser (resolved #338)
-- fix(commonMain/ui): create new keyword item not showing up in SelectMultipleKeywordsDialog.kt (resolved #335)
-- l10n(Danish): translated using Weblate
-- l10n(French): translated using Weblate
-- l10n(Danish): translated using Weblate
-- l10n(Danish): translated using Weblate
-- l10n(Danish): added translation using Weblate
-- l10n(Danish): added translation using Weblate
-- l10n(Dutch): translated using Weblate
-- l10n(Russian): translated using Weblate
-- l10n(French): translated using Weblate
-- l10n(Estonian): translated using Weblate
-- l10n(Estonian): translated using Weblate
-- l10n(Estonian): added translation using Weblate
-- l10n(Estonian): added translation using Weblate
-- l10n(French): translated using Weblate
-- l10n(French): translated using Weblate
-- l10n(Portuguese (Brazil)): translated using Weblate
-- l10n(Arabic): translated using Weblate
-- l10n(Arabic): translated using Weblate
-- l10n(Arabic): added translation using Weblate
-- l10n(Arabic): added translation using Weblate
-- l10n(Portuguese (Brazil)): translated using Weblate
-- l10n(Portuguese (Brazil)): translated using Weblate
-- l10n(Russian): translated using Weblate
+- feat(web/vitepress): added keep android open banner (see https://keepandroidopen.org/)
+- fix(commonMain/recipes): adapt "add to shopping" function to new api (resolved #343)

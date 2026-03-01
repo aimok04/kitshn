@@ -1,0 +1,3 @@
+‼️ Android will become a locked-down platform. Learn more: https://keepandroidopen.org/
+
+1. Changed API calls for » add to shopping « in recipe detail view (#343).
