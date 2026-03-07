@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="acra_comment_helper">Ha szeretnéd leírhatod hogyan történt ez a hiba.</string>
+    <string name="acra_dialog_button_negative">Ne küld</string>
+    <string name="acra_dialog_button_neutral">Jelentés megtekintése</string>
+    <string name="acra_dialog_button_positive">Küldés</string>
+    <string name="acra_dialog_message">Az alkalmazás nem várt eseményt érzékelt és leállt. Kérjük küldje el nekünk a hiba jelentést.\n\nKüldés előtt at nézheted a teljes jelentést.</string>
+    <string name="acra_dialog_title">Upsz!</string>
+    <string name="acra_email_address_helper">Megadhatod az e-mail címedet, hogy értesítéseket kapj a jelentésedről.</string>
+    <string name="action_back">Vissza</string>
+    <string name="action_download">Letöltés</string>
+    <string name="app_name">kitshn</string>
+    <string name="common_comment">Komment</string>
+    <string name="common_email_address">Levelezési cím</string>
+    <string name="common_error_report">Hibajelentés</string>
+    <string name="common_import_recipe">Recept importálása</string>
+    <string name="shortcuts_new_instance_label_long">Új példány létrehozása</string>
+    <string name="shortcuts_new_instance_label_short">Új példány</string>
+    <string name="shortcuts_meal_plan_label_long">Étrend megnyitása</string>
+    <string name="shortcuts_meal_plan_label_short">Étrend</string>
+    <string name="shortcuts_shopping_label_long">Bevásárlólista megnyitása</string>
+    <string name="shortcuts_shopping_label_short">Bevásárlás</string>
+    <string name="shortcuts_shopping_mode_label_long">Bevásárlási mód indítása</string>
+    <string name="shortcuts_shopping_mode_label_short">Bevásárló mód</string>
+    <string name="shortcuts_books_label_long">Könyvek kinyitása</string>
+    <string name="shortcuts_books_label_short">Könyvek</string>
+</resources>
