@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="acra_comment_helper">Wenn du möchtest, kannst du beschreiben, wie der Crash entstanden ist.</string>
+    <string name="acra_comment_helper">Wenn du möchtest, kannst du beschreiben, wie der Fehler aufgetreten ist.</string>
     <string name="acra_dialog_button_negative">Nicht senden</string>
     <string name="acra_dialog_button_neutral">Bericht ansehen</string>
     <string name="acra_dialog_button_positive">Senden</string>
