@@ -4,7 +4,7 @@
     <string name="acra_dialog_button_negative">Nicht senden</string>
     <string name="acra_dialog_button_neutral">Bericht ansehen</string>
     <string name="acra_dialog_button_positive">Senden</string>
-    <string name="acra_dialog_message">Die App hat einen unerwarteten Fehler erfahren. Bitte sende den Fehlerbericht, damit die App verbessert werden kann.\n\nDu kannst den Bericht natürlich vorher ansehen.</string>
+    <string name="acra_dialog_message">"Es gab einen unerwarteten Fehler in der App. Bitte sende einen Fehlerbericht,  um mitzuhelfen das Problem zu beheben.\n\nDu kannst den Bericht natürlich vorher ansehen."</string>
     <string name="acra_dialog_title">Ups!</string>
     <string name="acra_email_address_helper">Wenn du möchtest, kannst du deine E-Mail-Adresse hinterlassen, um Neuigkeiten zu deinem Bericht zu erhalten.</string>
     <string name="action_abort">Abbrechen</string>
@@ -66,7 +66,7 @@
     <string name="action_plus">Plus</string>
     <string name="action_plus_one_week">+ eine Woche</string>
     <string name="action_remove">Entfernen</string>
-    <string name="action_remove_from_favorites">von Favoriten entfernen</string>
+    <string name="action_remove_from_favorites">Aus Favoriten entfernen</string>
     <string name="action_reorder">Ordnen</string>
     <string name="action_reset">Zurücksetzen</string>
     <string name="action_save">Speichern</string>
@@ -78,14 +78,14 @@
     <string name="action_sign_out_description">Alle Anmeldedaten vergessen</string>
     <string name="action_start_cooking">Kochmodus starten</string>
     <string name="action_start_shopping_mode">Einkaufsmodus starten</string>
-    <string name="action_support">Support</string>
+    <string name="action_support">Spenden</string>
     <string name="action_switch_space">Space wechseln</string>
     <string name="action_upload">Hochladen</string>
     <string name="action_yes">Ja</string>
     <string name="app_name">kitshn</string>
     <string name="bugsnag_dialog_button_negative">Nein, nicht einverstanden</string>
     <string name="bugsnag_dialog_button_positive">Ja, einverstanden</string>
-    <string name="bugsnag_dialog_message">kitshn für iOS benötigt Absturzberichte um verbessert zu werden. Die App nutzt die Bugsnag Platform um dies zu erreichen. Bist du mit automatisch hochgeladenen Absturzberichten einverstanden?\n\nDeine Entscheidung kann unter Einstellungen/Verhalten verändert werden.</string>
+    <string name="bugsnag_dialog_message">kitshn für iOS benötigt Absturzberichte um verbessert zu werden. Die App nutzt die Bugsnag Platform um dies zu erreichen. Bist du mit automatisch hochgeladenen Absturzberichten einverstanden?\n\nDu kannst deine Auswahl später unter Einstellungen/Verhalten ändern.</string>
     <string name="bugsnag_dialog_title">Absturzberichte senden?</string>
     <string name="common_activity">Aktivität</string>
     <string name="common_add_to_shopping_list">zur Einkaufsliste hinzufügen</string>
@@ -104,8 +104,8 @@
     <string name="common_custom_headers">Benutzerdefinierte Kopfzeilen</string>
     <string name="common_day_after_tomorrow">Übermorgen</string>
     <string name="common_day_before_yesterday">Vorgestern</string>
-    <string name="common_delete_permanently">Entgültig löschen</string>
-    <string name="common_delete_permanently_text">Dieser Vorgang ist nicht umkehrbar. Möchtest du wirklich fortfahren?</string>
+    <string name="common_delete_permanently">Endgültig löschen</string>
+    <string name="common_delete_permanently_text">Dieser Vorgang kann nicht rückgängig gemacht werden. Möchtest du wirklich fortfahren?</string>
     <string name="common_description">Beschreibung</string>
     <string name="common_details">Details</string>
     <string name="common_done">Fertig</string>
@@ -220,8 +220,8 @@
     <string name="greeting_good_night">Gute Nacht 🌚</string>
     <string name="greeting_noon">Mahlzeit 😋</string>
     <string name="home_meal_plan_promotion_today_title">Steht heute an</string>
-    <string name="home_search_empty">Ganz Tandoor wurde untersucht — Es konnte kein passendes Rezept gefunden werden.</string>
-    <string name="home_search_empty_query">Gebe einen Suchbegriff ein, um Tandoor zu durchsuchen.</string>
+    <string name="home_search_empty">Tandoor wurde vollständig durchsucht — Es konnte kein passendes Rezept gefunden werden.</string>
+    <string name="home_search_empty_query">Gib einen Suchbegriff ein, um Tandoor zu durchsuchen.</string>
     <string name="home_search_tandoor">Tandoor durchsuchen</string>
     <string name="home_section_american">🇺🇸 🦅 🗽</string>
     <string name="home_section_asian">🏮🧧🐉🧨🎇⛩️🎎</string>
@@ -229,7 +229,7 @@
     <string name="home_section_baking">Backen</string>
     <string name="home_section_burger">🍔</string>
     <string name="home_section_chinese">🇨🇳 🏮🧧🐉🧨🎇⛩️🎎</string>
-    <string name="home_section_dinner">Ideen zum Abendessen</string>
+    <string name="home_section_dinner">Ideen für das Abendessen</string>
     <string name="home_section_enjoy_breakfast">Genieße dein Frühstück</string>
     <string name="home_section_fast_food">Schnell gemacht</string>
     <string name="home_section_five_stars">⭐⭐⭐⭐⭐</string>
@@ -251,7 +251,7 @@
     <string name="ios_support_manage_subscription_label">Abonnement verwalten</string>
     <string name="ios_support_thanks">Vielen Dank, dass du kitshn unterstützt! Dein Beitrag hilft dem Projekt am Leben zu bleiben.</string>
     <string name="ios_timer_dialog_action_install_shortcut">Kurzbefehl installieren</string>
-    <string name="ios_timer_dialog_body">Apple erlaubt Drittanbieterapps nicht direkt Timer in iOS zu starten. kitshn nutzt einen Workaround, der die Kurzbefehle-App involviert. Du musst den » %1$s « Kurzbefehl installieren, um fortzufahren.</string>
+    <string name="ios_timer_dialog_body">Apple erlaubt Drittanbieterapps nicht direkt Timer in iOS zu starten. kitshn nutzt einen Workaround, der die Kurzbefehle-App verwendet. Du musst den » %1$s « Kurzbefehl installieren, um fortzufahren.</string>
     <string name="ios_timer_dialog_shortcut_installed_switch">Kurzbefehl installiert?</string>
     <string name="ios_timer_dialog_title">Kurzbefehl benötigt</string>
     <string name="lorem_ipsum_medium">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</string>
@@ -259,19 +259,19 @@
     <string name="lorem_ipsum_title">Lorem ipsum dolor sit amet</string>
     <string name="manage_recipe_books_empty">Dieses Rezept wurde noch zu keinem Buch hinzugefügt.</string>
     <string name="meal_plan_form_add_to_shopping_list_description">Die benötigten Zutaten automatisch zur Einkaufsliste hinzufügen.</string>
-    <string name="meal_plan_form_error_entry_needs_title_or_recipe">Der Eintrag braucht entweder einen Titel oder ein angegebenes Rezept.</string>
+    <string name="meal_plan_form_error_entry_needs_title_or_recipe">Der Eintrag benötigt entweder einen Titel oder ein angegebenes Rezept.</string>
     <string name="meal_plan_no_recipes_for_this_day">keine Rezepte an diesem Tag</string>
     <string name="navigation_books">Bücher</string>
     <string name="navigation_home">Start</string>
     <string name="navigation_list">Alle Rezepte</string>
     <string name="navigation_meal_plan">Essensplan</string>
-    <string name="navigation_settings">Optionen</string>
+    <string name="navigation_settings">Einstellungen</string>
     <string name="navigation_shopping">Einkaufen</string>
     <string name="onboarding_introduction">Willkommen in kitshn (für Tandoor). Bitte melde dich bei deiner Tandoor-Instanz an um fortzufahren.</string>
     <string name="onboarding_sign_in_error_instance_not_reachable">Die angegebene Instanz-URL kann nicht erreicht werden.</string>
-    <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">Aktiviere » Lokales Netzwerk « Berechtigung für kitshn in den Systemeinstellungen, wenn du dich mit einem lokalen Server verbindest.</string>
-    <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">Probiere » Mit Webbrowser anmelden «, wenn du SSO benutzt.</string>
-    <string name="onboarding_sign_in_error_sign_in_failed">Anmeldung fehlgeschlagen. Bitte überprüfe deine Eingabe!</string>
+    <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">Aktiviere die » Lokales Netzwerk « Berechtigung für kitshn in den Systemeinstellungen, wenn du dich mit einem lokalen Server verbindest.</string>
+    <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">Versuche » Mit Webbrowser anmelden «, wenn du SSO benutzt.</string>
+    <string name="onboarding_sign_in_error_sign_in_failed">Anmeldung fehlgeschlagen. Bitte überprüfe deine Eingaben!</string>
     <string name="onboarding_sign_in_ios_social_login_unsupported">Diese App unterstützt Social Login nicht. Bitte generiere einen API-Token oder nutze Nutzername/Password-Authentifizierung.</string>
     <string name="onboarding_sign_in_title">Bei Tandoor anmelden</string>
     <string name="onboarding_sign_in_using_web_browser">Mit Webbrowser anmelden</string>
@@ -284,9 +284,9 @@
     <string name="recipe_edit_no_keywords_added">Zu diesem Rezept wurden noch keine Schlagwörter hinzugefügt.</string>
     <string name="recipe_edit_no_steps_added">Zu diesem Rezept wurden noch keine Schritte hinzugefügt.</string>
     <string name="recipe_import_auto_sort_ingredients">Zutaten automatisch zuordnen</string>
-    <string name="recipe_import_auto_sort_ingredients_description">Zutat automatisch zuordnen wenn Schritttext Namen enthält</string>
+    <string name="recipe_import_auto_sort_ingredients_description">Zutat zuordnen wenn der Text des Schritts den Namen enthält</string>
     <string name="recipe_import_divide_steps">Schritte teilen</string>
-    <string name="recipe_import_divide_steps_description">Schritte nach Zeilenumbrüche teilen</string>
+    <string name="recipe_import_divide_steps_description">Schritte nach Zeilenumbrüchen teilen</string>
     <string name="recipe_not_found">Dieses Rezept konnte nicht gefunden werden.</string>
     <string name="recipe_sorting_cooking_frequency">Koch-Häufigkeit</string>
     <string name="recipe_sorting_creation_date">Erstelldatum</string>
@@ -325,9 +325,9 @@
     <string name="settings_section_appearance_color_scheme_label">Farbschema</string>
     <string name="settings_section_appearance_dark_mode_description">Dunkles Farbschema verwenden</string>
     <string name="settings_section_appearance_dark_mode_label">Dunkler Modus</string>
-    <string name="settings_section_appearance_description">Ändere Farbschema und dynamische Färbung</string>
+    <string name="settings_section_appearance_description">Ändere Farbschema und dynamische Farben</string>
     <string name="settings_section_appearance_follow_system_description">Das Farbschema des Betriebssystems verwenden</string>
-    <string name="settings_section_appearance_follow_system_label">System folgen</string>
+    <string name="settings_section_appearance_follow_system_label">Wie das System</string>
     <string name="settings_section_appearance_label">Erscheinung</string>
     <string name="settings_section_behavior_description">Ändere das Verhalten von kitshn</string>
     <string name="settings_section_behavior_enable_crash_reporting">Fehlerberichte senden</string>
@@ -365,20 +365,20 @@
     <string name="shopping_list_items_done">Erledigt</string>
     <string name="shortcuts_new_instance_label_long">Neue Instanz öffnen</string>
     <string name="shortcuts_new_instance_label_short">Neue Instanz</string>
-    <string name="tandoor_compatibility_full_compatibility_description">Die App ist mit vollständig mit deinem Tandoor-Server kompatibel!</string>
+    <string name="tandoor_compatibility_full_compatibility_description">…Die App ist vollständig mit deinem Tandoor-Server kompatibel!</string>
     <string name="tandoor_compatibility_full_compatibility_label">Kompatibel</string>
     <string name="tandoor_compatibility_incompatible_description">Dein Tandoor-Server ist nicht mit dieser App kompatibel. Bitte aktualisiere deinen Server auf eine der folgenen Versionen.</string>
     <string name="tandoor_compatibility_incompatible_label">Inkompatibel</string>
     <string name="tandoor_compatibility_mixed_compatibility_description">Einige Funktionen deines Tandoor-Server werden von dieser App möglicherweise nicht unterstützt. Um alle Funktionen der App zu nutzen aktualisiere deinen Server auf eine der folgenen Versionen.</string>
     <string name="tandoor_compatibility_mixed_compatibility_label">Teilweise kompatibel</string>
     <string name="tandoor_compatibility_not_checkable_description">Die Version deines Tandoor-Servers kann nicht abgefragt werden. Bitte stelle sicher, dass die Versionsnummer deines Servers in der folgenen Liste vorhanden ist, damit alle Funktionen nutzbar sind.</string>
-    <string name="tandoor_compatibility_not_checkable_label">Kompatibilität nicht prüfbar</string>
+    <string name="tandoor_compatibility_not_checkable_label">Kompatibilität kann nicht geprüft werden</string>
     <string name="tandoor_compatibility_unknown_description">Die Version deines Tandoor-Servers wurde noch nicht geprüft. Die Funktionalität der App könnte beeinträchtigt sein.</string>
     <string name="tandoor_compatibility_unknown_label">Kompatibilität unbekannt</string>
     <string name="search_categories">Kategorien durchsuchen</string>
     <string name="common_account">Benutzer</string>
     <string name="common_not_supported">Nicht unterstützt</string>
-    <string name="settings_section_behavior_promote_tomorrows_meal_plan_description">Einträge von morgen statt der Einträge von heute anzeigen</string>
+    <string name="settings_section_behavior_promote_tomorrows_meal_plan_description">Einträge von morgen anstelle der Einträge von heute anzeigen</string>
     <string name="settings_section_behavior_enable_meal_plan_promotion_description">Entweder die Einträge von heute oder von morgen anzeigen</string>
     <string name="home_meal_plan_promotion_tomorrow_title">Menü für morgen</string>
     <string name="settings_section_behavior_enable_meal_plan_promotion_label">Essensplan auf dem Startbildschirm anzeigen</string>
@@ -387,7 +387,7 @@
     <string name="meal_plan_form_review_add_to_shopping_list_description">Überprüfe, welche Zutaten tatsächlich auf die Einkaufsliste gesetzt werden sollen.</string>
     <string name="common_select_users_for_sharing">Wähle Nutzer zum teilen</string>
     <string name="common_select_users_for_sharing_empty">Wähle Nutzer, mit denen du diesen Eintrag teilen möchtest.</string>
-    <string name="search_users">Nutzer durchsuchen</string>
+    <string name="search_users">Nutzer suchen</string>
     <string-array name="timer_detection_hour_definitions">
         <item>stunden</item>
         <item>stunde</item>
@@ -431,7 +431,7 @@
     <string name="action_edit_step">Schritt bearbeiten</string>
     <string name="action_add_ingredient">Zutat hinzufügen</string>
     <string name="action_choose_existing_photo">Wähle ein bestehendes Foto</string>
-    <string name="action_take_new_photo">Nehme ein neues Foto auf</string>
+    <string name="action_take_new_photo">Neues Foto aufnehmen</string>
     <string name="common_ai_provider">KI Anbieter</string>
     <string name="search_providers">Anbieter durchsuchen</string>
 </resources>
