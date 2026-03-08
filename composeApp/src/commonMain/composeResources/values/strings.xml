@@ -192,6 +192,7 @@
     <string name="common_step">Step %1$s</string>
     <string name="common_steps">Steps</string>
     <string name="common_supermarket">Supermarket</string>
+    <string name="common_shopping_list">Shopping list</string>
     <string name="common_tags">Tags</string>
     <string name="common_time_wait">Waiting time</string>
     <string name="common_time_work">Working time</string>

@@ -249,7 +249,7 @@ fun RouteMainSubrouteShopping(
         ) {
             Column {
                 if(client != null) AdditionalShoppingSettingsChipRow(
-                    client = client,
+                    vm = vm,
                     state = additionalShoppingSettingsChipRowState,
                     cache = supermarketCache
                 )
@@ -438,6 +438,7 @@ fun RouteMainSubrouteShopping(
         ShoppingListEntryCreationDialog(
             client = it,
             state = shoppingListEntryCreationDialogState,
+            shoppingLists = additionalShoppingSettingsChipRowState.shoppingLists,
             onUpdate = { entry ->
                 coroutineScope.launch {
                     vm.entries.add(entry)

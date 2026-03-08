@@ -29,6 +29,7 @@ data class TandoorParsedIngredient(
 class TandoorShoppingListEntry(
     val id: Int,
     val list_recipe: Long? = null,
+    val shopping_lists: List<TandoorShoppingList> = listOf(),
     val food: TandoorShoppingListEntryFood,
     val unit: TandoorUnit? = null,
     val amount: Double,
@@ -99,6 +100,13 @@ data class TandoorShoppingListEntryFood(
     }
 }
 
+@Serializable
+data class TandoorShoppingList(
+    val id: Long,
+    val name: String,
+    val description: String,
+    val color: String? = null
+)
 
 @Serializable
 data class TandoorShoppingListEntryListRecipeData(

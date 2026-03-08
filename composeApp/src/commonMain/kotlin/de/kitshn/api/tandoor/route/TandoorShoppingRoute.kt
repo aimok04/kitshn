@@ -4,6 +4,7 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorPagedResponse
+import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
@@ -14,7 +15,12 @@ import kotlinx.serialization.json.encodeToJsonElement
 
 class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
-    suspend fun add(amount: Double?, food: String?, unit: String?): TandoorShoppingListEntry {
+    suspend fun add(
+        amount: Double?,
+        food: String?,
+        unit: String?,
+        shoppingLists: List<TandoorShoppingList> = listOf()
+    ): TandoorShoppingListEntry {
         // ensure food and unit exist
         val foodModel = (food ?: "")
             .takeIf { it.isNotBlank() }
@@ -28,6 +34,7 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             put("amount", JsonPrimitive(amount ?: 0.0))
             put("unit", json.encodeToJsonElement(unitModel))
             put("food", json.encodeToJsonElement(foodModel))
+            put("shopping_lists", json.encodeToJsonElement(shoppingLists))
         }
 
         val response = TandoorShoppingListEntry.parse(

@@ -13,6 +13,7 @@ import com.russhwolf.settings.coroutines.getStringFlow
 import com.russhwolf.settings.coroutines.getStringOrNullFlow
 import com.russhwolf.settings.observable.makeObservable
 import de.kitshn.api.tandoor.TandoorCredentials
+import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarket
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -51,6 +52,7 @@ const val KEY_SETTINGS_BEHAVIOR_HIDE_FUNDING_BANNER_UNTIL =
 
 const val KEY_SETTINGS_SHOPPING_GROUP_BY = "shopping_group_by"
 const val KEY_SETTINGS_SHOPPING_SUPERMARKET = "shopping_supermarket"
+const val KEY_SETTINGS_SHOPPING_LISTS = "shopping_lists"
 
 const val KEY_SETTINGS_ONBOARDING_COMPLETED = "onboarding_completed"
 const val KEY_SETTINGS_TANDOOR_CREDENTIALS = "tandoor_credentials"
@@ -225,4 +227,7 @@ class SettingsViewModel : ViewModel() {
             obs.remove(KEY_SETTINGS_SHOPPING_SUPERMARKET)
         else
             obs.putString(KEY_SETTINGS_SHOPPING_SUPERMARKET, json.encodeToString(supermarket))
+
+    fun setShoppingLists(shoppingLists: List<TandoorShoppingList>) =
+        obs.putString(KEY_SETTINGS_SHOPPING_LISTS, json.encodeToString(shoppingLists))
 }

@@ -175,6 +175,11 @@ class ShoppingViewModel(
         val entries = this.entries.filterNot { it._destroyed }
             .toMutableList()
 
+        val shoppingListIds = additionalShoppingSettingsChipRowState.shoppingLists.map { it.id }
+        if(shoppingListIds.isNotEmpty()) entries.removeIf {
+            it.shopping_lists.none { list -> shoppingListIds.contains(list.id) }
+        }
+
         // filter out unavailable categories for supermarket
         if(supermarketCategoryIdToOrder != null) entries.removeIf {
             if(it.food.supermarket_category == null) {

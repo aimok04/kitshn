@@ -30,6 +30,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateSetOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -45,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.model.TandoorMealPlan
+import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryFood
 import de.kitshn.formatAmount
@@ -141,6 +143,8 @@ fun ShoppingListEntryListItem(
     val mealplans =
         remember { mutableStateListOf<TandoorMealPlan>() }
 
+    val shoppingLists = remember { mutableStateListOf<TandoorShoppingList>() }
+
     var usePluralName by remember { mutableStateOf(false) }
 
     LaunchedEffect(entries) {
@@ -174,6 +178,19 @@ fun ShoppingListEntryListItem(
             entries.filter { it.list_recipe_data?.meal_plan_data != null }
                 .map { it.list_recipe_data!!.meal_plan_data!! }
         )
+
+        val shoppingListIds = mutableStateSetOf<Long>()
+
+        shoppingLists.clear()
+        for(entry in entries) {
+            for(shoppingList in entry.shopping_lists) {
+                if(shoppingListIds.contains(shoppingList.id))
+                    continue
+
+                shoppingLists.add(shoppingList)
+                shoppingListIds.add(shoppingList.id)
+            }
+        }
     }
 
     val allChecked = entries.all { it.checked }
@@ -306,6 +323,19 @@ fun ShoppingListEntryListItem(
                     }
                 }
             }
-        }
+        },
+        trailingContent = if(shoppingLists.isNotEmpty()) {
+            {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    repeat(shoppingLists.size) {
+                        ShoppingListColorPill(
+                            shoppingList = shoppingLists[it]
+                        )
+                    }
+                }
+            }
+        } else null
     )
 }
