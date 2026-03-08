@@ -1,0 +1,5 @@
+Denne udgivelse indeholder en hurtigfix, som skal gøre det muligt igen at bruge tekstfelter på startsiden 😅
+
+1. Udskiftet start søgning bar komponent som en hurtigfix (#289).
+2. Forbedret søgeværktøjsfarve på store skærmenheder.
+3. Forbedret indkøbslisteindoprettelsesdialog på store skærmenheder.

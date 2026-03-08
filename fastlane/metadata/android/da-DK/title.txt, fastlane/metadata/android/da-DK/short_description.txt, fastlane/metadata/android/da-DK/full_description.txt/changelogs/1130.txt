@@ -1,0 +1,6 @@
+- bedrift(recipes): tilføjet tæt funktionalitet til liste detaljer layout (udløst #28)
+- bedrift(ui): forbedret liste detaljer vinduesstørrelsesforhold
+- bedrift(various): tilføjet mere TandoorRequest Fejlsøgere
+- fix(import): tilføjet check til at udelukke dobbelt import (udløst #29)
+- fix(home): problem med tilbage gestus i søgevisning
+- fix(recipes): flere nedbrud rettelser og fejl håndtag forbedringer
