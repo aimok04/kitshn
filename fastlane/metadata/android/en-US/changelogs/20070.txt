@@ -1,3 +1,5 @@
+‼️ Android will become a locked-down platform: https://keepandroidopen.org
+
 1. Added filtering shopping list entries by shopping lists.
 2. New setting to hide activity section in recipe detail view.
 3. Danish has been updated (My Nameis).
