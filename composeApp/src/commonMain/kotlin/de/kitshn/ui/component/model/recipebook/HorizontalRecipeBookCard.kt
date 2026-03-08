@@ -69,9 +69,6 @@ fun HorizontalRecipeBookCard(
 
     onClick: (recipeBook: TandoorRecipeBook) -> Unit = {}
 ) {
-    val context = LocalPlatformContext.current
-    val imageLoader = remember { ImageLoader(context) }
-
     val hapticFeedback = LocalHapticFeedback.current
 
     val colors = CardDefaults.selectionModeCardColors(
@@ -168,7 +165,6 @@ fun HorizontalRecipeBookCard(
                                 model = recipeBook?.loadThumbnail(),
                                 contentDescription = recipeBook?.name,
                                 contentScale = ContentScale.Crop,
-                                imageLoader = imageLoader,
                                 modifier = Modifier
                                     .height(42.dp)
                                     .width(42.dp)

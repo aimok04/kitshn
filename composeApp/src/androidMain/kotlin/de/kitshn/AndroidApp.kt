@@ -8,7 +8,12 @@ class AndroidApp : Application() {
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
+        INSTANCE = this
         initKitshnAcra()
+    }
+
+    companion object {
+        lateinit var INSTANCE: AndroidApp
     }
 
 }

@@ -66,9 +66,6 @@ fun RecipeCard(
     onClickKeyword: (keyword: TandoorKeywordOverview) -> Unit,
     onClick: (recipeOverview: TandoorRecipeOverview) -> Unit,
 ) {
-    val context = LocalPlatformContext.current
-    val imageLoader = remember { ImageLoader(context) }
-
     val hapticFeedback = LocalHapticFeedback.current
     val hazeState = remember { HazeState() }
 
@@ -124,7 +121,6 @@ fun RecipeCard(
                     },
                     contentDescription = recipeOverview?.name,
                     contentScale = ContentScale.Crop,
-                    imageLoader = imageLoader,
                     modifier = Modifier
                         .fillMaxWidth()
                         .run {

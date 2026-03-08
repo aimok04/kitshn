@@ -176,12 +176,7 @@ class KitshnViewModel(
             try {
                 val response = tandoorClient!!.reqAny(
                     endpoint = "/",
-                    _method = HttpMethod.Get,
-                    customHttpClient = HttpClient {
-                        install(HttpTimeout) {
-                            requestTimeoutMillis = 2000
-                        }
-                    }
+                    _method = HttpMethod.Get
                 )
 
                 if(response.status == HttpStatusCode.OK)
@@ -196,28 +191,23 @@ class KitshnViewModel(
                 try {
                     val response = tandoorClient!!.reqAny(
                         endpoint = "/",
-                        _method = HttpMethod.Get,
-                        customHttpClient = HttpClient {
-                            install(HttpTimeout) {
-                                requestTimeoutMillis = 5000
-                            }
-                        }
+                        _method = HttpMethod.Get
                     )
 
                     if(response.status == HttpStatusCode.OK)
                         isOffline = false
                 } catch(_: TandoorRequestsError) {
                 } catch(_: SerializationException) {
-                }
+            }
 
-                if(isOffline) {
-                    uiState.offlineState.isOffline = true
+            if(isOffline) {
+                uiState.offlineState.isOffline = true
 
-                    // automatically switch to shopping page if offline
-                    if((Clock.System.now().toEpochMilliseconds() - initTime) < 8000) {
-                        if(navHostController?.currentDestination?.route != "main") return@launch
-                        if(mainSubNavHostController?.currentDestination?.route != "home") return@launch
-                        mainSubNavHostController?.navigate("shopping")
+                // automatically switch to shopping page if offline
+                if((Clock.System.now().toEpochMilliseconds() - initTime) < 8000) {
+                    if(navHostController?.currentDestination?.route != "main") return@launch
+                    if(mainSubNavHostController?.currentDestination?.route != "home") return@launch
+                    mainSubNavHostController?.navigate("shopping")
                     }
                 } else {
                     uiState.offlineState.isOffline = false
