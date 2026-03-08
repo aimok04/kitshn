@@ -235,6 +235,9 @@ fun ViewRecipeDetails(
     val behaviorKeepScreenOnInRecipeDetails =
         p.vm.settings.getKeepScreenOnInRecipeDetails.collectAsState(initial = false)
 
+    val appearanceHideActivity =
+        p.vm.settings.getHideActivity.collectAsState(initial = false)
+
     var pageLoadingState by rememberErrorLoadingSuccessState()
 
     val recipeIngredientAllocationDialogState =
@@ -816,18 +819,20 @@ fun ViewRecipeDetails(
                         )
                     }
 
-                    // cook logs cannot be fetched when viewing a shared recipe
-                    if(shareToken == null) RecipeActivityPreviewCard(
-                        Modifier
-                            .padding(
-                                start = 16.dp,
-                                end = 16.dp,
-                                bottom = 8.dp
-                            )
-                            .fillMaxWidth(),
-                        recipe = recipe
-                    ) {
-                        recipe?.let { recipeActivitiesBottomSheetState.open(it) }
+                    if(!appearanceHideActivity.value) {
+                        // cook logs cannot be fetched when viewing a shared recipe
+                        if(shareToken == null) RecipeActivityPreviewCard(
+                            Modifier
+                                .padding(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    bottom = 8.dp
+                                )
+                                .fillMaxWidth(),
+                            recipe = recipe
+                        ) {
+                            recipe?.let { recipeActivitiesBottomSheetState.open(it) }
+                        }
                     }
 
                     if(enoughSpace) SourceButton()

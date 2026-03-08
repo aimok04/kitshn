@@ -415,6 +415,8 @@
     <string name="shopping_list_dialog_clear_only_done">Nur als » Erledigt « markierte Einträge löschen</string>
     <string name="common_hour_short">h</string>
     <string name="settings_section_appearance_enlarge_shopping_mode_label">Einkaufsmodus vergrößern</string>
+    <string name="settings_section_appearance_hide_activity_label">Aktivität-Bereich verstecken</string>
+    <string name="settings_section_appearance_hide_activity_description">Versteckt den Aktivität-Bereich in der Rezept-Detail-Ansicht</string>
     <string name="shopping_list_dialog_clear_title">Einkaufsliste leeren</string>
     <string name="recipe_import_type_url_description">Gebe eine URL ein und importiere ein Rezept aus dem Netz</string>
     <string name="common_image">Bild</string>

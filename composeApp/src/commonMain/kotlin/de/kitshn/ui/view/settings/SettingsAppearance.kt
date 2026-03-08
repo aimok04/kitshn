@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoAwesome
+import androidx.compose.material.icons.rounded.CommentsDisabled
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.Loupe
 import androidx.compose.material.icons.rounded.Palette
@@ -43,6 +44,8 @@ import kitshn.composeapp.generated.resources.settings_section_appearance_enlarge
 import kitshn.composeapp.generated.resources.settings_section_appearance_enlarge_shopping_mode_label
 import kitshn.composeapp.generated.resources.settings_section_appearance_follow_system_description
 import kitshn.composeapp.generated.resources.settings_section_appearance_follow_system_label
+import kitshn.composeapp.generated.resources.settings_section_appearance_hide_activity_description
+import kitshn.composeapp.generated.resources.settings_section_appearance_hide_activity_label
 import kitshn.composeapp.generated.resources.settings_section_appearance_label
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -152,6 +155,23 @@ fun ViewSettingsAppearance(
                 ) {
                     coroutineScope.launch {
                         p.vm.settings.setEnlargeShoppingMode(it)
+                    }
+                }
+            }
+
+            item {
+                val hide = p.vm.settings.getHideActivity.collectAsState(initial = false)
+
+                SettingsSwitchListItem(
+                    position = SettingsListItemPosition.SINGULAR,
+                    label = { Text(stringResource(Res.string.settings_section_appearance_hide_activity_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_appearance_hide_activity_description)) },
+                    icon = Icons.Rounded.CommentsDisabled,
+                    contentDescription = stringResource(Res.string.settings_section_appearance_hide_activity_label),
+                    checked = hide.value
+                ) {
+                    coroutineScope.launch {
+                        p.vm.settings.setHideActivity(it)
                     }
                 }
             }
