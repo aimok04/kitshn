@@ -4,7 +4,7 @@
     <string name="acra_dialog_button_neutral">Voir le rapport</string>
     <string name="shortcuts_new_instance_label_long">Créer une nouvelle instance</string>
     <string name="acra_dialog_button_negative">Ne pas envoyer</string>
-    <string name="acra_dialog_message">L\'application a connu une erreur inattendue. Veuillez envoyer un rapport d\'erreur pour nous aider à résoudre le problème.\n\nVous pouvez consulter l\'intégralité du rapport avant de l\'envoyer.</string>
+    <string name="acra_dialog_message">L\'application a rencontré une erreur inattendue. Veuillez envoyer un rapport d\'erreur pour nous aider à résoudre le problème.\n\nVous pouvez consulter l\'intégralité du rapport avant de l\'envoyer.</string>
     <string name="acra_dialog_title">Oups !</string>
     <string name="action_back">Retour</string>
     <string name="action_download">Télécharger</string>
