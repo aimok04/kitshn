@@ -74,7 +74,7 @@
     <string name="action_download">Télécharger</string>
     <string name="action_create_entry">Nouvelle entrée</string>
     <string name="acra_dialog_button_negative">Ne pas envoyer</string>
-    <string name="acra_dialog_message">L'application a connu une erreur inattendue. Veuillez envoyer un rapport d'erreur pour nous aider à résoudre le problème.\n\nVous pouvez consulter l'intégralité du rapport avant de l'envoyer.</string>
+    <string name="acra_dialog_message">L'application a rencontré une erreur inattendue. Veuillez envoyer un rapport d'erreur pour nous aider à résoudre le problème.\n\nVous pouvez consulter l'intégralité du rapport avant de l'envoyer.</string>
     <string name="action_add_to_favorites">Ajouter aux favoris</string>
     <string name="acra_email_address_helper">Si vous le souhaitez, vous pouvez indiquer votre adresse électronique pour recevoir des mises à jour de votre rapport.</string>
     <string name="action_abort">Annuler</string>
@@ -419,4 +419,5 @@
     <string name="settings_section_behavior_ios_install_timer_shortcut_description">Nécessaire pour démarrer des minuteurs directement depuis l'application kitshn</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Empêcher l'écran de se mettre en veille pendant l’affichage de la recette, tout comme dans le Mode cuisine</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Gardez l’affichage de la recette actif</string>
+    <string name="common_shopping_list">Liste de courses</string>
 </resources>
