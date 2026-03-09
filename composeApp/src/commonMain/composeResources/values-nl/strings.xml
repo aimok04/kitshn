@@ -414,4 +414,5 @@
     <string name="action_ignore">Negeer</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Voorkom dat het scherm in slaapstand gaat tijdens het bekijken van receptdetails, net als in de Kookmodus</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Scherm aan houden in receptenoverzicht</string>
+    <string name="common_shopping_list">Boodschappenlijst</string>
 </resources>
