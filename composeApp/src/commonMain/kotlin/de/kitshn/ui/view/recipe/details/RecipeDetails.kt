@@ -368,9 +368,7 @@ fun ViewRecipeDetails(
                             order = -1,
                             is_header = ingredient.is_header,
                             no_amount = ingredient.no_amount,
-                            original_text = "-1",
-                            always_use_plural_unit = ingredient.always_use_plural_unit,
-                            always_use_plural_food = ingredient.always_use_plural_food
+                            original_text = "-1"
                         )
                     )
                 }
@@ -585,8 +583,7 @@ fun ViewRecipeDetails(
                                         mealPlanCreationDialogState.open(
                                             MealPlanCreationAndEditDefaultValues(
                                                 recipeId = recipeOverview.id,
-                                                servings = recipeOverview.servings.toDouble(),
-                                                shared = userPreference.plan_share
+                                                servings = recipeOverview.servings.toDouble()
                                             )
                                         )
                                     }

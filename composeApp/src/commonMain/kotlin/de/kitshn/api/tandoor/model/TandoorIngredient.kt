@@ -16,9 +16,7 @@ class TandoorIngredient(
     val order: Int,
     val is_header: Boolean,
     val no_amount: Boolean,
-    val original_text: String? = null,
-    val always_use_plural_unit: Boolean,
-    val always_use_plural_food: Boolean
+    val original_text: String? = null
 ) {
     /**
      * used in IngredientsList.kt and IngredientItem.kt to track if ingredient has been used already
@@ -30,13 +28,13 @@ class TandoorIngredient(
     }
 
     fun getLabel(amount: Double = this.amount): String {
-        if((always_use_plural_food || amount > 1) && !food?.plural_name.isNullOrBlank()) return food!!.plural_name!!
+        if((amount > 1) && !food?.plural_name.isNullOrBlank()) return food!!.plural_name!!
         if(food?.name != null) return food.name
         return original_text ?: ""
     }
 
     fun getUnitLabel(amount: Double = this.amount): String {
-        if((always_use_plural_unit || amount > 1) && !unit?.plural_name.isNullOrBlank()) return unit!!.plural_name!!
+        if((amount > 1) && !unit?.plural_name.isNullOrBlank()) return unit!!.plural_name!!
         if(unit?.name != null) return unit.name
         return ""
     }

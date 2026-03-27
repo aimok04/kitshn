@@ -75,10 +75,6 @@ fun BaseMealTypeSearchField(
             client.mealType.fetch().let {
                 mealTypeList.clear()
                 mealTypeList.addAll(it)
-
-                if (value == null && useDefaultMealTypeIfNull) {
-                    selectedMealType = mealTypeList.lastOrNull { it.default }
-                }
             }
         } catch(e: TandoorRequestsError) {
             Logger.e("MealTypeSearchField.kt", e)

@@ -103,7 +103,6 @@ fun RouteMainSubrouteMealplanTopAppBar(
                                         from_date = date,
                                         to_date = date,
                                         meal_type = mealPlan.meal_type,
-                                        shared = mealPlan.shared,
                                         addshopping = mealPlan.shopping
                                     )
 

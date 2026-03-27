@@ -6,7 +6,6 @@ import androidx.compose.material.icons.automirrored.rounded.Notes
 import androidx.compose.material.icons.rounded.Category
 import androidx.compose.material.icons.rounded.Checklist
 import androidx.compose.material.icons.rounded.DateRange
-import androidx.compose.material.icons.rounded.Groups2
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Receipt
 import androidx.compose.material.icons.rounded.ShoppingCart
@@ -28,7 +27,6 @@ import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.rememberTandoorRequestState
-import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.handleTandoorRequestState
 import de.kitshn.model.form.KitshnForm
 import de.kitshn.model.form.KitshnFormSection
@@ -37,7 +35,6 @@ import de.kitshn.model.form.item.field.KitshnFormDateFieldItem
 import de.kitshn.model.form.item.field.KitshnFormDoubleFieldItem
 import de.kitshn.model.form.item.field.KitshnFormMealTypeSearchFieldItem
 import de.kitshn.model.form.item.field.KitshnFormRecipeSearchFieldItem
-import de.kitshn.model.form.item.field.KitshnFormSelectUsersFieldItem
 import de.kitshn.model.form.item.field.KitshnFormTextFieldItem
 import de.kitshn.parseTandoorDate
 import de.kitshn.ui.TandoorRequestErrorHandler
@@ -50,15 +47,12 @@ import kitshn.composeapp.generated.resources.action_create
 import kitshn.composeapp.generated.resources.action_create_entry
 import kitshn.composeapp.generated.resources.action_edit_entry
 import kitshn.composeapp.generated.resources.action_save
-import kitshn.composeapp.generated.resources.action_share
 import kitshn.composeapp.generated.resources.common_add_to_shopping_list
 import kitshn.composeapp.generated.resources.common_end_date
 import kitshn.composeapp.generated.resources.common_meal_type
 import kitshn.composeapp.generated.resources.common_note
 import kitshn.composeapp.generated.resources.common_portions
 import kitshn.composeapp.generated.resources.common_recipe
-import kitshn.composeapp.generated.resources.common_select_users_for_sharing
-import kitshn.composeapp.generated.resources.common_select_users_for_sharing_empty
 import kitshn.composeapp.generated.resources.common_shopping
 import kitshn.composeapp.generated.resources.common_start_date
 import kitshn.composeapp.generated.resources.common_title
@@ -80,7 +74,6 @@ data class MealPlanCreationAndEditDefaultValues(
     val mealTypeId: Int? = null,
     val startDate: LocalDate? = null,
     val endDate: LocalDate? = null,
-    val shared: List<TandoorUser> = listOf(),
     val addToShopping: Boolean = true,
     val reviewAddToShopping: Boolean = true
 )
@@ -115,7 +108,6 @@ class MealPlanEditDialogState(
             mealTypeId = mealPlan.meal_type.id,
             startDate = mealPlan.from_date.parseTandoorDate(),
             endDate = mealPlan.to_date.parseTandoorDate(),
-            shared = mealPlan.shared,
             addToShopping = mealPlan.shopping
         )
 
@@ -188,8 +180,6 @@ fun MealPlanCreationAndEditDialog(
 
     var startDate by remember { mutableStateOf(defaultValues.startDate) }
     var endDate by remember { mutableStateOf(defaultValues.endDate) }
-
-    var shared by remember { mutableStateOf(defaultValues.shared) }
 
     var addToShopping by rememberSaveable { mutableStateOf(defaultValues.addToShopping) }
     var reviewAddToShopping by rememberSaveable { mutableStateOf(defaultValues.reviewAddToShopping) }
@@ -379,32 +369,6 @@ fun MealPlanCreationAndEditDialog(
                 ),
                 KitshnFormSection(
                     listOf(
-                        KitshnFormSelectUsersFieldItem(
-                            client = client,
-                            value = { shared },
-                            onValueChange = {
-                                shared = it
-                            },
-
-                            label = { Text(stringResource(Res.string.action_share)) },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Rounded.Groups2,
-                                    stringResource(Res.string.action_share)
-                                )
-                            },
-
-                            dialogTitle = { stringResource(Res.string.common_select_users_for_sharing) },
-                            dialogEmptyErrorText = { stringResource(Res.string.common_select_users_for_sharing_empty) },
-
-                            optional = true,
-
-                            check = { null }
-                        )
-                    )
-                ),
-                KitshnFormSection(
-                    listOf(
                         KitshnFormCheckItem(
                             value = { addToShopping },
                             onValueChange = { addToShopping = it },
@@ -467,7 +431,6 @@ fun MealPlanCreationAndEditDialog(
                                 from_date = startDate!!,
                                 to_date = endDate,
                                 meal_type = client.container.mealType[mealTypeId]!!,
-                                shared = shared,
                                 addshopping = addToShopping
                             )
                         }
@@ -490,8 +453,7 @@ fun MealPlanCreationAndEditDialog(
                                     false
                                 } else {
                                     addToShopping
-                                },
-                                shared = shared
+                                }
                             )
                         }
 

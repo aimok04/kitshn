@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 data class TandoorUserPreference(
     val user: TandoorUser,
     val default_unit: String? = null,
-    val plan_share: List<TandoorUser>
+    val default_meal_type: TandoorMealType? = null
 )

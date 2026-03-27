@@ -121,7 +121,7 @@ fun RouteMainSubrouteMealplanScaffoldContent(
                                 creationDialogState.open(
                                     MealPlanCreationAndEditDefaultValues(
                                         startDate = day,
-                                        shared = userPreference.plan_share
+                                        mealTypeId = userPreference.default_meal_type?.id
                                     )
                                 )
                             }
