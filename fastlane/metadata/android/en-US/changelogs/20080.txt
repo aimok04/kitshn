@@ -1,0 +1,3 @@
+‼️ Android will become a locked-down platform: https://keepandroidopen.org
+
+Fixed compatibility with Tandoor v2.6.0

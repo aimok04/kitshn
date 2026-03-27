@@ -1,8 +1,1 @@
-1. Added filtering shopping list entries by shopping lists.
-2. New setting to hide activity section in recipe detail view.
-3. Danish has been updated (My Nameis).
-4. Dutch has been updated (@jstrvr).
-5. French has been updated (J.Lavoie).
-6. German has been updated (@stilllearninggit, and J.Lavoie).
-7. Hungarian has been added (@Subbye and @SzSz-hub).
-8. Portuguese (Brazil) has been updated (@lucasmc64).
+Fixed compatibility with Tandoor v2.6.0

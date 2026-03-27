@@ -6,40 +6,11 @@
 
 ### Hey ✌️
 
-This is another small release:
-
-1. Added support to filter **shopping list entries** by **shopping lists** (#323).
-2. Added new setting to hide the **activity section** in the **recipe detail view** (#346).
-3. 🇩🇰 **Danish** has been **updated** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by My Nameis).
-4. 🇳🇱 **Dutch** has been **updated** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @jstrvr).
-5. 🇫🇷 **French** has been **updated** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by J.Lavoie).
-6. 🇩🇪 **German** has been **updated** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @stilllearninggit, and J.Lavoie).
-7. 🇭🇺 **Hungarian** has been **added** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @Subbye and @SzSz-hub).
-8. 🇧🇷 **Portuguese (Brazil)** has been **updated** on **[Weblate](https://hosted.weblate.org/projects/kitshn)** (by @lucasmc64).
+This release contains some small fixes fixing compatibility with Tandoor v2.6.0
 
 ---
 
 ## Commits
 
-- feat(commonMain/recipes): added "hide activity section" setting (resolved #346)
-- feat(commonMain/shopping): added filter by shopping lists (#323)
-- feat(README.md): added keep android free alert
-- chore(web): ran `npm update`
-- chore(libs): version bumps
-- chore(commonMain/api): marked v2.5.0 - v2.5.3 as compatible
-- l10n(German): translated using Weblate
-- l10n(German): translated using Weblate
-- l10n(German): translated using Weblate
-- l10n(German): translated using Weblate
-- l10n(Dutch): translated using Weblate
-- l10n(Hungarian): translated using Weblate
-- l10n(Hungarian): translated using Weblate
-- l10n(German): translated using Weblate
-- l10n(German): translated using Weblate
-- l10n(French): translated using Weblate
-- l10n(French): translated using Weblate
-- l10n(Hungarian): translated using Weblate
-- l10n(Hungarian): added translation using Weblate
-- l10n(Hungarian): added translation using Weblate
-- l10n(Portuguese (Brazil)): translated using Weblate
-- l10n(Danish): translated using Weblate
+- fix(commonMain): adapt to breaking changes in v2.6.0 (resolved #355)
+- chore(commonMain/api): marked v2.6.0 as mixed compatibility
