@@ -23,6 +23,9 @@ import io.ktor.client.plugins.HttpTimeout
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerializationException
@@ -54,6 +57,18 @@ class KitshnViewModel(
     val settings = SettingsViewModel()
 
     val uiState = UiStateModel()
+
+    // OAuth callback state — set when an auth callback redirect is received
+    private val _oauthCallbackToken = MutableStateFlow<String?>(null)
+    val oauthCallbackToken: StateFlow<String?> = _oauthCallbackToken.asStateFlow()
+
+    fun handleOAuthCallback(token: String) {
+        _oauthCallbackToken.value = token
+    }
+
+    fun consumeOAuthCallback() {
+        _oauthCallbackToken.value = null
+    }
 
     lateinit var manageIosSubscriptionView: @Composable (p: RouteParameters) -> Unit
 

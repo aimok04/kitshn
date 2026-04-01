@@ -51,6 +51,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -166,11 +167,65 @@ fun RouteOnboardingSignIn(
         }
     }
 
+    // Custom Tab browser auth state (Android only, others fall back to WebView)
+    var shouldLaunchBrowserAuth by remember { mutableStateOf(false) }
+
+    LaunchBrowserAuthEffect(
+        launch = shouldLaunchBrowserAuth,
+        instanceUrl = instanceUrlValue,
+        onLaunched = { shouldLaunchBrowserAuth = false },
+        onFallbackToWebView = {
+            shouldLaunchBrowserAuth = false
+            p.vm.navHostController?.navigate(
+                "onboarding/signIn/browser/${
+                    kotlin.io.encoding.Base64.encode(
+                        instanceUrlValue.encodeToByteArray()
+                    )
+                }"
+            )
+        }
+    )
+
+    val loginState = rememberTandoorRequestState()
+
+    // Observe OAuth callback token (arrives via Custom Tab redirect)
+    val oauthCallbackToken by p.vm.oauthCallbackToken.collectAsState()
+    LaunchedEffect(oauthCallbackToken) {
+        val token = oauthCallbackToken ?: return@LaunchedEffect
+        p.vm.consumeOAuthCallback()
+
+        loginState.wrapRequest {
+            val credentials = TandoorCredentials(
+                instanceUrl = instanceUrlValue,
+                token = TandoorCredentialsToken(
+                    token = token,
+                    scope = "oauth",
+                    expires = "undefined"
+                ),
+                customHeaders = customHeaders
+            )
+
+            val client = TandoorClient(credentials)
+            val user = client.user.get()
+            if(user != null) {
+                credentials.username = user.display_name
+                p.vm.uiState.userDisplayName = user.display_name
+                p.vm.signIn(client, credentials)
+                hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
+                return@wrapRequest
+            }
+
+            throw Error("OAUTH_TOKEN_INVALID")
+        }
+
+        if(loginState.state == TandoorRequestStateState.ERROR)
+            hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
+    }
+
     var usernameValue by rememberSaveable { mutableStateOf("") }
     var passwordValue by rememberSaveable { mutableStateOf("") }
     var tokenValue by rememberSaveable { mutableStateOf("") }
 
-    val loginState = rememberTandoorRequestState()
     LaunchedEffect(usernameValue, passwordValue, tokenValue) { loginState.reset() }
 
     fun done() {
@@ -508,13 +563,7 @@ fun RouteOnboardingSignIn(
 
                     OutlinedButton(
                         onClick = {
-                            p.vm.navHostController?.navigate(
-                                "onboarding/signIn/browser/${
-                                    kotlin.io.encoding.Base64.encode(
-                                        instanceUrlValue.encodeToByteArray()
-                                    )
-                                }"
-                            )
+                            shouldLaunchBrowserAuth = true
                         },
                         Modifier
                             .padding(16.dp)

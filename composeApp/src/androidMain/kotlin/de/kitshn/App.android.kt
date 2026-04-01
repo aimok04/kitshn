@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import de.kitshn.actions.handleIntent
+import de.kitshn.actions.handleOAuthCallbackIntent
 import de.kitshn.actions.preHandleIntent
 
 class AppActivity : ComponentActivity() {
@@ -35,7 +36,10 @@ class AppActivity : ComponentActivity() {
     }
 
     override fun onNewIntent(intent: Intent) {
-        vm?.handleIntent(intent)
+        // Try OAuth callback first (comes from OAuthCallbackActivity)
+        if(vm?.handleOAuthCallbackIntent(intent) != true) {
+            vm?.handleIntent(intent)
+        }
         super.onNewIntent(intent)
     }
 

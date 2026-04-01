@@ -79,6 +79,25 @@
         </activity>
 
         <activity
+            android:name="de.kitshn.OAuthCallbackActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="kitshn"
+                    android:host="auth"
+                    android:pathPrefix="/callback" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:excludeFromRecents="true"
             android:name="de.kitshn.NewInstanceActivity"
             android:exported="true" />
