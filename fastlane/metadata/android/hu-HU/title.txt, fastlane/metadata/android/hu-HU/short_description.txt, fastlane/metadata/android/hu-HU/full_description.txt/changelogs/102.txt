@@ -1,0 +1,2 @@
+- hibajavítás(build.gradle): eltávolítva a kotlinCompilerExtensionVersion
+- hibajavítás(build.gradle): hozzáadott függőségekInfo

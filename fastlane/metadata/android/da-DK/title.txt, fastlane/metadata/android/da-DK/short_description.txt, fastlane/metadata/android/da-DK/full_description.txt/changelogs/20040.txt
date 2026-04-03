@@ -1,0 +1,2 @@
+1. Tilføjet toggle i indstillinger for at holde skærmen på i opskrift detaljer visning (#326).
+2. Faste ikke at oprette indkøbsliste poster med nye fødevarer (#327).
