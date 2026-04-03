@@ -215,9 +215,6 @@ fun ViewRecipeDetails(
 
     overrideServings: Double? = null
 ) {
-    val context = LocalPlatformContext.current
-    val imageLoader = remember { ImageLoader(context) }
-
     val websiteHandler = launchWebsiteHandler()
     val shareContentHandler = shareContentHandler()
 
@@ -654,7 +651,6 @@ fun ViewRecipeDetails(
                     model = recipeOverview.loadThumbnail(),
                     contentDescription = recipeOverview.name,
                     contentScale = ContentScale.Crop,
-                    imageLoader = imageLoader,
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(16f / 9f)

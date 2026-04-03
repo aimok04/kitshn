@@ -31,10 +31,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
-import coil3.compose.LocalPlatformContext
 import de.kitshn.api.tandoor.model.TandoorStep
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
@@ -54,9 +52,6 @@ fun RecipeStepMultimediaBox(
     additionalContent: @Composable () -> Unit = { },
     placeholder: @Composable () -> Unit = { }
 ) {
-    val context = LocalPlatformContext.current
-    val imageLoader = remember { ImageLoader(context) }
-
     val isVideo = (step.file?.name ?: "").contains("video")
 
     if(isVideo && !isVideoSupported()) {
@@ -98,7 +93,6 @@ fun RecipeStepMultimediaBox(
             },
             contentDescription = step.name,
             contentScale = ContentScale.Crop,
-            imageLoader = imageLoader,
             modifier = Modifier
                 .padding(contentPadding)
                 .fillMaxWidth()
@@ -159,9 +153,6 @@ private fun ImageDialog(
     onDismiss: () -> Unit,
     step: TandoorStep
 ) {
-    val context = LocalPlatformContext.current
-    val imageLoader = remember { ImageLoader(context) }
-
     var imageLoadingState by remember {
         mutableStateOf<AsyncImagePainter.State>(
             AsyncImagePainter.State.Loading(
@@ -196,7 +187,6 @@ private fun ImageDialog(
             },
             contentDescription = step.name,
             contentScale = ContentScale.Fit,
-            imageLoader = imageLoader,
             modifier = Modifier
                 .loadingPlaceHolder(
                     loadingState = imageLoadingState.translateState(),
