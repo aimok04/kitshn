@@ -1,1 +1,5 @@
-Fixed compatibility with Tandoor v2.6.0
+1. Fixed ignore_shopping value not being respected.
+2. Fixed shopping lists unable to be selected if empty.
+3. French has been updated (by @whayn).
+4. Dutch has been updated (by @jstrvr).
+5. Tamil has been updated (by @TamilNeram).
