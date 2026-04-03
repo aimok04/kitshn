@@ -125,4 +125,21 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return entries
     }
 
+    suspend fun fetchAllLists(): List<TandoorShoppingList> {
+        var page = 1
+        val entries = mutableListOf<TandoorShoppingList>()
+
+        var response: TandoorPagedResponse<TandoorShoppingList>? = null
+        while(response == null || response.next != null) {
+            response = json.decodeFromString<TandoorPagedResponse<TandoorShoppingList>>(
+                client.getObject("/shopping-list/?page=$page&page_size=50").toString()
+            )
+
+            entries.addAll(response.results)
+            page++
+        }
+
+        return entries
+    }
+
 }

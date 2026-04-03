@@ -49,6 +49,7 @@ import coil3.compose.LocalPlatformContext
 import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.cache.ShoppingListCache
 import de.kitshn.cache.ShoppingListEntriesCache
 import de.kitshn.cache.ShoppingListEntryOfflineActions
 import de.kitshn.cache.ShoppingSupermarketCache
@@ -109,6 +110,11 @@ fun RouteMainSubrouteShopping(
     },
     supermarketCache: ShoppingSupermarketCache = remember {
         ShoppingSupermarketCache(
+            platformContext, p.vm.tandoorClient!!
+        )
+    },
+    shoppingListCache: ShoppingListCache = remember {
+        ShoppingListCache(
             platformContext, p.vm.tandoorClient!!
         )
     },
@@ -251,7 +257,8 @@ fun RouteMainSubrouteShopping(
                 if(client != null) AdditionalShoppingSettingsChipRow(
                     vm = vm,
                     state = additionalShoppingSettingsChipRowState,
-                    cache = supermarketCache
+                    cache = supermarketCache,
+                    listCache = shoppingListCache
                 )
 
                 HorizontalDivider()

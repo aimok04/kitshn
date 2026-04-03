@@ -33,9 +33,11 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
+import de.kitshn.api.tandoor.TandoorClient
+import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
 import de.kitshn.api.tandoor.rememberTandoorRequestState
-import de.kitshn.model.route.ShoppingViewModel
+import de.kitshn.cache.ShoppingListCache
 import de.kitshn.removeIf
 import de.kitshn.ui.component.model.shopping.ShoppingListColorPill
 import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRowState
@@ -44,12 +46,14 @@ import kitshn.composeapp.generated.resources.action_remove
 import kitshn.composeapp.generated.resources.common_select
 import kitshn.composeapp.generated.resources.common_selected
 import kitshn.composeapp.generated.resources.common_shopping_list
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ShoppingListSettingChip(
-    vm: ShoppingViewModel,
-    state: AdditionalShoppingSettingsChipRowState
+    client: TandoorClient,
+    state: AdditionalShoppingSettingsChipRowState,
+    cache: ShoppingListCache
 ) {
     val hapticFeedback = LocalHapticFeedback.current
 
@@ -83,20 +87,24 @@ fun ShoppingListSettingChip(
         val requestState = rememberTandoorRequestState()
 
         val shoppingLists = remember { mutableStateListOf<TandoorShoppingList>() }
-        LaunchedEffect(vm.entries.toList()) {
-            val ids = mutableSetOf<Long>()
+        LaunchedEffect(Unit) {
+            requestState.wrapRequest {
+                val mLists = client.shopping.fetchAllLists()
+                cache.update(mLists)
 
-            shoppingLists.clear()
+                shoppingLists.clear()
+                shoppingLists.addAll(mLists)
 
-            for(entry in vm.entries) {
-                for(list in entry.shopping_lists) {
-                    if(ids.contains(list.id))
-                        continue
-
-                    shoppingLists.add(list)
-                    ids.add(list.id)
-                }
+                delay(500)
             }
+        }
+
+        LaunchedEffect(requestState.state) {
+            if(requestState.state == TandoorRequestStateState.SUCCESS) return@LaunchedEffect
+            if(requestState.state == TandoorRequestStateState.LOADING) delay(2000)
+
+            if(shoppingLists.isNotEmpty()) return@LaunchedEffect
+            cache.retrieve()?.let { shoppingLists.addAll(it) }
         }
 
         val selectedShoppingListIds = remember { mutableStateSetOf<Long>() }

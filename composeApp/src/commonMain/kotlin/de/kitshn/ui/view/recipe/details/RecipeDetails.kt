@@ -339,7 +339,7 @@ fun ViewRecipeDetails(
             sortedIngredientsList.addAll(it.ingredients)
 
             // merge ingredients if they have equal food, unit and note
-            it.ingredients.forEach { ingredient ->
+            it.ingredients.forEachIndexed { index, ingredient ->
                 val duplicateIngredientIndex =
                     sortedAndMergedIngredientsList.indexOfFirst { duplIngredient ->
                         if(duplIngredient.is_header) return@indexOfFirst false
@@ -350,28 +350,36 @@ fun ViewRecipeDetails(
                         return@indexOfFirst true
                     }
 
-                if(duplicateIngredientIndex == -1) {
-                    sortedAndMergedIngredientsList.add(ingredient)
-                } else {
-                    val duplicateIngredient =
-                        sortedAndMergedIngredientsList[duplicateIngredientIndex]
+                if(duplicateIngredientIndex != -1) {
+                    val shouldMerge = (index..duplicateIngredientIndex).none { index ->
+                        sortedIngredientsList[index].is_header
+                    }
 
-                    sortedAndMergedIngredientsList.removeAt(duplicateIngredientIndex)
-                    sortedAndMergedIngredientsList.add(
-                        duplicateIngredientIndex,
-                        TandoorIngredient(
-                            id = -1,
-                            food = ingredient.food,
-                            unit = ingredient.unit,
-                            amount = ingredient.amount + duplicateIngredient.amount,
-                            note = ingredient.note,
-                            order = -1,
-                            is_header = ingredient.is_header,
-                            no_amount = ingredient.no_amount,
-                            original_text = "-1"
+                    if(shouldMerge) {
+                        val duplicateIngredient =
+                            sortedAndMergedIngredientsList[duplicateIngredientIndex]
+
+                        sortedAndMergedIngredientsList.removeAt(duplicateIngredientIndex)
+                        sortedAndMergedIngredientsList.add(
+                            duplicateIngredientIndex,
+                            TandoorIngredient(
+                                id = -1,
+                                food = ingredient.food,
+                                unit = ingredient.unit,
+                                amount = ingredient.amount + duplicateIngredient.amount,
+                                note = ingredient.note,
+                                order = -1,
+                                is_header = ingredient.is_header,
+                                no_amount = ingredient.no_amount,
+                                original_text = "-1"
+                            )
                         )
-                    )
+
+                        return@forEachIndexed
+                    }
                 }
+
+                sortedAndMergedIngredientsList.add(ingredient)
             }
 
             sortedIngredientsList.addAll(it.ingredients)

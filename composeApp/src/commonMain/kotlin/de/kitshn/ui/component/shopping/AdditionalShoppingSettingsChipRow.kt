@@ -26,6 +26,7 @@ import de.kitshn.KEY_SETTINGS_SHOPPING_SUPERMARKET
 import de.kitshn.SettingsViewModel
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarket
+import de.kitshn.cache.ShoppingListCache
 import de.kitshn.cache.ShoppingSupermarketCache
 import de.kitshn.json
 import de.kitshn.model.route.ShoppingViewModel
@@ -78,7 +79,8 @@ class AdditionalShoppingSettingsChipRowState(
 fun AdditionalShoppingSettingsChipRow(
     vm: ShoppingViewModel,
     state: AdditionalShoppingSettingsChipRowState,
-    cache: ShoppingSupermarketCache
+    cache: ShoppingSupermarketCache,
+    listCache: ShoppingListCache
 ) {
     Row(
         Modifier
@@ -92,7 +94,7 @@ fun AdditionalShoppingSettingsChipRow(
         GroupingSettingChip(state)
         vm.client?.let { client ->
             SupermarketSettingChip(client, state, cache)
-            ShoppingListSettingChip(vm, state)
+            ShoppingListSettingChip(client, state, listCache)
         }
 
         Spacer(Modifier.width(8.dp))
