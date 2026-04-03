@@ -147,6 +147,7 @@ kotlin {
                 implementation(libs.accompanist.systemuicontroller)
 
                 implementation(libs.androidx.browser)
+                implementation(libs.androidx.security.crypto)
 
                 implementation(libs.compose.video)
                 implementation(libs.androidx.media3.exoplayer)
