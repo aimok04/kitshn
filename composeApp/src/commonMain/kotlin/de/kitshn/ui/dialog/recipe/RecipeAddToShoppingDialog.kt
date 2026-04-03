@@ -55,7 +55,7 @@ class RecipeAddToShoppingDialogState(
         selectedIngredients.clear()
 
         ingredients.addAll(recipe.steps.flatMap { it.ingredients })
-        selectedIngredients.addAll(ingredients)
+        selectedIngredients.addAll(ingredients.filter { it.food?.ignore_shopping != true })
 
         this.recipe.value = recipe
         this.servings.value = servings
