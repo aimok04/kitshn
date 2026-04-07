@@ -37,6 +37,7 @@ import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.model.TandoorMealType
+import de.kitshn.filterBySearchQuery
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_unknown_meal_type
 import org.jetbrains.compose.resources.getString
@@ -81,6 +82,16 @@ fun BaseMealTypeSearchField(
         }
     }
 
+
+    val filteredMealTypes = remember(mealTypeList, searchText, selectedMealType) {
+        if (selectedMealType != null || searchText.isBlank()){
+            mealTypeList
+        } else {
+            // use a priority filtering for better first results
+            filterBySearchQuery(mealTypeList, searchText) { it.name }
+        }
+    }
+
     ExposedDropdownMenuBox(
         expanded = isExpanded,
         onExpandedChange = {
@@ -112,7 +123,7 @@ fun BaseMealTypeSearchField(
                 focus.clearFocus()
             }
         ) {
-            mealTypeList.forEach {
+            filteredMealTypes.forEach {
                 DropdownMenuItem(
                     text = { Text(it.name) },
                     onClick = {

@@ -463,3 +463,36 @@ expect fun closeAppHandler(): () -> Unit
 fun String.extractUrl(delimiters: String = " ") = this
     .split(delimiters)
     .firstOrNull { it.startsWith("http://") || it.startsWith("https://") }
+
+/**
+ * filters and scores a list of elements by a text query on a selected property.
+ * The priorities are
+ * 1. exact query match
+ * 2. a prefix of the property matches the query
+ * 3. a word boundary substring matches
+ * 4. a regular substring matches
+ *
+ * everything else is not included in the resulting score sorted list
+ */
+fun <T> filterBySearchQuery(
+    list: List<T>,
+    query: String,
+    selector: (T) -> String
+): List<T> {
+    if (query.isBlank()) return list
+
+    return list
+        .mapNotNull { item ->
+            val name = selector(item)
+            val score = when {
+                name.equals(query, ignoreCase = true) -> 0
+                name.startsWith(query, ignoreCase = true) -> 1
+                name.contains(" $query", ignoreCase = true) -> 2
+                name.contains(query, ignoreCase = true) -> 3
+                else -> return@mapNotNull null
+            }
+            item to score
+        }
+        .sortedBy { it.second }
+        .map { it.first }
+}
