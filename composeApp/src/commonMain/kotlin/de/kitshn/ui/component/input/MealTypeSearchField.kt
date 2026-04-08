@@ -72,9 +72,9 @@ fun BaseMealTypeSearchField(
     val mealTypeList = remember { mutableStateListOf<TandoorMealType>() }
     LaunchedEffect(Unit) {
         try {
-            client.mealType.fetch().let {
+            client.mealType.fetch().let { mealTypes ->
                 mealTypeList.clear()
-                mealTypeList.addAll(it)
+                mealTypeList.addAll(mealTypes.sortedBy { it.order })
             }
         } catch(e: TandoorRequestsError) {
             Logger.e("MealTypeSearchField.kt", e)
