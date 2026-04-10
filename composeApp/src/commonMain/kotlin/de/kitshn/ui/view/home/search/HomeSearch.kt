@@ -75,6 +75,7 @@ fun HomeSearchTopBar(
         initialValue = SearchBarValue.Collapsed
     )
 
+    // query debounce
     LaunchedEffect(textFieldState.text) {
         delay(200)
         state.query = textFieldState.text.toString()
@@ -105,7 +106,6 @@ fun HomeSearchTopBar(
             searchBarState = searchBarState,
             onSearch = {
                 keyboardController?.hide()
-                state.query = it
             },
             placeholder = { Text(stringResource(Res.string.home_search_tandoor)) },
             leadingIcon = {

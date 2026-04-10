@@ -187,7 +187,7 @@ fun ViewHomeSearchContent(
 
         Box {
             when(state.searchRequestState.state) {
-                TandoorRequestStateState.SUCCESS -> if(state.searchResultIds.size > 0) {
+                TandoorRequestStateState.SUCCESS -> if(state.searchResultIds.isNotEmpty()) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         state = searchLazyListState,
