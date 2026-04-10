@@ -16,7 +16,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.ui.component.input.MealTypeSearchField
+import de.kitshn.ui.component.input.MealTypePickerField
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.form_error_field_empty
 import org.jetbrains.compose.resources.getString
@@ -55,11 +55,10 @@ class KitshnFormMealTypeSearchFieldItem(
         var error by rememberSaveable { mutableStateOf<String?>(null) }
         val value = value()
 
-        MealTypeSearchField(
+        MealTypePickerField(
             modifier = modifier.fillMaxWidth(),
             client = client,
             value = value,
-            useDefaultMealTypeIfNull = true,
             label = {
                 Row {
                     label()
@@ -89,15 +88,14 @@ class KitshnFormMealTypeSearchFieldItem(
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next
             ),
-
             onValueChange = {
                 generalError = null
                 onValueChange(it)
-
                 error = if(it == null)
                     null
                 else
                     check(it)
+
             }
         )
     }
