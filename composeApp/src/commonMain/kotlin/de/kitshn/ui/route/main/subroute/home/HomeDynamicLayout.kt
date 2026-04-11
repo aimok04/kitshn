@@ -44,7 +44,7 @@ import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.foreverRememberNotSavable
 import de.kitshn.ui.state.rememberErrorLoadingSuccessState
 import de.kitshn.ui.state.rememberForeverScrollState
-import de.kitshn.ui.view.home.search.HomeSearchState
+import de.kitshn.ui.component.search.RecipeSearchState
 import de.kitshn.ui.view.recipe.details.RecipeServingsAmountSaveMap
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_show_all_recipes
@@ -58,7 +58,7 @@ fun HomeDynamicLayout(
 
     searchBarScrollBehavior: SearchBarScrollBehavior,
     selectionModeState: SelectionModeState<Int>,
-    homeSearchState: HomeSearchState,
+    homeSearchState: RecipeSearchState,
 
     onIsScrollingUpChanged: (isScrollingUp: Boolean) -> Unit,
 

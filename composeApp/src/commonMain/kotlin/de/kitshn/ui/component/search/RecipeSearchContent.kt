@@ -1,4 +1,4 @@
-package de.kitshn.ui.view.home.search
+package de.kitshn.ui.component.search
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +11,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DinnerDining
 import androidx.compose.material.icons.rounded.NoMeals
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -36,7 +38,6 @@ import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.loading.AnimatedContainedLoadingIndicator
 import de.kitshn.ui.component.loading.LazyListAnimatedContainedLoadingIndicator
 import de.kitshn.ui.component.model.recipe.HorizontalRecipeCardLink
-import de.kitshn.ui.component.search.AdditionalSearchSettingsChipRow
 import de.kitshn.ui.selectionMode.SelectionModeState
 import de.kitshn.ui.state.foreverRememberNotSavable
 import kitshn.composeapp.generated.resources.Res
@@ -45,12 +46,12 @@ import kitshn.composeapp.generated.resources.home_search_empty_query
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 
-const val HOME_SEARCH_PAGING_SIZE = 36
+const val RECIPE_SEARCH_PAGING_SIZE = 36
 
 @Composable
-fun ViewHomeSearchContent(
+fun RecipeSearchContent(
     client: TandoorClient,
-    state: HomeSearchState,
+    state: RecipeSearchState,
     selectionModeState: SelectionModeState<Int>? = null,
     onClick: (recipe: TandoorRecipeOverview) -> Unit
 ) {
@@ -59,6 +60,11 @@ fun ViewHomeSearchContent(
     var firstUpdate by remember { mutableStateOf(true) }
 
     val additionalSearchSettingsChipRowState = state.additionalSearchSettingsChipRowState
+
+    val searchLazyListState by foreverRememberNotSavable(
+        key = "RecipeSearchContent/lazyList/${state.scrollSessionId}",
+        initialValue = LazyListState()
+    )
 
     // overwrite to defaults
     LaunchedEffect(state.defaultValuesApplied) {
@@ -99,17 +105,21 @@ fun ViewHomeSearchContent(
     }
 
     LaunchedEffect(state.query, additionalSearchSettingsChipRowState.updateState) {
-        if(firstUpdate) {
+        if(firstUpdate && !state.triggerInitialSearch) {
             firstUpdate = false
             return@LaunchedEffect
         }
+        firstUpdate = false
+        state.triggerInitialSearch = false
+
+        delay(300)
 
         state.currentPage = 1
 
         val response = state.searchRequestState.wrapRequest {
             client.recipe.list(
                 parameters = collectQueryParameters(),
-                pageSize = HOME_SEARCH_PAGING_SIZE,
+                pageSize = RECIPE_SEARCH_PAGING_SIZE,
                 page = state.currentPage
             )
         }
@@ -126,18 +136,9 @@ fun ViewHomeSearchContent(
         state.searchResultIds.clear()
         response.results.forEach { recipe -> state.searchResultIds.add(recipe.id) }
 
-        hapticFeedback.performHapticFeedback(
-            when(response.results.size) {
-                0 -> HapticFeedbackType.Reject
-                else -> HapticFeedbackType.Confirm
-            }
-        )
+        searchLazyListState.scrollToItem(0)
     }
 
-    val searchLazyListState by foreverRememberNotSavable(
-        key = "ViewHomeSearchContent/lazyList/${state.query}/${additionalSearchSettingsChipRowState.updateState}",
-        initialValue = LazyListState()
-    )
     val reachedBottom by remember { derivedStateOf { searchLazyListState.reachedBottom() } }
 
     var fetchNewItems by remember { mutableStateOf(false) }
@@ -157,7 +158,7 @@ fun ViewHomeSearchContent(
             state.extendedSearchRequestState.wrapRequest {
                 client.recipe.list(
                     parameters = collectQueryParameters(),
-                    pageSize = HOME_SEARCH_PAGING_SIZE,
+                    pageSize = RECIPE_SEARCH_PAGING_SIZE,
                     page = state.currentPage
                 )
             }?.let {
@@ -186,44 +187,57 @@ fun ViewHomeSearchContent(
         HorizontalDivider()
 
         Box {
-            when(state.searchRequestState.state) {
-                TandoorRequestStateState.SUCCESS -> if(state.searchResultIds.isNotEmpty()) {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        state = searchLazyListState,
-                        contentPadding = PaddingValues(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        items(state.searchResultIds.size, key = { state.searchResultIds[it] }) {
-                            val recipeOverview =
-                                client.container.recipeOverview[state.searchResultIds[it]]
+            if (state.searchResultIds.isNotEmpty()) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    state = searchLazyListState,
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(state.searchResultIds.size, key = { state.searchResultIds[it] }) {
+                        val recipeOverview =
+                            client.container.recipeOverview[state.searchResultIds[it]]
 
-                            if(recipeOverview != null) HorizontalRecipeCardLink(
-                                recipeOverview = recipeOverview,
-                                selectionState = selectionModeState
-                            ) { ro -> onClick(ro) }
-                        }
+                        val isSelected = state.initialSelectedId == recipeOverview?.id
 
-                        LazyListAnimatedContainedLoadingIndicator(
-                            nextPageExists = state.nextPageExists,
-                            extendedRequestState = state.extendedSearchRequestState
-                        )
+                        if (recipeOverview != null) HorizontalRecipeCardLink(
+                            recipeOverview = recipeOverview,
+                            selectionState = selectionModeState,
+                            defaultColors = if (isSelected) {
+                                ListItemDefaults.colors(
+                                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                    headlineColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    supportingColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                            } else {
+                                ListItemDefaults.colors()
+                            }
+                        ) { ro -> onClick(ro) }
                     }
-                } else {
-                    FullSizeAlertPane(
-                        imageVector = Icons.Rounded.NoMeals,
-                        contentDescription = stringResource(Res.string.home_search_empty),
-                        text = stringResource(Res.string.home_search_empty)
+
+                    LazyListAnimatedContainedLoadingIndicator(
+                        nextPageExists = state.nextPageExists,
+                        extendedRequestState = state.extendedSearchRequestState
                     )
                 }
+            } else {
+                when (state.searchRequestState.state) {
+                    TandoorRequestStateState.SUCCESS -> {
+                        FullSizeAlertPane(
+                            imageVector = Icons.Rounded.NoMeals,
+                            contentDescription = stringResource(Res.string.home_search_empty),
+                            text = stringResource(Res.string.home_search_empty)
+                        )
+                    }
 
-                TandoorRequestStateState.IDLE -> FullSizeAlertPane(
-                    imageVector = Icons.Rounded.DinnerDining,
-                    contentDescription = stringResource(Res.string.home_search_empty_query),
-                    text = stringResource(Res.string.home_search_empty_query)
-                )
+                    TandoorRequestStateState.IDLE -> FullSizeAlertPane(
+                        imageVector = Icons.Rounded.DinnerDining,
+                        contentDescription = stringResource(Res.string.home_search_empty_query),
+                        text = stringResource(Res.string.home_search_empty_query)
+                    )
 
-                else -> {}
+                    else -> {}
+                }
             }
 
             Box(
@@ -231,7 +245,7 @@ fun ViewHomeSearchContent(
                 contentAlignment = Alignment.Center
             ) {
                 AnimatedContainedLoadingIndicator(
-                    visible = state.searchRequestState.state == TandoorRequestStateState.LOADING
+                    visible = state.searchRequestState.state == TandoorRequestStateState.LOADING && state.searchResultIds.isEmpty()
                 )
             }
         }

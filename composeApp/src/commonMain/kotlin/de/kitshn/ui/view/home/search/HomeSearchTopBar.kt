@@ -16,6 +16,7 @@ import androidx.compose.material3.ExpandedFullScreenSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.SearchBarScrollBehavior
 import androidx.compose.material3.SearchBarValue
@@ -33,7 +34,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import de.kitshn.KitshnViewModel
+import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.ui.component.input.iosKeyboardWorkaround.InputFieldWithIOSKeyboardWorkaround
+import de.kitshn.ui.component.search.RecipeSearchContent
+import de.kitshn.ui.component.search.RecipeSearchState
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
 import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
 import de.kitshn.ui.selectionMode.model.RecipeSelectionModeTopAppBar
@@ -51,9 +55,10 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun HomeSearchTopBar(
     vm: KitshnViewModel,
-    state: HomeSearchState,
+    state: RecipeSearchState,
     colors: TopAppBarColors,
-    scrollBehavior: SearchBarScrollBehavior
+    scrollBehavior: SearchBarScrollBehavior,
+    onSelect: ((TandoorRecipeOverview) -> Unit)? = null
 ) {
     val coroutineScope = rememberCoroutineScope()
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -70,14 +75,14 @@ fun HomeSearchTopBar(
 
     val client = vm.tandoorClient ?: return
 
-    val textFieldState = rememberTextFieldState()
+    val textFieldState = rememberTextFieldState(initialText = state.query)
     val searchBarState = rememberSearchBarState(
         initialValue = SearchBarValue.Collapsed
     )
 
     // query debounce
     LaunchedEffect(textFieldState.text) {
-        delay(200)
+        // the content debounces this
         state.query = textFieldState.text.toString()
     }
 
@@ -168,17 +173,24 @@ fun HomeSearchTopBar(
 
     if(searchBarState.currentValue == SearchBarValue.Expanded) ExpandedFullScreenSearchBar(
         state = searchBarState,
-        inputField = inputField
+        inputField = inputField,
+        colors = SearchBarDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        )
     ) {
         Box {
-            ViewHomeSearchContent(
+            RecipeSearchContent(
                 client = client,
                 state = state,
                 selectionModeState = selectionModeState,
                 onClick = {
-                    // disable text field to hide keyboard on iOS
-                    disableTextField = true
-                    recipeLinkDialogState.open(it)
+                    if (onSelect != null) {
+                        onSelect(it)
+                    } else {
+                        // disable text field to hide keyboard on iOS
+                        disableTextField = true
+                        recipeLinkDialogState.open(it)
+                    }
                 }
             )
 
