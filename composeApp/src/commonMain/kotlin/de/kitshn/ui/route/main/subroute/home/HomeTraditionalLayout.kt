@@ -58,8 +58,8 @@ import de.kitshn.ui.state.foreverRememberNotSavable
 import de.kitshn.ui.state.rememberErrorLoadingSuccessState
 import de.kitshn.ui.theme.Typography
 import de.kitshn.ui.theme.playfairDisplay
-import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
-import de.kitshn.ui.view.home.search.HomeSearchState
+import de.kitshn.ui.component.search.RECIPE_SEARCH_PAGING_SIZE
+import de.kitshn.ui.component.search.RecipeSearchState
 import de.kitshn.ui.view.recipe.details.RecipeServingsAmountSaveMap
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.lorem_ipsum_medium
@@ -75,7 +75,7 @@ fun HomeTraditionalLayout(
 
     searchBarScrollBehavior: SearchBarScrollBehavior,
     selectionModeState: SelectionModeState<Int>,
-    homeSearchState: HomeSearchState,
+    homeSearchState: RecipeSearchState,
 
     onIsScrollingUpChanged: (isScrollingUp: Boolean) -> Unit,
 
@@ -139,7 +139,7 @@ fun HomeTraditionalLayout(
         listRequestState.wrapRequest {
             p.vm.tandoorClient!!.recipe.list(
                 parameters = queryParameters,
-                pageSize = HOME_SEARCH_PAGING_SIZE,
+                pageSize = RECIPE_SEARCH_PAGING_SIZE,
                 page = currentPage
             )
         }?.let {
@@ -177,7 +177,7 @@ fun HomeTraditionalLayout(
             extendedListRequestState.wrapRequest {
                 p.vm.tandoorClient!!.recipe.list(
                     parameters = queryParameters,
-                    pageSize = HOME_SEARCH_PAGING_SIZE,
+                    pageSize = RECIPE_SEARCH_PAGING_SIZE,
                     page = currentPage
                 )
             }?.let {

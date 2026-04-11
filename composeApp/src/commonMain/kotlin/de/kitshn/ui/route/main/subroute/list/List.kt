@@ -43,7 +43,7 @@ import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.foreverRememberMutableStateList
 import de.kitshn.ui.state.foreverRememberNotSavable
 import de.kitshn.ui.state.rememberErrorLoadingSuccessState
-import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
+import de.kitshn.ui.component.search.RECIPE_SEARCH_PAGING_SIZE
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.navigation_list
 import kotlinx.coroutines.delay
@@ -86,7 +86,7 @@ fun RouteMainSubrouteList(
         listRequestState.wrapRequest {
             client.recipe.list(
                 parameters = TandoorRecipeQueryParameters(),
-                pageSize = HOME_SEARCH_PAGING_SIZE,
+                pageSize = RECIPE_SEARCH_PAGING_SIZE,
                 page = currentPage
             )
         }?.let {
@@ -125,7 +125,7 @@ fun RouteMainSubrouteList(
             extendedListRequestState.wrapRequest {
                 client.recipe.list(
                     parameters = TandoorRecipeQueryParameters(),
-                    pageSize = HOME_SEARCH_PAGING_SIZE,
+                    pageSize = RECIPE_SEARCH_PAGING_SIZE,
                     page = currentPage
                 )
             }?.let {

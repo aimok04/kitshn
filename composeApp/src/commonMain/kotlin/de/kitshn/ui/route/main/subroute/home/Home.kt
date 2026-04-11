@@ -66,7 +66,7 @@ import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.selectionMode.model.RecipeSelectionModeTopAppBar
 import de.kitshn.ui.selectionMode.rememberSelectionModeState
 import de.kitshn.ui.view.home.search.HomeSearchTopBar
-import de.kitshn.ui.view.home.search.rememberHomeSearchState
+import de.kitshn.ui.component.search.rememberGlobalRecipeSearchState
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_add
 import kitshn.composeapp.generated.resources.action_import
@@ -87,7 +87,7 @@ fun RouteMainSubrouteHome(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-    val homeSearchState by rememberHomeSearchState(key = "RouteMainSubrouteHome/homeSearch")
+    val homeSearchState by rememberGlobalRecipeSearchState(key = "RouteMainSubrouteHome/homeSearch")
 
     // handle keyword passing
     p.vm.uiState.searchKeyword.WatchAndConsume {

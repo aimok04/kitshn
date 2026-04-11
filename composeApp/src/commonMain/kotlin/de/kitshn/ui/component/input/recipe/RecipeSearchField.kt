@@ -1,28 +1,23 @@
 package de.kitshn.ui.component.input.recipe
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuBoxScope
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,13 +32,12 @@ import coil3.compose.LocalPlatformContext
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
-import de.kitshn.api.tandoor.rememberTandoorRequestState
-import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
-import de.kitshn.ui.TandoorRequestErrorHandler
+import de.kitshn.ui.dialog.select.SelectRecipeDialog
+import de.kitshn.ui.dialog.select.rememberSelectRecipeDialogState
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_title_image
 import kitshn.composeapp.generated.resources.common_unknown_recipe
-import kotlinx.coroutines.delay
+import kitshn.composeapp.generated.resources.select_recipe
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
@@ -53,10 +47,10 @@ fun BaseRecipeSearchField(
     client: TandoorClient,
     value: Int?,
     onValueChange: (Int?) -> Unit,
-    content: @Composable ExposedDropdownMenuBoxScope.(
+    content: @Composable (
         thumbnail: @Composable (() -> Unit)?,
         value: String,
-        onValueChange: (value: String) -> Unit
+        onClick: () -> Unit
     ) -> Unit
 ) {
     val context = LocalPlatformContext.current
@@ -64,80 +58,56 @@ fun BaseRecipeSearchField(
     var selectedRecipe by remember { mutableStateOf<TandoorRecipeOverview?>(null) }
     LaunchedEffect(selectedRecipe) { onValueChange(selectedRecipe?.id) }
 
-    var isExpanded by remember { mutableStateOf(false) }
+    val selectRecipeDialogState = rememberSelectRecipeDialogState()
 
-    var searchText by rememberSaveable { mutableStateOf("") }
+    var searchText by remember { mutableStateOf("") }
     LaunchedEffect(value) {
-        if(value == null) return@LaunchedEffect
-        if(selectedRecipe?.id != value) selectedRecipe = client.container.recipeOverview[value]
+        if(value == null) {
+            searchText = ""
+            selectedRecipe = null
+            return@LaunchedEffect
+        }
+        if(selectedRecipe?.id != value) {
+            selectedRecipe = client.container.recipeOverview[value]
+
+            if(selectedRecipe == null) {
+                TandoorRequestState().wrapRequest {
+                    client.recipe.get(value).let {
+                        client.container.recipeOverview[value] = it.toOverview()
+                        selectedRecipe = it.toOverview()
+                    }
+                }
+            }
+        }
 
         searchText = selectedRecipe?.name ?: getString(Res.string.common_unknown_recipe)
     }
 
-    val recipeOverviewList = remember { mutableStateListOf<TandoorRecipeOverview>() }
-
-    val searchRequestState = rememberTandoorRequestState()
-    LaunchedEffect(searchText) {
-        delay(300)
-
-        searchRequestState.wrapRequest {
-            TandoorRequestState().wrapRequest {
-                client.recipe.list(
-                    parameters = TandoorRecipeQueryParameters(query = searchText),
-                    pageSize = 5
-                ).results.let {
-                    recipeOverviewList.clear()
-                    recipeOverviewList.addAll(it)
-                }
-            }
-        }
-    }
-
-    ExposedDropdownMenuBox(
-        expanded = isExpanded,
-        onExpandedChange = {
-            isExpanded = it
-        }
-    ) {
-        content(
-            if(selectedRecipe != null) {
-                {
-                    AsyncImage(
-                        model = selectedRecipe?.loadThumbnail(),
-                        contentDescription = stringResource(Res.string.common_title_image),
-                        contentScale = ContentScale.Crop,
-                        imageLoader = ImageLoader(context),
-                        modifier = Modifier
-                            .size(36.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                    )
-                }
-            } else null,
-            searchText
-        ) {
-            searchText = it
-            selectedRecipe = null
-        }
-
-        ExposedDropdownMenu(
-            expanded = isExpanded,
-            onDismissRequest = {
-                isExpanded = false
-            }
-        ) {
-            recipeOverviewList.forEach {
-                DropdownMenuItem(
-                    text = { Text(it.name) },
-                    onClick = {
-                        selectedRecipe = it
-                        isExpanded = false
-                    }
+    content(
+        if(selectedRecipe != null) {
+            {
+                AsyncImage(
+                    model = selectedRecipe?.loadThumbnail(),
+                    contentDescription = stringResource(Res.string.common_title_image),
+                    contentScale = ContentScale.Crop,
+                    imageLoader = ImageLoader(context),
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(RoundedCornerShape(8.dp))
                 )
             }
-        }
+        } else null,
+        searchText,
+    ) {
+        selectRecipeDialogState.open(initialSelectedId = value)
     }
 
-    TandoorRequestErrorHandler(state = searchRequestState)
+    SelectRecipeDialog(
+        client = client,
+        state = selectRecipeDialogState,
+    ) {
+        selectedRecipe = it
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -165,29 +135,35 @@ fun OutlinedRecipeSearchField(
     client = client,
     value = value,
     onValueChange = onValueChange
-) { t, v, vc ->
-    OutlinedTextField(
-        value = v,
-        modifier = modifier.menuAnchor(MenuAnchorType.PrimaryEditable, true),
-        enabled = true,
-        readOnly = false,
-        singleLine = true,
-        textStyle = textStyle,
-        label = label,
-        placeholder = placeholder,
-        leadingIcon = t ?: leadingIcon,
-        trailingIcon = trailingIcon,
-        prefix = prefix,
-        suffix = suffix,
-        supportingText = supportingText,
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        isError = isError,
-        shape = shape,
-        colors = colors,
-        onValueChange = vc
-    )
+) { t, v, onClick ->
+    Box {
+        OutlinedTextField(
+            value = v,
+            modifier = modifier,
+            enabled = true,
+            readOnly = true,
+            singleLine = true,
+            textStyle = textStyle,
+            label = label,
+            placeholder = placeholder,
+            leadingIcon = t ?: leadingIcon,
+            trailingIcon = trailingIcon,
+            prefix = prefix,
+            suffix = suffix,
+            supportingText = supportingText,
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            isError = isError,
+            shape = shape,
+            colors = colors,
+            onValueChange = { }
+        )
+
+        Box(
+            modifier = Modifier.matchParentSize().clickable { onClick() }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -215,27 +191,33 @@ fun RecipeSearchField(
     client = client,
     value = value,
     onValueChange = onValueChange
-) { t, v, vc ->
-    TextField(
-        value = v,
-        modifier = modifier.menuAnchor(MenuAnchorType.PrimaryEditable, true),
-        enabled = true,
-        readOnly = false,
-        singleLine = true,
-        textStyle = textStyle,
-        label = label,
-        placeholder = placeholder,
-        leadingIcon = t ?: leadingIcon,
-        trailingIcon = trailingIcon,
-        prefix = prefix,
-        suffix = suffix,
-        supportingText = supportingText,
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        isError = isError,
-        shape = shape,
-        colors = colors,
-        onValueChange = vc
-    )
+) { t, v, onClick ->
+    Box {
+        TextField(
+            value = v,
+            modifier = modifier,
+            enabled = true,
+            readOnly = true,
+            singleLine = true,
+            textStyle = textStyle,
+            label = label,
+            placeholder = placeholder,
+            leadingIcon = t ?: leadingIcon,
+            trailingIcon = trailingIcon,
+            prefix = prefix,
+            suffix = suffix,
+            supportingText = supportingText,
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            isError = isError,
+            shape = shape,
+            colors = colors,
+            onValueChange = { }
+        )
+
+        Box(
+            modifier = Modifier.matchParentSize().clickable { onClick() }
+        )
+    }
 }
