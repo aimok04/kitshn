@@ -1,0 +1,4 @@
+- feat(beteende): tillagda växlar för att visa bråkvärden (#24)
+- feat(inställningar): tillagd felrapportknapp
+- feat(acra): tillagd nedladdningsknapp
+- chore(api): markerad v1.5.20 som kompatibel

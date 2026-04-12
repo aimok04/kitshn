@@ -1,0 +1,12 @@
+Hotfix
+- fix (recept): problem med regex för mallkommentarer (löst #27)
+
+Ändringar för v1.0.0-alpha.12
+- feat(utils): ställ in max decimaltal till 2 (#24)
+- feat(home): förbättrad dynamisk startskärm genom att cachelagra mat och nyckelord
+- feat(home): la till go-tos-sektion
+- feat(home): la till julsektion
+- feat(api): hämtar nu version från openapi endpoint
+- fix (måltidsplan): respekterar standardinställningen för måltidsplandelning (löst #19)
+- chore(api): markerad v1.5.23 som kompatibel
+- chore(api): markerad v1.5.21/22 som kompatibel

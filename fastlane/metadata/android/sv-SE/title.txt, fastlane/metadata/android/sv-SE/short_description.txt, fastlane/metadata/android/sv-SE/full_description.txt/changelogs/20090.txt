@@ -1,0 +1,7 @@
+‼️ Android kommer att bli en låst plattform: https://keepandroidopen.org
+
+1. Fixat ignore_shopping-värde som inte respekteras.
+2. Fixade inköpslistor går inte att välja om de är tomma.
+3. 🇫🇷 Franska har uppdaterats (av @whayn).
+4. 🇳🇱 Dutch har uppdaterats (av @jstrvr).
+5. 🇱🇰/🇮🇳 Tamil har uppdaterats (av @TamilNeram).

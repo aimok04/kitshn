@@ -1,0 +1,4 @@
+Den här versionen innehåller ytterligare en korrigering som borde göra det möjligt igen att använda inmatningsfält på hemsidan 😅
+
+1. Fixat problem som förhindrade användning av inmatningsfält på hemskärmen (#289).
+2. Ändrade nummerinmatningsfältets mjukvarutangentbord.
