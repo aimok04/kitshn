@@ -120,9 +120,9 @@ enum class TandoorServerVersionCompatibility(
         fun getCompatibilityStateOfVersion(version: String): TandoorServerVersionCompatibilityState {
             // versions precedence:
             // 1. Version found in version matrix -> use that
-            // 2. Go down bux-fix until 0 -> use that.
-            // 3. Go down minor-fix until 0 (also include bug fix version) -> MIXED_COMPATIBILITY
-            // Else Unknown
+            // 2. walk patch to 0 -> if found something use that
+            // 3. walk minor to 0 (including patches) -> at least MIXED_COMPATIBILITY or worse
+            // else Unknown
 
             val parts = version.split(".").map { it.toIntOrNull() ?: return TandoorServerVersionCompatibilityState.UNKNOWN }
             if (parts.size != 3) return TandoorServerVersionCompatibilityState.UNKNOWN
