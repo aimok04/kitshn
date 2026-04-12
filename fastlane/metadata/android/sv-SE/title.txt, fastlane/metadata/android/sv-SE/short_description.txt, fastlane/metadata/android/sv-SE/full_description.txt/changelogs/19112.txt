@@ -1,0 +1,8 @@
+En release kommer aldrig ensam 🐞
+Så här är rensningen av röran som v2.0.0-beta.11.1 orsakade:
+
+1. Fixade krasch när du använde import av sociala medier två gånger.
+2. Fixat import av TikTok-videor till sociala medier som inte fungerar.
+3. Fixat problem med sessionstimeout vid användning av import av sociala medier.
+4. Fixat webbadress som inte ställts in som sourceUrl-värde för recept vid användning av import av sociala medier.
+5. Lade till bättre bildhämtning för Instagram-inlägg (tidigare inkluderade spelpilöverlägg för rullar).

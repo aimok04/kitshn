@@ -1,0 +1,8 @@
+BETA: Denna beta introducerar kompatibilitet med Tandoor v2. Denna version är inte kompatibel med servrar som kör Tandoor v1.
+
+1. Lade till import av sociala medier med hjälp av AI (Instagram och TikTok).
+2. Lade till kompakt läge för hemskärmen.
+3. Förbättrad design av flera komponenter.
+4. Nu ignorerar du skiftläge när du sorterar inköpslistor i alfabetisk ordning.
+5. Fixat inköpslista som inte uppdateras när inköpslistor lades till i matplansposter med tomt receptfält.
+6. Översättningsförbättringar och mer.

@@ -1,0 +1,10 @@
+‼️ Android kommer att bli en låst plattform: https://keepandroidopen.org
+
+1. Lade till filtrering av inköpslistor efter inköpslistor.
+2. Ny inställning för att dölja aktivitetssektionen i receptets detaljvy.
+3. Danska har uppdaterats (My Nameis).
+4. Holländska har uppdaterats (@jstrvr).
+5. Franska har uppdaterats (J.Lavoie).
+6. Tyskan har uppdaterats (@stilllearninggit och J.Lavoie).
+7. Ungerska har lagts till (@Subbye och @SzSz-hub).
+8. Portugisiska (Brasilien) har uppdaterats (@lucasmc64).

@@ -1,0 +1,7 @@
+Det här är höjdpunkterna i kitshn v2:
+
+1. Kompatibilitet med Tandoor v2 (#95)
+2. Reviderad design med Material 3 Expressive (#204)
+3. Nya funktioner och förbättrad användbarhet:
+    - Ny funktion för import av sociala medier som kan importera inlägg från Instagram och TikTok.
+    - ...

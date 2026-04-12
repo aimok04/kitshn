@@ -1,0 +1,4 @@
+- feat (recept): lagt till stöd för stegvideofiler (löst #15)
+- feat(recept): håll skärmen på (#18) (av @FineFindus)
+- feat(ui): fångar upp konfigurationsändringar
+- fix(strings.xml): beskrivning av korrigerat beteende

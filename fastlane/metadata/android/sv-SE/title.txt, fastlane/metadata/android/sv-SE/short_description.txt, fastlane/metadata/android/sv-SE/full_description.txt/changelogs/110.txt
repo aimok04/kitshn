@@ -1,0 +1,9 @@
+- feat(recept): lagt till mallstöd för steginstruktioner (#25)
+- feat(recept): tillagda egenskaperskort (#24)
+- feat(måltider): förbättrat användargränssnitt för surfplattor/vikbara
+- feat(dialog): förbättrad adaptiv fullskärmsdialogstorlek
+- feat(recept): gömmer FAB när man når botten för läsbarhet
+- fix (recept): förhindra trunkerad ingredienstext
+- fix (dela): ersatt hårdkodad url (löst #22)
+- chore(libs): versionsstötar
+- flera buggfixar
