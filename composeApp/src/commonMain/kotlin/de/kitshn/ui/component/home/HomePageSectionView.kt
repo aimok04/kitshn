@@ -38,7 +38,7 @@ fun HomePageSectionView(
     onClickRecipe: (recipe: TandoorRecipeOverview) -> Unit
 ) {
     val lazyGridState =
-        rememberForeverLazyGridState(key = "RouteMainSubrouteHome/lazyGridState/${section.hashCode()}")
+        rememberForeverLazyGridState(key = "RouteMainSubrouteHome/lazyGridState/${section?.title ?: "loading"}")
 
     Column {
         Text(
@@ -59,12 +59,7 @@ fun HomePageSectionView(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             if(section != null) {
-                items(section.recipeIds.size, key = { index ->
-                    val recipeId = section.recipeIds[index]
-                    val recipe = client?.container?.recipeOverview?.get(recipeId)
-
-                    recipe?.let { "recipe-$it" } ?: "index-$index"
-                }) { index ->
+                items(section.recipeIds.size, key = {index -> section.recipeIds[index]}) { index ->
                     val recipeId = section.recipeIds[index]
                     val recipe = client?.container?.recipeOverview?.get(recipeId)
                         ?: return@items
