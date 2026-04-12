@@ -1,0 +1,4 @@
+1. Implementerat stöd för att välja delningsanvändare i dialogrutan för skapande/redigering av måltidsplaner (#148).
+2. Implementerat stöd för att välja delningsanvändare i dialogrutan för att skapa/redigera receptbok (#154).
+3. Lade till kryss för att förhindra tomma steg vid import av recept (#157).
+4. Kontrollerad kompatibilitet med Tandoor version 1.5.34.

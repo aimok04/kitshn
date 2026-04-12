@@ -1,0 +1,4 @@
+- feat(onboarding): inloggning till API-token (#9)
+- feat(recept): lagt till autotimerlänkar i instruktionerna
+- feat(acra): lade till e-postadressfält till AcraCrashReportDialog.kt
+- flera buggfixar

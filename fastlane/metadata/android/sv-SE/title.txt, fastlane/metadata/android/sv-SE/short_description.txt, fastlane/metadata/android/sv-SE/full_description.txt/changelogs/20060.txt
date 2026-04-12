@@ -1,0 +1,3 @@
+‼️ Android kommer att bli en låst plattform. Läs mer: https://keepandroidopen.org/
+
+1. Ändrade API-anrop för » lägg till i shopping « i receptets detaljvy (#343).

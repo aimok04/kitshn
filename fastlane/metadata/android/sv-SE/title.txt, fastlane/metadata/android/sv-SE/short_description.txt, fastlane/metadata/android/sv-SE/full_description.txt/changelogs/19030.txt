@@ -1,0 +1,7 @@
+BETA: Denna beta introducerar kompatibilitet med Tandoor v2. Denna version är inte kompatibel med servrar som kör Tandoor v1.
+
+1. Lade till stöd för AI-import, en ny funktion i Tandoor v2.
+2. Implementerad knapp för att rensa inköpslistan från alla eller färdiga poster.
+3. Lade till receptnamn för att dela text för enklare identifiering.
+4. Möjliggjorde för användare att inaktivera förstoringen av shoppingläget.
+5. Kontrollerad kompatibilitet med Tandoor version 2.0.0-alpha-2.

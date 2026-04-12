@@ -1,0 +1,12 @@
+- feat(recept): la till stöd för stegbildfiler (löst #14)
+- feat(shopping): gruppera inköpslistor efter mat (löst #13)
+- feat(manifest): lagt till stöd för självsignerade certifikat (löst #11)
+- feat(app): la till genväg till "ny instans".
+- feat(recept): la till objektet "lägg till i shopping" i rullgardinsmenyn
+- feat(recept): la till dialogruta för hantering av receptbok
+- feat(utils): bättre läsbara datumetiketter för människor
+- feat(recept): bättre horisontell layout för plattor i tillagningsläge
+- chore(libs): versionsstötar
+- fix (recept): migrerade till olika markdown-bibliotek
+- fix(shopping): textfält är nu en rad
+- fix(onboarding): kontrollerar token/lösenordsprefix före autofyll

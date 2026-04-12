@@ -1,0 +1,5 @@
+Den här utgåvan innehåller en snabbfix som ska göra det möjligt igen att använda textfält på hemsidan 😅
+
+1. Ersatte hemsökfältskomponenten som en snabbfix (#289).
+2. Förbättrad färg på sökverktygsfältet på enheter med stor skärm.
+3. Förbättrad dialog för skapande av inköpslistor på enheter med stor skärm.

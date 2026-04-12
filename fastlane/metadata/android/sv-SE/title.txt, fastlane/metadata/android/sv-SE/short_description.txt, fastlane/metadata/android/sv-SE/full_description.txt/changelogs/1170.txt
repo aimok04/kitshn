@@ -1,0 +1,13 @@
+Hej ✌️
+Veckans release fokuserar på att ta med några viktiga funktioner och förbättringar till iOS-plattformen.
+Det finns också några ändringar som påverkar alla plattformar:
+
+    1. 🇸🇮 Slovenska har lagts till på Weblate (av @vednolacni).
+    2. kitshn använder nu ett nytt markdown-bibliotek som förbättrar stilen.
+    3. Olika sidor med lat laddning har förbättrats.
+    4. Receptböcker visar nu även recept från filter (#67).
+    5. Vissa buggfixar och små förbättringar.
+    6. Kontrollerad kompatibilitet med Tandoor-versionerna 1.5.28/29/30.
+
+kitshn har nått 200 stjärnor denna månad 🥳
+Tack för ditt stöd :)
