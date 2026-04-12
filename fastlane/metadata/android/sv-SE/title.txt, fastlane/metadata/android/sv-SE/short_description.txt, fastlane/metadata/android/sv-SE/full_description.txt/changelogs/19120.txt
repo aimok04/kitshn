@@ -1,0 +1,6 @@
+Den här utgåvan bör fixa några större problem som *trasig reproducerbarhet* som bröt uppdateringar på *F-Droid* fram till nu.
+
+1. Visar nu recept på mat i ingredienslistor (#284).
+2. Fixade kraschen när du klickade på logga ut.
+3. Återaktiverade datumväljare på iOS (#282).
+4. Kontrollerade kompatibilitet med Tandoor version 2.3.0 till version 2.3.3.

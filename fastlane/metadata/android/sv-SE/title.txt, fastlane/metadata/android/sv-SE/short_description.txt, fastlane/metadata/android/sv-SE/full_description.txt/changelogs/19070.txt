@@ -1,0 +1,6 @@
+BETA: Denna beta introducerar kompatibilitet med Tandoor v2. Denna version är inte kompatibel med servrar som kör Tandoor v1.
+
+    1. Omdesignad app med Material 3 Expressive.
+    2. Lade till mer haptisk feedback.
+    3. Använder nu standardmåltidstyp när du skapar en ny måltidsplan.
+    4. Kontrollerad kompatibilitet med Tandoor version 2.0.0-beta-1.

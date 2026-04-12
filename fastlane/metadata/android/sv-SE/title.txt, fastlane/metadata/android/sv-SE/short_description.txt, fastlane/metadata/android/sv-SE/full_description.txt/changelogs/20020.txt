@@ -1,0 +1,4 @@
+Det här är en liten version med några mindre förbättringar:
+
+1. Sparar nu snabbköps- och grupperingsinställningar i shopping även efter att appen stängts.
+2. Lade till ny tickande ingredienser av-funktion i receptinformationsvy och tillagningsläge (#314).

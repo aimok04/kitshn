@@ -1,0 +1,8 @@
+1. Förbättrat storleksförhållande på sidor med listdetaljer.
+2. Förbättrad rullning i shopping- och shoppingläge.
+3. Förbättrad feldialog och felhantering.
+4. Lade till platshållarikon för tomma receptböcker.
+5. Fixade irriterande feldialog när du hade tomma receptböcker.
+6. Fast etikett för » portioner « är på tyska när språket är inställt på engelska.
+7. Fixat krasch vid val av stormarknad utan tilldelade kategorier.
+8. 🇹🇷 Turkiska har uppdaterats (av @mikropsoft).

@@ -1,0 +1,6 @@
+Gott nytt år! 🥳
+
+Detta är den första mindre buggfixversionen av kitshn v2.
+
+1. Fixat problem där tidigare datums etiketter endast inkluderade vardagar (#313).
+2. Fixat problem där pluralformer inte användes i shopping (#307).
