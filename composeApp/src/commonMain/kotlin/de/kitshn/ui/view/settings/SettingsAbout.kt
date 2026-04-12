@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import com.mikepenz.aboutlibraries.ui.compose.produceLibraries
 import com.mikepenz.aboutlibraries.ui.compose.rememberLibraries
 import com.mikepenz.aboutlibraries.ui.compose.util.author
 import de.kitshn.launchWebsiteHandler
@@ -63,7 +64,7 @@ fun ViewSettingsAbout(
     val launchWebsite = launchWebsiteHandler()
     val uriHandler = LocalUriHandler.current
 
-    val libs by rememberLibraries {
+    val libs by produceLibraries {
         Res.readBytes("files/aboutlibraries.json").decodeToString()
     }
 
