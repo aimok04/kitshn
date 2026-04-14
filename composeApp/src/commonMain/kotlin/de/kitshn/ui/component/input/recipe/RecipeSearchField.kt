@@ -29,9 +29,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import coil3.ImageLoader
 import coil3.compose.AsyncImage
-import coil3.compose.LocalPlatformContext
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
@@ -55,8 +53,6 @@ fun BaseRecipeSearchField(
         onClick: () -> Unit
     ) -> Unit
 ) {
-    val context = LocalPlatformContext.current
-
     var selectedRecipe by remember { mutableStateOf<TandoorRecipeOverview?>(null) }
     LaunchedEffect(selectedRecipe) { onValueChange(selectedRecipe?.id) }
 
@@ -93,7 +89,6 @@ fun BaseRecipeSearchField(
                         model = selectedRecipe?.loadThumbnail(),
                         contentDescription = stringResource(Res.string.common_title_image),
                         contentScale = ContentScale.Crop,
-                        imageLoader = ImageLoader(context),
                         modifier = Modifier
                             .size(36.dp)
                             .clip(RoundedCornerShape(8.dp))
