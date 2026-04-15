@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
@@ -23,6 +24,7 @@ import io.ktor.client.plugins.HttpTimeout
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerializationException
@@ -106,6 +108,14 @@ class KitshnViewModel(
 
             if(tandoorClient == null) tandoorClient = TandoorClient(credentials)
             favorites.init(tandoorClient!!)
+
+            viewModelScope.launch {
+                snapshotFlow { tandoorClient }
+                    .combine(settings.getTandoorTimeoutSettings) { client, timeout -> client to timeout }
+                    .collect { (client, timeout) ->
+                        client?.configureTimeouts(timeout)
+                    }
+            }
 
             connectivityCheck()
 
