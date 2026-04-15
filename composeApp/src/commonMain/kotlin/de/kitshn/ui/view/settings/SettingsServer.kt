@@ -1,12 +1,20 @@
 package de.kitshn.ui.view.settings
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.rounded.Logout
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Numbers
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.Web
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -34,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
+import de.kitshn.BackHandler
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.closeAppHandler
 import de.kitshn.launchWebsiteHandler
@@ -50,6 +59,8 @@ import kitshn.composeapp.generated.resources.common_instance_url
 import kitshn.composeapp.generated.resources.common_manage_space
 import kitshn.composeapp.generated.resources.common_unknown
 import kitshn.composeapp.generated.resources.common_version
+import kitshn.composeapp.generated.resources.settings_section_server_advanced_description
+import kitshn.composeapp.generated.resources.settings_section_server_advanced_label
 import kitshn.composeapp.generated.resources.settings_section_server_delete_and_manage_data_description
 import kitshn.composeapp.generated.resources.settings_section_server_delete_and_manage_data_dialog_line_1
 import kitshn.composeapp.generated.resources.settings_section_server_delete_and_manage_data_dialog_line_2
@@ -73,6 +84,13 @@ fun ViewSettingsServer(
     var showVersionCompatibilityBottomSheet by remember { mutableStateOf(false) }
 
     var showDataManagementDialog by remember { mutableStateOf(false) }
+    var showAdvancedSettings by remember { mutableStateOf(false) }
+
+    val navigateBack: (() -> Unit)? = if(showAdvancedSettings) {
+        { showAdvancedSettings = false }
+    } else {
+        p.back
+    }
 
     LaunchedEffect(Unit) {
         TandoorRequestState().wrapRequest {
@@ -81,87 +99,134 @@ fun ViewSettingsServer(
         }
     }
 
+    BackHandler(showAdvancedSettings) {
+        showAdvancedSettings = false
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                navigationIcon = { BackButton(p.back) },
-                title = { Text(stringResource(Res.string.settings_section_server_label)) },
+                navigationIcon = { BackButton(navigateBack) },
+                title = {
+                    Text(
+                        stringResource(
+                            if(showAdvancedSettings) {
+                                Res.string.settings_section_server_advanced_label
+                            } else {
+                                Res.string.settings_section_server_label
+                            }
+                        )
+                    )
+                },
                 scrollBehavior = scrollBehavior
             )
         }
     ) {
-        LazyColumn(
+        AnimatedContent(
+            targetState = showAdvancedSettings,
             modifier = Modifier
                 .padding(it)
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
+            transitionSpec = {
+                if(targetState) {
+                    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left) + fadeIn() togetherWith
+                        slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) + fadeOut()
+                } else {
+                    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) + fadeIn() togetherWith
+                        slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right) + fadeOut()
+                }.using(SizeTransform(clip = false))
+            },
+            label = "server-settings-content"
         ) {
-            item {
-                SettingsListItem(
-                    position = SettingsListItemPosition.TOP,
-                    label = { Text(stringResource(Res.string.common_account)) },
-                    description = {
-                        Text(
-                            p.vm.uiState.userDisplayName.ifBlank {
-                                stringResource(Res.string.common_unknown)
+            if(it) {
+                SettingsServerAdvancedContent(p)
+            } else {
+                LazyColumn {
+                    item {
+                        SettingsListItem(
+                            position = SettingsListItemPosition.TOP,
+                            label = { Text(stringResource(Res.string.common_account)) },
+                            description = {
+                                Text(
+                                    p.vm.uiState.userDisplayName.ifBlank {
+                                        stringResource(Res.string.common_unknown)
+                                    }
+                                )
+                            },
+                            icon = Icons.Rounded.AccountCircle,
+                            enabled = p.vm.uiState.userDisplayName.isNotBlank(),
+                            contentDescription = stringResource(Res.string.common_account)
+                        )
+
+                        SettingsListItem(
+                            position = SettingsListItemPosition.BETWEEN,
+                            label = { Text(stringResource(Res.string.common_instance_url)) },
+                            description = {
+                                Text(
+                                    p.vm.tandoorClient?.credentials?.instanceUrl
+                                        ?: stringResource(Res.string.common_unknown)
+                                )
+                            },
+                            icon = Icons.Rounded.Web,
+                            contentDescription = stringResource(Res.string.common_instance_url)
+                        )
+
+                        SettingsListItem(
+                            position = SettingsListItemPosition.BOTTOM,
+                            label = { Text(stringResource(Res.string.common_version)) },
+                            description = {
+                                Text(
+                                    p.vm.tandoorClient?.container?.serverSettings?.version
+                                        ?: stringResource(Res.string.common_unknown)
+                                )
+                            },
+                            icon = Icons.Rounded.Numbers,
+                            enabled = p.vm.tandoorClient?.container?.serverSettings?.version != null,
+                            contentDescription = stringResource(Res.string.common_version)
+                        ) {
+                            coroutineScope.launch {
+                                showVersionCompatibilityBottomSheet = true
                             }
-                        )
-                    },
-                    icon = Icons.Rounded.AccountCircle,
-                    enabled = p.vm.uiState.userDisplayName.isNotBlank(),
-                    contentDescription = stringResource(Res.string.common_account)
-                )
+                        }
 
-                SettingsListItem(
-                    position = SettingsListItemPosition.BETWEEN,
-                    label = { Text(stringResource(Res.string.common_instance_url)) },
-                    description = {
-                        Text(
-                            p.vm.tandoorClient?.credentials?.instanceUrl
-                                ?: stringResource(Res.string.common_unknown)
-                        )
-                    },
-                    icon = Icons.Rounded.Web,
-                    contentDescription = stringResource(Res.string.common_instance_url)
-                )
+                        SettingsListItem(
+                            position = SettingsListItemPosition.SINGULAR,
+                            label = { Text(stringResource(Res.string.settings_section_server_advanced_label)) },
+                            description = { Text(stringResource(Res.string.settings_section_server_advanced_description)) },
+                            icon = Icons.Rounded.Tune,
+                            trailingContent = {
+                                Icon(
+                                    Icons.AutoMirrored.Rounded.KeyboardArrowRight,
+                                    null
+                                )
+                            },
+                            contentDescription = stringResource(Res.string.settings_section_server_advanced_label)
+                        ) {
+                            showAdvancedSettings = true
+                        }
 
-                SettingsListItem(
-                    position = SettingsListItemPosition.BOTTOM,
-                    label = { Text(stringResource(Res.string.common_version)) },
-                    description = {
-                        Text(
-                            p.vm.tandoorClient?.container?.serverSettings?.version
-                                ?: stringResource(Res.string.common_unknown)
-                        )
-                    },
-                    icon = Icons.Rounded.Numbers,
-                    enabled = p.vm.tandoorClient?.container?.serverSettings?.version != null,
-                    contentDescription = stringResource(Res.string.common_version)
-                ) {
-                    coroutineScope.launch {
-                        showVersionCompatibilityBottomSheet = true
+                        SettingsListItem(
+                            position = SettingsListItemPosition.SINGULAR,
+                            label = { Text(stringResource(Res.string.action_sign_out)) },
+                            description = { Text(stringResource(Res.string.action_sign_out_description)) },
+                            icon = Icons.AutoMirrored.Rounded.Logout,
+                            contentDescription = stringResource(Res.string.action_sign_out)
+                        ) {
+                            p.vm.signOut()
+                            closeAppHandler()
+                        }
+
+                        // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)
+                        SettingsListItem(
+                            position = SettingsListItemPosition.SINGULAR,
+                            label = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_label)) },
+                            description = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_description)) },
+                            icon = Icons.Rounded.Delete,
+                            contentDescription = stringResource(Res.string.settings_section_server_delete_and_manage_data_description)
+                        ) {
+                            showDataManagementDialog = true
+                        }
                     }
-                }
-
-                SettingsListItem(
-                    position = SettingsListItemPosition.SINGULAR,
-                    label = { Text(stringResource(Res.string.action_sign_out)) },
-                    description = { Text(stringResource(Res.string.action_sign_out_description)) },
-                    icon = Icons.AutoMirrored.Rounded.Logout,
-                    contentDescription = stringResource(Res.string.action_sign_out)
-                ) {
-                    p.vm.signOut()
-                    closeAppHandler()
-                }
-
-                // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)
-                SettingsListItem(
-                    position = SettingsListItemPosition.SINGULAR,
-                    label = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_label)) },
-                    description = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_description)) },
-                    icon = Icons.Rounded.Delete,
-                    contentDescription = stringResource(Res.string.settings_section_server_delete_and_manage_data_description)
-                ) {
-                    showDataManagementDialog = true
                 }
             }
         }
