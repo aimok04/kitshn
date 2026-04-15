@@ -51,6 +51,9 @@ const val KEY_SETTINGS_BEHAVIOR_KEEP_SCREEN_ON_IN_RECIPE_DETAILS =
 const val KEY_SETTINGS_BEHAVIOR_HIDE_FUNDING_BANNER_UNTIL =
     "behavior_hide_funding_banner_until"
 
+const val KEY_SETTINGS_BEHAVIOR_SHOPPING_ITEM_DOUBLE_CLICK_CHECK =
+    "behavior_shopping_item_double_click_check"
+
 const val KEY_SETTINGS_SHOPPING_GROUP_BY = "shopping_group_by"
 const val KEY_SETTINGS_SHOPPING_SUPERMARKET = "shopping_supermarket"
 const val KEY_SETTINGS_SHOPPING_LISTS = "shopping_lists"
@@ -224,6 +227,12 @@ class SettingsViewModel : ViewModel() {
 
     fun setFundingBannerHideUntil(epochSeconds: Long) =
         obs.putLong(KEY_SETTINGS_BEHAVIOR_HIDE_FUNDING_BANNER_UNTIL, epochSeconds)
+
+    val getShoppingItemDoubleClickCheck: Flow<Boolean> =
+        obs.getBooleanFlow(KEY_SETTINGS_BEHAVIOR_SHOPPING_ITEM_DOUBLE_CLICK_CHECK, true)
+
+    fun setShoppingItemDoubleClickCheck(allow: Boolean) =
+        obs.putBoolean(KEY_SETTINGS_BEHAVIOR_SHOPPING_ITEM_DOUBLE_CLICK_CHECK, allow)
 
     // shopping
     fun setShoppingGroupBy(groupBy: String) =

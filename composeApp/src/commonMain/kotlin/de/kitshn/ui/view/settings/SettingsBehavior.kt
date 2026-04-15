@@ -13,6 +13,7 @@ import androidx.compose.material.icons.rounded.LightMode
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material.icons.rounded.ShoppingCartCheckout
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material.icons.rounded.WarningAmber
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -58,6 +59,8 @@ import kitshn.composeapp.generated.resources.settings_section_behavior_promote_t
 import kitshn.composeapp.generated.resources.settings_section_behavior_promote_tomorrows_meal_plan_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_properties_show_fractional_values_description
 import kitshn.composeapp.generated.resources.settings_section_behavior_properties_show_fractional_values_label
+import kitshn.composeapp.generated.resources.settings_section_behavior_shopping_item_double_click_check_description
+import kitshn.composeapp.generated.resources.settings_section_behavior_shopping_item_double_click_check_label
 import kitshn.composeapp.generated.resources.settings_section_behavior_use_share_wrapper_description
 import kitshn.composeapp.generated.resources.settings_section_behavior_use_share_wrapper_label
 import kotlinx.coroutines.launch
@@ -236,6 +239,21 @@ fun ViewSettingsBehavior(
                 ) {
                     coroutineScope.launch {
                         p.vm.settings.setPropertiesShowFractionalValues(it)
+                    }
+                }
+            }
+
+            item {
+                SettingsSwitchListItem(
+                    position = SettingsListItemPosition.SINGULAR,
+                    label = { Text(stringResource(Res.string.settings_section_behavior_shopping_item_double_click_check_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_behavior_shopping_item_double_click_check_description)) },
+                    icon = Icons.Rounded.ShoppingCartCheckout,
+                    contentDescription = stringResource(Res.string.settings_section_behavior_shopping_item_double_click_check_label),
+                    checked = propertiesShowFractionalValues.value
+                ) { checked ->
+                    coroutineScope.launch {
+                        p.vm.settings.setShoppingItemDoubleClickCheck(checked)
                     }
                 }
             }

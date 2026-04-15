@@ -48,6 +48,7 @@ import coil3.PlatformContext
 import coil3.compose.LocalPlatformContext
 import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.TandoorRequestStateState
+import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.cache.ShoppingListCache
 import de.kitshn.cache.ShoppingListEntriesCache
@@ -171,6 +172,34 @@ fun RouteMainSubrouteShopping(
         }
 
         vm.renderItems()
+    }
+
+    val allowDoubleClickCheck by p.vm.settings.getShoppingItemDoubleClickCheck.collectAsState(true)
+    fun checkEntries(entries: List<TandoorShoppingListEntry>) {
+        if(p.vm.uiState.offlineState.isOffline) {
+            if(entries.all { entry -> entry.checked }) {
+                vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.UNCHECK)
+            } else {
+                vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.CHECK)
+            }
+
+            hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+        } else {
+            coroutineScope.launch {
+                actionRequestState.wrapRequest {
+                    if(entries.all { entry -> entry.checked }) {
+                        client?.shopping?.uncheck(entries)
+                    } else {
+                        client?.shopping?.check(entries)
+                    }
+
+                    vm.renderItems()
+                    vm.update()
+                }
+
+                hapticFeedback.handleTandoorRequestState(actionRequestState)
+            }
+        }
     }
 
     Scaffold(
@@ -328,6 +357,11 @@ fun RouteMainSubrouteShopping(
                                                     shoppingListEntryDetailsBottomSheetState.open(
                                                         item.entries
                                                     )
+                                                },
+                                                onDoubleClick = {
+                                                    if (allowDoubleClickCheck) {
+                                                        checkEntries(item.entries)
+                                                    }
                                                 }
                                             )
                                         }
@@ -460,31 +494,7 @@ fun RouteMainSubrouteShopping(
             state = shoppingListEntryDetailsBottomSheetState,
             isOffline = p.vm.uiState.offlineState.isOffline,
             onCheck = { entries ->
-                if(p.vm.uiState.offlineState.isOffline) {
-                    if(entries.all { entry -> entry.checked }) {
-                        vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.UNCHECK)
-                    } else {
-                        vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.CHECK)
-                    }
-
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
-                    return@ShoppingListEntryDetailsBottomSheet
-                }
-
-                coroutineScope.launch {
-                    actionRequestState.wrapRequest {
-                        if(entries.all { entry -> entry.checked }) {
-                            client.shopping.uncheck(entries)
-                        } else {
-                            client.shopping.check(entries)
-                        }
-
-                        vm.renderItems()
-                        vm.update()
-                    }
-
-                    hapticFeedback.handleTandoorRequestState(actionRequestState)
-                }
+                checkEntries(entries)
             },
             onDelete = { entries ->
                 if(p.vm.uiState.offlineState.isOffline) {
