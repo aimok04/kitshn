@@ -93,8 +93,9 @@ fun RouteMain(p: RouteParameters) {
         p.vm.settings.getHideBottomBarOnScroll.collectAsState(initial = false)
 
     val nestedScrollConnection = rememberScrollToHideConnection(
-        state = scaffoldState,
-        enabled = hideBottomBarOnScroll.value
+        enabled = hideBottomBarOnScroll.value,
+        onHide = { scaffoldState.hide() },
+        onShow = { scaffoldState.show() }
     )
 
     val destination by mainSubNavHostController.currentBackStackEntryAsState()

@@ -113,7 +113,11 @@ fun RouteMainSubrouteHome(
 
     val selectionModeState = rememberSelectionModeState<Int>()
 
-    val searchBarScrollBehavior = SearchBarDefaults.enterAlwaysSearchBarScrollBehavior()
+    val pinHomeSearchBar by p.vm.settings.getPinHomeSearchBar.collectAsState(initial = false)
+
+    val searchBarScrollBehavior = SearchBarDefaults.enterAlwaysSearchBarScrollBehavior(
+        canScroll = { !pinHomeSearchBar }
+    )
 
     var isScrollingUp by rememberSaveable { mutableStateOf(true) }
 
