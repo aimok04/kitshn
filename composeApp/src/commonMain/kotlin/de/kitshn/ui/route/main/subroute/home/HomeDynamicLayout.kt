@@ -195,7 +195,7 @@ fun HomeDynamicLayout(
                         }
                     }
 
-                    if(homePageSectionList.size == 0 && pageLoadingState != ErrorLoadingSuccessState.SUCCESS) {
+                    if(homePageSectionList.isEmpty() && pageLoadingState != ErrorLoadingSuccessState.SUCCESS) {
                         repeat(5) {
                             HomePageSectionView(
                                 client = p.vm.tandoorClient,

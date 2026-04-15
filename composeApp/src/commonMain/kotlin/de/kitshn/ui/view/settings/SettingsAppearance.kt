@@ -49,6 +49,8 @@ import kitshn.composeapp.generated.resources.settings_section_appearance_hide_ac
 import kitshn.composeapp.generated.resources.settings_section_appearance_hide_activity_label
 import kitshn.composeapp.generated.resources.settings_section_appearance_hide_bottom_bar_on_scroll_description
 import kitshn.composeapp.generated.resources.settings_section_appearance_hide_bottom_bar_on_scroll_label
+import kitshn.composeapp.generated.resources.settings_section_appearance_pin_home_search_bar_description
+import kitshn.composeapp.generated.resources.settings_section_appearance_pin_home_search_bar_label
 import kitshn.composeapp.generated.resources.settings_section_appearance_label
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -183,7 +185,7 @@ fun ViewSettingsAppearance(
                 val hideBottomBarOnScroll = p.vm.settings.getHideBottomBarOnScroll.collectAsState(initial = false)
 
                 SettingsSwitchListItem(
-                    position = SettingsListItemPosition.SINGULAR,
+                    position = SettingsListItemPosition.TOP,
                     label = { Text(stringResource(Res.string.settings_section_appearance_hide_bottom_bar_on_scroll_label)) },
                     description = { Text(stringResource(Res.string.settings_section_appearance_hide_bottom_bar_on_scroll_description)) },
                     icon = Icons.AutoMirrored.Rounded.ViewList,
@@ -192,6 +194,23 @@ fun ViewSettingsAppearance(
                 ) {
                     coroutineScope.launch {
                         p.vm.settings.setHideBottomBarOnScroll(it)
+                    }
+                }
+            }
+
+            item {
+                val pinHomeSearchBar = p.vm.settings.getPinHomeSearchBar.collectAsState(initial = false)
+
+                SettingsSwitchListItem(
+                    position = SettingsListItemPosition.BOTTOM,
+                    label = { Text(stringResource(Res.string.settings_section_appearance_pin_home_search_bar_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_appearance_pin_home_search_bar_description)) },
+                    icon = Icons.Rounded.Loupe,
+                    contentDescription = stringResource(Res.string.settings_section_appearance_pin_home_search_bar_label),
+                    checked = pinHomeSearchBar.value
+                ) {
+                    coroutineScope.launch {
+                        p.vm.settings.setPinHomeSearchBar(it)
                     }
                 }
             }

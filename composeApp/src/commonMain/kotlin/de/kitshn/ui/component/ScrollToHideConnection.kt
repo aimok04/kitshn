@@ -1,6 +1,5 @@
 package de.kitshn.ui.component
 
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -14,12 +13,13 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun rememberScrollToHideConnection(
-    state: NavigationSuiteScaffoldState,
-    enabled: Boolean
+    enabled: Boolean,
+    onHide: suspend () -> Unit,
+    onShow: suspend () -> Unit
 ): NestedScrollConnection {
     val scope = rememberCoroutineScope()
     
-    return remember(state, enabled) {
+    return remember(enabled) {
         var showJob: Job? = null
         var scrollDelta = 0f
 
@@ -28,15 +28,21 @@ fun rememberScrollToHideConnection(
                 if (!enabled) return super.onPreScroll(available, source)
 
                 val delta = available.y
+                
+                // Reset accumulation on direction change
+                if ((delta > 0 && scrollDelta < 0) || (delta < 0 && scrollDelta > 0)) {
+                    scrollDelta = 0f
+                }
+                
                 scrollDelta += delta
 
                 if (scrollDelta < -20f) { // Significant scroll down
                     showJob?.cancel()
-                    scope.launch { state.hide() }
+                    scope.launch { onHide() }
                     scrollDelta = 0f
                 } else if (scrollDelta > 20f) { // Significant scroll up
                     showJob?.cancel()
-                    scope.launch { state.show() }
+                    scope.launch { onShow() }
                     scrollDelta = 0f
                 }
 
@@ -45,7 +51,7 @@ fun rememberScrollToHideConnection(
                     showJob?.cancel()
                     showJob = scope.launch {
                         delay(600)
-                        state.show()
+                        onShow()
                         scrollDelta = 0f
                     }
                 }
@@ -56,7 +62,7 @@ fun rememberScrollToHideConnection(
             override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
                 if (enabled) {
                     showJob?.cancel()
-                    state.show()
+                    onShow()
                     scrollDelta = 0f
                 }
                 return super.onPostFling(consumed, available)
