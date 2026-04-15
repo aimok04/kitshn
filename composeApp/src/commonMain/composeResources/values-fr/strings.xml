@@ -419,5 +419,7 @@
     <string name="settings_section_behavior_ios_install_timer_shortcut_description">Nécessaire pour démarrer des minuteurs directement depuis l'application kitshn</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Empêcher l'écran de se mettre en veille pendant l’affichage de la recette, tout comme dans le Mode cuisine</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Gardez l’affichage de la recette actif</string>
+    <string name="settings_section_behavior_shopping_item_double_click_check_label">Cocher les articles par double-clic</string>
+    <string name="settings_section_behavior_shopping_item_double_click_check_description">Marquez rapidement vos articles comme terminés en double-cliquant dessus</string>
     <string name="common_shopping_list">Liste de courses</string>
 </resources>
