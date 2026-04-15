@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ViewList
 import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.CommentsDisabled
 import androidx.compose.material.icons.rounded.DarkMode
@@ -53,6 +54,8 @@ import kitshn.shared.generated.resources.settings_section_appearance_follow_syst
 import kitshn.shared.generated.resources.settings_section_appearance_follow_system_label
 import kitshn.shared.generated.resources.settings_section_appearance_hide_activity_description
 import kitshn.shared.generated.resources.settings_section_appearance_hide_activity_label
+import kitshn.shared.generated.resources.settings_section_appearance_hide_bottom_bar_on_scroll_description
+import kitshn.shared.generated.resources.settings_section_appearance_hide_bottom_bar_on_scroll_label
 import kitshn.shared.generated.resources.settings_section_appearance_label
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -193,6 +196,23 @@ fun ViewSettingsAppearance(
                 ) {
                     coroutineScope.launch {
                         p.vm.settings.setHideActivity(it)
+                    }
+                }
+            }
+
+            item {
+                val hideBottomBarOnScroll = p.vm.settings.getHideBottomBarOnScroll.collectAsState(initial = false)
+
+                SettingsSwitchListItem(
+                    position = SettingsListItemPosition.SINGULAR,
+                    label = { Text(stringResource(Res.string.settings_section_appearance_hide_bottom_bar_on_scroll_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_appearance_hide_bottom_bar_on_scroll_description)) },
+                    icon = Icons.AutoMirrored.Rounded.ViewList,
+                    contentDescription = stringResource(Res.string.settings_section_appearance_hide_bottom_bar_on_scroll_label),
+                    checked = hideBottomBarOnScroll.value
+                ) {
+                    coroutineScope.launch {
+                        p.vm.settings.setHideBottomBarOnScroll(it)
                     }
                 }
             }

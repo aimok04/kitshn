@@ -14,19 +14,25 @@ import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldValue
+import androidx.compose.material3.adaptive.navigationsuite.rememberNavigationSuiteScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import de.kitshn.saveBreadcrumb
+import de.kitshn.ui.component.rememberScrollToHideConnection
 import de.kitshn.ui.dialog.version.TandoorBetaInfoDialog
 import de.kitshn.ui.dialog.version.TandoorServerVersionCompatibilityDialog
 import de.kitshn.ui.route.RouteParameters
@@ -37,6 +43,7 @@ import kitshn.shared.generated.resources.navigation_home
 import kitshn.shared.generated.resources.navigation_meal_plan
 import kitshn.shared.generated.resources.navigation_settings
 import kitshn.shared.generated.resources.navigation_shopping
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -79,6 +86,17 @@ fun RouteMain(p: RouteParameters) {
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
     val mainSubNavHostController = rememberAlternateNavController()
 
+    val scaffoldState = rememberNavigationSuiteScaffoldState()
+    val scope = rememberCoroutineScope()
+
+    val hideBottomBarOnScroll =
+        p.vm.settings.getHideBottomBarOnScroll.collectAsState(initial = false)
+
+    val nestedScrollConnection = rememberScrollToHideConnection(
+        state = scaffoldState,
+        enabled = hideBottomBarOnScroll.value
+    )
+
     val destination by mainSubNavHostController.currentBackStackEntryAsState()
     LaunchedEffect(destination) {
         val route = destination?.destination?.route ?: ""
@@ -88,12 +106,19 @@ fun RouteMain(p: RouteParameters) {
             if(!route.startsWith(it.route)) return@forEach
             currentDestination = it
         }
+
+        // Show bottom bar when destination changes
+        if (scaffoldState.currentValue == NavigationSuiteScaffoldValue.Hidden) {
+            scope.launch { scaffoldState.show() }
+        }
     }
 
     val isOffline = p.vm.uiState.offlineState.isOffline
 
     NavigationSuiteScaffold(
-        navigationSuiteColors = NavigationSuiteDefaults.colors(
+        state = scaffoldState,
+        modifier = Modifier.nestedScroll(nestedScrollConnection),
+        navigationSuiteColors = androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults.colors(
             navigationRailContainerColor = MaterialTheme.colorScheme.surfaceContainerHighest
         ),
         navigationSuiteItems = {
