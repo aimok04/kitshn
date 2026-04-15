@@ -456,11 +456,10 @@ fun ViewRecipeDetails(
         )
 
         Box(
-            Modifier.fillMaxWidth()
-                .padding(bottom = 16.dp),
+            Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            if((recipe?.source_url ?: "").isNotBlank()) OutlinedButton(
+            OutlinedButton(
                 onClick = {
                     try {
                         websiteHandler(recipe?.source_url!!)
@@ -1021,10 +1020,14 @@ fun ViewRecipeDetails(
                 showFractionalValues = propertiesShowFractionalValues.value
             )
 
-            if(notEnoughSpace && (recipe?.source_url ?: "").isNotBlank()) {
-                SourceButton()
-            } else {
-                Spacer(Modifier.height(70.dp))
+            if(notEnoughSpace){
+                Box(modifier = Modifier.height(48.dp)){
+                    if((recipe?.source_url ?: "").isNotBlank()){
+                        SourceButton()
+                    }
+                }
+                // add spacer against for FAP overlay
+                Spacer(Modifier.height(48.dp))
             }
         }
 
