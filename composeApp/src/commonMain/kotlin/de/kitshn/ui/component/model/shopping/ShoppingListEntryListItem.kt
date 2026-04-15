@@ -137,7 +137,8 @@ fun ShoppingListEntryListItem(
     enlarge: Boolean = false,
 
     onClick: (() -> Unit)? = null,
-    onClickExpand: (() -> Unit)? = null
+    onClickExpand: (() -> Unit)? = null,
+    onDoubleClick: (() -> Unit)? = null
 ) {
     val amountChips = remember { mutableStateListOf<Pair<String, Boolean>>() }
     val mealplans =
@@ -220,6 +221,9 @@ fun ShoppingListEntryListItem(
                         onLongClick = {
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                             selectionState?.selectToggle(food.id)
+                        },
+                        onDoubleClick = {
+                            onDoubleClick?.invoke()
                         }
                     )
                 } else {
