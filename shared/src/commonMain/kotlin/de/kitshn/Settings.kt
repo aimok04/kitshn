@@ -13,6 +13,7 @@ import com.russhwolf.settings.coroutines.getStringFlow
 import com.russhwolf.settings.coroutines.getStringOrNullFlow
 import com.russhwolf.settings.observable.makeObservable
 import de.kitshn.api.tandoor.TandoorCredentials
+import de.kitshn.api.tandoor.TandoorTimeoutSettings
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarket
 import kotlinx.coroutines.flow.Flow
@@ -59,6 +60,7 @@ const val KEY_SETTINGS_SHOPPING_LISTS = "shopping_lists"
 
 const val KEY_SETTINGS_ONBOARDING_COMPLETED = "onboarding_completed"
 const val KEY_SETTINGS_TANDOOR_CREDENTIALS = "tandoor_credentials"
+const val KEY_SETTINGS_TANDOOR_TIMEOUT_SETTINGS = "tandoor_timeout_settings"
 
 const val KEY_SETTINGS_IOS_TIMER_SHORTCUT_INSTALLED = "ios_timer_shortcut_installed"
 
@@ -119,6 +121,14 @@ class SettingsViewModel : ViewModel() {
         secureStore.saveCredentials(oldCredentials.copy(password = ""))
         settings.remove(KEY_SETTINGS_TANDOOR_CREDENTIALS)
     }
+
+    // timeouts
+    val getTandoorTimeoutSettings: Flow<TandoorTimeoutSettings> = obs.getStringFlow(
+        KEY_SETTINGS_TANDOOR_TIMEOUT_SETTINGS, "{}"
+    ).map { json.maybeDecodeFromString<TandoorTimeoutSettings>(it) ?: TandoorTimeoutSettings() }
+
+    fun setTandoorTimeoutSettings(settings: TandoorTimeoutSettings) =
+        obs.putString(KEY_SETTINGS_TANDOOR_TIMEOUT_SETTINGS, json.encodeToString(settings))
 
     // iOS timer shortcut installed
     val getIosTimerShortcutInstalled: Flow<Boolean> =
