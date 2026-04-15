@@ -33,8 +33,38 @@ fun rememberScrollToHideConnection(
                 if ((delta > 0 && scrollDelta < 0) || (delta < 0 && scrollDelta > 0)) {
                     scrollDelta = 0f
                 }
+
+                // Restart show job on any interaction
+                if (source == NestedScrollSource.UserInput) {
+                    showJob?.cancel()
+                    showJob = scope.launch {
+                        delay(600)
+                        onShow()
+                        scrollDelta = 0f
+                    }
+                }
+
+                return super.onPreScroll(available, source)
+            }
+
+            override fun onPostScroll(
+                consumed: Offset,
+                available: Offset,
+                source: NestedScrollSource
+            ): Offset {
+                if (!enabled) return super.onPostScroll(consumed, available, source)
+
+                // Only accumulate downward scroll if content actually moved
+                // (prevents hiding at the bottom of a list or when not scrollable)
+                if (consumed.y < 0) {
+                    scrollDelta += consumed.y
+                } 
                 
-                scrollDelta += delta
+                // Accumulate upward scroll (consumed OR available/overscroll at the top)
+                // ensures the bar shows even when the content is already at the top.
+                if (consumed.y > 0 || available.y > 0) {
+                    scrollDelta += (consumed.y + available.y)
+                }
 
                 if (scrollDelta < -20f) { // Significant scroll down
                     showJob?.cancel()
@@ -46,17 +76,7 @@ fun rememberScrollToHideConnection(
                     scrollDelta = 0f
                 }
 
-                // Show after delay if scrolling stopped during user input
-                if (source == NestedScrollSource.UserInput) {
-                    showJob?.cancel()
-                    showJob = scope.launch {
-                        delay(600)
-                        onShow()
-                        scrollDelta = 0f
-                    }
-                }
-
-                return super.onPreScroll(available, source)
+                return super.onPostScroll(consumed, available, source)
             }
 
             override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
