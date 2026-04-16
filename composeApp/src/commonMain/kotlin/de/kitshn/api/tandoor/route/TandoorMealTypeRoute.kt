@@ -31,21 +31,20 @@ class TandoorMealTypeRoute(client: TandoorClient) : TandoorBaseRoute(client) {
     suspend fun create(
         name: String,
         order: Int?,
-        time: LocalTime,
-        color: Color = Color.Gray,
+        time: LocalTime? = null,
+        color: Color? = null,
     ): TandoorMealType {
         val data = buildJsonObject {
             put("name", JsonPrimitive(name))
             if(order != null) put("order", json.encodeToJsonElement(order))
-            put("time", JsonPrimitive(time.toString()))
-            put("colorStr", JsonPrimitive(color.toHex()))
+            if(time != null) put("time", JsonPrimitive(time.toString()))
+            if(color != null) put("color", JsonPrimitive(color.toHex()))
         }
 
         val mealType = TandoorMealType.parse(
-            this.client,
             client.postObject("/meal-type/", data).toString()
         )
-        mealType.client = client
+
         client.container.mealType[mealType.id] = mealType
 
         return mealType

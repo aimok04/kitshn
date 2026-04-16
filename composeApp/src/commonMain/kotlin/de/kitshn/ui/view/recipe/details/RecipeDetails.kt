@@ -591,7 +591,8 @@ fun ViewRecipeDetails(
                                         mealPlanCreationDialogState.open(
                                             MealPlanCreationAndEditDefaultValues(
                                                 recipeId = recipeOverview.id,
-                                                servings = recipeOverview.servings.toDouble()
+                                                servings = recipeOverview.servings.toDouble(),
+                                                mealTypeId = userPreference.default_meal_type?.id
                                             )
                                         )
                                     }
