@@ -91,6 +91,8 @@
     <string name="action_take_new_photo">Take new photo</string>
     <string name="action_upload">Upload</string>
     <string name="action_yes">Yes</string>
+    <string name="action_add_meal_type">Add new meal type</string>
+    <string name="action_edit_meal_type">Edit meal type</string>
 
     <string name="app_name">kitshn</string>
 
@@ -111,6 +113,7 @@
     <string name="common_api_token">API token</string>
     <string name="common_by">by</string>
     <string name="common_category">Category</string>
+    <string name="common_color">Color</string>
     <string name="common_comment">Comment</string>
     <string name="common_contact">Contact</string>
     <string name="common_cook_book">Cookbook</string>
@@ -194,6 +197,7 @@
     <string name="common_supermarket">Supermarket</string>
     <string name="common_shopping_list">Shopping list</string>
     <string name="common_tags">Tags</string>
+    <string name="common_time">Time</string>
     <string name="common_time_wait">Waiting time</string>
     <string name="common_time_work">Working time</string>
     <string name="common_title">Title</string>
@@ -444,6 +448,25 @@
     <string name="tandoor_compatibility_not_checkable_label">Compatibility cannot be checked</string>
     <string name="tandoor_compatibility_unknown_description">The version of your Tandoor server has not yet been checked. The functionality of the app may be impaired.</string>
     <string name="tandoor_compatibility_unknown_label">Compatibility unknown</string>
+
+
+    <string name="color_light_red">Light Red</string>
+    <string name="color_magenta">Magenta</string>
+    <string name="color_lila">Lavender</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_teal">Teal</string>
+    <string name="color_red">Red</string>
+    <string name="color_green">Green</string>
+    <string name="color_olive">Olive</string>
+    <string name="color_gray">Gray</string>
+    <string name="color_black">Black</string>
+    <string name="color_white">White</string>
+    <string name="color_dark_gray">Dark Gray</string>
+    <string name="color_light_gray">Light Gray</string>
+    <string name="color_cyan">Cyan</string>
+    <string name="color_yellow">Yellow</string>
+
+
 
     <string-array name="timer_detection_hour_definitions">
         <item>hours</item>
