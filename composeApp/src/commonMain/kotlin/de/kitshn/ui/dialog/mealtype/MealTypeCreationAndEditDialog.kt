@@ -2,10 +2,12 @@ package de.kitshn.ui.dialog.mealtype
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Label
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -32,6 +34,8 @@ import de.kitshn.model.form.item.field.KitshnFormTimeFieldItem
 import de.kitshn.toColorInt
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.dialog.AdaptiveFullscreenDialog
+import de.kitshn.ui.dialog.common.CommonDeletionDialog
+import de.kitshn.ui.dialog.common.rememberCommonDeletionDialogState
 import de.kitshn.ui.state.ColorStateSaver
 import de.kitshn.ui.state.LocalTimeStateSaver
 import de.kitshn.ui.state.foreverRememberNotSavable
@@ -39,6 +43,7 @@ import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_add_meal_type
 import kitshn.composeapp.generated.resources.action_create
 import kitshn.composeapp.generated.resources.action_create_entry
+import kitshn.composeapp.generated.resources.action_delete
 import kitshn.composeapp.generated.resources.action_edit_entry
 import kitshn.composeapp.generated.resources.action_edit_meal_type
 import kitshn.composeapp.generated.resources.action_save
@@ -116,13 +121,16 @@ fun rememberMealTypeCreationAndEditDialogState(
 fun MealTypeCreationAndEditDialog(
     client: TandoorClient,
     state: MealTypeCreationAndEditDialogState,
-    onSaved: (TandoorMealType) -> Unit
+    onSaved: (TandoorMealType) -> Unit,
+    onDeleted: (TandoorMealType) -> Unit
 ) {
 
     if (!state.shown.value) return
 
     val coroutineScope = rememberCoroutineScope()
     val hapticFeedback = LocalHapticFeedback.current
+
+    val deleteDialogState = rememberCommonDeletionDialogState<TandoorMealType>()
 
     var name by rememberSaveable(state.defaultValues) {
         mutableStateOf(state.defaultValues.name)
@@ -258,12 +266,35 @@ fun MealTypeCreationAndEditDialog(
                 }
             )
         },
+        topAppBarActions = {
+            if (state.isEdit) {
+                IconButton(onClick = { deleteDialogState.open(state.mealType!!) }) {
+                    Icon(Icons.Rounded.Delete, stringResource(Res.string.action_delete))
+                }
+            }
+        },
         actions = {
             form.RenderSubmitButton()
         }
     ) { it, _, _ ->
         form.Render(it)
     }
+
+    CommonDeletionDialog(
+        state = deleteDialogState,
+        onConfirm = { mealType ->
+            coroutineScope.launch {
+                requestMealTypeState.wrapRequest {
+                    mealType.delete()
+                }
+
+                hapticFeedback.handleTandoorRequestState(requestMealTypeState)
+
+                state.dismiss()
+                onDeleted(mealType)
+            }
+        }
+    )
 
     TandoorRequestErrorHandler(state = requestMealTypeState)
 }
