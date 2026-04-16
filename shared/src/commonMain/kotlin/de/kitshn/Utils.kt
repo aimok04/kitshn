@@ -35,16 +35,17 @@ import kitshn.shared.generated.resources.common_tomorrow
 import kitshn.shared.generated.resources.common_yesterday
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atStartOfDayIn
-import kotlinx.datetime.format
+import kotlinx.datetime.atTime
+import kotlinx.datetime.daysUntil
 import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 import kotlinx.datetime.format.byUnicodePattern
+import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.todayIn
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -55,6 +56,7 @@ import org.jetbrains.compose.resources.stringResource
 import kotlin.math.floor
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 enum class FileFormats(val extensions: List<String>, val mimeType: String) {
     EPUB(listOf("epub"), "application/epub+zip"),
@@ -302,9 +304,9 @@ fun String.parseIsoTime(): LocalDateTime {
 }
 
 fun LocalDate.toStartOfDayString(): String {
-    return this.atStartOfDayIn(TimeZone.currentSystemDefault())
-        .toLocalDateTime(TimeZone.UTC)
-        .format(LocalDateTime.Formats.ISO) + "Z"
+    return this.atTime(0,0,0)
+        .toInstant(TimeZone.UTC)
+        .toString()
 }
 
 fun Long.toLocalDate(
@@ -342,26 +344,23 @@ expect fun LocalDate.format(pattern: String): String
 
 @Composable
 fun LocalDate.toHumanReadableDateLabel(): String {
-    val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-    val diff = this.toEpochDays() - today.toEpochDays()
+    val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
+    val diff = today.daysUntil(this)
 
-    var label = when(diff) {
-        2L -> stringResource(Res.string.common_day_after_tomorrow)
-        1L -> stringResource(Res.string.common_tomorrow)
-        0L -> stringResource(Res.string.common_today)
-        -1L -> stringResource(Res.string.common_yesterday)
-        -2L -> stringResource(Res.string.common_day_before_yesterday)
+    val label = when(diff) {
+        2 -> stringResource(Res.string.common_day_after_tomorrow)
+        1 -> stringResource(Res.string.common_tomorrow)
+        0 -> stringResource(Res.string.common_today)
+        -1 -> stringResource(Res.string.common_yesterday)
+        -2 -> stringResource(Res.string.common_day_before_yesterday)
         else -> { null }
     }
 
-    if(label == "null") label = null
 
-    return label ?: if(diff in 0L..6L) {
-        this.format("EEEE")
-    }else if(this.year == today.year) {
-        this.format("EE, dd. MMM")
-    } else {
-        this.format("dd. MMMM yyyy")
+    return label ?: when {
+        diff in 0..6 -> this.format("EEEE")
+        this.year == today.year -> this.format("EE, dd. MMM")
+        else -> this.format("dd. MMMM yyyy")
     }
 }
 
