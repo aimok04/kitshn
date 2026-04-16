@@ -176,7 +176,7 @@ fun MealPlanCreationAndEditDialog(
     var recipeOverview by remember { mutableStateOf<TandoorRecipeOverview?>(null) }
     LaunchedEffect(recipeId) { recipeOverview = client.container.recipeOverview[recipeId] }
 
-    var mealTypeId by rememberSaveable { mutableStateOf(defaultValues.mealTypeId) }
+    var mealTypeId by remember { mutableStateOf(defaultValues.mealTypeId) }
 
     var startDate by remember { mutableStateOf(defaultValues.startDate) }
     var endDate by remember { mutableStateOf(defaultValues.endDate) }

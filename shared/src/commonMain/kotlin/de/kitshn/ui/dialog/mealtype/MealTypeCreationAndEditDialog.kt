@@ -222,31 +222,37 @@ fun MealTypeCreationAndEditDialog(
             onSubmit = {
                 coroutineScope.launch {
                     if (state.isEdit) {
-                        requestMealTypeState.wrapRequest {
-                            state.mealType = state.mealType?.partialUpdate(
+                        val updated = requestMealTypeState.wrapRequest {
+                            state.mealType?.partialUpdate(
+                                client,
                                 name = name,
                                 order = order,
                                 time = time,
                                 color = color,
                             )
+                        }
+                        if (updated != null){
+                            state.mealType = updated
+                            client.container.mealType[updated.id] = updated
                         }
                     } else {
-                        requestMealTypeState.wrapRequest {
-                            state.mealType = client.mealType.create(
+                        val created = requestMealTypeState.wrapRequest {
+                            client.mealType.create(
                                 name = name,
                                 order = order,
                                 time = time,
                                 color = color,
                             )
                         }
+                        state.mealType = created
                     }
 
                     hapticFeedback.handleTandoorRequestState(requestMealTypeState)
 
-                    state.dismiss()
                     if (state.mealType != null) {
                         onSaved(state.mealType!!)
                     }
+                    state.dismiss()
 
                 }
             }
@@ -285,13 +291,15 @@ fun MealTypeCreationAndEditDialog(
         onConfirm = { mealType ->
             coroutineScope.launch {
                 requestMealTypeState.wrapRequest {
-                    mealType.delete()
+                    mealType.delete(client)
                 }
+
+                client.container.mealType.remove(mealType.id)
 
                 hapticFeedback.handleTandoorRequestState(requestMealTypeState)
 
-                state.dismiss()
                 onDeleted(mealType)
+                state.dismiss()
             }
         }
     )
