@@ -122,7 +122,7 @@ fun BaseMealTypePickerField(
         client = client,
         state = createAndEditDialogState,
         onSaved = { savedMealType ->
-            val index = mealTypeList.indexOfFirst { it.id ==  savedMealType.id }
+            val index = mealTypeList.indexOfFirst { it.id == savedMealType.id }
             if (index >= 0) {
                 mealTypeList[index] = savedMealType
             } else {
@@ -134,6 +134,13 @@ fun BaseMealTypePickerField(
             }
 
             selectedMealType = savedMealType
+            isExpanded = false
+        },
+        onDeleted = { deletedMealType ->
+            mealTypeList.removeAll { it.id == deletedMealType.id }
+            if (selectedMealType?.id == deletedMealType.id) {
+                selectedMealType = null
+            }
         }
     )
 
