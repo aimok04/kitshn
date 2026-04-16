@@ -188,11 +188,13 @@ fun BaseMealTypePickerField(
                 )
             }
 
-            item {
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                    color = MaterialTheme.colorScheme.outlineVariant
-                )
+            if (mealTypeList.isNotEmpty()){
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        color = MaterialTheme.colorScheme.outlineVariant
+                    )
+                }
             }
 
             item {
