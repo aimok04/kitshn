@@ -73,8 +73,9 @@ fun BaseMealTypeSearchField(
     LaunchedEffect(Unit) {
         try {
             client.mealType.fetch().let { mealTypes ->
+                val sorted = mealTypes.sortedWith(compareBy({ it.order }, { it.time }))
                 mealTypeList.clear()
-                mealTypeList.addAll(mealTypes.sortedBy { it.order })
+                mealTypeList.addAll(sorted)
             }
         } catch(e: TandoorRequestsError) {
             Logger.e("MealTypeSearchField.kt", e)
