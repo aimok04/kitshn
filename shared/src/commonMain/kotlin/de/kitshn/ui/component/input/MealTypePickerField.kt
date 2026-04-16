@@ -2,6 +2,7 @@ package de.kitshn.ui.component.input
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,9 +14,11 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.UnfoldMore
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -50,7 +53,10 @@ import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.model.TandoorMealType
+import de.kitshn.ui.dialog.mealtype.MealTypeCreationAndEditDialog
+import de.kitshn.ui.dialog.mealtype.rememberMealTypeCreationAndEditDialogState
 import kitshn.shared.generated.resources.Res
+import kitshn.shared.generated.resources.action_add_meal_type
 import kitshn.shared.generated.resources.common_unknown_meal_type
 import org.jetbrains.compose.resources.stringResource
 
@@ -83,7 +89,7 @@ fun BaseMealTypePickerField(
         try {
             client.mealType.fetch().let { mealTypes ->
                 mealTypeList.clear()
-                mealTypeList.addAll(mealTypes.sortedBy { it.order })
+                mealTypeList.addAll(mealTypes.sortedWith(compareBy({ it.order }, { it.time })))
             }
         } catch(e: TandoorRequestsError) {
             Logger.e("MealTypePickerField.kt", e)
@@ -107,6 +113,29 @@ fun BaseMealTypePickerField(
         focus.clearFocus()
         isExpanded = true
     }
+
+    val createAndEditDialogState = rememberMealTypeCreationAndEditDialogState(
+        "MealTypePickerField/mealTypeCreationAndEditState"
+    )
+
+    MealTypeCreationAndEditDialog(
+        client = client,
+        state = createAndEditDialogState,
+        onSaved = { savedMealType ->
+            val index = mealTypeList.indexOfFirst { it.id ==  savedMealType.id }
+            if (index >= 0) {
+                mealTypeList[index] = savedMealType
+            } else {
+                mealTypeList.add(savedMealType)
+
+                val sorted = mealTypeList.sortedWith(compareBy({ it.order }, { it.time }))
+                mealTypeList.clear()
+                mealTypeList.addAll(sorted)
+            }
+
+            selectedMealType = savedMealType
+        }
+    )
 
     if(!isExpanded) return
 
@@ -133,16 +162,44 @@ fun BaseMealTypePickerField(
                     trailingContent = {
                         if(mealType.id == selectedMealType?.id) {
                             Icon(
-                                imageVector = Icons.Default.Check,
+                                imageVector = Icons.Rounded.Check,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
                     },
                     colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+                    modifier = Modifier.combinedClickable(
+                        onClick = {
+                            selectedMealType = mealType
+                            isExpanded = false
+                        },
+                        onLongClick = {
+                            createAndEditDialogState.edit(mealType)
+                        }
+                    )
+                )
+            }
+
+            item {
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    color = MaterialTheme.colorScheme.outlineVariant
+                )
+            }
+
+            item {
+                ListItem(
+                    headlineContent = { Text(stringResource(Res.string.action_add_meal_type)) },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Rounded.Add,
+                            contentDescription = stringResource(Res.string.action_add_meal_type)
+                        )
+                    },
+                    colors = ListItemDefaults.colors(containerColor = Color.Transparent),
                     modifier = Modifier.clickable {
-                        selectedMealType = mealType
-                        isExpanded = false
+                        createAndEditDialogState.create()
                     }
                 )
             }

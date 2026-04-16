@@ -1,6 +1,7 @@
 package de.kitshn.api.tandoor.model
 
 import androidx.compose.ui.graphics.Color
+import com.materialkolor.ktx.toHex
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
@@ -10,6 +11,7 @@ import de.kitshn.parseTandoorDate
 import de.kitshn.toColorInt
 import de.kitshn.toStartOfDayString
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -27,12 +29,47 @@ data class TandoorMealType(
     val colorStr: String? = null,
     val created_by: Int
 ) {
+
+    @Transient
+    var client: TandoorClient? = null
+
     @Transient
     val color = if((colorStr ?: "").isBlank()) {
         Color.Gray
     } else {
         Color(colorStr?.toColorInt() ?: -1)
     }
+
+    suspend fun delete(): String {
+        return client?.delete("/meal-type/${id}/")?.status?.value?.toString() ?: "unknown"
+    }
+
+    suspend fun partialUpdate(
+        name: String? = null,
+        order: Int? = null,
+        time: LocalTime? = null,
+        color: Color? = null,
+    ): TandoorMealType? {
+        if(this.client == null) return null
+
+        val data = buildJsonObject {
+            if(name != null) put("name", JsonPrimitive(name))
+            if(order != null) put("order", json.encodeToJsonElement(order))
+            if(time != null) put("time", JsonPrimitive(time.toString()))
+            if(color != null) put("colorStr", JsonPrimitive(color.toHex()))
+        }
+
+        return parse(client!!, client!!.patchObject("/meal-type/${id}/", data).toString())
+    }
+
+    companion object {
+        fun parse(client: TandoorClient, data: String): TandoorMealType {
+            val obj = json.decodeFromString<TandoorMealType>(data)
+            obj.client = client
+            return obj
+        }
+    }
+
 }
 
 @Serializable
