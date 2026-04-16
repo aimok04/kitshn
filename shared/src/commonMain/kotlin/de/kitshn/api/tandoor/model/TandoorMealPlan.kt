@@ -29,10 +29,6 @@ data class TandoorMealType(
     val colorStr: String? = null,
     val created_by: Int
 ) {
-
-    @Transient
-    var client: TandoorClient? = null
-
     @Transient
     val color = if((colorStr ?: "").isBlank()) {
         Color.Gray
@@ -40,36 +36,41 @@ data class TandoorMealType(
         Color(colorStr?.toColorInt() ?: -1)
     }
 
-    suspend fun delete(): String {
-        return client?.delete("/meal-type/${id}/")?.status?.value?.toString() ?: "unknown"
+    suspend fun delete(client: TandoorClient): String {
+        val response = client.delete("/meal-type/${id}/")
+
+        if (response.status.value in 200..299) {
+            client.container.mealType.remove(id)
+        }
+
+        return response.status.value.toString()
     }
 
     suspend fun partialUpdate(
+        client: TandoorClient,
         name: String? = null,
         order: Int? = null,
         time: LocalTime? = null,
         color: Color? = null,
-    ): TandoorMealType? {
-        if(this.client == null) return null
-
+    ): TandoorMealType {
         val data = buildJsonObject {
             if(name != null) put("name", JsonPrimitive(name))
             if(order != null) put("order", json.encodeToJsonElement(order))
             if(time != null) put("time", JsonPrimitive(time.toString()))
-            if(color != null) put("colorStr", JsonPrimitive(color.toHex()))
+            if(color != null) put("color", JsonPrimitive(color.toHex()))
         }
 
-        return parse(client!!, client!!.patchObject("/meal-type/${id}/", data).toString())
+        val updated =  parse(client.patchObject("/meal-type/${id}/", data).toString())
+        client.container.mealType[updated.id] = updated
+        return updated
     }
 
     companion object {
-        fun parse(client: TandoorClient, data: String): TandoorMealType {
+        fun parse(data: String): TandoorMealType {
             val obj = json.decodeFromString<TandoorMealType>(data)
-            obj.client = client
             return obj
         }
     }
-
 }
 
 @Serializable
@@ -96,6 +97,7 @@ class TandoorMealPlan(
             val obj = json.decodeFromString<TandoorMealPlan>(data)
             obj.client = client
             obj.recipe?.let { client.container.recipeOverview[it.id] = it }
+            obj.meal_type.let { client.container.mealType[it.id] = it }
             return obj
         }
     }

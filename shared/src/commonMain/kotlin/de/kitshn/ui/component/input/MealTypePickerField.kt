@@ -64,7 +64,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun BaseMealTypePickerField(
     client: TandoorClient,
-    value: Int?,
+    value: Int? = null,
     onValueChange: (Int?) -> Unit,
     content: @Composable (
         thumbnail: @Composable (() -> Unit)?,
@@ -73,13 +73,6 @@ fun BaseMealTypePickerField(
     ) -> Unit
 ) {
     val focus = LocalFocusManager.current
-
-    var selectedMealType by remember { mutableStateOf<TandoorMealType?>(null) }
-    LaunchedEffect(value) {
-        if(value == null) return@LaunchedEffect
-        if(selectedMealType?.id != value) selectedMealType = client.container.mealType[value]
-    }
-    LaunchedEffect(selectedMealType) { onValueChange(selectedMealType?.id) }
 
     var isExpanded by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
@@ -95,8 +88,9 @@ fun BaseMealTypePickerField(
             Logger.e("MealTypePickerField.kt", e)
         }
     }
+    val selectedMealType = mealTypeList.firstOrNull { it.id == value }
 
-    val text = selectedMealType?.name ?: stringResource(Res.string.common_unknown_meal_type)
+    val text = if (value == null) "" else (selectedMealType?.name ?: stringResource(Res.string.common_unknown_meal_type))
     content(
         if(selectedMealType != null) {
             {
@@ -104,7 +98,7 @@ fun BaseMealTypePickerField(
                     Modifier
                         .size(20.dp)
                         .clip(RoundedCornerShape(4.dp))
-                        .background(selectedMealType!!.color)
+                        .background(selectedMealType.color)
                 )
             }
         } else null,
@@ -133,13 +127,13 @@ fun BaseMealTypePickerField(
                 mealTypeList.addAll(sorted)
             }
 
-            selectedMealType = savedMealType
+            onValueChange(savedMealType.id)
             isExpanded = false
         },
         onDeleted = { deletedMealType ->
             mealTypeList.removeAll { it.id == deletedMealType.id }
             if (selectedMealType?.id == deletedMealType.id) {
-                selectedMealType = null
+                onValueChange(null)
             }
         }
     )
@@ -178,7 +172,7 @@ fun BaseMealTypePickerField(
                     colors = ListItemDefaults.colors(containerColor = Color.Transparent),
                     modifier = Modifier.combinedClickable(
                         onClick = {
-                            selectedMealType = mealType
+                            onValueChange(mealType.id)
                             isExpanded = false
                         },
                         onLongClick = {
@@ -219,7 +213,7 @@ fun BaseMealTypePickerField(
 @Composable
 fun OutlinedMealTypePickerField(
     client: TandoorClient,
-    value: Int?,
+    value: Int? = null,
     onValueChange: (Int?) -> Unit,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,
@@ -280,7 +274,7 @@ fun OutlinedMealTypePickerField(
 @Composable
 fun MealTypePickerField(
     client: TandoorClient,
-    value: Int?,
+    value: Int? = null,
     onValueChange: (Int?) -> Unit,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LocalTextStyle.current,

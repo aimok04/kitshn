@@ -63,7 +63,11 @@ fun BaseMealTypeSearchField(
 
     var searchText by rememberSaveable { mutableStateOf("") }
     LaunchedEffect(value) {
-        if(value == null) return@LaunchedEffect
+        if(value == null) {
+            searchText = ""
+            selectedMealType = null
+            return@LaunchedEffect
+        }
         if(selectedMealType?.id != value) selectedMealType = client.container.mealType[value]
 
         searchText = selectedMealType?.name ?: getString(Res.string.common_unknown_meal_type)
