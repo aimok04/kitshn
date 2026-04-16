@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import co.touchlab.kermit.Logger
@@ -37,6 +38,7 @@ import kotlinx.coroutines.delay
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.format
@@ -310,6 +312,29 @@ fun Long.toLocalDate(
 ): LocalDate {
     return Instant.fromEpochMilliseconds(this)
         .toLocalDateTime(timeZone).date
+}
+
+enum class TimePrecision { NONE, SECONDS, MINUTES, HOURS, DAY, MONTH, YEAR}
+
+/**
+ * Provides a rounded date and time.
+ */
+fun getRoundedDateTime(
+    precision: TimePrecision = TimePrecision.NONE,
+    clock: Clock = Clock.System,
+    timeZone: TimeZone = TimeZone.currentSystemDefault()
+): LocalDateTime {
+    val now = clock.now().toLocalDateTime(timeZone)
+
+    return when (precision) {
+        TimePrecision.NONE    -> now
+        TimePrecision.SECONDS -> LocalDateTime(now.year, now.monthNumber, now.dayOfMonth, now.hour, now.minute, now.second)
+        TimePrecision.MINUTES -> LocalDateTime(now.year, now.monthNumber, now.dayOfMonth, now.hour, now.minute)
+        TimePrecision.HOURS   -> LocalDateTime(now.year, now.monthNumber, now.dayOfMonth, now.hour, 0)
+        TimePrecision.DAY     -> LocalDateTime(now.year, now.monthNumber, now.dayOfMonth, 0, 0)
+        TimePrecision.MONTH   -> LocalDateTime(now.year, now.monthNumber, 1, 0, 0)
+        TimePrecision.YEAR    -> LocalDateTime(now.year, 1, 1, 0, 0)
+    }
 }
 
 @Composable
