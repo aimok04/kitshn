@@ -422,4 +422,5 @@
     <string name="settings_section_behavior_shopping_item_double_click_check_label">Cocher les articles par double-clic</string>
     <string name="settings_section_behavior_shopping_item_double_click_check_description">Marquez rapidement vos articles comme terminés en double-cliquant dessus</string>
     <string name="common_shopping_list">Liste de courses</string>
+    <string name="recipe_step_step_description">Ajoutez les instructions pour cette étape</string>
 </resources>
