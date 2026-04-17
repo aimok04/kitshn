@@ -420,4 +420,5 @@
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Empêcher l'écran de se mettre en veille pendant l’affichage de la recette, tout comme dans le Mode cuisine</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Gardez l’affichage de la recette actif</string>
     <string name="common_shopping_list">Liste de courses</string>
+    <string name="recipe_step_step_description">Ajoutez les instructions pour cette étape</string>
 </resources>
