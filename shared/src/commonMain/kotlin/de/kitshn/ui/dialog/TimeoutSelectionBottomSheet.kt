@@ -24,7 +24,9 @@ import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.component.settings.SettingsListItemPosition
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.common_default
+import kitshn.shared.generated.resources.common_plural_seconds
 import kitshn.shared.generated.resources.settings_section_server_advanced_timeout_selection_title
+import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -65,7 +67,7 @@ class TimeoutSelectionBottomSheetState(
 fun TimeoutSelectionBottomSheet(
     state: TimeoutSelectionBottomSheetState
 ) {
-    if(!state.shown.value) return
+    if (!state.shown.value) return
 
     ModalBottomSheet(
         onDismissRequest = {
@@ -90,12 +92,18 @@ fun TimeoutSelectionBottomSheet(
                     else -> SettingsListItemPosition.BETWEEN
                 }
 
+                val label = pluralStringResource(
+                    Res.plurals.common_plural_seconds,
+                    (option / 1000).toInt(),
+                    (option / 1000).toInt()
+                )
+
                 SettingsListItem(
                     position = position,
                     label = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text("${option / 1000} seconds")
-                            if(option == state.defaultValue) {
+                            Text(label)
+                            if (option == state.defaultValue) {
                                 Text(
                                     modifier = Modifier.padding(start = 8.dp),
                                     text = "(${stringResource(Res.string.common_default)})",
@@ -107,11 +115,11 @@ fun TimeoutSelectionBottomSheet(
                     },
                     icon = Icons.Rounded.Timer,
                     trailingContent = {
-                        if(option == state.selectedValue) {
+                        if (option == state.selectedValue) {
                             Icon(Icons.Rounded.Check, null)
                         }
                     },
-                    contentDescription = "${option / 1000} seconds"
+                    contentDescription = label
                 ) {
                     state.onSelect(option)
                 }

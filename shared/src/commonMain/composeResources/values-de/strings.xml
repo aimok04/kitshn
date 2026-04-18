@@ -144,6 +144,11 @@
         <item quantity="one">eine Minute</item>
         <item quantity="other">%1$d Minuten</item>
     </plurals>
+    <plurals name="common_plural_seconds">
+        <item quantity="zero">no seconds</item>
+        <item quantity="one">one second</item>
+        <item quantity="other">%1$d seconds</item>
+    </plurals>
     <plurals name="common_plural_portion">
         <item quantity="zero">keine Portionen</item>
         <item quantity="one">eine Portion</item>
