@@ -50,9 +50,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil3.ImageLoader
 import coil3.compose.AsyncImage
-import coil3.compose.LocalPlatformContext
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.rememberTandoorRequestState
@@ -78,9 +76,6 @@ fun RouteRecipeCookPageDone(
     recipe: TandoorRecipe,
     servings: Int
 ) {
-    val context = LocalPlatformContext.current
-    val imageLoader = remember { ImageLoader(context) }
-
     val coroutineScope = rememberCoroutineScope()
     val requestCookLogCreateState = rememberTandoorRequestState()
 
@@ -135,7 +130,6 @@ fun RouteRecipeCookPageDone(
                         model = recipe.loadThumbnail(),
                         contentDescription = recipe.name,
                         contentScale = ContentScale.Crop,
-                        imageLoader = imageLoader,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(180.dp)

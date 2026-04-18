@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
@@ -40,15 +41,29 @@ fun SettingsListItem(
     trailingContent: @Composable () -> Unit = {},
     alternativeColors: Boolean = false,
     selected: Boolean = false,
+    containerColor: Color? = null,
     onClick: () -> Unit = {}
 ) {
-    val containerColor = if(selected) {
-        MaterialTheme.colorScheme.primaryContainer
-    } else if(alternativeColors) {
-        MaterialTheme.colorScheme.surfaceContainerLow
-    } else {
-        MaterialTheme.colorScheme.surfaceContainer
-    }
+    val finalContainerColor = containerColor
+        ?: if(selected) {
+            MaterialTheme.colorScheme.primaryContainer
+        } else if(alternativeColors) {
+            MaterialTheme.colorScheme.surfaceContainerLow
+        } else {
+            MaterialTheme.colorScheme.surfaceContainer
+        }
+
+    val supportingColor = MaterialTheme.colorScheme.contentColorFor(finalContainerColor)
+
+    val colors = ListItemDefaults.colors(
+        containerColor = finalContainerColor,
+        leadingIconColor = MaterialTheme.colorScheme.contentColorFor(finalContainerColor),
+        headlineColor = MaterialTheme.colorScheme.contentColorFor(finalContainerColor),
+        supportingColor = when(supportingColor.isSpecified) {
+            true -> supportingColor.copy(alpha = 0.8f)
+            else -> supportingColor
+        }
+    )
 
     ListItem(
         modifier = modifier
@@ -105,13 +120,7 @@ fun SettingsListItem(
             )
             .alpha(if(enabled) 1f else 0.5f)
             .clickable { if(enabled) onClick() },
-        colors = ListItemDefaults.colors(
-            containerColor = containerColor,
-            leadingIconColor = MaterialTheme.colorScheme.contentColorFor(containerColor),
-            headlineColor = MaterialTheme.colorScheme.contentColorFor(containerColor),
-            supportingColor = MaterialTheme.colorScheme.contentColorFor(containerColor)
-                .copy(alpha = 0.8f)
-        ),
+        colors = colors,
         overlineContent = overlineContent,
         headlineContent = label,
         supportingContent = description,

@@ -1,4 +1,4 @@
-package de.kitshn.ui.view.home.search
+package de.kitshn.ui.component.search
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -14,21 +14,20 @@ import de.kitshn.api.tandoor.model.TandoorKeyword
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
 import de.kitshn.api.tandoor.route.TandoorUser
-import de.kitshn.ui.component.search.AdditionalSearchSettingsChipRowState
 import de.kitshn.ui.state.foreverRememberNotSavable
 import kotlinx.coroutines.delay
 
 @Composable
-fun rememberHomeSearchState(
+fun rememberGlobalRecipeSearchState(
     key: String
-): MutableState<HomeSearchState> {
+): MutableState<RecipeSearchState> {
     return foreverRememberNotSavable(
         key = key,
-        initialValue = HomeSearchState()
+        initialValue = RecipeSearchState()
     )
 }
 
-data class HomeSearchStateDefaultValues(
+data class GlobalRecipeSearchStateDefaultValues(
     val query: String = "",
     val new: Boolean = false,
     val random: Boolean = false,
@@ -39,7 +38,7 @@ data class HomeSearchStateDefaultValues(
     val sortOrder: TandoorRecipeQueryParametersSortOrder? = null
 )
 
-class HomeSearchState(
+class RecipeSearchState(
     val shown: MutableState<Boolean> = mutableStateOf(false)
 ) {
 
@@ -54,18 +53,24 @@ class HomeSearchState(
     var nextPageExists by mutableStateOf(false)
 
     var defaultValuesApplied: Boolean = true
-    var defaultValues = HomeSearchStateDefaultValues()
+    var defaultValues = GlobalRecipeSearchStateDefaultValues()
 
     var appliedAutoFocusSearchField: Boolean = false
+    var triggerInitialSearch: Boolean = true
+    var initialSelectedId: Int? = null
+    var scrollSessionId: Int by mutableIntStateOf(0)
 
-    fun open() {
+    fun open(initialSelectedId: Int? = null) {
         this.appliedAutoFocusSearchField = false
+        this.triggerInitialSearch = true
+        this.initialSelectedId = initialSelectedId
+        this.scrollSessionId++
 
-        this.defaultValues = HomeSearchStateDefaultValues()
+        this.defaultValues = GlobalRecipeSearchStateDefaultValues()
         this.shown.value = true
     }
 
-    fun open(values: HomeSearchStateDefaultValues) {
+    fun open(values: GlobalRecipeSearchStateDefaultValues) {
         this.appliedAutoFocusSearchField = false
 
         this.defaultValuesApplied = false
@@ -83,7 +88,7 @@ class HomeSearchState(
                 ?: client.keyword.retrieve(keywordId)
 
             open(
-                HomeSearchStateDefaultValues(
+                GlobalRecipeSearchStateDefaultValues(
                     keywords = listOf(keyword)
                 )
             )
@@ -92,7 +97,7 @@ class HomeSearchState(
 
     fun openWithCreatedBy(user: TandoorUser) {
         open(
-            HomeSearchStateDefaultValues(
+            GlobalRecipeSearchStateDefaultValues(
                 createdBy = user
             )
         )
@@ -103,7 +108,7 @@ class HomeSearchState(
             val user = client.user.getUsers().find { it.id == userId }
 
             open(
-                HomeSearchStateDefaultValues(
+                GlobalRecipeSearchStateDefaultValues(
                     createdBy = user
                 )
             )

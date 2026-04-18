@@ -92,9 +92,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil3.ImageLoader
 import coil3.compose.AsyncImage
-import coil3.compose.LocalPlatformContext
 import com.eygraber.uri.Uri
 import de.kitshn.KITSHN_KEYWORD_FLAG_PREFIX
 import de.kitshn.KITSHN_KEYWORD_FLAG__HIDE_INGREDIENT_ALLOCATION_ACTION_CHIP
@@ -215,9 +213,6 @@ fun ViewRecipeDetails(
 
     overrideServings: Double? = null
 ) {
-    val context = LocalPlatformContext.current
-    val imageLoader = remember { ImageLoader(context) }
-
     val websiteHandler = launchWebsiteHandler()
     val shareContentHandler = shareContentHandler()
 
@@ -456,11 +451,10 @@ fun ViewRecipeDetails(
         )
 
         Box(
-            Modifier.fillMaxWidth()
-                .padding(bottom = 16.dp),
+            Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            if((recipe?.source_url ?: "").isNotBlank()) OutlinedButton(
+            OutlinedButton(
                 onClick = {
                     try {
                         websiteHandler(recipe?.source_url!!)
@@ -662,7 +656,6 @@ fun ViewRecipeDetails(
                     model = recipeOverview.loadThumbnail(),
                     contentDescription = recipeOverview.name,
                     contentScale = ContentScale.Crop,
-                    imageLoader = imageLoader,
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(16f / 9f)
@@ -1021,10 +1014,14 @@ fun ViewRecipeDetails(
                 showFractionalValues = propertiesShowFractionalValues.value
             )
 
-            if(notEnoughSpace && (recipe?.source_url ?: "").isNotBlank()) {
-                SourceButton()
-            } else {
-                Spacer(Modifier.height(70.dp))
+            if(notEnoughSpace){
+                Box(modifier = Modifier.height(48.dp)){
+                    if((recipe?.source_url ?: "").isNotBlank()){
+                        SourceButton()
+                    }
+                }
+                // add spacer against for FAP overlay
+                Spacer(Modifier.height(48.dp))
             }
         }
 

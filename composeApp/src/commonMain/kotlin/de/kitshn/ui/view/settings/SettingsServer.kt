@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import de.kitshn.BackHandler
+import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.closeAppHandler
 import de.kitshn.launchWebsiteHandler
@@ -51,6 +52,7 @@ import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.component.settings.SettingsListItemPosition
 import de.kitshn.ui.dialog.version.TandoorServerVersionCompatibilityDialog
 import de.kitshn.ui.view.ViewParameters
+import de.kitshn.version.TandoorServerVersionCompatibility
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_sign_out
 import kitshn.composeapp.generated.resources.action_sign_out_description
@@ -80,6 +82,9 @@ fun ViewSettingsServer(
 
     val launchWebsiteHandler = launchWebsiteHandler()
     val closeAppHandler = closeAppHandler()
+
+    val serverVersion = p.vm.tandoorClient?.container?.serverSettings?.version
+    val compatibilityState = TandoorServerVersionCompatibility.getCompatibilityStateOfVersion(serverVersion ?: "")
 
     var showVersionCompatibilityBottomSheet by remember { mutableStateOf(false) }
 
@@ -176,13 +181,22 @@ fun ViewSettingsServer(
                             label = { Text(stringResource(Res.string.common_version)) },
                             description = {
                                 Text(
-                                    p.vm.tandoorClient?.container?.serverSettings?.version
-                                        ?: stringResource(Res.string.common_unknown)
+                                    serverVersion ?: stringResource(Res.string.common_unknown)
                                 )
                             },
                             icon = Icons.Rounded.Numbers,
-                            enabled = p.vm.tandoorClient?.container?.serverSettings?.version != null,
-                            contentDescription = stringResource(Res.string.common_version)
+                            trailingContent = {
+                                Icon(
+                                    modifier = Modifier
+                                        .padding(4.dp),
+                                    imageVector = compatibilityState.icon,
+                                    contentDescription = compatibilityState.label.toString(),
+                                    tint = compatibilityState.iconTint()
+                                )
+                            },
+                            containerColor = compatibilityState.tint().copy(alpha = 0.1f),
+                            enabled = serverVersion != null,
+                            contentDescription = stringResource(Res.string.common_version),
                         ) {
                             coroutineScope.launch {
                                 showVersionCompatibilityBottomSheet = true

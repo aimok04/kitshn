@@ -350,6 +350,7 @@
     <string name="recipe_sorting_relevance">Relevance</string>
     <string name="recipe_step_timer_created">Timer has been created.</string>
     <string name="recipe_step_timer_error_no_app">You need to install a supported timer app for this action!</string>
+    <string name="recipe_step_step_description">Add instructions for this step</string>
 
     <string name="search_categories">Search categories</string>
     <string name="search_food_including_all_description">The recipes must include all ingredients</string>
@@ -412,6 +413,8 @@
     <string name="settings_section_behavior_ios_install_timer_shortcut_label">Install iOS timer shortcut</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Prevent the screen from sleeping while viewing recipe details, just like in Cooking Mode</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Keep screen on in recipe overview</string>
+    <string name="settings_section_behavior_shopping_item_double_click_check_label">Double-click to check shopping items</string>
+    <string name="settings_section_behavior_shopping_item_double_click_check_description">Quickly mark shopping items as completed by double-clicking</string>
     <string name="settings_section_behavior_label">Behavior</string>
     <string name="settings_section_behavior_promote_tomorrows_meal_plan_description">Show the entries of tomorrow instead of today's entries</string>
     <string name="settings_section_behavior_promote_tomorrows_meal_plan_label">Promote tomorrow's meal plan instead</string>

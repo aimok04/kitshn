@@ -44,7 +44,7 @@ import de.kitshn.ui.component.loading.AnimatedContainedLoadingIndicator
 import de.kitshn.ui.component.loading.LazyListAnimatedContainedLoadingIndicator
 import de.kitshn.ui.component.model.recipe.activity.RecipeActivityListItem
 import de.kitshn.ui.theme.Typography
-import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
+import de.kitshn.ui.component.search.RECIPE_SEARCH_PAGING_SIZE
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_activity
 import kotlinx.coroutines.delay
@@ -108,7 +108,7 @@ fun RecipeActivitiesBottomSheet(
         listRequestState.wrapRequest {
             client.cookLog.list(
                 recipeId = recipe.id,
-                pageSize = HOME_SEARCH_PAGING_SIZE,
+                pageSize = RECIPE_SEARCH_PAGING_SIZE,
             )
         }?.let {
             currentPage++
@@ -140,7 +140,7 @@ fun RecipeActivitiesBottomSheet(
             extendedListRequestState.wrapRequest {
                 client.cookLog.list(
                     recipeId = recipe.id,
-                    pageSize = HOME_SEARCH_PAGING_SIZE,
+                    pageSize = RECIPE_SEARCH_PAGING_SIZE,
                     page = currentPage
                 )
             }?.let {

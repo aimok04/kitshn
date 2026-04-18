@@ -34,9 +34,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil3.ImageLoader
 import coil3.compose.AsyncImage
-import coil3.compose.LocalPlatformContext
 import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.model.TandoorRecipeBook
 import de.kitshn.api.tandoor.rememberTandoorRequestState
@@ -69,9 +67,6 @@ fun HorizontalRecipeBookCard(
 
     onClick: (recipeBook: TandoorRecipeBook) -> Unit = {}
 ) {
-    val context = LocalPlatformContext.current
-    val imageLoader = remember { ImageLoader(context) }
-
     val hapticFeedback = LocalHapticFeedback.current
 
     val colors = CardDefaults.selectionModeCardColors(
@@ -168,7 +163,6 @@ fun HorizontalRecipeBookCard(
                                 model = recipeBook?.loadThumbnail(),
                                 contentDescription = recipeBook?.name,
                                 contentScale = ContentScale.Crop,
-                                imageLoader = imageLoader,
                                 modifier = Modifier
                                     .height(42.dp)
                                     .width(42.dp)
@@ -204,7 +198,7 @@ fun HorizontalRecipeBookCard(
                         text = if(isFavoritesBook) {
                             stringResource(Res.string.recipe_book_favorites_description)
                         } else {
-                            recipeBook?.description ?: ""
+                            recipeBook.description ?: ""
                         },
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis

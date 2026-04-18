@@ -49,7 +49,7 @@ import de.kitshn.ui.component.input.AlwaysDockedSearchBar
 import de.kitshn.ui.component.input.iosKeyboardWorkaround.InputFieldWithIOSKeyboardWorkaround
 import de.kitshn.ui.component.model.recipebook.HorizontalRecipeBookCard
 import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
-import de.kitshn.ui.view.home.search.HOME_SEARCH_PAGING_SIZE
+import de.kitshn.ui.component.search.RECIPE_SEARCH_PAGING_SIZE
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_apply
 import kitshn.composeapp.generated.resources.action_manage_recipe_books
@@ -244,7 +244,7 @@ fun RecipeBookSearchBar(
         searchRequestState.wrapRequest {
             client.recipeBook.list(
                 query = search,
-                pageSize = HOME_SEARCH_PAGING_SIZE,
+                pageSize = RECIPE_SEARCH_PAGING_SIZE,
             )
         }?.let {
             searchResults.clear()

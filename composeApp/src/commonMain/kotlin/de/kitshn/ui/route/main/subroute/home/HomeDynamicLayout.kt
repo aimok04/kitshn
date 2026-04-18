@@ -44,7 +44,7 @@ import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.foreverRememberNotSavable
 import de.kitshn.ui.state.rememberErrorLoadingSuccessState
 import de.kitshn.ui.state.rememberForeverScrollState
-import de.kitshn.ui.view.home.search.HomeSearchState
+import de.kitshn.ui.component.search.RecipeSearchState
 import de.kitshn.ui.view.recipe.details.RecipeServingsAmountSaveMap
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.action_show_all_recipes
@@ -58,7 +58,7 @@ fun HomeDynamicLayout(
 
     searchBarScrollBehavior: SearchBarScrollBehavior,
     selectionModeState: SelectionModeState<Int>,
-    homeSearchState: HomeSearchState,
+    homeSearchState: RecipeSearchState,
 
     onIsScrollingUpChanged: (isScrollingUp: Boolean) -> Unit,
 
@@ -130,27 +130,22 @@ fun HomeDynamicLayout(
         }
     }
 
-    LaunchedEffect(homePageSectionList.toList()) {
-        if(homePageSectionList.size < 2) return@LaunchedEffect
-        pageLoadingState = ErrorLoadingSuccessState.SUCCESS
-    }
+    LaunchedEffect(homePage, homePage?.sectionsStateList?.size) {
+        if (homePage == null) return@LaunchedEffect
 
-    LaunchedEffect(homePage?.sectionsStateList?.toList()) {
-        if(homePage == null) return@LaunchedEffect
-
-        homePageSectionList.clear()
-        homePageSectionList.addAll(homePage!!.sections)
-
-        // keep page from loading indefinitely (prob. only happens when user has less than two recipes in space)
-        if(homePage?.sectionsStateList?.size == 0)
-            pageLoadingState = ErrorLoadingSuccessState.SUCCESS
-
-        // remove deleted recipes
-        homePageSectionList.forEach { section ->
-            section.recipeIds.removeIf {
-                !p.vm.tandoorClient!!.container.recipeOverview.contains(it)
-            }
+        val newSections = homePage!!.sections.onEach { section ->
+            section.recipeIds.removeIf { !p.vm.tandoorClient!!.container.recipeOverview.contains(it) }
         }
+
+        if (homePageSectionList != newSections) {
+            homePageSectionList.clear()
+            homePageSectionList.addAll(newSections)
+        }
+
+        if (homePage!!.sectionsStateList.isEmpty() || homePageSectionList.size >= 2) {
+            pageLoadingState = ErrorLoadingSuccessState.SUCCESS
+        }
+
     }
 
     val isScrollingUp = scrollState.isScrollingUp()
@@ -195,7 +190,7 @@ fun HomeDynamicLayout(
                         }
                     }
 
-                    if(homePageSectionList.size == 0 && pageLoadingState != ErrorLoadingSuccessState.SUCCESS) {
+                    if(homePageSectionList.isEmpty() && pageLoadingState != ErrorLoadingSuccessState.SUCCESS) {
                         repeat(5) {
                             HomePageSectionView(
                                 client = p.vm.tandoorClient,

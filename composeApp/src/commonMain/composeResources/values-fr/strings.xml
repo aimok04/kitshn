@@ -420,6 +420,8 @@
     <string name="settings_section_behavior_ios_install_timer_shortcut_description">Nécessaire pour démarrer des minuteurs directement depuis l'application kitshn</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Empêcher l'écran de se mettre en veille pendant l’affichage de la recette, tout comme dans le Mode cuisine</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Gardez l’affichage de la recette actif</string>
+    <string name="settings_section_behavior_shopping_item_double_click_check_label">Cocher les articles par double-clic</string>
+    <string name="settings_section_behavior_shopping_item_double_click_check_description">Marquez rapidement vos articles comme terminés en double-cliquant dessus</string>
     <string name="common_shopping_list">Liste de courses</string>
     <string name="settings_section_server_advanced_label">Avancé</string>
     <string name="settings_section_server_advanced_description">Délais d'attente et autres paramètres réseau</string>
@@ -429,4 +431,6 @@
     <string name="settings_section_server_advanced_long_timeout_description">Utilisé pour les opérations longues comme l'importation IA (%1$d secondes)</string>
     <string name="settings_section_server_advanced_reset_label">Réinitialiser par défaut</string>
     <string name="settings_section_server_advanced_reset_description">Rétablir toutes les valeurs par défaut des paramètres réseau</string>
-    <string name="settings_section_server_advanced_timeout_selection_title">Sélectionner le délai</string></resources>
+    <string name="settings_section_server_advanced_timeout_selection_title">Sélectionner le délai</string>
+    <string name="recipe_step_step_description">Ajoutez les instructions pour cette étape</string>
+</resources>

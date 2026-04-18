@@ -31,10 +31,8 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
-import coil3.compose.LocalPlatformContext
 import de.kitshn.KITSHN_KEYWORD_FLAG_PREFIX
 import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.model.TandoorKeywordOverview
@@ -66,9 +64,6 @@ fun RecipeCard(
     onClickKeyword: (keyword: TandoorKeywordOverview) -> Unit,
     onClick: (recipeOverview: TandoorRecipeOverview) -> Unit,
 ) {
-    val context = LocalPlatformContext.current
-    val imageLoader = remember { ImageLoader(context) }
-
     val hapticFeedback = LocalHapticFeedback.current
     val hazeState = remember { HazeState() }
 
@@ -124,7 +119,6 @@ fun RecipeCard(
                     },
                     contentDescription = recipeOverview?.name,
                     contentScale = ContentScale.Crop,
-                    imageLoader = imageLoader,
                     modifier = Modifier
                         .fillMaxWidth()
                         .run {

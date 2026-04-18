@@ -27,6 +27,7 @@ enum class TandoorServerVersionCompatibilityState(
     val description: StringResource,
     val icon: ImageVector,
     val iconTint: @Composable () -> Color,
+    val tint: @Composable () -> Color,
     val hideCompatibleVersionsList: Boolean = false,
     val disableDismiss: Boolean = false
 ) {
@@ -35,32 +36,37 @@ enum class TandoorServerVersionCompatibilityState(
         description = Res.string.tandoor_compatibility_incompatible_description,
         icon = Icons.Rounded.Block,
         iconTint = { MaterialTheme.colorScheme.error },
+        tint = { MaterialTheme.colorScheme.error },
         disableDismiss = true
-    ),
-    MIXED_COMPATIBILITY(
-        label = Res.string.tandoor_compatibility_mixed_compatibility_label,
-        description = Res.string.tandoor_compatibility_mixed_compatibility_description,
-        icon = Icons.Rounded.WarningAmber,
-        iconTint = { Color.Yellow }
-    ),
-    FULL_COMPATIBILITY(
-        label = Res.string.tandoor_compatibility_full_compatibility_label,
-        description = Res.string.tandoor_compatibility_full_compatibility_description,
-        icon = Icons.Rounded.Check,
-        iconTint = { Color.Green },
-        hideCompatibleVersionsList = true
     ),
     UNKNOWN(
         label = Res.string.tandoor_compatibility_unknown_label,
         description = Res.string.tandoor_compatibility_unknown_description,
         icon = Icons.Rounded.QuestionMark,
-        iconTint = { Color.Gray }
+        iconTint = { Color.Gray },
+        tint = { Color.Gray }
+    ),
+    MIXED_COMPATIBILITY(
+        label = Res.string.tandoor_compatibility_mixed_compatibility_label,
+        description = Res.string.tandoor_compatibility_mixed_compatibility_description,
+        icon = Icons.Rounded.WarningAmber,
+        iconTint = { Color(0xFFBA8E23) }, // darker yellow
+        tint = { Color.Yellow }
+    ),
+    FULL_COMPATIBILITY(
+        label = Res.string.tandoor_compatibility_full_compatibility_label,
+        description = Res.string.tandoor_compatibility_full_compatibility_description,
+        icon = Icons.Rounded.Check,
+        iconTint = { Color(0xFF06402B) }, // darker green
+        tint = { Color.Green },
+        hideCompatibleVersionsList = true
     ),
     NOT_CHECKABLE(
         label = Res.string.tandoor_compatibility_not_checkable_label,
         description = Res.string.tandoor_compatibility_not_checkable_description,
         icon = Icons.Rounded.QuestionMark,
-        iconTint = { Color.Gray }
+        iconTint = { Color.Gray },
+        tint = { Color.Gray }
     )
 }
 
@@ -112,11 +118,40 @@ enum class TandoorServerVersionCompatibility(
         }
 
         fun getCompatibilityStateOfVersion(version: String): TandoorServerVersionCompatibilityState {
-            return try {
-                parseVersion(version).state
-            } catch(e: NullPointerException) {
-                TandoorServerVersionCompatibilityState.UNKNOWN
+            // versions precedence:
+            // 1. Version found in version matrix -> use that
+            // 2. walk patch to 0 -> if found something use that
+            // 3. walk minor to 0 (including patches) -> at least MIXED_COMPATIBILITY or worse
+            // else Unknown
+
+            val parts = version.split(".").map { it.toIntOrNull() ?: return TandoorServerVersionCompatibilityState.UNKNOWN }
+            if (parts.size != 3) return TandoorServerVersionCompatibilityState.UNKNOWN
+
+            val (major, minor, patch) = parts
+
+            try { return parseVersion(version).state } catch (_: NullPointerException) {}
+
+            // walk down bugfix and use that
+            for (p in (patch - 1) downTo 0){
+                try { return parseVersion("$major.$minor.$p").state } catch (_: NullPointerException) {}
             }
+
+            // walk down minor and if found anything return at least MIXED or the more severe state
+            for (m in (minor - 1) downTo 0) {
+                for (p in (patch - 1) downTo 0){
+                    try {
+                        val state = parseVersion("$major.$m.$p").state
+
+                        return if (state == TandoorServerVersionCompatibilityState.FULL_COMPATIBILITY) {
+                            TandoorServerVersionCompatibilityState.MIXED_COMPATIBILITY
+                        } else {
+                            state
+                        }
+                    } catch (_: NullPointerException) {}
+                }
+            }
+
+            return TandoorServerVersionCompatibilityState.UNKNOWN
         }
     }
 }
