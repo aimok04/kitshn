@@ -154,6 +154,7 @@ kotlin {
                 implementation(libs.androidx.media3.ui)
 
                 implementation(libs.material)
+                implementation(libs.coil.network.okhttp)
             }
         }
 

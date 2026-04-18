@@ -58,9 +58,6 @@ class KitshnFormImageUploadItem(
     override fun Render(
         modifier: Modifier
     ) {
-        val context = LocalPlatformContext.current
-        val imageLoader = remember { ImageLoader(context) }
-
         var imageLoadingState by remember {
             mutableStateOf<AsyncImagePainter.State>(
                 AsyncImagePainter.State.Loading(null)
@@ -92,7 +89,6 @@ class KitshnFormImageUploadItem(
                             },
                             contentDescription = label(),
                             contentScale = ContentScale.Crop,
-                            imageLoader = imageLoader,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .loadingPlaceHolder(imageLoadingState.translateState())
@@ -105,7 +101,6 @@ class KitshnFormImageUploadItem(
                             },
                             contentDescription = label(),
                             contentScale = ContentScale.Crop,
-                            imageLoader = imageLoader,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .loadingPlaceHolder(imageLoadingState.translateState())
