@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DinnerDining
 import androidx.compose.material.icons.rounded.NoMeals
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -53,6 +54,14 @@ fun RecipeSearchContent(
     client: TandoorClient,
     state: RecipeSearchState,
     selectionModeState: SelectionModeState<Int>? = null,
+    listItemColors: ListItemColors = ListItemDefaults.colors(
+        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+    ),
+    selectedListItemColors: ListItemColors = ListItemDefaults.colors(
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        headlineColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        supportingColor = MaterialTheme.colorScheme.onPrimaryContainer
+    ),
     onClick: (recipe: TandoorRecipeOverview) -> Unit
 ) {
     val hapticFeedback = LocalHapticFeedback.current
@@ -203,14 +212,9 @@ fun RecipeSearchContent(
                         if (recipeOverview != null) HorizontalRecipeCardLink(
                             recipeOverview = recipeOverview,
                             selectionState = selectionModeState,
-                            defaultColors = if (isSelected) {
-                                ListItemDefaults.colors(
-                                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                    headlineColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                    supportingColor = MaterialTheme.colorScheme.onPrimaryContainer
-                                )
-                            } else {
-                                ListItemDefaults.colors()
+                            defaultColors = when(isSelected) {
+                                true -> selectedListItemColors
+                                false -> listItemColors
                             }
                         ) { ro -> onClick(ro) }
                     }
