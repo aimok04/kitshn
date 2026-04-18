@@ -1,0 +1,8 @@
+BETA: Denna beta introducerar kompatibilitet med Tandoor v2. Denna version är inte kompatibel med servrar som kör Tandoor v1.
+
+1. Implementerade fraktionerade portioner för måltidsplaner.
+2. Lade till stöd för att visa timmar i varaktighetschips.
+3. Implementerade genvägar för måltidsplan, shopping, shoppingläge och böcker på Android.
+4. Fixade ingredienser som visas som dubbletter när du avmarkerar objekt i dialogrutan för ingrediensallokering.
+5. Holländska har uppdaterats (av @jstrvr).
+6. Franska har uppdaterats (av @letroll).

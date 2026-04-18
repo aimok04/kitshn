@@ -1,0 +1,6 @@
+Den här utgåvan innehåller mestadels stora korrigeringar, särskilt för sociala medier och AI-import.
+
+1. Ökade timeoutvärden för begäranden med flera delar (t.ex. AI-import) (#301).
+2. Fixat problem där AI / sociala medier-import misslyckas, när det inte finns något serveringsvärde (#295). 
+3. Fixat problem där inläggsinnehåll inte kunde hämtas från instagram-inlägg (#302).
+4. Fixat problem där receptböcker inte visade vissa recept när de översteg 50 recept (#297).

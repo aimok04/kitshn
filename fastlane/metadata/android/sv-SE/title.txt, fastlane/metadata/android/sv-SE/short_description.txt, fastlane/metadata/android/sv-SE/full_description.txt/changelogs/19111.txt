@@ -1,0 +1,8 @@
+1. Alternativet » Ta nytt foto « har lagts till i varje bilduppladdningsfält.
+2. Tillagt stöd för timerintervall (t.ex. 2 till 5 minuter).
+3. Lade till AI-leverantörsväljare till AI och sociala medier-import.
+4. Fixade AI-importalternativ som inaktiverades på grund av API-ändringar.
+5. Fast receptlista uppdateras inte vid val av annan receptbok.
+6. Fixat problem där mallen för ingrediensmängd inte skalas.
+7. Ändrad sorteringsordning för måltidsplansposter till tidsvärde.
+8. Kontrollerade kompatibilitet med Tandoor v2.0.3 till v2.2.7.

@@ -1,0 +1,3 @@
+- feat(onboarding): lagt till inloggning via webbläsare (löst #30)
+- fix (recept): blur overflow i receptkorts infotagg
+- fix(api): csrf-problem vid användning av cookie-inloggning (löst #30)

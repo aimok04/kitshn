@@ -1,0 +1,36 @@
+Byggd med Compose och Material 3 Expressive för att leverera en modern, intuitiv och responsive användarupplevelse.
+
+<b>💪 Anmärkningsvärda funktioner</b>
+<ul>
+    <li>Dynamisk <i>startskärm</i></li>
+    <li>UI</i>
+    <ul>
+      <li>Material You anpassning</li>
+      <li>Material 3 <i>Expressive</i></li>
+      <li>Adaptiv layout för <i>telefoner</i>, <i>surfplattor</i> and <i>hopfällbara</i></li>
+    </ul>
+    <li>Recept</li>
+    <ul>
+      <li><i>Markdown</i> support</li>
+      <li>Matlagningsläge</li>
+        <li>Skapa timers med <a href="https://kitshn.app/docs/features/timer-detection">timerdetektering</a></li>
+      <li><a href="https://kitshn.app/docs/features/share-wrapping.html">Applänkar</a></li>
+      <li><a href="https://kitshn.app/docs/features/embedding-videos-inside-steps.html">Bädda in videor</a> i stegen</li>
+      <li>Importering</li>
+        <li><a href="https://kitshn.app/docs/features/social-media-import.html">Social Media Importering</a> <i>drivs av AI</i></li>
+        <li>Dela länkar med <i>kitshn</i> för import</li>
+      <li>Enkelt verktyg för tilldelning av ingredienser</li>
+    </ul>
+    <li>Måltidsplan</li>
+    <li>Inköpslista</li>
+    <ul>
+      <li>Shoppingläge</li>
+      <li>Offlinesynkronisering</li>
+    </ul>
+    <li>Receptböcker</li>
+    <ul>
+      <li><a href="https://kitshn.app/docs/features/favorites.html">Favoriter</a> system</li>
+    </ul>
+</ul>
+
+Ikon gjord av Freepik från www.flaticon.com
