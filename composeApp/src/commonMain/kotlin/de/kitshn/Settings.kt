@@ -71,6 +71,7 @@ class SettingsViewModel : ViewModel() {
 
     val settings: Settings = Settings()
     private val obs: ObservableSettings = settings.makeObservable()
+    private val secureStore = SecureCredentialStore()
 
     // first run time (since unix epoch in seconds)
     val getFirstRunTime: Flow<Long> =
@@ -100,13 +101,22 @@ class SettingsViewModel : ViewModel() {
     fun setOnboardingCompleted(done: Boolean) =
         obs.putBoolean(KEY_SETTINGS_ONBOARDING_COMPLETED, done)
 
-    // credentials
-    val getTandoorCredentials: Flow<TandoorCredentials?> = obs.getStringFlow(
-        KEY_SETTINGS_TANDOOR_CREDENTIALS, "{}"
-    ).map { json.maybeDecodeFromString<TandoorCredentials>(it) }
+    // credentials — stored in platform-specific encrypted storage
+    val getTandoorCredentials: Flow<TandoorCredentials?> = secureStore.getCredentials()
 
     fun saveTandoorCredentials(credentials: TandoorCredentials?) =
-        obs.putString(KEY_SETTINGS_TANDOOR_CREDENTIALS, json.encodeToString(credentials))
+        secureStore.saveCredentials(credentials?.copy(password = ""))
+
+    /**
+     * One-time migration from old plaintext SharedPreferences to encrypted storage.
+     * Safe to call multiple times — no-ops if old key is absent.
+     */
+    fun migrateCredentialsIfNeeded() {
+        val oldJson = settings.getStringOrNull(KEY_SETTINGS_TANDOOR_CREDENTIALS) ?: return
+        val oldCredentials = json.maybeDecodeFromString<TandoorCredentials>(oldJson) ?: return
+        secureStore.saveCredentials(oldCredentials.copy(password = ""))
+        settings.remove(KEY_SETTINGS_TANDOOR_CREDENTIALS)
+    }
 
     // iOS timer shortcut installed
     val getIosTimerShortcutInstalled: Flow<Boolean> =

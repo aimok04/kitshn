@@ -92,6 +92,8 @@ class KitshnViewModel(
             if(settings.getFirstRunTime.first() == -1L)
                 settings.setFirstRunTime()
 
+            settings.migrateCredentialsIfNeeded()
+
             val credentials = settings.getTandoorCredentials.first()
             if(onBeforeCredentialsCheck(credentials)) return@launch
 
