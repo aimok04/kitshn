@@ -11,18 +11,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.delete
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.SearchBarValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberSearchBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,15 +33,12 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.ui.component.input.iosKeyboardWorkaround.InputFieldWithIOSKeyboardWorkaround
 import de.kitshn.ui.component.search.RecipeSearchContent
 import de.kitshn.ui.component.search.RecipeSearchState
 import kitshn.composeapp.generated.resources.Res
-import kitshn.composeapp.generated.resources.action_back
 import kitshn.composeapp.generated.resources.action_close
 import kitshn.composeapp.generated.resources.home_search_tandoor
 import kotlinx.coroutines.delay
@@ -65,109 +59,90 @@ fun RecipeSearchDialog(
         state.open(initialSelectedId = initialSelectedId)
     }
 
-    Dialog(
-        onDismissRequest = onDismissRequest,
-        properties = DialogProperties(
-            usePlatformDefaultWidth = false
-        )
-    ) {
-        val keyboardController = LocalSoftwareKeyboardController.current
-        val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusRequester = remember { FocusRequester() }
 
-        val textFieldState = rememberTextFieldState(initialText = state.query)
-        val searchBarState = rememberSearchBarState(
-            initialValue = SearchBarValue.Expanded
-        )
+    val textFieldState = rememberTextFieldState(initialText = state.query)
+    val searchBarState = rememberSearchBarState(
+        initialValue = SearchBarValue.Expanded
+    )
 
-        // query debounce
-        LaunchedEffect(textFieldState.text) {
-            // the content debounces this
-            state.query = textFieldState.text.toString()
-        }
+    // query debounce
+    LaunchedEffect(textFieldState.text) {
+        // the content debounces this
+        state.query = textFieldState.text.toString()
+    }
 
-        var canFocusWorkaround by remember { mutableStateOf(false) }
-        LaunchedEffect(Unit) {
-            delay(600)
-            canFocusWorkaround = true
-            focusRequester.requestFocus()
-        }
+    var canFocusWorkaround by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        delay(600)
+        canFocusWorkaround = true
+        focusRequester.requestFocus()
+    }
 
-        val inputField = @Composable {
-            SearchBarDefaults.InputFieldWithIOSKeyboardWorkaround(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .focusRequester(focusRequester)
-                    .focusProperties {
-                        canFocus = canFocusWorkaround
-                    },
-                textFieldState = textFieldState,
-                searchBarState = searchBarState,
-                onSearch = {
-                    keyboardController?.hide()
+    val inputField = @Composable {
+        SearchBarDefaults.InputFieldWithIOSKeyboardWorkaround(
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester)
+                .focusProperties {
+                    canFocus = canFocusWorkaround
                 },
-                placeholder = { Text(placeholder ?: stringResource(Res.string.home_search_tandoor)) },
-                trailingIcon = {
-                    AnimatedVisibility(
-                        visible = textFieldState.text.isNotEmpty(),
-                        enter = fadeIn(),
-                        exit = fadeOut()
-                    ) {
-                        IconButton(onClick = {
-                            textFieldState.edit { delete(0, originalText.length) }
-                            state.additionalSearchSettingsChipRowState.reset()
-                        }) {
-                            Icon(
-                                Icons.Rounded.Close,
-                                contentDescription = stringResource(Res.string.action_close)
-                            )
-                        }
+            textFieldState = textFieldState,
+            searchBarState = searchBarState,
+            onSearch = {
+                keyboardController?.hide()
+            },
+            placeholder = { Text(placeholder ?: stringResource(Res.string.home_search_tandoor)) },
+            trailingIcon = {
+                AnimatedVisibility(
+                    visible = textFieldState.text.isNotEmpty(),
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    IconButton(onClick = {
+                        textFieldState.edit { delete(0, originalText.length) }
+                        state.additionalSearchSettingsChipRowState.reset()
+                    }) {
+                        Icon(
+                            Icons.Rounded.Close,
+                            contentDescription = stringResource(Res.string.action_close)
+                        )
                     }
                 }
-            )
+            }
+        )
+    }
+
+    AdaptiveFullscreenDialog(
+        onDismiss = {
+            onDismissRequest()
+        },
+        title = {
+            title?.let { Text(it) }
         }
-
-        Scaffold(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer,
-            topBar = {
-                CenterAlignedTopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer
-                    ),
-                    title = {
-                        if (title != null) {
-                            Text(title)
-                        } else {
-                            inputField()
-                        }
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = onDismissRequest) {
-                            Icon(
-                                Icons.AutoMirrored.Rounded.ArrowBack,
-                                contentDescription = stringResource(Res.string.action_back)
-                            )
-                        }
-                    }
-                )
-            }
-        ) { pv ->
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .padding(pv)
-            ) {
-                if (title != null) {
-                    Box(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                        inputField()
-                    }
+    ) { _, isFullscreen, _ ->
+        Column(
+            Modifier
+                .fillMaxSize()
+        ) {
+            if(title != null) {
+                Box(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+                    inputField()
                 }
-
-                RecipeSearchContent(
-                    client = client,
-                    state = state,
-                    onClick = onSelect
-                )
             }
+
+            RecipeSearchContent(
+                client = client,
+                state = state,
+                listItemColors = ListItemDefaults.colors(
+                    containerColor = when(isFullscreen) {
+                        true -> MaterialTheme.colorScheme.surfaceContainerLow
+                        false -> MaterialTheme.colorScheme.surfaceContainerHighest
+                    }
+                ),
+                onClick = onSelect
+            )
         }
     }
 }
