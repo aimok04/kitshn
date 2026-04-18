@@ -39,8 +39,8 @@ class TimeoutSelectionBottomSheetState(
     val shown: MutableState<Boolean> = mutableStateOf(false)
 ) {
     var options by mutableStateOf<List<Long>>(listOf())
-    var selectedValue by mutableStateOf<Long>(0L)
-    var defaultValue by mutableStateOf<Long>(0L)
+    var selectedValue by mutableStateOf(0L)
+    var defaultValue by mutableStateOf(0L)
     var onSelect: (Long) -> Unit = {}
 
     fun open(
@@ -73,15 +73,7 @@ fun TimeoutSelectionBottomSheet(
             state.dismiss()
         }
     ) {
-        Text(
-            modifier = Modifier.padding(16.dp),
-            text = stringResource(Res.string.settings_section_server_advanced_timeout_selection_title),
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        LazyColumn(
-            modifier = Modifier.padding(bottom = 32.dp)
-        ) {
+        LazyColumn {
             items(state.options.size) { index ->
                 val option = state.options[index]
                 val position = when {
