@@ -86,19 +86,23 @@ fun BaseRecipeSearchField(
     }
 
     content(
-        if(selectedRecipe != null) {
-            {
-                AsyncImage(
-                    model = selectedRecipe?.loadThumbnail(),
-                    contentDescription = stringResource(Res.string.common_title_image),
-                    contentScale = ContentScale.Crop,
-                    imageLoader = ImageLoader(context),
-                    modifier = Modifier
-                        .size(36.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                )
+        when(selectedRecipe != null) {
+            true -> {
+                {
+                    AsyncImage(
+                        model = selectedRecipe?.loadThumbnail(),
+                        contentDescription = stringResource(Res.string.common_title_image),
+                        contentScale = ContentScale.Crop,
+                        imageLoader = ImageLoader(context),
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                    )
+                }
             }
-        } else null,
+
+            else -> null
+        },
         searchText,
     ) {
         selectRecipeDialogState.open(initialSelectedId = value)
@@ -137,7 +141,7 @@ fun OutlinedRecipeSearchField(
     client = client,
     value = value,
     onValueChange = onValueChange
-) { t, v, onClick ->
+) { l, v, onClick ->
     Box {
         OutlinedTextField(
             value = v,
@@ -148,7 +152,7 @@ fun OutlinedRecipeSearchField(
             textStyle = textStyle,
             label = label,
             placeholder = placeholder,
-            leadingIcon = t ?: leadingIcon,
+            leadingIcon = l ?: leadingIcon,
             trailingIcon = trailingIcon ?: {
                 Icon(
                     imageVector = Icons.Default.UnfoldMore,
@@ -198,7 +202,7 @@ fun RecipeSearchField(
     client = client,
     value = value,
     onValueChange = onValueChange
-) { t, v, onClick ->
+) { l, v, onClick ->
     Box {
         TextField(
             value = v,
@@ -209,7 +213,7 @@ fun RecipeSearchField(
             textStyle = textStyle,
             label = label,
             placeholder = placeholder,
-            leadingIcon = t ?: leadingIcon,
+            leadingIcon = l ?: leadingIcon,
             trailingIcon = trailingIcon ?: {
                 Icon(
                     imageVector = Icons.Default.UnfoldMore,
