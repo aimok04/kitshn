@@ -191,7 +191,12 @@ fun CommonAdaptiveFullscreenDialogContent(
 
                         Column {
                             Box(
-                                Modifier.heightIn(max = maxHeight - 80.dp)
+                                Modifier.heightIn(
+                                    max = when(bottomBar != null || actions != null) {
+                                        true -> maxHeight - 80.dp
+                                        false -> maxHeight
+                                    }
+                                )
                             ) {
                                 content(
                                     scrollBehavior.nestedScrollConnection,
