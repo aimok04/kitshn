@@ -1,6 +1,7 @@
 package de.kitshn.api.tandoor.model
 
 import androidx.compose.ui.graphics.Color
+import com.materialkolor.ktx.toHex
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.delete
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
@@ -10,6 +11,7 @@ import de.kitshn.parseTandoorDate
 import de.kitshn.toColorInt
 import de.kitshn.toStartOfDayString
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -32,6 +34,42 @@ data class TandoorMealType(
         Color.Gray
     } else {
         Color(colorStr?.toColorInt() ?: -1)
+    }
+
+    suspend fun delete(client: TandoorClient): String {
+        val response = client.delete("/meal-type/${id}/")
+
+        if (response.status.value in 200..299) {
+            client.container.mealType.remove(id)
+        }
+
+        return response.status.value.toString()
+    }
+
+    suspend fun partialUpdate(
+        client: TandoorClient,
+        name: String? = null,
+        order: Int? = null,
+        time: LocalTime? = null,
+        color: Color? = null,
+    ): TandoorMealType {
+        val data = buildJsonObject {
+            if(name != null) put("name", JsonPrimitive(name))
+            if(order != null) put("order", json.encodeToJsonElement(order))
+            if(time != null) put("time", JsonPrimitive(time.toString()))
+            if(color != null) put("color", JsonPrimitive(color.toHex()))
+        }
+
+        val updated =  parse(client.patchObject("/meal-type/${id}/", data).toString())
+        client.container.mealType[updated.id] = updated
+        return updated
+    }
+
+    companion object {
+        fun parse(data: String): TandoorMealType {
+            val obj = json.decodeFromString<TandoorMealType>(data)
+            return obj
+        }
     }
 }
 
@@ -59,6 +97,7 @@ class TandoorMealPlan(
             val obj = json.decodeFromString<TandoorMealPlan>(data)
             obj.client = client
             obj.recipe?.let { client.container.recipeOverview[it.id] = it }
+            obj.meal_type.let { client.container.mealType[it.id] = it }
             return obj
         }
     }
