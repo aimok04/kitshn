@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.UnfoldMore
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -37,7 +40,6 @@ import de.kitshn.ui.dialog.select.rememberSelectRecipeDialogState
 import kitshn.composeapp.generated.resources.Res
 import kitshn.composeapp.generated.resources.common_title_image
 import kitshn.composeapp.generated.resources.common_unknown_recipe
-import kitshn.composeapp.generated.resources.select_recipe
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
@@ -147,7 +149,12 @@ fun OutlinedRecipeSearchField(
             label = label,
             placeholder = placeholder,
             leadingIcon = t ?: leadingIcon,
-            trailingIcon = trailingIcon,
+            trailingIcon = trailingIcon ?: {
+                Icon(
+                    imageVector = Icons.Default.UnfoldMore,
+                    contentDescription = null
+                )
+            },
             prefix = prefix,
             suffix = suffix,
             supportingText = supportingText,
@@ -203,7 +210,12 @@ fun RecipeSearchField(
             label = label,
             placeholder = placeholder,
             leadingIcon = t ?: leadingIcon,
-            trailingIcon = trailingIcon,
+            trailingIcon = trailingIcon ?: {
+                Icon(
+                    imageVector = Icons.Default.UnfoldMore,
+                    contentDescription = null
+                )
+            },
             prefix = prefix,
             suffix = suffix,
             supportingText = supportingText,
