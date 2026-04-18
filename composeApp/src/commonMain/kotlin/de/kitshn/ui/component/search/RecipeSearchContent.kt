@@ -245,7 +245,7 @@ fun RecipeSearchContent(
                 contentAlignment = Alignment.Center
             ) {
                 AnimatedContainedLoadingIndicator(
-                    visible = state.searchRequestState.state == TandoorRequestStateState.LOADING && state.searchResultIds.isEmpty()
+                    visible = state.searchRequestState.state == TandoorRequestStateState.LOADING
                 )
             }
         }
