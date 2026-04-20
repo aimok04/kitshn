@@ -41,12 +41,12 @@ platform :android do
         gradle(task: "clean assembleRelease")
 
         FileUtils.mkdir_p("out/android")
-        FileUtils.cp("../composeApp/build/outputs/apk/release/composeApp-release.apk", "out/android/release.apk")
+        FileUtils.cp("../shared/build/outputs/apk/release/shared-release.apk", "out/android/release.apk")
         lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = "fastlane/out/android/release.apk"
 
         gradle(task: "clean bundleRelease")
 
-        FileUtils.cp("../composeApp/build/outputs/bundle/release/composeApp-release.aab", "out/android/release.aab")
+        FileUtils.cp("../shared/build/outputs/bundle/release/shared-release.aab", "out/android/release.aab")
         lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH] = "fastlane/out/android/release.aab"
     end
 
@@ -70,10 +70,10 @@ platform :android do
     desc "Start emulators and take screenshots"
     lane :take_screenshots do
         gradle(task: "clean assembleDebug")
-        FileUtils.cp("../composeApp/build/outputs/apk/debug/composeApp-debug.apk", "tmp/debug.apk")
+        FileUtils.cp("../shared/build/outputs/apk/debug/shared-debug.apk", "tmp/debug.apk")
 
         gradle(task: "clean assembleAndroidTest")
-        FileUtils.cp("../composeApp/build/outputs/apk/androidTest/debug/composeApp-debug-androidTest.apk", "tmp/androidTest.apk")
+        FileUtils.cp("../shared/build/outputs/apk/androidTest/debug/shared-debug-androidTest.apk", "tmp/androidTest.apk")
 
         take_android_screenshots(
             avd: "Screenshots_Pixel_9a",

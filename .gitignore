@@ -23,9 +23,9 @@ Pods/
 *.jks
 *yarn.lock
 
-/composeApp/release
-/composeApp/debug
-/composeApp/nightly
+/shared/release
+/shared/debug
+/shared/nightly
 
 /fastlane/Appfile
 /fastlane/.env

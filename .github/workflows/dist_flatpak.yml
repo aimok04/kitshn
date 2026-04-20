@@ -50,7 +50,7 @@ jobs:
         run: ./gradlew packageAppImage
 
       - name: Copy appImage
-        run: cp -r composeApp/build/compose/binaries/main/app/kitshn flatpak/source
+        run: cp -r shared/build/compose/binaries/main/app/kitshn flatpak/source
 
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
