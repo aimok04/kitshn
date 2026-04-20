@@ -37,7 +37,7 @@ val kitshnIsBeta = false
 kotlin {
     jvmToolchain(17)
 
-    androidLibrary {
+    android {
         namespace = "de.kitshn.shared"
         compileSdk = 36
         minSdk = 26
@@ -139,7 +139,7 @@ kotlin {
             dependsOn(mobileMain)
 
             dependencies {
-                implementation(compose.uiTooling)
+                implementation(libs.ui.tooling)
                 implementation(libs.androidx.activityCompose)
                 implementation(libs.kotlinx.coroutines.android)
                 implementation(libs.ktor.client.okhttp)
@@ -185,7 +185,6 @@ kotlin {
 }
 
 aboutLibraries {
-    android.registerAndroidTasks = false
     export.excludeFields.add("generated")
 }
 
