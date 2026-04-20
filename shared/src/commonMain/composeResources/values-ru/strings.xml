@@ -411,4 +411,7 @@
     <string name="settings_section_behavior_ios_install_timer_shortcut_label">Установить ярлык на таймеры iOS</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Поддержка режима готовки для рецептов</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Экран не гаснет при просмотре рецептов</string>
+    <string name="common_shopping_list">Список покупок</string>
+    <string name="settings_section_appearance_hide_activity_label">Скрыть раздел активности</string>
+    <string name="settings_section_appearance_hide_activity_description">Скрывает раздел активности в представлении подробностей рецепта</string>
 </resources>
