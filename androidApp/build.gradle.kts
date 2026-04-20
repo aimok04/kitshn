@@ -101,7 +101,7 @@ dependencies {
 
     implementation(libs.uri.kmp)
 
-    implementation(projects.composeApp)
+    implementation(projects.shared)
 }
 
 android {

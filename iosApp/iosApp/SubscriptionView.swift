@@ -1,6 +1,6 @@
 import SwiftUI
 import StoreKit
-import ComposeApp
+import Shared
 import SafariServices
 
 struct SubscriptionView: View {

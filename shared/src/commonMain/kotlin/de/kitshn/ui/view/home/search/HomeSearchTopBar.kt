@@ -1,0 +1,217 @@
+package de.kitshn.ui.view.home.search
+
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.text.input.delete
+import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.AppBarWithSearch
+import androidx.compose.material3.ExpandedFullScreenSearchBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.SearchBarScrollBehavior
+import androidx.compose.material3.SearchBarValue
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.rememberSearchBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import de.kitshn.KitshnViewModel
+import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
+import de.kitshn.ui.component.input.iosKeyboardWorkaround.InputFieldWithIOSKeyboardWorkaround
+import de.kitshn.ui.component.search.RecipeSearchContent
+import de.kitshn.ui.component.search.RecipeSearchState
+import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
+import de.kitshn.ui.dialog.recipe.rememberRecipeLinkDialogState
+import de.kitshn.ui.selectionMode.model.RecipeSelectionModeTopAppBar
+import de.kitshn.ui.selectionMode.rememberSelectionModeState
+import de.kitshn.ui.view.ViewParameters
+import kitshn.shared.generated.resources.Res
+import kitshn.shared.generated.resources.action_back
+import kitshn.shared.generated.resources.action_close
+import kitshn.shared.generated.resources.home_search_tandoor
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeSearchTopBar(
+    vm: KitshnViewModel,
+    state: RecipeSearchState,
+    colors: TopAppBarColors,
+    scrollBehavior: SearchBarScrollBehavior,
+    onSelect: ((TandoorRecipeOverview) -> Unit)? = null
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    // used as a workaround because keyboardController.hide doesn't work on iOS
+    // https://github.com/aimok04/kitshn/issues/312
+    var disableTextField by remember { mutableStateOf(false) }
+    LaunchedEffect(disableTextField) {
+        delay(1000)
+        disableTextField = false
+    }
+
+    val selectionModeState = rememberSelectionModeState<Int>()
+
+    val client = vm.tandoorClient ?: return
+
+    val textFieldState = rememberTextFieldState(initialText = state.query)
+    val searchBarState = rememberSearchBarState(
+        initialValue = SearchBarValue.Collapsed
+    )
+
+    // query debounce
+    LaunchedEffect(textFieldState.text) {
+        // the content debounces this
+        state.query = textFieldState.text.toString()
+    }
+
+    LaunchedEffect(searchBarState.currentValue) {
+        state.shown.value = searchBarState.currentValue == SearchBarValue.Expanded
+    }
+
+    LaunchedEffect(state.shown.value) {
+       if(state.shown.value)
+            searchBarState.animateToExpanded()
+    }
+
+    var canFocusWorkaround by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        delay(1000)
+        canFocusWorkaround = true
+    }
+
+    val inputField = @Composable {
+        SearchBarDefaults.InputFieldWithIOSKeyboardWorkaround(
+            modifier = Modifier.focusProperties {
+                canFocus = canFocusWorkaround
+            },
+            enabled = !disableTextField,
+            textFieldState = textFieldState,
+            searchBarState = searchBarState,
+            onSearch = {
+                keyboardController?.hide()
+            },
+            placeholder = { Text(stringResource(Res.string.home_search_tandoor)) },
+            leadingIcon = {
+                IconButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            searchBarState.animateToCollapsed()
+                        }
+                    }
+                ) {
+                    AnimatedContent(
+                        targetState = searchBarState.currentValue
+                    ) {
+                        when(it) {
+                            SearchBarValue.Expanded -> Icon(
+                                Icons.AutoMirrored.Rounded.ArrowBack,
+                                contentDescription = stringResource(Res.string.action_back)
+                            )
+
+                            else -> Icon(
+                                Icons.Rounded.Search,
+                                contentDescription = stringResource(Res.string.home_search_tandoor)
+                            )
+                        }
+                    }
+                }
+            },
+
+            trailingIcon = {
+                AnimatedVisibility(
+                    visible = searchBarState.currentValue == SearchBarValue.Expanded,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    IconButton(onClick = {
+                        textFieldState.edit { delete(0, originalText.length) }
+                        state.additionalSearchSettingsChipRowState.reset()
+                    }) {
+                        Icon(
+                            Icons.Rounded.Close,
+                            contentDescription = stringResource(Res.string.action_close)
+                        )
+                    }
+                }
+            }
+        )
+    }
+
+    val recipeLinkDialogState = rememberRecipeLinkDialogState()
+
+    AppBarWithSearch(
+        state = searchBarState,
+        inputField = inputField,
+        colors = SearchBarDefaults.appBarWithSearchColors(
+            appBarContainerColor = colors.containerColor,
+            scrolledAppBarContainerColor = colors.containerColor
+        ),
+        scrollBehavior = scrollBehavior
+    )
+
+    if(searchBarState.currentValue == SearchBarValue.Expanded) ExpandedFullScreenSearchBar(
+        state = searchBarState,
+        inputField = inputField,
+        colors = SearchBarDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        )
+    ) {
+        Box {
+            RecipeSearchContent(
+                client = client,
+                state = state,
+                selectionModeState = selectionModeState,
+                onClick = {
+                    if (onSelect != null) {
+                        onSelect(it)
+                    } else {
+                        // disable text field to hide keyboard on iOS
+                        disableTextField = true
+                        recipeLinkDialogState.open(it)
+                    }
+                }
+            )
+
+            RecipeSelectionModeTopAppBar(
+                vm = vm,
+                topAppBar = { },
+                state = selectionModeState
+            )
+        }
+    }
+
+    RecipeLinkDialog(
+        p = ViewParameters(
+            vm = vm,
+            back = {
+                recipeLinkDialogState.dismiss()
+            }
+        ),
+        state = recipeLinkDialogState,
+        onDismiss = {
+            disableTextField = false
+        }
+    )
+}

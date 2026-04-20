@@ -31,5 +31,5 @@ dependencyResolutionManagement {
         maven("https://jogamp.org/deployment/maven")
     }
 }
-include(":composeApp")
+include(":shared")
 include(":androidApp")
