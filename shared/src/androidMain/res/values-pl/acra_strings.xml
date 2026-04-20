@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="acra_comment_helper">Jeżeli chcesz, możesz opisać jak doszło do tego błędu.</string>
+    <string name="acra_dialog_button_negative">Nie wysyłaj</string>
+    <string name="acra_dialog_button_neutral">Zobacz report błędu</string>
+    <string name="acra_dialog_button_positive">Wyślij</string>
+    <string name="acra_dialog_message">Aplikacja kitshn napotkała niespodziewany błąd. Proszę wyślij zgłoszenie aby pomóc naprawić błąd.\n\nMożesz wyświetlić cały report przed wysłaniem.</string>
+    <string name="acra_dialog_title">O nie, błąd!</string>
+    <string name="acra_email_address_helper">Jeśli chcesz, możesz wpisać swój email aby odtrzymać ajtualizacje na twój report.</string>
+    <string name="action_back">Cofnij</string>
+    <string name="action_download">Pobierz</string>
+    <string name="common_comment">Komentarz</string>
+    <string name="common_email_address">Adres email</string>
+    <string name="common_error_report">Raport błędu</string>
+</resources>
