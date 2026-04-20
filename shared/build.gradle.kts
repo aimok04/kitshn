@@ -139,7 +139,6 @@ kotlin {
             dependsOn(mobileMain)
 
             dependencies {
-                implementation(libs.ui.tooling)
                 implementation(libs.androidx.activityCompose)
                 implementation(libs.kotlinx.coroutines.android)
                 implementation(libs.ktor.client.okhttp)
@@ -189,7 +188,7 @@ aboutLibraries {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
+    androidRuntimeClasspath(libs.ui.tooling)
 }
 
 compose.desktop {

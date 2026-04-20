@@ -1,7 +1,7 @@
 import UIKit
 import SwiftUI
 import Bugsnag
-import ComposeApp
+import Shared
 import StoreKit
 
 let KEY_ALLOW_CRASH_REPORTING = "allow_crash_reporting"
