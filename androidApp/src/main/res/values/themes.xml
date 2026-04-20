@@ -3,8 +3,6 @@
 
     <style name="Theme.Kitshn" parent="android:Theme.Material.Light.NoActionBar" />
 
-    <style name="Theme.TextFieldFilled" parent="Widget.Material3.TextInputLayout.FilledBox" />
-
     <style name="Theme.DialogWindow" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>

@@ -1,16 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="acra_comment_helper">İsterseniz, bu hatanın nasıl meydana geldiğine dair bir yorum ekleyebilirsiniz.</string>
-    <string name="acra_dialog_button_negative">Gönderme</string>
-    <string name="acra_dialog_button_neutral">Raporu görüntüle</string>
-    <string name="acra_dialog_button_positive">Gönder</string>
-    <string name="acra_dialog_message">Uygulama beklenmedik bir hata ile karşılaştı. Sorunun çözülmesine yardımcı olmak için lütfen bir hata raporu gönderin.\n\nGöndermeden önce tüm raporu görüntüleyebilirsiniz.</string>
-    <string name="acra_dialog_title">Hata!</string>
-
-    <string name="action_back">Geri</string>
-    <string name="action_download">İndir</string>
-
-    <string name="common_comment">Yorum</string>
-    <string name="common_error_report">Hata raporu</string>
     <string name="common_import_recipe">Tarifi içe aktar</string>
 </resources>
