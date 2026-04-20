@@ -1,8 +1,6 @@
 import com.android.build.gradle.internal.tasks.CompileArtProfileTask
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import java.io.FileInputStream
-import java.time.LocalDate
 import java.util.Properties
 
 plugins {
@@ -15,24 +13,14 @@ plugins {
     alias(libs.plugins.aboutlibraries)
 }
 
-val prop =
-    Properties().apply { load(FileInputStream(File(rootProject.rootDir, "kitshn.properties"))) }
-val date = LocalDate.now().toString()
-
-// Android/linux version name can contain more information
-val kitshnVersionName = "2.0.9"
-val kitshnVersionCode = 20090
-
-// iOS, dmg and MSI are limited to [Major].[Minor].[Patch] format
-val kitshnAlternateVersionName = "2.0.9"
-val kitshnAlternateBuildVersionName = kitshnAlternateVersionName.split(".").run {
-    this[0] + "." + this[1] + "." + kitshnVersionCode
-}
-
-val kitshnAndroidPackageName = "de.kitshn.android"
-val kitshnDesktopPackageName = "kitshn"
-
-val kitshnIsBeta = false
+val prop: Properties by rootProject.extra
+val kitshnVersionName: String by rootProject.extra
+val kitshnVersionCode: Int by rootProject.extra
+val kitshnAlternateVersionName: String by rootProject.extra
+val kitshnAlternateBuildVersionName: String by rootProject.extra
+val kitshnAndroidPackageName: String by rootProject.extra
+val kitshnDesktopPackageName: String by rootProject.extra
+val kitshnIsBeta: Boolean by rootProject.extra
 
 kotlin {
     jvmToolchain(17)
@@ -43,6 +31,13 @@ kotlin {
         minSdk = 26
 
         androidResources.enable = true
+
+        optimization {
+            consumerKeepRules.apply {
+                publish = true
+                file("proguard-rules.pro")
+            }
+        }
     }
 
     jvm()
