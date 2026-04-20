@@ -7,7 +7,6 @@ compose-placeholder = "1.0.12"
 acra = "5.13.1"
 composeWebviewMultiplatform = "2.0.3"
 filekit = "0.13.0"
-# humanReadable v1.12.1 requires java 25
 humanReadable = "1.12.3"
 kermitBugsnag = "2.1.0"
 kotlin = "2.3.20"
