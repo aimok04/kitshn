@@ -184,12 +184,6 @@ kotlin {
         androidTarget {
             @OptIn(ExperimentalKotlinGradlePluginApi::class)
             instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
-
-            dependencies {
-                androidTestImplementation(libs.screengrab)
-                androidTestImplementation(libs.androidx.ui.test.junit4.android)
-                debugImplementation(libs.androidx.ui.test.manifest)
-            }
         }
     }
 }
@@ -284,6 +278,10 @@ aboutLibraries {
 dependencies {
     implementation(libs.androidx.ui.android)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+    androidTestImplementation(libs.screengrab)
+    androidTestImplementation(libs.androidx.ui.test.junit4.android)
+    debugImplementation(libs.androidx.ui.test.manifest)
 }
 
 compose.desktop {
