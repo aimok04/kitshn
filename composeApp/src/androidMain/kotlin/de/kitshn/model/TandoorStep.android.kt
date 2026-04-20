@@ -1,7 +1,8 @@
-package de.kitshn.api.tandoor.model
+package de.kitshn.model
 
 import android.content.Context
 import de.kitshn.api.tandoor.getByteArray
+import de.kitshn.api.tandoor.model.TandoorStep
 import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID

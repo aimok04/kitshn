@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
-import de.kitshn.R
+import de.kitshn.shared.R
 import org.acra.dialog.CrashReportDialog
 import org.acra.dialog.CrashReportDialogHelper
 import org.json.JSONObject

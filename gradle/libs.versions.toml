@@ -12,7 +12,7 @@ kermitBugsnag = "2.1.0"
 kotlin = "2.3.20"
 compose = "1.10.3"
 compose-material-expressive = "1.10.0-alpha05"
-agp = "8.11.1"
+agp = "9.1.1"
 androidx-activityCompose = "1.13.0"
 kermit = "2.1.0"
 kotlinx-coroutines = "1.10.2"
@@ -108,6 +108,7 @@ kstore = { module = "io.github.xxfast:kstore", version.ref = "kstore" }
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
 runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose" }
 screengrab = { module = "tools.fastlane:screengrab", version.ref = "screengrab" }
+ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose" }
 ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose" }
 uri-kmp = { module = "com.eygraber:uri-kmp", version.ref = "uriKmp" }
 
@@ -116,6 +117,8 @@ multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotl
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-builtInKotlin = { id = "com.android.built-in-kotlin", version.ref = "agp" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutlibraries" }

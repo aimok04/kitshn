@@ -31,8 +31,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.model.TandoorStep
-import de.kitshn.api.tandoor.model.loadFile
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.model.loadFile
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.buttons.BackButtonType
 import de.kitshn.ui.dialog.ImmersiveFullscreenDialog
