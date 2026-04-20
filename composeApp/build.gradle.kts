@@ -38,7 +38,7 @@ val kitshnDesktopPackageName = "kitshn"
 val kitshnIsBeta = false
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 
     androidTarget()
 
