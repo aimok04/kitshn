@@ -1,9 +1,6 @@
 import com.android.build.gradle.internal.tasks.CompileArtProfileTask
 import org.apache.tools.ant.taskdefs.condition.Os
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 import java.io.FileInputStream
 import java.time.LocalDate
 import java.util.Properties
@@ -12,7 +9,7 @@ plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.kmp.library)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.buildConfig)
     alias(libs.plugins.aboutlibraries)
@@ -40,7 +37,13 @@ val kitshnIsBeta = false
 kotlin {
     jvmToolchain(17)
 
-    androidTarget()
+    androidLibrary {
+        namespace = "de.kitshn.shared"
+        compileSdk = 36
+        minSdk = 26
+
+        androidResources.enable = true
+    }
 
     jvm()
 
@@ -148,6 +151,7 @@ kotlin {
 
                 implementation(libs.androidx.browser)
 
+                implementation(libs.androidx.ui.android)
                 implementation(libs.compose.video)
                 implementation(libs.androidx.media3.exoplayer)
                 implementation(libs.androidx.media3.session)
@@ -176,26 +180,8 @@ kotlin {
 
         commonTest.dependencies {
             implementation(kotlin("test"))
-
-            @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.uiTest)
         }
     }
-}
-
-android {
-    namespace = "de.kitshn.shared"
-    compileSdk = 36
-
-    defaultConfig {
-        minSdk = 26
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-    }
-
 }
 
 aboutLibraries {
@@ -204,7 +190,6 @@ aboutLibraries {
 }
 
 dependencies {
-    implementation(libs.androidx.ui.android)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
 
