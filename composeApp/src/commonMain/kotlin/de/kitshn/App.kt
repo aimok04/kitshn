@@ -36,7 +36,7 @@ import kotlinx.coroutines.delay
 private val SavedTandoorClient = mutableStateOf<TandoorClient?>(null)
 
 @Composable
-internal fun App(
+fun App(
     /**
      * calls when KitshnViewModel was created
      */

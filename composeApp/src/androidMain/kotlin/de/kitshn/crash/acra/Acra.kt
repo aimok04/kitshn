@@ -9,7 +9,7 @@ import org.acra.ktx.initAcra
 
 fun Application.initKitshnAcra() {
     initAcra {
-        buildConfigClass = de.kitshn.BuildConfig::class.java
+        buildConfigClass = BuildConfig::class.java
         reportFormat = StringFormat.JSON
 
         excludeMatchingSharedPreferencesKeys = listOf(

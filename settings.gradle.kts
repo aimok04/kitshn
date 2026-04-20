@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "kitshn"
 
 pluginManagement {
@@ -30,3 +32,4 @@ dependencyResolutionManagement {
     }
 }
 include(":composeApp")
+include(":androidApp")

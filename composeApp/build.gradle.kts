@@ -12,7 +12,7 @@ plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.buildConfig)
     alias(libs.plugins.aboutlibraries)
@@ -38,7 +38,7 @@ val kitshnDesktopPackageName = "kitshn"
 val kitshnIsBeta = false
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(17)
 
     androidTarget()
 
@@ -180,27 +180,15 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
         }
-
-        androidTarget {
-            @OptIn(ExperimentalKotlinGradlePluginApi::class)
-            instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
-        }
     }
 }
 
 android {
-    namespace = "de.kitshn"
+    namespace = "de.kitshn.shared"
     compileSdk = 36
 
     defaultConfig {
         minSdk = 26
-        targetSdk = 36
-
-        applicationId = kitshnAndroidPackageName
-
-        versionName = kitshnVersionName
-        versionCode = kitshnVersionCode
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables {
@@ -208,66 +196,6 @@ android {
         }
     }
 
-    dependenciesInfo {
-        // Disables dependency metadata when building APKs.
-        includeInApk = false
-        // Disables dependency metadata when building Android App Bundles.
-        includeInBundle = false
-    }
-
-    signingConfigs {
-        create("release") {
-            storeFile = file("keystore.jks")
-            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
-            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
-            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
-        }
-        create("nightly") {
-            storeFile = file("keystore.jks")
-            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
-            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
-            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
-        }
-    }
-
-    buildTypes {
-        debug {
-            manifestPlaceholders["appIcon"] = "@mipmap/ic_debug_launcher"
-            manifestPlaceholders["appIconRound"] = "@mipmap/ic_debug_launcher_round"
-
-            applicationIdSuffix = ".debug"
-        }
-        create("nightly") {
-            manifestPlaceholders["appIcon"] = "@mipmap/ic_nightly_launcher"
-            manifestPlaceholders["appIconRound"] = "@mipmap/ic_nightly_launcher_round"
-
-            applicationIdSuffix = ".nightly"
-            versionNameSuffix = "-nightly-$date"
-
-            signingConfig = signingConfigs["nightly"]
-        }
-        release {
-            manifestPlaceholders["appIcon"] = "@mipmap/ic_launcher"
-            manifestPlaceholders["appIconRound"] = "@mipmap/ic_launcher_round"
-
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-
-            signingConfig = signingConfigs["release"]
-        }
-    }
-
-    buildFeatures {
-        buildConfig = true
-    }
-
-    androidResources {
-        generateLocaleConfig = true
-    }
 }
 
 aboutLibraries {
@@ -278,10 +206,6 @@ aboutLibraries {
 dependencies {
     implementation(libs.androidx.ui.android)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
-
-    androidTestImplementation(libs.screengrab)
-    androidTestImplementation(libs.androidx.ui.test.junit4.android)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }
 
 compose.desktop {
@@ -321,7 +245,12 @@ compose.desktop {
 }
 
 buildConfig {
+    packageName("kitshn.composeApp")
+
     // build properties
+    buildConfigField("VERSION_NAME", kitshnVersionName)
+    buildConfigField("VERSION_CODE", kitshnVersionCode)
+
     buildConfigField("PACKAGE_VERSION_NAME", kitshnVersionName)
     buildConfigField("PACKAGE_VERSION_CODE", kitshnVersionCode)
     buildConfigField("PACKAGE_ALTERNATE_VERSION_NAME", kitshnAlternateVersionName)
