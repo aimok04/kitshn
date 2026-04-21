@@ -43,6 +43,9 @@ screengrab = "2.1.1"
 uiAndroid = "1.10.6"
 uriKmp = "0.0.21"
 koin-bom = "4.2.0"
+room = "2.8.4"
+sqlite = "2.6.2"
+ksp = "2.3.6"
 
 [libraries]
 aboutlibraries-compose-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutlibraries" }
@@ -118,6 +121,9 @@ koin-compose = { module = "io.insert-koin:koin-compose" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
 koin-ktor = { module = "io.insert-koin:koin-ktor" }
 koin-test = { module = "io.insert-koin:koin-test" }
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite"}
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room"}
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room"}
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -129,3 +135,5 @@ android-kmp-library = { id = "com.android.kotlin.multiplatform.library", version
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutlibraries" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
+androidx-room = { id = "androidx.room", version.ref = "room"}
