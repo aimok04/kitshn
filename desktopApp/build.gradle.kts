@@ -19,11 +19,13 @@ kotlin {
 dependencies {
     implementation(projects.shared)
     implementation(compose.desktop.currentOs)
+    implementation(libs.kermit)
 }
 
 compose.desktop {
     application {
         mainClass = "MainKt"
+        jvmArgs += listOf("--enable-native-access=ALL-UNNAMED")
 
         nativeDistributions {
             val formats = listOfNotNull(
@@ -55,5 +57,11 @@ compose.desktop {
                 dmgPackageBuildVersion = kitshnAlternateBuildVersionName
             }
         }
+    }
+}
+
+tasks.withType<JavaExec> {
+    if (name == "run") {
+        systemProperty("kitshn.debug", "true")
     }
 }

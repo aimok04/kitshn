@@ -11,6 +11,7 @@ humanReadable = "1.12.3"
 kermitBugsnag = "2.1.0"
 kotlin = "2.3.20"
 compose = "1.10.3"
+slf4j = "2.0.17"
 compose-material-expressive = "1.10.0-alpha05"
 agp = "9.1.1"
 androidx-activityCompose = "1.13.0"
@@ -55,8 +56,6 @@ androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", versi
 androidx-media3-session = { module = "androidx.media3:media3-session", version.ref = "media3" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3" }
 androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiAndroid" }
-androidx-ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "uiAndroid" }
 bugsnag = { module = "co.touchlab.crashkios:bugsnag", version.ref = "bugsnag" }
 components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose" }
 compose-material-expressive = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-material-expressive" }
