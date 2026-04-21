@@ -15,7 +15,13 @@ plugins {
 }
 
 val prop by extra(Properties().apply {
-    load(FileInputStream(File(rootProject.rootDir, "kitshn.properties")))
+    val propertiesFile = file("kitshn.properties")
+    if (propertiesFile.exists()) {
+        val fileContent = providers.fileContents(layout.projectDirectory.file("kitshn.properties")).asText.orNull
+        if (fileContent != null) {
+            load(fileContent.byteInputStream())
+        }
+    }
 })
 
 val date by extra(LocalDate.now().toString())
@@ -34,5 +40,6 @@ val kitshnDesktopPackageName by extra("kitshn")
 val kitshnIsBeta by extra(false)
 
 tasks.register("printKitshnVersionName") {
-    doLast { println(kitshnVersionName) }
+    val printedVersion = kitshnVersionName
+    doLast { println(printedVersion) }
 }
