@@ -37,20 +37,20 @@ jobs:
         with:
           platforms: arm64
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
           cache: gradle
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build appImage
-        run: ./gradlew packageAppImage
+        run: ./gradlew :desktopApp:packageAppImage
 
       - name: Copy appImage
-        run: cp -r shared/build/compose/binaries/main/app/kitshn flatpak/source
+        run: cp -r desktopApp/build/compose/binaries/main/app/kitshn flatpak/source
 
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:

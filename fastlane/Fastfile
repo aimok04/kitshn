@@ -38,15 +38,15 @@ end
 platform :android do
     desc "Build signed apk for GitHub release"
     lane :build_release do
-        gradle(task: "clean assembleRelease")
+        gradle(task: "clean :androidApp:assembleRelease")
 
         FileUtils.mkdir_p("out/android")
-        FileUtils.cp("../shared/build/outputs/apk/release/shared-release.apk", "out/android/release.apk")
+        FileUtils.cp("../androidApp/build/outputs/apk/release/androidApp-release.apk", "out/android/release.apk")
         lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH] = "fastlane/out/android/release.apk"
 
-        gradle(task: "clean bundleRelease")
+        gradle(task: "clean :androidApp:bundleRelease")
 
-        FileUtils.cp("../shared/build/outputs/bundle/release/shared-release.aab", "out/android/release.aab")
+        FileUtils.cp("../androidApp/build/outputs/bundle/release/androidApp-release.aab", "out/android/release.aab")
         lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH] = "fastlane/out/android/release.aab"
     end
 
@@ -69,11 +69,11 @@ platform :android do
 
     desc "Start emulators and take screenshots"
     lane :take_screenshots do
-        gradle(task: "clean assembleDebug")
-        FileUtils.cp("../shared/build/outputs/apk/debug/shared-debug.apk", "tmp/debug.apk")
+        gradle(task: "clean :androidApp:assembleDebug")
+        FileUtils.cp("../androidApp/build/outputs/apk/debug/androidApp-debug.apk", "tmp/debug.apk")
 
-        gradle(task: "clean assembleAndroidTest")
-        FileUtils.cp("../shared/build/outputs/apk/androidTest/debug/shared-debug-androidTest.apk", "tmp/androidTest.apk")
+        gradle(task: "clean :androidApp:assembleAndroidTest")
+        FileUtils.cp("../androidApp/build/outputs/apk/androidTest/debug/androidApp-debug-androidTest.apk", "tmp/androidTest.apk")
 
         take_android_screenshots(
             avd: "Screenshots_Pixel_9a",
