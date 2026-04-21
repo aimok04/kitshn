@@ -1,6 +1,4 @@
 import com.android.build.gradle.internal.tasks.CompileArtProfileTask
-import org.apache.tools.ant.taskdefs.condition.Os
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import java.util.Properties
 
 plugins {
@@ -23,7 +21,7 @@ val kitshnDesktopPackageName: String by rootProject.extra
 val kitshnIsBeta: Boolean by rootProject.extra
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 
     android {
         namespace = "de.kitshn.shared"
@@ -184,42 +182,6 @@ aboutLibraries {
 
 dependencies {
     androidRuntimeClasspath(libs.ui.tooling)
-}
-
-compose.desktop {
-    application {
-        mainClass = "MainKt"
-
-        nativeDistributions {
-            val formats = listOfNotNull(
-                // https://github.com/JetBrains/compose-multiplatform/issues/3814
-                TargetFormat.AppImage.takeUnless { Os.isFamily(Os.FAMILY_MAC) },
-                TargetFormat.Dmg,
-                TargetFormat.Msi,
-                TargetFormat.Deb,
-            ).toTypedArray()
-            targetFormats(*formats)
-
-            packageName = kitshnDesktopPackageName
-            packageVersion = kitshnVersionName
-
-            linux {
-                iconFile.set(project.file("desktopAppIcons/LinuxIcon.png"))
-            }
-            windows {
-                iconFile.set(project.file("desktopAppIcons/WindowsIcon.ico"))
-
-                msiPackageVersion = kitshnAlternateVersionName
-            }
-            macOS {
-                iconFile.set(project.file("desktopAppIcons/MacosIcon.icns"))
-                bundleID = kitshnDesktopPackageName
-
-                dmgPackageVersion = kitshnAlternateVersionName
-                dmgPackageBuildVersion = kitshnAlternateBuildVersionName
-            }
-        }
-    }
 }
 
 buildConfig {

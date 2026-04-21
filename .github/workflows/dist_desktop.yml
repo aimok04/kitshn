@@ -1,0 +1,97 @@
+name: Build desktop distributables on new version tag
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  linux:
+    name: "Build Linux distributables"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Install rpmbuild
+        run: sudo apt-get update && sudo apt-get install -y rpm
+
+      - name: Resolve kitshn version
+        id: version
+        run: echo "name=$(./gradlew -q printKitshnVersionName)" >> "$GITHUB_OUTPUT"
+
+      - name: Build deb, rpm and AppImage payload
+        run: ./gradlew :desktopApp:packageDeb :desktopApp:packageRpm :desktopApp:packageAppImage
+
+      - name: Assemble AppDir
+        run: |
+          mkdir -p kitshn.AppDir
+          cp -r desktopApp/build/compose/binaries/main/app/kitshn/. kitshn.AppDir/
+          cp desktopApp/packaging/appimage/AppRun kitshn.AppDir/AppRun
+          chmod +x kitshn.AppDir/AppRun
+          cp desktopApp/packaging/appimage/kitshn.desktop kitshn.AppDir/kitshn.desktop
+          cp desktopApp/desktopAppIcons/LinuxIcon.png kitshn.AppDir/kitshn.png
+
+      - name: Download appimagetool
+        run: |
+          curl -L -o appimagetool https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool
+
+      - name: Build AppImage with update info
+        env:
+          VERSION: ${{ steps.version.outputs.name }}
+        run: |
+          ./appimagetool \
+            --updateinformation "gh-releases-zsync|aimok04|kitshn|latest|kitshn-*-x86_64.AppImage.zsync" \
+            kitshn.AppDir \
+            "kitshn-${VERSION}-x86_64.AppImage"
+
+      - name: Collect deb and rpm
+        run: |
+          cp desktopApp/build/compose/binaries/main/deb/*.deb .
+          cp desktopApp/build/compose/binaries/main/rpm/*.rpm .
+
+      - name: Release artifacts
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          files: |
+            *.deb
+            *.rpm
+            kitshn-${{ steps.version.outputs.name }}-x86_64.AppImage
+            kitshn-${{ steps.version.outputs.name }}-x86_64.AppImage.zsync
+
+  windows:
+    name: "Build Windows distributables"
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Build msi
+        run: ./gradlew :desktopApp:packageMsi
+
+      - name: Release artifacts
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          files: desktopApp/build/compose/binaries/main/msi/*.msi
