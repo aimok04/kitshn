@@ -19,7 +19,7 @@ module Fastlane
           end
         end
       
-        system("git", "add", "composeApp/build.gradle.kts")
+        system("git", "add", "build.gradle.kts")
         system("git", "add", "iosApp/iosApp.xcodeproj/project.pbxproj")
         system("git", "add", "fastlane/metadata/changelog.md")
         system("git", "add", "fastlane/metadata/en-US/release_notes.txt")
