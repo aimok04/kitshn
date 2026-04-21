@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.buildConfig)
     alias(libs.plugins.aboutlibraries)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.androidx.room)
 }
 
 val prop: Properties by rootProject.extra
@@ -131,6 +133,9 @@ kotlin {
             api(libs.koin.core)
             api(libs.koin.compose)
             api(libs.koin.compose.viewmodel)
+
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
         }
 
         androidMain {
@@ -190,6 +195,17 @@ aboutLibraries {
 
 dependencies {
     androidRuntimeClasspath(libs.ui.tooling)
+}
+
+kotlin.targets.configureEach {
+    if (name != "metadata") {
+        val kspConfigName = "ksp${name.replaceFirstChar { it.uppercaseChar() }}"
+        dependencies.add(kspConfigName, libs.androidx.room.compiler)
+    }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 buildConfig {
