@@ -390,4 +390,5 @@
     <string name="tandoor_compatibility_not_checkable_label">Kompatibiliteten kan inte kontrolleras</string>
     <string name="tandoor_compatibility_unknown_description">Versionen av din Tandoor-server har ännu inte kontrollerats. Appens funktionalitet kan vara försämrad.</string>
     <string name="tandoor_compatibility_unknown_label">Kompatibilitet okänd</string>
+    <string name="recipe_step_step_description">Lägg till instruktioner för detta steg</string>
 </resources>
