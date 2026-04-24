@@ -7,13 +7,15 @@ import androidx.room.Transaction
 import androidx.room.Upsert
 import de.kitshn.api.tandoor.model.TandoorUnit
 import de.kitshn.db.entity.ShoppingItemEntity
+import de.kitshn.db.entity.ShoppingItemWithRelations
 import de.kitshn.db.entity.ShoppingTransactionEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ShoppingDao {
+    @Transaction
     @Query("SELECT * FROM ShoppingItemEntity ORDER BY `order` ASC")
-    fun getAllAsFlow(): Flow<List<ShoppingItemEntity>>
+    fun getAllAsFlow(): Flow<List<ShoppingItemWithRelations>>
 
     @Upsert
     suspend fun upsertAll(items: List<ShoppingItemEntity>)
@@ -62,7 +64,7 @@ interface ShoppingDao {
 
     @Transaction
     @Query("SELECT * FROM ShoppingItemEntity WHERE id = :id")
-    suspend fun getWithRelationsById(id: Int): ShoppingItemEntity?
+    suspend fun getWithRelationsById(id: Int): ShoppingItemWithRelations?
 
     @Query("SELECT COALESCE(MIN(id), 0) - 1 FROM ShoppingItemEntity WHERE id < 0")
     suspend fun nextLocalId(): Int
