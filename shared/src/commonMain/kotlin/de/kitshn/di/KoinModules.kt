@@ -4,6 +4,7 @@ import de.kitshn.KitshnViewModel
 import de.kitshn.KitshnViewModelArgs
 import de.kitshn.SettingsViewModel
 import de.kitshn.repo.ShoppingRepo
+import de.kitshn.repo.UnitRepo
 import de.kitshn.session.TandoorSession
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,9 +36,11 @@ private val sessionModule = module {
 }
 
 private val repositoryModule = module {
+    single { UnitRepo(db = get()) }
     single {
         ShoppingRepo(
             db = get(),
+            unitRepo = get(),
             session = get(),
             scope = get(APPLICATION_SCOPE_QUALIFIER),
             // Shopping can be used in parallel to other users -> keep refreshed

@@ -1,7 +1,6 @@
 package de.kitshn.db
 
 import androidx.room.TypeConverter
-import de.kitshn.api.tandoor.model.TandoorUnit
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryCreatedBy
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryFood
@@ -20,12 +19,6 @@ class Converters {
 
     @TypeConverter
     fun toFood(value: String): TandoorShoppingListEntryFood = json.decodeFromString(value)
-
-    @TypeConverter
-    fun fromUnit(value: TandoorUnit?): String? = value?.let { json.encodeToString(it) }
-
-    @TypeConverter
-    fun toUnit(value: String?): TandoorUnit? = value?.let { json.decodeFromString(it) }
 
     @TypeConverter
     fun fromCreatedBy(value: TandoorShoppingListEntryCreatedBy): String = json.encodeToString(value)

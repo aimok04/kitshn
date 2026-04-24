@@ -38,6 +38,7 @@ data class TandoorShoppingListEntryCreationRequest(
 
 class ShoppingRepo(
     db: AppDatabase,
+    private val unitRepo: UnitRepo,
     private val session: TandoorSession,
     private val scope: CoroutineScope,
     periodicInterval: Duration? = null,
@@ -54,12 +55,13 @@ class ShoppingRepo(
             val recentlySyncedIds = syncPending()
 
             val remoteItems = client.shopping.fetchAll()
+            unitRepo.upsertAll(remoteItems.mapNotNull { it.unit })
+
             // Protect items with pending transactions OR items that were just synced.
             // This prevents items created/updated offline (which might be checked) from being
             // deleted if they don't appear in the (unchecked-only) fetchAll() list.
             val pendingIds = dao.getPendingTransactions().map { it.entryId }
             val protectedIds = (pendingIds + recentlySyncedIds).distinct()
-
             dao.syncRemoteItems(remoteItems.map { it.toEntity() }, protectedIds)
         } catch (e: Exception) {
             Logger.e(e, tag = "ShoppingRepository") { "Failed to refresh shopping items" }
@@ -81,6 +83,12 @@ class ShoppingRepo(
                 ShoppingListEntryOfflineActions.CHECK
             } else {
                 ShoppingListEntryOfflineActions.UNCHECK
+                val remoteItems = client.shopping.fetchAll()
+                withContext(Dispatchers.IO) {
+                    dao.syncRemoteItems(remoteItems.map { it.toEntity() })
+                }
+            } catch (e: Exception) {
+                Logger.e(e, tag = "ShoppingRepository") { "Failed to refresh shopping items" }
             }
 
         entryIds.forEach { id ->
