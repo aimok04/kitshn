@@ -1,7 +1,9 @@
 package de.kitshn.repo
 
+import co.touchlab.kermit.Logger
 import de.kitshn.AppDatabase
 import de.kitshn.api.tandoor.model.TandoorUnit
+import de.kitshn.db.entity.UnitEntity
 import de.kitshn.db.entity.toEntity
 import de.kitshn.db.entity.toModel
 import de.kitshn.session.TandoorSession
@@ -42,7 +44,11 @@ class UnitRepo(
     override suspend fun performReconcile() {
         val client = session.client ?: return
         try {
-            val remoteIds = client.unit.retrieve().results.map { it.id }
+            val remoteIds =
+                client.unit
+                    .retrieve()
+                    .results
+                    .map { it.id }
             if (remoteIds.isNotEmpty()) {
                 dao.deleteAllExcept(remoteIds)
             }
@@ -74,21 +80,24 @@ class UnitRepo(
         return cache.map { rankSearch(it, query).map(UnitEntity::toModel) }
     }
 
-    private fun rankSearch(units: List<UnitEntity>, query: String): List<UnitEntity> {
+    private fun rankSearch(
+        units: List<UnitEntity>,
+        query: String,
+    ): List<UnitEntity> {
         val q = query.lowercase()
         return units
             .mapNotNull { unit ->
                 val name = unit.name.lowercase()
                 val plural = unit.plural_name?.lowercase() ?: ""
-                val rank = when {
-                    name == q || plural == q -> 0
-                    name.startsWith(q) || plural.startsWith(q) -> 1
-                    name.contains(q) || plural.contains(q) -> 2
-                    else -> return@mapNotNull null
-                }
+                val rank =
+                    when {
+                        name == q || plural == q -> 0
+                        name.startsWith(q) || plural.startsWith(q) -> 1
+                        name.contains(q) || plural.contains(q) -> 2
+                        else -> return@mapNotNull null
+                    }
                 rank to unit
-            }
-            .sortedWith(compareBy({ it.first }, { it.second.name.length }, { it.second.name }))
+            }.sortedWith(compareBy({ it.first }, { it.second.name.length }, { it.second.name }))
             .map { it.second }
     }
 }

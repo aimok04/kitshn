@@ -36,7 +36,7 @@ private val sessionModule = module {
 }
 
 private val repositoryModule = module {
-    single { UnitRepo(db = get()) }
+    single { UnitRepo(db = get(), session = get(), scope = get(APPLICATION_SCOPE_QUALIFIER)) }
     single {
         ShoppingRepo(
             db = get(),
@@ -56,6 +56,7 @@ private val viewModelModule = module {
             db = get(),
             settings = get(),
             session = get(),
+            unitRepo = get(),
             shoppingRepo = get(),
             applicationScope = get(APPLICATION_SCOPE_QUALIFIER),
             onBeforeCredentialsCheck = args.onBeforeCredentialsCheck,

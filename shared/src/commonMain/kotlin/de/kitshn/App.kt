@@ -120,6 +120,7 @@ fun App(
     LaunchedEffect(vm.tandoorClient) {
         if (vm.tandoorClient != null) {
             vm.sync()
+
             // already debounces by itself
             vm.reconcile()
         }

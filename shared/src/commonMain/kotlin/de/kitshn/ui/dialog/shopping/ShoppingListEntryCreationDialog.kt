@@ -242,7 +242,6 @@ fun ShoppingListEntryCreationDialog(
                         .focusRequester(unitInputFocusRequester),
                     dropdownMenuModifier = Modifier,
 
-                    client = client,
                     value = unit,
 
                     leadingIcon = {
