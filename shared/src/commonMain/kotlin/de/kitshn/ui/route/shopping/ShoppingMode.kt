@@ -38,8 +38,7 @@ import coil3.compose.LocalPlatformContext
 import de.kitshn.KeepScreenOn
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.rememberTandoorRequestState
-import de.kitshn.cache.ShoppingListEntriesCache
-import de.kitshn.cache.ShoppingListEntryOfflineActions
+import de.kitshn.db.entity.ShoppingListEntryOfflineActions
 import de.kitshn.handleTandoorRequestState
 import de.kitshn.model.route.GroupDividerShoppingListItemModel
 import de.kitshn.model.route.GroupHeaderShoppingListItemModel
@@ -78,17 +77,11 @@ import org.jetbrains.compose.resources.stringResource
 fun RouteShoppingMode(
     p: RouteParameters,
     platformContext: PlatformContext = LocalPlatformContext.current,
-    cache: ShoppingListEntriesCache = remember {
-        ShoppingListEntriesCache(
-            platformContext, p.vm.tandoorClient!!
-        )
-    },
     additionalShoppingSettingsChipRowState: AdditionalShoppingSettingsChipRowState =
         rememberAdditionalShoppingSettingsChipRowState(p.vm.settings),
     vm: ShoppingViewModel = viewModel {
         ShoppingViewModel(
             p = p,
-            cache = cache,
             additionalShoppingSettingsChipRowState = additionalShoppingSettingsChipRowState,
             moveDoneToBottom = true
         )

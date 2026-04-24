@@ -11,6 +11,9 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.reqAny
+import androidx.compose.runtime.snapshotFlow
+import de.kitshn.repo.ShoppingRepo
+import de.kitshn.repo.SyncableRepo
 import de.kitshn.session.TandoorSession
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.route.main.clearRememberAlternateNavController
@@ -23,13 +26,13 @@ import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerializationException
-import okio.FileSystem
-import okio.Path.Companion.toPath
-import okio.SYSTEM
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -46,8 +49,10 @@ data class KitshnViewModelArgs(
 )
 
 class KitshnViewModel(
+    val db: AppDatabase,
     val settings: SettingsViewModel,
     private val session: TandoorSession,
+    val shoppingRepo: ShoppingRepo,
     private val applicationScope: CoroutineScope,
 
     val onBeforeCredentialsCheck: (credentials: TandoorCredentials?) -> Boolean = { false },
@@ -99,6 +104,8 @@ class KitshnViewModel(
 
         initTime = Clock.System.now()
             .toEpochMilliseconds()
+
+        startPeriodicSync()
 
         viewModelScope.launch {
             if(settings.getFirstRunTime.first() == -1L)
@@ -240,6 +247,46 @@ class KitshnViewModel(
         }
     }
 
+    fun sync() {
+        if (tandoorClient == null) return
+        viewModelScope.launch(Dispatchers.IO) {
+            coroutineScope {
+                launch { shoppingRepo.sync() }
+            }
+        }
+    }
+
+    private val syncableRepos: List<SyncableRepo>
+        get() = listOf(shoppingRepo)
+
+    private var periodicSyncStarted = false
+
+    // TODO: this should be refactored to somewhere else
+    fun startPeriodicSync() {
+        if (periodicSyncStarted) return
+        periodicSyncStarted = true
+
+        syncableRepos.forEach { repo ->
+            val interval = repo.periodicInterval ?: return@forEach
+            viewModelScope.launch(Dispatchers.IO) {
+                while (true) {
+                    delay(interval)
+                    if (uiState.isInForeground && tandoorClient != null) repo.sync()
+                }
+            }
+        }
+
+        viewModelScope.launch {
+            snapshotFlow { uiState.isInForeground }
+                .drop(1)
+                .filter { it }
+                .collect { sync() }
+        }
+    }
+
+    // Cleanup stale local data infrequently
+    fun reconcile() {}
+
     fun signIn(client: TandoorClient, credentials: TandoorCredentials) {
         session.signIn(client, credentials)
 
@@ -252,6 +299,11 @@ class KitshnViewModel(
     fun signOut() {
         settings.setOnboardingCompleted(false)
         session.signOut()
+        // Runs on the application scope so the teardown completes even if the
+        // VM's own scope is cancelled by navigation away from the host screen.
+        applicationScope.launch {
+            db.closeAndDelete()
+        }
     }
 
 }

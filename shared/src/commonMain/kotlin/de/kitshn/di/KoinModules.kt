@@ -3,11 +3,13 @@ package de.kitshn.di
 import de.kitshn.KitshnViewModel
 import de.kitshn.KitshnViewModelArgs
 import de.kitshn.SettingsViewModel
+import de.kitshn.repo.ShoppingRepo
 import de.kitshn.session.TandoorSession
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
+import kotlin.time.Duration.Companion.seconds
 import org.koin.core.KoinApplication
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
@@ -32,11 +34,26 @@ private val sessionModule = module {
     single { TandoorSession(settings = get()) }
 }
 
+private val repositoryModule = module {
+    single {
+        ShoppingRepo(
+            db = get(),
+            session = get(),
+            scope = get(APPLICATION_SCOPE_QUALIFIER),
+            // Shopping can be used in parallel to other users -> keep refreshed
+            // TODO: propose a ServerPush or Socket approach upstream
+            periodicInterval = 60.seconds,
+        )
+    }
+}
+
 private val viewModelModule = module {
     viewModel { (args: KitshnViewModelArgs) ->
         KitshnViewModel(
+            db = get(),
             settings = get(),
             session = get(),
+            shoppingRepo = get(),
             applicationScope = get(APPLICATION_SCOPE_QUALIFIER),
             onBeforeCredentialsCheck = args.onBeforeCredentialsCheck,
             onLaunched = args.onLaunched,
@@ -48,6 +65,7 @@ fun sharedKoinModules(): List<Module> = listOf(
     platformModule,
     coroutineModule,
     sessionModule,
+    repositoryModule,
     viewModelModule,
 )
 
