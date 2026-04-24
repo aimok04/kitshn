@@ -14,6 +14,7 @@ import de.kitshn.api.tandoor.reqAny
 import androidx.compose.runtime.snapshotFlow
 import de.kitshn.repo.ShoppingRepo
 import de.kitshn.repo.SyncableRepo
+import de.kitshn.repo.UnitRepo
 import de.kitshn.session.TandoorSession
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.route.main.clearRememberAlternateNavController
@@ -52,6 +53,7 @@ class KitshnViewModel(
     val db: AppDatabase,
     val settings: SettingsViewModel,
     private val session: TandoorSession,
+    val unitRepo: UnitRepo,
     val shoppingRepo: ShoppingRepo,
     private val applicationScope: CoroutineScope,
 
@@ -252,6 +254,7 @@ class KitshnViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             coroutineScope {
                 launch { shoppingRepo.sync() }
+                launch { unitRepo.sync() }
             }
         }
     }
@@ -285,7 +288,14 @@ class KitshnViewModel(
     }
 
     // Cleanup stale local data infrequently
-    fun reconcile() {}
+    fun reconcile() {
+        if (tandoorClient == null) return
+        viewModelScope.launch(Dispatchers.IO) {
+            coroutineScope {
+                launch { unitRepo.sync() }
+            }
+        }
+    }
 
     fun signIn(client: TandoorClient, credentials: TandoorCredentials) {
         session.signIn(client, credentials)

@@ -5,6 +5,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import de.kitshn.db.entity.UnitEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UnitDao {
