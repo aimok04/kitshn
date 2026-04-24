@@ -6,6 +6,7 @@ import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorPagedResponse
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
+import de.kitshn.api.tandoor.patchObject
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.json
 import kotlinx.serialization.json.JsonPrimitive
@@ -17,23 +18,37 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
     suspend fun add(
         amount: Double?,
-        food: String?,
-        unit: String?,
-        shoppingLists: List<TandoorShoppingList> = listOf()
+        foodName: String? = null,
+        foodId: Int? = null,
+        unitName: String? = null,
+        unitId: Int? = null,
+        shoppingLists: List<TandoorShoppingList> = listOf(),
+        mealPlanId: Int? = null,
+        listRecipeId: Long? = null,
+        order: Long? = null,
+        checked: Boolean = false
     ): TandoorShoppingListEntry {
-        // ensure food and unit exist
-        val foodModel = (food ?: "")
-            .takeIf { it.isNotBlank() }
-            ?.let { client.food.create(it) }
-
-        val unitModel = (unit ?: "")
-            .takeIf { it.isNotBlank() }
-            ?.let { client.unit.create(it) }
-
         val data = buildJsonObject {
-            put("amount", JsonPrimitive(amount ?: 0.0))
-            put("unit", json.encodeToJsonElement(unitModel))
-            put("food", json.encodeToJsonElement(foodModel))
+            put("amount", JsonPrimitive(amount))
+            put("checked", JsonPrimitive(checked))
+            if (order != null) put("order", JsonPrimitive(order))
+            if (mealPlanId != null) put("mealplan_id", JsonPrimitive(mealPlanId))
+            if (listRecipeId != null) put("list_recipe", JsonPrimitive(listRecipeId))
+            
+            if (foodId != null || foodName != null) {
+                put("food", buildJsonObject {
+                    if (foodId != null && foodId > 0) put("id", JsonPrimitive(foodId))
+                    if (foodName != null) put("name", JsonPrimitive(foodName))
+                })
+            }
+            
+            if (unitId != null || unitName != null) {
+                put("unit", buildJsonObject {
+                    if (unitId != null && unitId > 0) put("id", JsonPrimitive(unitId))
+                    if (unitName != null) put("name", JsonPrimitive(unitName))
+                })
+            }
+
             put("shopping_lists", json.encodeToJsonElement(shoppingLists))
         }
 
@@ -86,6 +101,29 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         }
 
         client.postObject("/shopping-list-entry/bulk/", data)
+    }
+
+    suspend fun partialUpdate(
+        entryId: Int,
+        amount: Double? = null,
+        unitId: Int? = null,
+        unitName: String? = null,
+        clearUnit: Boolean = false,
+    ): TandoorShoppingListEntry {
+        val data = buildJsonObject {
+            if (amount != null) put("amount", JsonPrimitive(amount))
+            when {
+                clearUnit -> put("unit", kotlinx.serialization.json.JsonNull)
+                unitId != null || unitName != null -> put("unit", buildJsonObject {
+                    if (unitId != null && unitId > 0) put("id", JsonPrimitive(unitId))
+                    if (unitName != null) put("name", JsonPrimitive(unitName))
+                })
+            }
+        }
+        return TandoorShoppingListEntry.parse(
+            client,
+            client.patchObject("/shopping-list-entry/${entryId}/", data).toString()
+        )
     }
 
     suspend fun delete(

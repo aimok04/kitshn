@@ -110,7 +110,7 @@ fun ShoppingListEntryCreationDialog(
             isLoading = true
 
             addRequestState.wrapRequest {
-                val entry = client.shopping.add(amount?.toDouble(), food, unit, shoppingLists)
+                val entry = client.shopping.add(amount?.toDouble(), food, null, unit, null, shoppingLists)
                 onUpdate(entry)
 
                 state.dismiss()
