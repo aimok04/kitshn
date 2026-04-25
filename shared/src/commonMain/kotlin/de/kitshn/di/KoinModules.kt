@@ -3,7 +3,9 @@ package de.kitshn.di
 import de.kitshn.KitshnViewModel
 import de.kitshn.KitshnViewModelArgs
 import de.kitshn.SettingsViewModel
+import de.kitshn.repo.FoodRepo
 import de.kitshn.repo.ShoppingRepo
+import de.kitshn.repo.SupermarketCategoryRepo
 import de.kitshn.repo.UnitRepo
 import de.kitshn.session.TandoorSession
 import kotlinx.coroutines.CoroutineScope
@@ -38,9 +40,27 @@ private val sessionModule = module {
 private val repositoryModule = module {
     single { UnitRepo(db = get(), session = get(), scope = get(APPLICATION_SCOPE_QUALIFIER)) }
     single {
+        SupermarketCategoryRepo(
+            db = get(),
+            session = get(),
+            scope = get(APPLICATION_SCOPE_QUALIFIER),
+        )
+    }
+    single {
+        FoodRepo(
+            db = get(),
+            supermarketCategoryRepo = get(),
+            unitRepo = get(),
+            session = get(),
+            scope = get(APPLICATION_SCOPE_QUALIFIER),
+        )
+    }
+    single {
         ShoppingRepo(
             db = get(),
             unitRepo = get(),
+            foodRepo = get(),
+            supermarketCategoryRepo = get(),
             session = get(),
             scope = get(APPLICATION_SCOPE_QUALIFIER),
             // Shopping can be used in parallel to other users -> keep refreshed
@@ -57,6 +77,8 @@ private val viewModelModule = module {
             settings = get(),
             session = get(),
             unitRepo = get(),
+            supermarketCategoryRepo = get(),
+            foodRepo = get(),
             shoppingRepo = get(),
             applicationScope = get(APPLICATION_SCOPE_QUALIFIER),
             onBeforeCredentialsCheck = args.onBeforeCredentialsCheck,
