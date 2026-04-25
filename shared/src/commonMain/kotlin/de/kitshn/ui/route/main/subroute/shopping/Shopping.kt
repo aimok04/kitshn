@@ -27,6 +27,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.VerticalFloatingToolbar
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -265,45 +266,38 @@ fun RouteMainSubrouteShopping(
                 LoadingGradientWrapper(
                     loadingState = if(vm.loaded) ErrorLoadingSuccessState.SUCCESS else ErrorLoadingSuccessState.LOADING
                 ) {
-                    if(vm.items.isEmpty() && vm.loaded) {
-                        FullSizeAlertPane(
-                            imageVector = Icons.Rounded.RemoveShoppingCart,
-                            contentDescription = stringResource(Res.string.shopping_list_empty),
-                            text = stringResource(Res.string.shopping_list_empty)
-                        )
-                    } else {
-                        LazyColumn(
-                            Modifier
-                                .fillMaxSize()
-                                .then(
-                                    if (vm.loaded) { // Prevent scrolling if content has not loaded
-                                        Modifier.floatingToolbarVerticalNestedScroll(
-                                            expanded = expandedToolbar,
-                                            onExpand = { expandedToolbar = true },
-                                            onCollapse = { expandedToolbar = false }
-                                        )
-                                    } else {
-                                        Modifier
-                                    }
-                                )
-                                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                        ) {
-                            if(!vm.loaded) {
-                                item { ShoppingListGroupHeaderListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                                item {
-                                    HorizontalDivider(
-                                        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                    PullToRefreshBox(
+                        isRefreshing = vm.isRefreshing,
+                        onRefresh = {
+                            coroutineScope.launch {
+                                vm.interactiveSync(force = true)
+                            }
+                        },
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        if(vm.items.isEmpty() && vm.loaded) {
+                            FullSizeAlertPane(
+                                imageVector = Icons.Rounded.RemoveShoppingCart,
+                                contentDescription = stringResource(Res.string.shopping_list_empty),
+                                text = stringResource(Res.string.shopping_list_empty)
+                            )
+                        } else {
+                            LazyColumn(
+                                Modifier
+                                    .fillMaxSize()
+                                    .then(
+                                        if (vm.loaded) { // Prevent scrolling if content has not loaded
+                                            Modifier.floatingToolbarVerticalNestedScroll(
+                                                expanded = expandedToolbar,
+                                                onExpand = { expandedToolbar = true },
+                                                onCollapse = { expandedToolbar = false }
+                                            )
+                                        } else {
+                                            Modifier
+                                        }
                                     )
-                                }
-                                item { ShoppingListGroupHeaderListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                            } else {
+                                    .nestedScroll(scrollBehavior.nestedScrollConnection)
+                            ) {
                                 items(vm.items.size, key = { vm.items[it].key }) {
                                     when(val item = vm.items[it]) {
                                         is GroupHeaderShoppingListItemModel -> {
