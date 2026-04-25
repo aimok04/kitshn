@@ -205,13 +205,15 @@ fun ShoppingListEntryListItem(
         selected = selectionState?.selectedItems?.contains(food.id) ?: false,
     )
 
+    val isSelectionModeEnabled = selectionState?.isSelectionModeEnabled() == true
+
     ListItem(
         modifier = modifier.fillMaxWidth()
             .alpha(if(allChecked) 0.7f else 1f).run {
                 if(onClick != null) {
                     combinedClickable(
                         onClick = {
-                            if(selectionState?.isSelectionModeEnabled() == true) {
+                            if(isSelectionModeEnabled) {
                                 hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                                 selectionState.selectToggle(food.id)
                             } else {
@@ -222,8 +224,10 @@ fun ShoppingListEntryListItem(
                             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                             selectionState?.selectToggle(food.id)
                         },
-                        onDoubleClick = {
-                            onDoubleClick?.invoke()
+                        onDoubleClick = if(isSelectionModeEnabled || onDoubleClick == null) {
+                            null
+                        } else {
+                            { onDoubleClick() }
                         }
                     )
                 } else {
