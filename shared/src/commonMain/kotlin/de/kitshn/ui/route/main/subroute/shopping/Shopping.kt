@@ -171,6 +171,17 @@ fun RouteMainSubrouteShopping(
         vm.renderItems()
     }
 
+    // Delay skeletons so a fast load doesn't flicker them in and out.
+    var showSkeletons by remember { mutableStateOf(false) }
+    LaunchedEffect(vm.loaded) {
+        if(vm.loaded) {
+            showSkeletons = false
+        } else {
+            delay(200)
+            showSkeletons = true
+        }
+    }
+
     val allowDoubleClickCheck by p.vm.settings.getShoppingItemDoubleClickCheck.collectAsState(true)
     fun checkEntries(entries: List<TandoorShoppingListEntry>) {
         val allChecked = entries.all { it.checked }
@@ -298,46 +309,69 @@ fun RouteMainSubrouteShopping(
                                     )
                                     .nestedScroll(scrollBehavior.nestedScrollConnection)
                             ) {
-                                items(vm.items.size, key = { vm.items[it].key }) {
-                                    when(val item = vm.items[it]) {
-                                        is GroupHeaderShoppingListItemModel -> {
-                                            ShoppingListGroupHeaderListItem(
-                                                label = { item.label }
-                                            )
-                                        }
-
-                                        is GroupedFoodShoppingListItemModel -> {
-                                            ShoppingListEntryListItem(
-                                                food = item.food,
-                                                entries = item.entries,
-                                                showFractionalValues = ingredientsShowFractionalValues.value,
-                                                selectionState = selectionModeState,
-                                                onClick = {
-                                                    shoppingListEntryDetailsBottomSheetState.open(
-                                                        item.entries
-                                                    )
-                                                },
-                                                onClickExpand = {
-                                                    shoppingListEntryDetailsBottomSheetState.open(
-                                                        item.entries
-                                                    )
-                                                },
-                                                onDoubleClick = {
-                                                    if (allowDoubleClickCheck) {
-                                                        checkEntries(item.entries)
-                                                    }
-                                                }
-                                            )
-                                        }
-
-                                        is GroupDividerShoppingListItemModel -> {
+                                if(!vm.loaded) {
+                                    if(showSkeletons) {
+                                        item { ShoppingListGroupHeaderListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                        item {
                                             HorizontalDivider(
-                                                modifier = Modifier.padding(
-                                                    start = 16.dp,
-                                                    end = 16.dp
-                                                )
+                                                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
                                             )
                                         }
+                                        item { ShoppingListGroupHeaderListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                    }
+                                } else {
+                                    items(vm.items.size, key = { vm.items[it].key }) { index ->
+                                        val itemContent: @Composable () -> Unit = {
+                                            when(val item = vm.items[index]) {
+                                                is GroupHeaderShoppingListItemModel -> {
+                                                    ShoppingListGroupHeaderListItem(
+                                                        label = { item.label }
+                                                    )
+                                                }
+
+                                                is GroupedFoodShoppingListItemModel -> {
+                                                    ShoppingListEntryListItem(
+                                                        food = item.food,
+                                                        entries = item.entries,
+                                                        showFractionalValues = ingredientsShowFractionalValues.value,
+                                                        selectionState = selectionModeState,
+                                                        onClick = {
+                                                            shoppingListEntryDetailsBottomSheetState.open(
+                                                                item.entries
+                                                            )
+                                                        },
+                                                        onClickExpand = {
+                                                            shoppingListEntryDetailsBottomSheetState.open(
+                                                                item.entries
+                                                            )
+                                                        },
+                                                        onDoubleClick = {
+                                                            if (allowDoubleClickCheck) {
+                                                                checkEntries(item.entries)
+                                                            }
+                                                        }
+                                                    )
+                                                }
+
+                                                is GroupDividerShoppingListItemModel -> {
+                                                    HorizontalDivider(
+                                                        modifier = Modifier.padding(
+                                                            start = 16.dp,
+                                                            end = 16.dp
+                                                        )
+                                                    )
+                                                }
+                                            }
+                                        }
+
+                                        itemContent()
                                     }
                                 }
                             }
