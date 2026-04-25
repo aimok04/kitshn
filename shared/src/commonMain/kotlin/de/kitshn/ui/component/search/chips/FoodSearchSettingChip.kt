@@ -21,14 +21,12 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FoodSearchSettingChip(
-    client: TandoorClient,
     state: AdditionalSearchSettingsChipRowState
 ) {
     val selected = state.selectedFoods.size > 0
 
     val dialogState = rememberSelectMultipleFoodsDialogState()
     SelectMultipleFoodsDialog(
-        client = client,
         prepend = {
             SettingsSwitchListItem(
                 modifier = Modifier.padding(bottom = 16.dp),

@@ -6,12 +6,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.cache.FoodNameIdMapCache
 import de.kitshn.cache.KeywordNameIdMapCache
 import de.kitshn.homepage.builder.HomePageSectionEnum
 import de.kitshn.homepage.builder.HomePageSectionEnumCheckData
 import de.kitshn.homepage.model.HomePage
 import de.kitshn.homepage.model.HomePageSection
+import de.kitshn.repo.FoodRepo
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
@@ -30,7 +30,7 @@ class HomePageBuilder(
 
     suspend fun build(
         keywordNameIdMapCache: KeywordNameIdMapCache,
-        foodNameIdMapCache: FoodNameIdMapCache
+        foodRepo: FoodRepo
     ) {
         val checkData = HomePageSectionEnumCheckData(
             Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
@@ -55,7 +55,7 @@ class HomePageBuilder(
             for(sectionEnum in it.value) {
                 val section = sectionEnum.toHomePageSection(
                     keywordNameIdMapCache,
-                    foodNameIdMapCache
+                    foodRepo
                 )
 
                 if(!section.populate(client)) continue

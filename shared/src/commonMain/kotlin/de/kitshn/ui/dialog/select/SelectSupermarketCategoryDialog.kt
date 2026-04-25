@@ -36,11 +36,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.runtime.collectAsState
 import co.touchlab.kermit.Logger
-import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarketCategory
 import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.repo.SupermarketCategoryRepo
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
 import de.kitshn.ui.component.input.AlwaysDockedSearchBar
 import de.kitshn.ui.component.input.iosKeyboardWorkaround.InputFieldWithIOSKeyboardWorkaround
@@ -57,6 +58,7 @@ import kitshn.shared.generated.resources.search_categories
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.job
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 @Composable
 fun rememberSelectSupermarketCategoryDialogState(): SelectSupermarketCategoryDialogState {
@@ -82,7 +84,6 @@ class SelectSupermarketCategoryDialogState(
 
 @Composable
 fun SelectSupermarketCategoryDialog(
-    client: TandoorClient,
     state: SelectSupermarketCategoryDialogState,
     onSubmit: (category: TandoorSupermarketCategory?) -> Unit
 ) {
@@ -106,7 +107,6 @@ fun SelectSupermarketCategoryDialog(
         },
         text = {
             SupermarketCategorySearchBar(
-                client = client,
                 selected = state.category,
                 onSelect = submit
             )
@@ -128,21 +128,22 @@ fun SelectSupermarketCategoryDialog(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SupermarketCategorySearchBar(
-    client: TandoorClient,
     selected: TandoorSupermarketCategory?,
     onSelect: (category: TandoorSupermarketCategory?) -> Unit
 ) {
+    val supermarketCategoryRepo = koinInject<SupermarketCategoryRepo>()
     val focusRequester = remember { FocusRequester() }
 
     val keyboardController = LocalSoftwareKeyboardController.current
-    val fetchRequestState = rememberTandoorRequestState()
 
     var query by rememberSaveable { mutableStateOf("") }
 
-    val categories = remember { mutableStateListOf<TandoorSupermarketCategory>() }
+    val categories by supermarketCategoryRepo.observe().collectAsState(emptyList())
     val searchResults = remember { mutableStateListOf<TandoorSupermarketCategory>() }
 
-    LaunchedEffect(categories.toList(), query) {
+    val fetchRequestState = rememberTandoorRequestState()
+
+    LaunchedEffect(categories, query) {
         searchResults.clear()
         searchResults.addAll(
             categories.filter { it.name.lowercase().contains(query.lowercase()) }
@@ -150,9 +151,7 @@ fun SupermarketCategorySearchBar(
     }
 
     LaunchedEffect(Unit) {
-        fetchRequestState.wrapRequest {
-            categories.addAll(client.supermarket.fetchAllCategories())
-        }
+        supermarketCategoryRepo.sync()
     }
 
     AlwaysDockedSearchBar(
@@ -203,9 +202,10 @@ fun SupermarketCategorySearchBar(
 
                     else -> {
                         if(query.isNotBlank() && searchResults.find {
-                                it.name.lowercase() == query.trimEnd(
-                                    ' '
-                                ).lowercase()
+                                it.name.equals(
+                                    query.trimEnd(
+                                        ' '
+                                    ), ignoreCase = true)
                             } == null) {
                             item {
                                 ListItem(
