@@ -608,7 +608,6 @@ fun StepCreationAndEditDialog(
                                     modifier = Modifier.fillMaxWidth(0.5f),
                                     dropdownMenuModifier = Modifier,
 
-                                    client = client,
                                     value = ingredient.food,
 
                                     leadingIcon = {
