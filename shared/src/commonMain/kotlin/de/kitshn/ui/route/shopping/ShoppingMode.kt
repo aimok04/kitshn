@@ -38,7 +38,6 @@ import coil3.compose.LocalPlatformContext
 import de.kitshn.KeepScreenOn
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.rememberTandoorRequestState
-import de.kitshn.db.entity.ShoppingListEntryOfflineActions
 import de.kitshn.handleTandoorRequestState
 import de.kitshn.model.route.GroupDividerShoppingListItemModel
 import de.kitshn.model.route.GroupHeaderShoppingListItemModel
@@ -108,6 +107,7 @@ fun RouteShoppingMode(
         p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
 
     val client = p.vm.tandoorClient
+    val shoppingRepo = p.vm.shoppingRepo
 
     // update shopping list entries
     LaunchedEffect(client) {
@@ -193,38 +193,16 @@ fun RouteShoppingMode(
                                             showFractionalValues = ingredientsShowFractionalValues.value,
                                             enlarge = enlargeShoppingMode.value,
                                             onClick = {
-                                                if(p.vm.uiState.offlineState.isOffline) {
-                                                    if(item.entries.all { entry -> entry.checked }) {
-                                                        vm.executeOfflineAction(
-                                                            item.entries,
-                                                            ShoppingListEntryOfflineActions.UNCHECK
-                                                        )
-                                                    } else {
-                                                        vm.executeOfflineAction(
-                                                            item.entries,
-                                                            ShoppingListEntryOfflineActions.CHECK
-                                                        )
-                                                    }
-
-                                                    hapticFeedback.performHapticFeedback(
-                                                        HapticFeedbackType.SegmentTick
-                                                    )
-                                                    return@ShoppingModeListEntryListItem
-                                                }
-
+                                                val allChecked = item.entries.all { e -> e.checked }
                                                 coroutineScope.launch {
                                                     entriesCheckRequestState.wrapRequest {
-                                                        if(item.entries.all { entry -> entry.checked }) {
-                                                            client!!.shopping.uncheck(item.entries)
-                                                        } else {
-                                                            client!!.shopping.check(item.entries)
-                                                        }
-
-                                                        vm.renderItems()
+                                                        shoppingRepo.toggleCheckBulk(
+                                                            item.entries.map { e -> e.id },
+                                                            checked = !allChecked
+                                                        )
                                                     }
-
-                                                    hapticFeedback.handleTandoorRequestState(
-                                                        entriesCheckRequestState
+                                                    hapticFeedback.performHapticFeedback(
+                                                        HapticFeedbackType.SegmentTick
                                                     )
                                                 }
                                             },
@@ -280,60 +258,35 @@ fun RouteShoppingMode(
             state = shoppingListEntryDetailsBottomSheetState,
             isOffline = p.vm.uiState.offlineState.isOffline,
             onCheck = { entries ->
-                if(p.vm.uiState.offlineState.isOffline) {
-                    if(entries.all { entry -> entry.checked }) {
-                        vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.UNCHECK)
-                    } else {
-                        vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.CHECK)
-                    }
-
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
-                    return@ShoppingListEntryDetailsBottomSheet
-                }
-
+                val allChecked = entries.all { it.checked }
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
-                        if(entries.all { entry -> entry.checked }) {
-                            client.shopping.uncheck(entries)
-                        } else {
-                            client.shopping.check(entries)
-                        }
-
-                        vm.renderItems()
-                        vm.update()
+                        shoppingRepo.toggleCheckBulk(
+                            entries.map { it.id },
+                            checked = !allChecked
+                        )
                     }
-
-                    hapticFeedback.handleTandoorRequestState(actionRequestState)
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
                 }
             },
             onDelete = { entries ->
-                if(p.vm.uiState.offlineState.isOffline) {
-                    vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.DELETE)
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
-                    return@ShoppingListEntryDetailsBottomSheet
-                }
-
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
-                        client.shopping.delete(entries)
-                        vm.renderItems()
+                        shoppingRepo.deleteBulk(entries.map { it.id })
                     }
-
                     hapticFeedback.handleTandoorRequestState(actionRequestState)
                 }
             },
             onChangeAmount = { entry, amount ->
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
-                        val newEntry = entry.partialUpdate(
+                        val newEntry = shoppingRepo.updatePartial(
+                            entryId = entry.id,
                             amount = amount
-                        )
+                        ) ?: return@wrapRequest
 
-                        shoppingListEntryDetailsBottomSheetState.entries[shoppingListEntryDetailsBottomSheetState.entries.indexOf(
-                            entry
-                        )] = newEntry
-                        vm.entries[vm.entries.indexOf(entry)] = newEntry
-                        vm.renderItems()
+                        val idx = shoppingListEntryDetailsBottomSheetState.entries.indexOf(entry)
+                        if (idx >= 0) shoppingListEntryDetailsBottomSheetState.entries[idx] = newEntry
                     }
                 }
             },
