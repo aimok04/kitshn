@@ -56,10 +56,10 @@ interface ShoppingDao {
         amount: Double,
     )
 
-    @Query("UPDATE ShoppingItemEntity SET unit = :unit WHERE id = :id")
+    @Query("UPDATE ShoppingItemEntity SET unit_id = :unitId WHERE id = :id")
     suspend fun updateUnit(
         id: Int,
-        unit: TandoorUnit?,
+        unitId: Int?,
     )
 
     @Transaction

@@ -36,22 +36,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorFood
-import de.kitshn.api.tandoor.rememberTandoorRequestState
+import de.kitshn.repo.FoodRepo
 import de.kitshn.ui.component.alert.FullSizeAlertPane
 import de.kitshn.ui.component.input.AlwaysDockedSearchBar
 import de.kitshn.ui.component.input.iosKeyboardWorkaround.InputFieldWithIOSKeyboardWorkaround
 import de.kitshn.ui.layout.ResponsiveSideBySideLayout
 import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
-import de.kitshn.ui.component.search.RECIPE_SEARCH_PAGING_SIZE
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_apply
 import kitshn.shared.generated.resources.search_ingredients
 import kitshn.shared.generated.resources.search_ingredients_filter
 import kitshn.shared.generated.resources.search_ingredients_filter_empty
-import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 @Composable
 fun rememberSelectMultipleFoodsDialogState(): SelectMultipleFoodsDialogState {
@@ -80,7 +78,6 @@ class SelectMultipleFoodsDialogState(
 
 @Composable
 fun SelectMultipleFoodsDialog(
-    client: TandoorClient,
     state: SelectMultipleFoodsDialogState,
     prepend: @Composable () -> Unit,
     onSubmit: (foods: List<TandoorFood>) -> Unit
@@ -124,7 +121,6 @@ fun SelectMultipleFoodsDialog(
                                     modifier = Modifier
                                         .fillMaxHeight()
                                         .fillMaxWidth(),
-                                    client = client,
                                     selectedFoods = state.selectedFoods
                                 ) { food, value ->
                                     if(value) {
@@ -213,32 +209,23 @@ fun FoodCheckedListItem(
 @Composable
 fun FoodSearchBar(
     modifier: Modifier = Modifier,
-    client: TandoorClient,
     selectedFoods: List<TandoorFood>,
     onCheckedChange: (food: TandoorFood, value: Boolean) -> Unit
 ) {
+    val foodRepo = koinInject<FoodRepo>()
     val keyboardController = LocalSoftwareKeyboardController.current
 
     var query by rememberSaveable { mutableStateOf("") }
-    var search by rememberSaveable { mutableStateOf("") }
-
-    LaunchedEffect(query) {
-        delay(250)
-        search = query
-    }
-
-    val searchRequestState = rememberTandoorRequestState()
 
     val searchResults = remember { mutableStateListOf<TandoorFood>() }
-    LaunchedEffect(search) {
-        searchRequestState.wrapRequest {
-            client.food.list(
-                query = search,
-                pageSize = RECIPE_SEARCH_PAGING_SIZE,
-            )
-        }?.let {
+    LaunchedEffect(query) {
+        if (query.isBlank()) {
             searchResults.clear()
-            searchResults.addAll(it.results)
+            return@LaunchedEffect
+        }
+        foodRepo.search(query).collect { results ->
+            searchResults.clear()
+            searchResults.addAll(results)
         }
     }
 
@@ -254,7 +241,6 @@ fun FoodSearchBar(
                 onQueryChange = { query = it },
                 onSearch = {
                     keyboardController?.hide()
-                    search = it
                 },
                 leadingIcon = {
                     Icon(

@@ -90,7 +90,7 @@ fun AdditionalSearchSettingsChipRow(
 
         MinimumRatingSearchSettingChip(state = state)
         KeywordSearchSettingChip(client = client, state = state)
-        FoodSearchSettingChip(client = client, state = state)
+        FoodSearchSettingChip(state = state)
         NewSearchSettingChip(state = state)
         RandomSearchSettingChip(state = state)
 

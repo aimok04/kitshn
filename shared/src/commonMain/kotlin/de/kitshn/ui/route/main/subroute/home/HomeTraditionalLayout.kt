@@ -64,8 +64,10 @@ import de.kitshn.ui.view.recipe.details.RecipeServingsAmountSaveMap
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.lorem_ipsum_medium
 import kitshn.shared.generated.resources.lorem_ipsum_title
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
