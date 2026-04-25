@@ -35,7 +35,7 @@ class TandoorFoodRoute(client: TandoorClient) : TandoorBaseRoute(client) {
     suspend fun list(
         query: String? = null,
         page: Int = 1,
-        pageSize: Int?
+        pageSize: Int? = null
     ): TandoorFoodRouteListResponse {
         val builder = Uri.Builder().appendEncodedPath("food/")
         if(query != null) builder.appendQueryParameter("query", query)
@@ -54,9 +54,25 @@ class TandoorFoodRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return response
     }
 
-    suspend fun retrieve(): TandoorFoodRouteListResponse {
-        return list(
-            pageSize = 10000000
+    suspend fun retrieve(
+        onPageReceived: (suspend (List<TandoorFood>) -> Unit)? = null
+    ): TandoorFoodRouteListResponse {
+        var page = 1
+        var firstResponse: TandoorFoodRouteListResponse? = null
+        val allResults = mutableListOf<TandoorFood>()
+        while (true) {
+            val response = list(page = page, pageSize = 200)
+            if (firstResponse == null) firstResponse = response
+            allResults.addAll(response.results)
+            onPageReceived?.invoke(response.results)
+            if (response.next == null) break
+            page++
+        }
+
+        return firstResponse.copy(
+            results = allResults,
+            next = null,
+            count = allResults.size
         )
     }
 
