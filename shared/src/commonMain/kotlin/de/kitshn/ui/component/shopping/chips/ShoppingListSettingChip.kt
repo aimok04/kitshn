@@ -33,12 +33,12 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
-import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.cache.ShoppingListCache
 import de.kitshn.removeIf
+import de.kitshn.repo.ShoppingRepo
 import de.kitshn.ui.component.model.shopping.ShoppingListColorPill
 import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRowState
 import kitshn.shared.generated.resources.Res
@@ -48,13 +48,14 @@ import kitshn.shared.generated.resources.common_selected
 import kitshn.shared.generated.resources.common_shopping_list
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 @Composable
 fun ShoppingListSettingChip(
-    client: TandoorClient,
     state: AdditionalShoppingSettingsChipRowState,
     cache: ShoppingListCache
 ) {
+    val shoppingRepo = koinInject<ShoppingRepo>()
     val hapticFeedback = LocalHapticFeedback.current
 
     var showDialog by rememberSaveable { mutableStateOf(false) }
@@ -89,7 +90,7 @@ fun ShoppingListSettingChip(
         val shoppingLists = remember { mutableStateListOf<TandoorShoppingList>() }
         LaunchedEffect(Unit) {
             requestState.wrapRequest {
-                val mLists = client.shopping.fetchAllLists()
+                val mLists = shoppingRepo.fetchLists()
                 cache.update(mLists)
 
                 shoppingLists.clear()
