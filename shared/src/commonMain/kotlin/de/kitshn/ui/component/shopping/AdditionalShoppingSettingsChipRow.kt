@@ -94,7 +94,7 @@ fun AdditionalShoppingSettingsChipRow(
         GroupingSettingChip(state)
         vm.client?.let { client ->
             SupermarketSettingChip(client, state, cache)
-            ShoppingListSettingChip(client, state, listCache)
+            ShoppingListSettingChip(state, listCache)
         }
 
         Spacer(Modifier.width(8.dp))

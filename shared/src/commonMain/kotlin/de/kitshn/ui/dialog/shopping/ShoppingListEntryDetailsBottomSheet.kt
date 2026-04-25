@@ -292,7 +292,6 @@ fun ShoppingListEntryDetailsBottomSheet(
                 )
 
                 SelectSupermarketCategoryDialog(
-                    client = client,
                     state = selectSupermarketCategoryDialogState
                 ) {
                     coroutineScope.launch {

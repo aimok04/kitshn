@@ -41,11 +41,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowWidthSizeClass
 import co.touchlab.kermit.Logger
-import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.handleTandoorRequestState
+import de.kitshn.repo.ShoppingRepo
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.input.FoodSearchField
 import de.kitshn.ui.component.input.NumberField
@@ -60,6 +60,7 @@ import kitshn.shared.generated.resources.common_unit
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 @Composable
 fun rememberShoppingListEntryCreationDialogState(): ShoppingListEntryCreationDialogState {
@@ -83,13 +84,13 @@ class ShoppingListEntryCreationDialogState(
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ShoppingListEntryCreationDialog(
-    client: TandoorClient,
     state: ShoppingListEntryCreationDialogState,
     shoppingLists: List<TandoorShoppingList>,
     onUpdate: (entry: TandoorShoppingListEntry) -> Unit
 ) {
     if(!state.shown.value) return
 
+    val shoppingRepo = koinInject<ShoppingRepo>()
     val coroutineScope = rememberCoroutineScope()
     val hapticFeedback = LocalHapticFeedback.current
 
@@ -110,9 +111,17 @@ fun ShoppingListEntryCreationDialog(
             isLoading = true
 
             addRequestState.wrapRequest {
-                val entry = client.shopping.add(amount?.toDouble(), food, null, unit, null, shoppingLists)
-                onUpdate(entry)
+                val foodName = food
+                if (foodName.isNullOrBlank()) return@wrapRequest
 
+                val entry = shoppingRepo.create(
+                    foodName = foodName,
+                    amount = amount?.toDouble() ?: 0.0,
+                    unitName = unit?.takeIf { it.isNotBlank() },
+                    shoppingLists = shoppingLists
+                ) ?: return@wrapRequest
+
+                onUpdate(entry)
                 state.dismiss()
             }
 
@@ -172,7 +181,6 @@ fun ShoppingListEntryCreationDialog(
                     dropdownMenuModifier = Modifier
                         .focusRequester(foodInputFocusRequester),
 
-                    client = client,
                     value = food,
 
                     leadingIcon = {

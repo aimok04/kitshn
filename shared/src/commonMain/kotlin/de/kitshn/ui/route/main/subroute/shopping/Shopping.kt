@@ -47,12 +47,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.PlatformContext
 import coil3.compose.LocalPlatformContext
 import de.kitshn.TestTagRepository
+import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.cache.ShoppingListCache
 import de.kitshn.cache.ShoppingSupermarketCache
-import de.kitshn.db.entity.ShoppingListEntryOfflineActions
 import de.kitshn.handleTandoorRequestState
 import de.kitshn.model.route.GroupDividerShoppingListItemModel
 import de.kitshn.model.route.GroupHeaderShoppingListItemModel
@@ -97,6 +97,8 @@ import kitshn.shared.generated.resources.shopping_list_empty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+
+private const val BULK_HAPTIC_TICK_CAP = 4
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -147,6 +149,7 @@ fun RouteMainSubrouteShopping(
         p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
 
     val client = p.vm.tandoorClient
+    val shoppingRepo = p.vm.shoppingRepo
 
     // update shopping list entries
     LaunchedEffect(client) {
@@ -169,28 +172,34 @@ fun RouteMainSubrouteShopping(
 
     val allowDoubleClickCheck by p.vm.settings.getShoppingItemDoubleClickCheck.collectAsState(true)
     fun checkEntries(entries: List<TandoorShoppingListEntry>) {
-        if(p.vm.uiState.offlineState.isOffline) {
-            if(entries.all { entry -> entry.checked }) {
-                vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.UNCHECK)
-            } else {
-                vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.CHECK)
+        val allChecked = entries.all { it.checked }
+        coroutineScope.launch {
+            actionRequestState.wrapRequest {
+                shoppingRepo.toggleCheckBulk(entries.map { it.id }, checked = !allChecked)
             }
-
             hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
-        } else {
-            coroutineScope.launch {
-                actionRequestState.wrapRequest {
-                    if(entries.all { entry -> entry.checked }) {
-                        client?.shopping?.uncheck(entries)
-                    } else {
-                        client?.shopping?.check(entries)
-                    }
+        }
+    }
 
-                    vm.renderItems()
-                    vm.update()
-                }
+    suspend fun pulseBulkHaptic(count: Int) {
+        repeat(count.coerceAtMost(BULK_HAPTIC_TICK_CAP)) {
+            hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+            delay(25)
+        }
+    }
 
-                hapticFeedback.handleTandoorRequestState(actionRequestState)
+    fun runSelectionAction(
+        requestState: TandoorRequestState,
+        action: suspend (entryIds: List<Int>) -> Unit,
+    ) {
+        coroutineScope.launch {
+            requestState.wrapRequest {
+                val ids = selectionModeState.selectedItems
+                    .flatMap { id -> vm.entries.filter { it.food.id == id } }
+                    .map { it.id }
+                action(ids)
+                pulseBulkHaptic(ids.size)
+                selectionModeState.disable()
             }
         }
     }
@@ -208,24 +217,8 @@ fun RouteMainSubrouteShopping(
                 actions = {
                     IconButton(
                         onClick = {
-                            coroutineScope.launch {
-                                entriesCheckRequestState.wrapRequest {
-                                    selectionModeState.selectedItems
-                                        .flatMap { id -> vm.entries.filter { it.food.id == id } }
-                                        .let {
-                                            client!!.shopping.check(it)
-
-                                            repeat(it.size) {
-                                                hapticFeedback.performHapticFeedback(
-                                                    HapticFeedbackType.SegmentTick
-                                                )
-                                                delay(25)
-                                            }
-                                        }
-
-                                    vm.renderItems()
-                                    selectionModeState.disable()
-                                }
+                            runSelectionAction(entriesCheckRequestState) { ids ->
+                                shoppingRepo.toggleCheckBulk(ids, checked = true)
                             }
                         }
                     ) {
@@ -238,24 +231,8 @@ fun RouteMainSubrouteShopping(
 
                     IconButton(
                         onClick = {
-                            coroutineScope.launch {
-                                entriesDeleteRequestState.wrapRequest {
-                                    selectionModeState.selectedItems
-                                        .flatMap { id -> vm.entries.filter { it.food.id == id } }
-                                        .let {
-                                            client!!.shopping.delete(it)
-
-                                            repeat(it.size) {
-                                                hapticFeedback.performHapticFeedback(
-                                                    HapticFeedbackType.SegmentTick
-                                                )
-                                                delay(25)
-                                            }
-                                        }
-
-                                    vm.renderItems()
-                                    selectionModeState.disable()
-                                }
+                            runSelectionAction(entriesDeleteRequestState) { ids ->
+                                shoppingRepo.deleteBulk(ids)
                             }
                         }
                     ) {
@@ -434,17 +411,11 @@ fun RouteMainSubrouteShopping(
             onClear = { onlyDoneEntries ->
                 coroutineScope.launch {
                     entriesClearRequestState.wrapRequest {
-                        val entries = client.shopping.fetchAll().toMutableList()
-                        if (onlyDoneEntries) entries.removeIf { !it.checked }
-
-                        client.shopping.delete(entries)
-                        repeat(entries.size) {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
-                            delay(25)
+                        val sizeBefore = vm.entries.count {
+                            if (onlyDoneEntries) it.checked else true
                         }
-
-                        vm.renderItems()
-                        vm.update()
+                        shoppingRepo.deleteAll(onlyChecked = onlyDoneEntries)
+                        pulseBulkHaptic(sizeBefore)
                     }
                 }
             }
@@ -456,7 +427,6 @@ fun RouteMainSubrouteShopping(
                 back = p.onBack
             ),
             state = mealPlanDetailsDialogState,
-            // not needed
             onUpdateList = { },
             onEdit = { }
         )
@@ -470,15 +440,9 @@ fun RouteMainSubrouteShopping(
         )
 
         ShoppingListEntryCreationDialog(
-            client = it,
             state = shoppingListEntryCreationDialogState,
             shoppingLists = additionalShoppingSettingsChipRowState.shoppingLists,
-            onUpdate = { entry ->
-                coroutineScope.launch {
-                    vm.entries.add(entry)
-                    vm.renderItems()
-                }
-            }
+            onUpdate = {}
         )
 
         ShoppingListEntryDetailsBottomSheet(
@@ -490,33 +454,23 @@ fun RouteMainSubrouteShopping(
                 checkEntries(entries)
             },
             onDelete = { entries ->
-                if(p.vm.uiState.offlineState.isOffline) {
-                    vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.DELETE)
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
-                    return@ShoppingListEntryDetailsBottomSheet
-                }
-
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
-                        client.shopping.delete(entries)
-                        vm.renderItems()
+                        shoppingRepo.deleteBulk(entries.map { e -> e.id })
                     }
-
                     hapticFeedback.handleTandoorRequestState(actionRequestState)
                 }
             },
             onChangeAmount = { entry, amount ->
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
-                        val newEntry = entry.partialUpdate(
+                        val newEntry = shoppingRepo.updatePartial(
+                            entryId = entry.id,
                             amount = amount
-                        )
+                        ) ?: return@wrapRequest
 
-                        shoppingListEntryDetailsBottomSheetState.entries[shoppingListEntryDetailsBottomSheetState.entries.indexOf(
-                            entry
-                        )] = newEntry
-                        vm.entries[vm.entries.indexOf(entry)] = newEntry
-                        vm.renderItems()
+                        val idx = shoppingListEntryDetailsBottomSheetState.entries.indexOf(entry)
+                        if (idx >= 0) shoppingListEntryDetailsBottomSheetState.entries[idx] = newEntry
                     }
                 }
             },

@@ -11,7 +11,6 @@ import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryFood
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarketCategory
-import de.kitshn.db.entity.ShoppingListEntryOfflineActions
 import de.kitshn.json
 import de.kitshn.removeIf
 import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRowState
@@ -66,6 +65,7 @@ class ShoppingViewModel(
     val shoppingListEntriesFetchRequest = TandoorRequestState()
 
     var loaded by mutableStateOf(false)
+    var isRefreshing by mutableStateOf(false)
 
     init {
         viewModelScope.launch {
@@ -80,6 +80,19 @@ class ShoppingViewModel(
                 renderItems()
                 loaded = true
             }
+        }
+    }
+
+    suspend fun interactiveSync(force: Boolean = false) {
+        isRefreshing = true
+        try {
+            if (p.vm.uiState.offlineState.isOffline) {
+                p.vm.connectivityCheck()
+            } else {
+                repo.sync(force)
+            }
+        } finally {
+            isRefreshing = false
         }
     }
 
@@ -339,24 +352,4 @@ class ShoppingViewModel(
             )
         )
     }
-
-    fun executeOfflineAction(
-        entries: List<TandoorShoppingListEntry>,
-        action: ShoppingListEntryOfflineActions
-    ) {
-        viewModelScope.launch {
-            entries.forEach {
-                when (action) {
-                    ShoppingListEntryOfflineActions.CHECK
-                        -> repo.toggleCheck(it.id, true)
-                    ShoppingListEntryOfflineActions.UNCHECK
-                        -> repo.toggleCheck(it.id, false)
-                    ShoppingListEntryOfflineActions.DELETE
-                        -> repo.delete(it.id)
-                    else -> {}
-                }
-            }
-        }
-    }
-
 }
