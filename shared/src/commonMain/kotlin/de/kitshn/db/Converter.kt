@@ -3,7 +3,6 @@ package de.kitshn.db
 import androidx.room.TypeConverter
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryCreatedBy
-import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryFood
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntryListRecipeData
 import de.kitshn.json
 
@@ -13,12 +12,6 @@ class Converters {
 
     @TypeConverter
     fun toShoppingList(value: String): List<TandoorShoppingList> = json.decodeFromString(value)
-
-    @TypeConverter
-    fun fromFood(value: TandoorShoppingListEntryFood): String = json.encodeToString(value)
-
-    @TypeConverter
-    fun toFood(value: String): TandoorShoppingListEntryFood = json.decodeFromString(value)
 
     @TypeConverter
     fun fromCreatedBy(value: TandoorShoppingListEntryCreatedBy): String = json.encodeToString(value)

@@ -12,7 +12,9 @@ import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.reqAny
 import androidx.compose.runtime.snapshotFlow
+import de.kitshn.repo.FoodRepo
 import de.kitshn.repo.ShoppingRepo
+import de.kitshn.repo.SupermarketCategoryRepo
 import de.kitshn.repo.SyncableRepo
 import de.kitshn.repo.UnitRepo
 import de.kitshn.session.TandoorSession
@@ -54,6 +56,8 @@ class KitshnViewModel(
     val settings: SettingsViewModel,
     private val session: TandoorSession,
     val unitRepo: UnitRepo,
+    val supermarketCategoryRepo: SupermarketCategoryRepo,
+    val foodRepo: FoodRepo,
     val shoppingRepo: ShoppingRepo,
     private val applicationScope: CoroutineScope,
 
@@ -255,12 +259,14 @@ class KitshnViewModel(
             coroutineScope {
                 launch { shoppingRepo.sync() }
                 launch { unitRepo.sync() }
+                launch { supermarketCategoryRepo.sync() }
+                launch { foodRepo.sync() }
             }
         }
     }
 
     private val syncableRepos: List<SyncableRepo>
-        get() = listOf(shoppingRepo)
+        get() = listOf(shoppingRepo, unitRepo, supermarketCategoryRepo, foodRepo)
 
     private var periodicSyncStarted = false
 
@@ -292,7 +298,9 @@ class KitshnViewModel(
         if (tandoorClient == null) return
         viewModelScope.launch(Dispatchers.IO) {
             coroutineScope {
-                launch { unitRepo.sync() }
+                launch { unitRepo.reconcile() }
+                launch { supermarketCategoryRepo.reconcile() }
+                launch { foodRepo.reconcile() }
             }
         }
     }
