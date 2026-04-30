@@ -37,8 +37,6 @@ import de.kitshn.ui.dialog.select.SelectRecipeDialog
 import de.kitshn.ui.dialog.select.rememberSelectRecipeDialogState
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.common_title_image
-import kitshn.shared.generated.resources.common_unknown_recipe
-import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,31 +52,26 @@ fun BaseRecipeSearchField(
     ) -> Unit
 ) {
     var selectedRecipe by remember { mutableStateOf<TandoorRecipeOverview?>(null) }
-    LaunchedEffect(selectedRecipe) { onValueChange(selectedRecipe?.id) }
 
     val selectRecipeDialogState = rememberSelectRecipeDialogState()
 
-    var searchText by remember { mutableStateOf("") }
     LaunchedEffect(value) {
         if(value == null) {
-            searchText = ""
             selectedRecipe = null
             return@LaunchedEffect
         }
+
         if(selectedRecipe?.id != value) {
             selectedRecipe = client.container.recipeOverview[value]
 
             if(selectedRecipe == null) {
                 TandoorRequestState().wrapRequest {
                     client.recipe.get(value).let {
-                        client.container.recipeOverview[value] = it.toOverview()
                         selectedRecipe = it.toOverview()
                     }
                 }
             }
         }
-
-        searchText = selectedRecipe?.name ?: getString(Res.string.common_unknown_recipe)
     }
 
     content(
@@ -98,7 +91,7 @@ fun BaseRecipeSearchField(
 
             else -> null
         },
-        searchText,
+        selectedRecipe?.name ?: ""
     ) {
         selectRecipeDialogState.open(initialSelectedId = value)
     }
@@ -108,6 +101,7 @@ fun BaseRecipeSearchField(
         state = selectRecipeDialogState,
     ) {
         selectedRecipe = it
+        onValueChange(it.id)
     }
 }
 
