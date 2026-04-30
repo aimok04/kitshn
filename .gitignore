@@ -19,6 +19,7 @@ build
 */build
 captures
 xcuserdata/
+*.xcconfig
 Pods/
 *.jks
 *yarn.lock

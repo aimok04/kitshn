@@ -27,7 +27,7 @@
 	<key>bugsnag</key>
 	<dict>
 		<key>apiKey</key>
-		<string>*REDACTED*</string>
+        <string>$(BUGSNAG_API)</string>
 	</dict>
 </dict>
 </plist>
