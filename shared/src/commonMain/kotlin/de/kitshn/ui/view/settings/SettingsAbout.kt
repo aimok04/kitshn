@@ -1,7 +1,9 @@
 package de.kitshn.ui.view.settings
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,6 +17,8 @@ import androidx.compose.material.icons.rounded.Web
 import androidx.compose.material3.Badge
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,7 +31,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.mikepenz.aboutlibraries.ui.compose.produceLibraries
-import com.mikepenz.aboutlibraries.ui.compose.rememberLibraries
 import com.mikepenz.aboutlibraries.ui.compose.util.author
 import de.kitshn.launchWebsiteHandler
 import de.kitshn.platformDetails
@@ -54,7 +57,7 @@ import kitshn.shared.generated.resources.settings_section_about_label
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ViewSettingsAbout(
     p: ViewParameters
@@ -85,7 +88,9 @@ fun ViewSettingsAbout(
         ) {
             LazyColumn(
                 modifier = Modifier
-                    .nestedScroll(scrollBehavior.nestedScrollConnection)
+                    .nestedScroll(scrollBehavior.nestedScrollConnection),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
             ) {
                 item {
                     SettingsListItem(
@@ -96,6 +101,10 @@ fun ViewSettingsAbout(
                         iconTint = KitshnYellow,
                         contentDescription = stringResource(Res.string.app_name)
                     )
+                }
+
+                item {
+                    Spacer(Modifier.height(16.dp))
                 }
 
                 item {
@@ -125,6 +134,10 @@ fun ViewSettingsAbout(
                 }
 
                 item {
+                    Spacer(Modifier.height(16.dp))
+                }
+
+                item {
                     SettingsListItem(
                         position = SettingsListItemPosition.TOP,
                         label = { Text(stringResource(Res.string.common_website)) },
@@ -148,6 +161,10 @@ fun ViewSettingsAbout(
                             uriHandler.openUri("mailto:${BuildConfig.ABOUT_CONTACT_MAILTO}")
                         }
                     )
+                }
+
+                item {
+                    Spacer(Modifier.height(16.dp))
                 }
 
                 platformSpecificItems()

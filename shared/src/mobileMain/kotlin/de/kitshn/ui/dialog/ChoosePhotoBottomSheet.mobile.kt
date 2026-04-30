@@ -2,15 +2,22 @@ package de.kitshn.ui.dialog
 
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.component.settings.SettingsListItemPosition
 import io.github.vinceglb.filekit.dialogs.FileKitType
@@ -23,7 +30,7 @@ import kitshn.shared.generated.resources.action_take_new_photo
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 actual fun ChoosePhotoBottomSheet(
     shown: Boolean,
@@ -57,7 +64,9 @@ actual fun ChoosePhotoBottomSheet(
             onDismiss()
         }
     ) {
-        Column {
+        Column(
+            Modifier.padding(16.dp)
+        ) {
             SettingsListItem(
                 position = SettingsListItemPosition.TOP,
                 icon = Icons.Rounded.CameraAlt,
@@ -66,6 +75,8 @@ actual fun ChoosePhotoBottomSheet(
             ) {
                 cameraPickerLauncher.launch()
             }
+
+            Spacer(Modifier.height(ListItemDefaults.SegmentedGap))
 
             SettingsListItem(
                 position = SettingsListItemPosition.BOTTOM,

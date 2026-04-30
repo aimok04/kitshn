@@ -1,11 +1,14 @@
 package de.kitshn.ui.route.recipe
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.savedstate.read
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.closeAppHandler
@@ -79,6 +82,7 @@ fun RouteRecipePublic(
         },
         prependContent = {
             SettingsListItem(
+                modifier = Modifier.padding(16.dp),
                 icon = Icons.Rounded.Share,
                 label = { Text(text = stringResource(Res.string.common_shared_recipe)) },
                 description = { Text(text = "${stringResource(Res.string.common_source)}: ${client.credentials.instanceUrl}") },

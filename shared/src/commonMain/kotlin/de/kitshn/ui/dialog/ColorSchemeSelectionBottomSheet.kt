@@ -106,6 +106,7 @@ fun ColorSchemeSelectionBottomSheet(
         }
     ) {
         if(AvailableColorSchemes.ANDROID_DYNAMIC_COLOR_SCHEME.isAvailable()) SettingsSwitchListItem(
+            modifier = Modifier.padding(16.dp),
             label = { Text(stringResource(Res.string.settings_section_appearance_color_scheme_dynamic_label)) },
             contentDescription = stringResource(Res.string.settings_section_appearance_color_scheme_dynamic_label),
             checked = currentColorScheme == AvailableColorSchemes.ANDROID_DYNAMIC_COLOR_SCHEME,
@@ -114,6 +115,7 @@ fun ColorSchemeSelectionBottomSheet(
         }
 
         if(AvailableColorSchemes.CUPERTINO.isAvailable()) SettingsSwitchListItem(
+            modifier = Modifier.padding(16.dp),
             label = { Text(stringResource(Res.string.settings_section_appearance_color_scheme_cupertino_label)) },
             contentDescription = stringResource(Res.string.settings_section_appearance_color_scheme_cupertino_label),
             checked = currentColorScheme == AvailableColorSchemes.CUPERTINO,

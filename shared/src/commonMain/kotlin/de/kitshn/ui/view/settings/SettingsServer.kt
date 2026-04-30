@@ -1,9 +1,11 @@
 package de.kitshn.ui.view.settings
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Logout
 import androidx.compose.material.icons.rounded.AccountCircle
@@ -14,7 +16,9 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -63,7 +67,7 @@ import kitshn.shared.generated.resources.settings_section_server_label
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ViewSettingsServer(
     p: ViewParameters
@@ -100,7 +104,9 @@ fun ViewSettingsServer(
         LazyColumn(
             modifier = Modifier
                 .padding(it)
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
         ) {
             item {
                 SettingsListItem(
@@ -117,7 +123,9 @@ fun ViewSettingsServer(
                     enabled = p.vm.uiState.userDisplayName.isNotBlank(),
                     contentDescription = stringResource(Res.string.common_account)
                 )
+            }
 
+            item {
                 SettingsListItem(
                     position = SettingsListItemPosition.BETWEEN,
                     label = { Text(stringResource(Res.string.common_instance_url)) },
@@ -130,7 +138,9 @@ fun ViewSettingsServer(
                     icon = Icons.Rounded.Web,
                     contentDescription = stringResource(Res.string.common_instance_url)
                 )
+            }
 
+            item {
                 SettingsListItem(
                     position = SettingsListItemPosition.BOTTOM,
                     label = { Text(stringResource(Res.string.common_version)) },
@@ -157,7 +167,13 @@ fun ViewSettingsServer(
                         showVersionCompatibilityBottomSheet = true
                     }
                 }
+            }
 
+            item {
+                Spacer(Modifier.height(16.dp))
+            }
+
+            item {
                 SettingsListItem(
                     position = SettingsListItemPosition.SINGULAR,
                     label = { Text(stringResource(Res.string.action_sign_out)) },
@@ -168,7 +184,13 @@ fun ViewSettingsServer(
                     p.vm.signOut()
                     closeAppHandler()
                 }
+            }
 
+            item {
+                Spacer(Modifier.height(16.dp))
+            }
+
+            item {
                 // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)
                 SettingsListItem(
                     position = SettingsListItemPosition.SINGULAR,

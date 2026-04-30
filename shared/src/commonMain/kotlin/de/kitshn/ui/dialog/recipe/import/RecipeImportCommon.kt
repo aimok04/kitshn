@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.rounded.Compress
 import androidx.compose.material.icons.rounded.Upload
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -117,7 +119,7 @@ class RecipeImportCommonStateData {
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 fun LazyListScope.RecipeImportCommon(
     fetchRequestState: TandoorRequestState,
     data: RecipeImportCommonStateData,
@@ -320,6 +322,7 @@ fun LazyListScope.RecipeImportCommon(
 
         item {
             SettingsSwitchListItem(
+                modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
                 position = SettingsListItemPosition.TOP,
                 label = { Text(text = stringResource(Res.string.recipe_import_divide_steps)) },
                 description = { Text(text = stringResource(Res.string.recipe_import_divide_steps_description)) },
@@ -332,7 +335,12 @@ fun LazyListScope.RecipeImportCommon(
         }
 
         item {
+            Spacer(Modifier.height(ListItemDefaults.SegmentedGap))
+        }
+
+        item {
             SettingsSwitchListItem(
+                modifier = Modifier.padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
                 position = SettingsListItemPosition.BOTTOM,
                 label = { Text(text = stringResource(Res.string.recipe_import_auto_sort_ingredients)) },
                 description = { Text(text = stringResource(Res.string.recipe_import_auto_sort_ingredients_description)) },

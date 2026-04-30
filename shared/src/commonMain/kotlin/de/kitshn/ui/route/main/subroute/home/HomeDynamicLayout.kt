@@ -37,6 +37,7 @@ import de.kitshn.removeIf
 import de.kitshn.ui.component.LoadingGradientWrapper
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
 import de.kitshn.ui.component.home.HomePageSectionView
+import de.kitshn.ui.component.search.RecipeSearchState
 import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.selectionMode.SelectionModeState
@@ -44,7 +45,6 @@ import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.foreverRememberNotSavable
 import de.kitshn.ui.state.rememberErrorLoadingSuccessState
 import de.kitshn.ui.state.rememberForeverScrollState
-import de.kitshn.ui.component.search.RecipeSearchState
 import de.kitshn.ui.view.recipe.details.RecipeServingsAmountSaveMap
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_show_all_recipes
@@ -219,6 +219,7 @@ fun HomeDynamicLayout(
                     }
 
                     SettingsListItem(
+                        modifier = Modifier.padding(16.dp),
                         label = { Text(text = stringResource(Res.string.action_show_all_recipes)) },
                         description = { },
                         icon = Icons.AutoMirrored.Rounded.List,

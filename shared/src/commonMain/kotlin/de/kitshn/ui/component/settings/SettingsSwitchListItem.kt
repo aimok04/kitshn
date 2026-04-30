@@ -31,7 +31,8 @@ fun SettingsSwitchListItem(
                 onCheckedChange = { if(enabled) onCheckedChanged(it) },
                 enabled = enabled
             )
-        }
+        },
+        selected = checked
     ) {
         onCheckedChanged(!checked)
     }

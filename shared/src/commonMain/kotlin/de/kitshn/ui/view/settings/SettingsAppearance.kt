@@ -1,5 +1,9 @@
 package de.kitshn.ui.view.settings
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -10,6 +14,8 @@ import androidx.compose.material.icons.rounded.Loupe
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -26,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
 import de.kitshn.ui.component.ColorSchemePreviewCircle
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.settings.SettingsListItem
@@ -50,7 +57,7 @@ import kitshn.shared.generated.resources.settings_section_appearance_label
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ViewSettingsAppearance(
     p: ViewParameters
@@ -89,7 +96,9 @@ fun ViewSettingsAppearance(
         LazyColumn(
             modifier = Modifier
                 .padding(it)
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
         ) {
             item {
                 SettingsSwitchListItem(
@@ -125,6 +134,10 @@ fun ViewSettingsAppearance(
             }
 
             item {
+                Spacer(Modifier.height(16.dp))
+            }
+
+            item {
                 SettingsListItem(
                     position = SettingsListItemPosition.SINGULAR,
                     label = { Text(stringResource(Res.string.settings_section_appearance_color_scheme_label)) },
@@ -143,6 +156,10 @@ fun ViewSettingsAppearance(
             }
 
             item {
+                Spacer(Modifier.height(16.dp))
+            }
+
+            item {
                 val enlarge = p.vm.settings.getEnlargeShoppingMode.collectAsState(initial = true)
 
                 SettingsSwitchListItem(
@@ -157,6 +174,10 @@ fun ViewSettingsAppearance(
                         p.vm.settings.setEnlargeShoppingMode(it)
                     }
                 }
+            }
+
+            item {
+                Spacer(Modifier.height(16.dp))
             }
 
             item {

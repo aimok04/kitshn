@@ -70,6 +70,7 @@ fun ShoppingListEntriesClearDialog(
         },
         text = {
             SettingsSwitchListItem(
+                modifier = Modifier.padding(16.dp),
                 label = { Text(stringResource(Res.string.shopping_list_dialog_clear_only_done)) },
                 contentDescription = stringResource(Res.string.shopping_list_dialog_clear_only_done),
                 checked = onlyDoneEntries,

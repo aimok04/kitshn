@@ -2,7 +2,10 @@ package de.kitshn.ui.route.main.subroute.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -15,9 +18,11 @@ import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -65,7 +70,7 @@ import kitshn.shared.generated.resources.settings_section_server_label
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun RouteMainSubrouteSettings(
     p: RouteParameters
@@ -73,9 +78,7 @@ fun RouteMainSubrouteSettings(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     val settingsModelList = remember {
-        mutableStateListOf<SettingsBaseModel>(
-
-        ).apply {
+        mutableStateListOf<SettingsBaseModel>().apply {
             if(platformDetails.debug) add(SettingsItemModel(
                 position = SettingsListItemPosition.SINGULAR,
                 id = "DEBUG",
@@ -170,7 +173,9 @@ fun RouteMainSubrouteSettings(
                 LazyColumn(
                     modifier = Modifier
                         .weight(1f, true)
-                        .nestedScroll(scrollBehavior.nestedScrollConnection)
+                        .nestedScroll(scrollBehavior.nestedScrollConnection),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
                 ) {
                     items(settingsModelList.size) { index ->
                         val model = settingsModelList[index]
@@ -189,6 +194,10 @@ fun RouteMainSubrouteSettings(
                             ) {
                                 select(model.id)
                             }
+
+                            if(model.position == SettingsListItemPosition.SINGULAR || model.position == SettingsListItemPosition.BOTTOM) {
+                                Spacer(Modifier.height(16.dp))
+                            }
                         }
                     }
                 }
@@ -196,7 +205,7 @@ fun RouteMainSubrouteSettings(
                 if(platformDetails.platform == Platforms.IOS) {
                     SettingsListItem(
                         position = SettingsListItemPosition.SINGULAR,
-                        modifier = Modifier.padding(bottom = 8.dp),
+                        modifier = Modifier.padding(16.dp),
                         icon = Icons.Rounded.Diamond,
                         label = { Text(stringResource(Res.string.ios_support_manage_subscription_label)) },
                         description = { Text(stringResource(Res.string.ios_support_manage_subscription_description)) },
@@ -207,7 +216,7 @@ fun RouteMainSubrouteSettings(
                 } else {
                     SettingsListItem(
                         position = SettingsListItemPosition.SINGULAR,
-                        modifier = Modifier.padding(bottom = 8.dp),
+                        modifier = Modifier.padding(16.dp),
                         icon = Icons.Rounded.Diamond,
                         label = { Text(stringResource(Res.string.kofi_support_label)) },
                         description = { Text(stringResource(Res.string.kofi_support_description)) },

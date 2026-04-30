@@ -2,6 +2,10 @@
 
 package de.kitshn.ui.view.settings
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -18,6 +22,8 @@ import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material.icons.rounded.WarningAmber
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -32,6 +38,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
 import de.kitshn.KitshnViewModel
 import de.kitshn.Platforms
 import de.kitshn.platformDetails
@@ -73,7 +80,7 @@ import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ViewSettingsBehavior(
     p: ViewParameters
@@ -119,7 +126,9 @@ fun ViewSettingsBehavior(
         LazyColumn(
             modifier = Modifier
                 .padding(it)
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
         ) {
             prependItems(p.vm)
 
@@ -154,6 +163,10 @@ fun ViewSettingsBehavior(
             }
 
             item {
+                Spacer(Modifier.height(16.dp))
+            }
+
+            item {
                 SettingsSwitchListItem(
                     position = SettingsListItemPosition.TOP,
                     label = { Text(stringResource(Res.string.settings_section_behavior_enable_meal_plan_promotion_label)) },
@@ -185,6 +198,10 @@ fun ViewSettingsBehavior(
             }
 
             item {
+                Spacer(Modifier.height(16.dp))
+            }
+
+            item {
                 SettingsSwitchListItem(
                     position = SettingsListItemPosition.TOP,
                     label = { Text(stringResource(Res.string.settings_section_behavior_enable_dynamic_home_screen_label)) },
@@ -211,6 +228,10 @@ fun ViewSettingsBehavior(
                         p.vm.settings.setEnableCompactHomeScreen(it)
                     }
                 }
+            }
+
+            item {
+                Spacer(Modifier.height(16.dp))
             }
 
             item {
@@ -244,6 +265,10 @@ fun ViewSettingsBehavior(
             }
 
             item {
+                Spacer(Modifier.height(16.dp))
+            }
+
+            item {
                 SettingsSwitchListItem(
                     position = SettingsListItemPosition.SINGULAR,
                     label = { Text(stringResource(Res.string.settings_section_behavior_shopping_item_double_click_check_label)) },
@@ -256,6 +281,10 @@ fun ViewSettingsBehavior(
                         p.vm.settings.setShoppingItemDoubleClickCheck(checked)
                     }
                 }
+            }
+
+            item {
+                Spacer(Modifier.height(16.dp))
             }
 
             item {
@@ -274,6 +303,10 @@ fun ViewSettingsBehavior(
             }
 
             if(platformDetails.platform == Platforms.IOS) {
+                item {
+                    Spacer(Modifier.height(16.dp))
+                }
+
                 item {
                     var enabled by remember { mutableStateOf(false) }
                     LaunchedEffect(fundingBannerHideUntil.value) {
