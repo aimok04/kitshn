@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.intl.Locale
 import co.touchlab.crashkios.bugsnag.BugsnagKotlin
 import com.eygraber.uri.Uri
 import de.kitshn.ui.dialog.LaunchTimerInfoBottomSheetState
@@ -15,6 +14,8 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import platform.Foundation.NSDate
 import platform.Foundation.NSDateFormatter
+import platform.Foundation.NSLocale
+import platform.Foundation.currentLocale
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 import platform.UIKit.UIViewController
@@ -28,7 +29,7 @@ actual fun saveBreadcrumb(key: String, value: String) {
 
 @Composable
 actual fun LocalDate.format(pattern: String): String = NSDateFormatter().run {
-    setLocale(Locale.current.platformLocale)
+    setLocale(NSLocale.currentLocale)
     setLocalizedDateFormatFromTemplate(pattern)
     stringFromDate(this@format.toNSDate())
 }
