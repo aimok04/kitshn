@@ -55,7 +55,7 @@ fun MealPlanDetailsCard(
                             text = pluralStringResource(
                                 Res.plurals.common_plural_portion,
                                 mealPlan.servings.roundToInt(),
-                                mealPlan.servings.roundToInt()
+                                mealPlan.servings
                             ),
                             style = Typography().labelMedium,
                             color = MaterialTheme.colorScheme.primary
