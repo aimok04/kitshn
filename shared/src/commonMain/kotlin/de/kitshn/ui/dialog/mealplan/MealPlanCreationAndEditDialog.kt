@@ -306,7 +306,7 @@ fun MealPlanCreationAndEditDialog(
                             label = { Text(servingsText) },
                             leadingIcon = { Icon(Icons.Rounded.Numbers, servingsText) },
 
-                            min = { 1.0 },
+                            min = { 0.01 },
 
                             optional = false,
 
