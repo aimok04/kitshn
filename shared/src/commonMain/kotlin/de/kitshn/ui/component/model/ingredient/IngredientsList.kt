@@ -90,11 +90,9 @@ fun IngredientsList(
                         servingsFactor = factor,
 
                         colors = colors,
-                        position = when(it) {
-                            0 -> IngredientItemPosition.TOP
-                            9 -> IngredientItemPosition.BOTTOM
-                            else -> IngredientItemPosition.BETWEEN
-                        },
+
+                        index = it,
+                        count = 10,
 
                         maxWidth = maxWidth,
                         minAmountWidth = minAmountWidth,
@@ -120,11 +118,9 @@ fun IngredientsList(
                         servingsFactor = factor,
 
                         colors = colors,
-                        position = when(it) {
-                            0 -> if(list.size > 1) IngredientItemPosition.TOP else IngredientItemPosition.SINGULAR
-                            list.size - 1 -> IngredientItemPosition.BOTTOM
-                            else -> IngredientItemPosition.BETWEEN
-                        },
+
+                        index = it,
+                        count = list.size,
 
                         maxWidth = maxWidth,
                         minAmountWidth = minAmountWidth,

@@ -1,21 +1,20 @@
 package de.kitshn.ui.component.model.ingredient
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ListItem
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SegmentedListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -33,6 +32,7 @@ enum class IngredientItemPosition {
     SINGULAR
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun IngredientItem(
     modifier: Modifier = Modifier,
@@ -43,7 +43,9 @@ fun IngredientItem(
     trailingContent: @Composable () -> Unit = {},
 
     colors: ListItemColors = ListItemDefaults.colors(),
-    position: IngredientItemPosition,
+
+    index: Int,
+    count: Int,
 
     maxWidth: Dp = 0.dp,
     minAmountWidth: Dp = 0.dp,
@@ -63,48 +65,35 @@ fun IngredientItem(
 
     val showTickedOff = enableTickingOff && ingredient?.tickedOff == true
 
-    ListItem(
+    SegmentedListItem(
         modifier = modifier
             .alpha(if(showTickedOff) 0.7f else 1f)
             .padding(top = 1.dp, bottom = 1.dp)
-            .clip(
-                when(position) {
-                    IngredientItemPosition.TOP -> RoundedCornerShape(
-                        topStart = 16.dp,
-                        topEnd = 16.dp,
-                        bottomStart = 4.dp,
-                        bottomEnd = 4.dp
-                    )
+            .loadingPlaceHolder(loadingState),
 
-                    IngredientItemPosition.BETWEEN -> RoundedCornerShape(4.dp)
-                    IngredientItemPosition.BOTTOM -> RoundedCornerShape(
-                        topStart = 4.dp,
-                        topEnd = 4.dp,
-                        bottomStart = 16.dp,
-                        bottomEnd = 16.dp
-                    )
+        onClick = {
+            if(foodHasRecipe) {
+                onOpenRecipe(ingredient.food.recipe)
+            } else if(enableTickingOff) {
+                ingredient?.tickedOff = !ingredient.tickedOff
+            }
+        },
 
-                    IngredientItemPosition.SINGULAR -> RoundedCornerShape(16.dp)
+        shapes = ListItemDefaults.segmentedShapes(
+            index = index,
+            count = count,
+            defaultShapes = ListItemDefaults.shapes(
+                shape = when(count == 1) {
+                    true -> RoundedCornerShape(16.dp)
+                    false -> null
                 }
             )
-            .loadingPlaceHolder(loadingState)
-            .then(
-                if(foodHasRecipe) {
-                    Modifier.clickable {
-                        onOpenRecipe(ingredient.food.recipe)
-                    }
-                } else if(enableTickingOff) {
-                    Modifier.clickable {
-                        ingredient?.tickedOff = !ingredient.tickedOff
-                    }
-                }else{
-                    Modifier
-                }
-            ),
+        ),
+
         colors = colors,
         trailingContent = trailingContent,
         leadingContent = {
-            if(ingredient == null) return@ListItem
+            if(ingredient == null) return@SegmentedListItem
 
             Row(
                 Modifier
@@ -135,8 +124,8 @@ fun IngredientItem(
                 }
             }
         },
-        headlineContent = {
-            if(ingredient == null) return@ListItem
+        content = {
+            if(ingredient == null) return@SegmentedListItem
 
             Text(
                 text = ingredient.getLabel(amount),
