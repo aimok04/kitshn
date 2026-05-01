@@ -24,6 +24,7 @@ Pods/
 *.jks
 *yarn.lock
 
+/androidApp/release
 /shared/release
 /shared/debug
 /shared/nightly
