@@ -172,10 +172,7 @@ fun BaseColorPickerField(
                 columns = GridCells.Adaptive(46.dp),
                 contentPadding = PaddingValues(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 32.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(PREDEFINED_COLORS) { color ->
                     val isSelected = color == value
@@ -191,7 +188,7 @@ fun BaseColorPickerField(
                             .then(
                                 if (isSelected) {
                                     Modifier.border(
-                                        BorderStroke(4.dp, tint),
+                                        BorderStroke(2.dp, tint),
                                         CircleShape
                                     )
                                 } else Modifier
