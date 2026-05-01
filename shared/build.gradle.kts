@@ -25,7 +25,7 @@ kotlin {
 
     android {
         namespace = "de.kitshn.shared"
-        compileSdk = 36
+        compileSdk = 37
         minSdk = 24
 
         androidResources.enable = true
