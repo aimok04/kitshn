@@ -18,8 +18,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalHapticFeedback
 import de.kitshn.TimePrecision
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorMealType
@@ -40,11 +40,9 @@ import de.kitshn.ui.state.ColorStateSaver
 import de.kitshn.ui.state.LocalTimeStateSaver
 import de.kitshn.ui.state.foreverRememberNotSavable
 import kitshn.shared.generated.resources.Res
-import kitshn.shared.generated.resources.action_add_meal_type
 import kitshn.shared.generated.resources.action_create
-import kitshn.shared.generated.resources.action_create_entry
+import kitshn.shared.generated.resources.action_create_meal_type
 import kitshn.shared.generated.resources.action_delete
-import kitshn.shared.generated.resources.action_edit_entry
 import kitshn.shared.generated.resources.action_edit_meal_type
 import kitshn.shared.generated.resources.action_save
 import kitshn.shared.generated.resources.common_color
@@ -268,7 +266,7 @@ fun MealTypeCreationAndEditDialog(
                 text = if (state.isEdit) {
                     stringResource(Res.string.action_edit_meal_type)
                 } else {
-                    stringResource(Res.string.action_add_meal_type)
+                    stringResource(Res.string.action_create_meal_type)
                 }
             )
         },
