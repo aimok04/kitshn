@@ -179,6 +179,9 @@ fun BaseColorPickerField(
             ) {
                 items(PREDEFINED_COLORS) { color ->
                     val isSelected = color == value
+
+                    val tint = if(color.luminance() > 0.5f) Color.Black else Color.White
+
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
@@ -188,7 +191,7 @@ fun BaseColorPickerField(
                             .then(
                                 if (isSelected) {
                                     Modifier.border(
-                                        BorderStroke(4.dp, MaterialTheme.colorScheme.primary),
+                                        BorderStroke(4.dp, tint),
                                         CircleShape
                                     )
                                 } else Modifier
@@ -204,7 +207,7 @@ fun BaseColorPickerField(
                             Icon(
                                 imageVector = Icons.Rounded.Check,
                                 contentDescription = null,
-                                tint = if (color.luminance() > 0.5f) Color.Black else Color.White,
+                                tint = tint,
                                 modifier = Modifier.size(32.dp)
                             )
                         }
