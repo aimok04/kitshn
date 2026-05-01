@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -20,11 +19,9 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
@@ -33,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -67,7 +65,7 @@ import kitshn.shared.generated.resources.color_red
 import kitshn.shared.generated.resources.color_teal
 import kitshn.shared.generated.resources.color_white
 import kitshn.shared.generated.resources.color_yellow
-import kitshn.shared.generated.resources.common_color
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -142,6 +140,8 @@ fun BaseColorPickerField(
         onClick: () -> Unit
     ) -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+
     var showColorPickerDialog by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
 
@@ -200,7 +200,9 @@ fun BaseColorPickerField(
                             )
                             .clickable {
                                 onValueChange(color)
-                                showColorPickerDialog = false
+                                scope.launch {
+                                    sheetState.hide()
+                                }
                             }
                     ) {
                         if (isSelected) {
