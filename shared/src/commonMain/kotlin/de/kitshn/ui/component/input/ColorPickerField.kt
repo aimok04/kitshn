@@ -200,6 +200,7 @@ fun BaseColorPickerField(
                                 onValueChange(color)
                                 scope.launch {
                                     sheetState.hide()
+                                    showColorPickerDialog = false
                                 }
                             }
                     ) {
