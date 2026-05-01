@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -43,8 +42,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
@@ -235,40 +232,40 @@ fun OutlinedMealTypePickerField(
     value = value,
     onValueChange = onValueChange
 ) { t, v, oc ->
-    OutlinedTextField(
-        value = v,
-        modifier = modifier
-            .fillMaxWidth()
-            .onFocusChanged {
-                if(it.isFocused) oc()
-            }
-            .pointerInput(Unit) {
-                detectTapGestures(onTap = { oc() })
+    Box {
+        OutlinedTextField(
+            value = v,
+            modifier = modifier
+                .fillMaxWidth(),
+            enabled = true,
+            readOnly = true,
+            singleLine = true,
+            textStyle = textStyle,
+            label = label,
+            placeholder = placeholder,
+            leadingIcon = t ?: leadingIcon,
+            trailingIcon = trailingIcon ?: {
+                Icon(
+                    imageVector = Icons.Default.UnfoldMore,
+                    contentDescription = null
+                )
             },
-        enabled = true,
-        readOnly = true,
-        singleLine = true,
-        textStyle = textStyle,
-        label = label,
-        placeholder = placeholder,
-        leadingIcon = t ?: leadingIcon,
-        trailingIcon = trailingIcon ?: {
-            Icon(
-                imageVector = Icons.Default.UnfoldMore,
-                contentDescription = null
-            )
-        },
-        prefix = prefix,
-        suffix = suffix,
-        supportingText = supportingText,
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        isError = isError,
-        shape = shape,
-        colors = colors,
-        onValueChange = { }
-    )
+            prefix = prefix,
+            suffix = suffix,
+            supportingText = supportingText,
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            isError = isError,
+            shape = shape,
+            colors = colors,
+            onValueChange = { }
+        )
+
+        Box(
+            modifier = Modifier.matchParentSize().clickable { oc() }
+        )
+    }
 }
 
 @Composable
@@ -296,38 +293,38 @@ fun MealTypePickerField(
     value = value,
     onValueChange = onValueChange
 ) { t, v, oc ->
-    TextField(
-        value = v,
-        modifier = modifier
-            .fillMaxWidth()
-            .onFocusChanged {
-                if(it.isFocused) oc()
-            }
-            .pointerInput(Unit) {
-                detectTapGestures(onTap = { oc() })
+    Box {
+        TextField(
+            value = v,
+            modifier = modifier
+                .fillMaxWidth(),
+            enabled = true,
+            readOnly = true,
+            singleLine = true,
+            textStyle = textStyle,
+            label = label,
+            placeholder = placeholder,
+            leadingIcon = t ?: leadingIcon,
+            trailingIcon = trailingIcon ?: {
+                Icon(
+                    imageVector = Icons.Default.UnfoldMore,
+                    contentDescription = null
+                )
             },
-        enabled = true,
-        readOnly = true,
-        singleLine = true,
-        textStyle = textStyle,
-        label = label,
-        placeholder = placeholder,
-        leadingIcon = t ?: leadingIcon,
-        trailingIcon = trailingIcon ?: {
-            Icon(
-                imageVector = Icons.Default.UnfoldMore,
-                contentDescription = null
-            )
-        },
-        prefix = prefix,
-        suffix = suffix,
-        supportingText = supportingText,
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        isError = isError,
-        shape = shape,
-        colors = colors,
-        onValueChange = { }
-    )
+            prefix = prefix,
+            suffix = suffix,
+            supportingText = supportingText,
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            isError = isError,
+            shape = shape,
+            colors = colors,
+            onValueChange = { }
+        )
+
+        Box(
+            modifier = Modifier.matchParentSize().clickable { oc() }
+        )
+    }
 }
