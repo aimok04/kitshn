@@ -1,8 +1,8 @@
 package de.kitshn.ui.component.input
 
-import androidx.compose.foundation.interaction.FocusInteraction
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
@@ -19,7 +19,6 @@ import androidx.compose.material3.TimePickerDialogDefaults
 import androidx.compose.material3.TimePickerDisplayMode
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,8 +30,8 @@ import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_abort
 import kitshn.shared.generated.resources.common_okay
 import kitshn.shared.generated.resources.common_time
-import org.jetbrains.compose.resources.stringResource
 import kotlinx.datetime.LocalTime
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -125,33 +124,31 @@ fun OutlinedTimeField(
     value = value,
     onValueChange = onValueChange
 ) { v, onClick ->
-    OutlinedTextField(
-        value = v,
-        modifier = modifier,
-        enabled = true,
-        readOnly = true,
-        textStyle = textStyle,
-        label = label,
-        placeholder = placeholder,
-        leadingIcon = leadingIcon,
-        trailingIcon = trailingIcon,
-        prefix = prefix,
-        suffix = suffix,
-        supportingText = supportingText,
-        isError = isError,
-        shape = shape,
-        colors = colors,
-        interactionSource = remember { MutableInteractionSource() }
-            .also { interactionSource ->
-                LaunchedEffect(interactionSource) {
-                    interactionSource.interactions.collect {
-                        if(it !is FocusInteraction.Focus && it !is PressInteraction.Release) return@collect
-                        onClick()
-                    }
-                }
-            },
-        onValueChange = { }
-    )
+    Box {
+        OutlinedTextField(
+            value = v,
+            modifier = modifier
+                .fillMaxWidth(),
+            enabled = true,
+            readOnly = true,
+            textStyle = textStyle,
+            label = label,
+            placeholder = placeholder,
+            leadingIcon = leadingIcon,
+            trailingIcon = trailingIcon,
+            prefix = prefix,
+            suffix = suffix,
+            supportingText = supportingText,
+            isError = isError,
+            shape = shape,
+            colors = colors,
+            onValueChange = { }
+        )
+
+        Box(
+            modifier = Modifier.matchParentSize().clickable { onClick() }
+        )
+    }
 }
 
 @Composable
@@ -174,31 +171,29 @@ fun TimeField(
     value = value,
     onValueChange = onValueChange
 ) { v, onClick ->
-    TextField(
-        value = v,
-        modifier = modifier,
-        enabled = true,
-        readOnly = true,
-        textStyle = textStyle,
-        label = label,
-        placeholder = placeholder,
-        leadingIcon = leadingIcon,
-        trailingIcon = trailingIcon,
-        prefix = prefix,
-        suffix = suffix,
-        supportingText = supportingText,
-        isError = isError,
-        shape = shape,
-        colors = colors,
-        interactionSource = remember { MutableInteractionSource() }
-            .also { interactionSource ->
-                LaunchedEffect(interactionSource) {
-                    interactionSource.interactions.collect {
-                        if(it !is FocusInteraction.Focus && it !is PressInteraction.Release) return@collect
-                        onClick()
-                    }
-                }
-            },
-        onValueChange = { }
-    )
+    Box {
+        TextField(
+            value = v,
+            modifier = modifier
+                .fillMaxWidth(),
+            enabled = true,
+            readOnly = true,
+            textStyle = textStyle,
+            label = label,
+            placeholder = placeholder,
+            leadingIcon = leadingIcon,
+            trailingIcon = trailingIcon,
+            prefix = prefix,
+            suffix = suffix,
+            supportingText = supportingText,
+            isError = isError,
+            shape = shape,
+            colors = colors,
+            onValueChange = { }
+        )
+
+        Box(
+            modifier = Modifier.matchParentSize().clickable { onClick() }
+        )
+    }
 }
