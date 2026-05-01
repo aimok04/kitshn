@@ -168,11 +168,6 @@ fun BaseColorPickerField(
             onDismissRequest = { showColorPickerDialog = false },
             sheetState = sheetState
         ) {
-            Text(
-                text = stringResource(Res.string.common_color),
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(16.dp)
-            )
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(46.dp),
                 contentPadding = PaddingValues(16.dp),
