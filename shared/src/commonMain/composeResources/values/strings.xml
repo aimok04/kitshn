@@ -91,7 +91,7 @@
     <string name="action_take_new_photo">Take new photo</string>
     <string name="action_upload">Upload</string>
     <string name="action_yes">Yes</string>
-    <string name="action_add_meal_type">Add new meal type</string>
+    <string name="action_create_meal_type">New meal type</string>
     <string name="action_edit_meal_type">Edit meal type</string>
 
     <string name="app_name">kitshn</string>
