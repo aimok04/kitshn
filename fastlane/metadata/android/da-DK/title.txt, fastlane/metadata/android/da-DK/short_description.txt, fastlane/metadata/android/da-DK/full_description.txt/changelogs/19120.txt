@@ -1,0 +1,6 @@
+Denne udgivelse skal løse nogle store problemer som *broken reproducability*, som brød opdateringer på *F-Droid* indtil nu.
+
+1. Nu viser opskriften på mad i ingredienslister (#284).
+2. Fast nedbrud, når du klikker på tegn ud.
+3. Genaktiverede datovælgere på iOS (#282).
+4. Kontrolleret kompatibilitet med Tandoor version 2.3.0 til version 2.3.3.

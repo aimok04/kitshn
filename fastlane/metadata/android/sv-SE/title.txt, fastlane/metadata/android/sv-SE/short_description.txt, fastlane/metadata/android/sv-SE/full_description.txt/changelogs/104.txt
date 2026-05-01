@@ -1,0 +1,6 @@
+- feat (recept): lagt till stöd för steginstruktioner (#1)
+- feat(recept): lagt till applänkar
+- feat(recept): tillagd delningsknapp
+- l10n(strings.xml): lagt till turkiska (tr) (#3) (av @mikropsoft)
+- chore(libs): versionsstötar
+- flera buggfixar och designförbättringar

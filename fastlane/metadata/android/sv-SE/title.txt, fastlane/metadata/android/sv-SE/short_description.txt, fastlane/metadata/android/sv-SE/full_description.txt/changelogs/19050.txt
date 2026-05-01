@@ -1,0 +1,4 @@
+BETA: Denna beta introducerar kompatibilitet med Tandoor v2. Denna version är inte kompatibel med servrar som kör Tandoor v1.
+
+1. Implementerade stegredigering och skapande med markdown-stöd.
+2. 🇵🇱 Polska har lagts till på Weblate (tack vare @dhunter49).
