@@ -1,4 +1,3 @@
-import java.io.FileInputStream
 import java.time.LocalDate
 import java.util.Properties
 
@@ -26,10 +25,10 @@ val prop by extra(Properties().apply {
 
 val date by extra(LocalDate.now().toString())
 
-val kitshnVersionName by extra("2.0.9")
-val kitshnVersionCode by extra(20090)
+val kitshnVersionName by extra("2.1.0")
+val kitshnVersionCode by extra(20100)
 
-val kitshnAlternateVersionName by extra("2.0.9")
+val kitshnAlternateVersionName by extra("2.1.0")
 val kitshnAlternateBuildVersionName by extra(kitshnAlternateVersionName.split(".").run {
     this[0] + "." + this[1] + "." + kitshnVersionCode
 })

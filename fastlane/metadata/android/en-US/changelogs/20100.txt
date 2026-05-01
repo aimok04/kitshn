@@ -1,8 +1,10 @@
+‼️ https://keepandroidopen.org
+
 - Added dedicated recipe selection dialog (by @jonsch318).
 - Added meal type selection bottom sheet (by @jonsch318).
 - Added meal type editing and creation (by @jonsch318).
-- Added placeholder to step editor (by @jonsch318).
 - Added double click to check items in shopping list (by @jonsch318).
+- Added experimental support for Android 7.
 - Fixed flickering when loading home page (by @jonsch318).
 - Fixed unable to enter < 1 servings values in meal plan dialog.
 - Multiple small tweaks and design improvements.

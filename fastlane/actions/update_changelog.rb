@@ -4,7 +4,7 @@ module Fastlane
       def self.run(params)
         commits = `git log --oneline`
           .split("\n")
-          .map { |string| "-" + string[7..-1] }
+          .map { |string| "-" + string[8..-1] }
           
         commit_feat = []
         commit_fix = []
