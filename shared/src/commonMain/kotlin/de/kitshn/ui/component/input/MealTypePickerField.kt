@@ -21,7 +21,6 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -61,7 +60,7 @@ import kitshn.shared.generated.resources.common_unknown_meal_type
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun BaseMealTypePickerField(
     client: TandoorClient,
@@ -73,9 +72,10 @@ fun BaseMealTypePickerField(
         onClick: () -> Unit
     ) -> Unit
 ) {
+    val scope = rememberCoroutineScope()
     val focus = LocalFocusManager.current
 
-    var isExpanded by remember { mutableStateOf(false) }
+    var showMealTypePickerDialog by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
 
     val mealTypeList = remember { mutableStateListOf<TandoorMealType>() }
@@ -106,7 +106,7 @@ fun BaseMealTypePickerField(
         text
     ) {
         focus.clearFocus()
-        isExpanded = true
+        showMealTypePickerDialog = true
     }
 
     val createAndEditDialogState = rememberMealTypeCreationAndEditDialogState(
@@ -129,7 +129,7 @@ fun BaseMealTypePickerField(
             }
 
             onValueChange(savedMealType.id)
-            isExpanded = false
+            showMealTypePickerDialog = false
         },
         onDeleted = { deletedMealType ->
             mealTypeList.removeAll { it.id == deletedMealType.id }
@@ -139,20 +139,46 @@ fun BaseMealTypePickerField(
         }
     )
 
-    if(!isExpanded) return
-
-    ModalBottomSheet(
-        onDismissRequest = { isExpanded = false },
+    if(showMealTypePickerDialog) ModalBottomSheet(
+        onDismissRequest = { showMealTypePickerDialog = false },
         sheetState = sheetState
     ) {
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
+                .fillMaxWidth(),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
         ) {
-            items(mealTypeList) { mealType ->
-                ListItem(
-                    headlineContent = { Text(mealType.name) },
+            itemsIndexed(mealTypeList) { index, mealType ->
+                val isSelected = mealType.id == selectedMealType?.id
+
+                SegmentedListItem(
+                    selected = isSelected,
+                    onClick = {
+                        onValueChange(mealType.id)
+                        scope.launch {
+                            sheetState.hide()
+                            showMealTypePickerDialog = false
+                        }
+                    },
+                    onLongClick = {
+                        createAndEditDialogState.edit(mealType)
+                    },
+
+                    shapes = ListItemDefaults.segmentedShapes(
+                        index = index,
+                        count = mealTypeList.size,
+                        defaultShapes = ListItemDefaults.shapes(
+                            shape = when(mealTypeList.size == 1) {
+                                true -> RoundedCornerShape(16.dp)
+                                else -> null
+                            }
+                        )
+                    ),
+
+                    content = {
+                        Text(mealType.name)
+                    },
                     leadingContent = {
                         Box(
                             Modifier
@@ -162,48 +188,45 @@ fun BaseMealTypePickerField(
                         )
                     },
                     trailingContent = {
-                        if(mealType.id == selectedMealType?.id) {
+                        if(isSelected) {
                             Icon(
                                 imageVector = Icons.Rounded.Check,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
-                    },
-                    colors = ListItemDefaults.colors(containerColor = Color.Transparent),
-                    modifier = Modifier.combinedClickable(
-                        onClick = {
-                            onValueChange(mealType.id)
-                            isExpanded = false
-                        },
-                        onLongClick = {
-                            createAndEditDialogState.edit(mealType)
-                        }
-                    )
+                    }
                 )
             }
 
-            if (mealTypeList.isNotEmpty()){
+            if(mealTypeList.isNotEmpty()) {
                 item {
-                    HorizontalDivider(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                        color = MaterialTheme.colorScheme.outlineVariant
-                    )
+                    Spacer(Modifier.height(16.dp))
                 }
             }
 
             item {
-                ListItem(
-                    headlineContent = { Text(stringResource(Res.string.action_create_meal_type)) },
+                SegmentedListItem(
+                    onClick = {
+                        createAndEditDialogState.create()
+                    },
+
+                    shapes = ListItemDefaults.segmentedShapes(
+                        index = 0,
+                        count = 1,
+                        defaultShapes = ListItemDefaults.shapes(
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                    ),
+
+                    content = {
+                        Text(stringResource(Res.string.action_create_meal_type))
+                    },
                     leadingContent = {
                         Icon(
                             imageVector = Icons.Rounded.Add,
                             contentDescription = stringResource(Res.string.action_create_meal_type)
                         )
-                    },
-                    colors = ListItemDefaults.colors(containerColor = Color.Transparent),
-                    modifier = Modifier.clickable {
-                        createAndEditDialogState.create()
                     }
                 )
             }
