@@ -167,6 +167,11 @@
         <item quantity="one">one minute</item>
         <item quantity="other">%1$d minutes</item>
     </plurals>
+    <plurals name="common_plural_seconds">
+        <item quantity="zero">no seconds</item>
+        <item quantity="one">one second</item>
+        <item quantity="other">%1$d seconds</item>
+    </plurals>
     <plurals name="common_plural_portion">
         <item quantity="zero">no servings</item>
         <item quantity="one">one serving</item>
@@ -218,6 +223,7 @@
     <string name="common_website">Website</string>
     <string name="common_welcome">Welcome</string>
     <string name="common_yesterday">Yesterday</string>
+    <string name="common_default">Default</string>
 
     <string name="error">Error</string>
     <string name="error_couldnt_connect_to_tandoor">No connection to your Tandoor server could be established.</string>
@@ -427,6 +433,15 @@
     <string name="settings_section_server_delete_and_manage_data_label">Delete and manage data</string>
     <string name="settings_section_server_description">Information about your instance</string>
     <string name="settings_section_server_label">Server</string>
+    <string name="settings_section_server_advanced_label">Advanced</string>
+    <string name="settings_section_server_advanced_description">Timeout and other network settings</string>
+    <string name="settings_section_server_advanced_short_timeout_label">Short timeout</string>
+    <string name="settings_section_server_advanced_short_timeout_description">Used for regular API requests (%1$d seconds)</string>
+    <string name="settings_section_server_advanced_long_timeout_label">Long timeout</string>
+    <string name="settings_section_server_advanced_long_timeout_description">Used for long-running operations like AI imports (%1$d seconds)</string>
+    <string name="settings_section_server_advanced_reset_label">Restore default settings</string>
+    <string name="settings_section_server_advanced_reset_description">Set all network settings back to their default values</string>
+    <string name="settings_section_server_advanced_timeout_selection_title">Select timeout</string>
 
     <string name="share_incentive">Hey! Check out this recipe I've found on Tandoor:</string>
     <string name="share_title">Share this recipe on Tandoor</string>

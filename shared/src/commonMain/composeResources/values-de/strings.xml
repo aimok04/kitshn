@@ -144,6 +144,11 @@
         <item quantity="one">eine Minute</item>
         <item quantity="other">%1$d Minuten</item>
     </plurals>
+    <plurals name="common_plural_seconds">
+        <item quantity="zero">no seconds</item>
+        <item quantity="one">one second</item>
+        <item quantity="other">%1$d seconds</item>
+    </plurals>
     <plurals name="common_plural_portion">
         <item quantity="zero">keine Portionen</item>
         <item quantity="one">eine Portion</item>
@@ -192,6 +197,8 @@
     <string name="common_website">Webseite</string>
     <string name="common_welcome">Willkommen</string>
     <string name="common_yesterday">Gestern</string>
+    <string name="common_default">Standard</string>
+
     <string name="error">Fehler</string>
     <string name="error_couldnt_connect_to_tandoor">Es konnte keine Verbindung zu deinem Tandoor-Server hergestellt werden.</string>
     <string name="error_instance_inaccessible">Die Instanz, mit der du dich verbinden möchtest, ist nicht in dieser App eingerichtet.</string>
@@ -360,6 +367,16 @@
     <string name="settings_section_server_delete_and_manage_data_label">Daten löschen und verwalten</string>
     <string name="settings_section_server_description">Informationen über deinen Server</string>
     <string name="settings_section_server_label">Server</string>
+    <string name="settings_section_server_advanced_label">Erweitert</string>
+    <string name="settings_section_server_advanced_description">Timeouts und weitere Netzwerkeinstellungen</string>
+    <string name="settings_section_server_advanced_short_timeout_label">Kurzes Timeout</string>
+    <string name="settings_section_server_advanced_short_timeout_description">Wird für reguläre API-Anfragen verwendet (%1$d Sekunden)</string>
+    <string name="settings_section_server_advanced_long_timeout_label">Langes Timeout</string>
+    <string name="settings_section_server_advanced_long_timeout_description">Für zeitintensive Vorgänge wie KI-Importe (%1$d Sekunden)</string>
+    <string name="settings_section_server_advanced_reset_label">Auf Standard zurücksetzen</string>
+    <string name="settings_section_server_advanced_reset_description">Alle Netzwerkeinstellungen auf die Standardwerte zurücksetzen</string>
+
+    <string name="settings_section_server_advanced_timeout_selection_title">Timeout auswählen</string>
     <string name="share_incentive">Hey! Schau dir dieses Rezept in Tandoor an:</string>
     <string name="share_title">Teile dieses Rezept von Tandoor</string>
     <string name="share_wrapper_dialog_message">Wenn %1$s vor der geteilten URL steht, können andere kitshn-Nutzer den Link direkt in der App öffnen.</string>

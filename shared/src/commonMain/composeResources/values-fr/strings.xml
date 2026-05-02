@@ -163,6 +163,7 @@
     <string name="common_username">Nom d'utilisateur</string>
     <string name="common_website">Site web</string>
     <string name="common_welcome">Bienvenue</string>
+    <string name="common_default">Défaut</string>
     <string name="error_couldnt_connect_to_tandoor">Aucune connexion n'a pu être établie avec votre serveur Tandoor.</string>
     <string name="error_request">Demande erronée</string>
     <string name="error_unallocated_ingredients">Ingrédients non attribués</string>
@@ -423,4 +424,13 @@
     <string name="settings_section_behavior_shopping_item_double_click_check_description">Marquez rapidement vos articles comme terminés en double-cliquant dessus</string>
     <string name="common_shopping_list">Liste de courses</string>
     <string name="recipe_step_step_description">Ajoutez les instructions pour cette étape</string>
+    <string name="settings_section_server_advanced_label">Avancé</string>
+    <string name="settings_section_server_advanced_description">Délais d'attente et autres paramètres réseau</string>
+    <string name="settings_section_server_advanced_short_timeout_label">Délai d'attente court</string>
+    <string name="settings_section_server_advanced_short_timeout_description">Utilisé pour les requêtes API classiques (%1$d secondes)</string>
+    <string name="settings_section_server_advanced_long_timeout_label">Délai d'attente prolongé</string>
+    <string name="settings_section_server_advanced_long_timeout_description">Utilisé pour les opérations longues comme l'importation IA (%1$d secondes)</string>
+    <string name="settings_section_server_advanced_reset_label">Réinitialiser par défaut</string>
+    <string name="settings_section_server_advanced_reset_description">Rétablir toutes les valeurs par défaut des paramètres réseau</string>
+    <string name="settings_section_server_advanced_timeout_selection_title">Sélectionner le délai</string>
 </resources>
