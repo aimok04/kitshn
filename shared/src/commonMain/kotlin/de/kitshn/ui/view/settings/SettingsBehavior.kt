@@ -71,7 +71,6 @@ import kitshn.shared.generated.resources.settings_section_behavior_shopping_item
 import kitshn.shared.generated.resources.settings_section_behavior_use_share_wrapper_description
 import kitshn.shared.generated.resources.settings_section_behavior_use_share_wrapper_label
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -79,6 +78,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
