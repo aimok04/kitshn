@@ -27,6 +27,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.VerticalFloatingToolbar
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -47,12 +48,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.PlatformContext
 import coil3.compose.LocalPlatformContext
 import de.kitshn.TestTagRepository
+import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.cache.ShoppingListCache
-import de.kitshn.cache.ShoppingListEntriesCache
-import de.kitshn.cache.ShoppingListEntryOfflineActions
 import de.kitshn.cache.ShoppingSupermarketCache
 import de.kitshn.handleTandoorRequestState
 import de.kitshn.model.route.GroupDividerShoppingListItemModel
@@ -99,16 +99,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
+private const val BULK_HAPTIC_TICK_CAP = 4
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun RouteMainSubrouteShopping(
     p: RouteParameters,
     platformContext: PlatformContext = LocalPlatformContext.current,
-    cache: ShoppingListEntriesCache = remember {
-        ShoppingListEntriesCache(
-            platformContext, p.vm.tandoorClient!!
-        )
-    },
     supermarketCache: ShoppingSupermarketCache = remember {
         ShoppingSupermarketCache(
             platformContext, p.vm.tandoorClient!!
@@ -124,7 +121,6 @@ fun RouteMainSubrouteShopping(
     vm: ShoppingViewModel = viewModel {
         ShoppingViewModel(
             p = p,
-            cache = cache,
             additionalShoppingSettingsChipRowState = additionalShoppingSettingsChipRowState
         )
     }
@@ -154,6 +150,7 @@ fun RouteMainSubrouteShopping(
         p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
 
     val client = p.vm.tandoorClient
+    val shoppingRepo = p.vm.shoppingRepo
 
     // update shopping list entries
     LaunchedEffect(client) {
@@ -174,30 +171,47 @@ fun RouteMainSubrouteShopping(
         vm.renderItems()
     }
 
+    // Delay skeletons so a fast load doesn't flicker them in and out.
+    var showSkeletons by remember { mutableStateOf(false) }
+    LaunchedEffect(vm.loaded) {
+        if(vm.loaded) {
+            showSkeletons = false
+        } else {
+            delay(200)
+            showSkeletons = true
+        }
+    }
+
     val allowDoubleClickCheck by p.vm.settings.getShoppingItemDoubleClickCheck.collectAsState(true)
     fun checkEntries(entries: List<TandoorShoppingListEntry>) {
-        if(p.vm.uiState.offlineState.isOffline) {
-            if(entries.all { entry -> entry.checked }) {
-                vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.UNCHECK)
-            } else {
-                vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.CHECK)
+        val allChecked = entries.all { it.checked }
+        coroutineScope.launch {
+            actionRequestState.wrapRequest {
+                shoppingRepo.toggleCheckBulk(entries.map { it.id }, checked = !allChecked)
             }
-
             hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
-        } else {
-            coroutineScope.launch {
-                actionRequestState.wrapRequest {
-                    if(entries.all { entry -> entry.checked }) {
-                        client?.shopping?.uncheck(entries)
-                    } else {
-                        client?.shopping?.check(entries)
-                    }
+        }
+    }
 
-                    vm.renderItems()
-                    vm.update()
-                }
+    suspend fun pulseBulkHaptic(count: Int) {
+        repeat(count.coerceAtMost(BULK_HAPTIC_TICK_CAP)) {
+            hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
+            delay(25)
+        }
+    }
 
-                hapticFeedback.handleTandoorRequestState(actionRequestState)
+    fun runSelectionAction(
+        requestState: TandoorRequestState,
+        action: suspend (entryIds: List<Int>) -> Unit,
+    ) {
+        coroutineScope.launch {
+            requestState.wrapRequest {
+                val ids = selectionModeState.selectedItems
+                    .flatMap { id -> vm.entries.filter { it.food.id == id } }
+                    .map { it.id }
+                action(ids)
+                pulseBulkHaptic(ids.size)
+                selectionModeState.disable()
             }
         }
     }
@@ -215,24 +229,8 @@ fun RouteMainSubrouteShopping(
                 actions = {
                     IconButton(
                         onClick = {
-                            coroutineScope.launch {
-                                entriesCheckRequestState.wrapRequest {
-                                    selectionModeState.selectedItems
-                                        .flatMap { id -> vm.entries.filter { it.food.id == id } }
-                                        .let {
-                                            client!!.shopping.check(it)
-
-                                            repeat(it.size) {
-                                                hapticFeedback.performHapticFeedback(
-                                                    HapticFeedbackType.SegmentTick
-                                                )
-                                                delay(25)
-                                            }
-                                        }
-
-                                    vm.renderItems()
-                                    selectionModeState.disable()
-                                }
+                            runSelectionAction(entriesCheckRequestState) { ids ->
+                                shoppingRepo.toggleCheckBulk(ids, checked = true)
                             }
                         }
                     ) {
@@ -245,24 +243,8 @@ fun RouteMainSubrouteShopping(
 
                     IconButton(
                         onClick = {
-                            coroutineScope.launch {
-                                entriesDeleteRequestState.wrapRequest {
-                                    selectionModeState.selectedItems
-                                        .flatMap { id -> vm.entries.filter { it.food.id == id } }
-                                        .let {
-                                            client!!.shopping.delete(it)
-
-                                            repeat(it.size) {
-                                                hapticFeedback.performHapticFeedback(
-                                                    HapticFeedbackType.SegmentTick
-                                                )
-                                                delay(25)
-                                            }
-                                        }
-
-                                    vm.renderItems()
-                                    selectionModeState.disable()
-                                }
+                            runSelectionAction(entriesDeleteRequestState) { ids ->
+                                shoppingRepo.deleteBulk(ids)
                             }
                         }
                     ) {
@@ -295,85 +277,101 @@ fun RouteMainSubrouteShopping(
                 LoadingGradientWrapper(
                     loadingState = if(vm.loaded) ErrorLoadingSuccessState.SUCCESS else ErrorLoadingSuccessState.LOADING
                 ) {
-                    if(vm.items.isEmpty() && vm.loaded) {
-                        FullSizeAlertPane(
-                            imageVector = Icons.Rounded.RemoveShoppingCart,
-                            contentDescription = stringResource(Res.string.shopping_list_empty),
-                            text = stringResource(Res.string.shopping_list_empty)
-                        )
-                    } else {
-                        LazyColumn(
-                            Modifier
-                                .fillMaxSize()
-                                .then(
-                                    if (vm.loaded) { // Prevent scrolling if content has not loaded
-                                        Modifier.floatingToolbarVerticalNestedScroll(
-                                            expanded = expandedToolbar,
-                                            onExpand = { expandedToolbar = true },
-                                            onCollapse = { expandedToolbar = false }
-                                        )
-                                    } else {
-                                        Modifier
-                                    }
-                                )
-                                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                        ) {
-                            if(!vm.loaded) {
-                                item { ShoppingListGroupHeaderListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                                item {
-                                    HorizontalDivider(
-                                        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                    PullToRefreshBox(
+                        isRefreshing = vm.isRefreshing,
+                        onRefresh = {
+                            coroutineScope.launch {
+                                vm.interactiveSync(force = true)
+                            }
+                        },
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        if(vm.items.isEmpty() && vm.loaded) {
+                            FullSizeAlertPane(
+                                imageVector = Icons.Rounded.RemoveShoppingCart,
+                                contentDescription = stringResource(Res.string.shopping_list_empty),
+                                text = stringResource(Res.string.shopping_list_empty)
+                            )
+                        } else {
+                            LazyColumn(
+                                Modifier
+                                    .fillMaxSize()
+                                    .then(
+                                        if (vm.loaded) { // Prevent scrolling if content has not loaded
+                                            Modifier.floatingToolbarVerticalNestedScroll(
+                                                expanded = expandedToolbar,
+                                                onExpand = { expandedToolbar = true },
+                                                onCollapse = { expandedToolbar = false }
+                                            )
+                                        } else {
+                                            Modifier
+                                        }
                                     )
-                                }
-                                item { ShoppingListGroupHeaderListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                                item { ShoppingListEntryListItemPlaceholder() }
-                            } else {
-                                items(vm.items.size, key = { vm.items[it].key }) {
-                                    when(val item = vm.items[it]) {
-                                        is GroupHeaderShoppingListItemModel -> {
-                                            ShoppingListGroupHeaderListItem(
-                                                label = { item.label }
-                                            )
-                                        }
-
-                                        is GroupedFoodShoppingListItemModel -> {
-                                            ShoppingListEntryListItem(
-                                                food = item.food,
-                                                entries = item.entries,
-                                                showFractionalValues = ingredientsShowFractionalValues.value,
-                                                selectionState = selectionModeState,
-                                                onClick = {
-                                                    shoppingListEntryDetailsBottomSheetState.open(
-                                                        item.entries
-                                                    )
-                                                },
-                                                onClickExpand = {
-                                                    shoppingListEntryDetailsBottomSheetState.open(
-                                                        item.entries
-                                                    )
-                                                },
-                                                onDoubleClick = {
-                                                    if (allowDoubleClickCheck) {
-                                                        checkEntries(item.entries)
-                                                    }
-                                                }
-                                            )
-                                        }
-
-                                        is GroupDividerShoppingListItemModel -> {
+                                    .nestedScroll(scrollBehavior.nestedScrollConnection)
+                            ) {
+                                if(!vm.loaded) {
+                                    if(showSkeletons) {
+                                        item { ShoppingListGroupHeaderListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                        item {
                                             HorizontalDivider(
-                                                modifier = Modifier.padding(
-                                                    start = 16.dp,
-                                                    end = 16.dp
-                                                )
+                                                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
                                             )
                                         }
+                                        item { ShoppingListGroupHeaderListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                        item { ShoppingListEntryListItemPlaceholder() }
+                                    }
+                                } else {
+                                    items(vm.items.size, key = { vm.items[it].key }) { index ->
+                                        val itemContent: @Composable () -> Unit = {
+                                            when(val item = vm.items[index]) {
+                                                is GroupHeaderShoppingListItemModel -> {
+                                                    ShoppingListGroupHeaderListItem(
+                                                        label = { item.label }
+                                                    )
+                                                }
+
+                                                is GroupedFoodShoppingListItemModel -> {
+                                                    ShoppingListEntryListItem(
+                                                        food = item.food,
+                                                        entries = item.entries,
+                                                        showFractionalValues = ingredientsShowFractionalValues.value,
+                                                        selectionState = selectionModeState,
+                                                        onClick = {
+                                                            shoppingListEntryDetailsBottomSheetState.open(
+                                                                item.entries
+                                                            )
+                                                        },
+                                                        onClickExpand = {
+                                                            shoppingListEntryDetailsBottomSheetState.open(
+                                                                item.entries
+                                                            )
+                                                        },
+                                                        onDoubleClick = {
+                                                            if (allowDoubleClickCheck) {
+                                                                checkEntries(item.entries)
+                                                            }
+                                                        }
+                                                    )
+                                                }
+
+                                                is GroupDividerShoppingListItemModel -> {
+                                                    HorizontalDivider(
+                                                        modifier = Modifier.padding(
+                                                            start = 16.dp,
+                                                            end = 16.dp
+                                                        )
+                                                    )
+                                                }
+                                            }
+                                        }
+
+                                        itemContent()
                                     }
                                 }
                             }
@@ -441,17 +439,11 @@ fun RouteMainSubrouteShopping(
             onClear = { onlyDoneEntries ->
                 coroutineScope.launch {
                     entriesClearRequestState.wrapRequest {
-                        val entries = client.shopping.fetchAll().toMutableList()
-                        if (onlyDoneEntries) entries.removeIf { !it.checked }
-
-                        client.shopping.delete(entries)
-                        repeat(entries.size) {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
-                            delay(25)
+                        val sizeBefore = vm.entries.count {
+                            if (onlyDoneEntries) it.checked else true
                         }
-
-                        vm.renderItems()
-                        vm.update()
+                        shoppingRepo.deleteAll(onlyChecked = onlyDoneEntries)
+                        pulseBulkHaptic(sizeBefore)
                     }
                 }
             }
@@ -463,7 +455,6 @@ fun RouteMainSubrouteShopping(
                 back = p.onBack
             ),
             state = mealPlanDetailsDialogState,
-            // not needed
             onUpdateList = { },
             onEdit = { }
         )
@@ -477,15 +468,9 @@ fun RouteMainSubrouteShopping(
         )
 
         ShoppingListEntryCreationDialog(
-            client = it,
             state = shoppingListEntryCreationDialogState,
             shoppingLists = additionalShoppingSettingsChipRowState.shoppingLists,
-            onUpdate = { entry ->
-                coroutineScope.launch {
-                    vm.entries.add(entry)
-                    vm.renderItems()
-                }
-            }
+            onUpdate = {}
         )
 
         ShoppingListEntryDetailsBottomSheet(
@@ -497,33 +482,23 @@ fun RouteMainSubrouteShopping(
                 checkEntries(entries)
             },
             onDelete = { entries ->
-                if(p.vm.uiState.offlineState.isOffline) {
-                    vm.executeOfflineAction(entries, ShoppingListEntryOfflineActions.DELETE)
-                    hapticFeedback.performHapticFeedback(HapticFeedbackType.SegmentTick)
-                    return@ShoppingListEntryDetailsBottomSheet
-                }
-
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
-                        client.shopping.delete(entries)
-                        vm.renderItems()
+                        shoppingRepo.deleteBulk(entries.map { e -> e.id })
                     }
-
                     hapticFeedback.handleTandoorRequestState(actionRequestState)
                 }
             },
             onChangeAmount = { entry, amount ->
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
-                        val newEntry = entry.partialUpdate(
+                        val newEntry = shoppingRepo.updatePartial(
+                            entryId = entry.id,
                             amount = amount
-                        )
+                        ) ?: return@wrapRequest
 
-                        shoppingListEntryDetailsBottomSheetState.entries[shoppingListEntryDetailsBottomSheetState.entries.indexOf(
-                            entry
-                        )] = newEntry
-                        vm.entries[vm.entries.indexOf(entry)] = newEntry
-                        vm.renderItems()
+                        val idx = shoppingListEntryDetailsBottomSheetState.entries.indexOf(entry)
+                        if (idx >= 0) shoppingListEntryDetailsBottomSheetState.entries[idx] = newEntry
                     }
                 }
             },

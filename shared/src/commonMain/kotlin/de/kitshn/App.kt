@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,16 +23,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
-import coil3.compose.LocalPlatformContext
-import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
-import de.kitshn.cache.ShoppingListEntriesCache
 import de.kitshn.ui.route.navigation.PrimaryNavigation
 import de.kitshn.ui.theme.KitshnTheme
 import de.kitshn.ui.theme.custom.AvailableColorSchemes
 import kotlinx.coroutines.delay
-
-private val SavedTandoorClient = mutableStateOf<TandoorClient?>(null)
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun App(
@@ -52,26 +48,22 @@ fun App(
      */
     onLaunched: () -> Unit = { }
 ) {
-    val vm = remember {
-        KitshnViewModel(
-            defaultTandoorClient = SavedTandoorClient.value,
-            onBeforeCredentialsCheck = onBeforeCredentialsCheck,
-            onLaunched = onLaunched
-        ).also { onVmCreated(it) }
+    val vm: KitshnViewModel = koinViewModel {
+        parametersOf(
+            KitshnViewModelArgs(
+                onBeforeCredentialsCheck = onBeforeCredentialsCheck,
+                onLaunched = onLaunched
+            )
+        )
     }
+    remember(vm) { vm.also { onVmCreated(it) } }
 
     val density = LocalDensity.current
-
-    DisposableEffect(key1 = Unit) {
-        onDispose {
-            SavedTandoorClient.value = vm.tandoorClient
-        }
-    }
 
     val colorSchemeName = vm.settings.getColorScheme.collectAsState(initial = null)
     var colorScheme by remember { mutableStateOf(AvailableColorSchemes.getDefault()) }
     LaunchedEffect(colorSchemeName.value) {
-        if(colorSchemeName.value == null) return@LaunchedEffect
+        if (colorSchemeName.value == null) return@LaunchedEffect
         AvailableColorSchemes.parse(colorSchemeName.value!!)?.let { colorScheme = it }
     }
 
@@ -79,7 +71,7 @@ fun App(
         vm.settings.getCustomColorSchemeSeed.collectAsState(initial = null)
     var customColorSchemeSeed by remember { mutableStateOf(Color.Yellow) }
     LaunchedEffect(customColorSchemeSeedInt.value) {
-        if(customColorSchemeSeedInt.value == null) return@LaunchedEffect
+        if (customColorSchemeSeedInt.value == null) return@LaunchedEffect
         customColorSchemeSeed = Color(customColorSchemeSeedInt.value!!)
     }
 
@@ -88,11 +80,11 @@ fun App(
 
     val alphaAnim = Animatable(1f)
     LaunchedEffect(vm.uiState.blockUI) {
-        alphaAnim.animateTo(if(vm.uiState.blockUI) 0f else 1f, tween(200))
+        alphaAnim.animateTo(if (vm.uiState.blockUI) 0f else 1f, tween(200))
     }
 
     KitshnTheme(
-        darkTheme = if(systemTheme.value) isSystemInDarkTheme() else darkMode.value,
+        darkTheme = if (systemTheme.value) isSystemInDarkTheme() else darkMode.value,
         customColorSchemeSeed = customColorSchemeSeed,
         colorScheme = colorScheme
     ) {
@@ -100,11 +92,11 @@ fun App(
             Modifier.fillMaxSize()
                 .alpha(alphaAnim.value)
         ) {
-            if(alphaAnim.value > 0f) PrimaryNavigation(vm = vm)
+            if (alphaAnim.value > 0f) PrimaryNavigation(vm = vm)
 
             Box {
                 // display offline bar
-                if(vm.uiState.offlineState.isOffline) Box(
+                if (vm.uiState.offlineState.isOffline) Box(
                     modifier = Modifier
                         .height(with(density) {
                             WindowInsets.statusBars.getTop(density).toDp()
@@ -119,21 +111,18 @@ fun App(
     LaunchedEffect(Unit) {
         vm.init()
 
-        while(true) {
+        while (true) {
             delay(8000)
             vm.connectivityCheck()
         }
     }
 
-    // purge shopping list cache
-    if(vm.tandoorClient == null) return
+    LaunchedEffect(vm.tandoorClient) {
+        if (vm.tandoorClient != null) {
+            vm.sync()
 
-    val platformContext = LocalPlatformContext.current
-    val shoppingListEntriesCache = remember {
-        ShoppingListEntriesCache(platformContext, vm.tandoorClient!!)
-    }
-
-    LaunchedEffect(Unit) {
-        shoppingListEntriesCache.purgeCache()
+            // already debounces by itself
+            vm.reconcile()
+        }
     }
 }

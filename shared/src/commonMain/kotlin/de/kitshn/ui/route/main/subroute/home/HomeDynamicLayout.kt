@@ -27,7 +27,6 @@ import coil3.compose.LocalPlatformContext
 import de.kitshn.android.homepage.builder.HomePageBuilder
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
-import de.kitshn.cache.FoodNameIdMapCache
 import de.kitshn.cache.KeywordNameIdMapCache
 import de.kitshn.homepage.builder.HomePageSectionEnum
 import de.kitshn.homepage.model.HomePage
@@ -48,7 +47,9 @@ import de.kitshn.ui.state.rememberForeverScrollState
 import de.kitshn.ui.view.recipe.details.RecipeServingsAmountSaveMap
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_show_all_recipes
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -89,22 +90,23 @@ fun HomeDynamicLayout(
         if(homePage != null) return@LaunchedEffect
 
         val keywordNameIdMapCache = KeywordNameIdMapCache(context, p.vm.tandoorClient!!)
-        val foodNameIdMapCache = FoodNameIdMapCache(context, p.vm.tandoorClient!!)
 
-        // retrieve keywords and foods to map names to ids
         TandoorRequestState().wrapRequest {
-            if(!keywordNameIdMapCache.isValid()) keywordNameIdMapCache.update(coroutineScope)
-            if(!foodNameIdMapCache.isValid()) foodNameIdMapCache.update(coroutineScope)
+            withContext(Dispatchers.Default) {
+                if(!keywordNameIdMapCache.isValid()) keywordNameIdMapCache.update(coroutineScope)
+            }
         }
 
         if(p.vm.isTest) {
             TandoorRequestState().wrapRequest {
                 val section = HomePageSectionEnum.NEW.toHomePageSection(
                     keywordNameIdMapCache = keywordNameIdMapCache,
-                    foodNameIdMapCache = foodNameIdMapCache
+                    foodRepo = p.vm.foodRepo
                 )
 
-                section.populate(client = p.vm.tandoorClient!!)
+                withContext(Dispatchers.Default) {
+                    section.populate(client = p.vm.tandoorClient!!)
+                }
 
                 homePage = HomePage(
                     sections = mutableListOf(section, section),
@@ -119,7 +121,9 @@ fun HomeDynamicLayout(
                 val requestState = TandoorRequestState()
                 requestState.wrapRequest {
                     homePage = this.homePage
-                    build(keywordNameIdMapCache, foodNameIdMapCache)
+                    withContext(Dispatchers.Default) {
+                        build(keywordNameIdMapCache, p.vm.foodRepo)
+                    }
 
                     pageLoadingState = ErrorLoadingSuccessState.SUCCESS
                 }

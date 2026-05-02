@@ -26,17 +26,15 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
-import de.kitshn.api.tandoor.TandoorClient
-import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.model.TandoorFood
-import de.kitshn.api.tandoor.rememberTandoorRequestState
-import de.kitshn.ui.TandoorRequestErrorHandler
-import kotlinx.coroutines.delay
+import de.kitshn.repo.FoodRepo
+import org.koin.compose.koinInject
+
+private const val DROPDOWN_RESULT_LIMIT = 3
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseFoodSearchField(
-    client: TandoorClient,
     modifier: Modifier = Modifier,
     dropdownMenuModifier: Modifier = Modifier,
     value: String?,
@@ -48,6 +46,8 @@ fun BaseFoodSearchField(
         onValueChange: (value: String) -> Unit
     ) -> Unit
 ) {
+    val foodRepo = koinInject<FoodRepo>()
+
     var isExpanded by remember { mutableStateOf(false) }
 
     var searchText by rememberSaveable { mutableStateOf("") }
@@ -55,26 +55,14 @@ fun BaseFoodSearchField(
 
     val foodList = remember { mutableStateListOf<TandoorFood>() }
 
-    val searchRequestState = rememberTandoorRequestState()
-    LaunchedEffect(searchText) {
+    LaunchedEffect(searchText, fromDropdown) {
         foodList.clear()
-        if(searchText.isEmpty()) return@LaunchedEffect
-        if(fromDropdown) return@LaunchedEffect
+        if (searchText.isEmpty() || fromDropdown) return@LaunchedEffect
 
-        delay(300)
-
-        searchRequestState.wrapRequest {
-            TandoorRequestState().wrapRequest {
-                client.food.list(
-                    query = searchText,
-                    pageSize = 3
-                ).results.let {
-                    foodList.clear()
-                    foodList.addAll(it)
-
-                    isExpanded = true
-                }
-            }
+        foodRepo.search(searchText).collect { results ->
+            foodList.clear()
+            foodList.addAll(results.take(DROPDOWN_RESULT_LIMIT))
+            if (foodList.isNotEmpty()) isExpanded = true
         }
     }
 
@@ -117,13 +105,10 @@ fun BaseFoodSearchField(
             }
         }
     }
-
-    TandoorRequestErrorHandler(state = searchRequestState)
 }
 
 @Composable
 fun OutlinedFoodSearchField(
-    client: TandoorClient,
     value: String?,
     onValueChange: (String?) -> Unit,
     onSelect: () -> Unit,
@@ -144,7 +129,6 @@ fun OutlinedFoodSearchField(
     shape: Shape = OutlinedTextFieldDefaults.shape,
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors()
 ) = BaseFoodSearchField(
-    client = client,
     modifier = modifier,
     onSelect = onSelect,
     dropdownMenuModifier = dropdownMenuModifier,
@@ -177,7 +161,6 @@ fun OutlinedFoodSearchField(
 
 @Composable
 fun FoodSearchField(
-    client: TandoorClient,
     value: String?,
     onValueChange: (String?) -> Unit,
     onSelect: () -> Unit,
@@ -198,7 +181,6 @@ fun FoodSearchField(
     shape: Shape = TextFieldDefaults.shape,
     colors: TextFieldColors = TextFieldDefaults.colors()
 ) = BaseFoodSearchField(
-    client = client,
     modifier = modifier,
     onSelect = onSelect,
     dropdownMenuModifier = dropdownMenuModifier,

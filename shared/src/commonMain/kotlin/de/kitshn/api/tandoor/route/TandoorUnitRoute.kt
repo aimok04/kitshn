@@ -35,7 +35,7 @@ class TandoorUnitRoute(client: TandoorClient) : TandoorBaseRoute(client) {
     suspend fun list(
         query: String? = null,
         page: Int = 1,
-        pageSize: Int?
+        pageSize: Int? = null
     ): TandoorUnitRouteListResponse {
         val builder = Uri.Builder().appendEncodedPath("unit/")
         if(query != null) builder.appendQueryParameter("query", query)
@@ -54,9 +54,26 @@ class TandoorUnitRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return response
     }
 
-    suspend fun retrieve(): TandoorUnitRouteListResponse {
-        return list(
-            pageSize = 10000000
+    suspend fun retrieve(
+        onPageReceived: (suspend (List<TandoorUnit>) -> Unit)? = null
+    ): TandoorUnitRouteListResponse {
+        var page = 1
+        val firstResponse = list(page = page, pageSize = 200)
+        val allResults = firstResponse.results.toMutableList()
+        onPageReceived?.invoke(firstResponse.results)
+
+        var currentResponse = firstResponse
+        while (currentResponse.next != null) {
+            page++
+            currentResponse = list(page = page, pageSize = 200)
+            allResults.addAll(currentResponse.results)
+            onPageReceived?.invoke(currentResponse.results)
+        }
+
+        return firstResponse.copy(
+            results = allResults,
+            next = null,
+            count = allResults.size
         )
     }
 
