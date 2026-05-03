@@ -109,3 +109,9 @@ actual fun closeAppHandler(): () -> Unit {
         exitProcess(0)
     }
 }
+
+actual val Throwable.isTlsException: Boolean
+    get() =
+        generateSequence(this) { it.cause }.any {
+            it is javax.net.ssl.SSLException || it is java.security.cert.CertificateException
+        }

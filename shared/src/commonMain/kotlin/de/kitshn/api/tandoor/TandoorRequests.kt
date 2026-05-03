@@ -27,7 +27,7 @@ class TandoorRequestsError(
     val response: HttpResponse?,
     private val additionalText: String = "",
     val overrideMessage: String? = null
-) : Exception() {
+) : Exception(throwable) {
     override val message: String
         get() = overrideMessage ?: ((
                 throwable?.message

@@ -488,3 +488,5 @@ expect fun closeAppHandler(): () -> Unit
 fun String.extractUrl(delimiters: String = " ") = this
     .split(delimiters)
     .firstOrNull { it.startsWith("http://") || it.startsWith("https://") }
+
+expect val Throwable.isTlsException: Boolean

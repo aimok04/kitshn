@@ -95,7 +95,7 @@ actual fun launchTimerHandler(
     }
 
     return handler@{ fromSeconds, toSeconds, name ->
-        if(fromSeconds == toSeconds) {
+        if (fromSeconds == toSeconds) {
             startTimer(fromSeconds)
             return@handler
         }
@@ -147,3 +147,10 @@ fun LocalDate.toNSDate(): NSDate {
     val referenceDateDays = this.toEpochDays() - 31 * 365 - 8
     return NSDate((referenceDateDays * 24 * 60 * 60).toDouble())
 }
+
+// TODO: This should be done differently somehow
+actual val Throwable.isTlsException: Boolean
+    get() = generateSequence(this) { it.cause }.any {
+        val name = it::class.simpleName.orEmpty()
+        name.contains("SSL") || name.contains("TLS")
+    }
