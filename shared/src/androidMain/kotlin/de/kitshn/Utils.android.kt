@@ -30,7 +30,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 tailrec fun Context.getActivityWindow(): Window? =
-    when(this) {
+    when (this) {
         is Activity -> window
         is ContextWrapper -> baseContext.getActivityWindow()
         else -> null
@@ -82,7 +82,7 @@ actual fun launchMarketPageHandler(): () -> Unit {
                         Uri.parse("market://details?id=$packageName")
                     )
                 )
-            } catch(e: ActivityNotFoundException) {
+            } catch (e: ActivityNotFoundException) {
                 startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
@@ -130,7 +130,7 @@ actual fun launchTimerHandler(
                     getString(Res.string.recipe_step_timer_created), Toast.LENGTH_SHORT
                 ).show()
             }
-        } catch(e: ActivityNotFoundException) {
+        } catch (e: ActivityNotFoundException) {
             Logger.e("Utils.android.kt", e)
 
             coroutineScope.launch {
@@ -143,7 +143,7 @@ actual fun launchTimerHandler(
     }
 
     return handler@{ fromSeconds, toSeconds, name ->
-        if(fromSeconds == toSeconds) {
+        if (fromSeconds == toSeconds) {
             startTimer(fromSeconds, name)
             return@handler
         }
@@ -188,3 +188,9 @@ actual fun closeAppHandler(): () -> Unit {
         (context as? Activity)?.finish()
     }
 }
+
+actual val Throwable.isTlsException: Boolean
+    get() =
+        generateSequence(this) { it.cause }.any {
+            it is javax.net.ssl.SSLException || it is java.security.cert.CertificateException
+        }
