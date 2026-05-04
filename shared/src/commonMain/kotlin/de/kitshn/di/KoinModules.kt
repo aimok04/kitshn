@@ -5,7 +5,9 @@ import de.kitshn.KitshnViewModelArgs
 import de.kitshn.SettingsViewModel
 import de.kitshn.repo.FoodRepo
 import de.kitshn.repo.ShoppingListRepo
+import de.kitshn.repo.HouseholdRepo
 import de.kitshn.repo.ShoppingRepo
+import de.kitshn.repo.SpaceRepo
 import de.kitshn.repo.SupermarketCategoryRepo
 import de.kitshn.repo.SupermarketRepo
 import de.kitshn.repo.UnitRepo
@@ -89,6 +91,17 @@ private val repositoryModule = module {
             supermarketCategoryRepo = get(),
             session = get(),
             scope = get(APPLICATION_SCOPE_QUALIFIER),
+        )
+    }
+    single {
+        SpaceRepo(
+            session = get(),
+        )
+    }
+
+    single {
+        HouseholdRepo(
+            session = get(),
         )
     }
 }
