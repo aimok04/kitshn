@@ -54,11 +54,11 @@ import de.kitshn.ui.dialog.recipe.creationandedit.rememberRecipeEditDialogState
 import de.kitshn.ui.dialog.recipe.import.RecipeImportAIDialog
 import de.kitshn.ui.dialog.recipe.import.RecipeImportSocialMediaDialog
 import de.kitshn.ui.dialog.recipe.import.RecipeCreationType
-import de.kitshn.ui.dialog.recipe.import.RecipeCreationTypeBottomSheet
+import de.kitshn.ui.dialog.recipe.import.RecipeCreationTypePicker
 import de.kitshn.ui.dialog.recipe.import.RecipeImportUrlDialog
 import de.kitshn.ui.dialog.recipe.import.rememberRecipeImportAIDialogState
 import de.kitshn.ui.dialog.recipe.import.rememberRecipeImportSocialMediaDialogState
-import de.kitshn.ui.dialog.recipe.import.rememberRecipeCreationTypeBottomSheetState
+import de.kitshn.ui.dialog.recipe.import.rememberRecipeCreationTypePickerState
 import de.kitshn.ui.dialog.recipe.import.rememberRecipeImportUrlDialogState
 import de.kitshn.ui.layout.KitshnRecipeListRecipeDetailPaneScaffold
 import de.kitshn.ui.route.RouteParameters
@@ -67,7 +67,7 @@ import de.kitshn.ui.selectionMode.rememberSelectionModeState
 import de.kitshn.ui.view.home.search.HomeSearchTopBar
 import de.kitshn.ui.component.search.rememberGlobalRecipeSearchState
 import kitshn.shared.generated.resources.Res
-import kitshn.shared.generated.resources.action_add_or_import
+import kitshn.shared.generated.resources.action_add_or_import_recipe
 import kitshn.shared.generated.resources.action_remove
 import kitshn.shared.generated.resources.common_sorting
 import kotlinx.coroutines.delay
@@ -97,7 +97,7 @@ fun RouteMainSubrouteHome(
         homeSearchState.openWithCreatedById(p.vm.tandoorClient!!, it)
     }
 
-    val recipeCreationTypeBottomSheetState = rememberRecipeCreationTypeBottomSheetState()
+    val recipeCreationTypePickerState = rememberRecipeCreationTypePickerState()
 
     val recipeImportUrlDialogState =
         rememberRecipeImportUrlDialogState(key = "RouteMainSubrouteHome/recipeImportDialogState")
@@ -172,10 +172,10 @@ fun RouteMainSubrouteHome(
                             FloatingToolbarDefaults.StandardFloatingActionButton(
                                 modifier = Modifier.testTag(TestTagRepository.ACTION_ADD.name),
                                 onClick = {
-                                    recipeCreationTypeBottomSheetState.open()
+                                    recipeCreationTypePickerState.open()
                                 }
                             ) {
-                                Icon(Icons.Rounded.Add, stringResource(Res.string.action_add_or_import))
+                                Icon(Icons.Rounded.Add, stringResource(Res.string.action_add_or_import_recipe))
                             }
                         }
                     )
@@ -269,9 +269,9 @@ fun RouteMainSubrouteHome(
         )
     }
 
-    RecipeCreationTypeBottomSheet(
+    RecipeCreationTypePicker(
         client = p.vm.tandoorClient!!,
-        state = recipeCreationTypeBottomSheetState,
+        state = recipeCreationTypePickerState,
         onSelect = {
             when(it) {
                 RecipeCreationType.MANUAL -> recipeCreationDialogState.open()

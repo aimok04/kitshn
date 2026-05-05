@@ -10,7 +10,7 @@
 
     <string name="action_abort">Abort</string>
     <string name="action_add">Add</string>
-    <string name="action_add_or_import">Add or import</string>
+    <string name="action_add_or_import_recipe">Add or import recipe</string>
     <string name="action_add_ingredient">Add ingredient</string>
     <string name="action_add_to_favorites">Add to favorites</string>
     <string name="action_add_to_meal_plan">Add to meal plan</string>
