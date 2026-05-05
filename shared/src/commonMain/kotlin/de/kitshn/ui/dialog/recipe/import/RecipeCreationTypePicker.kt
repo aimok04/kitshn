@@ -19,6 +19,7 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -30,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 import androidx.window.core.layout.WindowWidthSizeClass
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestState
@@ -126,9 +128,10 @@ fun RecipeCreationTypePicker(
         state.dismiss()
     }
 
-    val isCompact = currentWindowAdaptiveInfo()
-        .windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT
-
+    val isCompact = !currentWindowAdaptiveInfoV2()
+        .windowSizeClass
+        .isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND)
+    
     if (isCompact) {
         ModalBottomSheet(
             onDismissRequest = state::dismiss
