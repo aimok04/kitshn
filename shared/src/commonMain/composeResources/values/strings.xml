@@ -10,6 +10,7 @@
 
     <string name="action_abort">Abort</string>
     <string name="action_add">Add</string>
+    <string name="action_add_or_import">Add or import</string>
     <string name="action_add_ingredient">Add ingredient</string>
     <string name="action_add_to_favorites">Add to favorites</string>
     <string name="action_add_to_meal_plan">Add to meal plan</string>
@@ -333,13 +334,15 @@
     <string name="recipe_import_auto_sort_ingredients_description">Assign ingredient if step text includes ingredient name</string>
     <string name="recipe_import_divide_steps">Divide steps</string>
     <string name="recipe_import_divide_steps_description">Divide steps by line breaks</string>
-    <string name="recipe_import_type_ai_label">Import with AI</string>
-    <string name="recipe_import_type_ai_description">Upload images or enter a recipe in text form</string>
+    <string name="recipe_import_type_ai_label">Create with AI</string>
+    <string name="recipe_import_type_ai_description">Upload images or enter a recipe in text form and let AI write it out for you.</string>
     <string name="recipe_import_type_social_media_label">Import from Social Media</string>
     <string name="recipe_import_type_social_media_description">Add recipes from Instagram or TikTok using AI</string>
     <string name="recipe_import_type_social_media_disclaimer">Currently, only Instagram and TikTok are actively supported. Other platforms may be supported as well.</string>
     <string name="recipe_import_type_url_label">Import from Website</string>
-    <string name="recipe_import_type_url_description">Enter an URL and import a recipe from the web</string>
+    <string name="recipe_import_type_url_description">Enter a URL and import a recipe from the web.</string>
+    <string name="recipe_import_type_manual_label">Create manually</string>
+    <string name="recipe_import_type_manual_description">Manually enter your own ingredients, steps, and details.</string>
     <string name="recipe_not_found">This recipe could not be found.</string>
     <string name="recipe_sorting_cooking_frequency">Cooking frequency</string>
     <string name="recipe_sorting_creation_date">Date of creation</string>

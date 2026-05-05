@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.Language
+import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -30,6 +31,8 @@ import de.kitshn.ui.component.settings.SettingsListItemPosition
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.recipe_import_type_ai_description
 import kitshn.shared.generated.resources.recipe_import_type_ai_label
+import kitshn.shared.generated.resources.recipe_import_type_manual_description
+import kitshn.shared.generated.resources.recipe_import_type_manual_label
 import kitshn.shared.generated.resources.recipe_import_type_social_media_description
 import kitshn.shared.generated.resources.recipe_import_type_social_media_label
 import kitshn.shared.generated.resources.recipe_import_type_url_description
@@ -37,12 +40,17 @@ import kitshn.shared.generated.resources.recipe_import_type_url_label
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-enum class RecipeImportType(
+enum class RecipeCreationType(
     val icon: ImageVector,
     val label: StringResource,
     val description: StringResource,
     val requiresAI: Boolean = false
 ) {
+    MANUAL(
+        icon = Icons.Rounded.Draw,
+        label = Res.string.recipe_import_type_manual_label,
+        description = Res.string.recipe_import_type_manual_description,
+    ),
     URL(
         icon = Icons.Rounded.Language,
         label = Res.string.recipe_import_type_url_label,
@@ -63,13 +71,13 @@ enum class RecipeImportType(
 }
 
 @Composable
-fun rememberRecipeImportTypeBottomSheetState(): RecipeImportTypeBottomSheetState {
+fun rememberRecipeCreationTypeBottomSheetState(): RecipeCreationTypeBottomSheetState {
     return remember {
-        RecipeImportTypeBottomSheetState()
+        RecipeCreationTypeBottomSheetState()
     }
 }
 
-class RecipeImportTypeBottomSheetState(
+class RecipeCreationTypeBottomSheetState(
     val shown: MutableState<Boolean> = mutableStateOf(false)
 ) {
     fun open() {
@@ -83,14 +91,14 @@ class RecipeImportTypeBottomSheetState(
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun RecipeImportTypeBottomSheet(
+fun RecipeCreationTypeBottomSheet(
     client: TandoorClient,
-    state: RecipeImportTypeBottomSheetState,
-    onSelect: (type: RecipeImportType) -> Unit
+    state: RecipeCreationTypeBottomSheetState,
+    onSelect: (type: RecipeCreationType) -> Unit
 ) {
     if(!state.shown.value) return
 
-    val types = remember { RecipeImportType.entries }
+    val types = remember { RecipeCreationType.entries }
 
     var aiEnabled by remember { mutableStateOf(false) }
     LaunchedEffect(client) {
@@ -118,8 +126,7 @@ fun RecipeImportTypeBottomSheet(
                         else -> Modifier
                     },
                     position = when(it) {
-                        0 -> SettingsListItemPosition.SINGULAR
-                        1 -> SettingsListItemPosition.TOP
+                        0 -> SettingsListItemPosition.TOP
                         types.size - 1 -> SettingsListItemPosition.BOTTOM
                         else -> SettingsListItemPosition.BETWEEN
                     },
