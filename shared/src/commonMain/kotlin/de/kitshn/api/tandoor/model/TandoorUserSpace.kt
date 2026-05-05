@@ -11,7 +11,7 @@ data class TandoorUserSpaceGroup(
 @Serializable
 data class TandoorUserSpace(
     val id: Int,
-    val household: TandoorHousehold,
+    val household: TandoorHousehold? = null,
     val groups: List<TandoorUserSpaceGroup> = emptyList(),
     val active: Boolean = false,
 )

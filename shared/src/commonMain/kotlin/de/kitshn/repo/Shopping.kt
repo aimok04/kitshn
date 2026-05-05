@@ -20,6 +20,9 @@ import de.kitshn.session.TandoorSession
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -49,6 +52,7 @@ class ShoppingRepo(
     private val unitRepo: UnitRepo,
     private val foodRepo: FoodRepo,
     private val supermarketCategoryRepo: SupermarketCategoryRepo,
+    private val householdRepo: HouseholdRepo,
     private val session: TandoorSession,
     private val scope: CoroutineScope,
     periodicInterval: Duration? = null,
@@ -63,6 +67,17 @@ class ShoppingRepo(
     init { datasetSize = DatasetSize.FEW }
 
     private val dao = db.shoppingDao()
+
+    init {
+        scope.launch {
+            householdRepo.current
+                .filterNotNull()
+                .map { it.id }
+                .distinctUntilChanged()
+                .drop(1)
+                .collect { sync(force = true) }
+        }
+    }
 
     fun observe(): Flow<List<TandoorShoppingListEntry>> =
         dao.getAllAsFlow().map { entries -> entries.mapNotNull { it.toModel() } }

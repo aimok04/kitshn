@@ -66,6 +66,14 @@ class TandoorRequestState {
         error = null
     }
 
+    fun isError(): Boolean {
+        return state == TandoorRequestStateState.ERROR
+    }
+
+    fun isSuccess(): Boolean {
+        return state == TandoorRequestStateState.SUCCESS
+    }
+
     @Composable
     fun LoadingStateAdapter(
         onChange: (state: ErrorLoadingSuccessState) -> Unit

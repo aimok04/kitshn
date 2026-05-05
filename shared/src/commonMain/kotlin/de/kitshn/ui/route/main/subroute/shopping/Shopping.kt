@@ -14,6 +14,7 @@ import androidx.compose.material.icons.rounded.CleaningServices
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.RemoveShoppingCart
 import androidx.compose.material.icons.rounded.Storefront
+import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -38,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,7 +59,7 @@ import de.kitshn.model.route.GroupDividerShoppingListItemModel
 import de.kitshn.model.route.GroupHeaderShoppingListItemModel
 import de.kitshn.model.route.GroupedFoodShoppingListItemModel
 import de.kitshn.model.route.ShoppingViewModel
-import de.kitshn.removeIf
+import de.kitshn.repo.HouseholdRepo
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.LoadingGradientWrapper
 import de.kitshn.ui.component.alert.FullSizeAlertPane
@@ -70,6 +72,7 @@ import de.kitshn.ui.component.model.shopping.ShoppingListGroupHeaderListItemPlac
 import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRow
 import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRowState
 import de.kitshn.ui.component.shopping.rememberAdditionalShoppingSettingsChipRowState
+import de.kitshn.ui.dialog.HouseholdSwitchPicker
 import de.kitshn.ui.dialog.mealplan.MealPlanDetailsDialog
 import de.kitshn.ui.dialog.mealplan.rememberMealPlanDetailsDialogState
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
@@ -91,11 +94,13 @@ import kitshn.shared.generated.resources.action_clear
 import kitshn.shared.generated.resources.action_delete
 import kitshn.shared.generated.resources.action_mark_as_done
 import kitshn.shared.generated.resources.action_start_shopping_mode
+import kitshn.shared.generated.resources.action_switch_household
 import kitshn.shared.generated.resources.navigation_shopping
 import kitshn.shared.generated.resources.shopping_list_empty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 private const val BULK_HAPTIC_TICK_CAP = 4
 
@@ -113,6 +118,7 @@ fun RouteMainSubrouteShopping(
     }
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val householdRepo = koinInject<HouseholdRepo>()
     val hapticFeedback = LocalHapticFeedback.current
 
     val mealPlanDetailsDialogState = rememberMealPlanDetailsDialogState()
@@ -136,15 +142,15 @@ fun RouteMainSubrouteShopping(
     val ingredientsShowFractionalValues =
         p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
 
+    var showHouseholdSwitchDialog by rememberSaveable { mutableStateOf(false) }
+
     val client = p.vm.tandoorClient
     val shoppingRepo = p.vm.shoppingRepo
 
     // update shopping list entries
     LaunchedEffect(client) {
-        if(client == null) return@LaunchedEffect
+        if (client == null) return@LaunchedEffect
 
-        // On open: bypass the reconcile interval so changes that landed while the
-        // view was closed surface immediately and queued offline txns get pushed.
         vm.interactiveSync(force = true)
 
         while(true) {
@@ -154,7 +160,7 @@ fun RouteMainSubrouteShopping(
     }
     var firstRun by remember { mutableStateOf(true) }
     LaunchedEffect(additionalShoppingSettingsChipRowState.updateState) {
-        if(firstRun) {
+        if (firstRun) {
             firstRun = false
             return@LaunchedEffect
         }
@@ -165,7 +171,7 @@ fun RouteMainSubrouteShopping(
     // Delay skeletons so a fast load doesn't flicker them in and out.
     var showSkeletons by remember { mutableStateOf(false) }
     LaunchedEffect(vm.loaded) {
-        if(vm.loaded) {
+        if (vm.loaded) {
             showSkeletons = false
         } else {
             delay(200)
@@ -256,7 +262,7 @@ fun RouteMainSubrouteShopping(
             Modifier.padding(pv)
         ) {
             Column {
-                if(client != null) AdditionalShoppingSettingsChipRow(
+                if (client != null) AdditionalShoppingSettingsChipRow(
                     vm = vm,
                     state = additionalShoppingSettingsChipRowState,
                 )
@@ -264,7 +270,7 @@ fun RouteMainSubrouteShopping(
                 HorizontalDivider()
 
                 LoadingGradientWrapper(
-                    loadingState = if(vm.loaded) ErrorLoadingSuccessState.SUCCESS else ErrorLoadingSuccessState.LOADING
+                    loadingState = if (vm.loaded) ErrorLoadingSuccessState.SUCCESS else ErrorLoadingSuccessState.LOADING
                 ) {
                     val pullState = rememberPullToRefreshState()
                     val isRefreshing by vm.isRefreshing.collectAsState()
@@ -281,7 +287,7 @@ fun RouteMainSubrouteShopping(
                         },
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        if(vm.items.isEmpty() && vm.loaded) {
+                        if (vm.items.isEmpty() && vm.loaded) {
                             FullSizeAlertPane(
                                 imageVector = Icons.Rounded.RemoveShoppingCart,
                                 contentDescription = stringResource(Res.string.shopping_list_empty),
@@ -304,8 +310,8 @@ fun RouteMainSubrouteShopping(
                                     )
                                     .nestedScroll(scrollBehavior.nestedScrollConnection)
                             ) {
-                                if(!vm.loaded) {
-                                    if(showSkeletons) {
+                                if (!vm.loaded) {
+                                    if (showSkeletons) {
                                         item { ShoppingListGroupHeaderListItemPlaceholder() }
                                         item { ShoppingListEntryListItemPlaceholder() }
                                         item { ShoppingListEntryListItemPlaceholder() }
@@ -313,7 +319,10 @@ fun RouteMainSubrouteShopping(
                                         item { ShoppingListEntryListItemPlaceholder() }
                                         item {
                                             HorizontalDivider(
-                                                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                                                modifier = Modifier.padding(
+                                                    start = 16.dp,
+                                                    end = 16.dp
+                                                )
                                             )
                                         }
                                         item { ShoppingListGroupHeaderListItemPlaceholder() }
@@ -324,7 +333,7 @@ fun RouteMainSubrouteShopping(
                                 } else {
                                     items(vm.items.size, key = { vm.items[it].key }) { index ->
                                         val itemContent: @Composable () -> Unit = {
-                                            when(val item = vm.items[index]) {
+                                            when (val item = vm.items[index]) {
                                                 is GroupHeaderShoppingListItemModel -> {
                                                     ShoppingListGroupHeaderListItem(
                                                         label = { item.label }
@@ -391,6 +400,14 @@ fun RouteMainSubrouteShopping(
                     .offset(x = -ScreenOffset, y = -ScreenOffset),
                 expanded = expandedToolbar,
                 content = {
+
+                    IconButton(onClick = { showHouseholdSwitchDialog = true }) {
+                        Icon(
+                            Icons.Rounded.SwapHoriz,
+                            stringResource(Res.string.action_switch_household)
+                        )
+                    }
+
                     IconButton(
                         onClick = {
                             p.vm.navHostController?.navigate("shopping/shoppingMode")
@@ -491,7 +508,8 @@ fun RouteMainSubrouteShopping(
                             ?: return@wrapRequest
 
                         val idx = shoppingListEntryDetailsBottomSheetState.entries.indexOf(entry)
-                        if (idx >= 0) shoppingListEntryDetailsBottomSheetState.entries[idx] = newEntry
+                        if (idx >= 0) shoppingListEntryDetailsBottomSheetState.entries[idx] =
+                            newEntry
                     }
                 }
             },
@@ -505,6 +523,12 @@ fun RouteMainSubrouteShopping(
                     vm.renderItems()
                 }
             }
+        )
+
+        if (showHouseholdSwitchDialog) HouseholdSwitchPicker(
+            repo = householdRepo,
+            onSwitched = {},
+            onDismiss = { showHouseholdSwitchDialog = false }
         )
     }
 

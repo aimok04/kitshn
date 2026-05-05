@@ -66,11 +66,17 @@ private val repositoryModule = module {
         )
     }
     single {
+        HouseholdRepo(
+            session = get(),
+        )
+    }
+    single {
         ShoppingRepo(
             db = get(),
             unitRepo = get(),
             foodRepo = get(),
             supermarketCategoryRepo = get(),
+            householdRepo = get(),
             session = get(),
             scope = get(APPLICATION_SCOPE_QUALIFIER),
             // Shopping can be used in parallel to other users -> keep refreshed
@@ -98,12 +104,6 @@ private val repositoryModule = module {
             session = get(),
         )
     }
-
-    single {
-        HouseholdRepo(
-            session = get(),
-        )
-    }
 }
 
 private val viewModelModule = module {
@@ -118,6 +118,7 @@ private val viewModelModule = module {
             shoppingRepo = get(),
             shoppingListRepo = get(),
             supermarketRepo = get(),
+            householdRepo = get(),
             applicationScope = get(APPLICATION_SCOPE_QUALIFIER),
             onBeforeCredentialsCheck = args.onBeforeCredentialsCheck,
             onLaunched = args.onLaunched,
