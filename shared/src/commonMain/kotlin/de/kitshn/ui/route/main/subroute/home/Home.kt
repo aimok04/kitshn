@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Sort
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.SaveAlt
+import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material.icons.rounded.SyncAlt
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,8 +48,8 @@ import de.kitshn.Platforms
 import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
 import de.kitshn.platformDetails
+import de.kitshn.repo.SpaceRepo
 import de.kitshn.ui.component.AutoFetchingFundingBanner
-import de.kitshn.ui.component.model.SpaceSwitchIconButton
 import de.kitshn.ui.dialog.recipe.creationandedit.RecipeCreationAndEditDialog
 import de.kitshn.ui.dialog.recipe.creationandedit.rememberRecipeCreationDialogState
 import de.kitshn.ui.dialog.recipe.creationandedit.rememberRecipeEditDialogState
@@ -67,16 +68,19 @@ import de.kitshn.ui.selectionMode.model.RecipeSelectionModeTopAppBar
 import de.kitshn.ui.selectionMode.rememberSelectionModeState
 import de.kitshn.ui.view.home.search.HomeSearchTopBar
 import de.kitshn.ui.component.search.rememberGlobalRecipeSearchState
+import de.kitshn.ui.dialog.SpaceSwitchDialog
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_add
 import kitshn.shared.generated.resources.action_import
 import kitshn.shared.generated.resources.action_remove
+import kitshn.shared.generated.resources.action_switch_space
 import kitshn.shared.generated.resources.common_sorting
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -86,6 +90,7 @@ fun RouteMainSubrouteHome(
     p: RouteParameters
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val spaceRepo = koinInject<SpaceRepo>()
 
     val homeSearchState by rememberGlobalRecipeSearchState(key = "RouteMainSubrouteHome/homeSearch")
 
@@ -121,6 +126,8 @@ fun RouteMainSubrouteHome(
     val homeScreenSorting by p.vm.settings.getHomeScreenSorting.collectAsState(initial = "")
 
     var showSortingSelectionDialog by rememberSaveable { mutableStateOf(false) }
+
+    var showSpaceSwitchDialog by rememberSaveable { mutableStateOf(false) }
 
     val wrap: @Composable (
         @Composable (
@@ -164,10 +171,8 @@ fun RouteMainSubrouteHome(
                                 )
                             }
 
-                            SpaceSwitchIconButton(
-                                client = p.vm.tandoorClient
-                            ) {
-                                p.vm.refreshApp()
+                            IconButton(onClick = { showSpaceSwitchDialog = true }) {
+                                Icon(Icons.Rounded.SwapHoriz, stringResource(Res.string.action_switch_space))
                             }
 
                             IconButton(
@@ -379,5 +384,11 @@ fun RouteMainSubrouteHome(
             }
         },
         confirmButton = { }
+    )
+
+    if (showSpaceSwitchDialog) SpaceSwitchDialog(
+        repo = spaceRepo,
+        onSwitched = {p.vm.refreshApp()},
+        onDismiss = { showSpaceSwitchDialog = false }
     )
 }
