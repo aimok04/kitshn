@@ -72,7 +72,7 @@ import de.kitshn.ui.component.model.shopping.ShoppingListGroupHeaderListItemPlac
 import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRow
 import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRowState
 import de.kitshn.ui.component.shopping.rememberAdditionalShoppingSettingsChipRowState
-import de.kitshn.ui.dialog.HouseholdSwitchPicker
+import de.kitshn.ui.dialog.household.HouseholdPicker
 import de.kitshn.ui.dialog.mealplan.MealPlanDetailsDialog
 import de.kitshn.ui.dialog.mealplan.rememberMealPlanDetailsDialogState
 import de.kitshn.ui.dialog.recipe.RecipeLinkDialog
@@ -525,7 +525,7 @@ fun RouteMainSubrouteShopping(
             }
         )
 
-        if (showHouseholdSwitchDialog) HouseholdSwitchPicker(
+        if (showHouseholdSwitchDialog) HouseholdPicker(
             repo = householdRepo,
             onSwitched = {},
             onDismiss = { showHouseholdSwitchDialog = false }

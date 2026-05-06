@@ -68,7 +68,7 @@ import de.kitshn.ui.selectionMode.model.RecipeSelectionModeTopAppBar
 import de.kitshn.ui.selectionMode.rememberSelectionModeState
 import de.kitshn.ui.view.home.search.HomeSearchTopBar
 import de.kitshn.ui.component.search.rememberGlobalRecipeSearchState
-import de.kitshn.ui.dialog.HouseholdSwitchPicker
+import de.kitshn.ui.dialog.household.HouseholdPicker
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_add
 import kitshn.shared.generated.resources.action_import
@@ -389,7 +389,7 @@ fun RouteMainSubrouteHome(
         confirmButton = { }
     )
 
-    if (showHouseholdSwitchDialog) HouseholdSwitchPicker(
+    if (showHouseholdSwitchDialog) HouseholdPicker(
         repo = householdRepo,
         onSwitched = {},
         onDismiss = { showHouseholdSwitchDialog = false }

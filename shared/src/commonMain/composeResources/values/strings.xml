@@ -221,8 +221,15 @@
     <string name="common_website">Website</string>
     <string name="common_welcome">Welcome</string>
     <string name="common_yesterday">Yesterday</string>
-    <string name="household">Household</string>
-    <string name="households">Households</string>
+    <plurals name="common_households">
+        <item quantity="one">Household</item>
+        <item quantity="other">Households</item>
+    </plurals>
+    <plurals name="common_member_count">
+        <item quantity="one">1 member</item>
+        <item quantity="other">%1$d members</item>
+    </plurals>
+    <string name="common_user">User</string>
 
     <string name="error">Error</string>
     <string name="error_couldnt_connect_to_tandoor">No connection to your Tandoor server could be established.</string>
@@ -235,6 +242,7 @@
     <string name="error_unallocated_ingredients">Unallocated ingredients</string>
     <string name="error_unallocated_ingredients_description">There are still ingredients that need to be assigned to a step before you can save the changes.</string>
     <string name="error_video_playback_not_supported">Video playback is not supported on this platform.</string>
+    <string name="error_household_delete_blocked_by_user">Cannot delete: %1$s is still a member.</string>
 
     <string name="expand_more">Expand more</string>
 

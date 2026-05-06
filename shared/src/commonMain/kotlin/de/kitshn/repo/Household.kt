@@ -4,6 +4,7 @@ import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorHousehold
 import de.kitshn.api.tandoor.model.TandoorUserSpace
+import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.session.TandoorSession
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -28,6 +29,9 @@ class HouseholdRepo(
     private val _userSpace = MutableStateFlow<TandoorUserSpace?>(null)
     val userSpace: Flow<TandoorUserSpace?> = _userSpace.asStateFlow()
 
+    private val _members = MutableStateFlow<Map<Int, List<TandoorUser>>>(emptyMap())
+    val members: StateFlow<Map<Int, List<TandoorUser>>> = _members.asStateFlow()
+
     val current: Flow<TandoorHousehold?> = _userSpace.map { it?.household }
 
     override suspend fun performSync() {
@@ -37,6 +41,24 @@ class HouseholdRepo(
             launch { fetchUserSpace(client) }
             launch { fetchHouseholds(client) }
         }
+    }
+
+    suspend fun syncMembers() {
+        val client = session.client ?: return
+
+        val accumulator = mutableMapOf<Int, MutableList<TandoorUser>>()
+        runCatching {
+            client.userSpace.retrieve(
+                onPageReceived = { page ->
+                    page.forEach { space ->
+                        val householdId = space.household?.id ?: return@forEach
+                        val user = space.user ?: return@forEach
+                        accumulator.getOrPut(householdId) { mutableListOf() }.add(user)
+                    }
+                    _members.value = accumulator.mapValues { it.value.toList() }
+                }
+            )
+        }.onFailure { Logger.e(TAG, it) { "Members sync failed" } }
     }
 
     private suspend fun fetchUserSpace(client: TandoorClient) {
@@ -95,6 +117,7 @@ class HouseholdRepo(
         return runCatching {
             client.household.delete(id)
             _households.value = _households.value.filterNot { it.id == id }
+            _members.value = _members.value.filterKeys { it != id }
             true
         }.getOrElse { false }
     }
