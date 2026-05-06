@@ -414,4 +414,7 @@
     <string name="common_shopping_list">Список покупок</string>
     <string name="settings_section_appearance_hide_activity_label">Скрыть раздел активности</string>
     <string name="settings_section_appearance_hide_activity_description">Скрывает раздел активности в представлении подробностей рецепта</string>
+    <string name="recipe_step_step_description">Добавьте инструкции для этого шага</string>
+    <string name="settings_section_behavior_shopping_item_double_click_check_label">Дважды щёлкните, чтобы проверить товары в корзине</string>
+    <string name="settings_section_behavior_shopping_item_double_click_check_description">Быстро отмечайте товары как выполненные, дважды щёлкнув по ним</string>
 </resources>
