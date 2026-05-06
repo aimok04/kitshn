@@ -137,7 +137,7 @@ fun RecipeCreationTypePicker(
             onDismissRequest = state::dismiss
         ) {
             RecipeCreationTypeList(
-                modifier = Modifier.padding(PaddingValues(16.dp)),
+                modifier = Modifier.padding(PaddingValues(16.dp, 0.dp)),
                 aiEnabled = aiEnabled,
                 onSelect = select
             )
