@@ -12,7 +12,7 @@
     <li>الوصفات</li>
     <ul>
       <li><i>Markdown</i> دعم</li>
-      <li>وضع الطبخ</li>
+      <li>وضع الطهي</li>
         <li>إنشاء مؤقتات باستخدام <a href="https://kitshn.app/docs/features/timer-detection">اكتشاف المؤقتات</a></li>
       <li><a href="https://kitshn.app/docs/features/share-wrapping.html">روابط التطبيق</a></li>
       <li><a href="https://kitshn.app/docs/features/embedding-videos-inside-steps.html">تضمين مقاطع الفيديو</a> inside steps</li>
