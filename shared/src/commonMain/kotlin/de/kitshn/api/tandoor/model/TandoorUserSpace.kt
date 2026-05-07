@@ -13,6 +13,7 @@ data class TandoorUserSpaceGroup(
 data class TandoorUserSpace(
     val id: Int,
     val user: TandoorUser? = null,
+    val space: Int? = null,
     val household: TandoorHousehold? = null,
     val groups: List<TandoorUserSpaceGroup> = emptyList(),
     val active: Boolean = false,

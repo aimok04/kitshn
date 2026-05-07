@@ -101,340 +101,8 @@ sealed interface HouseholdPickerEvent {
     data object Dismiss : HouseholdPickerEvent
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun HouseholdPicker(
-    state: HouseholdPickerState,
-    onEvent: (HouseholdPickerEvent) -> Unit,
-) {
-
-    val isCompact = !currentWindowAdaptiveInfoV2().windowSizeClass.isAtLeastBreakpoint(
-        WIDTH_DP_MEDIUM_LOWER_BOUND,
-        HEIGHT_DP_MEDIUM_LOWER_BOUND,
-    )
-
-    if (isCompact) {
-        ModalBottomSheet(
-            onDismissRequest = { onEvent(HouseholdPickerEvent.Dismiss) },
-        ) {
-            Column {
-                Text(
-                    text = stringResource(Res.string.action_switch_household),
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(PaddingValues(16.dp, 0.dp))
-                )
-
-                HouseholdPickerContent(state = state, onEvent = onEvent)
-            }
-        }
-    } else {
-        AlertDialog(
-            onDismissRequest = { onEvent(HouseholdPickerEvent.Dismiss) },
-            shape = RoundedCornerShape(28.dp),
-            icon = {
-                Box(
-                    modifier = Modifier
-                        .size(56.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(MaterialTheme.colorScheme.primaryContainer),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.ViewCarousel,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                        modifier = Modifier.size(28.dp)
-                    )
-                }
-            },
-            title = {
-                Text(
-                    text = stringResource(Res.string.action_switch_household),
-                    style = MaterialTheme.typography.headlineSmall,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            },
-            text = {
-                HouseholdPickerContent(state = state, onEvent = onEvent)
-            },
-            confirmButton = {
-                TextButton(onClick = { onEvent(HouseholdPickerEvent.Dismiss) }) {
-                    Text(stringResource(Res.string.action_abort))
-                }
-            }
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-fun HouseholdPickerContent(
-    state: HouseholdPickerState,
-    onEvent: (HouseholdPickerEvent) -> Unit,
-) {
-    val isLoading = state.syncState == TandoorRequestStateState.LOADING
-    val motion = MaterialTheme.motionScheme
-
-    Column(modifier = Modifier.fillMaxWidth()) {
-        AnimatedVisibility(visible = state.errorMessage != null) {
-            Snackbar(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                action = {
-                    TextButton(onClick = { onEvent(HouseholdPickerEvent.DismissError) }) {
-                        Text(stringResource(Res.string.action_close))
-                    }
-                }
-            ) {
-                Text(state.errorMessage ?: "")
-            }
-        }
-
-    LoadingErrorAlertPaneWrapper(
-        modifier = Modifier.fillMaxWidth(),
-        alertPaneModifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
-        loadingState = state.syncState.toErrorLoadingSuccessState()
-    ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
-        ) {
-            if (isLoading && state.households.isEmpty()) {
-                val skeletonCount = 3
-                items(skeletonCount, key = { "skeleton_$it" }) { index ->
-                    Box(
-                        modifier = Modifier.animateItem(
-                            fadeInSpec = motion.fastEffectsSpec(),
-                            fadeOutSpec = motion.fastEffectsSpec(),
-                            placementSpec = motion.fastEffectsSpec()
-                        )
-                    ) {
-                        HouseholdItemSkeleton(index = index, count = skeletonCount)
-                    }
-                }
-            } else {
-                itemsIndexed(state.households, key = { _, it -> it.id }) { index, household ->
-                    Box(
-                        modifier = Modifier.animateItem(
-                            fadeInSpec = tween(durationMillis = 200, delayMillis = index * 30),
-                            fadeOutSpec = motion.fastEffectsSpec(),
-                            placementSpec = motion.fastSpatialSpec(),
-                        )
-                    ) {
-                        HouseholdItem(
-                            name = household.name,
-                            selected = household.id == state.activeHouseholdId,
-                            pendingState = if (state.pendingHouseholdId == household.id) state.pendingState else null,
-                            enabled = state.pendingHouseholdId == null,
-                            memberCount = state.memberCounts[household.id],
-                            onClick = { onEvent(HouseholdPickerEvent.Switch(household)) },
-                            onEditClick = { onEvent(HouseholdPickerEvent.Edit(household)) },
-                            index = index,
-                            count = state.households.size
-                        )
-                    }
-                }
-            }
-
-            if (isLoading || state.households.isNotEmpty()) {
-                item(key = "bottom_spacer") {
-                    Spacer(
-                        Modifier.height(16.dp).animateItem(placementSpec = motion.fastSpatialSpec())
-                    )
-                }
-            }
-
-            item(key = "create_household_button") {
-                Box(modifier = Modifier.animateItem(placementSpec = motion.fastSpatialSpec())) {
-                    SegmentedListItem(
-                        onClick = { onEvent(HouseholdPickerEvent.Create) },
-
-                        shapes = ListItemDefaults.segmentedShapes(
-                            0, 1, ListItemDefaults.shapes(shape = RoundedCornerShape(16.dp))
-                        ),
-
-                        content = {
-                            Text(stringResource(Res.string.action_create_household))
-                        },
-
-                        leadingContent = {
-                            Icon(
-                                imageVector = Icons.Rounded.Add,
-                                contentDescription = stringResource(Res.string.action_create_household)
-                            )
-                        }
-                    )
-                }
-            }
-        }
-    }
-    }
-}
-
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-private fun HouseholdItemSkeleton(
-    index: Int,
-    count: Int,
-) {
-    SegmentedListItem(
-        onClick = { },
-        shapes = ListItemDefaults.segmentedShapes(
-            index = index,
-            count = count,
-            defaultShapes = ListItemDefaults.shapes(
-                shape = if (count == 1) RoundedCornerShape(16.dp) else null
-            )
-        ),
-        leadingContent = {
-            Box(
-                modifier = Modifier
-                    .size(24.dp)
-                    .loadingPlaceHolder(
-                        loadingState = ErrorLoadingSuccessState.LOADING,
-                        shape = CircleShape
-                    )
-            )
-        },
-        content = {
-            Box(
-                modifier = Modifier
-                    .height(20.dp)
-                    .fillMaxWidth()
-                    .loadingPlaceHolder(ErrorLoadingSuccessState.LOADING)
-            )
-        }
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-private fun HouseholdItem(
-    index: Int,
-    count: Int,
-    name: String,
-    selected: Boolean = false,
-    enabled: Boolean = true,
-    pendingState: TandoorRequestStateState? = null,
-    memberCount: Int? = null,
-    onClick: () -> Unit = {},
-    onEditClick: () -> Unit = {},
-) {
-    var displayedPendingState by remember { mutableStateOf<TandoorRequestStateState?>(null) }
-    LaunchedEffect(pendingState) {
-        if (pendingState == TandoorRequestStateState.LOADING) {
-            displayedPendingState = null
-            delay(150)
-            displayedPendingState = TandoorRequestStateState.LOADING
-        } else {
-            displayedPendingState = pendingState
-        }
-    }
-
-    val statusBackgroundColor = when {
-        displayedPendingState == null -> Color.Transparent
-        selected -> MaterialTheme.colorScheme.secondaryContainer
-        else -> MaterialTheme.colorScheme.surfaceContainer
-    }
-
-    SegmentedListItem(
-        selected = selected,
-        enabled = enabled,
-        onClick = onClick,
-        onLongClick = onEditClick,
-        shapes = ListItemDefaults.segmentedShapes(
-            index = index,
-            count = count,
-            defaultShapes = ListItemDefaults.shapes(
-                shape = if (count == 1) {
-                    RoundedCornerShape(16.dp)
-                } else {
-                    null
-                }
-            )
-        ),
-
-        content = {
-            Text(
-                text = name,
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
-                )
-            )
-        },
-
-        leadingContent = {
-            val motion = MaterialTheme.motionScheme
-
-            Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
-                // Base layer: The RadioButton
-                RadioButton(selected = selected, onClick = null)
-
-                // Overlay layer: Status Indicators
-                AnimatedContent(
-                    targetState = displayedPendingState,
-                    transitionSpec = {
-                        val spec = motion.fastEffectsSpec<Float>()
-                        (fadeIn(spec) + scaleIn(spec, initialScale = 0.8f))
-                            .togetherWith(fadeOut(spec) + scaleOut(spec, targetScale = 0.8f))
-                    },
-                    label = "statusIndicator"
-                ) { state ->
-                    if (state != null) {
-                        StatusOverlay(
-                            backgroundColor = statusBackgroundColor
-                        )
-                    }
-                }
-            }        },
-
-        trailingContent = {
-            AnimatedVisibility(
-                visible = memberCount != null,
-                enter = fadeIn() + expandHorizontally(),
-                exit = fadeOut() + shrinkHorizontally(),
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                ) {
-                    Text(
-                        text = memberCount?.toString() ?: "",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Icon(
-                        imageVector = Icons.Rounded.AccountCircle,
-                        contentDescription = stringResource(Res.string.common_user),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
-        },
-    )
-}
-
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-private fun StatusOverlay(
-    backgroundColor: Color,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(backgroundColor, CircleShape)
-            .clip(CircleShape),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularWavyProgressIndicator(Modifier.size(24.dp))
-    }
-}
-
 /**
- * Stateful convenience wrapper around [de.kitshn.ui.dialog.SpaceSwitchDialog]
+ * Stateful convenience wrapper around [de.kitshn.ui.dialog.space.SpaceSwitchDialog]
  */
 @Composable
 fun HouseholdPicker(
@@ -453,7 +121,7 @@ fun HouseholdPicker(
     val activeHousehold by repo.current.collectAsState(null)
     val households by repo.households.collectAsState()
     val members by repo.members.collectAsState()
-    val sortedHouseholds = remember(households){ households.sortedBy { it.id } }
+    val sortedHouseholds = remember(households) { households.sortedBy { it.id } }
     val memberCounts = remember(members) { members.mapValues { it.value.size } }
     var pendingHouseholdId by remember { mutableStateOf<Int?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -467,7 +135,7 @@ fun HouseholdPicker(
 
     LaunchedEffect(errorMessage) {
         if (errorMessage != null) {
-            delay(4000)
+            delay(3999)
             errorMessage = null
         }
     }
@@ -596,3 +264,338 @@ fun HouseholdPicker(
     TandoorRequestErrorHandler(saveRequestState)
     TandoorRequestErrorHandler(deleteRequestState)
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HouseholdPicker(
+    state: HouseholdPickerState,
+    onEvent: (HouseholdPickerEvent) -> Unit,
+) {
+
+    val isCompact = !currentWindowAdaptiveInfoV2().windowSizeClass.isAtLeastBreakpoint(
+        WIDTH_DP_MEDIUM_LOWER_BOUND,
+        HEIGHT_DP_MEDIUM_LOWER_BOUND,
+    )
+
+    if (isCompact) {
+        ModalBottomSheet(
+            onDismissRequest = { onEvent(HouseholdPickerEvent.Dismiss) },
+        ) {
+            Column {
+                Text(
+                    text = stringResource(Res.string.action_switch_household),
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(PaddingValues(16.dp, 0.dp))
+                )
+
+                HouseholdPickerContent(state = state, onEvent = onEvent)
+            }
+        }
+    } else {
+        AlertDialog(
+            onDismissRequest = { onEvent(HouseholdPickerEvent.Dismiss) },
+            shape = RoundedCornerShape(28.dp),
+            icon = {
+                Box(
+                    modifier = Modifier
+                        .size(56.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(MaterialTheme.colorScheme.primaryContainer),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.ViewCarousel,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+            },
+            title = {
+                Text(
+                    text = stringResource(Res.string.action_switch_household),
+                    style = MaterialTheme.typography.headlineSmall,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            text = {
+                HouseholdPickerContent(state = state, onEvent = onEvent)
+            },
+            confirmButton = {
+                TextButton(onClick = { onEvent(HouseholdPickerEvent.Dismiss) }) {
+                    Text(stringResource(Res.string.action_abort))
+                }
+            }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun HouseholdPickerContent(
+    state: HouseholdPickerState,
+    onEvent: (HouseholdPickerEvent) -> Unit,
+) {
+    val isLoading = state.syncState == TandoorRequestStateState.LOADING
+    val motion = MaterialTheme.motionScheme
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        AnimatedVisibility(visible = state.errorMessage != null) {
+            Snackbar(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                action = {
+                    TextButton(onClick = { onEvent(HouseholdPickerEvent.DismissError) }) {
+                        Text(stringResource(Res.string.action_close))
+                    }
+                }
+            ) {
+                Text(state.errorMessage ?: "")
+            }
+        }
+
+        LoadingErrorAlertPaneWrapper(
+            modifier = Modifier.fillMaxWidth(),
+            alertPaneModifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
+            loadingState = state.syncState.toErrorLoadingSuccessState()
+        ) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
+            ) {
+                if (isLoading && state.households.isEmpty()) {
+                    val skeletonCount = 3
+                    items(skeletonCount, key = { "skeleton_$it" }) { index ->
+                        Box(
+                            modifier = Modifier.animateItem(
+                                fadeInSpec = motion.fastEffectsSpec(),
+                                fadeOutSpec = motion.fastEffectsSpec(),
+                                placementSpec = motion.fastSpatialSpec()
+                            )
+                        ) {
+                            HouseholdItemSkeleton(index = index, count = skeletonCount)
+                        }
+                    }
+                } else {
+                    itemsIndexed(state.households, key = { _, it -> it.id }) { index, household ->
+                        Box(
+                            modifier = Modifier.animateItem(
+                                fadeInSpec = tween(durationMillis = 200, delayMillis = index * 30),
+                                fadeOutSpec = motion.fastEffectsSpec(),
+                                placementSpec = motion.fastSpatialSpec(),
+                            )
+                        ) {
+                            HouseholdItem(
+                                name = household.name,
+                                selected = household.id == state.activeHouseholdId,
+                                pendingState = if (state.pendingHouseholdId == household.id) state.pendingState else null,
+                                enabled = state.pendingHouseholdId == null,
+                                memberCount = state.memberCounts[household.id],
+                                onClick = { onEvent(HouseholdPickerEvent.Switch(household)) },
+                                onEditClick = { onEvent(HouseholdPickerEvent.Edit(household)) },
+                                index = index,
+                                count = state.households.size
+                            )
+                        }
+                    }
+                }
+
+                if (isLoading || state.households.isNotEmpty()) {
+                    item(key = "bottom_spacer") {
+                        Spacer(
+                            Modifier.height(16.dp)
+                                .animateItem(placementSpec = motion.fastSpatialSpec())
+                        )
+                    }
+                }
+
+                item(key = "create_household_button") {
+                    Box(modifier = Modifier.animateItem(placementSpec = motion.fastSpatialSpec())) {
+                        SegmentedListItem(
+                            onClick = { onEvent(HouseholdPickerEvent.Create) },
+
+                            shapes = ListItemDefaults.segmentedShapes(
+                                0, 1, ListItemDefaults.shapes(shape = RoundedCornerShape(16.dp))
+                            ),
+
+                            content = {
+                                Text(stringResource(Res.string.action_create_household))
+                            },
+
+                            leadingContent = {
+                                Icon(
+                                    imageVector = Icons.Rounded.Add,
+                                    contentDescription = stringResource(Res.string.action_create_household)
+                                )
+                            }
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+private fun HouseholdItemSkeleton(
+    index: Int,
+    count: Int,
+) {
+    SegmentedListItem(
+        onClick = { },
+        shapes = ListItemDefaults.segmentedShapes(
+            index = index,
+            count = count,
+            defaultShapes = ListItemDefaults.shapes(
+                shape = if (count == 1) RoundedCornerShape(16.dp) else null
+            )
+        ),
+        leadingContent = {
+            Box(
+                modifier = Modifier
+                    .size(24.dp)
+                    .loadingPlaceHolder(
+                        loadingState = ErrorLoadingSuccessState.LOADING,
+                        shape = CircleShape
+                    )
+            )
+        },
+        content = {
+            Box(
+                modifier = Modifier
+                    .height(20.dp)
+                    .fillMaxWidth()
+                    .loadingPlaceHolder(ErrorLoadingSuccessState.LOADING)
+            )
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+private fun HouseholdItem(
+    index: Int,
+    count: Int,
+    name: String,
+    selected: Boolean = false,
+    enabled: Boolean = true,
+    pendingState: TandoorRequestStateState? = null,
+    memberCount: Int? = null,
+    onClick: () -> Unit = {},
+    onEditClick: () -> Unit = {},
+) {
+    var displayedPendingState by remember { mutableStateOf<TandoorRequestStateState?>(null) }
+    LaunchedEffect(pendingState) {
+        if (pendingState == TandoorRequestStateState.LOADING) {
+            displayedPendingState = null
+            delay(150)
+            displayedPendingState = TandoorRequestStateState.LOADING
+        } else {
+            displayedPendingState = pendingState
+        }
+    }
+
+    val statusBackgroundColor = when {
+        displayedPendingState == null -> Color.Transparent
+        selected -> MaterialTheme.colorScheme.secondaryContainer
+        else -> MaterialTheme.colorScheme.surfaceContainer
+    }
+
+    SegmentedListItem(
+        selected = selected,
+        enabled = enabled,
+        onClick = onClick,
+        onLongClick = onEditClick,
+        shapes = ListItemDefaults.segmentedShapes(
+            index = index,
+            count = count,
+            defaultShapes = ListItemDefaults.shapes(
+                shape = if (count == 1) {
+                    RoundedCornerShape(16.dp)
+                } else {
+                    null
+                }
+            )
+        ),
+
+        content = {
+            Text(
+                text = name,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
+                )
+            )
+        },
+
+        leadingContent = {
+            val motion = MaterialTheme.motionScheme
+
+            Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) {
+                // Base layer: The RadioButton
+                RadioButton(selected = selected, onClick = null)
+
+                // Overlay layer: Status Indicators
+                AnimatedContent(
+                    targetState = displayedPendingState,
+                    transitionSpec = {
+                        val spec = motion.fastEffectsSpec<Float>()
+                        (fadeIn(spec) + scaleIn(spec, initialScale = 0.8f))
+                            .togetherWith(fadeOut(spec) + scaleOut(spec, targetScale = 0.8f))
+                    },
+                    label = "statusIndicator"
+                ) { state ->
+                    if (state != null) {
+                        StatusOverlay(
+                            backgroundColor = statusBackgroundColor
+                        )
+                    }
+                }
+            }
+        },
+
+        trailingContent = {
+            AnimatedVisibility(
+                visible = memberCount != null,
+                enter = fadeIn() + expandHorizontally(),
+                exit = fadeOut() + shrinkHorizontally(),
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                ) {
+                    Text(
+                        text = memberCount?.toString() ?: "",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    Icon(
+                        imageVector = Icons.Rounded.AccountCircle,
+                        contentDescription = stringResource(Res.string.common_user),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+        },
+    )
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+private fun StatusOverlay(
+    backgroundColor: Color,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(backgroundColor, CircleShape)
+            .clip(CircleShape),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularWavyProgressIndicator(Modifier.size(24.dp))
+    }
+}
+
