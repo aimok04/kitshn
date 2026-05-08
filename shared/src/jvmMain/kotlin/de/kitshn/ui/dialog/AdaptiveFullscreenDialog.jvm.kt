@@ -39,7 +39,18 @@ actual fun AdaptiveFullscreenDialog(
     content: @Composable (nestedScrollConnection: NestedScrollConnection, isFullscreen: Boolean, pv: PaddingValues) -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-    val containerColor = MaterialTheme.colorScheme.surface
+
+    val isFullscreen = if(forceFullscreen || forceDialog) {
+        forceFullscreen
+    } else {
+        false
+    }
+
+    val containerColor = if(isFullscreen) {
+        MaterialTheme.colorScheme.surface
+    } else {
+        MaterialTheme.colorScheme.surfaceContainerHigh
+    }
 
     val animVisibilityState = remember { MutableTransitionState(true) }
 
@@ -64,7 +75,7 @@ actual fun AdaptiveFullscreenDialog(
         ) {
             CommonAdaptiveFullscreenDialogContent(
                 containerColor = containerColor,
-                isFullscreen = false,
+                isFullscreen = isFullscreen,
                 scrollBehavior = scrollBehavior,
 
                 title = title,
