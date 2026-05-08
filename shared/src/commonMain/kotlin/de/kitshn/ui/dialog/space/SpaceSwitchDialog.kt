@@ -156,6 +156,7 @@ fun SpaceSwitchDialog(
                         shown = true,
                         editing = event.space,
                         name = event.space.name,
+                        message = event.space.message,
                     )
                 }
 
@@ -168,15 +169,38 @@ fun SpaceSwitchDialog(
         }
     )
 
+    val client = repo.client
     SpaceCreationAndEditDialog(
         state = dialogState.copy(
             saveState = saveRequestState.state,
             deleteState = deleteRequestState.state,
         ),
+        currentImage = { space ->
+            space.image?.preview?.let { client?.media?.createImageBuilder(it)?.build() }
+        },
         onEvent = { event ->
             when (event) {
                 is SpaceCreationAndEditDialogEvent.NameChange -> {
                     dialogState = dialogState.copy(name = event.name)
+                }
+
+                is SpaceCreationAndEditDialogEvent.MessageChange -> {
+                    dialogState = dialogState.copy(message = event.message)
+                }
+
+                is SpaceCreationAndEditDialogEvent.ImageReplace -> {
+                    dialogState = dialogState.copy(image = SpaceImageEdit.Replaced(event.bytes))
+                }
+
+                SpaceCreationAndEditDialogEvent.ImageReset -> {
+                    dialogState = dialogState.copy(
+                        image = when {
+                            dialogState.image is SpaceImageEdit.Unchanged
+                                && dialogState.editing?.image != null -> SpaceImageEdit.Cleared
+
+                            else -> SpaceImageEdit.Unchanged
+                        }
+                    )
                 }
 
                 is SpaceCreationAndEditDialogEvent.Save -> {
@@ -193,6 +217,7 @@ fun SpaceSwitchDialog(
                         hapticFeedback.handleTandoorRequestState(saveRequestState)
 
                         if (saved != null) {
+                            // TODO: persist image edits once the upload route is wired up.
                             dialogState = SpaceCreationAndEditDialogState()
                         }
                     }

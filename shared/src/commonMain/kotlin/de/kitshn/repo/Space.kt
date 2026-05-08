@@ -19,6 +19,8 @@ class SpaceRepo(
     private val session: TandoorSession,
     periodicInterval: Duration? = null,
 ) : SyncableRepo(periodicInterval) {
+    val client: TandoorClient? get() = session.client
+
     private val _current = MutableStateFlow<TandoorSpace?>(null)
     val current: StateFlow<TandoorSpace?> = _current.asStateFlow()
 

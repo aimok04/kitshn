@@ -124,6 +124,7 @@
     <string name="common_cook_book">Cookbook</string>
     <string name="common_copied_to_clipboard">Copied to your clipboard!</string>
     <string name="common_count">Count</string>
+    <string name="common_created">Created</string>
     <string name="common_create_argument">Create » %1$s «</string>
     <string name="common_creator">Creator</string>
     <string name="common_custom_headers">Custom headers</string>
@@ -153,7 +154,9 @@
     <string name="common_loading_short">Loading …</string>
     <string name="common_manage_space">Manage Space</string>
     <string name="common_meal_type">Meal type</string>
+    <string name="common_members">Members</string>
     <string name="common_menu">Menu</string>
+    <string name="common_message">Message</string>
     <string name="common_minute_min">min</string>
     <string name="common_minutes">minutes</string>
     <string name="common_name">Name</string>
@@ -177,6 +180,10 @@
         <item quantity="one">one serving</item>
         <item quantity="other">%1$d servings</item>
     </plurals>
+    <plurals name="common_recipe_count">
+        <item quantity="one">1 recipe</item>
+        <item quantity="other">%1$d recipes</item>
+    </plurals>
     <string name="common_portions">Servings</string>
     <string name="common_portions_text">Servings-Text</string>
     <string name="common_prepairing">Preparation</string>
@@ -199,6 +206,8 @@
     <string name="common_start_date">Start date</string>
     <string name="common_step">Step %1$s</string>
     <string name="common_steps">Steps</string>
+    <string name="common_storage">Storage</string>
+    <string name="common_storage_used">%1$s MB / %2$s MB</string>
     <string name="common_supermarket">Supermarket</string>
     <string name="common_shopping_list">Shopping list</string>
     <string name="common_tags">Tags</string>
@@ -250,6 +259,7 @@
 
     <string name="form_error_description_max_512">The description may contain a maximum of 512 characters.</string>
     <string name="form_error_field_empty">This field must be filled in.</string>
+    <string name="form_error_message_max_500">The message may contain a maximum of 500 characters.</string>
     <string name="form_error_name_max_128">The name may contain a maximum of 128 characters.</string>
     <string name="form_error_portions_text_max_32">The servings text may contain a maximum of 32 characters.</string>
     <string name="form_error_source_max_1024">The source may contain a maximum of 1024 characters.</string>
@@ -384,6 +394,13 @@
 
     <string name="select_recipe">Select recipe</string>
     <string name="select_recipe_book">Select recipe book</string>
+
+    <string name="space_creation_intro_title">What is a space?</string>
+    <string name="space_creation_intro_description">All your data is stored in a space where you can invite other people to collaborate on your recipe database. Typically, the members of a space belong to one family/household/organization.
+
+While everyone can access all recipes by default, books, shopping lists and meal plans are not shared by default. You can share them with other members of your space using households.
+
+You can create and be a member of multiple spaces and switch between them freely. Depending on the permission configured by the space owner you might not have access to all features of a space.</string>
 
     <string name="settings_section_debug_label">Debug settings</string>
     <string name="settings_section_debug_description">Test experimental settings</string>
