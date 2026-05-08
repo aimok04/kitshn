@@ -1,6 +1,8 @@
 package de.kitshn.api.tandoor.model
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import coil3.request.ImageRequest
@@ -39,8 +41,9 @@ class TandoorRecipeBook(
     @Transient
     val filterEntries = mutableStateListOf<TandoorRecipeOverview>()
 
-    @Transient
-    val entryByRecipeId = mutableStateMapOf<Int, TandoorRecipeBookEntry>()
+    val entryByRecipeId: Map<Int, TandoorRecipeBookEntry> by derivedStateOf {
+        entries.associateBy { it.recipe }
+    }
 
     @Composable
     fun loadThumbnail(): ImageRequest? {
@@ -142,21 +145,26 @@ class TandoorRecipeBookEntry(
 
     suspend fun delete(): String {
         // remove from entry lists
-        client?.container?.recipeBook?.get(book)?.let {
-            it.entries.removeIf { it.id == id }
-            it.entryByRecipeId.remove(recipe)
+        client?.container?.recipeBook?.get(book)?.let { book ->
+            book.entries.removeIf { it.id == id }
         }
 
         return client?.delete("/recipe-book-entry/${id}/")?.status?.value?.toString() ?: "unknown"
     }
 
     fun populate(book: TandoorRecipeBook?, client: TandoorClient?) {
+        val entry = this
         this.client = client
 
         client?.container?.recipeOverview?.get(recipe)?.let { recipe_content = it }
         client?.container?.recipeBookEntry?.put(id, this)
 
-        book?.apply { book_content = this }
+        book?.apply {
+            book_content = this
+            if(entries.none { it.id == entry.id}) {
+                entries.add(entry)
+            }
+        }
 
         recipe_content.client = client
     }
