@@ -8,6 +8,7 @@ import androidx.compose.ui.window.rememberWindowState
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.Severity
 import de.kitshn.App
+import de.kitshn.di.initKoin
 import de.kitshn.disposeKcefBlocking
 import de.kitshn.platformDetails
 
@@ -30,6 +31,8 @@ fun main(args: Array<String>) {
         Severity.Info
     }
     Logger.setMinSeverity(minSeverity)
+
+    initKoin()
 
     application {
         Window(
