@@ -29,6 +29,12 @@ import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.put
 
 @Serializable
+data class TandoorTimeoutSettings(
+    val shortTimeout: Long = 10000L,
+    val longTimeout: Long = 60000L
+)
+
+@Serializable
 data class TandoorCredentialsCustomHeader(
     var field: String,
     var value: String
@@ -52,21 +58,43 @@ data class TandoorCredentials(
 )
 
 class TandoorClient(
-    val credentials: TandoorCredentials
+    val credentials: TandoorCredentials,
+    var timeoutSettings: TandoorTimeoutSettings = TandoorTimeoutSettings()
 ) {
 
-    val httpClient = HttpClient {
-        followRedirects = true
-    }
+    var httpClient = createHttpClient(timeoutSettings.shortTimeout)
 
-    val longHttpClient = HttpClient {
+    var longHttpClient = createLongHttpClient(timeoutSettings.longTimeout)
+
+    private fun createHttpClient(timeout: Long) = HttpClient {
         followRedirects = true
 
         install(HttpTimeout) {
-            connectTimeoutMillis = 60000
-            requestTimeoutMillis = 60000
-            socketTimeoutMillis = 60000
+            connectTimeoutMillis = timeout
+            requestTimeoutMillis = timeout
+            socketTimeoutMillis = timeout
         }
+    }
+
+    private fun createLongHttpClient(timeout: Long) = HttpClient {
+        followRedirects = true
+
+        install(HttpTimeout) {
+            connectTimeoutMillis = timeout
+            requestTimeoutMillis = timeout
+            socketTimeoutMillis = timeout
+        }
+    }
+
+    fun configureTimeouts(settings: TandoorTimeoutSettings) {
+        if(settings == timeoutSettings) return
+        timeoutSettings = settings
+
+        httpClient.close()
+        longHttpClient.close()
+
+        httpClient = createHttpClient(settings.shortTimeout)
+        longHttpClient = createLongHttpClient(settings.longTimeout)
     }
 
     val container = TandoorContainer(this)
@@ -122,5 +150,4 @@ class TandoorClient(
             return false
         }
     }
-
 }
