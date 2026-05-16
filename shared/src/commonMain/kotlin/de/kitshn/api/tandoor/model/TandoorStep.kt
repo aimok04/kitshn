@@ -139,7 +139,7 @@ class TandoorStep(
         if(recipe != null) return recipe
 
         try {
-            return client!!.recipe.get(step_recipe!!)
+            return client!!.recipe.retrieve(step_recipe!!)
         } catch(e: TandoorRequestsError) {
             Logger.e("TandoorStep.kt", e)
             return null

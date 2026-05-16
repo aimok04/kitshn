@@ -1,6 +1,5 @@
 package de.kitshn.api.tandoor.route
 
-import com.eygraber.uri.Uri
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorPagedResponse
@@ -9,44 +8,35 @@ import de.kitshn.api.tandoor.reqAny
 import de.kitshn.json
 import io.ktor.http.HttpMethod
 
+private const val PATH = "space/"
+
 class TandoorSpaceRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
     suspend fun list(
         page: Int = 1,
-        pageSize: Int? = null
+        pageSize: Int? = null,
     ): TandoorPagedResponse<TandoorSpace> {
-        val builder = Uri.Builder().appendEncodedPath("space/")
-        if(pageSize != null) builder.appendQueryParameter("page_size", pageSize.toString())
-        builder.appendQueryParameter("page", page.toString())
-
-        val response = json.decodeFromString<TandoorPagedResponse<TandoorSpace>>(
-            client.getObject(builder.build().toString()).toString()
+        return listPage<TandoorSpace>(
+            path = PATH,
+            page = page,
+            pageSize = pageSize,
         )
-
-        return response
     }
 
-    suspend fun listAll(): List<TandoorSpace> {
-        var page = 1
-        val entries = mutableListOf<TandoorSpace>()
-
-        var response: TandoorPagedResponse<TandoorSpace>? = null
-        while(response == null || response.next != null) {
-            response = list(
-                page = page,
-                pageSize = 50
-            )
-
-            entries.addAll(response.results)
-            page++
+    suspend fun listAll(
+        onPageReceived: (suspend (List<TandoorSpace>) -> Boolean)? = null,
+    ): TandoorPagedResponse<TandoorSpace> {
+        return listAllPages<TandoorSpace>(
+            path = PATH,
+            pageSize = 50,
+        ) { page ->
+            onPageReceived?.invoke(page) ?: false
         }
-
-        return entries
     }
 
     suspend fun current(): TandoorSpace {
         val response = json.decodeFromString<TandoorSpace>(
-            client.getObject("/space/current/").toString()
+            client.getObject("/${PATH}current/").toString()
         )
 
         return response

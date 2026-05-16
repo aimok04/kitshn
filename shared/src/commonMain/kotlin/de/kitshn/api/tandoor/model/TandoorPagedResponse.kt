@@ -7,6 +7,7 @@ data class TandoorPagedResponse<T>(
     val count: Int,
     val next: String?,
     val previous: String?,
-    val timestamp: String,
+    // unfortunately recipe/ paged response does not give out timestamps
+    val timestamp: String? = null,
     val results: List<T>
 )

@@ -107,7 +107,7 @@ class TandoorRecipe(
     }
 
     suspend fun fetchSteps(): TandoorRecipe {
-        val newRecipe = client!!.recipe.get(id = id)
+        val newRecipe = client!!.recipe.retrieve(id = id)
         steps.clear()
         steps.addAll(newRecipe.steps)
         return this

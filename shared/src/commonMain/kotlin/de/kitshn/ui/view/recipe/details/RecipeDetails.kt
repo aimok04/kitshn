@@ -302,7 +302,7 @@ fun ViewRecipeDetails(
         pageLoadingState = ErrorLoadingSuccessState.LOADING
 
         fetchRequestState.wrapRequest {
-            p.vm.tandoorClient?.recipe?.get(
+            p.vm.tandoorClient?.recipe?.retrieve(
                 id = recipeOverview.id
             )
         }
@@ -919,7 +919,7 @@ fun ViewRecipeDetails(
                                     fetchRequestState.wrapRequest {
                                         // fetch full recipe using id and show recipe link dialog
 
-                                        val recipe = client.recipe.get(recipe.id)
+                                        val recipe = client.recipe.retrieve(recipe.id)
                                         recipeLinkDialogState.open(recipe.toOverview())
                                     }
                                 }
@@ -979,7 +979,7 @@ fun ViewRecipeDetails(
                                 fetchRequestState.wrapRequest {
                                     // fetch recipe using id and show recipe link dialog
 
-                                    val recipe = client.recipe.get(recipeId)
+                                    val recipe = client.recipe.retrieve(recipeId)
                                     recipeLinkDialogState.open(recipe.toOverview())
                                 }
                             }
@@ -1037,7 +1037,7 @@ fun ViewRecipeDetails(
         // refresh recipe after ingredient allocation
         coroutineScope.launch {
             fetchRequestState.wrapRequest {
-                client.recipe.get(recipeOverview.id).toOverview().let {
+                client.recipe.retrieve(recipeOverview.id).toOverview().let {
                     client.container.recipeOverview[it.id] = it
                 }
             }
@@ -1055,7 +1055,7 @@ fun ViewRecipeDetails(
                 // refresh recipe after edit
                 coroutineScope.launch {
                     fetchRequestState.wrapRequest {
-                        client.recipe.get(recipeOverview.id).toOverview().let {
+                        client.recipe.retrieve(recipeOverview.id).toOverview().let {
                             client.container.recipeOverview[it.id] = it
                         }
                     }

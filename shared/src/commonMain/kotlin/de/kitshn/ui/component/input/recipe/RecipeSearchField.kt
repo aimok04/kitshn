@@ -66,7 +66,7 @@ fun BaseRecipeSearchField(
 
             if(selectedRecipe == null) {
                 TandoorRequestState().wrapRequest {
-                    client.recipe.get(value).let {
+                    client.recipe.retrieve(value).let {
                         selectedRecipe = it.toOverview()
                     }
                 }

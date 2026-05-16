@@ -256,7 +256,7 @@ fun RouteRecipeCookPageStep(
                                         fetchRequestState.wrapRequest {
                                             // fetch full recipe using id and show recipe link dialog
 
-                                            val recipe = vm.tandoorClient!!.recipe.get(recipe.id)
+                                            val recipe = vm.tandoorClient!!.recipe.retrieve(recipe.id)
                                             recipeLinkDialogState.open(recipe.toOverview())
                                         }
                                     }

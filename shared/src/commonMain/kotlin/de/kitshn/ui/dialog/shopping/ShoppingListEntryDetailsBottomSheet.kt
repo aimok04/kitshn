@@ -324,11 +324,11 @@ fun ShoppingListEntryDetailsBottomSheet(
                             coroutineScope.launch {
                                 if(it.list_recipe_data?.mealplan != null) {
                                     requestState.wrapRequest {
-                                        onClickMealplan(client.mealPlan.get(id = it.list_recipe_data.mealplan))
+                                        onClickMealplan(client.mealPlan.retrieve(id = it.list_recipe_data.mealplan))
                                     }
                                 } else if(it.list_recipe_data?.recipe != null) {
                                     requestState.wrapRequest {
-                                        onClickRecipe(client.recipe.get(id = it.list_recipe_data.recipe))
+                                        onClickRecipe(client.recipe.retrieve(id = it.list_recipe_data.recipe))
                                     }
                                 }
                             }

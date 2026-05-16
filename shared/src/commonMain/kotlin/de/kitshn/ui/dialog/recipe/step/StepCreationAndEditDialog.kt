@@ -401,7 +401,7 @@ fun StepCreationAndEditDialog(
                         val recipe = creationState!!.recipe!!
 
                         requestStepState.wrapRequest {
-                            val stepsRaw = client.recipe.get(id = recipe.id).stepsRaw
+                            val stepsRaw = client.recipe.retrieve(id = recipe.id).stepsRaw
 
                             val updatedRecipe = recipe.partialUpdate(
                                 steps = buildJsonArray {
