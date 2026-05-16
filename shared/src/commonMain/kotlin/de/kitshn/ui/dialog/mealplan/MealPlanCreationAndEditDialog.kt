@@ -459,7 +459,7 @@ fun MealPlanCreationAndEditDialog(
 
                         if(mealPlan != null) {
                             if(addToShopping && reviewAddToShopping && recipeId != null) {
-                                recipeAddToShoppingDialogRecipe = client.recipe.get(recipeId!!)
+                                recipeAddToShoppingDialogRecipe = client.recipe.retrieve(recipeId!!)
                                 recipeAddToShoppingDialogMealPlan = mealPlan
 
                                 recipeAddToShoppingDialogState.open(

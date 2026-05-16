@@ -2,7 +2,6 @@ package de.kitshn.api.tandoor.route
 
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.delete
-import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorPagedResponse
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
@@ -14,7 +13,67 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.encodeToJsonElement
 
+private const val PATH = "shopping-list-entry/"
+private const val LIST_PATH = "shopping-list/"
+
 class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
+
+    suspend fun list(
+        page: Int = 1,
+        pageSize: Int? = null,
+        query: String? = null,
+    ): TandoorPagedResponse<TandoorShoppingListEntry> {
+        val response = listPage<TandoorShoppingListEntry>(
+            path = PATH,
+            page = page,
+            pageSize = pageSize,
+            query = query,
+        )
+
+        response.results.forEach { cache(it) }
+
+        return response
+    }
+
+    suspend fun listAll(
+        query: String? = null,
+        onPageReceived: (suspend (List<TandoorShoppingListEntry>) -> Boolean)? = null,
+    ): TandoorPagedResponse<TandoorShoppingListEntry> {
+        return listAllPages<TandoorShoppingListEntry>(
+            path = PATH,
+            pageSize = 50,
+            query = query,
+        ) { page ->
+            page.forEach { cache(it) }
+            onPageReceived?.invoke(page) ?: false
+        }
+    }
+
+    suspend fun listLists(
+        page: Int = 1,
+        pageSize: Int? = null,
+        query: String? = null,
+    ): TandoorPagedResponse<TandoorShoppingList> {
+        return listPage<TandoorShoppingList>(
+            path = LIST_PATH,
+            page = page,
+            pageSize = pageSize,
+            query = query,
+        )
+    }
+
+    suspend fun listAllLists(
+        query: String? = null,
+        onPageReceived: (suspend (List<TandoorShoppingList>) -> Boolean)? = null,
+    ): TandoorPagedResponse<TandoorShoppingList> {
+        return listAllPages<TandoorShoppingList>(
+            path = LIST_PATH,
+            pageSize = 50,
+            query = query,
+        ) { page ->
+            onPageReceived?.invoke(page) ?: false
+        }
+    }
 
     suspend fun add(
         amount: Double?,
@@ -54,10 +113,10 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
         val response = TandoorShoppingListEntry.parse(
             client,
-            client.postObject("/shopping-list-entry/", data).toString()
+            client.postObject("/$PATH", data).toString()
         )
 
-        client.container.shoppingListEntries[response.id] = response
+        cache(response)
         return response
     }
 
@@ -79,7 +138,7 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             put("checked", JsonPrimitive(true))
         }
 
-        client.postObject("/shopping-list-entry/bulk/", data)
+        client.postObject("/${PATH}bulk/", data)
     }
 
     suspend fun uncheck(
@@ -100,7 +159,7 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             put("checked", JsonPrimitive(false))
         }
 
-        client.postObject("/shopping-list-entry/bulk/", data)
+        client.postObject("/${PATH}bulk/", data)
     }
 
     suspend fun partialUpdate(
@@ -120,64 +179,31 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
                 })
             }
         }
-        return TandoorShoppingListEntry.parse(
+        val entry = TandoorShoppingListEntry.parse(
             client,
-            client.patchObject("/shopping-list-entry/${entryId}/", data).toString()
+            client.patchObject("/$PATH${entryId}/", data).toString()
         )
+        cache(entry)
+        return entry
     }
 
     suspend fun delete(
         id: Int
     ) {
-        client.delete("/shopping-list-entry/${id}/")
+        client.delete("/$PATH${id}/")
     }
 
     suspend fun delete(
         entries: List<TandoorShoppingListEntry>
     ) {
         entries.forEach {
-            client.delete("/shopping-list-entry/${it.id}/")
+            client.delete("/$PATH${it.id}/")
             it._destroyed = true
         }
     }
 
-    suspend fun fetchAll(): List<TandoorShoppingListEntry> {
-        var page = 1
-        val entries = mutableListOf<TandoorShoppingListEntry>()
-
-        var response: TandoorPagedResponse<TandoorShoppingListEntry>? = null
-        while(response == null || response.next != null) {
-            response = json.decodeFromString<TandoorPagedResponse<TandoorShoppingListEntry>>(
-                client.getObject("/shopping-list-entry/?page=$page&page_size=50").toString()
-            )
-
-            entries.addAll(response.results)
-            page++
-        }
-
-        entries.forEach {
-            it.client = client
-            client.container.shoppingListEntries[it.id] = it
-        }
-
-        return entries
+    private fun cache(entry: TandoorShoppingListEntry) {
+        entry.client = client
+        client.container.shoppingListEntries[entry.id] = entry
     }
-
-    suspend fun fetchAllLists(): List<TandoorShoppingList> {
-        var page = 1
-        val entries = mutableListOf<TandoorShoppingList>()
-
-        var response: TandoorPagedResponse<TandoorShoppingList>? = null
-        while(response == null || response.next != null) {
-            response = json.decodeFromString<TandoorPagedResponse<TandoorShoppingList>>(
-                client.getObject("/shopping-list/?page=$page&page_size=50").toString()
-            )
-
-            entries.addAll(response.results)
-            page++
-        }
-
-        return entries
-    }
-
 }

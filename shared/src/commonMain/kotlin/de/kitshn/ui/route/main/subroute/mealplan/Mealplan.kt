@@ -119,11 +119,11 @@ fun RouteMainSubrouteMealplan(
         pageLoadingState = ErrorLoadingSuccessState.LOADING
 
         mainFetchRequestState.wrapRequest {
-            p.vm.tandoorClient?.mealPlan?.fetch(
-                startDate.minus(1, DateTimeUnit.DAY),
-                startDate.plus(shownItems.toLong(), DateTimeUnit.DAY)
+            p.vm.tandoorClient?.mealPlan?.list(
+                from = startDate.minus(1, DateTimeUnit.DAY),
+                to = startDate.plus(shownItems.toLong(), DateTimeUnit.DAY)
                     .plus(1, DateTimeUnit.DAY)
-            )?.let {
+            )?.results?.let {
                 pageLoadingState = ErrorLoadingSuccessState.SUCCESS
 
                 mealPlanList.clear()

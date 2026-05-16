@@ -61,12 +61,12 @@ fun RouteMainSubrouteHomeMealPlanPromotionSection(
     val mainFetchRequest = rememberTandoorRequestState()
     LaunchedEffect(day) {
         mainFetchRequest.wrapRequest {
-            client.mealPlan.fetch(
-                Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+            client.mealPlan.list(
+                from = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                     .minus(1, DateTimeUnit.DAY),
-                Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+                to = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                     .plus(day.plus + 1, DateTimeUnit.DAY)
-            ).let {
+            ).results.let {
                 val promotionDay =
                     Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
                         .plus(day.plus, DateTimeUnit.DAY)
@@ -78,7 +78,7 @@ fun RouteMainSubrouteHomeMealPlanPromotionSection(
                 }.filter { mealPlan ->
                     // filter already cooked recipes
                     if (mealPlan.recipe?.id == null) return@wrapRequest
-                    val recipe = client.recipe.get(mealPlan.recipe.id)
+                    val recipe = client.recipe.retrieve(mealPlan.recipe.id)
 
                     recipe.last_cooked.run {
                         if(this == null) {

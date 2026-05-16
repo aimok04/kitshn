@@ -1,6 +1,5 @@
 package de.kitshn.api.tandoor.route
 
-import com.eygraber.uri.Uri
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorMealPlan
@@ -17,7 +16,10 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.encodeToJsonElement
 
-class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
+private const val PATH = "meal-plan/"
+
+open class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
+
 
     suspend fun create(
         title: String = "",
@@ -47,7 +49,7 @@ class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
         val mealPlan = TandoorMealPlan.parse(
             this.client,
-            client.postObject("/meal-plan/", data).toString()
+            client.postObject("/${PATH}", data).toString()
         )
 
         mealPlan.client = client
@@ -56,38 +58,45 @@ class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return mealPlan
     }
 
-    @OptIn(FormatStringsInDatetimeFormats::class)
-    suspend fun fetch(
+    suspend fun list(
+        page: Int = 1,
+        pageSize: Int? = 100,
         from: LocalDate? = null,
         to: LocalDate? = null,
-        meal_type: Int? = null
-    ): List<TandoorMealPlan> {
-        val dateTimeFormat = LocalDate.Format {
-            byUnicodePattern("yyyy-MM-dd")
-        }
-
-        val builder = Uri.Builder().appendEncodedPath("meal-plan/")
-        if(from != null) builder.appendQueryParameter("from_date", dateTimeFormat.format(from))
-        if(to != null) builder.appendQueryParameter("to_date", dateTimeFormat.format(to))
-        if(meal_type != null) builder.appendQueryParameter("meal_type", meal_type.toString())
-        builder.appendQueryParameter("page_size", "100")
-
-        val response = json.decodeFromString<TandoorPagedResponse<TandoorMealPlan>>(
-            client.getObject(builder.build().toString()).toString()
+        meal_type: Int? = null,
+    ): TandoorPagedResponse<TandoorMealPlan> {
+        val response = listPage<TandoorMealPlan>(
+            path = PATH,
+            page = page,
+            pageSize = pageSize,
+            extraParams = buildListExtraParams(from, to, meal_type)
         )
 
-        response.results.forEach {
-            it.client = client
-            it.recipe?.client = client
+        processPage(response.results)
 
-            client.container.mealType[it.meal_type.id] = it.meal_type
-            client.container.mealPlan[it.id] = it
-        }
-
-        return response.results
+        return response
     }
 
-    suspend fun get(
+    suspend fun listAll(
+        pageSize: Int = 100,
+        from: LocalDate? = null,
+        to: LocalDate? = null,
+        meal_type: Int? = null,
+        onPageReceived: (suspend (List<TandoorMealPlan>) -> Boolean)? = null,
+    ): TandoorPagedResponse<TandoorMealPlan> {
+        val response = listAllPages<TandoorMealPlan>(
+            path = PATH,
+            pageSize = pageSize,
+            extraParams = buildListExtraParams(from, to, meal_type)
+        ) { page ->
+            processPage(page)
+            onPageReceived?.invoke(page) ?: false
+        }
+
+        return response
+    }
+
+    suspend fun retrieve(
         id: Int
     ): TandoorMealPlan {
         val mealPlan = TandoorMealPlan.parse(
@@ -95,8 +104,37 @@ class TandoorMealPlanRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             client.getObject("/meal-plan/${id}/").toString()
         )
 
-        client.container.mealPlan[mealPlan.id] = mealPlan
+        cache(mealPlan)
         return mealPlan
     }
 
+    @OptIn(FormatStringsInDatetimeFormats::class)
+    private fun buildListExtraParams(
+        from: LocalDate? = null,
+        to: LocalDate? = null,
+        meal_type: Int? = null,
+    ): List<Pair<String, String>> {
+        val dateFormat = LocalDate.Format {
+            byUnicodePattern("yyyy-MM-dd")
+        }
+
+        return buildList {
+            from?.let { add("from_date" to dateFormat.format(it)) }
+            to?.let { add("to_date" to dateFormat.format(it)) }
+            meal_type?.let { add("meal_type" to it.toString()) }
+        }
+    }
+
+    private fun processPage(page: List<TandoorMealPlan>) {
+        page.forEach {
+            it.client = client
+            it.recipe?.client = client
+            cache(it)
+        }
+    }
+
+    private fun cache(mealPlan: TandoorMealPlan){
+        client.container.mealType[mealPlan.meal_type.id] = mealPlan.meal_type
+        client.container.mealPlan[mealPlan.id] = mealPlan
+    }
 }

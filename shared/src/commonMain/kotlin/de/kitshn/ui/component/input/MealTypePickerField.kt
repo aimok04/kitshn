@@ -81,7 +81,7 @@ fun BaseMealTypePickerField(
     val mealTypeList = remember { mutableStateListOf<TandoorMealType>() }
     LaunchedEffect(Unit) {
         try {
-            client.mealType.fetch().let { mealTypes ->
+            client.mealType.listAll().results.let { mealTypes ->
                 mealTypeList.clear()
                 mealTypeList.addAll(mealTypes.sortedWith(compareBy({ it.order }, { it.time })))
             }

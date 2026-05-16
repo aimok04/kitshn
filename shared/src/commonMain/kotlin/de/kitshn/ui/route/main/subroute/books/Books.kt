@@ -82,7 +82,7 @@ fun RouteMainSubrouteBooks(
 
         mainFetchRequestState.wrapRequest {
             books.clear()
-            books.addAll(p.vm.tandoorClient!!.recipeBook.listAll())
+            books.addAll(p.vm.tandoorClient!!.recipeBook.listAll().results)
 
             val favoriteRecipeBookId = try {
                 p.vm.favorites.getFavoritesRecipeBookId()
