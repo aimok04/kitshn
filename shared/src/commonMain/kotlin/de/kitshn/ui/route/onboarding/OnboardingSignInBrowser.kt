@@ -112,7 +112,19 @@ fun RouteOnboardingSignInBrowser(
                     webViewState.cookieManager.removeAllCookies()
                 }
 
+                // Wipe localStorage / sessionStorage on the first load so a stale
+                // session indicator left behind by a previous sign-in attempt
+                // can't surface alongside the cleared cookies.
+                var storageCleared by remember { mutableStateOf(false) }
+
                 LaunchedEffect(webViewState.loadingState) {
+                    if(!storageCleared && webViewState.loadingState is LoadingState.Loading) {
+                        webViewNavigator.evaluateJavaScript(
+                            "try { localStorage.clear(); sessionStorage.clear(); } catch (e) {}"
+                        )
+                        storageCleared = true
+                    }
+
                     // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#login-services and https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)
                     if(platformDetails.platform == Platforms.IOS) {
                         if(webViewState.lastLoadedUrl?.contains("accounts/signup") == true) {
