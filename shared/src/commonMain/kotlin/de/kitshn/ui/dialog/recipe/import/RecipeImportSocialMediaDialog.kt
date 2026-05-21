@@ -93,6 +93,20 @@ import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
+private fun buildSocialMediaImportText(
+    url: String,
+    description: String
+): String {
+    return buildString {
+        appendLine("Extracted from social media post")
+        if(url.isNotBlank()) {
+            appendLine("Source URL: $url")
+        }
+        appendLine()
+        append(description)
+    }
+}
+
 val SOCIAL_MEDIA_IMPORT_DOMAINS = listOf(
     "instagram.com",
     "www.instagram.com",
@@ -174,11 +188,30 @@ fun RecipeImportSocialMediaDialog(
             if(state.recipeDescription.length <= 3)
                 throw Error("Recipe description has to be longer than three characters.")
 
-            val response = client.aiImport.fetch(
-                file = null,
-                text = state.recipeDescription,
-                aiProviderId = aiProvider?.id ?: -1
+            val aiInput = buildSocialMediaImportText(
+                url = state.data.url,
+                description = state.recipeDescription
             )
+
+            val response = try {
+                client.aiImport.fetch(
+                    file = null,
+                    text = aiInput,
+                    aiProviderId = aiProvider?.id ?: -1
+                )
+            } catch(aiException: TandoorRequestsError) {
+                if(state.data.url.isBlank()) {
+                    throw aiException
+                }
+
+                // Fallback for servers/providers that return invalid schema from AI import.
+                try {
+                    client.recipeFromSource.fetch(state.data.url)
+                } catch(_: Exception) {
+                    throw aiException
+                }
+            }
+
             if(response.recipe == null && response.recipeId != null) {
                 state.dismiss()
                 vm.viewRecipe(response.recipeId)
