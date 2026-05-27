@@ -18,6 +18,7 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaul
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -90,7 +91,8 @@ fun RouteMain(p: RouteParameters) {
         }
     }
 
-    val isOffline = p.vm.uiState.offlineState.isOffline
+    val isOnline by p.vm.isOnline.collectAsState()
+    val isOffline = !isOnline
 
     NavigationSuiteScaffold(
         navigationSuiteColors = NavigationSuiteDefaults.colors(

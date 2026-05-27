@@ -34,6 +34,12 @@ class TandoorRequestsError(
                     ?: (response?.request?.url.toString() + " | " + response?.request?.method.toString() + " | " + response?.status.toString())
                 )
                 + additionalText + throwable?.stackTraceToString())
+
+    /** Server answered with 4xx/5xx — reachable, but refused. */
+    val isServerRefused: Boolean get() = response != null
+
+    /** No response at all — transport failure (DNS, connect, timeout, TLS, …). */
+    val isNetworkFailure: Boolean get() = response == null
 }
 
 suspend fun TandoorClient.reqAny(
@@ -83,15 +89,20 @@ suspend fun TandoorClient.reqAny(
             custom()
         }
 
+        // 4xx/5xx still means Tandoor answered — server reachable, just refused.
+        reportCallSuccess()
         if(!response.status.isSuccess())
             throw TandoorRequestsError(null, response)
 
         return response
+    } catch(e: kotlinx.coroutines.CancellationException) {
+        throw e
     } catch(e: Exception) {
         if(e is TandoorRequestsError) {
             throw e
         } else {
-            Logger.e("TandoorRequests.kt", e)
+            Logger.w("TandoorRequests.kt") { "Transport failure: ${e::class.simpleName}: ${e.message}" }
+            reportCallNetworkFailure()
             throw TandoorRequestsError(e, null)
         }
     }
@@ -187,15 +198,19 @@ suspend fun TandoorClient.reqMultipart(
             )
         }
 
+        reportCallSuccess()
         if(!response.status.isSuccess())
             throw TandoorRequestsError(null, response)
 
         return response
+    } catch(e: kotlinx.coroutines.CancellationException) {
+        throw e
     } catch(e: Exception) {
         if(e is TandoorRequestsError) {
             throw e
         } else {
-            Logger.e("TandoorRequests.kt", e)
+            Logger.w("TandoorRequests.kt") { "Transport failure: ${e::class.simpleName}: ${e.message}" }
+            reportCallNetworkFailure()
             throw TandoorRequestsError(e, null)
         }
     }

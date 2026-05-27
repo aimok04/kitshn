@@ -10,11 +10,12 @@ import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorRequestsError
-import de.kitshn.api.tandoor.reqAny
 import androidx.compose.runtime.snapshotFlow
 import de.kitshn.repo.FoodRepo
+import de.kitshn.repo.ShoppingListRepo
 import de.kitshn.repo.ShoppingRepo
 import de.kitshn.repo.SupermarketCategoryRepo
+import de.kitshn.repo.SupermarketRepo
 import de.kitshn.repo.SyncableRepo
 import de.kitshn.repo.UnitRepo
 import de.kitshn.session.TandoorSession
@@ -22,20 +23,17 @@ import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.route.main.clearRememberAlternateNavController
 import de.kitshn.ui.state.clearForeverRememberMutableStateList
 import de.kitshn.ui.state.clearForeverRememberNotSavable
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.serialization.SerializationException
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -59,6 +57,8 @@ class KitshnViewModel(
     val supermarketCategoryRepo: SupermarketCategoryRepo,
     val foodRepo: FoodRepo,
     val shoppingRepo: ShoppingRepo,
+    val shoppingListRepo: ShoppingListRepo,
+    val supermarketRepo: SupermarketRepo,
     private val applicationScope: CoroutineScope,
 
     val onBeforeCredentialsCheck: (credentials: TandoorCredentials?) -> Boolean = { false },
@@ -73,6 +73,8 @@ class KitshnViewModel(
     var tandoorClient: TandoorClient?
         get() = session.client
         set(value) { session.client = value }
+
+    val isOnline: StateFlow<Boolean> = session.isOnline
 
     val favorites = FavoritesViewModel()
 
@@ -112,6 +114,7 @@ class KitshnViewModel(
             .toEpochMilliseconds()
 
         startPeriodicSync()
+        observeColdStartOffline()
 
         viewModelScope.launch {
             if(settings.getFirstRunTime.first() == -1L)
@@ -131,8 +134,6 @@ class KitshnViewModel(
 
             session.hydrate(credentials)
             favorites.init(session.client!!)
-
-            connectivityCheck()
 
             try {
                 session.client!!.serverSettings.current()
@@ -190,65 +191,14 @@ class KitshnViewModel(
         }
     }
 
-    // enable offline state when having connectivity issues
-    fun connectivityCheck() {
-        val client = session.client ?: return
-        if(!uiState.isInForeground) return
-
+    private fun observeColdStartOffline() {
         viewModelScope.launch {
-            var isOffline = true
-
-            try {
-                val response = client.reqAny(
-                    endpoint = "/",
-                    _method = HttpMethod.Get,
-                    customHttpClient = HttpClient {
-                        install(HttpTimeout) {
-                            requestTimeoutMillis = 2000
-                        }
-                    }
-                )
-
-                if(response.status == HttpStatusCode.OK)
-                    isOffline = false
-            } catch(_: TandoorRequestsError) {
-            } catch(_: SerializationException) {
-            }
-
-            if(isOffline) {
-                isOffline = true
-
-                try {
-                    val response = client.reqAny(
-                        endpoint = "/",
-                        _method = HttpMethod.Get,
-                        customHttpClient = HttpClient {
-                            install(HttpTimeout) {
-                                requestTimeoutMillis = 5000
-                            }
-                        }
-                    )
-
-                    if(response.status == HttpStatusCode.OK)
-                        isOffline = false
-                } catch(_: TandoorRequestsError) {
-                } catch(_: SerializationException) {
-                }
-
-                if(isOffline) {
-                    uiState.offlineState.isOffline = true
-
-                    // automatically switch to shopping page if offline
-                    if((Clock.System.now().toEpochMilliseconds() - initTime) < 8000) {
-                        if(navHostController?.currentDestination?.route != "main") return@launch
-                        if(mainSubNavHostController?.currentDestination?.route != "home") return@launch
-                        mainSubNavHostController?.navigate("shopping")
-                    }
-                } else {
-                    uiState.offlineState.isOffline = false
-                }
-            } else {
-                uiState.offlineState.isOffline = false
+            isOnline.drop(1).collect { online ->
+                if (online) return@collect
+                if ((Clock.System.now().toEpochMilliseconds() - initTime) >= 8000) return@collect
+                if (navHostController?.currentDestination?.route != "main") return@collect
+                if (mainSubNavHostController?.currentDestination?.route != "home") return@collect
+                mainSubNavHostController?.navigate("shopping")
             }
         }
     }
@@ -258,15 +208,33 @@ class KitshnViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             coroutineScope {
                 launch { shoppingRepo.sync() }
+                launch { shoppingListRepo.sync() }
                 launch { unitRepo.sync() }
                 launch { supermarketCategoryRepo.sync() }
+                launch { supermarketRepo.sync() }
                 launch { foodRepo.sync() }
             }
         }
     }
 
     private val syncableRepos: List<SyncableRepo>
-        get() = listOf(shoppingRepo, unitRepo, supermarketCategoryRepo, foodRepo)
+        get() = listOf(
+            shoppingRepo,
+            shoppingListRepo,
+            unitRepo,
+            supermarketCategoryRepo,
+            supermarketRepo,
+            foodRepo,
+        )
+
+    fun resetLocalDatabase() {
+        applicationScope.launch {
+            db.clearAllTables()
+            syncableRepos.forEach { it.resetLocalState() }
+            sync()
+            reconcile()
+        }
+    }
 
     private var periodicSyncStarted = false
 
@@ -293,7 +261,8 @@ class KitshnViewModel(
         }
     }
 
-    // Cleanup stale local data infrequently
+    // Fuller pull on top of frequent deltas — refreshes stale data and catches remote
+    // deletions (which deltas can't surface, since the API has no tombstones).
     fun reconcile() {
         if (tandoorClient == null) return
         viewModelScope.launch(Dispatchers.IO) {
@@ -301,6 +270,8 @@ class KitshnViewModel(
                 launch { unitRepo.reconcile() }
                 launch { supermarketCategoryRepo.reconcile() }
                 launch { foodRepo.reconcile() }
+                launch { shoppingListRepo.reconcile() }
+                launch { supermarketRepo.reconcile() }
             }
         }
     }
@@ -311,7 +282,6 @@ class KitshnViewModel(
         navHostController?.navigate("onboarding/welcome")
 
         favorites.init(client)
-        connectivityCheck()
     }
 
     fun signOut() {

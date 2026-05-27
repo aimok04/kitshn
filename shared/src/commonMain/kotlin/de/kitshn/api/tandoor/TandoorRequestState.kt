@@ -49,20 +49,12 @@ class TandoorRequestState {
             state = TandoorRequestStateState.SUCCESS
 
             return value
+        } catch(e: CancellationException) {
+            throw e
         } catch(e: TandoorRequestsError) {
-            if(e.throwable is CancellationException) return null
-
             Logger.e("TandoorRequestState.kt", e)
             Logger.e("TandoorRequestState.kt", e.throwable)
             error = e
-            state = TandoorRequestStateState.ERROR
-        } catch(e: Error) {
-            Logger.e("TandoorRequestState.kt", e)
-            error = TandoorRequestsError(e, null)
-            state = TandoorRequestStateState.ERROR
-        } catch(e: Exception) {
-            Logger.e("TandoorRequestState.kt", e)
-            error = TandoorRequestsError(e, null)
             state = TandoorRequestStateState.ERROR
         }
 

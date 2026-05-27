@@ -2,17 +2,374 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2eea24f5a132990426b3f8c07e5abafe",
+    "identityHash": "5dc17e6bce6d7dcc8ea523b285b3e3ae",
     "entities": [
       {
+        "tableName": "unit",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `remoteId` INTEGER, `name` TEXT NOT NULL, `plural_name` TEXT, `description` TEXT, `base_unit` TEXT, `open_data_slug` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "plural_name",
+            "columnName": "plural_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "base_unit",
+            "columnName": "base_unit",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "open_data_slug",
+            "columnName": "open_data_slug",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_unit_remoteId",
+            "unique": true,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_unit_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_unit_name",
+            "unique": true,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_unit_name` ON `${TABLE_NAME}` (`name`)"
+          }
+        ]
+      },
+      {
+        "tableName": "unit_pending_delete",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`remoteId` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`remoteId`))",
+        "fields": [
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "remoteId"
+          ]
+        }
+      },
+      {
+        "tableName": "supermarket_category",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `remoteId` INTEGER, `name` TEXT NOT NULL, `description` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_supermarket_category_remoteId",
+            "unique": true,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_supermarket_category_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_supermarket_category_name",
+            "unique": true,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_supermarket_category_name` ON `${TABLE_NAME}` (`name`)"
+          }
+        ]
+      },
+      {
+        "tableName": "supermarket_category_pending_delete",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`remoteId` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`remoteId`))",
+        "fields": [
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "remoteId"
+          ]
+        }
+      },
+      {
+        "tableName": "food",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `remoteId` INTEGER, `name` TEXT NOT NULL, `plural_name` TEXT, `description` TEXT, `url` TEXT, `recipe_id` INTEGER, `recipe_name` TEXT, `recipe_url` TEXT, `properties_food_amount` REAL, `properties_food_unit_id` INTEGER, `fdc_id` INTEGER, `full_name` TEXT, `supermarket_category_id` INTEGER, `ignore_shopping` INTEGER NOT NULL, `open_data_slug` TEXT, FOREIGN KEY(`properties_food_unit_id`) REFERENCES `unit`(`id`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`supermarket_category_id`) REFERENCES `supermarket_category`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "plural_name",
+            "columnName": "plural_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "recipe_id",
+            "columnName": "recipe_id",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "recipe_name",
+            "columnName": "recipe_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "recipe_url",
+            "columnName": "recipe_url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "properties_food_amount",
+            "columnName": "properties_food_amount",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "properties_food_unit_id",
+            "columnName": "properties_food_unit_id",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fdc_id",
+            "columnName": "fdc_id",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "full_name",
+            "columnName": "full_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "supermarket_category_id",
+            "columnName": "supermarket_category_id",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ignore_shopping",
+            "columnName": "ignore_shopping",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "open_data_slug",
+            "columnName": "open_data_slug",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_food_remoteId",
+            "unique": true,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_food_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_food_name",
+            "unique": false,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_food_name` ON `${TABLE_NAME}` (`name`)"
+          },
+          {
+            "name": "index_food_properties_food_unit_id",
+            "unique": false,
+            "columnNames": [
+              "properties_food_unit_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_food_properties_food_unit_id` ON `${TABLE_NAME}` (`properties_food_unit_id`)"
+          },
+          {
+            "name": "index_food_supermarket_category_id",
+            "unique": false,
+            "columnNames": [
+              "supermarket_category_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_food_supermarket_category_id` ON `${TABLE_NAME}` (`supermarket_category_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "unit",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "properties_food_unit_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "supermarket_category",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "supermarket_category_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "food_pending_delete",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`remoteId` INTEGER NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`remoteId`))",
+        "fields": [
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "remoteId"
+          ]
+        }
+      },
+      {
         "tableName": "ShoppingItemEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `list_recipe` INTEGER, `shopping_lists` TEXT NOT NULL, `food` TEXT NOT NULL, `unit` TEXT, `amount` REAL NOT NULL, `order` INTEGER NOT NULL, `checked` INTEGER NOT NULL, `created_by` TEXT NOT NULL, `created_at` TEXT, `list_recipe_data` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `remoteId` INTEGER, `list_recipe` INTEGER, `shopping_lists` TEXT NOT NULL, `food_id` INTEGER NOT NULL, `unit_id` INTEGER, `amount` REAL NOT NULL, `order` INTEGER NOT NULL, `checked` INTEGER NOT NULL, `created_by` TEXT NOT NULL, `created_at` TEXT, `list_recipe_data` TEXT, `meal_plan_id` INTEGER, `lastSyncError` TEXT, FOREIGN KEY(`unit_id`) REFERENCES `unit`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`food_id`) REFERENCES `food`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "list_recipe",
@@ -26,15 +383,15 @@
             "notNull": true
           },
           {
-            "fieldPath": "food",
-            "columnName": "food",
-            "affinity": "TEXT",
+            "fieldPath": "food_id",
+            "columnName": "food_id",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "unit",
-            "columnName": "unit",
-            "affinity": "TEXT"
+            "fieldPath": "unit_id",
+            "columnName": "unit_id",
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "amount",
@@ -69,18 +426,81 @@
             "fieldPath": "list_recipe_data",
             "columnName": "list_recipe_data",
             "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "meal_plan_id",
+            "columnName": "meal_plan_id",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "lastSyncError",
+            "columnName": "lastSyncError",
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
-          "autoGenerate": false,
+          "autoGenerate": true,
           "columnNames": [
             "id"
           ]
-        }
+        },
+        "indices": [
+          {
+            "name": "index_ShoppingItemEntity_remoteId",
+            "unique": true,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_ShoppingItemEntity_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_ShoppingItemEntity_unit_id",
+            "unique": false,
+            "columnNames": [
+              "unit_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_ShoppingItemEntity_unit_id` ON `${TABLE_NAME}` (`unit_id`)"
+          },
+          {
+            "name": "index_ShoppingItemEntity_food_id",
+            "unique": false,
+            "columnNames": [
+              "food_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_ShoppingItemEntity_food_id` ON `${TABLE_NAME}` (`food_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "unit",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "unit_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "food",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "food_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "ShoppingTransactionEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `entryId` INTEGER NOT NULL, `action` TEXT NOT NULL, `payload` TEXT, `timestamp` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `entryId` INTEGER NOT NULL, `action` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, FOREIGN KEY(`entryId`) REFERENCES `ShoppingItemEntity`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -101,11 +521,6 @@
             "notNull": true
           },
           {
-            "fieldPath": "payload",
-            "columnName": "payload",
-            "affinity": "TEXT"
-          },
-          {
             "fieldPath": "timestamp",
             "columnName": "timestamp",
             "affinity": "INTEGER",
@@ -117,12 +532,253 @@
           "columnNames": [
             "id"
           ]
+        },
+        "indices": [
+          {
+            "name": "index_ShoppingTransactionEntity_entryId",
+            "unique": false,
+            "columnNames": [
+              "entryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_ShoppingTransactionEntity_entryId` ON `${TABLE_NAME}` (`entryId`)"
+          },
+          {
+            "name": "index_ShoppingTransactionEntity_entryId_action",
+            "unique": false,
+            "columnNames": [
+              "entryId",
+              "action"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_ShoppingTransactionEntity_entryId_action` ON `${TABLE_NAME}` (`entryId`, `action`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "ShoppingItemEntity",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "entryId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "shopping_list",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `color` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_shopping_list_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_shopping_list_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ]
+      },
+      {
+        "tableName": "supermarket",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "supermarket_category_to_supermarket",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `supermarketId` INTEGER NOT NULL, `categoryLocalId` INTEGER NOT NULL, `order` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`supermarketId`) REFERENCES `supermarket`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`categoryLocalId`) REFERENCES `supermarket_category`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "supermarketId",
+            "columnName": "supermarketId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryLocalId",
+            "columnName": "categoryLocalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_supermarket_category_to_supermarket_supermarketId",
+            "unique": false,
+            "columnNames": [
+              "supermarketId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_supermarket_category_to_supermarket_supermarketId` ON `${TABLE_NAME}` (`supermarketId`)"
+          },
+          {
+            "name": "index_supermarket_category_to_supermarket_categoryLocalId",
+            "unique": false,
+            "columnNames": [
+              "categoryLocalId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_supermarket_category_to_supermarket_categoryLocalId` ON `${TABLE_NAME}` (`categoryLocalId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "supermarket",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "supermarketId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "supermarket_category",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "categoryLocalId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "repo_meta",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoName` TEXT NOT NULL, `updatedAtWatermark` TEXT, `lastSyncedAt` INTEGER NOT NULL, `recentDeltaItemCount` INTEGER NOT NULL, `cursorPage` INTEGER NOT NULL, `cursorPageSize` INTEGER, `lastReconciledAt` INTEGER NOT NULL, PRIMARY KEY(`repoName`))",
+        "fields": [
+          {
+            "fieldPath": "repoName",
+            "columnName": "repoName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAtWatermark",
+            "columnName": "updatedAtWatermark",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "recentDeltaItemCount",
+            "columnName": "recentDeltaItemCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cursorPage",
+            "columnName": "cursorPage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cursorPageSize",
+            "columnName": "cursorPageSize",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "lastReconciledAt",
+            "columnName": "lastReconciledAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "repoName"
+          ]
         }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2eea24f5a132990426b3f8c07e5abafe')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5dc17e6bce6d7dcc8ea523b285b3e3ae')"
     ]
   }
 }

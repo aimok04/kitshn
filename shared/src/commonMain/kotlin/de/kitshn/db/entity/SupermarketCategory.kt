@@ -1,25 +1,41 @@
 package de.kitshn.db.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarketCategory
 
-@Entity(tableName = "supermarket_category")
+// Two ids: see [UnitEntity] doc — same convention.
+@Entity(
+    tableName = "supermarket_category",
+    indices = [
+        Index(value = ["remoteId"], unique = true),
+        Index(value = ["name"], unique = true),
+    ],
+)
 data class SupermarketCategoryEntity(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val localId: Int = 0,
+    val remoteId: Int? = null,
     val name: String,
     val description: String? = null,
 )
 
-fun SupermarketCategoryEntity.toModel() =
-    TandoorSupermarketCategory(
-        id = id,
-        name = name,
-        description = description,
-    )
+fun SupermarketCategoryEntity.toModel() = TandoorSupermarketCategory(
+    id = localId,
+    name = name,
+    description = description,
+)
 
-// Server allows categories with null id (client-entered, not yet persisted); skip those.
-fun TandoorSupermarketCategory.toEntity(): SupermarketCategoryEntity? {
-    val id = this.id ?: return null
-    return SupermarketCategoryEntity(id = id, name = name, description = description)
-}
+fun TandoorSupermarketCategory.toEntity(localId: Int = 0) = SupermarketCategoryEntity(
+    localId = localId,
+    remoteId = id,
+    name = name,
+    description = description,
+)
+
+@Entity(tableName = "supermarket_category_pending_delete")
+data class SupermarketCategoryPendingDeleteEntity(
+    @PrimaryKey val remoteId: Int,
+    val name: String,
+)

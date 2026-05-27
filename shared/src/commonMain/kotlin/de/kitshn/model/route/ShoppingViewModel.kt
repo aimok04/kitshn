@@ -65,7 +65,7 @@ class ShoppingViewModel(
     val shoppingListEntriesFetchRequest = TandoorRequestState()
 
     var loaded by mutableStateOf(false)
-    var isRefreshing by mutableStateOf(false)
+    val isRefreshing = repo.isSyncing
 
     init {
         viewModelScope.launch {
@@ -83,16 +83,13 @@ class ShoppingViewModel(
         }
     }
 
-    suspend fun interactiveSync(force: Boolean = false) {
-        isRefreshing = true
-        try {
-            if (p.vm.uiState.offlineState.isOffline) {
-                p.vm.connectivityCheck()
+    fun interactiveSync(force: Boolean = false) {
+        viewModelScope.launch {
+            if (force) {
+                repo.reconcileInteractive()
             } else {
-                repo.sync(force)
+                repo.sync()
             }
-        } finally {
-            isRefreshing = false
         }
     }
 
@@ -101,8 +98,7 @@ class ShoppingViewModel(
             delay(50)
         }
 
-        // don't update if offline
-        if(p.vm.uiState.offlineState.isOffline) return
+        if(!p.vm.isOnline.value) return
 
         // don't update when app is in background
         if(!p.vm.uiState.isInForeground) return
