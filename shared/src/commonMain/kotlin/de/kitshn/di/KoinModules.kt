@@ -4,8 +4,10 @@ import de.kitshn.KitshnViewModel
 import de.kitshn.KitshnViewModelArgs
 import de.kitshn.SettingsViewModel
 import de.kitshn.repo.FoodRepo
+import de.kitshn.repo.ShoppingListRepo
 import de.kitshn.repo.ShoppingRepo
 import de.kitshn.repo.SupermarketCategoryRepo
+import de.kitshn.repo.SupermarketRepo
 import de.kitshn.repo.UnitRepo
 import de.kitshn.session.TandoorSession
 import kotlinx.coroutines.CoroutineScope
@@ -34,7 +36,13 @@ private val coroutineModule = module {
 
 private val sessionModule = module {
     single { SettingsViewModel() }
-    single { TandoorSession(settings = get()) }
+    single {
+        TandoorSession(
+            settings = get(),
+            networkObserver = get(),
+            scope = get(APPLICATION_SCOPE_QUALIFIER),
+        )
+    }
 }
 
 private val repositoryModule = module {
@@ -68,6 +76,21 @@ private val repositoryModule = module {
             periodicInterval = 60.seconds,
         )
     }
+    single {
+        ShoppingListRepo(
+            db = get(),
+            session = get(),
+            scope = get(APPLICATION_SCOPE_QUALIFIER),
+        )
+    }
+    single {
+        SupermarketRepo(
+            db = get(),
+            supermarketCategoryRepo = get(),
+            session = get(),
+            scope = get(APPLICATION_SCOPE_QUALIFIER),
+        )
+    }
 }
 
 private val viewModelModule = module {
@@ -80,6 +103,8 @@ private val viewModelModule = module {
             supermarketCategoryRepo = get(),
             foodRepo = get(),
             shoppingRepo = get(),
+            shoppingListRepo = get(),
+            supermarketRepo = get(),
             applicationScope = get(APPLICATION_SCOPE_QUALIFIER),
             onBeforeCredentialsCheck = args.onBeforeCredentialsCheck,
             onLaunched = args.onLaunched,

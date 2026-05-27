@@ -115,10 +115,12 @@ fun ShoppingListEntryCreationDialog(
                 if (foodName.isNullOrBlank()) return@wrapRequest
 
                 val entry = shoppingRepo.create(
-                    foodName = foodName,
-                    amount = amount?.toDouble() ?: 0.0,
-                    unitName = unit?.takeIf { it.isNotBlank() },
-                    shoppingLists = shoppingLists
+                    de.kitshn.repo.TandoorShoppingListEntryCreationRequest(
+                        foodName = foodName,
+                        amount = amount?.toDouble() ?: 0.0,
+                        unitName = unit?.takeIf { it.isNotBlank() },
+                        shoppingLists = shoppingLists
+                    )
                 ) ?: return@wrapRequest
 
                 onUpdate(entry)

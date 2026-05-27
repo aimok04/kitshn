@@ -138,7 +138,7 @@ fun SupermarketCategorySearchBar(
 
     var query by rememberSaveable { mutableStateOf("") }
 
-    val categories by supermarketCategoryRepo.observe().collectAsState(emptyList())
+    val categories by supermarketCategoryRepo.categories.collectAsState(emptyList())
     val searchResults = remember { mutableStateListOf<TandoorSupermarketCategory>() }
 
     val fetchRequestState = rememberTandoorRequestState()

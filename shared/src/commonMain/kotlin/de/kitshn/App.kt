@@ -27,7 +27,6 @@ import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.ui.route.navigation.PrimaryNavigation
 import de.kitshn.ui.theme.KitshnTheme
 import de.kitshn.ui.theme.custom.AvailableColorSchemes
-import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -83,6 +82,8 @@ fun App(
         alphaAnim.animateTo(if (vm.uiState.blockUI) 0f else 1f, tween(200))
     }
 
+    val isOnline by vm.isOnline.collectAsState()
+
     KitshnTheme(
         darkTheme = if (systemTheme.value) isSystemInDarkTheme() else darkMode.value,
         customColorSchemeSeed = customColorSchemeSeed,
@@ -95,8 +96,7 @@ fun App(
             if (alphaAnim.value > 0f) PrimaryNavigation(vm = vm)
 
             Box {
-                // display offline bar
-                if (vm.uiState.offlineState.isOffline) Box(
+                if (!isOnline) Box(
                     modifier = Modifier
                         .height(with(density) {
                             WindowInsets.statusBars.getTop(density).toDp()
@@ -110,19 +110,9 @@ fun App(
 
     LaunchedEffect(Unit) {
         vm.init()
-
-        while (true) {
-            delay(8000)
-            vm.connectivityCheck()
-        }
     }
 
     LaunchedEffect(vm.tandoorClient) {
-        if (vm.tandoorClient != null) {
-            vm.sync()
-
-            // already debounces by itself
-            vm.reconcile()
-        }
+        if (vm.tandoorClient != null) vm.sync()
     }
 }

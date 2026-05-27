@@ -22,6 +22,9 @@ import de.kitshn.json
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.http.HttpStatusCode
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.buildJsonObject
@@ -71,6 +74,20 @@ class TandoorClient(
 
     val container = TandoorContainer(this)
     val media = TandoorMedia(this)
+
+    private val _lastCallSucceeded = MutableStateFlow(true)
+    /**
+     * Reflects the most recent network-layer outcome of any request through this client.
+     * - 2xx response → `true`
+     * - transport failure (no response, IOException-class) → `false`
+     * - 4xx/5xx → left unchanged (server is reachable; it just refused)
+     *
+     * Combined with [NetworkObserver.isConnected] to derive [TandoorSession.isOnline].
+     */
+    val lastCallSucceeded: StateFlow<Boolean> = _lastCallSucceeded.asStateFlow()
+
+    internal fun reportCallSuccess() { _lastCallSucceeded.value = true }
+    internal fun reportCallNetworkFailure() { _lastCallSucceeded.value = false }
 
     val aiImport = TandoorAIImportRoute(this)
     val aiProvider = TandoorAIProviderRoute(this)

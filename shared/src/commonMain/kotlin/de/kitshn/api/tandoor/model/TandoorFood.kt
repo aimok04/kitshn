@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
 
 @Serializable
-class TandoorFood(
+data class TandoorFood(
     val id: Int,
     val name: String,
     val plural_name: String? = null,

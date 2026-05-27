@@ -256,7 +256,7 @@ fun RouteShoppingMode(
             client = it,
             showFractionalValues = ingredientsShowFractionalValues.value,
             state = shoppingListEntryDetailsBottomSheetState,
-            isOffline = p.vm.uiState.offlineState.isOffline,
+            isOffline = !p.vm.isOnline.collectAsState().value,
             onCheck = { entries ->
                 val allChecked = entries.all { it.checked }
                 coroutineScope.launch {
@@ -280,15 +280,16 @@ fun RouteShoppingMode(
             onChangeAmount = { entry, amount ->
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
-                        val newEntry = shoppingRepo.updatePartial(
-                            entryId = entry.id,
-                            amount = amount
-                        ) ?: return@wrapRequest
+                        val newEntry = shoppingRepo.updateAmount(entry.id, amount)
+                            ?: return@wrapRequest
 
                         val idx = shoppingListEntryDetailsBottomSheetState.entries.indexOf(entry)
                         if (idx >= 0) shoppingListEntryDetailsBottomSheetState.entries[idx] = newEntry
                     }
                 }
+            },
+            onChangeCategory = { foodLocalId, category ->
+                p.vm.foodRepo.updateSupermarketCategory(foodLocalId, category)
             },
             onClickMealplan = { mealPlan -> mealPlanDetailsDialogState.open(mealPlan) },
             onClickRecipe = { recipe -> recipeLinkDialogState.open(recipe.toOverview()) },

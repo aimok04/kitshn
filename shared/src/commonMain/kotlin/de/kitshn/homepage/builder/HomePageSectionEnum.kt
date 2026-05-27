@@ -310,7 +310,7 @@ enum class HomePageSectionEnum(
         )
     );
 
-    fun toHomePageSection(
+    suspend fun toHomePageSection(
         keywordNameIdMapCache: KeywordNameIdMapCache,
         foodRepo: FoodRepo
     ): HomePageSection {
@@ -319,7 +319,9 @@ enum class HomePageSectionEnum(
         queryParameters.forEach { qp ->
             val keywordList =
                 qp.keywords?.mapNotNull { keywordNameIdMapCache.retrieve(it) } ?: listOf()
-            val foodList = qp.foods?.mapNotNull { foodRepo.findIdByName(it) } ?: listOf()
+            // Tandoor's recipe filter wants server ids; stubs (no remoteId) are silently
+            // skipped — they'll show up after the next syncPendingCreates.
+            val foodList = qp.foods?.mapNotNull { foodRepo.remoteIdByName(it) } ?: listOf()
 
             // don't add empty query parameters (empty qps will just list all recipes)
             if(qp.query == null && qp.new == null && qp.random == null && qp.rating == null && qp.timescooked == null && qp.sortOrder == null)

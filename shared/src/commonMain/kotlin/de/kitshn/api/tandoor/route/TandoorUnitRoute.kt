@@ -1,6 +1,8 @@
 package de.kitshn.api.tandoor.route
 
 import de.kitshn.api.tandoor.TandoorClient
+import de.kitshn.api.tandoor.delete
+import de.kitshn.api.tandoor.getObject
 import de.kitshn.api.tandoor.model.TandoorPagedResponse
 import de.kitshn.api.tandoor.model.TandoorUnit
 import de.kitshn.api.tandoor.postObject
@@ -16,6 +18,15 @@ class TandoorUnitRoute(client: TandoorClient) : TandoorBaseRoute(client) {
             client.postObject("/unit/", data).toString()
         )
     }
+
+    suspend fun delete(remoteId: Int) {
+        client.delete("/unit/${remoteId}/")
+    }
+
+    suspend fun retrieve(remoteId: Int): TandoorUnit =
+        json.decodeFromString<TandoorUnit>(
+            client.getObject("/unit/${remoteId}/").toString()
+        )
 
     suspend fun list(
         query: String? = null,
@@ -34,7 +45,7 @@ class TandoorUnitRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return response
     }
 
-    suspend fun retrieve(
+    suspend fun listAll(
         updatedAt: String? = null,
         onPageReceived: (suspend (List<TandoorUnit>) -> Boolean)? = null,
     ): TandoorPagedResponse<TandoorUnit> = listAllPages<TandoorUnit>(

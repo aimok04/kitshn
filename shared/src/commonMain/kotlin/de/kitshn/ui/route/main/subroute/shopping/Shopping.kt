@@ -28,6 +28,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.VerticalFloatingToolbar
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,15 +47,11 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil3.PlatformContext
-import coil3.compose.LocalPlatformContext
 import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
 import de.kitshn.api.tandoor.rememberTandoorRequestState
-import de.kitshn.cache.ShoppingListCache
-import de.kitshn.cache.ShoppingSupermarketCache
 import de.kitshn.handleTandoorRequestState
 import de.kitshn.model.route.GroupDividerShoppingListItemModel
 import de.kitshn.model.route.GroupHeaderShoppingListItemModel
@@ -105,17 +103,6 @@ private const val BULK_HAPTIC_TICK_CAP = 4
 @Composable
 fun RouteMainSubrouteShopping(
     p: RouteParameters,
-    platformContext: PlatformContext = LocalPlatformContext.current,
-    supermarketCache: ShoppingSupermarketCache = remember {
-        ShoppingSupermarketCache(
-            platformContext, p.vm.tandoorClient!!
-        )
-    },
-    shoppingListCache: ShoppingListCache = remember {
-        ShoppingListCache(
-            platformContext, p.vm.tandoorClient!!
-        )
-    },
     additionalShoppingSettingsChipRowState: AdditionalShoppingSettingsChipRowState =
         rememberAdditionalShoppingSettingsChipRowState(p.vm.settings),
     vm: ShoppingViewModel = viewModel {
@@ -156,9 +143,13 @@ fun RouteMainSubrouteShopping(
     LaunchedEffect(client) {
         if(client == null) return@LaunchedEffect
 
+        // On open: bypass the reconcile interval so changes that landed while the
+        // view was closed surface immediately and queued offline txns get pushed.
+        vm.interactiveSync(force = true)
+
         while(true) {
-            vm.update()
             delay(5000)
+            vm.update()
         }
     }
     var firstRun by remember { mutableStateOf(true) }
@@ -268,8 +259,6 @@ fun RouteMainSubrouteShopping(
                 if(client != null) AdditionalShoppingSettingsChipRow(
                     vm = vm,
                     state = additionalShoppingSettingsChipRowState,
-                    cache = supermarketCache,
-                    listCache = shoppingListCache
                 )
 
                 HorizontalDivider()
@@ -277,12 +266,18 @@ fun RouteMainSubrouteShopping(
                 LoadingGradientWrapper(
                     loadingState = if(vm.loaded) ErrorLoadingSuccessState.SUCCESS else ErrorLoadingSuccessState.LOADING
                 ) {
+                    val pullState = rememberPullToRefreshState()
+                    val isRefreshing by vm.isRefreshing.collectAsState()
                     PullToRefreshBox(
-                        isRefreshing = vm.isRefreshing,
-                        onRefresh = {
-                            coroutineScope.launch {
-                                vm.interactiveSync(force = true)
-                            }
+                        isRefreshing = isRefreshing,
+                        onRefresh = { vm.interactiveSync(force = true) },
+                        state = pullState,
+                        indicator = {
+                            PullToRefreshDefaults.LoadingIndicator(
+                                state = pullState,
+                                isRefreshing = isRefreshing,
+                                modifier = Modifier.align(Alignment.TopCenter),
+                            )
                         },
                         modifier = Modifier.fillMaxSize()
                     ) {
@@ -477,7 +472,7 @@ fun RouteMainSubrouteShopping(
             client = it,
             showFractionalValues = ingredientsShowFractionalValues.value,
             state = shoppingListEntryDetailsBottomSheetState,
-            isOffline = p.vm.uiState.offlineState.isOffline,
+            isOffline = !p.vm.isOnline.collectAsState().value,
             onCheck = { entries ->
                 checkEntries(entries)
             },
@@ -492,15 +487,16 @@ fun RouteMainSubrouteShopping(
             onChangeAmount = { entry, amount ->
                 coroutineScope.launch {
                     actionRequestState.wrapRequest {
-                        val newEntry = shoppingRepo.updatePartial(
-                            entryId = entry.id,
-                            amount = amount
-                        ) ?: return@wrapRequest
+                        val newEntry = shoppingRepo.updateAmount(entry.id, amount)
+                            ?: return@wrapRequest
 
                         val idx = shoppingListEntryDetailsBottomSheetState.entries.indexOf(entry)
                         if (idx >= 0) shoppingListEntryDetailsBottomSheetState.entries[idx] = newEntry
                     }
                 }
+            },
+            onChangeCategory = { foodLocalId, category ->
+                p.vm.foodRepo.updateSupermarketCategory(foodLocalId, category)
             },
             onClickMealplan = { mealPlan -> mealPlanDetailsDialogState.open(mealPlan) },
             onClickRecipe = { recipe -> recipeLinkDialogState.open(recipe.toOverview()) },

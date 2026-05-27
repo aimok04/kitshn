@@ -15,6 +15,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,6 +50,10 @@ fun BaseUnitSearchField(
     var isExpanded by remember { mutableStateOf(false) }
     var searchText by rememberSaveable { mutableStateOf("") }
     var fromDropdown by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        unitRepo.sync()
+    }
 
     val unitList by remember(searchText) {
         if (searchText.isBlank() || fromDropdown) flowOf(emptyList())

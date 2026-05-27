@@ -36,13 +36,13 @@ class TandoorShoppingRoute(client: TandoorClient) : TandoorBaseRoute(client) {
     }
 
     suspend fun listAll(
-        query: String? = null,
+        updatedAfter: String? = null,
         onPageReceived: (suspend (List<TandoorShoppingListEntry>) -> Boolean)? = null,
     ): TandoorPagedResponse<TandoorShoppingListEntry> {
         return listAllPages<TandoorShoppingListEntry>(
             path = PATH,
             pageSize = 50,
-            query = query,
+            extraParams = listOf("updated_after" to updatedAfter)
         ) { page ->
             page.forEach { cache(it) }
             onPageReceived?.invoke(page) ?: false
