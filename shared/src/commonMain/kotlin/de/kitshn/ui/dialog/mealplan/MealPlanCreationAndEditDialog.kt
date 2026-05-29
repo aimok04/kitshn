@@ -308,6 +308,8 @@ fun MealPlanCreationAndEditDialog(
 
                             min = { 0.01 },
 
+                            step = 1.0,
+
                             optional = false,
 
                             check = {

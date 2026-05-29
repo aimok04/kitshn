@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import de.kitshn.roundToPrecision
 import de.kitshn.ui.component.input.DoubleField
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_minus
@@ -52,6 +53,9 @@ class KitshnFormDoubleFieldItem(
 
     val min: () -> Double? = { null },
     val max: () -> Double? = { null },
+
+    val step: Double = 1.0,
+    val precision: Double? = null,
 
     optional: Boolean = false,
 
@@ -90,7 +94,7 @@ class KitshnFormDoubleFieldItem(
             }
         }
 
-        fun step(newValue: Double) {
+        fun commitStep(newValue: Double) {
             val min = min()
             val max = max()
 
@@ -101,6 +105,18 @@ class KitshnFormDoubleFieldItem(
             focusManager.clearFocus(force = true)
             checkValueChange(newValue)
             hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
+        }
+
+        fun step(cur: Double?, direction: Int): Double {
+            val snap = precision ?: 1.0
+            if (cur == null) return ceil((min() ?: step) / snap) * snap
+
+            val base = if (direction < 0)
+                floor(cur / snap) * snap
+            else
+                ceil(cur / snap) * snap
+
+            return (base + direction * step).roundToPrecision(snap)
         }
 
         Row(
@@ -126,6 +142,7 @@ class KitshnFormDoubleFieldItem(
 
                 min = min(),
                 max = max(),
+                precision = precision,
 
                 keyboardActions = KeyboardActions(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
@@ -155,8 +172,8 @@ class KitshnFormDoubleFieldItem(
                     modifier = Modifier
                         .padding(start = 8.dp),
                     onClick = {
-                        val newValue = value?.let { floor(it) - 1.0 } ?: ceil(min() ?: 1.0)
-                        step(newValue)                    }
+                        commitStep(step(value, -1))
+                    }
                 ) {
                     Icon(Icons.Rounded.Remove, stringResource(Res.string.action_minus))
                 }
@@ -165,8 +182,8 @@ class KitshnFormDoubleFieldItem(
                     modifier = Modifier
                         .padding(start = 4.dp),
                     onClick = {
-                        val newValue = value?.let { ceil(it) + 1.0 } ?: ceil(min() ?: 1.0)
-                        step(newValue)                    }
+                        commitStep(step(value, +1))
+                    }
                 ) {
                     Icon(Icons.Rounded.Add, stringResource(Res.string.action_plus))
                 }
