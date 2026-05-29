@@ -53,6 +53,7 @@ import kotlinx.serialization.json.internal.FormatLanguage
 import nl.jacobras.humanreadable.HumanReadable
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.floor
+import kotlin.math.round
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -161,6 +162,11 @@ fun formatDecimalToFraction(decimal: Double): String {
     else if(decimal <= 0.78) "¾"
     else if(decimal <= 0.84) "⅘"
     else "⅞"
+}
+
+fun Double.roundToPrecision(precision: Double): Double {
+    if(precision <= 0.0) return this
+    return round(this / precision) * precision
 }
 
 fun Double.formatAmount(fractional: Boolean = true): String {
