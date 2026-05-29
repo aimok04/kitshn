@@ -36,6 +36,8 @@ import kitshn.shared.generated.resources.form_error_field_empty
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
+import kotlin.math.ceil
+import kotlin.math.floor
 
 class KitshnFormDoubleFieldItem(
     val value: () -> Double?,
@@ -81,11 +83,24 @@ class KitshnFormDoubleFieldItem(
                 generalError = null
                 onValueChange(it)
 
-                error = if(it == null)
+                error = if (it == null)
                     null
                 else
                     check(it)
             }
+        }
+
+        fun step(newValue: Double) {
+            val min = min()
+            val max = max()
+
+            if ((min != null && newValue < min) || (max != null && newValue > max)) {
+                hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
+                return
+            }
+            focusManager.clearFocus(force = true)
+            checkValueChange(newValue)
+            hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
         }
 
         Row(
@@ -99,7 +114,7 @@ class KitshnFormDoubleFieldItem(
                 label = {
                     Row {
                         label()
-                        if(!optional) Text("*")
+                        if (!optional) Text("*")
                     }
                 },
 
@@ -121,7 +136,7 @@ class KitshnFormDoubleFieldItem(
                 ),
 
                 isError = error != null || generalError != null,
-                supportingText = if(error != null || generalError != null) {
+                supportingText = if (error != null || generalError != null) {
                     {
                         Text(
                             text = error ?: generalError ?: "",
@@ -140,19 +155,8 @@ class KitshnFormDoubleFieldItem(
                     modifier = Modifier
                         .padding(start = 8.dp),
                     onClick = {
-                        val min = min()
-
-                        val newValue = value?.let { it - 1 } ?: min() ?: 1.0
-                        if(min != null && newValue < min) {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
-                            return@SmallFloatingActionButton
-                        }
-
-                        focusManager.clearFocus(force = true)
-                        checkValueChange(newValue)
-
-                        hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
-                    }
+                        val newValue = value?.let { floor(it) - 1.0 } ?: ceil(min() ?: 1.0)
+                        step(newValue)                    }
                 ) {
                     Icon(Icons.Rounded.Remove, stringResource(Res.string.action_minus))
                 }
@@ -161,19 +165,8 @@ class KitshnFormDoubleFieldItem(
                     modifier = Modifier
                         .padding(start = 4.dp),
                     onClick = {
-                        val max = max()
-
-                        val newValue = value?.let { it + 1 } ?: min() ?: 1.0
-                        if(max != null && newValue > max) {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.Reject)
-                            return@SmallFloatingActionButton
-                        }
-
-                        focusManager.clearFocus(force = true)
-                        checkValueChange(newValue)
-
-                        hapticFeedback.performHapticFeedback(HapticFeedbackType.Confirm)
-                    }
+                        val newValue = value?.let { ceil(it) + 1.0 } ?: ceil(min() ?: 1.0)
+                        step(newValue)                    }
                 ) {
                     Icon(Icons.Rounded.Add, stringResource(Res.string.action_plus))
                 }
@@ -185,10 +178,10 @@ class KitshnFormDoubleFieldItem(
         val value = value()
         val checkResult = check(value)
 
-        if(!optional && value == null) {
+        if (!optional && value == null) {
             generalError = getString(Res.string.form_error_field_empty)
             return false
-        } else if(checkResult != null) {
+        } else if (checkResult != null) {
             generalError = checkResult
             return false
         } else {

@@ -272,12 +272,12 @@ fun MealPlanCreationAndEditDialog(
                         KitshnFormRecipeSearchFieldItem(
                             client = client,
                             value = { recipeId },
-                            onValueChange = {
-                                recipeId = it
+                            onValueChange = { value ->
+                                recipeId = value
                                 if(recipeId == null) return@KitshnFormRecipeSearchFieldItem
 
                                 client.container.recipeOverview[recipeId]?.servings?.let {
-                                    servings = it.toDouble()
+                                    servings = value?.toDouble()
                                 }
                             },
 
@@ -423,7 +423,7 @@ fun MealPlanCreationAndEditDialog(
                 coroutineScope.launch {
                     if(isEditDialog) {
                         requestMealPlanState.wrapRequest {
-                            editState?.mealPlan?.partialUpdate(
+                            editState.mealPlan?.partialUpdate(
                                 title = title,
                                 recipe = client.container.recipeOverview[recipeId],
                                 servings = servings!!,
@@ -438,7 +438,7 @@ fun MealPlanCreationAndEditDialog(
                         hapticFeedback.handleTandoorRequestState(requestMealPlanState)
 
                         onRefresh()
-                        editState?.dismiss()
+                        editState.dismiss()
                     } else {
                         val mealPlan = requestMealPlanState.wrapRequest {
                             client.mealPlan.create(
@@ -464,7 +464,7 @@ fun MealPlanCreationAndEditDialog(
 
                                 recipeAddToShoppingDialogState.open(
                                     recipe = recipeAddToShoppingDialogRecipe!!,
-                                    servings = servings!!.toDouble()
+                                    servings = servings!!
                                 )
                                 return@launch
                             }
