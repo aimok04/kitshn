@@ -82,6 +82,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
 private const val AI_IMPORT_MAX_FILE_SIZE_BYTES = 15 * 1024 * 1024
@@ -91,13 +92,13 @@ private fun resolveAiImportMimeType(extension: String): String {
 }
 
 private suspend fun toAiImportFile(file: PlatformFile): TandoorAIImportRoute.File {
-    val fileBytes = withContext(Dispatchers.Default) {
+    val fileBytes = withContext(Dispatchers.IO) {
         file.readBytes()
     }
 
     if(fileBytes.size > AI_IMPORT_MAX_FILE_SIZE_BYTES) {
         val maxSizeMb = AI_IMPORT_MAX_FILE_SIZE_BYTES / (1024 * 1024)
-        throw Error("Selected file is too large. Maximum allowed size is ${maxSizeMb} MB.")
+        throw Error(getString(Res.string.error_recipe_import_ai_file_too_large, maxSizeMb.toString()))
     }
 
     return TandoorAIImportRoute.File(
@@ -172,11 +173,11 @@ fun RecipeImportAIDialog(
     fun fetch() = coroutineScope.launch {
         fetchRequestState.wrapRequest {
             if(aiProvider == null) {
-                throw Error("You must select an AI provider before importing.")
+                throw Error(getString(Res.string.error_recipe_import_ai_select_provider))
             }
 
             if(state.additionalData.file == null && state.additionalData.text.isBlank()) {
-                throw Error("Please upload a file or enter recipe text.")
+                throw Error(getString(Res.string.error_recipe_import_ai_no_input))
             }
 
             val response = client.aiImport.fetch(

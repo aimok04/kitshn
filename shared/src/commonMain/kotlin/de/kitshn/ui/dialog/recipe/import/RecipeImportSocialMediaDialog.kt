@@ -91,6 +91,7 @@ import kitshn.shared.generated.resources.recipe_import_type_social_media_label
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
 private fun buildSocialMediaImportText(
@@ -185,8 +186,12 @@ fun RecipeImportSocialMediaDialog(
     val fetchAiRequestState = rememberTandoorRequestState()
     fun fetchAi() = coroutineScope.launch {
         fetchAiRequestState.wrapRequest {
+            if(aiProvider == null) {
+                throw Error(getString(Res.string.error_recipe_import_ai_select_provider))
+            }
+
             if(state.recipeDescription.length <= 3)
-                throw Error("Recipe description has to be longer than three characters.")
+                throw Error(getString(Res.string.error_recipe_import_social_media_description_too_short))
 
             val aiInput = buildSocialMediaImportText(
                 url = state.data.url,
@@ -406,14 +411,18 @@ fun RecipeImportSocialMediaDialog(
 
                                         singleLine = true,
 
-                                        keyboardActions = KeyboardActions(onGo = { fetchWebsite() }),
+                                        keyboardActions = KeyboardActions(onGo = {
+                                            if(aiProvider != null) fetchWebsite()
+                                        }),
                                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
 
                                         isError = fetchWebsiteRequestState.state == TandoorRequestStateState.ERROR,
                                         supportingText = {
                                             Text(
-                                                text = when(fetchWebsiteRequestState.state) {
-                                                    TandoorRequestStateState.ERROR -> "${
+                                                text = when {
+                                                    aiProvider == null -> stringResource(Res.string.error_recipe_import_ai_select_provider)
+
+                                                    fetchWebsiteRequestState.state == TandoorRequestStateState.ERROR -> "${
                                                         stringResource(
                                                             Res.string.error_recipe_could_not_be_loaded
                                                         )
@@ -430,6 +439,7 @@ fun RecipeImportSocialMediaDialog(
                                     IconButton(
                                         modifier = Modifier.padding(start = 8.dp, top = 4.dp),
                                         colors = IconButtonDefaults.filledIconButtonColors(),
+                                        enabled = aiProvider != null,
                                         onClick = { fetchWebsite() }
                                     ) {
                                         Icon(
