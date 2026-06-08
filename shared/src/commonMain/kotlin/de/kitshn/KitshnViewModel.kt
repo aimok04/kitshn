@@ -236,6 +236,10 @@ class KitshnViewModel(
         }
     }
 
+    fun deleteLocalDatabase() {
+        db.closeAndDelete()
+    }
+
     private var periodicSyncStarted = false
 
     // TODO: this should be refactored to somewhere else

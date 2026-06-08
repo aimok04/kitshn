@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5dc17e6bce6d7dcc8ea523b285b3e3ae",
+    "identityHash": "342f2832967bb50bdee19be5116d0eed",
     "entities": [
       {
         "tableName": "unit",
@@ -616,13 +616,18 @@
       },
       {
         "tableName": "supermarket",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `remoteId` INTEGER, `name` TEXT NOT NULL, `description` TEXT)",
         "fields": [
           {
-            "fieldPath": "id",
+            "fieldPath": "localId",
             "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "name",
@@ -637,15 +642,26 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": false,
+          "autoGenerate": true,
           "columnNames": [
             "id"
           ]
-        }
+        },
+        "indices": [
+          {
+            "name": "index_supermarket_remoteId",
+            "unique": true,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_supermarket_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          }
+        ]
       },
       {
         "tableName": "supermarket_category_to_supermarket",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `supermarketId` INTEGER NOT NULL, `categoryLocalId` INTEGER NOT NULL, `order` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`supermarketId`) REFERENCES `supermarket`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`categoryLocalId`) REFERENCES `supermarket_category`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `supermarketLocalId` INTEGER NOT NULL, `categoryLocalId` INTEGER NOT NULL, `order` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`supermarketLocalId`) REFERENCES `supermarket`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`categoryLocalId`) REFERENCES `supermarket_category`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -654,8 +670,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "supermarketId",
-            "columnName": "supermarketId",
+            "fieldPath": "supermarketLocalId",
+            "columnName": "supermarketLocalId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -680,13 +696,13 @@
         },
         "indices": [
           {
-            "name": "index_supermarket_category_to_supermarket_supermarketId",
+            "name": "index_supermarket_category_to_supermarket_supermarketLocalId",
             "unique": false,
             "columnNames": [
-              "supermarketId"
+              "supermarketLocalId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_supermarket_category_to_supermarket_supermarketId` ON `${TABLE_NAME}` (`supermarketId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_supermarket_category_to_supermarket_supermarketLocalId` ON `${TABLE_NAME}` (`supermarketLocalId`)"
           },
           {
             "name": "index_supermarket_category_to_supermarket_categoryLocalId",
@@ -704,7 +720,7 @@
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
-              "supermarketId"
+              "supermarketLocalId"
             ],
             "referencedColumns": [
               "id"
@@ -778,7 +794,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5dc17e6bce6d7dcc8ea523b285b3e3ae')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '342f2832967bb50bdee19be5116d0eed')"
     ]
   }
 }

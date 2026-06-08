@@ -108,6 +108,12 @@ interface FoodDao {
     @Query("DELETE FROM food_pending_delete WHERE remoteId = :remoteId")
     suspend fun deletePendingDelete(remoteId: Int)
 
+    @Query("DELETE FROM food")
+    suspend fun deleteAll()
+
+    @Query("DELETE FROM food_pending_delete")
+    suspend fun deleteAllPendingDeletes()
+
     @Transaction
     @Query("""
         SELECT * FROM food

@@ -77,4 +77,10 @@ interface UnitDao {
 
     @Query("DELETE FROM unit_pending_delete WHERE remoteId = :remoteId")
     suspend fun deletePendingDelete(remoteId: Int)
+
+    @Query("DELETE FROM unit")
+    suspend fun deleteAll()
+
+    @Query("DELETE FROM unit_pending_delete")
+    suspend fun deleteAllPendingDeletes()
 }

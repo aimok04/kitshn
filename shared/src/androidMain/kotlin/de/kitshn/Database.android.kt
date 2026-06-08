@@ -22,10 +22,12 @@ fun getDatabaseBuilder(context: PlatformContext): RoomDatabase.Builder<AppDataba
 }
 
 actual fun AppDatabase.closeAndDelete() {
-    close()
+    try { close() } catch (_: Exception) { }
     dbPath?.let { path ->
         File(path).delete()
         File("$path-shm").delete()
         File("$path-wal").delete()
+        File("$path-wal2").delete()
+        File("$path-lck").delete()
     }
 }

@@ -33,9 +33,11 @@ fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
 
 @OptIn(ExperimentalForeignApi::class)
 actual fun AppDatabase.closeAndDelete() {
-    close()
+    try { close() } catch (_: Exception) { }
     val path = getDatabasePath()
     NSFileManager.defaultManager.removeItemAtPath(path, null)
     NSFileManager.defaultManager.removeItemAtPath("$path-shm", null)
     NSFileManager.defaultManager.removeItemAtPath("$path-wal", null)
+    NSFileManager.defaultManager.removeItemAtPath("$path-wal2", null)
+    NSFileManager.defaultManager.removeItemAtPath("$path-lck", null)
 }

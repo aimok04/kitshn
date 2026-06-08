@@ -42,6 +42,12 @@ interface SupermarketDao {
     @Query("SELECT id FROM supermarket WHERE remoteId = :remoteId LIMIT 1")
     suspend fun localIdByRemoteId(remoteId: Int): Int?
 
+    @Query("DELETE FROM supermarket")
+    suspend fun deleteAll()
+
+    @Query("DELETE FROM supermarket_category_to_supermarket")
+    suspend fun deleteAllJoins()
+
     @Transaction
     suspend fun upsertByRemoteId(entity: SupermarketEntity): Int {
         val remoteId = requireNotNull(entity.remoteId) {

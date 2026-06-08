@@ -74,4 +74,10 @@ interface SupermarketCategoryDao {
 
     @Query("DELETE FROM supermarket_category_pending_delete WHERE remoteId = :remoteId")
     suspend fun deletePendingDelete(remoteId: Int)
+
+    @Query("DELETE FROM supermarket_category")
+    suspend fun deleteAll()
+
+    @Query("DELETE FROM supermarket_category_pending_delete")
+    suspend fun deleteAllPendingDeletes()
 }
