@@ -1,6 +1,7 @@
 package de.kitshn.repo
 
 import co.touchlab.kermit.Logger
+import de.kitshn.AppDatabase
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.PartialTandoorSpace
 import de.kitshn.api.tandoor.model.TandoorSpace
@@ -16,9 +17,13 @@ import kotlin.time.Duration
 private const val TAG = "SpaceRepo"
 
 class SpaceRepo(
+    db: AppDatabase,
     private val session: TandoorSession,
     periodicInterval: Duration? = null,
-) : SyncableRepo(periodicInterval) {
+) : SyncableRepo(db.repoMetaDao(), periodicInterval) {
+    override val repoMetaName: String = "space"
+    override val reconcileCapabilities = emptySet<ReconcileCapability>()
+
     val client: TandoorClient? get() = session.client
 
     private val _current = MutableStateFlow<TandoorSpace?>(null)
@@ -27,16 +32,16 @@ class SpaceRepo(
     private val _spaces = MutableStateFlow<List<TandoorSpace>>(emptyList())
     val spaces: StateFlow<List<TandoorSpace>> = _spaces.asStateFlow()
 
-    /** Members of each known space, keyed by space id, populated by [syncMembers]. */
     private val _members = MutableStateFlow<Map<Int, List<TandoorUser>>>(emptyMap())
     val members: StateFlow<Map<Int, List<TandoorUser>>> = _members.asStateFlow()
 
-    override suspend fun performSync() {
-        val client = session.client ?: return
-
+    override suspend fun performFullReconcile(): ReconcileResult? {
+        val client = session.client ?: return null
         coroutineScope {
             launch { fetchCurrent(client) }
+            launch { fetchSpaces(client) }
         }
+        return ReconcileResult()
     }
 
     private suspend fun fetchCurrent(client: TandoorClient) {
@@ -45,19 +50,12 @@ class SpaceRepo(
             .onFailure { Logger.e(TAG, it) { "Current space sync failed" } }
     }
 
-    /**
-     * On-demand fetch of the full space list.
-     */
-    suspend fun syncSpaces() {
-        val client = session.client ?: return
+    private suspend fun fetchSpaces(client: TandoorClient) {
         runCatching { client.space.retrieve().results }
             .onSuccess { _spaces.value = it }
             .onFailure { Logger.e(TAG, it) { "Spaces sync failed" } }
     }
 
-    /**
-     * On-demand fetch of space members via the user-space endpoint.
-     */
     suspend fun syncMembers() {
         val client = session.client ?: return
 
@@ -76,9 +74,6 @@ class SpaceRepo(
         }.onFailure { Logger.e(TAG, it) { "Members sync failed" } }
     }
 
-    /**
-     * Switch the active space of a user. App should be reloaded afterward
-     */
     suspend fun switch(spaceId: Int): Boolean {
         val client = session.client ?: return false
 
@@ -92,9 +87,6 @@ class SpaceRepo(
         }
     }
 
-    /**
-     * Create a new space, this requires some permissions
-     */
     suspend fun create(partial: PartialTandoorSpace): TandoorSpace? {
         val client = session.client ?: return null
 
@@ -108,9 +100,6 @@ class SpaceRepo(
         }
     }
 
-    /**
-     * Update an existing space, this requires some permissions
-     */
     suspend fun update(id: Int, partial: PartialTandoorSpace): TandoorSpace? {
         val client = session.client ?: return null
 
@@ -128,9 +117,6 @@ class SpaceRepo(
     suspend fun rename(id: Int, name: String): TandoorSpace? =
         update(id, PartialTandoorSpace(name = name))
 
-    /**
-     * Delete a space, this requires some permissions
-     */
     suspend fun delete(id: Int): Boolean {
         val client = session.client ?: return false
 

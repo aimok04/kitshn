@@ -129,8 +129,10 @@ fun HouseholdPicker(
     var dialogState by remember { mutableStateOf(HouseholdCreationAndEditDialogState()) }
 
     LaunchedEffect(repo) {
-        repo.sync(force = true)
-        repo.syncMembers()
+        syncRequestState.wrapRequest {
+            repo.reconcileInteractive()
+            repo.syncMembers()
+        }
     }
 
     LaunchedEffect(errorMessage) {

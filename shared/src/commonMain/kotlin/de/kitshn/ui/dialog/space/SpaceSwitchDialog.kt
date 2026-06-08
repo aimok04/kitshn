@@ -116,8 +116,7 @@ fun SpaceSwitchDialog(
 
     LaunchedEffect(repo) {
         syncRequestState.wrapRequest {
-            repo.sync(force = true)
-            repo.syncSpaces()
+            repo.reconcileInteractive()
         }
     }
 

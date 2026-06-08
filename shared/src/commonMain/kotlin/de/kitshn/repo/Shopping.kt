@@ -75,7 +75,7 @@ class ShoppingRepo(
                 .map { it.id }
                 .distinctUntilChanged()
                 .drop(1)
-                .collect { sync(force = true) }
+                .collect { reconcileInteractive() }
         }
     }
 

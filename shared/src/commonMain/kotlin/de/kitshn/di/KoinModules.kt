@@ -67,6 +67,7 @@ private val repositoryModule = module {
     }
     single {
         HouseholdRepo(
+            db = get(),
             session = get(),
         )
     }
@@ -101,6 +102,7 @@ private val repositoryModule = module {
     }
     single {
         SpaceRepo(
+            db = get(),
             session = get(),
         )
     }

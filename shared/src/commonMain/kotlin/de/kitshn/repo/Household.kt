@@ -1,13 +1,13 @@
 package de.kitshn.repo
 
 import co.touchlab.kermit.Logger
+import de.kitshn.AppDatabase
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorHousehold
 import de.kitshn.api.tandoor.model.TandoorUserSpace
 import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.session.TandoorSession
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,9 +20,13 @@ import kotlin.time.Duration
 private const val TAG = "HouseholdRepo"
 
 class HouseholdRepo(
+    db: AppDatabase,
     private val session: TandoorSession,
     periodicInterval: Duration? = null,
-) : SyncableRepo(periodicInterval) {
+) : SyncableRepo(db.repoMetaDao(), periodicInterval) {
+    override val repoMetaName: String = "household"
+    override val reconcileCapabilities = emptySet<ReconcileCapability>()
+
     private val _households = MutableStateFlow<List<TandoorHousehold>>(emptyList())
     val households: StateFlow<List<TandoorHousehold>> = _households.asStateFlow()
 
@@ -34,13 +38,13 @@ class HouseholdRepo(
 
     val current: Flow<TandoorHousehold?> = _userSpace.map { it?.household }
 
-    override suspend fun performSync() {
-        val client = session.client ?: return
-
+    override suspend fun performFullReconcile(): ReconcileResult? {
+        val client = session.client ?: return null
         coroutineScope {
             launch { fetchUserSpace(client) }
             launch { fetchHouseholds(client) }
         }
+        return ReconcileResult()
     }
 
     suspend fun syncMembers() {
@@ -68,12 +72,11 @@ class HouseholdRepo(
             .onFailure { Logger.e(TAG, it) { "UserSpace sync failed" } }
     }
 
-    suspend fun fetchHouseholds(client: TandoorClient): List<TandoorHousehold> {
-        return runCatching {
+    private suspend fun fetchHouseholds(client: TandoorClient) {
+        runCatching {
             client.household.retrieve().results
         }.onSuccess { _households.value = it }
             .onFailure { Logger.e(TAG, it) { "Households fetch failed" } }
-            .getOrDefault(_households.value)
     }
 
     suspend fun switch(householdId: Int): Boolean {
