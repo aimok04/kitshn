@@ -35,6 +35,8 @@ fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
     )
 }
 
+actual suspend fun AppDatabase.wipeAllData() = deleteAllData()
+
 actual fun AppDatabase.closeAndDelete() {
     try { close() } catch (_: Exception) { }
     val path = getDatabasePath()

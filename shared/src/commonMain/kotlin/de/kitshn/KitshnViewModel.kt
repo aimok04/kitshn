@@ -229,7 +229,7 @@ class KitshnViewModel(
 
     fun resetLocalDatabase() {
         applicationScope.launch {
-            db.clearAllTables()
+            db.wipeAllData()
             syncableRepos.forEach { it.resetLocalState() }
             sync()
             reconcile()

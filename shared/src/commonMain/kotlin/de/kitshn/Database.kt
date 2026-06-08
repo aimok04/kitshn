@@ -61,8 +61,9 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun supermarketDao(): SupermarketDao
     abstract fun repoMetaDao(): RepoMetaDao
 
-    // This is already implemented in room android but not in desktop or ios version
-    suspend fun clearAllTables() {
+    // Fallback for platforms where Room does not generate clearAllTables. Prefer wipeAllData
+    // Also make sure the order of foreign restrictions is correct.
+    suspend fun deleteAllData() {
         shoppingDao().deleteAllTransactions()
         shoppingDao().deleteAll()
         foodDao().deleteAll()
@@ -98,3 +99,4 @@ fun getRoomDatabase(builder: RoomDatabase.Builder<AppDatabase>): AppDatabase {
 }
 
 expect fun AppDatabase.closeAndDelete()
+expect suspend fun AppDatabase.wipeAllData()
