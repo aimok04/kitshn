@@ -12,4 +12,7 @@ interface RepoMetaDao {
 
     @Query("SELECT * FROM repo_meta WHERE repoName = :repoName")
     suspend fun get(repoName: String): RepoMetaEntity?
+
+    @Query("DELETE FROM repo_meta")
+    suspend fun deleteAll()
 }

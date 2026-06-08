@@ -16,4 +16,7 @@ interface ShoppingListDao {
 
     @Query("DELETE FROM shopping_list WHERE id NOT IN (:serverIds)")
     suspend fun deleteSyncedNotIn(serverIds: List<Long>)
+
+    @Query("DELETE FROM shopping_list")
+    suspend fun deleteAll()
 }

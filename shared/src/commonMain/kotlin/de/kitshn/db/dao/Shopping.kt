@@ -128,4 +128,10 @@ interface ShoppingDao {
 
     @Query("DELETE FROM ShoppingTransactionEntity WHERE entryId = :entryId")
     suspend fun deleteTransactionsForEntry(entryId: Int)
+
+    @Query("DELETE FROM ShoppingTransactionEntity")
+    suspend fun deleteAllTransactions()
+
+    @Query("DELETE FROM ShoppingItemEntity")
+    suspend fun deleteAll()
 }

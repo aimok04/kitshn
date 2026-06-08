@@ -36,9 +36,11 @@ fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
 }
 
 actual fun AppDatabase.closeAndDelete() {
-    close()
+    try { close() } catch (_: Exception) { }
     val path = getDatabasePath()
     File(path).delete()
     File("$path-shm").delete()
     File("$path-wal").delete()
+    File("$path-wal2").delete()
+    File("$path-lck").delete()
 }

@@ -60,6 +60,22 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun shoppingListDao(): ShoppingListDao
     abstract fun supermarketDao(): SupermarketDao
     abstract fun repoMetaDao(): RepoMetaDao
+
+    // This is already implemented in room android but not in desktop or ios version
+    suspend fun clearAllTables() {
+        shoppingDao().deleteAllTransactions()
+        shoppingDao().deleteAll()
+        foodDao().deleteAll()
+        foodDao().deleteAllPendingDeletes()
+        supermarketCategoryDao().deleteAllPendingDeletes()
+        supermarketDao().deleteAllJoins()
+        shoppingListDao().deleteAll()
+        supermarketDao().deleteAll()
+        supermarketCategoryDao().deleteAll()
+        unitDao().deleteAll()
+        unitDao().deleteAllPendingDeletes()
+        repoMetaDao().deleteAll()
+    }
 }
 
 expect object AppDatabaseConstructor: RoomDatabaseConstructor<AppDatabase> {
