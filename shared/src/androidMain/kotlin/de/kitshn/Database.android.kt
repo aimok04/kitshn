@@ -21,6 +21,8 @@ fun getDatabaseBuilder(context: PlatformContext): RoomDatabase.Builder<AppDataba
     )
 }
 
+actual suspend fun AppDatabase.wipeAllData() = clearAllTables()
+
 actual fun AppDatabase.closeAndDelete() {
     try { close() } catch (_: Exception) { }
     dbPath?.let { path ->
