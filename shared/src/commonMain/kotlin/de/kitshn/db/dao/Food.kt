@@ -22,6 +22,13 @@ interface FoodDao {
     @Update
     suspend fun update(entity: FoodEntity)
 
+    @Transaction
+    suspend fun findOrInsert(entity: FoodEntity): Int {
+        entity.remoteId?.let { findByRemoteId(it) }?.let { return it.localId }
+        findByName(entity.name.lowercase())?.let { return it.localId }
+        return insert(entity).toInt()
+    }
+
     // Updates preserving existing values that are `null`
     @Transaction
     suspend fun upsertByRemoteId(entity: FoodEntity): Int {

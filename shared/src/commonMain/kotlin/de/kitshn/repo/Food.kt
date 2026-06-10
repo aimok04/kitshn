@@ -137,7 +137,7 @@ class FoodRepo(
                     },
                 )
             }
-            val localId = dao.insert(entity).toInt()
+            val localId = dao.findOrInsert(entity)
             retrieve(localId) ?: entity.copy(localId = localId).toMinimalModel()
         }
     }

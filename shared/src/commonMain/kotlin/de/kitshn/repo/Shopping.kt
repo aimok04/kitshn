@@ -95,6 +95,11 @@ class ShoppingRepo(
             dao.upsertByRemoteId(entry.toEntity(foodLocalId, unitLocalId))
         }
 
+        dao.deleteSyncedNotIn(
+            keepRemoteIds = remoteItems.map { it.id },
+            protectedIds = protectedIds.toList()
+        )
+
         return ReconcileResult(nextPage = 1)
     }
 
