@@ -69,6 +69,7 @@ private val repositoryModule = module {
         HouseholdRepo(
             db = get(),
             session = get(),
+            scope = get(APPLICATION_SCOPE_QUALIFIER),
         )
     }
     single {
@@ -77,7 +78,6 @@ private val repositoryModule = module {
             unitRepo = get(),
             foodRepo = get(),
             supermarketCategoryRepo = get(),
-            householdRepo = get(),
             session = get(),
             scope = get(APPLICATION_SCOPE_QUALIFIER),
             // Shopping can be used in parallel to other users -> keep refreshed

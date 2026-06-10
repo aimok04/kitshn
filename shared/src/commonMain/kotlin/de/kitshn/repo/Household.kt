@@ -2,17 +2,23 @@ package de.kitshn.repo
 
 import co.touchlab.kermit.Logger
 import de.kitshn.AppDatabase
+import de.kitshn.AppEvent
+import de.kitshn.AppEventBus
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorHousehold
 import de.kitshn.api.tandoor.model.TandoorUserSpace
 import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.session.TandoorSession
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filterNot
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlin.time.Duration
@@ -22,6 +28,7 @@ private const val TAG = "HouseholdRepo"
 class HouseholdRepo(
     db: AppDatabase,
     private val session: TandoorSession,
+    private val scope: CoroutineScope,
     periodicInterval: Duration? = null,
 ) : SyncableRepo(db.repoMetaDao(), periodicInterval) {
     override val repoMetaName: String = "household"
@@ -37,6 +44,17 @@ class HouseholdRepo(
     val members: StateFlow<Map<Int, List<TandoorUser>>> = _members.asStateFlow()
 
     val current: Flow<TandoorHousehold?> = _userSpace.map { it?.household }
+
+    init {
+        scope.launch {
+            current
+                .filterNotNull()
+                .map { it.id }
+                .distinctUntilChanged()
+                .drop(1)
+                .collect { id -> AppEventBus.emit(AppEvent.HouseholdChanged(id)) }
+        }
+    }
 
     override suspend fun performFullReconcile(): ReconcileResult? {
         val client = session.client ?: return null
