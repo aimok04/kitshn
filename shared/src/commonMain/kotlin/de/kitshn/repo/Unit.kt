@@ -67,8 +67,7 @@ class UnitRepo(
     }
 
     suspend fun findOrCreate(name: String): TandoorUnit {
-        dao.findByName(name.lowercase())?.let { return it.toModel() }
-        val localId = dao.insert(UnitEntity(name = name)).toInt()
+        val localId = dao.findOrInsert(UnitEntity(name = name))
         use(localId, scope)
         return dao.findByLocalId(localId)?.toModel()
             ?: UnitEntity(localId = localId, name = name).toModel()

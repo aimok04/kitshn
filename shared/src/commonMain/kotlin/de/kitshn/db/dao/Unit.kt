@@ -19,6 +19,12 @@ interface UnitDao {
     @Insert
     suspend fun insert(entity: UnitEntity): Long
 
+    @Transaction
+    suspend fun findOrInsert(entity: UnitEntity): Int {
+        findByName(entity.name.lowercase())?.let { return it.localId }
+        return insert(entity).toInt()
+    }
+
     @Update
     suspend fun update(entity: UnitEntity)
 

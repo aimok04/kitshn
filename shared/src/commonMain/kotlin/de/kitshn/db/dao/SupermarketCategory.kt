@@ -50,14 +50,20 @@ interface SupermarketCategoryDao {
     suspend fun deleteSyncedNotIn(serverIds: List<Int>)
 
     @Transaction
+    suspend fun findOrInsert(entity: SupermarketCategoryEntity): Int {
+        findByName(entity.name.lowercase())?.let { return it.localId }
+        return insert(entity).toInt()
+    }
+
+    @Transaction
     suspend fun upsertByRemoteId(entity: SupermarketCategoryEntity): Int {
         val remoteId = requireNotNull(entity.remoteId) {
             "upsertByRemoteId requires a non-null remoteId"
         }
-        val existingId = localIdByRemoteId(remoteId)
-        return if (existingId != null) {
-            update(entity.copy(localId = existingId))
-            existingId
+        val existing = findByRemoteId(remoteId) ?: findByName(entity.name.lowercase())
+        return if (existing != null) {
+            update(entity.copy(localId = existing.localId))
+            existing.localId
         } else {
             insert(entity).toInt()
         }

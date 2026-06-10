@@ -57,8 +57,7 @@ class SupermarketCategoryRepo(
     }
 
     suspend fun create(name: String): TandoorSupermarketCategory {
-        dao.findByName(name.lowercase())?.let { return it.toModel() }
-        val localId = dao.insert(SupermarketCategoryEntity(name = name)).toInt()
+        val localId = dao.findOrInsert(SupermarketCategoryEntity(name = name))
         use(localId, scope)
         return dao.findByLocalId(localId)?.toModel()
             ?: SupermarketCategoryEntity(localId = localId, name = name).toModel()
