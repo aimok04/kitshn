@@ -21,7 +21,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import de.kitshn.formatDuration
+import de.kitshn.time.formatTimerSeconds
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_continue
 import kotlinx.coroutines.launch
@@ -81,26 +81,28 @@ fun LaunchTimerRangeBottomSheet(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Use minute granularity when the range ends at 2+ minutes,
-                // otherwise let the user pick individual seconds.
-                val inMinutes = state.to.value >= 120
-
-                val fromUnit = if(inMinutes) state.from.value / 60 else state.from.value
-                val toUnit = if(inMinutes) state.to.value / 60 else state.to.value
-                val initUnit = if(inMinutes) state.value / 60 else state.value
-                val sliderSteps = maxOf(0, toUnit - fromUnit - 1)
+                // Three-tier granularity: ≤2min → 1s steps, <1h → 1min steps, ≥1h → 30min steps
+                val stepSize = when {
+                    state.to.value <= 120 -> 1
+                    state.to.value < 3600 -> 60
+                    else -> 720
+                }
+                val fromStep = state.from.value / stepSize
+                val toStep = state.to.value / stepSize
+                val initStep = state.value / stepSize
+                val sliderSteps = maxOf(0, toStep - fromStep - 1)
 
                 val sliderState = rememberSliderState(
-                    value = initUnit.toFloat(),
+                    value = initStep.toFloat(),
                     steps = sliderSteps,
-                    valueRange = fromUnit.toFloat()..toUnit.toFloat(),
+                    valueRange = fromStep.toFloat()..toStep.toFloat(),
                 )
 
                 AnimatedContent(
-                    targetState = sliderState.value.roundToInt()
-                ) { value ->
+                    targetState = sliderState.value.roundToInt() * stepSize
+                ) { selectedSeconds ->
                     Text(
-                        text = "⏲ ${if(inMinutes) value.formatDuration() else "$value s"}",
+                        text = "⏲ ${selectedSeconds.formatTimerSeconds()}",
                         color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.displaySmall
                     )
@@ -114,9 +116,7 @@ fun LaunchTimerRangeBottomSheet(
                         coroutineScope.launch {
                             sheetState.hide()
                             state.dismiss()
-
-                            val selected = sliderState.value.roundToInt()
-                            state.callback(if(inMinutes) selected * 60 else selected)
+                            state.callback(sliderState.value.roundToInt() * stepSize)
                         }
                     }
                 ) {
