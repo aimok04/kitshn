@@ -69,7 +69,7 @@ class TandoorStep(
 
     @Composable
     fun loadFilePreview(): ImageRequest? {
-        return if(file?.preview == null || client == null) {
+        return if (file?.preview == null || client == null) {
             null
         } else {
             return client!!.media.createImageBuilder(file.preview)
@@ -88,20 +88,20 @@ class TandoorStep(
         step_recipe: Int? = null,
         show_ingredients_table: Boolean? = null
     ) {
-        if(this.client == null) return
+        if (this.client == null) return
 
         val data = buildJsonObject {
-            if(name != null) put("name", JsonPrimitive(name))
-            if(instruction != null) put("instruction", JsonPrimitive(instruction))
-            if(instructions_markdown != null) put(
+            if (name != null) put("name", JsonPrimitive(name))
+            if (instruction != null) put("instruction", JsonPrimitive(instruction))
+            if (instructions_markdown != null) put(
                 "instructions_markdown",
                 JsonPrimitive(instructions_markdown)
             )
-            if(order != null) put("order", JsonPrimitive(order))
-            if(time != null) put("time", JsonPrimitive(time))
-            if(ingredientsRaw != null) put("ingredients", ingredientsRaw)
-            if(step_recipe != null) put("step_recipe", JsonPrimitive(step_recipe))
-            if(show_ingredients_table != null) put(
+            if (order != null) put("order", JsonPrimitive(order))
+            if (time != null) put("time", JsonPrimitive(time))
+            if (ingredientsRaw != null) put("ingredients", ingredientsRaw)
+            if (step_recipe != null) put("step_recipe", JsonPrimitive(step_recipe))
+            if (show_ingredients_table != null) put(
                 "show_ingredients_table",
                 JsonPrimitive(show_ingredients_table)
             )
@@ -120,7 +120,7 @@ class TandoorStep(
     }
 
     suspend fun delete() {
-        if(client == null) return
+        if (client == null) return
 
         client!!.delete("/step/${id}/")
         this._destroyed = true
@@ -133,14 +133,14 @@ class TandoorStep(
     }
 
     suspend fun fetchStepRecipe(): TandoorRecipe? {
-        if(step_recipe == null) return null
+        if (step_recipe == null) return null
 
         val recipe = client!!.container.recipe[step_recipe]
-        if(recipe != null) return recipe
+        if (recipe != null) return recipe
 
         try {
             return client!!.recipe.get(step_recipe!!)
-        } catch(e: TandoorRequestsError) {
+        } catch (e: TandoorRequestsError) {
             Logger.e("TandoorStep.kt", e)
             return null
         }
@@ -153,51 +153,7 @@ class TandoorStep(
     ): String {
         var value by rememberSaveable { mutableStateOf("") }
         LaunchedEffect(scale) {
-            value =
-                instruction
-                    .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\] *\\}\\}")) { // replaces ingredient templates
-                        val index = it.destructured.component1().toInt()
-                        ingredients.getOrNull(index)?.toString(
-                            scale = scale,
-                            fractional = fractional
-                        ) ?: "Invalid ingredient template"
-                    }
-                    .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.amount *\\}\\}")) { // replaces ingredient amount templates
-                        val index = it.destructured.component1().toInt()
-                        ingredients.getOrNull(index)?.amount?.let { amount ->
-                            (amount * scale).formatAmount(
-                                fractional = fractional
-                            )
-                        } ?: "Invalid ingredient template"
-                    }
-                    .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.unit *\\}\\}")) { // replaces ingredient unit templates
-                        val index = it.destructured.component1().toInt()
-                        val ingredient = ingredients.getOrNull(index)
-                        ingredient?.getUnitLabel(amount = ingredient.amount * scale)
-                            ?: "Invalid ingredient template"
-                    }
-                    .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.food *\\}\\}")) { // replaces ingredient food templates
-                        val index = it.destructured.component1().toInt()
-                        val ingredient = ingredients.getOrNull(index)
-                        ingredient?.getLabel(amount = ingredient.amount * scale)
-                            ?: "Invalid ingredient template"
-                    }
-                    .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.note *\\}\\}")) { // replaces ingredient note templates
-                        val index = it.destructured.component1().toInt()
-                        ingredients.getOrNull(index)?.note ?: "Invalid ingredient template"
-                    }
-                    .replace(Regex("\\{\\{ *scale\\(((\\d|\\.)+)\\) *\\}\\}")) { // replaces scale templates
-                        val number = it.destructured.component1().toDoubleOrNull()
-
-                        if(number == null) {
-                            "Invalid scale template"
-                        } else {
-                            (number * scale).formatAmount(fractional)
-                        }
-                    }.replace(
-                        Regex("\\{#[\\w\\s.,;:\\-()\\/%°\"„“'’&\\\$€?!*+…]*#\\}"),
-                        ""
-                    ) // replaces template comments
+            value = applyTemplating(scale, fractional)
         }
 
         return value
@@ -205,5 +161,132 @@ class TandoorStep(
 
     override fun toString(): String {
         return "TandoorStep(id=$id, name='$name', instruction='$instruction', ingredientsRaw=$ingredientsRaw, instructions_markdown='$instructions_markdown', time=$time, order=$order, show_as_header=$show_as_header, file=$file, step_recipe=$step_recipe, step_recipe_data=$step_recipe_data, show_ingredients_table=$show_ingredients_table, ingredients=$ingredients, client=$client)"
+    }
+
+    fun applyTemplating(
+        scale: Double = 1.0,
+        fractional: Boolean = true
+    ): String {
+        return instruction
+            .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\] *\\}\\}")) {
+                val index = it.destructured.component1().toInt()
+                ingredients.getOrNull(index)?.toString(
+                    scale = scale,
+                    fractional = fractional
+                ) ?: "Invalid ingredient template"
+            }
+            .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.amount *\\}\\}")) {
+                val index = it.destructured.component1().toInt()
+                ingredients.getOrNull(index)?.amount?.let { amount ->
+                    (amount * scale).formatAmount(
+                        fractional = fractional
+                    )
+                } ?: "Invalid ingredient template"
+            }
+            .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.unit *\\}\\}")) {
+                val index = it.destructured.component1().toInt()
+                val ingredient = ingredients.getOrNull(index)
+                ingredient?.getUnitLabel(amount = ingredient.amount * scale)
+                    ?: "Invalid ingredient template"
+            }
+            .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.food *\\}\\}")) {
+                val index = it.destructured.component1().toInt()
+                val ingredient = ingredients.getOrNull(index)
+                ingredient?.getLabel(amount = ingredient.amount * scale)
+                    ?: "Invalid ingredient template"
+            }
+            .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.note *\\}\\}")) {
+                val index = it.destructured.component1().toInt()
+                ingredients.getOrNull(index)?.note ?: "Invalid ingredient template"
+            }
+            .replace(Regex("\\{\\{ *ingredients\\[(\\d+)\\]\\.numeric_amount *\\}\\}")) {
+                val index = it.destructured.component1().toInt()
+                ingredients.getOrNull(index)?.amount?.toString() ?: "Invalid ingredient template"
+            }
+            .replace(Regex("\\{\\{ *scale\\((.*?)\\) *\\}\\}")) {
+                val expression = it.destructured.component1()
+                val resolvedExpression =
+                    expression.replace(Regex("ingredients\\[(\\d+)\\]\\.numeric_amount")) { match ->
+                        val index = match.groupValues[1].toInt()
+                        ingredients.getOrNull(index)?.amount?.toString() ?: "0"
+                    }
+
+                val result = evaluateExpression(resolvedExpression)
+
+                if (result == null) {
+                    "Invalid scale template"
+                } else {
+                    (result * scale).formatAmount(fractional)
+                }
+            }.replace(
+                Regex("\\{#[\\w\\s.,;:\\-()\\/%°\\\"„“‘’&\\\$€?!*+…]*#\\}"),
+                ""
+            )
+    }
+
+    private fun evaluateExpression(str: String): Double? = try {
+        ExpressionParser(str).parse()
+    } catch (e: Exception) {
+        null
+    }
+}
+
+private class ExpressionParser(private val str: String) {
+    private var pos = -1
+    private var ch = 0
+
+    private fun nextChar() {
+        ch = if (++pos < str.length) str[pos].code else -1
+    }
+
+    private fun eat(charToEat: Int): Boolean {
+        while (ch == ' '.code) nextChar()
+        if (ch == charToEat) {
+            nextChar()
+            return true
+        }
+        return false
+    }
+
+    fun parse(): Double {
+        nextChar()
+        val x = parseExpression()
+        if (pos < str.length) throw RuntimeException("Unexpected: " + ch.toChar())
+        return x
+    }
+
+    private fun parseExpression(): Double {
+        var x = parseTerm()
+        while (true) {
+            if (eat('+'.code)) x += parseTerm()
+            else if (eat('-'.code)) x -= parseTerm()
+            else return x
+        }
+    }
+
+    private fun parseTerm(): Double {
+        var x = parseFactor()
+        while (true) {
+            if (eat('*'.code)) x *= parseFactor()
+            else if (eat('/'.code)) x /= parseFactor()
+            else return x
+        }
+    }
+
+    private fun parseFactor(): Double {
+        if (eat('+'.code)) return parseFactor()
+        if (eat('-'.code)) return -parseFactor()
+
+        val startPos = pos
+        return if (eat('('.code)) {
+            val x = parseExpression()
+            eat(')'.code)
+            x
+        } else if (ch >= '0'.code && ch <= '9'.code || ch == '.'.code) {
+            while (ch >= '0'.code && ch <= '9'.code || ch == '.'.code) nextChar()
+            str.substring(startPos, pos).toDouble()
+        } else {
+            throw RuntimeException("Unexpected: " + ch.toChar())
+        }
     }
 }
