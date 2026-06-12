@@ -26,10 +26,14 @@ import com.mikepenz.markdown.coil3.Coil3ImageTransformerImpl
 import com.mikepenz.markdown.m3.Markdown
 import com.mikepenz.markdown.m3.markdownTypography
 import de.kitshn.isLaunchTimerHandlerImplemented
+import de.kitshn.time.TimerDetectionDefs
+import de.kitshn.time.detectTimers
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.timer_detection_and_definitions
 import kitshn.shared.generated.resources.timer_detection_hour_definitions
 import kitshn.shared.generated.resources.timer_detection_minute_definitions
+import kitshn.shared.generated.resources.timer_detection_range_qualifier_definitions
+import kitshn.shared.generated.resources.timer_detection_second_definitions
 import kitshn.shared.generated.resources.timer_detection_to_definitions
 import org.jetbrains.compose.resources.getStringArray
 
@@ -40,13 +44,11 @@ class MarkdownUriHandler(
 ) : UriHandler {
     override fun openUri(uri: String) {
         if(uri.startsWith("timer://")) {
-            onTimerClick(uri.replaceFirst("timer://", "").toInt() * 60)
+            onTimerClick(uri.removePrefix("timer://").toInt())
             return
         } else if(uri.startsWith("timer-range://")) {
-            val components = uri.replaceFirst("timer-range://", "")
-                .split("/")
-
-            onTimerRangeClick(components[0].toInt() * 60, components[1].toInt() * 60)
+            val components = uri.removePrefix("timer-range://").split("/")
+            onTimerRangeClick(components[0].toInt(), components[1].toInt())
             return
         }
 
@@ -67,54 +69,22 @@ fun MarkdownRichTextWithTimerDetection(
     var md by remember { mutableStateOf("") }
     LaunchedEffect(markdown) {
         if(isLaunchTimerHandlerImplemented) {
-            val hourDefinitions = mutableSetOf(
-                "hours",
-                "hour"
-            ).apply { addAll(getStringArray(Res.array.timer_detection_hour_definitions)) }
-            val hourDefinitionsStr =
-                hourDefinitions.sortedByDescending { it.length }.joinToString("|")
-
-            val andDefinitions =
-                mutableSetOf("and").apply { addAll(getStringArray(Res.array.timer_detection_and_definitions)) }
-            val andDefinitionsStr =
-                andDefinitions.sortedByDescending { it.length }.joinToString("|")
-
-            val minuteDefinitions = mutableSetOf(
-                "minutes",
-                "minute",
-                "mins",
-                "min"
-            ).apply { addAll(getStringArray(Res.array.timer_detection_minute_definitions)) }
-            val minuteDefinitionsStr =
-                minuteDefinitions.sortedByDescending { it.length }.joinToString("|")
-
-            val rangeDefinitions =
-                mutableSetOf(" ?- ?").apply { addAll(getStringArray(Res.array.timer_detection_to_definitions).map { " $it " }) }
-            val rangeDefinitionsStr =
-                rangeDefinitions.sortedByDescending { it.length }.joinToString("|")
-
-            md = markdown.replace(
-                Regex(
-                    "([0-9]+)(?:$rangeDefinitionsStr)([0-9]+) ?(?:$minuteDefinitionsStr)|(?:([0-9]+) ?(?:$hourDefinitionsStr) ?(?:$andDefinitionsStr)? ?)?([0-9]+) ?(?:$minuteDefinitionsStr)|([0-9]+) ?(?:$hourDefinitionsStr)",
-                    RegexOption.IGNORE_CASE
-                )
-            ) {
-                if(it.groupValues[1].isNotBlank()) {
-                    val fromMinutes = it.groupValues[1].toInt()
-                    val toMinutes = it.groupValues[2].toInt()
-
-                    "[**⏲ ${it.value}**](timer-range://$fromMinutes/$toMinutes)"
-                } else {
-                    val hours =
-                        it.groupValues[2].ifBlank { "0" }
-                            .toInt() + it.groupValues[5].ifBlank { "0" }
-                            .toInt()
-                    val minutes = it.groupValues[4].ifBlank { "0" }.toInt()
-
-                    val totalMinutes = (hours * 60) + minutes
-                    "[**⏲ ${it.value}**](timer://$totalMinutes)"
-                }
-            }
+            val defs = TimerDetectionDefs(
+                hourDefs = mutableSetOf("h", "hr", "hrs", "hour", "hours")
+                    .apply { addAll(getStringArray(Res.array.timer_detection_hour_definitions)) },
+                andDefs = mutableSetOf<String>()
+                    .apply { addAll(getStringArray(Res.array.timer_detection_and_definitions)) },
+                minuteDefs = mutableSetOf("min", "mins", "minute", "minutes")
+                    .apply { addAll(getStringArray(Res.array.timer_detection_minute_definitions)) },
+                secondDefs = mutableSetOf("s", "sec", "secs", "second", "seconds")
+                    .apply { addAll(getStringArray(Res.array.timer_detection_second_definitions)) },
+                rangeDefs = mutableSetOf<String>()
+                    .apply { addAll(getStringArray(Res.array.timer_detection_to_definitions)) },
+                rangeQualifierDefs = mutableSetOf(
+                    "about", "around", "approx", "approximately", "at most", "at least", "up to"
+                ).apply { addAll(getStringArray(Res.array.timer_detection_range_qualifier_definitions)) }
+            )
+            md = detectTimers(markdown, defs)
         } else {
             md = markdown
         }
