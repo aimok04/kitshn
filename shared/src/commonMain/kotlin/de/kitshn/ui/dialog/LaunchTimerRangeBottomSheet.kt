@@ -81,11 +81,11 @@ fun LaunchTimerRangeBottomSheet(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Three-tier granularity: ≤2min → 1s steps, <1h → 1min steps, ≥1h → 30min steps
+                // Range <=2min in 1s steps, <1h in 1min steps, >=1h in 15min steps
                 val stepSize = when {
                     state.to.value <= 120 -> 1
                     state.to.value < 3600 -> 60
-                    else -> 720
+                    else -> 900
                 }
                 val fromStep = state.from.value / stepSize
                 val toStep = state.to.value / stepSize
