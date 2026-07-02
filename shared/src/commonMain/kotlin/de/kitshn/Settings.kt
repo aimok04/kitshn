@@ -26,6 +26,8 @@ const val KEY_SETTINGS_APPEARANCE_COLOR_SCHEME = "appearance_color_scheme"
 const val KEY_SETTINGS_APPEARANCE_CUSTOM_COLOR_SCHEME_SEED = "appearance_custom_color_scheme_seed"
 const val KEY_SETTINGS_APPEARANCE_ENLARGE_SHOPPING_MODE = "appearance_enlarge_shopping_mode"
 const val KEY_SETTINGS_APPEARANCE_HIDE_ACTIVITY = "appearance_hide_activity"
+const val KEY_SETTINGS_APPEARANCE_HIDE_BOTTOM_BAR_ON_SCROLL = "appearance_hide_bottom_bar_on_scroll"
+const val KEY_SETTINGS_APPEARANCE_PIN_HOME_SEARCH_BAR = "appearance_pin_home_search_bar"
 
 const val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER = "behavior_use_share_wrapper"
 const val KEY_SETTINGS_BEHAVIOR_USE_SHARE_WRAPPER_HINT_SHOWN =
@@ -154,6 +156,18 @@ class SettingsViewModel : ViewModel() {
 
     fun setHideActivity(hide: Boolean) =
         obs.putBoolean(KEY_SETTINGS_APPEARANCE_HIDE_ACTIVITY, hide)
+
+    val getHideBottomBarOnScroll: Flow<Boolean> =
+        obs.getBooleanFlow(KEY_SETTINGS_APPEARANCE_HIDE_BOTTOM_BAR_ON_SCROLL, false)
+
+    fun setHideBottomBarOnScroll(hide: Boolean) =
+        obs.putBoolean(KEY_SETTINGS_APPEARANCE_HIDE_BOTTOM_BAR_ON_SCROLL, hide)
+
+    val getPinHomeSearchBar: Flow<Boolean> =
+        obs.getBooleanFlow(KEY_SETTINGS_APPEARANCE_PIN_HOME_SEARCH_BAR, false)
+
+    fun setPinHomeSearchBar(pin: Boolean) =
+        obs.putBoolean(KEY_SETTINGS_APPEARANCE_PIN_HOME_SEARCH_BAR, pin)
 
     // behavior
     val getUseShareWrapper: Flow<Boolean> =

@@ -12,6 +12,8 @@ import androidx.compose.material.icons.rounded.CommentsDisabled
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.Loupe
 import androidx.compose.material.icons.rounded.Palette
+import androidx.compose.material.icons.rounded.PushPin
+import androidx.compose.material.icons.rounded.UnfoldLess
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -53,6 +55,10 @@ import kitshn.shared.generated.resources.settings_section_appearance_follow_syst
 import kitshn.shared.generated.resources.settings_section_appearance_follow_system_label
 import kitshn.shared.generated.resources.settings_section_appearance_hide_activity_description
 import kitshn.shared.generated.resources.settings_section_appearance_hide_activity_label
+import kitshn.shared.generated.resources.settings_section_appearance_hide_bottom_bar_on_scroll_description
+import kitshn.shared.generated.resources.settings_section_appearance_hide_bottom_bar_on_scroll_label
+import kitshn.shared.generated.resources.settings_section_appearance_pin_home_search_bar_description
+import kitshn.shared.generated.resources.settings_section_appearance_pin_home_search_bar_label
 import kitshn.shared.generated.resources.settings_section_appearance_label
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -193,6 +199,40 @@ fun ViewSettingsAppearance(
                 ) {
                     coroutineScope.launch {
                         p.vm.settings.setHideActivity(it)
+                    }
+                }
+            }
+
+            item {
+                val hideBottomBarOnScroll = p.vm.settings.getHideBottomBarOnScroll.collectAsState(initial = false)
+
+                SettingsSwitchListItem(
+                    position = SettingsListItemPosition.TOP,
+                    label = { Text(stringResource(Res.string.settings_section_appearance_hide_bottom_bar_on_scroll_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_appearance_hide_bottom_bar_on_scroll_description)) },
+                    icon = Icons.Rounded.UnfoldLess,
+                    contentDescription = stringResource(Res.string.settings_section_appearance_hide_bottom_bar_on_scroll_label),
+                    checked = hideBottomBarOnScroll.value
+                ) {
+                    coroutineScope.launch {
+                        p.vm.settings.setHideBottomBarOnScroll(it)
+                    }
+                }
+            }
+
+            item {
+                val pinHomeSearchBar = p.vm.settings.getPinHomeSearchBar.collectAsState(initial = false)
+
+                SettingsSwitchListItem(
+                    position = SettingsListItemPosition.BOTTOM,
+                    label = { Text(stringResource(Res.string.settings_section_appearance_pin_home_search_bar_label)) },
+                    description = { Text(stringResource(Res.string.settings_section_appearance_pin_home_search_bar_description)) },
+                    icon = Icons.Rounded.PushPin,
+                    contentDescription = stringResource(Res.string.settings_section_appearance_pin_home_search_bar_label),
+                    checked = pinHomeSearchBar.value
+                ) {
+                    coroutineScope.launch {
+                        p.vm.settings.setPinHomeSearchBar(it)
                     }
                 }
             }
