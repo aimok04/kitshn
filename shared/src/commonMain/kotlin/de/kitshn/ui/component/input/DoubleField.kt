@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import co.touchlab.kermit.Logger
 import de.kitshn.formatAmount
+import de.kitshn.roundToPrecision
 
 @Composable
 fun BaseDoubleField(
@@ -31,6 +32,7 @@ fun BaseDoubleField(
     onValueChange: (Double?) -> Unit,
     min: Double? = null,
     max: Double? = null,
+    precision: Double? = null,
     content: @Composable (
         value: String,
         interactionSource: MutableInteractionSource,
@@ -61,7 +63,8 @@ fun BaseDoubleField(
             onValueChange(null)
         } else {
             try {
-                val newValue = uiValue.replace(",", ".").toDouble()
+                var newValue = uiValue.replace(",", ".").toDouble()
+                if(precision != null) newValue = newValue.roundToPrecision(precision)
                 if(min != null && newValue < min) return@content
                 if(max != null && newValue > max) return@content
 
@@ -87,6 +90,7 @@ fun OutlinedDoubleField(
     suffix: @Composable (() -> Unit)? = null,
     min: Double? = null,
     max: Double? = null,
+    precision: Double? = null,
     supportingText: @Composable (() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
@@ -98,6 +102,7 @@ fun OutlinedDoubleField(
     value = value,
     min = min,
     max = max,
+    precision = precision,
     onValueChange = onValueChange
 ) { v, iso, vc ->
     OutlinedTextField(
@@ -139,6 +144,7 @@ fun DoubleField(
     suffix: @Composable (() -> Unit)? = null,
     min: Double? = null,
     max: Double? = null,
+    precision: Double? = null,
     supportingText: @Composable (() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
@@ -150,6 +156,7 @@ fun DoubleField(
     value = value,
     min = min,
     max = max,
+    precision = precision,
     onValueChange = onValueChange
 ) { v, iso, v2 ->
     TextField(
