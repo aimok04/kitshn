@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import de.kitshn.FileFormats
 import de.kitshn.KitshnViewModel
+import de.kitshn.Platforms
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
 import de.kitshn.api.tandoor.TandoorRequestsError
@@ -55,6 +56,7 @@ import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.api.tandoor.route.TandoorAIImportRoute
 import de.kitshn.api.tandoor.route.TandoorAIProvider
 import de.kitshn.handleTandoorRequestState
+import de.kitshn.platformDetails
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.HorizontalDividerWithLabel
 import de.kitshn.ui.component.icons.IconWithState
@@ -76,9 +78,35 @@ import kitshn.shared.generated.resources.common_or_upper
 import kitshn.shared.generated.resources.common_recipe
 import kitshn.shared.generated.resources.error_recipe_could_not_be_loaded
 import kitshn.shared.generated.resources.recipe_import_type_ai_label
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
+
+private const val AI_IMPORT_MAX_FILE_SIZE_BYTES = 15 * 1024 * 1024
+
+private fun resolveAiImportMimeType(extension: String): String {
+    return FileFormats.findMimeType(extension.lowercase()) ?: "application/octet-stream"
+}
+
+private suspend fun toAiImportFile(file: PlatformFile): TandoorAIImportRoute.File {
+    val fileBytes = withContext(Dispatchers.IO) {
+        file.readBytes()
+    }
+
+    if(fileBytes.size > AI_IMPORT_MAX_FILE_SIZE_BYTES) {
+        val maxSizeMb = AI_IMPORT_MAX_FILE_SIZE_BYTES / (1024 * 1024)
+        throw Error(getString(Res.string.error_recipe_import_ai_file_too_large, maxSizeMb.toString()))
+    }
+
+    return TandoorAIImportRoute.File(
+        name = file.name,
+        byteArray = fileBytes,
+        mimeType = resolveAiImportMimeType(file.extension)
+    )
+}
 
 class RecipeImportAIDialogStateData {
     var file by mutableStateOf<TandoorAIImportRoute.File?>(null)
@@ -144,10 +172,18 @@ fun RecipeImportAIDialog(
     val fetchRequestState = rememberTandoorRequestState()
     fun fetch() = coroutineScope.launch {
         fetchRequestState.wrapRequest {
+            if(aiProvider == null) {
+                throw Error(getString(Res.string.error_recipe_import_ai_select_provider))
+            }
+
+            if(state.additionalData.file == null && state.additionalData.text.isBlank()) {
+                throw Error(getString(Res.string.error_recipe_import_ai_no_input))
+            }
+
             val response = client.aiImport.fetch(
                 file = state.additionalData.file,
                 text = state.additionalData.text.ifBlank { null },
-                aiProviderId = aiProvider?.id ?: -1
+                aiProviderId = aiProvider!!.id
             )
             if(response.recipe == null && response.recipeId != null) {
                 state.dismiss()
@@ -174,11 +210,7 @@ fun RecipeImportAIDialog(
         if(file == null) return@rememberFilePickerLauncher
 
         coroutineScope.launch {
-            state.additionalData.file = TandoorAIImportRoute.File(
-                name = file.name,
-                byteArray = file.readBytes(),
-                mimeType = FileFormats.findMimeType(file.extension.lowercase()) ?: "unknown"
-            )
+            state.additionalData.file = toAiImportFile(file)
             state.additionalData.text = ""
             fetch()
         }
@@ -188,15 +220,15 @@ fun RecipeImportAIDialog(
         if(file == null) return@rememberCameraPickerLauncherIfAvailable
 
         coroutineScope.launch {
-            state.additionalData.file = TandoorAIImportRoute.File(
-                name = file.name,
-                byteArray = file.readBytes(),
-                mimeType = FileFormats.findMimeType(file.extension.lowercase()) ?: "unknown"
-            )
+            state.additionalData.file = toAiImportFile(file)
             state.additionalData.text = ""
             fetch()
         }
     }
+
+    val canUseCamera = platformDetails.platform != Platforms.JVM
+    val hasInput = state.additionalData.file != null || state.additionalData.text.isNotBlank()
+    val canSubmit = hasInput && aiProvider != null && fetchRequestState.state != TandoorRequestStateState.LOADING
 
     val recipeImportRequestState = rememberTandoorRequestState()
 
@@ -292,7 +324,7 @@ fun RecipeImportAIDialog(
                                 Modifier.padding(16.dp)
                             ) {
                                 OutlinedButton(
-                                    modifier = Modifier.fillMaxWidth(0.5f),
+                                    modifier = if(canUseCamera) Modifier.fillMaxWidth(0.5f) else Modifier.fillMaxWidth(),
                                     onClick = {
                                         filePickerLauncher.launch()
                                     }
@@ -307,22 +339,24 @@ fun RecipeImportAIDialog(
                                     Text(stringResource(Res.string.action_upload))
                                 }
 
-                                Spacer(Modifier.width(8.dp))
-
-                                OutlinedButton(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    onClick = {
-                                        cameraPickerLauncher()
-                                    }
-                                ) {
-                                    Icon(
-                                        Icons.Rounded.Camera,
-                                        stringResource(Res.string.action_take_photo)
-                                    )
-
+                                if(canUseCamera) {
                                     Spacer(Modifier.width(8.dp))
 
-                                    Text(stringResource(Res.string.action_take_photo))
+                                    OutlinedButton(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        onClick = {
+                                            cameraPickerLauncher()
+                                        }
+                                    ) {
+                                        Icon(
+                                            Icons.Rounded.Camera,
+                                            stringResource(Res.string.action_take_photo)
+                                        )
+
+                                        Spacer(Modifier.width(8.dp))
+
+                                        Text(stringResource(Res.string.action_take_photo))
+                                    }
                                 }
                             }
                         }
@@ -369,6 +403,7 @@ fun RecipeImportAIDialog(
                                         bottom = 16.dp
                                     )
                                     .fillMaxWidth(),
+                                enabled = canSubmit,
                                 onClick = {
                                     disableTextField = true
                                     fetch()
