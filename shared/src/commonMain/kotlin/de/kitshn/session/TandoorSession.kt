@@ -4,6 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import coil3.ImageLoader
+import coil3.SingletonImageLoader
+import coil3.annotation.DelicateCoilApi
+import coil3.annotation.ExperimentalCoilApi
+import coil3.network.ktor3.KtorNetworkFetcherFactory
 import de.kitshn.SettingsViewModel
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
@@ -19,10 +24,7 @@ import kotlinx.coroutines.flow.stateIn
 /**
  * Owns the currently-active Tandoor session: the [TandoorClient] and its
  * persisted credentials.
- *
- * Exposed as a Koin singleton so repositories and view models share one source
- * of truth instead of threading the client through every call. [client] is
- * backed by Compose state, so composables that read it recompose on change.
+ * [client] is a state to provide recomposition on change
  */
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 class TandoorSession(
@@ -49,20 +51,46 @@ class TandoorSession(
     suspend fun loadPersistedCredentials(): TandoorCredentials? =
         settings.getTandoorCredentials.first()
 
-    /** Attach a client built from previously-persisted credentials (app startup). */
+    /** Get client from prior saved credentials */
     fun hydrate(credentials: TandoorCredentials) {
-        if (client == null) client = TandoorClient(credentials)
+        if (client == null) {
+            val newClient = TandoorClient(credentials)
+            client = newClient
+            updateCoilImageLoader(newClient)
+        }
     }
 
-    /** Completed sign-in: new client + persist credentials. */
+    /** Completed sign-in new client and persist credentials */
     fun signIn(client: TandoorClient, credentials: TandoorCredentials) {
         this.client = client
         settings.saveTandoorCredentials(credentials)
+        updateCoilImageLoader(client)
     }
 
-    /** Drop client + wipe persisted credentials. */
+    fun updateCredentials(credentials: TandoorCredentials) {
+        val newClient = TandoorClient(credentials)
+        client = newClient
+        settings.saveTandoorCredentials(credentials)
+        updateCoilImageLoader(newClient)
+    }
+
+    /** Drop client and wipe persisted credentials */
+    @OptIn(DelicateCoilApi::class)
     fun signOut() {
         client = null
         settings.saveTandoorCredentials(null)
+        // setSafe can only be used once and we *need* to clear / replace it here
+        SingletonImageLoader.setUnsafe { context -> ImageLoader(context) }
+    }
+
+    @OptIn(DelicateCoilApi::class, ExperimentalCoilApi::class)
+    private fun updateCoilImageLoader(client: TandoorClient) {
+        val httpClient = client.httpClient
+        // setSafe can only be used once, but we can update mtls later on. Disk Cache should persist
+        SingletonImageLoader.setUnsafe { context ->
+            ImageLoader.Builder(context)
+                .components { add(KtorNetworkFetcherFactory(httpClient = httpClient)) }
+                .build()
+        }
     }
 }

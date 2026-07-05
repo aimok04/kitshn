@@ -288,6 +288,11 @@ class KitshnViewModel(
         favorites.init(client)
     }
 
+    /** Replace the active session credentials without re-running onboarding. */
+    fun updateCredentials(credentials: TandoorCredentials) {
+        session.updateCredentials(credentials)
+    }
+
     fun signOut() {
         settings.setOnboardingCompleted(false)
         session.signOut()

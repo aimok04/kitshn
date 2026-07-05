@@ -11,6 +11,7 @@ import androidx.compose.material.icons.automirrored.rounded.Logout
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Numbers
+import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material.icons.rounded.Web
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -22,6 +23,7 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -49,8 +51,12 @@ import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.component.settings.SettingsListItemPosition
 import de.kitshn.ui.dialog.version.TandoorServerVersionCompatibilityDialog
 import de.kitshn.ui.view.ViewParameters
+import de.kitshn.utils.ClientCertificateData
+import de.kitshn.utils.rememberClientCertificateSelector
 import de.kitshn.version.TandoorServerVersionCompatibility
 import kitshn.shared.generated.resources.Res
+import kitshn.shared.generated.resources.action_abort
+import kitshn.shared.generated.resources.action_remove
 import kitshn.shared.generated.resources.action_sign_out
 import kitshn.shared.generated.resources.action_sign_out_description
 import kitshn.shared.generated.resources.common_account
@@ -64,6 +70,12 @@ import kitshn.shared.generated.resources.settings_section_server_delete_and_mana
 import kitshn.shared.generated.resources.settings_section_server_delete_and_manage_data_dialog_line_3
 import kitshn.shared.generated.resources.settings_section_server_delete_and_manage_data_label
 import kitshn.shared.generated.resources.settings_section_server_label
+import kitshn.shared.generated.resources.settings_section_server_mtls_description_none
+import kitshn.shared.generated.resources.settings_section_server_mtls_description_pkcs12
+import kitshn.shared.generated.resources.settings_section_server_mtls_label
+import kitshn.shared.generated.resources.settings_section_server_mtls_remove
+import kitshn.shared.generated.resources.settings_section_server_mtls_remove_dialog_description
+import kitshn.shared.generated.resources.settings_section_server_mtls_remove_dialog_title
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -85,10 +97,43 @@ fun ViewSettingsServer(
 
     var showDataManagementDialog by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
+    // mTLS state
+    val credentials = p.vm.tandoorClient?.credentials
+    val mtlsCertificateAlias = credentials?.mtlsCertificateAlias
+    val mtlsCertificateData = credentials?.mtlsCertificateData
+    val isMtlsConfigured = mtlsCertificateAlias != null || mtlsCertificateData != null
+    var showMtlsRemoveDialog by remember { mutableStateOf(false) }
+    val certificateSelector = rememberClientCertificateSelector()
+
+    fun applyMtlsCert(data: ClientCertificateData) {
+        val creds = p.vm.tandoorClient?.credentials ?: return
+        p.vm.updateCredentials(
+            creds.copy(
+                mtlsCertificateAlias = data.alias,
+                mtlsCertificateData = data.pkcs12DataBase64,
+                mtlsCertificatePassword = data.pkcs12Password,
+            )
+        )
+    }
+
+    fun removeMtlsCert() {
+        val creds = p.vm.tandoorClient?.credentials ?: return
+        p.vm.updateCredentials(
+            creds.copy(
+                mtlsCertificateAlias = null,
+                mtlsCertificateData = null,
+                mtlsCertificatePassword = null,
+            )
+        )
+    }
+
+    LaunchedEffect(p.vm.tandoorClient) {
         TandoorRequestState().wrapRequest {
             val user = p.vm.tandoorClient?.user?.get()
             if(user != null) p.vm.uiState.userDisplayName = user.display_name
+        }
+        TandoorRequestState().wrapRequest {
+            p.vm.tandoorClient?.serverSettings?.current()
         }
     }
 
@@ -175,6 +220,45 @@ fun ViewSettingsServer(
 
             item {
                 SettingsListItem(
+                    position = if (isMtlsConfigured) SettingsListItemPosition.TOP else SettingsListItemPosition.SINGULAR,
+                    label = { Text(stringResource(Res.string.settings_section_server_mtls_label)) },
+                    description = {
+                        Text(
+                            when {
+                                mtlsCertificateAlias != null -> mtlsCertificateAlias
+                                mtlsCertificateData != null -> stringResource(Res.string.settings_section_server_mtls_description_pkcs12)
+                                else -> stringResource(Res.string.settings_section_server_mtls_description_none)
+                            }
+                        )
+                    },
+                    icon = Icons.Rounded.Security,
+                    contentDescription = stringResource(Res.string.settings_section_server_mtls_label)
+                ) {
+                    certificateSelector.selectCertificate { data ->
+                        if (data != null) applyMtlsCert(data)
+                    }
+                }
+            }
+
+            if (isMtlsConfigured) {
+                item {
+                    SettingsListItem(
+                        position = SettingsListItemPosition.BOTTOM,
+                        label = { Text(stringResource(Res.string.settings_section_server_mtls_remove)) },
+                        icon = Icons.Rounded.Delete,
+                        contentDescription = stringResource(Res.string.settings_section_server_mtls_remove)
+                    ) {
+                        showMtlsRemoveDialog = true
+                    }
+                }
+            }
+
+            item {
+                Spacer(Modifier.height(16.dp))
+            }
+
+            item {
+                SettingsListItem(
                     position = SettingsListItemPosition.SINGULAR,
                     label = { Text(stringResource(Res.string.action_sign_out)) },
                     description = { Text(stringResource(Res.string.action_sign_out_description)) },
@@ -212,6 +296,22 @@ fun ViewSettingsServer(
     ) {
         showVersionCompatibilityBottomSheet = false
     }
+
+    if (showMtlsRemoveDialog) AlertDialog(
+        onDismissRequest = { showMtlsRemoveDialog = false },
+        icon = { Icon(Icons.Rounded.Delete, null) },
+        title = { Text(stringResource(Res.string.settings_section_server_mtls_remove_dialog_title)) },
+        text = { Text(stringResource(Res.string.settings_section_server_mtls_remove_dialog_description)) },
+        confirmButton = {
+            Button(onClick = {
+                showMtlsRemoveDialog = false
+                removeMtlsCert()
+            }) { Text(stringResource(Res.string.action_remove)) }
+        },
+        dismissButton = {
+            TextButton(onClick = { showMtlsRemoveDialog = false }) { Text(stringResource(Res.string.action_abort)) }
+        }
+    )
 
     // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)
     if(showDataManagementDialog) AlertDialog(

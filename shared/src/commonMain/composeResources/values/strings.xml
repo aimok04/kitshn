@@ -14,6 +14,9 @@
     <string name="action_add_to_favorites">Add to favorites</string>
     <string name="action_add_to_meal_plan">Add to meal plan</string>
     <string name="action_add_to_recipe_books">Add to recipe books</string>
+    <string name="action_add_custom_header">Add HTTP header</string>
+    <string name="action_add_mtls_certificate">Add mTLS certificate</string>
+    <string name="action_edit_custom_header">Edit HTTP header</string>
     <string name="action_add_to_shopping">Add to shopping</string>
     <string name="action_allocate_ingredients">Allocate ingredients</string>
     <string name="action_apply">Apply</string>
@@ -107,6 +110,7 @@
     <string name="common_account">Account</string>
     <string name="common_activity">Activity</string>
     <string name="common_add_to_shopping_list">Add to shopping list</string>
+    <string name="common_advanced_settings">Advanced settings</string>
     <string name="common_ai_provider">AI Provider</string>
     <string name="common_allocate_ingredients">Allocate ingredients</string>
     <string name="common_amount">Amount</string>
@@ -122,6 +126,7 @@
     <string name="common_create_argument">Create » %1$s «</string>
     <string name="common_creator">Creator</string>
     <string name="common_custom_headers">Custom headers</string>
+    <string name="common_mtls">mTLS Certificate</string>
     <string name="common_day_after_tomorrow">null</string>
     <string name="common_day_before_yesterday">null</string>
     <string name="common_delete_permanently">Delete permanently</string>
@@ -311,10 +316,12 @@
     <string name="navigation_shopping">Shopping</string>
 
     <string name="onboarding_introduction">Welcome to kitshn (for Tandoor). Please log in to your Tandoor instance to continue.</string>
+    <string name="onboarding_sign_in_custom_header_duplicate">Header field already used</string>
     <string name="onboarding_sign_in_error_instance_not_reachable">The specified instance URL cannot be reached.</string>
     <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">Enable » Local Network « permission for kitshn in system settings when connecting to a local server.</string>
     <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">You can try » Log in using web browser «, if you are using SSO.</string>
     <string name="onboarding_sign_in_error_sign_in_failed">Login failed. Please check your inputs!</string>
+    <string name="onboarding_sign_in_hint_credentials_required">Please enter a username and password, an API token, or use » Log in using web browser «.</string>
     <string name="onboarding_sign_in_ios_social_login_unsupported">This app does not support Social Login. Please generate an API-Token or use username/password authentication.</string>
     <string name="onboarding_sign_in_title">Log in to Tandoor</string>
     <string name="onboarding_sign_in_using_web_browser">Log in using web browser</string>
@@ -420,6 +427,18 @@
     <string name="settings_section_behavior_properties_show_fractional_values_label">Fractional values for custom properties</string>
     <string name="settings_section_behavior_use_share_wrapper_description">Makes shared Tandoor links openable in this app</string>
     <string name="settings_section_behavior_use_share_wrapper_label">Share wrapper</string>
+    <string name="settings_section_server_mtls_label">Client certificate (mTLS)</string>
+    <string name="settings_section_server_mtls_description_none">No certificate configured</string>
+    <string name="settings_section_server_mtls_remove">Remove certificate</string>
+    <string name="settings_section_server_mtls_remove_dialog_title">Remove client certificate?</string>
+    <string name="settings_section_server_mtls_remove_dialog_description">The client certificate will be removed. The server connection will no longer use mutual TLS.</string>
+    <string name="settings_section_server_mtls_description_pkcs12">PKCS12 certificate (imported)</string>
+    <string name="settings_section_server_mtls_password_dialog_title">Certificate password</string>
+    <string name="settings_section_server_mtls_password_dialog_label">Password</string>
+    <string name="onboarding_sign_in_mtls_required_dialog_title">Client certificate required</string>
+    <string name="onboarding_sign_in_mtls_required_dialog_description">The server can't be reached without a client certificate. This usually means the server uses mTLS or a self-signed certificate. Select a PKCS12 (.p12) bundle to continue.</string>
+    <string name="onboarding_sign_in_error_client_certificate_required">A client certificate (mTLS) is required to reach this server.</string>
+    <string name="action_select_certificate">Select certificate</string>
     <string name="settings_section_server_delete_and_manage_data_description">You can only manage your data on the webpage</string>
     <string name="settings_section_server_delete_and_manage_data_dialog_line_1">You can delete and manage your space data on the website of your instance. Please contact the provider of your instance to request account deletion.</string>
     <string name="settings_section_server_delete_and_manage_data_dialog_line_2">You can request account deletion by mailing</string>
