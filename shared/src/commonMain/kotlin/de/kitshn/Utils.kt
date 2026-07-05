@@ -480,7 +480,7 @@ expect fun launchTimerHandler(
 expect val isLaunchTimerHandlerImplemented: Boolean
 
 @Composable
-expect fun shareContentHandler(): (title: String, url: String) -> Unit
+expect fun shareContentHandler(): (title: String, text: String) -> Unit
 
 @Composable
 expect fun closeAppHandler(): () -> Unit

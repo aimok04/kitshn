@@ -23,6 +23,10 @@ val kitshnDesktopPackageName: String by rootProject.extra
 val kitshnIsBeta: Boolean by rootProject.extra
 
 kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
     jvmToolchain(21)
 
     android {

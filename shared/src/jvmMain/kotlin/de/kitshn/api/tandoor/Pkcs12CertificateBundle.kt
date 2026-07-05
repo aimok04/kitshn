@@ -46,7 +46,7 @@ internal fun loadPkcs12CertificateBundle(
 
         Pkcs12CertificateBundle(keyManager, extractCAs(keyStore))
     } catch (e: Exception) {
-        Logger.e(TAG, e) { "PKCS12 import failed" }
+        Logger.e(e, tag = TAG) { "PKCS12 import failed" }
         null
     }
 }

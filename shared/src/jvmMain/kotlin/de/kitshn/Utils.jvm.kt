@@ -30,7 +30,7 @@ actual fun saveBreadcrumb(key: String, value: String) {}
 
 @Composable
 actual fun LocalDate.format(pattern: String): String = DateTimeFormatter.ofPattern(pattern)
-    .format(java.time.LocalDate.ofEpochDay(this.toEpochDays().toLong()))
+    .format(java.time.LocalDate.ofEpochDay(this.toEpochDays()))
 
 @Composable
 actual fun BackHandler(enabled: Boolean, handler: () -> Unit) {
