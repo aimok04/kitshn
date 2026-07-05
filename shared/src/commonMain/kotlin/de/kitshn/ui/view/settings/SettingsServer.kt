@@ -21,17 +21,21 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.LinkAnnotation
@@ -57,6 +61,7 @@ import kitshn.shared.generated.resources.action_sign_out_description
 import kitshn.shared.generated.resources.common_account
 import kitshn.shared.generated.resources.common_instance_url
 import kitshn.shared.generated.resources.common_manage_space
+import kitshn.shared.generated.resources.common_offline_action_unavailable
 import kitshn.shared.generated.resources.common_unknown
 import kitshn.shared.generated.resources.common_version
 import kitshn.shared.generated.resources.settings_section_server_delete_and_manage_data_description
@@ -75,9 +80,18 @@ fun ViewSettingsServer(
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(state = rememberTopAppBarState())
     val coroutineScope = rememberCoroutineScope()
+    val isOnline by p.vm.isOnline.collectAsState()
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val offlineWarning = stringResource(Res.string.common_offline_action_unavailable)
+    fun warnOffline() {
+        coroutineScope.launch { snackbarHostState.showSnackbar(offlineWarning) }
+    }
 
     val launchWebsiteHandler = launchWebsiteHandler()
     val closeAppHandler = closeAppHandler()
+
+    val disabledAlpha = ListItemDefaults.colors().disabledContentColor.alpha
 
     val serverVersion = p.vm.tandoorClient?.container?.serverSettings?.version
     val compatibilityState = TandoorServerVersionCompatibility.getCompatibilityStateOfVersion(serverVersion ?: "")
@@ -100,7 +114,8 @@ fun ViewSettingsServer(
                 title = { Text(stringResource(Res.string.settings_section_server_label)) },
                 scrollBehavior = scrollBehavior
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {
         LazyColumn(
             modifier = Modifier
@@ -111,6 +126,7 @@ fun ViewSettingsServer(
         ) {
             item {
                 SettingsListItem(
+                    modifier = Modifier.alpha(if(isOnline) 1f else disabledAlpha),
                     position = SettingsListItemPosition.TOP,
                     label = { Text(stringResource(Res.string.common_account)) },
                     description = {
@@ -121,9 +137,10 @@ fun ViewSettingsServer(
                         )
                     },
                     icon = Icons.Rounded.AccountCircle,
-                    enabled = p.vm.uiState.userDisplayName.isNotBlank(),
                     contentDescription = stringResource(Res.string.common_account)
-                )
+                ) {
+                    if(!isOnline || p.vm.uiState.userDisplayName.isBlank()) warnOffline()
+                }
             }
 
             item {
@@ -161,10 +178,12 @@ fun ViewSettingsServer(
                         )
                     },
                     containerColor = compatibilityState.tint().copy(alpha = 0.1f),
-                    enabled = serverVersion != null,
+                    modifier = Modifier.alpha(if(isOnline) 1f else disabledAlpha),
                     contentDescription = stringResource(Res.string.common_version),
                 ) {
-                    coroutineScope.launch {
+                    if(!isOnline) {
+                        warnOffline()
+                    } else {
                         showVersionCompatibilityBottomSheet = true
                     }
                 }
@@ -194,13 +213,18 @@ fun ViewSettingsServer(
             item {
                 // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)
                 SettingsListItem(
+                    modifier = Modifier.alpha(if(isOnline) 1f else disabledAlpha),
                     position = SettingsListItemPosition.SINGULAR,
                     label = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_label)) },
                     description = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_description)) },
                     icon = Icons.Rounded.Delete,
                     contentDescription = stringResource(Res.string.settings_section_server_delete_and_manage_data_description)
                 ) {
-                    showDataManagementDialog = true
+                    if(!isOnline) {
+                        warnOffline()
+                    } else {
+                        showDataManagementDialog = true
+                    }
                 }
             }
         }
@@ -256,8 +280,10 @@ fun ViewSettingsServer(
             Button(
                 onClick = {
                     coroutineScope.launch {
-                        val spaceId = p.vm.tandoorClient?.space?.current()?.id ?: -1
-                        launchWebsiteHandler.invoke("${p.vm.tandoorClient?.credentials?.instanceUrl}/space-manage/${spaceId}")
+                        TandoorRequestState().wrapRequest {
+                            val spaceId = p.vm.tandoorClient?.space?.current()?.id ?: -1
+                            launchWebsiteHandler.invoke("${p.vm.tandoorClient?.credentials?.instanceUrl}/space-manage/${spaceId}")
+                        }
                     }
                 }
             ) {

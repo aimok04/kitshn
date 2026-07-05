@@ -165,6 +165,7 @@
     <string name="common_not_reachable">Not reachable</string>
     <string name="common_not_supported">Not supported</string>
     <string name="common_note">Note</string>
+    <string name="common_offline_action_unavailable">This action requires an active connection to the server</string>
     <string name="common_okay">Okay</string>
     <string name="common_option_requires_restart">This option requires a restart to apply</string>
     <string name="common_or_upper">OR</string>
