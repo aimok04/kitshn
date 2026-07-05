@@ -22,7 +22,6 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -49,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.closeAppHandler
 import de.kitshn.launchWebsiteHandler
+import de.kitshn.ui.LocalSnackbarHostState
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.component.settings.SettingsListItemPosition
@@ -82,16 +82,8 @@ fun ViewSettingsServer(
     val coroutineScope = rememberCoroutineScope()
     val isOnline by p.vm.isOnline.collectAsState()
 
-    val snackbarHostState = remember { SnackbarHostState() }
-    val offlineWarning = stringResource(Res.string.common_offline_action_unavailable)
-    fun warnOffline() {
-        coroutineScope.launch { snackbarHostState.showSnackbar(offlineWarning) }
-    }
-
     val launchWebsiteHandler = launchWebsiteHandler()
     val closeAppHandler = closeAppHandler()
-
-    val disabledAlpha = ListItemDefaults.colors().disabledContentColor.alpha
 
     val serverVersion = p.vm.tandoorClient?.container?.serverSettings?.version
     val compatibilityState = TandoorServerVersionCompatibility.getCompatibilityStateOfVersion(serverVersion ?: "")
@@ -115,7 +107,7 @@ fun ViewSettingsServer(
                 scrollBehavior = scrollBehavior
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(LocalSnackbarHostState.current!!) }
     ) {
         LazyColumn(
             modifier = Modifier
@@ -126,7 +118,8 @@ fun ViewSettingsServer(
         ) {
             item {
                 SettingsListItem(
-                    modifier = Modifier.alpha(if(isOnline) 1f else disabledAlpha),
+                    onlineOnly = true,
+                    isOnline = isOnline,
                     position = SettingsListItemPosition.TOP,
                     label = { Text(stringResource(Res.string.common_account)) },
                     description = {
@@ -139,7 +132,6 @@ fun ViewSettingsServer(
                     icon = Icons.Rounded.AccountCircle,
                     contentDescription = stringResource(Res.string.common_account)
                 ) {
-                    if(!isOnline || p.vm.uiState.userDisplayName.isBlank()) warnOffline()
                 }
             }
 
@@ -178,14 +170,11 @@ fun ViewSettingsServer(
                         )
                     },
                     containerColor = compatibilityState.tint().copy(alpha = 0.1f),
-                    modifier = Modifier.alpha(if(isOnline) 1f else disabledAlpha),
+                    onlineOnly = true,
+                    isOnline = isOnline,
                     contentDescription = stringResource(Res.string.common_version),
                 ) {
-                    if(!isOnline) {
-                        warnOffline()
-                    } else {
-                        showVersionCompatibilityBottomSheet = true
-                    }
+                    showVersionCompatibilityBottomSheet = true
                 }
             }
 
@@ -213,18 +202,15 @@ fun ViewSettingsServer(
             item {
                 // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)
                 SettingsListItem(
-                    modifier = Modifier.alpha(if(isOnline) 1f else disabledAlpha),
+                    onlineOnly = true,
+                    isOnline = isOnline,
                     position = SettingsListItemPosition.SINGULAR,
                     label = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_label)) },
                     description = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_description)) },
                     icon = Icons.Rounded.Delete,
                     contentDescription = stringResource(Res.string.settings_section_server_delete_and_manage_data_description)
                 ) {
-                    if(!isOnline) {
-                        warnOffline()
-                    } else {
-                        showDataManagementDialog = true
-                    }
+                    showDataManagementDialog = true
                 }
             }
         }
@@ -282,7 +268,7 @@ fun ViewSettingsServer(
                     coroutineScope.launch {
                         TandoorRequestState().wrapRequest {
                             val spaceId = p.vm.tandoorClient?.space?.current()?.id ?: -1
-                            launchWebsiteHandler.invoke("${p.vm.tandoorClient?.credentials?.instanceUrl}/space-manage/${spaceId}")
+                            launchWebsiteHandler.invoke("${p.vm.tandoorClient?.credentials?.instanceUrl}/space-manage/$spaceId")
                         }
                     }
                 }
