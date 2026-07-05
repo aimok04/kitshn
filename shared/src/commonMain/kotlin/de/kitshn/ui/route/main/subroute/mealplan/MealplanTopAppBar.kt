@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.MoveDown
+import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DatePicker
@@ -33,6 +34,7 @@ import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_delete
 import kitshn.shared.generated.resources.action_edit
 import kitshn.shared.generated.resources.action_move
+import kitshn.shared.generated.resources.action_switch_household
 import kitshn.shared.generated.resources.navigation_meal_plan
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -50,6 +52,7 @@ fun RouteMainSubrouteMealplanTopAppBar(
     mealPlanMoveRequestState: TandoorRequestState,
     mealPlanDeleteRequestState: TandoorRequestState,
 
+    onSwitchHouseholdRequest: () -> Unit,
     onUpdatePlan: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -59,7 +62,15 @@ fun RouteMainSubrouteMealplanTopAppBar(
         topAppBar = {
             CenterAlignedTopAppBar(
                 title = { Text(stringResource(Res.string.navigation_meal_plan)) },
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                actions = {
+                    IconButton(onClick = { onSwitchHouseholdRequest() }) {
+                        Icon(
+                            Icons.Rounded.SwapHoriz,
+                            stringResource(Res.string.action_switch_household)
+                        )
+                    }
+                }
             )
         },
         state = selectionModeState,
