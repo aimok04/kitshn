@@ -1,0 +1,2 @@
+- fix(build.gradle): 移除代码压缩
+- fix(mealplan): mealplanType 颜色现在可以为 undefined

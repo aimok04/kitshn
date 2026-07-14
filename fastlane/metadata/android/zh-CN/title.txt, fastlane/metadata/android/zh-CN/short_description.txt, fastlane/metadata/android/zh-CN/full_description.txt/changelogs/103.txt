@@ -1,0 +1,6 @@
+- feat(acra): 切换到 acra-http
+- feat(home): 改进列表性能
+- feat(requests): 改进错误对话框
+- fix(requests): 修复崩溃问题
+- fix(vm): 无法解析版本时崩溃
+- fix(build.gradle): 恢复代码压缩

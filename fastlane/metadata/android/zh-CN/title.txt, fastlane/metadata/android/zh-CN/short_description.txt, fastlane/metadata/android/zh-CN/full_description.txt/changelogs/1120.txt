@@ -1,0 +1,8 @@
+- feat(utils): 设置最大小数位数为 2 (#24)
+- feat(home): 通过缓存食物和关键词改进动态首页
+- feat(home): 添加常做菜品板块
+- feat(home): 添加圣诞板块
+- feat(api): 现在从 openapi 端点获取版本信息
+- fix(mealplan): 遵循默认膳食计划分享设置（解决 #19）
+- chore(api): 标记 v1.5.23 为兼容
+- chore(api): 标记 v1.5.21/22 为兼容

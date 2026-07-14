@@ -1,0 +1,16 @@
+v1.0.0-alpha.10.2 更新内容
+- fix(properties): 解析问题 (#25)
+
+v1.0.0-alpha.10.1 更新内容
+- fix(dialog): 全屏对话框中的布局/动画问题
+
+v1.0.0-alpha.10 更新内容
+- feat(recipes): 为步骤说明添加模板支持 (#25)
+- feat(recipes): 添加属性卡片 (#24)
+- feat(mealplan): 改进平板/折叠设备 UI
+- feat(dialog): 改进自适应全屏对话框大小
+- feat(recipes): 滚动到底部时隐藏浮动按钮以提高可读性
+- fix(recipes): 防止食材文本被截断
+- fix(share): 替换硬编码 URL（解决 #22）
+- chore(libs): 版本升级
+- 多个错误修复

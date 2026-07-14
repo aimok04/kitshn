@@ -1,0 +1,3 @@
+‼️ Android 将成为一个封闭平台。了解更多：https://keepandroidopen.org/
+
+1. 更改了食谱详情视图中「添加到购物清单」的 API 调用 (#343)。
