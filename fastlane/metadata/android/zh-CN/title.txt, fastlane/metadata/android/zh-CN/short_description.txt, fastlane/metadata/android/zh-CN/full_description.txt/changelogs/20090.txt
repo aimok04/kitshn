@@ -1,0 +1,7 @@
+‼️ Android 将成为一个封闭平台：https://keepandroidopen.org
+
+1. 修复了 ignore_shopping 值未被遵守的问题。
+2. 修复了购物清单为空时无法选择的问题。
+3. 🇫🇷 法语已更新（由 @whayn 贡献）。
+4. 🇳🇱 荷兰语已更新（由 @jstrvr 贡献）。
+5. 🇱🇰/🇮🇳 泰米尔语已更新（由 @TamilNeram 贡献）。

@@ -1,0 +1,10 @@
+‼️ Android 将成为一个封闭平台：https://keepandroidopen.org
+
+1. 添加了按购物清单筛选购物清单条目的功能。
+2. 新增在食谱详情视图中隐藏活动部分的设置。
+3. 丹麦语已更新（My Nameis）。
+4. 荷兰语已更新（@jstrvr）。
+5. 法语已更新（J.Lavoie）。
+6. 德语已更新（@stilllearninggit 和 J.Lavoie）。
+7. 匈牙利语已添加（@Subbye 和 @SzSz-hub）。
+8. 葡萄牙语（巴西）已更新（@lucasmc64）。

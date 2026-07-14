@@ -1,0 +1,11 @@
+- feat(recipes): 为列表详情布局添加关闭功能（解决 #28）
+- feat(ui): 改进列表详情窗格大小比例
+- feat(various): 添加更多 TandoorRequestErrorHandlers
+- fix(import): 添加检查以排除重复导入（解决 #29）
+- fix(home): 搜索视图中的返回手势问题
+- fix(recipes): 多个崩溃修复和错误处理改进
+- fix(favorites): 获取收藏食谱书时崩溃
+- fix(recipes): 将食谱添加到购物清单时崩溃
+- fix(recipes): RecipeCreationAndEditDialog 中的崩溃
+- fix(api): 为 TandoorRequestsError 添加更多信息
+- chore(api): 标记 v1.5.24 为兼容

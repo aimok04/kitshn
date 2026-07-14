@@ -1,0 +1,3 @@
+- feat(onboarding): 添加通过浏览器登录（解决 #30）
+- fix(recipes): 食谱卡片信息标签中的模糊溢出
+- fix(api): 使用 Cookie 登录时的 CSRF 问题（解决 #30）

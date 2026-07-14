@@ -1,0 +1,3 @@
+‼️ Android 将成为一个封闭平台：https://keepandroidopen.org
+
+修复了与 Tandoor v2.6.0 的兼容性

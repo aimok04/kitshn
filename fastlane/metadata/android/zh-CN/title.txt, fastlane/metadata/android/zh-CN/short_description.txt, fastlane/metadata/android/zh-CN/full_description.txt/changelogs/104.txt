@@ -1,0 +1,6 @@
+- feat(recipes): 为步骤说明添加 Markdown 支持 (#1)
+- feat(recipes): 添加应用链接
+- feat(recipes): 添加分享按钮
+- l10n(strings.xml): 添加土耳其语 (tr) (#3)（由 @mikropsoft 贡献）
+- chore(libs): 版本升级
+- 多个错误修复和设计改进
