@@ -1,0 +1,12 @@
+- feat(recipes): 添加步骤图片文件支持（解决 #14）
+- feat(shopping): 按食物分组购物清单条目（解决 #13）
+- feat(manifest): 添加自签名证书支持（解决 #11）
+- feat(app): 添加"新建实例"快捷方式
+- feat(recipes): 在下拉菜单中添加"添加到购物清单"选项
+- feat(recipes): 添加食谱书管理对话框
+- feat(utils): 改进可读日期标签
+- feat(recipes): 改进平板横屏烹饪模式布局
+- chore(libs): 版本升级
+- fix(recipes): 迁移到不同的 Markdown 库
+- fix(shopping): 文本字段现在为单行
+- fix(onboarding): 在自动填充前检查令牌/密码前缀

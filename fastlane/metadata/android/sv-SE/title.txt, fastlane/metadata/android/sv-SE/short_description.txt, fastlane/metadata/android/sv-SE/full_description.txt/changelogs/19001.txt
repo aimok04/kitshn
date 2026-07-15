@@ -1,0 +1,5 @@
+BETA: Denna beta introducerar kompatibilitet med Tandoor v2. Denna version är inte kompatibel med servrar som kör Tandoor v1.
+
+1. 🇮🇹 Italienska har lagts till på Weblate (av @KindaArtsy).
+2. Förbättrat utrymmesbyte på grund av nytt API.
+3. Förbättrad timerdetektering med stöd i timmar.

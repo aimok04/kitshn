@@ -1,0 +1,4 @@
+1. Elérhető a felhasználóval való megosztás az étkezési terv létrehozása/szerkesztése párbeszédpanelen (#148).
+2. Elérhető a felhasználóval való megosztás a receptkönyv létrehozása/szerkesztése párbeszédpanelen (#154).
+3. Egy plussz ellenőrzés az üres lépések importálásának megakadályozására receptek importálása során (#157).
+4. Ellenőriztük a kompatibilitást a Tandoor 1.5.34-es verziójával.

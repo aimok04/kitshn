@@ -1,0 +1,9 @@
+kithn blev migreret til Kotlin/Compos Multiplatform. Dette muliggør kompatibilitet med iOS.
+Der kan også være nogle forskelle / ersues, der påvirker Android-bygningen. Du er velkommen til at rapportere dem om GitHub! :)
+
+Hotfix
+- fix(build.gradle): sæt jvmToolchain til 17 for F-Droid bygge
+
+- bedrift(alMain): tilføjet eksperimentel ryg gestus til iOS
+- bedrift(iosApp & komponereApp): tilføjet Bugsnag crash rapportering for iOS
+- fix(shopping): skjule elementer, når "checket" sæt til sand

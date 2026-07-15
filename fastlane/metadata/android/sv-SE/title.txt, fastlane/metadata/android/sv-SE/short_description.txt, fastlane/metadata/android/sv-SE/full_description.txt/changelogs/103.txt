@@ -1,0 +1,6 @@
+- feat(acra): bytte till acra-http
+- feat(hem): förbättrad listprestanda
+- feat(begäran): förbättrad feldialog
+- fix (begäran): fixade krascher
+- fix(vm): kraschar när det inte går att tolka version
+- fix(build.gradle): lade tillbaka minifiering

@@ -1,0 +1,9 @@
+1. Visar nu alla individuella poster när du tittar på det nedersta arkets dialogruta för inköpslista.
+2. Lade till en dialogruta för att redigera mängder av inköpslistor.
+3. Lagt till stöd för alla ingrediensmallar.
+4. Tillagd anpassad sorteringsknapp när du använder traditionell startskärmslayout.
+5. Fixade att vissa textfält var oläsliga när du skrev.
+6. Fixat, det gick inte att visa delade recept.
+7. Fixat käll-url som inte sparas vid import.
+8. Kontrollerade kompatibilitet med v2.0.2.
+9. 🇺🇦 ukrainska har uppdaterats.

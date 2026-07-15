@@ -1,0 +1,9 @@
+1. Nu viser alle individuelle poster, når du ser nederst ark dialog om indkøbsliste element.
+2. Tilføjet dialog til at redigere mængder af indkøbsliste poster.
+3. Tilføjet understøttelse af alle ingrediens skabeloner.
+4. Tilføjet brugerdefineret sorteringsknap, når du bruger traditionel startskærm layout.
+5. Fast nogle tekstfelter bliver ulæselige, mens du skriver.
+6. Fast ude af stand til at se delte opskrifter.
+7. Fast kilde url gemmes ikke på import.
+8. Kontrolleret kompatibilitet med v2.0.2.
+9. 🇺🇦 Ukraine er blevet opdateret.

@@ -1,0 +1,6 @@
+Hej ✌️
+Veckans release innehåller bara mindre förbättringar:
+
+    1. Lade till stormarknadscache på shoppingsidan för offlineläge (#142).
+    2. Implementerade fraktionerade portioner för recept (#143).
+    3. Kontrollerad kompatibilitet med Tandoor version 1.5.32.

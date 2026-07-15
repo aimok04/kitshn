@@ -1,0 +1,14 @@
+Hej ✌️
+Veckans release lägger till färgscheman 🎨✨ och förbättrar återigen shoppingupplevelsen 🛍️ 🛒
+Den innehåller också några krasch- och buggfixar och UI-förbättringar:
+
+    1. Lade till flera färgscheman och anpassade färgscheman baserat på bilder (#103).
+    2. Lagt till möjlighet att avmarkera inköpslistposter (#107).
+    3. Förbättrad dialogruta för att lägga till i inköpslistan för att undvika inmatningsproblem (#102).
+    4. Lade till en dedikerad dialogruta för att välja kategori för inköpslistor för att undvika inmatningsproblem (#102).
+    5. Fixade dialogrutor som överlappar med navigeringsfältet på Android 15 (#109),
+    6. Fixat problem där dialoger med sökfält inte kunde stängas med bakåtåtgärd (#110).
+    7. Fast datumväljare i dialogrutan för redigering/skapande av måltidsplan öppnas inte på iOS (#105).
+    8. Fixat krasch vid delning av recept på iOS (#108).
+    9. Fixat källknapp som är synlig när source_url är tom (#106).
+   10. Flera UI- och layoutförbättringar.

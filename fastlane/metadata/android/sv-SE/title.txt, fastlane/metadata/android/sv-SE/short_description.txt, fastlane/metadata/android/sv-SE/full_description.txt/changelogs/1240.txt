@@ -1,0 +1,6 @@
+1. 🇨🇿 Czech har lagts till på Weblate (av @hernikplays).
+    2. Implementerade läsbara datumetiketter för iOS (stöds redan på Android).
+    3. Nu förinställer du receptets portionsvärde när du lägger till måltidsplanen (#147) (av @Monforton).
+    4. Standardinställning till receptets serveringsvärde när du väljer ett recept i dialogrutan för skapande/redigering av måltidsplaner.
+    5. Fixat fel när jag försökte lägga till receptingredienser till inköpslistan.
+    6. Kontrollerad kompatibilitet med Tandoor version 1.5.33.

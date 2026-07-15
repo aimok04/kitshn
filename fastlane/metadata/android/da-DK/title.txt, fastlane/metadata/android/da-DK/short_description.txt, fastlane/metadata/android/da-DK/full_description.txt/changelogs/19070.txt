@@ -1,0 +1,6 @@
+BETA: Denne beta introducerer kompatibilitet med Tandoor v2. Denne version er ikke kompatibel med servere, der kører Tandoor v1.
+
+1. Redesignet app med materiale 3 Expressive.
+2. Tilføjet mere haptisk feedback.
+3. Nu ved hjælp af standard måltidstype, når du opretter ny måltidsplan indgang.
+4. Kontrolleret kompatibilitet med Tandoor version 2.0.0-beta-1.

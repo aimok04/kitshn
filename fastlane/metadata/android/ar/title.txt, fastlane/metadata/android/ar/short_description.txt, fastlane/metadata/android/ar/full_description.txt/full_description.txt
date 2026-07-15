@@ -1,0 +1,36 @@
+تم تصميمه باستخدام Compose وMaterial 3 Expressive لتقديم تجربة مستخدم عصرية وبديهية وسريعة الاستجابة.
+
+<b>💪 الميزات البارزة</b>
+<ul>
+    <li>ديناميكية <i>شاشة رئيسة</i></li>
+    <li>واجهة المستخدم</i>
+    <ul>
+      <li>Material You تخصيص</li>
+      <li>Material 3 <i>Expressive</i></li>
+      <li>تصميم متكيف <i>للهواتف</i>, <i>والأجهزة اللوحية</i> and <i>والأجهزة القابلة للطي</i></li>
+    </ul>
+    <li>الوصفات</li>
+    <ul>
+      <li><i>Markdown</i> دعم</li>
+      <li>وضع الطهي</li>
+        <li>إنشاء مؤقتات باستخدام <a href="https://kitshn.app/docs/features/timer-detection">اكتشاف المؤقتات</a></li>
+      <li><a href="https://kitshn.app/docs/features/share-wrapping.html">روابط التطبيق</a></li>
+      <li><a href="https://kitshn.app/docs/features/embedding-videos-inside-steps.html">تضمين مقاطع الفيديو</a> inside steps</li>
+      <li>الاستيراد</li>
+        <li><a href="https://kitshn.app/docs/features/social-media-import.html">استيراد الوصفات من وسائل التواصل الاجتماعي</a> <i>المدعوم بالذكاء الاصطناعي</i></li>
+        <li>مشاركة الروابط مع <i>كِتشن</i> للاستيراد</li>
+      <li>أداة سهلة لتخصيص المكونات</li>
+    </ul>
+    <li>خطة الوجبات</li>
+    <li>قائمة التسوق</li>
+    <ul>
+      <li>وضع التسوق</li>
+      <li>المزامنة دون اتصال بالإنترنت</li>
+    </ul>
+    <li>كتب الوصفات</li>
+    <ul>
+      <li><a href="https://kitshn.app/docs/features/favorites.html">المفضلة</a> نظام</li>
+    </ul>
+</ul>
+
+تم تصميم الأيقونة بواسطة Freepik من www.flaticon.com

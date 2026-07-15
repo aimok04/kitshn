@@ -1,0 +1,17 @@
+- feat(commonMain/shopping): 为单位和食物字段添加下拉菜单（解决 #57）
+- feat(README.md): 为 iOS 添加徽章
+- feat(iosApp & commonMain): 适应 Apple App Store 指南
+- fix(README.md): 更改措辞
+- fix(recipes): 改进模板注释的正则表达式（解决 #58）
+- l10n(Tamil): 使用 Weblate 翻译
+- l10n(Ukrainian): 使用 Weblate 翻译
+- github: 添加 ISSUE_TEMPLATEs
+- fix(commonMain/import): 添加二次检查以排除重复导入（解决 #29）
+- fix(commonMain/recipes): 增加烹饪模式中的最小字体大小
+- fix(commonMain/onboarding): 使用 SSO 登录时崩溃（解决 #52）
+- l10n(Tamil): 使用 Weblate 添加翻译
+- github: 更新 FUNDING.yml
+- l10n(Dutch): 使用 Weblate 翻译
+- 撤销 "chore(commonMain/composeResources): 重新格式化 strings.xml"
+- github: 添加 FUNDING.yml
+- fix(commonMain): 增加 IOSBackGestureHandler 中的 GESTURE_ACCEPTED_START

@@ -1,0 +1,24 @@
+- feat(commonMain/shopping): lade till rullgardinsmenyer till enhets- och matfält (löst #57)
+- feat(README.md): la till märken för iOS
+- feat(iosApp & commonMain): anpassa till Apples App Store-riktlinjer
+- fix(README.md): ändrad formulering
+- fix (recept): förbättrat regex för mallkommentarer (löst #58)
+- l10n(tamil): översatt med Weblate
+- l10n(tamil): översatt med Weblate
+- l10n(ukrainska): översatt med Weblate
+- github: lade till ISSUE_TEMPLATEs
+- fix (commonMain/import): lade till en andra kontroll för att utesluta dubbelimport (löst #29)
+- fix(commonMain/recept): ökad minsta teckenstorlek i tillagningsläge
+- l10n(ukrainska): översatt med Weblate
+- fix (commonMain/onboarding): kraschar vid användning av SSO-inloggning (löst #52)
+- l10n(tamil): översatt med Weblate
+- l10n(tamil): översatt med Weblate
+- l10n(tamil): lade till översättning med Weblate
+- l10n(tamil): lade till översättning med Weblate
+- github: uppdatera FUNDING.yml
+- l10n(ukrainska): översatt med Weblate
+- l10n(nederländska): översatt med Weblate
+- l10n(nederländska): översatt med Weblate
+- Återställ "chore(commonMain/composeResources): reformat strings.xml"
+- github: lade till FUNDING.yml
+- fix(commonMain): ökade GESTURE_ACCEPTED_START i IOSBackGestureHandler

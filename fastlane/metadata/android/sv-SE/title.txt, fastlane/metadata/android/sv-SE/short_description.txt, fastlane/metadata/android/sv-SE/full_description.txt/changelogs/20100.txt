@@ -1,0 +1,10 @@
+‼️ https://keepandroidopen.org
+
+- Lade till en särskild dialogruta för receptval (av @jonsch318).
+- Lade till det nedre arket för val av måltidstyp (av @jonsch318).
+- Lade till redigering och skapande av måltidstyper (av @jonsch318).
+- Lade till dubbelklick för att markera varor i inköpslistan (av @jonsch318).
+- Lade till experimentellt stöd för Android 7.
+- Åtgärdade flimmer vid laddning av startsidan (av @jonsch318).
+- Åtgärdade problemet med att det inte gick att ange värden för < 1 portion i dialogrutan för måltidsplanen.
+- Flera små justeringar och designförbättringar.

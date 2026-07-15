@@ -1,0 +1,7 @@
+BETA: Denne beta introducerer kompatibilitet med Tandoor v2. Denne version er ikke kompatibel med servere, der kører Tandoor v1.
+
+1. Tilføjet aktivitet kort og bund ark til opskrift detaljer visning (#194).
+2. Tilføjet automatisk ingrediens sortering, når du importerer opskrifter (#186).
+3. Tilføjet mulighed for at tilføje en kommentar, når du opretter en kokslog.
+4. Tilføjet mergerende ingredienser med delt mad, enhed og note i opskrift detaljer visning (#217).
+5. Kontrolleret kompatibilitet med Tandoor version 2.0.0-beta-(,3,4,5)

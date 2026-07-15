@@ -1,0 +1,13 @@
+- feat(ui): 将食谱和膳食计划底部表单改为对话框
+- feat(ui): 为全屏对话框添加动画
+- feat(recipes): 添加隐藏食材分配操作按钮的功能 (#16)
+- feat(settings): 添加忽略未分配食材的开关（解决 #16）
+- chore(libs): 版本升级
+- feat(manifest): 更改应用链接主机
+- feat(share): 缩短分享包装器链接
+- feat(about): 添加网站
+- feat(about): 更改联系邮箱
+- feat(acra): 更改 acra 报告 URL
+- feat(share): 更改分享包装器 URL
+- fix(ui): 全屏对话框中的状态栏图标颜色
+- fix(mealplan): 选择膳食类型后隐藏键盘

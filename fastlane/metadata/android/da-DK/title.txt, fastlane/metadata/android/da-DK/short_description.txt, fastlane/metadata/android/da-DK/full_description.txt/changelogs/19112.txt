@@ -1,0 +1,8 @@
+En udgivelse kommer aldrig alene 🐞
+Så her er den oprensning af det rod, der v2.0.0-beta.11.1 forårsagede:
+
+1. Fast nedbrud, når du bruger sociale medier import to gange.
+2. Faste sociale medier import af TikTok videoer ikke arbejde.
+3. Fast session timeout problem, når du bruger sociale medier import.
+4. Fast url ikke bliver sat som kildeUrl værdi af opskrift, når du bruger social media import.
+5. Tilføjet bedre billede Henting til Instagram indlæg (tidligere inkluderet spille pil overlejring for hjul).

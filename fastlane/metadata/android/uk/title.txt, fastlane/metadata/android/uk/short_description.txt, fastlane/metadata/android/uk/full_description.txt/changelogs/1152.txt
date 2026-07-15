@@ -1,0 +1,18 @@
+kitshn було перенесено на Kotlin/Compose Multiplatform. Це забезпечує сумісність з iOS.
+Також можуть бути деякі відмінності/проблеми, що впливають на збірку для Android. Не соромтеся повідомляти про них на GitHub! :)
+
+Зміни для v1.0.0-alpha.15.2
+- fix(build.gradle): вимкнути CompileArtProfileTask для відтворюваності
+
+Зміни для v1.0.0-alpha.15.1
+- fix(build.gradle): встановити jvmToolchain на 17 для збірки F-Droid
+
+- feat(commonMain): додано експериментальний жест повернення для iOS
+- feat(iosApp & composeApp): додано звітування про збої Bugsnag для iOS
+- fix(shopping): приховування елементів, коли "перевірено" встановлено на true
+- fix(api): покращено повідомлення про помилку TandoorRequestsError
+- chore(commonMain/api): позначено v1.5.25/26 як сумісні
+- l10n(голландська): перекладено за допомогою Weblate
+- l10n(російська): перекладено за допомогою Weblate
+- l10n(українська): перекладено за допомогою Weblate
+- kmpMigration

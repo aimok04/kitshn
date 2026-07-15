@@ -1,0 +1,18 @@
+kitshn 已迁移到 Kotlin/Compose Multiplatform，实现了与 iOS 的兼容。
+Android 版本可能存在一些差异/问题，欢迎在 GitHub 上反馈！:)
+
+v1.0.0-alpha.15.2 更新内容
+- fix(build.gradle): 禁用 CompileArtProfileTask 以确保可重现性
+
+v1.0.0-alpha.15.1 更新内容
+- fix(build.gradle): 为 F-Droid 构建设置 jvmToolchain 为 17
+
+- feat(commonMain): 为 iOS 添加实验性返回手势
+- feat(iosApp & composeApp): 为 iOS 添加 Bugsnag 崩溃报告
+- fix(shopping): 当"已勾选"设为 true 时隐藏项目
+- fix(api): 改进 TandoorRequestsError 消息
+- chore(commonMain/api): 标记 v1.5.25/26 为兼容
+- l10n(Dutch): 使用 Weblate 翻译
+- l10n(Russian): 使用 Weblate 翻译
+- l10n(Ukrainian): 使用 Weblate 翻译
+- kmpMigration

@@ -1,0 +1,11 @@
+- feat(recept): lagt till nära funktionalitet till listdetaljlayout (löst #28)
+- feat(ui): förbättrat förhållande för listdetaljrutans storlek
+- feat(various): la till fler TandoorRequestErrorHandlers
+- fix(import): la till kryss för att utesluta dubbelimport (löst #29)
+- fix (hem): problem med bakåtgest i sökvyn
+- fix (recept): flera kraschfixar och felhanteringsförbättringar
+- fix(favoriter): kraschar när favoritboken hämtas
+- fix (recept): kraschar när recept läggs till inköpslistan
+- fix(recept): kraschar i RecipeCreationAndEditDialog
+- fix(api): lade till mer information i TandoorRequestsError
+- chore(api): markerad v1.5.24 som kompatibel

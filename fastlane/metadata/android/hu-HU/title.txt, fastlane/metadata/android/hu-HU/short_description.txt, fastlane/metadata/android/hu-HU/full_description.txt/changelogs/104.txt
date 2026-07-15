@@ -1,0 +1,6 @@
+- új funkció(receptek): Markdown támogatás hozzáadva a lépésenkénti utasításokhoz (#1)
+- új funkció(receptek): alkalmazáslinkek hozzáadva
+- új funkció(receptek): megosztás gomb hozzáadva
+- l10n(strings.xml): török nyelv hozzáadva (tr) (#3) (készítette: @mikropsoft)
+- chore(libs): verzió frissités
+- számos hibajavítás és dizájnbeli fejlesztés

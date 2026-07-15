@@ -1,0 +1,4 @@
+1. 🇩🇰 丹麦语（由 My Nameis 贡献）、🇪🇪 爱沙尼亚语（由 @beez276 贡献）和阿拉伯语（由 @Dkhil 贡献）已在 Weblate 上添加。
+2. 🇫🇷 法语（由 @quentinrenoux 和 @Fymyte 贡献）、🇧🇷 葡萄牙语（巴西）（由 @lucasmc64 贡献）、🇳🇱 荷兰语（由 Tapir Dorro 贡献）和 🇷🇺 俄语（由 @korn3r 和 @Xapitonov 贡献）已在 Weblate 上更新。
+3. 修复了创建购物清单项目时的解析问题 (#338)。
+4. 修复了为食谱选择关键词时新关键词项目不显示的问题 (#335)。

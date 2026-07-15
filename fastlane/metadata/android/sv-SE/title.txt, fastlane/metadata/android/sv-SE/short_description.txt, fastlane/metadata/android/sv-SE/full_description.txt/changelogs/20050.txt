@@ -1,0 +1,4 @@
+1. 🇩🇰 Danska (av My Nameis), 🇪🇪 estniska (av @beez276) och arabiska (av @Dkhil) har lagts till på Weblate.
+2. 🇫🇷 Franska (av @quentinrenoux och @Fymyte), 🇧🇷 portugisiska (Brasilien) (av @lucasmc64), 🇳🇱 holländska (av Tapir Dorro) och 🇷🇺 ryska (av @korn3r och @Xapitonov på webben) har uppdaterats sent.
+3. Fixade parsningsproblem när du skapade inköpslistobjekt (#338).
+4. Fixat att nytt sökordsobjekt inte visades vid val av nyckelord för ett recept (#335).
