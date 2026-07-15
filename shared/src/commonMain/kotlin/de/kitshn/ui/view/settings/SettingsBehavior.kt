@@ -116,6 +116,8 @@ fun ViewSettingsBehavior(
             p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
         val propertiesShowFractionalValues =
             p.vm.settings.getPropertiesShowFractionalValues.collectAsState(initial = true)
+        val shoppingItemDoubleClickCheck =
+            p.vm.settings.getShoppingItemDoubleClickCheck.collectAsState(initial = true)
 
         val behaviorKeepScreenOnInRecipeDetails =
             p.vm.settings.getKeepScreenOnInRecipeDetails.collectAsState(initial = false)
@@ -275,7 +277,7 @@ fun ViewSettingsBehavior(
                     description = { Text(stringResource(Res.string.settings_section_behavior_shopping_item_double_click_check_description)) },
                     icon = Icons.Rounded.ShoppingCartCheckout,
                     contentDescription = stringResource(Res.string.settings_section_behavior_shopping_item_double_click_check_label),
-                    checked = propertiesShowFractionalValues.value
+                    checked = shoppingItemDoubleClickCheck.value
                 ) { checked ->
                     coroutineScope.launch {
                         p.vm.settings.setShoppingItemDoubleClickCheck(checked)
@@ -302,7 +304,7 @@ fun ViewSettingsBehavior(
                 }
             }
 
-            if(platformDetails.platform == Platforms.IOS) {
+            if (platformDetails.platform == Platforms.IOS) {
                 item {
                     Spacer(Modifier.height(16.dp))
                 }
@@ -329,7 +331,7 @@ fun ViewSettingsBehavior(
                         checked = enabled
                     ) {
                         coroutineScope.launch {
-                            if(it) {
+                            if (it) {
                                 val currentYear = Clock.System.now()
                                     .toLocalDateTime(TimeZone.currentSystemDefault())
                                     .year
