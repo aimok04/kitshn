@@ -302,6 +302,9 @@
     <string name="home_section_vegan">Vegan ideas</string>
     <string name="home_section_vegetarian">Vegetarian meals</string>
 
+    <string name="household_creation_intro_title">What is a household?</string>
+    <string name="household_creation_intro_description">Households let you share books, shopping lists and meal plans with other members of your space. You automatically share all new and existing items and plans with all members of your household.</string>
+
     <string name="internal_favorites_recipe_book_description">Automatically created by kitshn</string>
     <string name="internal_favorites_recipe_book_name">Favorites from kitshn</string>
 
