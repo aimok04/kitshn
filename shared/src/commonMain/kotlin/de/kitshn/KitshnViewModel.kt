@@ -135,23 +135,38 @@ class KitshnViewModel(
             session.hydrate(credentials)
             favorites.init(session.client!!)
 
-            try {
-                session.client!!.serverSettings.current()
-            } catch(e: TandoorRequestsError) {
-                if(e.response?.status == HttpStatusCode.NotFound) {
-                    navHostController?.navigate("alert/outdatedV1Instance") {
-                        popUpTo("main") {
-                            inclusive = true
+            // Retry server settings with backoff — network may not be ready instantly
+            var serverOk = false
+            for (attempt in 1..3) {
+                try {
+                    session.client!!.serverSettings.current()
+                    serverOk = true
+                    break
+                } catch(e: TandoorRequestsError) {
+                    if(e.response?.status == HttpStatusCode.NotFound) {
+                        navHostController?.navigate("alert/outdatedV1Instance") {
+                            popUpTo("main") {
+                                inclusive = true
+                            }
                         }
+                        return@launch
                     }
-
-                    return@launch
+                    if (attempt == 3) {
+                        Logger.e("KitshnViewModel.kt", e)
+                    } else {
+                        delay(1000L * attempt)
+                    }
+                } catch(e: Exception) {
+                    if (attempt == 3) {
+                        Logger.e("KitshnViewModel.kt", e)
+                    } else {
+                        delay(1000L * attempt)
+                    }
                 }
-
-                Logger.e("KitshnViewModel.kt", e)
-            } catch(e: Exception) {
-                Logger.e("KitshnViewModel.kt", e)
             }
+
+            // Pre-warm local caches so the home screen has data ready
+            sync()
 
             if(settings.getOnboardingCompleted.first()) {
                 onLaunched()

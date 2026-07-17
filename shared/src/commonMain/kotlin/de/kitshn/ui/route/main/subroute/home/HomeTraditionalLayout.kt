@@ -131,8 +131,8 @@ fun HomeTraditionalLayout(
         if(p.vm.tandoorClient == null) return@LaunchedEffect
         delay(100)
 
-        if(resultIds.size > 0) {
-            pageLoadingState = ErrorLoadingSuccessState.SUCCESS
+        // Only skip fetching if we already have results AND the state is SUCCESS
+        if(resultIds.size > 0 && pageLoadingState == ErrorLoadingSuccessState.SUCCESS) {
             return@LaunchedEffect
         }
 
@@ -157,6 +157,14 @@ fun HomeTraditionalLayout(
 
         if(listRequestState.state == TandoorRequestStateState.ERROR)
             pageLoadingState = ErrorLoadingSuccessState.ERROR
+    }
+
+    // Auto-retry: when in ERROR state, retry after 3s
+    LaunchedEffect(pageLoadingState) {
+        if (pageLoadingState == ErrorLoadingSuccessState.ERROR) {
+            delay(3000)
+            pageLoadingState = ErrorLoadingSuccessState.LOADING
+        }
     }
 
     val gridState = rememberLazyGridState()
