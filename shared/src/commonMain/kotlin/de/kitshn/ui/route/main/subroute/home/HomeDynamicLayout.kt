@@ -85,9 +85,11 @@ fun HomeDynamicLayout(
     )
     val homePageSectionList = remember { mutableStateListOf<HomePageSection>() }
 
-    LaunchedEffect(Unit) {
+    var buildAttempt by remember { mutableStateOf(0) }
+
+    LaunchedEffect(p.vm.tandoorClient, buildAttempt) {
         if(p.vm.tandoorClient == null) return@LaunchedEffect
-        if(homePage != null) return@LaunchedEffect
+        if(homePage != null && pageLoadingState == ErrorLoadingSuccessState.SUCCESS) return@LaunchedEffect
 
         val keywordNameIdMapCache = KeywordNameIdMapCache(context, p.vm.tandoorClient!!)
 
@@ -128,9 +130,19 @@ fun HomeDynamicLayout(
                     pageLoadingState = ErrorLoadingSuccessState.SUCCESS
                 }
 
-                if(requestState.state == TandoorRequestStateState.ERROR)
+                if(requestState.state == TandoorRequestStateState.ERROR) {
                     pageLoadingState = ErrorLoadingSuccessState.ERROR
+                }
             }
+        }
+    }
+
+    // Auto-retry: when in ERROR state, retry after 3s
+    LaunchedEffect(pageLoadingState) {
+        if (pageLoadingState == ErrorLoadingSuccessState.ERROR) {
+            delay(3000)
+            pageLoadingState = ErrorLoadingSuccessState.LOADING
+            buildAttempt++
         }
     }
 
