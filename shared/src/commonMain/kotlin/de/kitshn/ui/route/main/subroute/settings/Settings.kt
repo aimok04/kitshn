@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ViewCarousel
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Cloud
 import androidx.compose.material.icons.rounded.DeveloperBoard
@@ -27,9 +29,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
@@ -40,8 +43,10 @@ import de.kitshn.model.SettingsBaseModel
 import de.kitshn.model.SettingsDividerModel
 import de.kitshn.model.SettingsItemModel
 import de.kitshn.platformDetails
+import de.kitshn.repo.SpaceRepo
 import de.kitshn.ui.component.settings.SettingsListItem
 import de.kitshn.ui.component.settings.SettingsListItemPosition
+import de.kitshn.ui.dialog.space.SpaceSwitchDialog
 import de.kitshn.ui.layout.KitshnListDetailPaneScaffold
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.view.ViewParameters
@@ -52,6 +57,7 @@ import de.kitshn.ui.view.settings.ViewSettingsDebug
 import de.kitshn.ui.view.settings.ViewSettingsServer
 import kitshn.shared.BuildConfig
 import kitshn.shared.generated.resources.Res
+import kitshn.shared.generated.resources.action_switch_space
 import kitshn.shared.generated.resources.common_error_report
 import kitshn.shared.generated.resources.ios_support_badge
 import kitshn.shared.generated.resources.ios_support_manage_subscription_description
@@ -65,10 +71,13 @@ import kitshn.shared.generated.resources.settings_section_appearance_description
 import kitshn.shared.generated.resources.settings_section_appearance_label
 import kitshn.shared.generated.resources.settings_section_behavior_description
 import kitshn.shared.generated.resources.settings_section_behavior_label
+import kitshn.shared.generated.resources.settings_section_debug_description
+import kitshn.shared.generated.resources.settings_section_debug_label
 import kitshn.shared.generated.resources.settings_section_server_description
 import kitshn.shared.generated.resources.settings_section_server_label
-import org.jetbrains.compose.resources.getString
+import kitshn.shared.generated.resources.settings_section_space_description
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -76,64 +85,78 @@ fun RouteMainSubrouteSettings(
     p: RouteParameters
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-
-    val settingsModelList = remember {
-        mutableStateListOf<SettingsBaseModel>().apply {
-            if(platformDetails.debug) add(SettingsItemModel(
-                position = SettingsListItemPosition.SINGULAR,
-                id = "DEBUG",
-                icon = Icons.Rounded.DeveloperBoard,
-                contentDescription = "Test experimental settings",
-                label = "Debug settings",
-                description = "Test experimental settings",
-                content = { ViewSettingsDebug(ViewParameters(p.vm, it)) }
-            ))
-        }
-    }
+    val spaceRepo = koinInject<SpaceRepo>()
+    var showSpaceSwitchDialog by remember { mutableStateOf(false) }
 
     val crashReportHandler = crashReportHandler()
     val launchWebsiteHandler = launchWebsiteHandler()
 
-    LaunchedEffect(Unit) {
-        settingsModelList.addAll(listOf(
-            SettingsItemModel(
+    val settingsItems = remember {
+        buildList<SettingsBaseModel> {
+            if(platformDetails.debug) add(SettingsItemModel(
+                position = SettingsListItemPosition.SINGULAR,
+                id = "DEBUG",
+                icon = Icons.Rounded.DeveloperBoard,
+                contentDescription = Res.string.settings_section_debug_description,
+                label = Res.string.settings_section_debug_label,
+                description = Res.string.settings_section_debug_description,
+                content = { ViewSettingsDebug(ViewParameters(p.vm, it)) }
+            ))
+            add(SettingsItemModel(
                 position = SettingsListItemPosition.SINGULAR,
                 id = "SERVER",
                 icon = Icons.Rounded.Cloud,
-                contentDescription = getString(Res.string.settings_section_server_description),
-                label = getString(Res.string.settings_section_server_label),
-                description = getString(Res.string.settings_section_server_description),
+                contentDescription = Res.string.settings_section_server_description,
+                label = Res.string.settings_section_server_label,
+                description = Res.string.settings_section_server_description,
                 content = { ViewSettingsServer(ViewParameters(p.vm, it)) }
-            ),
-            SettingsItemModel(
+            ))
+            add(SettingsItemModel(
                 position = SettingsListItemPosition.TOP,
                 id = "APPEARANCE",
                 icon = Icons.Rounded.Palette,
-                contentDescription = getString(Res.string.settings_section_appearance_description),
-                label = getString(Res.string.settings_section_appearance_label),
-                description = getString(Res.string.settings_section_appearance_description),
+                contentDescription = Res.string.settings_section_appearance_description,
+                label = Res.string.settings_section_appearance_label,
+                description = Res.string.settings_section_appearance_description,
                 content = { ViewSettingsAppearance(ViewParameters(p.vm, it)) }
-            ),
-            SettingsItemModel(
+            ))
+            add(SettingsItemModel(
                 position = SettingsListItemPosition.BOTTOM,
                 id = "BEHAVIOR",
                 icon = Icons.Rounded.Tune,
-                contentDescription = getString(Res.string.settings_section_behavior_description),
-                label = getString(Res.string.settings_section_behavior_label),
-                description = getString(Res.string.settings_section_behavior_description),
+                contentDescription = Res.string.settings_section_behavior_description,
+                label = Res.string.settings_section_behavior_label,
+                description = Res.string.settings_section_behavior_description,
                 content = { ViewSettingsBehavior(ViewParameters(p.vm, it)) }
-            ),
-            SettingsItemModel(
+            ))
+            add(SettingsItemModel(
+                position = SettingsListItemPosition.SINGULAR,
+                id = "SWITCH_SPACE",
+                icon = Icons.Outlined.ViewCarousel,
+                contentDescription = Res.string.settings_section_space_description,
+                label = Res.string.action_switch_space,
+                description = Res.string.settings_section_space_description,
+                onClick = { showSpaceSwitchDialog = true }
+            ))
+            add(SettingsItemModel(
                 position = SettingsListItemPosition.SINGULAR,
                 id = "ABOUT",
                 icon = Icons.Rounded.Info,
-                contentDescription = getString(Res.string.settings_section_about_description),
-                label = getString(Res.string.settings_section_about_label),
-                description = getString(Res.string.settings_section_about_description),
+                contentDescription = Res.string.settings_section_about_description,
+                label = Res.string.settings_section_about_label,
+                description = Res.string.settings_section_about_description,
                 content = { ViewSettingsAbout(ViewParameters(p.vm, it)) }
-            )
-        ))
+            ))
+        }
     }
+
+    if (showSpaceSwitchDialog) SpaceSwitchDialog(
+        repo = spaceRepo,
+        onSwitched = {
+            p.vm.refreshApp()
+        },
+        onDismiss = { showSpaceSwitchDialog = false }
+    )
 
     KitshnListDetailPaneScaffold(
         key = "RouteMainSubrouteSettings",
@@ -177,22 +200,28 @@ fun RouteMainSubrouteSettings(
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
                 ) {
-                    items(settingsModelList.size) { index ->
-                        val model = settingsModelList[index]
-
+                    items(
+                        items = settingsItems,
+                        key = { it.id }
+                    ) { model ->
                         if(model is SettingsDividerModel) {
                             HorizontalDivider()
                         } else if(model is SettingsItemModel) {
                             SettingsListItem(
                                 position = model.position,
                                 icon = model.icon,
-                                contentDescription = model.contentDescription,
-                                label = { Text(model.label) },
-                                description = { Text(model.description) },
+                                contentDescription = stringResource(model.contentDescription),
+                                label = { Text(stringResource(model.label)) },
+                                description = { Text(stringResource(model.description)) },
+                                enabled = model.enabled,
                                 alternativeColors = supportsMultiplePanes,
                                 selected = selectedId == model.id
                             ) {
-                                select(model.id)
+                                if(model.content == null) {
+                                    model.onClick()
+                                } else {
+                                    select(model.id)
+                                }
                             }
 
                             if(model.position == SettingsListItemPosition.SINGULAR || model.position == SettingsListItemPosition.BOTTOM) {
@@ -228,11 +257,11 @@ fun RouteMainSubrouteSettings(
             }
         }
     ) { selectedId, _, _, _, _, back ->
-        for(item in settingsModelList) {
+        for(item in settingsItems) {
             if(item !is SettingsItemModel) continue
             if(selectedId != item.id) continue
 
-            item.content(back)
+            item.content?.invoke(back)
             break
         }
     }

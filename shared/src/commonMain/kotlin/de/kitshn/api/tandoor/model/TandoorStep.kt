@@ -31,14 +31,6 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
 @Serializable
-data class TandoorStepFile(
-    val id: Int,
-    val name: String,
-    val file_download: String,
-    val preview: String
-)
-
-@Serializable
 class TandoorStep(
     val id: Int,
     var name: String,
@@ -49,7 +41,7 @@ class TandoorStep(
     var time: Int,
     val order: Int,
     val show_as_header: Boolean,
-    val file: TandoorStepFile? = null,
+    val file: TandoorFile? = null,
     var step_recipe: Int? = null,
     val step_recipe_data: TandoorStepRecipeData? = null,
     var show_ingredients_table: Boolean = true
@@ -69,13 +61,11 @@ class TandoorStep(
 
     @Composable
     fun loadFilePreview(): ImageRequest? {
-        return if(file?.preview == null || client == null) {
-            null
-        } else {
-            return client!!.media.createImageBuilder(file.preview)
-                .crossfade(true)
-                .build()
-        }
+        val preview = file?.preview ?: return null
+        val client = client ?: return null
+        return client.media.createImageBuilder(preview)
+            .crossfade(true)
+            .build()
     }
 
     suspend fun partialUpdate(

@@ -38,6 +38,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -46,10 +47,12 @@ import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.handleTandoorRequestState
+import de.kitshn.repo.HouseholdRepo
 import de.kitshn.toHumanReadableDateLabel
 import de.kitshn.toLocalDate
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.alert.LoadingErrorAlertPaneWrapper
+import de.kitshn.ui.dialog.household.HouseholdPicker
 import de.kitshn.ui.dialog.mealplan.MealPlanCreationAndEditDialog
 import de.kitshn.ui.dialog.mealplan.MealPlanDetailsDialog
 import de.kitshn.ui.dialog.mealplan.rememberMealPlanCreationDialogState
@@ -73,6 +76,7 @@ import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -83,6 +87,7 @@ fun RouteMainSubrouteMealplan(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val hapticFeedback = LocalHapticFeedback.current
+    val householdRepo = koinInject<HouseholdRepo>()
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
@@ -113,6 +118,8 @@ fun RouteMainSubrouteMealplan(
     val mealPlanList = remember { mutableStateListOf<TandoorMealPlan>() }
     var lastMealPlanUpdate by remember { mutableLongStateOf(0L) }
 
+    var showHouseholdSwitchDialog by rememberSaveable { mutableStateOf(false) }
+
     var initialLoad by remember { mutableStateOf(true) }
 
     LaunchedEffect(lastMealPlanUpdate, startDate) {
@@ -133,15 +140,15 @@ fun RouteMainSubrouteMealplan(
             }
         }
 
-        if(initialLoad) {
+        if (initialLoad) {
             initialLoad = false
             return@LaunchedEffect
         }
 
         // update details dialog
-        if(detailsDialogState.shown.value) {
+        if (detailsDialogState.shown.value) {
             val entry = mealPlanList.find { it.id == detailsDialogState.linkContent.value?.id }
-            if(entry != null) {
+            if (entry != null) {
                 detailsDialogState.dismiss()
                 delay(250)
                 detailsDialogState.open(entry)
@@ -156,14 +163,17 @@ fun RouteMainSubrouteMealplan(
 
     Scaffold(
         topBar = {
-            if(p.vm.tandoorClient == null) return@Scaffold
+            if (p.vm.tandoorClient == null) return@Scaffold
             RouteMainSubrouteMealplanTopAppBar(
                 client = p.vm.tandoorClient!!,
                 selectionModeState = selectionModeState,
                 scrollBehavior = scrollBehavior,
                 mealPlanEditDialogState = editDialogState,
                 mealPlanMoveRequestState = moveRequestState,
-                mealPlanDeleteRequestState = deleteRequestState
+                mealPlanDeleteRequestState = deleteRequestState,
+                onSwitchHouseholdRequest = {
+                    showHouseholdSwitchDialog = true
+                },
             ) { lastMealPlanUpdate = Clock.System.now().toEpochMilliseconds() }
         },
         floatingActionButton = {
@@ -241,7 +251,7 @@ fun RouteMainSubrouteMealplan(
         LoadingErrorAlertPaneWrapper(
             loadingState = pageLoadingState
         ) {
-            if(p.vm.tandoorClient == null) return@LoadingErrorAlertPaneWrapper
+            if (p.vm.tandoorClient == null) return@LoadingErrorAlertPaneWrapper
             RouteMainSubrouteMealplanScaffoldContent(
                 client = p.vm.tandoorClient!!,
                 pv = it,
@@ -258,7 +268,7 @@ fun RouteMainSubrouteMealplan(
         }
     }
 
-    if(p.vm.tandoorClient != null) {
+    if (p.vm.tandoorClient != null) {
         val showFractionalValues =
             p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
 
@@ -282,12 +292,12 @@ fun RouteMainSubrouteMealplan(
         editDialogState.open(it)
     }
 
-    if(showDatePickerDialog) DatePickerDialog(
+    if (showDatePickerDialog) DatePickerDialog(
         onDismissRequest = { showDatePickerDialog = false },
         confirmButton = {
             Button(
                 onClick = {
-                    if(datePickerState.selectedDateMillis == null) return@Button
+                    if (datePickerState.selectedDateMillis == null) return@Button
 
                     showDatePickerDialog = false
                     coroutineScope.launch {
@@ -307,6 +317,12 @@ fun RouteMainSubrouteMealplan(
     ) {
         DatePicker(state = datePickerState)
     }
+
+    if (showHouseholdSwitchDialog) HouseholdPicker(
+        repo = householdRepo,
+        onSwitched = {},
+        onDismiss = { showHouseholdSwitchDialog = false }
+    )
 
     TandoorRequestErrorHandler(state = moveRequestState)
     TandoorRequestErrorHandler(state = deleteRequestState)
