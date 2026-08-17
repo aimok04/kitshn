@@ -392,6 +392,10 @@
     <string name="settings_section_appearance_follow_system_label">Follow system</string>
     <string name="settings_section_appearance_hide_activity_label">Hide activity section</string>
     <string name="settings_section_appearance_hide_activity_description">Hides the activity section in the recipe details view</string>
+    <string name="settings_section_appearance_hide_bottom_bar_on_scroll_description">Hides the bottom navigation bar when scrolling down</string>
+    <string name="settings_section_appearance_hide_bottom_bar_on_scroll_label">Hide bottom bar on scroll</string>
+    <string name="settings_section_appearance_pin_home_search_bar_description">Keeps the search bar at the top on the home tab</string>
+    <string name="settings_section_appearance_pin_home_search_bar_label">Pin home search bar</string>
     <string name="settings_section_appearance_label">Appearance</string>
     <string name="settings_section_behavior_description">Change kitshn's behavior</string>
     <string name="settings_section_behavior_enable_crash_reporting">Enable crash reporting</string>
