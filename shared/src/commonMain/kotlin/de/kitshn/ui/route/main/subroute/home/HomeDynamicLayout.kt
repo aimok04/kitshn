@@ -86,18 +86,18 @@ fun HomeDynamicLayout(
     val homePageSectionList = remember { mutableStateListOf<HomePageSection>() }
 
     LaunchedEffect(Unit) {
-        if(p.vm.tandoorClient == null) return@LaunchedEffect
-        if(homePage != null) return@LaunchedEffect
+        if (p.vm.tandoorClient == null) return@LaunchedEffect
+        if (homePage != null) return@LaunchedEffect
 
         val keywordNameIdMapCache = KeywordNameIdMapCache(context, p.vm.tandoorClient!!)
 
         TandoorRequestState().wrapRequest {
             withContext(Dispatchers.Default) {
-                if(!keywordNameIdMapCache.isValid()) keywordNameIdMapCache.update(coroutineScope)
+                if (!keywordNameIdMapCache.isValid()) keywordNameIdMapCache.update(coroutineScope)
             }
         }
 
-        if(p.vm.isTest) {
+        if (p.vm.isTest) {
             TandoorRequestState().wrapRequest {
                 val section = HomePageSectionEnum.NEW.toHomePageSection(
                     keywordNameIdMapCache = keywordNameIdMapCache,
@@ -128,7 +128,7 @@ fun HomeDynamicLayout(
                     pageLoadingState = ErrorLoadingSuccessState.SUCCESS
                 }
 
-                if(requestState.state == TandoorRequestStateState.ERROR)
+                if (requestState.state == TandoorRequestStateState.ERROR)
                     pageLoadingState = ErrorLoadingSuccessState.ERROR
             }
         }
@@ -146,7 +146,7 @@ fun HomeDynamicLayout(
             homePageSectionList.addAll(newSections)
         }
 
-        if (homePage!!.sectionsStateList.isEmpty() || homePageSectionList.size >= 2) {
+        if (pageLoadingState != ErrorLoadingSuccessState.ERROR && homePageSectionList.size >= 2) {
             pageLoadingState = ErrorLoadingSuccessState.SUCCESS
         }
 
@@ -175,7 +175,7 @@ fun HomeDynamicLayout(
                     val enableMealPlanPromotion by p.vm.settings.getEnableMealPlanPromotion.collectAsState(
                         initial = true
                     )
-                    if(enableMealPlanPromotion) p.vm.tandoorClient?.let {
+                    if (enableMealPlanPromotion) p.vm.tandoorClient?.let {
                         val promoteTomorrowsMealPlan by p.vm.settings.getPromoteTomorrowsMealPlan.collectAsState(
                             initial = false
                         )
@@ -183,7 +183,7 @@ fun HomeDynamicLayout(
                         RouteMainSubrouteHomeMealPlanPromotionSection(
                             client = it,
                             loadingState = pageLoadingState,
-                            day = if(promoteTomorrowsMealPlan) {
+                            day = if (promoteTomorrowsMealPlan) {
                                 MealPlanPromotionSectionDay.TOMORROW
                             } else {
                                 MealPlanPromotionSectionDay.TODAY
@@ -194,7 +194,7 @@ fun HomeDynamicLayout(
                         }
                     }
 
-                    if(homePageSectionList.isEmpty() && pageLoadingState != ErrorLoadingSuccessState.SUCCESS) {
+                    if (homePageSectionList.isEmpty() && pageLoadingState != ErrorLoadingSuccessState.SUCCESS) {
                         repeat(5) {
                             HomePageSectionView(
                                 client = p.vm.tandoorClient,
@@ -207,7 +207,7 @@ fun HomeDynamicLayout(
                             ) { }
                         }
                     } else {
-                        for(section in homePageSectionList) HomePageSectionView(
+                        for (section in homePageSectionList) HomePageSectionView(
                             client = p.vm.tandoorClient,
                             section = section,
                             loadingState = pageLoadingState,
