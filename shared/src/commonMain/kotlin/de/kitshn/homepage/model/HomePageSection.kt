@@ -1,9 +1,11 @@
 package de.kitshn.homepage.model
 
+import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import kotlin.coroutines.cancellation.CancellationException
 
 @Serializable
 class HomePageSection(
@@ -20,17 +22,24 @@ class HomePageSection(
     suspend fun populate(
         client: TandoorClient
     ): Boolean {
-        val recipeIdList = mutableListOf<Int>()
+        // dedupes for free
+        val recipeIdList = linkedSetOf<Int>()
         queryParameters.forEach { qp ->
-            val recipes =
-                client.recipe.list(parameters = qp, pageSize = 20).results.filter { r ->
-                    !recipeIdList.contains(r.id)
-                }
-
-            recipes.forEach { r -> recipeIdList.add(r.id) }
+            val results = try {
+                client.recipe.list(parameters = qp, pageSize = 20).results
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Logger.w(
+                    "HomePageSection",
+                    e
+                ) { "home page population query failed for section $title" }
+                return@forEach
+            }
+            results.mapTo(recipeIdList) { it.id }
         }
 
-        if(recipeIdList.size < 2) return false
+        if (recipeIdList.size < 2) return false
         recipeIds.addAll(recipeIdList)
         return true
     }
