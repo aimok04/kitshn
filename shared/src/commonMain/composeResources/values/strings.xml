@@ -340,6 +340,12 @@
     <string name="recipe_import_type_social_media_disclaimer">Currently, only Instagram and TikTok are actively supported. Other platforms may be supported as well.</string>
     <string name="recipe_import_type_url_label">Import from Website</string>
     <string name="recipe_import_type_url_description">Enter an URL and import a recipe from the web</string>
+
+    <string name="error_recipe_import_ai_file_too_large">Selected file is too large. Maximum allowed size is %s MB.</string>
+    <string name="error_recipe_import_ai_select_provider">You must select an AI provider before importing.</string>
+    <string name="error_recipe_import_ai_no_input">Please upload a file or enter recipe text.</string>
+    <string name="error_recipe_import_social_media_description_too_short">Recipe description has to be longer than three characters.</string>
+
     <string name="recipe_not_found">This recipe could not be found.</string>
     <string name="recipe_sorting_cooking_frequency">Cooking frequency</string>
     <string name="recipe_sorting_creation_date">Date of creation</string>
