@@ -1,0 +1,10 @@
+Hej ✌️
+Denne uges udgivelse fokuserer på at forbedre shoppingoplevelsen 🛍️ 🛒
+
+1. Overhauled indkøbsliste UI (#93).
+2. Tilføjet indkøbstilstand med større touch mål.
+3. Tilføjet understøttelse af gruppering efter kategori, opskrift og skaber på shopping side (#92).
+4. Tilføjet understøttelse af filtrering af supermarked på indkøbsside (#93).
+5. Gennemført offline mode og kaching til indkøbsliste.
+6. Tilføjet plads switcher på startsiden ved hjælp af web scraping (se #59).
+7. Fast fælles » Placement skete før lookahead « nedbrud.

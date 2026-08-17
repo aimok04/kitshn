@@ -1,0 +1,9 @@
+- bedrift(recipes): tilføjet templating støtte til trin instruktioner (#25)
+- bedrift(recipes): tilføjet egenskaber kort (#24)
+- bedrift(mealplan): forbedret ui for tabletter/foldelige
+- bedrift(dialog): forbedret adaptiv fuldskærmsdialogstørrelse
+- bedrift(recipes): skjul FAB ved at nå bunden for benbarhed
+- fix(recipes): forhindre afkortet ingrediens tekst
+- fix(share): erstattet hård kodet url (opløst #22)
+- chore(libs): version kofanger
+- flere fejlrettelser

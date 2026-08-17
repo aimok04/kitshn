@@ -1,0 +1,4 @@
+测试版：此测试版引入了与 Tandoor v2 的兼容性。此版本不兼容运行 Tandoor v1 的服务器。
+
+1. 实现了带 Markdown 支持的步骤编辑和创建。
+2. 🇵🇱 波兰语已在 Weblate 上添加（感谢 @dhunter49）。

@@ -1,0 +1,4 @@
+- új funkció(receptek): videófájlok hozzáadása az egyes lépésekhez (javítva #15)
+- új funkció(receptek): képernyő bekapcsolva tartása (#18) (készítette: @FineFindus)
+- új funkció(ui): konfigurációs változtatások elfogása
+- hibajavítás(strings.xml): viselkedési leírás javítása

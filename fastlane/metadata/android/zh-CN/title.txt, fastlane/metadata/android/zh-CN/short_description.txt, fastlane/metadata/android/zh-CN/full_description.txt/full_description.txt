@@ -1,0 +1,36 @@
+基于 Compose 和 Material 3 Expressive 构建，提供现代、直观且响应式的用户体验。
+
+<b>💪 主要功能</b>
+<ul>
+    <li>动态<i>首页</i></li>
+    <li>界面</i>
+    <ul>
+      <li>Material You 自定义</li>
+      <li>Material 3 <i>Expressive</i></li>
+      <li>适配<i>手机</i>、<i>平板</i>和<i>折叠设备</i></li>
+    </ul>
+    <li>食谱</li>
+    <ul>
+      <li><i>Markdown</i> 支持</li>
+      <li>烹饪模式</li>
+        <li>通过<a href="https://kitshn.app/docs/features/timer-detection">计时器检测</a>创建计时器</li>
+      <li><a href="https://kitshn.app/docs/features/share-wrapping.html">应用链接</a></li>
+      <li>在步骤中<a href="https://kitshn.app/docs/features/embedding-videos-inside-steps.html">嵌入视频</a></li>
+      <li>导入</li>
+        <li><a href="https://kitshn.app/docs/features/social-media-import.html">社交媒体导入</a> <i>由 AI 驱动</i></li>
+        <li>通过分享链接导入到 <i>kitshn</i></li>
+      <li>简易食材分配工具</li>
+    </ul>
+    <li>膳食计划</li>
+    <li>购物清单</li>
+    <ul>
+      <li>购物模式</li>
+      <li>离线同步</li>
+    </ul>
+    <li>食谱书</li>
+    <ul>
+      <li><a href="https://kitshn.app/docs/features/favorites.html">收藏</a>系统</li>
+    </ul>
+</ul>
+
+图标由 Freepik 从 www.flaticon.com 制作

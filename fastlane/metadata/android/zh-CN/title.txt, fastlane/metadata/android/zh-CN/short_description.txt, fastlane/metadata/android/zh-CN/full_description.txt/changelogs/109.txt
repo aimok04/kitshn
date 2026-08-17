@@ -1,0 +1,4 @@
+- feat(recipes): 添加步骤视频文件支持（解决 #15）
+- feat(recipes): 保持屏幕常亮 (#18)（由 @FineFindus 贡献）
+- feat(ui): 拦截配置更改
+- fix(strings.xml): 修正行为描述

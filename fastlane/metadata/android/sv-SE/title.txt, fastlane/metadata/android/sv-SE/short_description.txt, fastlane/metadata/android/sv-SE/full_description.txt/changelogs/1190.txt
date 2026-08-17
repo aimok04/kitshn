@@ -1,0 +1,10 @@
+Hej ✌️
+Veckans release fokuserar på att förbättra shoppingupplevelsen 🛍️ 🛒
+
+    1. Reviderad inköpslista UI (#93).
+    2. Lade till shoppingläge med större pekobjekt.
+    3. Lade till stöd för gruppering efter kategori, recept och skapare på shoppingsidan (#92).
+    4. Lade till stöd för filtrering efter stormarknad på shoppingsidan (#93).
+    5. Implementerat offlineläge och cachning för inköpslista.
+    6. Lade till utrymmesväxlare på hemsidan genom att använda webbskrapning (se #59).
+    7. Fixat gemensam » Placering skedde före lookahead « krasch.

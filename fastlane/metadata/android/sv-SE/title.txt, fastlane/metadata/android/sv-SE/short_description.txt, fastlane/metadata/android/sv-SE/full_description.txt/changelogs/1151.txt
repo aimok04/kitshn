@@ -1,0 +1,15 @@
+kitshn migrerades till Kotlin/Compose Multiplatform. Detta möjliggör kompatibilitet med iOS.
+Det kan också finnas vissa skillnader/problem som påverkar Android-bygget. Rapportera gärna de på GitHub! :)
+
+Hotfix
+- fix(build.gradle): la in jvmToolchain till 17 för F-Droid-bygge
+
+- feat(commonMain): la till experimentell bakåtgest för iOS
+- feat(iosApp & composeApp): lade till bugsnag-kraschrapportering för iOS
+- fix(shopping): gömmer objekt när "markerat" satt till sant
+- fix(api): förbättrat TandoorRequestsError-meddelande
+- chore(commonMain/api): markerad v1.5.25/26 som kompatibel
+- l10n(nederländska): översatt med Weblate
+- l10n(ryska): översatt med Weblate
+- l10n(ukrainska): översatt med Weblate
+- kmpMigration

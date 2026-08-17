@@ -1,0 +1,2 @@
+1. Lade till växlingsinställningar för att hålla skärmen på i vyn för receptdetaljer (#326).
+2. Fixat det gick inte att skapa inköpslistor med nya livsmedel (#327).

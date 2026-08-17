@@ -1,0 +1,7 @@
+以下是 kitshn v2 的亮点：
+
+1. 兼容 Tandoor v2 (#95)
+2. 使用 Material 3 Expressive 全面改版设计 (#204)
+3. 新功能和改进的用户体验：
+    - 新的社交媒体导入功能，可从 Instagram 和 TikTok 导入帖子。
+    - ...

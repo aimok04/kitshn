@@ -1,0 +1,11 @@
+Ændringer til v1.0.0-alpha.10.2
+- fix(properties): parsing problem (#25)
+
+Ændringer til v1.0.0-alpha.10.1
+- fix(dialog): grimme layout/animationer i fuld skærm dialog
+
+Ændringer til v1.0.0-alpha.10
+- bedrift(recipes): tilføjet templating støtte til trin instruktioner (#25)
+- bedrift(recipes): tilføjet egenskaber kort (#24)
+- bedrift(mealplan): forbedret ui for tabletter/foldelige
+- bedrift(dialog): forbedret adaptiv fuldskærmsdialogstørrelse

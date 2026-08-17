@@ -1,0 +1,7 @@
+1. Lägg till ny » Lägg till i shopping « dialog för individuellt urval av ingredienser.
+2. Lägg till » Granska objekt innan du lägger till i shoppingen « byt när du skapar en ny måltidsplan.
+3. Lägg till alternativ för att visa morgondagens måltidsplaner hemma.
+4. kitshn visar nu stegnamnet i tillagningsläge.
+5. Åtgärda återställning av portionsmängden efter att ha öppnat tillagningsläget från inmatning av måltidsplanen.
+6. Fixa att receptboken visas som tom när den bara innehåller filtrerade recept.
+9. Åtgärda stormarknadskategorier sorterade fel.

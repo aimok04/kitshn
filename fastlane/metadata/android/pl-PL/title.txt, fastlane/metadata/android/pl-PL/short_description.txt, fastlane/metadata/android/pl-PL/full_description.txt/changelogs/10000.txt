@@ -1,0 +1,1 @@
+1. Dodano usługe aby wybrać udostepniające osoby w dialogu kreatorze/edytorze planie jedzenia

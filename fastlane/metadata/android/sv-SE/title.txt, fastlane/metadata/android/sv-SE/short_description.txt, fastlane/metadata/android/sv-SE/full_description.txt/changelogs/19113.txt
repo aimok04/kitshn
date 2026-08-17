@@ -1,0 +1,6 @@
+Ännu en (för det mesta) buggfixversion:
+
+1. Fixat krasch när du öppnade sidan för måltidsplaner på iOS (#282).
+   - Detta är en mycket snabb lösning som inaktiverar alla datumväljare på iOS.
+2. Fixat import av sociala medier misslyckades vid delning av länk till kitshn utan standard AI-leverantör.
+3. Förbättrad konvertering från decimal till bråk (#281).

@@ -1,0 +1,4 @@
+- feat(behavior): 添加分数值显示开关 (#24)
+- feat(settings): 添加错误报告按钮
+- feat(acra): 添加下载按钮
+- chore(api): 标记 v1.5.20 为兼容

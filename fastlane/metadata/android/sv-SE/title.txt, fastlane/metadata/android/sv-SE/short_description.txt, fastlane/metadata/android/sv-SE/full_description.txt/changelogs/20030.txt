@@ -1,0 +1,1 @@
+Detta är en liten release-fixeringskompatibilitet med Tandoor v2.4.

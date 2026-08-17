@@ -1,0 +1,12 @@
+Hej ✌️
+Den här veckans release lägger till två nya språk och några mindre ändringar:
+
+    1. 🇫🇷 Franska har lagts till på Weblate (av @KcivazB).
+    2. 🇪🇸 Spanska har lagts till på Weblate (av @1024mb).
+    3. Lade till ett alternativ för att inaktivera de dynamiska rekommendationerna på startskärmen.
+    4. Lagt till stöd för anpassade rubriker för autentisering.
+    5. Tillagd felrapportknapp på introduktionssidan.
+    6. Fixade några layout- och UI-problem.
+    7. Kontrollerad kompatibilitet med Tandoor version 1.5.31.
+
+Nästa release kommer att fokusera på att förbättra inköpslistsidan :)

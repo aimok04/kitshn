@@ -1,0 +1,24 @@
+- feat(commonMain/shopping): додано випадаючі списки до полів одиниць та їжі (вирішено #57)
+- feat(README.md): додано значки для iOS
+- feat(iosApp & commonMain): адаптовано до рекомендацій Apple App Store
+- fix(README.md): змінено формулювання
+- fix(recipes): покращено регулярний вираз для коментарів до шаблонів (вирішено #58)
+- l10n(тамільська): перекладено за допомогою Weblate
+- l10n(тамільська): перекладено за допомогою Weblate
+- l10n(українська): перекладено за допомогою Weblate
+- github: додано ISSUE_TEMPLATEs
+- fix(commonMain/import): додано другу перевірку для виключення подвійного імпорту (вирішено #29)
+- fix(commonMain/recipes): збільшено мінімальний розмір шрифту в режимі приготування
+- l10n(українська): перекладено за допомогою Weblate
+- fix(commonMain/onboarding): аварійне завершення роботи під час використання входу SSO (вирішено #52)
+- l10n(тамільська): перекладено за допомогою Weblate
+- l10n(тамільська): перекладено за допомогою Weblate
+- l10n(тамільська): додано переклад за допомогою Weblate
+- l10n(тамільська): додано переклад за допомогою Weblate
+- github: оновлення FUNDING.yml
+- l10n(українська): перекладено за допомогою Weblate
+- l10n(нідерландська): перекладено за допомогою Weblate
+- l10n(нідерландська): перекладено за допомогою Weblate
+- Скасувати "chore(commonMain/composeResources): переформатувати strings.xml"
+- github: додано FUNDING.yml
+- fix(commonMain): збільшено GESTURE_ACCEPTED_START в IOSBackGestureHandler

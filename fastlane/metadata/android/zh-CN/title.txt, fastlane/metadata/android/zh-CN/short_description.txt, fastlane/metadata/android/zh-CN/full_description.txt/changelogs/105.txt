@@ -1,0 +1,4 @@
+- feat(onboarding): 添加 API 令牌登录 (#9)
+- feat(recipes): 在说明中添加自动计时器链接
+- feat(acra): 在 AcraCrashReportDialog.kt 中添加邮箱地址字段
+- 多个错误修复

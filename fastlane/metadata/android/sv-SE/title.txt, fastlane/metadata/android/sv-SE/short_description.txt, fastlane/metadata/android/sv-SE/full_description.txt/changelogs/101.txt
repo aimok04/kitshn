@@ -1,0 +1,2 @@
+- fix(build.gradle): tog bort minifiering
+- fix(måltidsplan): mealplanType färg kan nu vara odefinierad

@@ -1,0 +1,13 @@
+- feat(ui): ändrade recept och måltidsplan underst till dialogrutor
+- feat(ui): la till animering i helskärmsdialogrutan
+- feat(recept): la till förmåga att dölja ingrediensallokeringsåtgärdschip (#16)
+- feat(inställningar): la till växel för att ignorera otilldelade ingredienser (löst #16)
+- chore(libs): versionsstötar
+- feat(manifest): ändrad applänkvärd
+- feat(share): förkortade länkar för dela omslag
+- feat(about): la till webbplats
+- feat(about): ändrad kontaktmail
+- feat(acra): ändrad acra-rapportadress
+- feat(share): ändrad webbadress för dela omslag
+- fix(ui): statusfältets ikonfärg i helskärmsdialog
+- fix (måltidsplan): dölj tangentbordet efter att ha valt måltidstyp
