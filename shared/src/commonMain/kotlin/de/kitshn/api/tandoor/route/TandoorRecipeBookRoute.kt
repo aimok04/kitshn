@@ -115,11 +115,9 @@ class TandoorRecipeBookRoute(client: TandoorClient) : TandoorBaseRoute(client) {
 
         client.container.recipeBook[bookId]?.let { book ->
             book.entries.clear()
-            book.entryByRecipeId.clear()
 
             entries.forEach {
                 book.entries.add(it)
-                book.entryByRecipeId[it.recipe] = it
             }
         }
 
