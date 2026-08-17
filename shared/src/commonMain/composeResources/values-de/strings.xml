@@ -419,7 +419,6 @@
     <string-array name="timer_detection_to_definitions">
         <item>bis</item>
     </string-array>
-
     <string-array name="timer_detection_range_qualifier_definitions">
         <item>maximal</item>
         <item>höchstens</item>
@@ -460,4 +459,22 @@
     <string name="action_take_new_photo">Neues Foto aufnehmen</string>
     <string name="common_ai_provider">KI Anbieter</string>
     <string name="search_providers">Anbieter durchsuchen</string>
+    <string name="action_create_meal_type">Neue Mahlzeitenart</string>
+    <string name="action_edit_meal_type">Mahlzeitenart ändern</string>
+    <string name="common_color">Farbe</string>
+    <string name="common_time">Zeit</string>
+    <string name="color_light_red">Hellrot</string>
+    <string name="color_magenta">Magenta</string>
+    <string name="color_lila">Lavendel</string>
+    <string name="color_blue">Blau</string>
+    <string name="color_teal">Blaugrün</string>
+    <string name="color_red">Rot</string>
+    <string name="color_green">Grün</string>
+    <string name="color_gray">Grau</string>
+    <string name="color_black">Schwarz</string>
+    <string name="color_white">Weiß</string>
+    <string name="color_dark_gray">Dunkelgrau</string>
+    <string name="color_light_gray">Hellgrau</string>
+    <string name="color_cyan">Türkis</string>
+    <string name="color_yellow">Gelb</string>
 </resources>

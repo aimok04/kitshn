@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="acra_comment_helper">Om du vill kan du kommentera hur denna error uppkom.</string>
+    <string name="acra_dialog_button_negative">Skicka inte</string>
+    <string name="acra_dialog_button_neutral">Visa rapport</string>
+    <string name="acra_dialog_button_positive">Skicka</string>
+    <string name="acra_dialog_message">Appen har upplevt ett oväntat fel. Skicka en felrapport för att lösa problemet.\n\nDu kan se hela rapporten innan du skickar.</string>
+    <string name="acra_dialog_title">Hoppsan!</string>
+    <string name="acra_email_address_helper">Om du vill kan du ange din e-postadress för att få uppdateringar om din rapport.</string>
+    <string name="action_back">Tillbaka</string>
+    <string name="action_download">Ladda ner</string>
+    <string name="app_name">kitshn</string>
+    <string name="common_comment">Kommentar</string>
+    <string name="common_email_address">E-post adress</string>
+    <string name="common_error_report">Fel rapport</string>
+    <string name="common_import_recipe">Importera recept</string>
+    <string name="shortcuts_new_instance_label_long">Skapa ny instans</string>
+    <string name="shortcuts_new_instance_label_short">Ny instans</string>
+    <string name="shortcuts_meal_plan_label_long">Öppna måltidsplan</string>
+    <string name="shortcuts_meal_plan_label_short">Måltidsplan</string>
+    <string name="shortcuts_shopping_label_long">Öppna shopping</string>
+    <string name="shortcuts_shopping_label_short">Shopping</string>
+    <string name="shortcuts_shopping_mode_label_long">Börja shopping läge</string>
+    <string name="shortcuts_shopping_mode_label_short">Shopping läge</string>
+    <string name="shortcuts_books_label_long">Öppna böcker</string>
+    <string name="shortcuts_books_label_short">Böcker</string>
+</resources>

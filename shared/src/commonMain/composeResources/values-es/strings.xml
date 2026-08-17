@@ -12,7 +12,7 @@
     <string name="action_show_all_recipes">Mostrar todas las recetas</string>
     <string name="action_move">Mover</string>
     <string name="action_minus">Inferior</string>
-    <string name="action_remove_from_favorites">Remover de favoritos</string>
+    <string name="action_remove_from_favorites">Eliminar de favoritos</string>
     <string name="error_instance_inaccessible">La instancia a la que estás intentando conectarte no está configurada dentro de esta aplicación.</string>
     <string name="action_reorder">Reordenar</string>
     <string name="action_sign_in">Ingresar</string>
@@ -59,7 +59,7 @@
     <string name="action_open_source">Ver fuente</string>
     <string name="action_plus">Superior</string>
     <string name="action_plus_one_week">+ una semana</string>
-    <string name="action_reset">Reiniciar</string>
+    <string name="action_reset">Reestablecer</string>
     <string name="action_save">Guardar</string>
     <string name="action_saving">Guardando…</string>
     <string name="action_sign_out">Cerrar sesión</string>
@@ -366,4 +366,10 @@
     <string name="common_unit">Unidad</string>
     <string name="funding_banner_text_year">Se necesitan **%1$d €** para cubrir los costos de **%2$s**.</string>
     <string name="funding_banner_text_current_year">Se necesitan **%1$d €** para cubrir los gastos de **este año**.</string>
+    <string name="action_take_new_photo">Tomar una nueva foto</string>
+    <string name="action_create_meal_type">Nuevo tipo de comida</string>
+    <string name="action_edit_meal_type">Editar tipo de comida</string>
+    <string name="common_ai_provider">Proveedor de IA</string>
+    <string name="common_by">Por</string>
+    <string name="common_color">Color</string>
 </resources>
