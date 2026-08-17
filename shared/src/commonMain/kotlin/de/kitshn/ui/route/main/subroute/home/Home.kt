@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Sort
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.SaveAlt
+import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material.icons.rounded.SyncAlt
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,8 +48,8 @@ import de.kitshn.Platforms
 import de.kitshn.TestTagRepository
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
 import de.kitshn.platformDetails
+import de.kitshn.repo.HouseholdRepo
 import de.kitshn.ui.component.AutoFetchingFundingBanner
-import de.kitshn.ui.component.model.SpaceSwitchIconButton
 import de.kitshn.ui.dialog.recipe.creationandedit.RecipeCreationAndEditDialog
 import de.kitshn.ui.dialog.recipe.creationandedit.rememberRecipeCreationDialogState
 import de.kitshn.ui.dialog.recipe.creationandedit.rememberRecipeEditDialogState
@@ -67,16 +68,19 @@ import de.kitshn.ui.selectionMode.model.RecipeSelectionModeTopAppBar
 import de.kitshn.ui.selectionMode.rememberSelectionModeState
 import de.kitshn.ui.view.home.search.HomeSearchTopBar
 import de.kitshn.ui.component.search.rememberGlobalRecipeSearchState
+import de.kitshn.ui.dialog.household.HouseholdPicker
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_add
 import kitshn.shared.generated.resources.action_import
 import kitshn.shared.generated.resources.action_remove
+import kitshn.shared.generated.resources.action_switch_household
 import kitshn.shared.generated.resources.common_sorting
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -86,6 +90,7 @@ fun RouteMainSubrouteHome(
     p: RouteParameters
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val householdRepo = koinInject<HouseholdRepo>()
 
     val homeSearchState by rememberGlobalRecipeSearchState(key = "RouteMainSubrouteHome/homeSearch")
 
@@ -122,6 +127,8 @@ fun RouteMainSubrouteHome(
 
     var showSortingSelectionDialog by rememberSaveable { mutableStateOf(false) }
 
+    var showHouseholdSwitchDialog by rememberSaveable { mutableStateOf(false) }
+
     val wrap: @Composable (
         @Composable (
             pv: PaddingValues,
@@ -155,7 +162,7 @@ fun RouteMainSubrouteHome(
                     HorizontalFloatingToolbar(
                         expanded = isScrollingUp,
                         content = {
-                            if(!enableDynamicHomeScreen) IconButton(
+                            if (!enableDynamicHomeScreen) IconButton(
                                 onClick = { showSortingSelectionDialog = true }
                             ) {
                                 Icon(
@@ -164,10 +171,11 @@ fun RouteMainSubrouteHome(
                                 )
                             }
 
-                            SpaceSwitchIconButton(
-                                client = p.vm.tandoorClient
-                            ) {
-                                p.vm.refreshApp()
+                            IconButton(onClick = { showHouseholdSwitchDialog = true }) {
+                                Icon(
+                                    Icons.Rounded.SwapHoriz,
+                                    stringResource(Res.string.action_switch_household)
+                                )
                             }
 
                             IconButton(
@@ -194,7 +202,7 @@ fun RouteMainSubrouteHome(
                     )
 
                     // showing funding banner on iOS when user isn't subscribed
-                    if(platformDetails.platform == Platforms.IOS && !p.vm.uiState.iosIsSubscribed) {
+                    if (platformDetails.platform == Platforms.IOS && !p.vm.uiState.iosIsSubscribed) {
                         var showBanner by remember { mutableStateOf(false) }
 
                         val firstRunTime by p.vm.settings.getFirstRunTime.collectAsState(Long.MAX_VALUE)
@@ -209,7 +217,7 @@ fun RouteMainSubrouteHome(
                                 (firstRunTime + 24 * 3600) < now && fundingBannerHideUntil < now
                         }
 
-                        if(showBanner) {
+                        if (showBanner) {
                             Spacer(Modifier.height(16.dp))
 
                             AutoFetchingFundingBanner(
@@ -262,7 +270,7 @@ fun RouteMainSubrouteHome(
         }
     }
 
-    if(enableDynamicHomeScreen) {
+    if (enableDynamicHomeScreen) {
         HomeDynamicLayout(
             p = p,
             searchBarScrollBehavior = searchBarScrollBehavior,
@@ -286,7 +294,7 @@ fun RouteMainSubrouteHome(
         client = p.vm.tandoorClient!!,
         state = recipeImportTypeBottomSheetState,
         onSelect = {
-            when(it) {
+            when (it) {
                 RecipeImportType.URL -> recipeImportUrlDialogState.open()
                 RecipeImportType.AI -> recipeImportAIDialogState.open()
                 RecipeImportType.SOCIAL_MEDIA -> recipeImportSocialMediaDialogState.open()
@@ -327,7 +335,7 @@ fun RouteMainSubrouteHome(
         onViewRecipe = { p.vm.viewRecipe(it.id) }
     )
 
-    if(p.vm.tandoorClient != null) {
+    if (p.vm.tandoorClient != null) {
         val ingredientsShowFractionalValues =
             p.vm.settings.getIngredientsShowFractionalValues.collectAsState(initial = true)
 
@@ -340,7 +348,7 @@ fun RouteMainSubrouteHome(
         )
     }
 
-    if(showSortingSelectionDialog) AlertDialog(
+    if (showSortingSelectionDialog) AlertDialog(
         modifier = Modifier.padding(top = 24.dp, bottom = 24.dp),
         onDismissRequest = {
             showSortingSelectionDialog = false
@@ -371,7 +379,7 @@ fun RouteMainSubrouteHome(
             }
         },
         dismissButton = {
-            if(homeScreenSorting.isNotBlank()) FilledTonalButton(onClick = {
+            if (homeScreenSorting.isNotBlank()) FilledTonalButton(onClick = {
                 showSortingSelectionDialog = false
                 p.vm.settings.setHomeScreenSorting("")
             }) {
@@ -379,5 +387,11 @@ fun RouteMainSubrouteHome(
             }
         },
         confirmButton = { }
+    )
+
+    if (showHouseholdSwitchDialog) HouseholdPicker(
+        repo = householdRepo,
+        onSwitched = {},
+        onDismiss = { showHouseholdSwitchDialog = false }
     )
 }

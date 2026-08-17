@@ -12,6 +12,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorClient
@@ -19,12 +21,14 @@ import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.parseIsoTime
+import de.kitshn.repo.HouseholdRepo
 import de.kitshn.ui.TandoorRequestErrorHandler
 import de.kitshn.ui.component.model.mealplan.HorizontalMealPlanCard
 import de.kitshn.ui.modifier.loadingPlaceHolder
 import de.kitshn.ui.state.ErrorLoadingSuccessState
 import de.kitshn.ui.state.foreverRememberMutableStateList
 import de.kitshn.ui.theme.Typography
+import org.koin.compose.koinInject
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.home_meal_plan_promotion_today_title
 import kitshn.shared.generated.resources.home_meal_plan_promotion_tomorrow_title
@@ -58,8 +62,11 @@ fun RouteMainSubrouteHomeMealPlanPromotionSection(
     val mealPlans =
         foreverRememberMutableStateList<TandoorMealPlan>(key = "RouteMainSubrouteHome/mealPlanPromotion/${day.plus}")
 
+    val householdRepo = koinInject<HouseholdRepo>()
+    val currentHousehold by householdRepo.current.collectAsState(initial = null)
+
     val mainFetchRequest = rememberTandoorRequestState()
-    LaunchedEffect(day) {
+    LaunchedEffect(day, currentHousehold?.id) {
         mainFetchRequest.wrapRequest {
             client.mealPlan.list(
                 from = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date

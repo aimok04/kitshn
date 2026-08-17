@@ -4,6 +4,7 @@ import de.kitshn.api.tandoor.route.TandoorAIImportRoute
 import de.kitshn.api.tandoor.route.TandoorAIProviderRoute
 import de.kitshn.api.tandoor.route.TandoorCookLogRoute
 import de.kitshn.api.tandoor.route.TandoorFoodRoute
+import de.kitshn.api.tandoor.route.TandoorHouseholdRoute
 import de.kitshn.api.tandoor.route.TandoorKeywordRoute
 import de.kitshn.api.tandoor.route.TandoorMealPlanRoute
 import de.kitshn.api.tandoor.route.TandoorMealTypeRoute
@@ -18,6 +19,7 @@ import de.kitshn.api.tandoor.route.TandoorSupermarketRoute
 import de.kitshn.api.tandoor.route.TandoorUnitRoute
 import de.kitshn.api.tandoor.route.TandoorUserPreferenceRoute
 import de.kitshn.api.tandoor.route.TandoorUserRoute
+import de.kitshn.api.tandoor.route.TandoorUserSpaceRoute
 import de.kitshn.json
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
@@ -101,6 +103,9 @@ class TandoorClient(
     val recipeFromSource = TandoorRecipeFromSourceRoute(this)
     val shopping = TandoorShoppingRoute(this)
     val space = TandoorSpaceRoute(this)
+
+    val household = TandoorHouseholdRoute(this)
+    val userSpace = TandoorUserSpaceRoute(this)
     val step = TandoorStepRoute(this)
     val supermarket = TandoorSupermarketRoute(this)
     val unit = TandoorUnitRoute(this)

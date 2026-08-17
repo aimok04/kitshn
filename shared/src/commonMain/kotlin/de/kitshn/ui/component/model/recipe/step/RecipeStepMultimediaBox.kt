@@ -166,7 +166,7 @@ private fun ImageDialog(
             onDismiss()
         },
         title = {
-            Text(step.file!!.name)
+            Text(step.file?.name ?: "")
         },
         topAppBarActions = {
             val uriHandler = LocalUriHandler.current
