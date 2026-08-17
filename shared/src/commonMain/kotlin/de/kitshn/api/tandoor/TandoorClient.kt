@@ -18,6 +18,7 @@ import de.kitshn.api.tandoor.route.TandoorSupermarketRoute
 import de.kitshn.api.tandoor.route.TandoorUnitRoute
 import de.kitshn.api.tandoor.route.TandoorUserPreferenceRoute
 import de.kitshn.api.tandoor.route.TandoorUserRoute
+import de.kitshn.isTlsException
 import de.kitshn.json
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
@@ -51,20 +52,29 @@ data class TandoorCredentials(
     val password: String = "",
     var token: TandoorCredentialsToken? = null,
     val cookie: String? = null,
-    val customHeaders: List<TandoorCredentialsCustomHeader> = listOf()
+    val customHeaders: List<TandoorCredentialsCustomHeader> = listOf(),
+    val mtlsCertificateAlias: String? = null,
+    val mtlsCertificateData: String? = null,
+    val mtlsCertificatePassword: String? = null,
 )
 
 class TandoorClient(
     val credentials: TandoorCredentials
 ) {
 
-    val httpClient = HttpClient {
-        followRedirects = true
+    var certificateRequested: Boolean = false
+    var tlsHandshakeFailed: Boolean = false
+
+    /** `true` when the last connection failure was a cert error */
+    val needsClientCertificate: Boolean get() = certificateRequested || tlsHandshakeFailed
+
+    val httpClient = createTandoorHttpClient(credentials) {
+        certificateRequested = true
     }
 
-    val longHttpClient = HttpClient {
-        followRedirects = true
-
+    val longHttpClient = createTandoorHttpClient(credentials) {
+        certificateRequested = true
+    }.config {
         install(HttpTimeout) {
             connectTimeoutMillis = 60000
             requestTimeoutMillis = 60000
@@ -133,11 +143,11 @@ class TandoorClient(
             getObject("/")
             return true
         } catch(e: TandoorRequestsError) {
+            if (e.isTlsException) tlsHandshakeFailed = true
             if(ignoreAuth) return e.response?.status == HttpStatusCode.Forbidden
             return false
         } catch(_: SerializationException) {
             return false
         }
     }
-
 }

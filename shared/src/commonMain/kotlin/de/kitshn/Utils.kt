@@ -480,7 +480,7 @@ expect fun launchTimerHandler(
 expect val isLaunchTimerHandlerImplemented: Boolean
 
 @Composable
-expect fun shareContentHandler(): (title: String, url: String) -> Unit
+expect fun shareContentHandler(): (title: String, text: String) -> Unit
 
 @Composable
 expect fun closeAppHandler(): () -> Unit
@@ -488,3 +488,5 @@ expect fun closeAppHandler(): () -> Unit
 fun String.extractUrl(delimiters: String = " ") = this
     .split(delimiters)
     .firstOrNull { it.startsWith("http://") || it.startsWith("https://") }
+
+expect val Throwable.isTlsException: Boolean
