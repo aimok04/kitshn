@@ -1,0 +1,6 @@
+‼️ https://keepandroidopen.org
+
+- Fix dynamic home screen not loading correctly (#422) (#424).
+- Allow recipe dialogs to be maximized on large screen devices (#364) (#401).
+- Improved timer detection in recipe steps text (#306) (#409).
+- Offline mode / app architecture improvements (#396).

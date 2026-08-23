@@ -14,8 +14,6 @@ class AppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val settings = SettingsViewModel()
-
         enableEdgeToEdge()
         setContent {
             App(

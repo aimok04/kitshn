@@ -3,9 +3,6 @@
 package de.kitshn
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
@@ -13,33 +10,58 @@ import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorRequestsError
-import de.kitshn.api.tandoor.reqAny
+import androidx.compose.runtime.snapshotFlow
+import de.kitshn.repo.FoodRepo
+import de.kitshn.repo.ShoppingListRepo
+import de.kitshn.repo.ShoppingRepo
+import de.kitshn.repo.SupermarketCategoryRepo
+import de.kitshn.repo.SupermarketRepo
+import de.kitshn.repo.SyncableRepo
+import de.kitshn.repo.UnitRepo
+import de.kitshn.session.TandoorSession
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.route.main.clearRememberAlternateNavController
 import de.kitshn.ui.state.clearForeverRememberMutableStateList
 import de.kitshn.ui.state.clearForeverRememberNotSavable
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.serialization.SerializationException
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
-class KitshnViewModel(
-    defaultTandoorClient: TandoorClient? = null,
-
-    /**
-     * calls before potential onboarding. Aborts onboarding if true is returned
-     */
+/**
+ * Runtime-only parameters for [KitshnViewModel] (callbacks supplied by the UI
+ * layer). Passed via `parametersOf(...)` when resolving the VM.
+ */
+data class KitshnViewModelArgs(
+    /** Called before potential onboarding. Aborts onboarding if `true` is returned. */
     val onBeforeCredentialsCheck: (credentials: TandoorCredentials?) -> Boolean = { false },
 
-    /**
-     * after onboarding checks and completed onboarding
-     */
+    /** Called after onboarding checks and completed onboarding. */
+    val onLaunched: () -> Unit = { }
+)
+
+class KitshnViewModel(
+    val db: AppDatabase,
+    val settings: SettingsViewModel,
+    private val session: TandoorSession,
+    val unitRepo: UnitRepo,
+    val supermarketCategoryRepo: SupermarketCategoryRepo,
+    val foodRepo: FoodRepo,
+    val shoppingRepo: ShoppingRepo,
+    val shoppingListRepo: ShoppingListRepo,
+    val supermarketRepo: SupermarketRepo,
+    private val applicationScope: CoroutineScope,
+
+    val onBeforeCredentialsCheck: (credentials: TandoorCredentials?) -> Boolean = { false },
     val onLaunched: () -> Unit = { }
 ) : ViewModel() {
 
@@ -48,10 +70,13 @@ class KitshnViewModel(
     var navHostController: NavHostController? = null
     var mainSubNavHostController: NavHostController? = null
 
-    var tandoorClient: TandoorClient? by mutableStateOf(defaultTandoorClient)
+    var tandoorClient: TandoorClient?
+        get() = session.client
+        set(value) { session.client = value }
+
+    val isOnline: StateFlow<Boolean> = session.isOnline
 
     val favorites = FavoritesViewModel()
-    val settings = SettingsViewModel()
 
     val uiState = UiStateModel()
 
@@ -88,11 +113,14 @@ class KitshnViewModel(
         initTime = Clock.System.now()
             .toEpochMilliseconds()
 
+        startPeriodicSync()
+        observeColdStartOffline()
+
         viewModelScope.launch {
             if(settings.getFirstRunTime.first() == -1L)
                 settings.setFirstRunTime()
 
-            val credentials = settings.getTandoorCredentials.first()
+            val credentials = session.loadPersistedCredentials()
             if(onBeforeCredentialsCheck(credentials)) return@launch
 
             if(credentials == null) {
@@ -104,13 +132,11 @@ class KitshnViewModel(
                 return@launch
             }
 
-            if(tandoorClient == null) tandoorClient = TandoorClient(credentials)
-            favorites.init(tandoorClient!!)
-
-            connectivityCheck()
+            session.hydrate(credentials)
+            favorites.init(session.client!!)
 
             try {
-                tandoorClient!!.serverSettings.current()
+                session.client!!.serverSettings.current()
             } catch(e: TandoorRequestsError) {
                 if(e.response?.status == HttpStatusCode.NotFound) {
                     navHostController?.navigate("alert/outdatedV1Instance") {
@@ -165,82 +191,111 @@ class KitshnViewModel(
         }
     }
 
-    // enable offline state when having connectivity issues
-    fun connectivityCheck() {
-        if(tandoorClient == null) return
-        if(!uiState.isInForeground) return
+    private fun observeColdStartOffline() {
+        viewModelScope.launch {
+            isOnline.drop(1).collect { online ->
+                if (online) return@collect
+                if ((Clock.System.now().toEpochMilliseconds() - initTime) >= 8000) return@collect
+                if (navHostController?.currentDestination?.route != "main") return@collect
+                if (mainSubNavHostController?.currentDestination?.route != "home") return@collect
+                mainSubNavHostController?.navigate("shopping")
+            }
+        }
+    }
+
+    fun sync() {
+        if (tandoorClient == null) return
+        viewModelScope.launch(Dispatchers.IO) {
+            coroutineScope {
+                launch { shoppingRepo.sync() }
+                launch { shoppingListRepo.sync() }
+                launch { unitRepo.sync() }
+                launch { supermarketCategoryRepo.sync() }
+                launch { supermarketRepo.sync() }
+                launch { foodRepo.sync() }
+            }
+        }
+    }
+
+    private val syncableRepos: List<SyncableRepo>
+        get() = listOf(
+            shoppingRepo,
+            shoppingListRepo,
+            unitRepo,
+            supermarketCategoryRepo,
+            supermarketRepo,
+            foodRepo,
+        )
+
+    fun resetLocalDatabase() {
+        applicationScope.launch {
+            db.wipeAllData()
+            syncableRepos.forEach { it.resetLocalState() }
+            sync()
+            reconcile()
+        }
+    }
+
+    fun deleteLocalDatabase() {
+        db.closeAndDelete()
+    }
+
+    private var periodicSyncStarted = false
+
+    // TODO: this should be refactored to somewhere else
+    fun startPeriodicSync() {
+        if (periodicSyncStarted) return
+        periodicSyncStarted = true
+
+        syncableRepos.forEach { repo ->
+            val interval = repo.periodicInterval ?: return@forEach
+            viewModelScope.launch(Dispatchers.IO) {
+                while (true) {
+                    delay(interval)
+                    if (uiState.isInForeground && tandoorClient != null) repo.sync()
+                }
+            }
+        }
 
         viewModelScope.launch {
-            var isOffline = true
+            snapshotFlow { uiState.isInForeground }
+                .drop(1)
+                .filter { it }
+                .collect { sync() }
+        }
+    }
 
-            try {
-                val response = tandoorClient!!.reqAny(
-                    endpoint = "/",
-                    _method = HttpMethod.Get,
-                    customHttpClient = HttpClient {
-                        install(HttpTimeout) {
-                            requestTimeoutMillis = 2000
-                        }
-                    }
-                )
-
-                if(response.status == HttpStatusCode.OK)
-                    isOffline = false
-            } catch(_: TandoorRequestsError) {
-            } catch(_: SerializationException) {
-            }
-
-            if(isOffline) {
-                isOffline = true
-
-                try {
-                    val response = tandoorClient!!.reqAny(
-                        endpoint = "/",
-                        _method = HttpMethod.Get,
-                        customHttpClient = HttpClient {
-                            install(HttpTimeout) {
-                                requestTimeoutMillis = 5000
-                            }
-                        }
-                    )
-
-                    if(response.status == HttpStatusCode.OK)
-                        isOffline = false
-                } catch(_: TandoorRequestsError) {
-                } catch(_: SerializationException) {
-                }
-
-                if(isOffline) {
-                    uiState.offlineState.isOffline = true
-
-                    // automatically switch to shopping page if offline
-                    if((Clock.System.now().toEpochMilliseconds() - initTime) < 8000) {
-                        if(navHostController?.currentDestination?.route != "main") return@launch
-                        if(mainSubNavHostController?.currentDestination?.route != "home") return@launch
-                        mainSubNavHostController?.navigate("shopping")
-                    }
-                } else {
-                    uiState.offlineState.isOffline = false
-                }
-            } else {
-                uiState.offlineState.isOffline = false
+    // Fuller pull on top of frequent deltas — refreshes stale data and catches remote
+    // deletions (which deltas can't surface, since the API has no tombstones).
+    fun reconcile() {
+        if (tandoorClient == null) return
+        viewModelScope.launch(Dispatchers.IO) {
+            coroutineScope {
+                launch { unitRepo.reconcile() }
+                launch { supermarketCategoryRepo.reconcile() }
+                launch { foodRepo.reconcile() }
+                launch { shoppingListRepo.reconcile() }
+                launch { supermarketRepo.reconcile() }
             }
         }
     }
 
     fun signIn(client: TandoorClient, credentials: TandoorCredentials) {
-        tandoorClient = client
+        session.signIn(client, credentials)
 
-        settings.saveTandoorCredentials(credentials)
         navHostController?.navigate("onboarding/welcome")
 
-        favorites.init(tandoorClient!!)
-        connectivityCheck()
+        favorites.init(client)
     }
 
     fun signOut() {
         settings.setOnboardingCompleted(false)
-        settings.saveTandoorCredentials(null)
+        session.signOut()
+        // Runs on the application scope so the teardown completes even if the
+        // VM's own scope is cancelled by navigation away from the host screen.
+        applicationScope.launch {
+            db.closeAndDelete()
+        }
     }
 
 }

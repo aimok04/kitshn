@@ -67,10 +67,10 @@ fun RouteRecipeCook(
     LaunchedEffect(recipeId) {
         TandoorRequestState().apply {
             wrapRequest {
-                recipe = p.vm.tandoorClient?.recipe?.get(recipeId.toInt(), cached = true)
-                p.vm.tandoorClient?.recipe?.get(recipeId.toInt())
+                recipe = p.vm.tandoorClient?.recipe?.retrieve(recipeId.toInt(), cached = true)
+                p.vm.tandoorClient?.recipe?.retrieve(recipeId.toInt())
 
-                recipe = p.vm.tandoorClient?.recipe?.get(recipeId.toInt(), cached = true)
+                recipe = p.vm.tandoorClient?.recipe?.retrieve(recipeId.toInt(), cached = true)
             }
 
             if(state == TandoorRequestStateState.ERROR && recipe == null) p.onBack?.let { it() }

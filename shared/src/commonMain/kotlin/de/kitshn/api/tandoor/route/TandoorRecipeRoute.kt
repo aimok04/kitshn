@@ -1,13 +1,12 @@
 package de.kitshn.api.tandoor.route
 
 import androidx.compose.runtime.Composable
-import com.eygraber.uri.Uri
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.getObject
+import de.kitshn.api.tandoor.model.TandoorPagedResponse
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.postObject
-import de.kitshn.json
 import de.kitshn.toTFString
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.common_name
@@ -57,23 +56,46 @@ data class TandoorRecipeQueryParameters(
     val query: String? = null,
     val new: Boolean? = null,
     val random: Boolean? = null,
+    // Collection filters (map to repeated query params like keywords_and=1&keywords_and=2)
     val keywords: List<Int>? = null,
     val keywordsAnd: Boolean = false,
+    val keywordsAndNot: List<Int>? = null,
+    val keywordsOr: List<Int>? = null,
+    val keywordsOrNot: List<Int>? = null,
     val foods: List<Int>? = null,
     val foodsAnd: Boolean = false,
+    val foodsAndNot: List<Int>? = null,
+    val foodsOr: List<Int>? = null,
+    val foodsOrNot: List<Int>? = null,
+    val books: List<Int>? = null,
+    val booksAnd: Boolean = false,
+    val booksAndNot: List<Int>? = null,
+    val booksOr: List<Int>? = null,
+    val booksOrNot: List<Int>? = null,
     val createdBy: TandoorUser? = null,
     val rating: Int? = null,
+    val ratingGte: Int? = null,
+    val ratingLte: Int? = null,
     val timescooked: Int? = null,
+    val timesCookedGte: Int? = null,
+    val timesCookedLte: Int? = null,
     var sortOrder: TandoorRecipeQueryParametersSortOrder? = null,
-    val filter: Int? = null
-)
-
-@Serializable
-data class TandoorRecipeRouteListResponse(
-    val count: Int,
-    val next: String?,
-    val previous: String?,
-    val results: List<TandoorRecipeOverview>
+    val filter: Int? = null,
+    val createdAt: String? = null,
+    val createdAtGte: String? = null,
+    val createdAtLte: String? = null,
+    val updatedAt: String? = null,
+    val updatedAtGte: String? = null,
+    val updatedAtLte: String? = null,
+    val cookedAtGte: String? = null,
+    val cookedAtLte: String? = null,
+    val viewedAtGte: String? = null,
+    val viewedAtLte: String? = null,
+    val includeChildren: Boolean? = null,
+    val internal: Boolean? = null,
+    val makeNow: Boolean? = null,
+    val numRecent: Int? = null,
+    val units: List<Int>? = null,
 )
 
 class TandoorRecipeRoute(client: TandoorClient) : TandoorBaseRoute(client) {
@@ -98,7 +120,7 @@ class TandoorRecipeRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         return recipe
     }
 
-    suspend fun get(
+    suspend fun retrieve(
         id: Int,
         cached: Boolean = false,
         share: String? = null
@@ -125,60 +147,90 @@ class TandoorRecipeRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         parameters: TandoorRecipeQueryParameters,
         page: Int = 1,
         pageSize: Int? = null
-    ): TandoorRecipeRouteListResponse {
-        val builder = Uri.Builder().appendEncodedPath("recipe/")
-        if(parameters.query != null) builder.appendQueryParameter("query", parameters.query)
-        if(parameters.new != null) builder.appendQueryParameter("new", parameters.new.toTFString())
-        if(parameters.random != null) builder.appendQueryParameter(
-            "random",
-            parameters.random.toTFString()
-        )
-        if(parameters.rating != null) builder.appendQueryParameter(
-            "rating",
-            parameters.rating.toString()
-        )
-        if(parameters.timescooked != null) builder.appendQueryParameter(
-            "timescooked",
-            parameters.timescooked.toString()
-        )
-        if(parameters.keywords != null) parameters.keywords.forEach {
-            builder.appendQueryParameter(
-                "keywords${if(parameters.keywordsAnd) "_and" else ""}",
-                it.toString()
-            )
-        }
-        if(parameters.foods != null) parameters.foods.forEach {
-            builder.appendQueryParameter(
-                "foods${if(parameters.foodsAnd) "_and" else ""}",
-                it.toString()
-            )
-        }
-        if(parameters.createdBy != null) builder.appendQueryParameter(
-            "createdby",
-            parameters.createdBy.id.toString()
-        )
-        if(parameters.sortOrder != null) builder.appendQueryParameter(
-            "sort_order",
-            parameters.sortOrder?.id
-        )
-        if(parameters.filter != null) builder.appendQueryParameter(
-            "filter",
-            parameters.filter.toString()
-        )
-        if(pageSize != null) builder.appendQueryParameter("page_size", pageSize.toString())
-        builder.appendQueryParameter("page", page.toString())
-
-        val response = json.decodeFromString<TandoorRecipeRouteListResponse>(
-            client.getObject(builder.build().toString()).toString()
+    ): TandoorPagedResponse<TandoorRecipeOverview> {
+        val response = listPage<TandoorRecipeOverview>(
+            path = "recipe/",
+            page = page,
+            pageSize = pageSize,
+            query = parameters.query,
+            extraParams = buildExtraParams(parameters)
         )
 
         // populate with client and store
-        response.results.forEach {
-            it.client = client
-            client.container.recipeOverview[it.id] = it
-        }
+        response.results.forEach { cache(it) }
 
         return response
+    }
+
+    suspend fun listAll(
+        parameters: TandoorRecipeQueryParameters,
+        onPageReceived: (suspend (List<TandoorRecipeOverview>) -> Boolean)? = null,
+    ): TandoorPagedResponse<TandoorRecipeOverview> {
+        return listAllPages<TandoorRecipeOverview>(
+            path = "recipe/",
+            pageSize = 200,
+            query = parameters.query,
+            extraParams = buildExtraParams(parameters)
+        ) { page ->
+            page.forEach { cache(it) }
+            onPageReceived?.invoke(page) ?: false
+        }
+    }
+
+    private fun buildExtraParams(parameters: TandoorRecipeQueryParameters): List<Pair<String, String?>> = buildList {
+        parameters.new?.let { add("new" to it.toTFString()) }
+        parameters.random?.let { add("random" to it.toTFString()) }
+        parameters.rating?.let { add("rating" to it.toString()) }
+        parameters.ratingGte?.let { add("rating_gte" to it.toString()) }
+        parameters.ratingLte?.let { add("rating_lte" to it.toString()) }
+        parameters.timescooked?.let { add("timescooked" to it.toString()) }
+        parameters.timesCookedGte?.let { add("timescooked_gte" to it.toString()) }
+        parameters.timesCookedLte?.let { add("timescooked_lte" to it.toString()) }
+        parameters.createdBy?.let { add("createdby" to it.id.toString()) }
+        parameters.sortOrder?.let { add("sort_order" to it.id) }
+        parameters.filter?.let { add("filter" to it.toString()) }
+        parameters.createdAt?.let { add("createdon" to it) }
+        parameters.createdAtGte?.let { add("createdon_gte" to it) }
+        parameters.createdAtLte?.let { add("createdon_lte" to it) }
+        parameters.updatedAt?.let { add("updatedon" to it) }
+        parameters.updatedAtGte?.let { add("updatedon_gte" to it) }
+        parameters.updatedAtLte?.let { add("updatedon_lte" to it) }
+        parameters.cookedAtGte?.let { add("cookedon_gte" to it) }
+        parameters.cookedAtLte?.let { add("cookedon_lte" to it) }
+        parameters.viewedAtGte?.let { add("viewedon_gte" to it) }
+        parameters.viewedAtLte?.let { add("viewedon_lte" to it) }
+        parameters.includeChildren?.let { add("include_children" to it.toTFString()) }
+        parameters.internal?.let { add("internal" to it.toTFString()) }
+        parameters.makeNow?.let { add("makenow" to it.toTFString()) }
+        parameters.numRecent?.let { add("num_recent" to it.toString()) }
+
+        parameters.keywords?.forEach {
+            add("keywords${if(parameters.keywordsAnd) "_and" else ""}" to it.toString())
+        }
+        parameters.keywordsAndNot?.forEach { add("keywords_and_not" to it.toString()) }
+        parameters.keywordsOr?.forEach { add("keywords_or" to it.toString()) }
+        parameters.keywordsOrNot?.forEach { add("keywords_or_not" to it.toString()) }
+
+        parameters.foods?.forEach {
+            add("foods${if(parameters.foodsAnd) "_and" else ""}" to it.toString())
+        }
+        parameters.foodsAndNot?.forEach { add("foods_and_not" to it.toString()) }
+        parameters.foodsOr?.forEach { add("foods_or" to it.toString()) }
+        parameters.foodsOrNot?.forEach { add("foods_or_not" to it.toString()) }
+
+        parameters.books?.forEach {
+            add("books${if(parameters.booksAnd) "_and" else ""}" to it.toString())
+        }
+        parameters.booksAndNot?.forEach { add("books_and_not" to it.toString()) }
+        parameters.booksOr?.forEach { add("books_or" to it.toString()) }
+        parameters.booksOrNot?.forEach { add("books_or_not" to it.toString()) }
+
+        parameters.units?.forEach { add("units" to it.toString()) }
+    }
+
+    private fun cache(recipe: TandoorRecipeOverview) {
+        recipe.client = client
+        client.container.recipeOverview[recipe.id] = recipe
     }
 
 }

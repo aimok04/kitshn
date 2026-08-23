@@ -66,7 +66,7 @@ fun SpaceSwitchDialog(
         scrapeRequestState.wrapRequest {
             activeSpace = client!!.space.current()
 
-            client.space.listAll().let {
+            client.space.listAll().results.let {
                 spaces.clear()
                 spaces.addAll(it)
             }

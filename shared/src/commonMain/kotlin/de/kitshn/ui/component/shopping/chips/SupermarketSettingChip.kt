@@ -16,10 +16,9 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -28,28 +27,25 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
-import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestStateState
-import de.kitshn.api.tandoor.model.shopping.TandoorSupermarket
 import de.kitshn.api.tandoor.rememberTandoorRequestState
-import de.kitshn.cache.ShoppingSupermarketCache
+import de.kitshn.repo.SupermarketRepo
 import de.kitshn.ui.component.shopping.AdditionalShoppingSettingsChipRowState
 import de.kitshn.ui.modifier.loadingPlaceHolder
+import org.koin.compose.koinInject
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_remove
 import kitshn.shared.generated.resources.common_select
 import kitshn.shared.generated.resources.common_selected
 import kitshn.shared.generated.resources.common_supermarket
 import kitshn.shared.generated.resources.lorem_ipsum_short
-import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SupermarketSettingChip(
-    client: TandoorClient,
     state: AdditionalShoppingSettingsChipRowState,
-    cache: ShoppingSupermarketCache
 ) {
+    val supermarketRepo = koinInject<SupermarketRepo>()
     val hapticFeedback = LocalHapticFeedback.current
 
     var showDialog by rememberSaveable { mutableStateOf(false) }
@@ -75,26 +71,10 @@ fun SupermarketSettingChip(
 
     if(showDialog) {
         val requestState = rememberTandoorRequestState()
+        val supermarkets by supermarketRepo.supermarkets.collectAsState()
 
-        val supermarkets = remember { mutableStateListOf<TandoorSupermarket>() }
         LaunchedEffect(Unit) {
-            requestState.wrapRequest {
-                val mSupermarkets = client.supermarket.fetchAll()
-                cache.update(mSupermarkets)
-
-                supermarkets.clear()
-                supermarkets.addAll(mSupermarkets)
-
-                delay(500)
-            }
-        }
-
-        LaunchedEffect(requestState.state) {
-            if(requestState.state == TandoorRequestStateState.SUCCESS) return@LaunchedEffect
-            if(requestState.state == TandoorRequestStateState.LOADING) delay(2000)
-
-            if(supermarkets.isNotEmpty()) return@LaunchedEffect
-            cache.retrieve()?.let { supermarkets.addAll(it) }
+            requestState.wrapRequest { supermarketRepo.reconcileInteractive() }
         }
 
         AlertDialog(

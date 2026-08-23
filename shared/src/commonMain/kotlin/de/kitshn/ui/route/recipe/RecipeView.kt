@@ -37,7 +37,7 @@ fun RouteRecipeView(
     val requestState = rememberTandoorRequestState()
     LaunchedEffect(recipeId) {
         requestState.wrapRequest {
-            val recipe = client.recipe.get(id = recipeId.toInt())
+            val recipe = client.recipe.retrieve(id = recipeId.toInt())
             client.container.recipe[recipe.id] = recipe
             client.container.recipeOverview[recipe.id] = recipe.toOverview()
         }

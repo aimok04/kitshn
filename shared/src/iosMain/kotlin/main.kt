@@ -22,6 +22,7 @@ import co.touchlab.kermit.bugsnag.BugsnagLogWriter
 import de.kitshn.App
 import de.kitshn.KitshnViewModel
 import de.kitshn.actions.handlers.handleAppLink
+import de.kitshn.di.initKoin
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.buttons.BackButtonType
 import kitshn.shared.generated.resources.Res
@@ -34,11 +35,15 @@ import platform.UIKit.UIViewController
 var deepLinkUrl by mutableStateOf("")
 var mIsSubscribed by mutableStateOf(false)
 
+private val koinInitialized: Unit by lazy { initKoin(); Unit }
+
 @OptIn(ExperimentalKermitApi::class, ExperimentalComposeUiApi::class)
 fun MainViewController(
     subscriptionUI: () -> UIViewController
 ): UIViewController = ComposeUIViewController {
     Logger.setLogWriters(OSLogWriter(), NSLogWriter(), BugsnagLogWriter())
+
+    koinInitialized
 
     var vm by remember { mutableStateOf<KitshnViewModel?>(null) }
 

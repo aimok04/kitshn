@@ -60,7 +60,7 @@ fun KitshnRecipeListRecipeDetailPaneScaffold(
                 if(vm.tandoorClient?.container?.recipeOverview?.containsKey(selectId.toInt()) == true) return@wrapRequest
                 vm.tandoorClient?.container?.recipeOverview?.put(
                     selectId.toInt(),
-                    vm.tandoorClient?.recipe?.get(selectId.toInt())?.toOverview()
+                    vm.tandoorClient?.recipe?.retrieve(selectId.toInt())?.toOverview()
                 )
             }
         }

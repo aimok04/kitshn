@@ -2,9 +2,9 @@ package de.kitshn.homepage.builder
 
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParametersSortOrder
-import de.kitshn.cache.FoodNameIdMapCache
 import de.kitshn.cache.KeywordNameIdMapCache
 import de.kitshn.homepage.model.HomePageSection
+import de.kitshn.repo.FoodRepo
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.home_section_american
 import kitshn.shared.generated.resources.home_section_asian
@@ -310,16 +310,18 @@ enum class HomePageSectionEnum(
         )
     );
 
-    fun toHomePageSection(
+    suspend fun toHomePageSection(
         keywordNameIdMapCache: KeywordNameIdMapCache,
-        foodNameIdMapCache: FoodNameIdMapCache
+        foodRepo: FoodRepo
     ): HomePageSection {
         val queryParametersList = mutableListOf<TandoorRecipeQueryParameters>()
 
         queryParameters.forEach { qp ->
             val keywordList =
                 qp.keywords?.mapNotNull { keywordNameIdMapCache.retrieve(it) } ?: listOf()
-            val foodList = qp.foods?.mapNotNull { foodNameIdMapCache.retrieve(it) } ?: listOf()
+            // Tandoor's recipe filter wants server ids; stubs (no remoteId) are silently
+            // skipped — they'll show up after the next syncPendingCreates.
+            val foodList = qp.foods?.mapNotNull { foodRepo.remoteIdByName(it) } ?: listOf()
 
             // don't add empty query parameters (empty qps will just list all recipes)
             if(qp.query == null && qp.new == null && qp.random == null && qp.rating == null && qp.timescooked == null && qp.sortOrder == null)

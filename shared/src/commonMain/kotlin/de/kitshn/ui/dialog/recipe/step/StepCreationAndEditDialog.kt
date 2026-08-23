@@ -401,7 +401,7 @@ fun StepCreationAndEditDialog(
                         val recipe = creationState!!.recipe!!
 
                         requestStepState.wrapRequest {
-                            val stepsRaw = client.recipe.get(id = recipe.id).stepsRaw
+                            val stepsRaw = client.recipe.retrieve(id = recipe.id).stepsRaw
 
                             val updatedRecipe = recipe.partialUpdate(
                                 steps = buildJsonArray {
@@ -579,7 +579,6 @@ fun StepCreationAndEditDialog(
                                     modifier = Modifier.fillMaxWidth(),
                                     dropdownMenuModifier = Modifier,
 
-                                    client = client,
                                     value = ingredient.unit,
 
                                     leadingIcon = {
@@ -609,7 +608,6 @@ fun StepCreationAndEditDialog(
                                     modifier = Modifier.fillMaxWidth(0.5f),
                                     dropdownMenuModifier = Modifier,
 
-                                    client = client,
                                     value = ingredient.food,
 
                                     leadingIcon = {

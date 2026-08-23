@@ -6,11 +6,11 @@ import androidx.compose.runtime.mutableStateMapOf
 import coil3.request.ImageRequest
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.delete
+import de.kitshn.api.tandoor.model.TandoorPagedResponse
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipeOverview
 import de.kitshn.api.tandoor.patchObject
 import de.kitshn.api.tandoor.postObject
 import de.kitshn.api.tandoor.route.TandoorRecipeQueryParameters
-import de.kitshn.api.tandoor.route.TandoorRecipeRouteListResponse
 import de.kitshn.api.tandoor.route.TandoorUser
 import de.kitshn.json
 import de.kitshn.removeIf
@@ -58,7 +58,7 @@ class TandoorRecipeBook(
 
     suspend fun listFilterEntries(
         page: Int
-    ): TandoorRecipeRouteListResponse {
+    ): TandoorPagedResponse<TandoorRecipeOverview> {
         val recipes = client!!.recipe.list(
             page = page,
             parameters = TandoorRecipeQueryParameters(

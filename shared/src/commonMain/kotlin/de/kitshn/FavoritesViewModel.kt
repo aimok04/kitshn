@@ -42,7 +42,7 @@ class FavoritesViewModel : ViewModel() {
                 return it
             }
 
-            val recipeBooks = client?.recipeBook?.listAll() ?: throw Error("COULD_NOT_FETCH_BOOKS")
+            val recipeBooks = client?.recipeBook?.listAll()?.results ?: throw Error("COULD_NOT_FETCH_BOOKS")
 
             var favoritesBook = recipeBooks.firstOrNull {
                 it.description.endsWith(KITSHN_FAVORITE_RECIPE_BOOK_DESCRIPTION_TAG)

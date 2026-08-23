@@ -52,14 +52,14 @@ class TandoorCookLogRoute(client: TandoorClient) : TandoorBaseRoute(client) {
         page: Int = 1,
         pageSize: Int?
     ): TandoorPagedResponse<TandoorCookLog> {
-        val builder = Uri.Builder().appendEncodedPath("cook-log/")
-        if(recipeId != null) builder.appendQueryParameter("recipe", recipeId.toString())
-        if(pageSize != null) builder.appendQueryParameter("page_size", pageSize.toString())
-        builder.appendQueryParameter("page", page.toString())
-
-        return json.decodeFromString<TandoorPagedResponse<TandoorCookLog>>(
-            client.getObject(builder.build().toString()).toString()
+        val response = listPage<TandoorCookLog>(
+            path = "cook-log/",
+            page = page,
+            pageSize = pageSize,
+            extraParams = listOf("recipe" to recipeId.toString()),
         )
+
+        return response
     }
 
 }

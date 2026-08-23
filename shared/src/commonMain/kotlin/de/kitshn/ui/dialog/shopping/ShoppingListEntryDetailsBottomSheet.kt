@@ -49,6 +49,7 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.model.TandoorMealPlan
 import de.kitshn.api.tandoor.model.recipe.TandoorRecipe
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingListEntry
+import de.kitshn.api.tandoor.model.shopping.TandoorSupermarketCategory
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.formatAmount
 import de.kitshn.handleTandoorRequestState
@@ -96,6 +97,7 @@ fun ShoppingListEntryDetailsBottomSheet(
     onCheck: (entries: List<TandoorShoppingListEntry>) -> Unit,
     onDelete: (entries: List<TandoorShoppingListEntry>) -> Unit,
     onChangeAmount: (entry: TandoorShoppingListEntry, amount: Double?) -> Unit,
+    onChangeCategory: suspend (foodLocalId: Int, category: TandoorSupermarketCategory?) -> Unit,
     onClickMealplan: (mealplan: TandoorMealPlan) -> Unit,
     onClickRecipe: (recipe: TandoorRecipe) -> Unit,
     onUpdate: () -> Unit
@@ -255,10 +257,7 @@ fun ShoppingListEntryDetailsBottomSheet(
                                 coroutineScope.launch {
                                     categoryChangeRequestState.wrapRequest {
                                         changeSupermarketCategoryValue = null
-                                        food.updateSupermarketCategory(client, null)
-
-                                        // update state after update
-                                        changeSupermarketCategoryValue = food.supermarket_category
+                                        onChangeCategory(food.id, null)
                                         onUpdate()
                                     }
 
@@ -292,16 +291,12 @@ fun ShoppingListEntryDetailsBottomSheet(
                 )
 
                 SelectSupermarketCategoryDialog(
-                    client = client,
                     state = selectSupermarketCategoryDialogState
                 ) {
                     coroutineScope.launch {
                         categoryChangeRequestState.wrapRequest {
                             changeSupermarketCategoryValue = it
-                            food.updateSupermarketCategory(client, it)
-
-                            // update state after update
-                            changeSupermarketCategoryValue = food.supermarket_category
+                            onChangeCategory(food.id, it)
                             onUpdate()
                         }
 
@@ -325,11 +320,11 @@ fun ShoppingListEntryDetailsBottomSheet(
                             coroutineScope.launch {
                                 if(it.list_recipe_data?.mealplan != null) {
                                     requestState.wrapRequest {
-                                        onClickMealplan(client.mealPlan.get(id = it.list_recipe_data.mealplan))
+                                        onClickMealplan(client.mealPlan.retrieve(id = it.list_recipe_data.mealplan))
                                     }
                                 } else if(it.list_recipe_data?.recipe != null) {
                                     requestState.wrapRequest {
-                                        onClickRecipe(client.recipe.get(id = it.list_recipe_data.recipe))
+                                        onClickRecipe(client.recipe.retrieve(id = it.list_recipe_data.recipe))
                                     }
                                 }
                             }

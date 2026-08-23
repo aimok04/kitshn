@@ -51,7 +51,7 @@ fun RouteRecipePublic(
     val requestState = rememberTandoorRequestState()
     LaunchedEffect(recipeId, shareToken) {
         requestState.wrapRequest {
-            val recipe = client.recipe.get(id = recipeId.toInt(), share = shareToken)
+            val recipe = client.recipe.retrieve(id = recipeId.toInt(), share = shareToken)
 
             // change id to avoid conflicts
             recipe.id = -recipe.id

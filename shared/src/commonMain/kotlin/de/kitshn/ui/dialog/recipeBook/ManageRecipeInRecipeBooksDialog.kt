@@ -99,7 +99,7 @@ fun ManageRecipeInRecipeBooksDialog(
         fetchRequestState.wrapRequest {
             state.selectedRecipeBooks.clear()
             state.selectedRecipeBooks.addAll(
-                client.recipeBook.listAll().filterNot { it.id == favoritesRecipeBookId }.filter {
+                client.recipeBook.listAll().results.filterNot { it.id == favoritesRecipeBookId }.filter {
                     it.listAllEntries()?.firstOrNull { entry ->
                         entry.recipe == state.recipeId.value
                     } != null

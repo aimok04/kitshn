@@ -8,10 +8,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import de.kitshn.api.tandoor.TandoorClient
 
-class AppOfflineState {
-    var isOffline by mutableStateOf(false)
-}
-
 class UiStateLink<T> {
 
     private var value by mutableStateOf<T?>(null)
@@ -39,8 +35,6 @@ class UiStateModel : ViewModel() {
     var isInForeground by mutableStateOf(true)
 
     var userDisplayName by mutableStateOf("")
-
-    var offlineState = AppOfflineState()
 
     var importRecipeUrl = UiStateLink<String>()
     var searchKeyword = UiStateLink<Int>()

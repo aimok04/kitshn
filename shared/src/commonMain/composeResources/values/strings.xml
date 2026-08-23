@@ -487,7 +487,24 @@
         <item>min</item>
     </string-array>
 
+    <string-array name="timer_detection_second_definitions">
+        <item>seconds</item>
+        <item>second</item>
+        <item>secs</item>
+        <item>sec</item>
+    </string-array>
+
     <string-array name="timer_detection_to_definitions">
         <item>to</item>
+    </string-array>
+
+    <string-array name="timer_detection_range_qualifier_definitions">
+        <item>about</item>
+        <item>around</item>
+        <item>approx</item>
+        <item>approximately</item>
+        <item>at most</item>
+        <item>at least</item>
+        <item>up to</item>
     </string-array>
 </resources>

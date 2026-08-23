@@ -130,7 +130,7 @@ fun StepsPage(
                             if(step.step_recipe == null) return@LaunchedEffect
                             TandoorRequestState().wrapRequest {
                                 step.client!!.container.recipeOverview[step.step_recipe!!] =
-                                    step.client!!.recipe.get(
+                                    step.client!!.recipe.retrieve(
                                         step.step_recipe!!
                                     ).toOverview()
                             }
