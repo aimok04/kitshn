@@ -16,6 +16,7 @@ import androidx.compose.material.icons.rounded.DynamicFeed
 import androidx.compose.material.icons.rounded.LightMode
 import androidx.compose.material.icons.rounded.Numbers
 import androidx.compose.material.icons.rounded.Schedule
+import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.ShoppingCartCheckout
 import androidx.compose.material.icons.rounded.VisibilityOff
@@ -41,6 +42,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import de.kitshn.KitshnViewModel
 import de.kitshn.Platforms
+import de.kitshn.isLaunchTimerHandlerImplemented
 import de.kitshn.platformDetails
 import de.kitshn.ui.component.buttons.BackButton
 import de.kitshn.ui.component.settings.SettingsListItemPosition
@@ -61,6 +63,8 @@ import kitshn.shared.generated.resources.settings_section_behavior_ingredients_s
 import kitshn.shared.generated.resources.settings_section_behavior_ingredients_show_fractional_values_label
 import kitshn.shared.generated.resources.settings_section_behavior_keep_screen_on_in_recipe_details_description
 import kitshn.shared.generated.resources.settings_section_behavior_keep_screen_on_in_recipe_details_label
+import kitshn.shared.generated.resources.settings_section_behavior_timer_detection_all_languages_description
+import kitshn.shared.generated.resources.settings_section_behavior_timer_detection_all_languages_label
 import kitshn.shared.generated.resources.settings_section_behavior_label
 import kitshn.shared.generated.resources.settings_section_behavior_promote_tomorrows_meal_plan_description
 import kitshn.shared.generated.resources.settings_section_behavior_promote_tomorrows_meal_plan_label
@@ -119,6 +123,9 @@ fun ViewSettingsBehavior(
 
         val behaviorKeepScreenOnInRecipeDetails =
             p.vm.settings.getKeepScreenOnInRecipeDetails.collectAsState(initial = false)
+
+        val behaviorTimerDetectionAllLanguages =
+            p.vm.settings.getTimerDetectionAllLanguages.collectAsState(initial = true)
 
         val fundingBannerHideUntil =
             p.vm.settings.getFundingBannerHideUntil.collectAsState(initial = -1L)
@@ -298,6 +305,27 @@ fun ViewSettingsBehavior(
                 ) {
                     coroutineScope.launch {
                         p.vm.settings.setKeepScreenOnInRecipeDetails(it)
+                    }
+                }
+            }
+
+            if(isLaunchTimerHandlerImplemented) {
+                item {
+                    Spacer(Modifier.height(16.dp))
+                }
+
+                item {
+                    SettingsSwitchListItem(
+                        position = SettingsListItemPosition.SINGULAR,
+                        label = { Text(stringResource(Res.string.settings_section_behavior_timer_detection_all_languages_label)) },
+                        description = { Text(stringResource(Res.string.settings_section_behavior_timer_detection_all_languages_description)) },
+                        icon = Icons.Rounded.Translate,
+                        contentDescription = stringResource(Res.string.settings_section_behavior_timer_detection_all_languages_label),
+                        checked = behaviorTimerDetectionAllLanguages.value
+                    ) {
+                        coroutineScope.launch {
+                            p.vm.settings.setTimerDetectionAllLanguages(it)
+                        }
                     }
                 }
             }

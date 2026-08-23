@@ -48,6 +48,8 @@ const val KEY_SETTINGS_BEHAVIOR_PROPERTIES_SHOW_FRACTIONAL_VALUES =
     "behavior_properties_show_fractional_values"
 const val KEY_SETTINGS_BEHAVIOR_KEEP_SCREEN_ON_IN_RECIPE_DETAILS =
     "behavior_keep_screen_on_in_recipe_details"
+const val KEY_SETTINGS_BEHAVIOR_TIMER_DETECTION_ALL_LANGUAGES =
+    "behavior_timer_detection_all_languages"
 const val KEY_SETTINGS_BEHAVIOR_HIDE_FUNDING_BANNER_UNTIL =
     "behavior_hide_funding_banner_until"
 
@@ -215,6 +217,12 @@ class SettingsViewModel : ViewModel() {
 
     fun setPropertiesShowFractionalValues(show: Boolean) =
         obs.putBoolean(KEY_SETTINGS_BEHAVIOR_PROPERTIES_SHOW_FRACTIONAL_VALUES, show)
+
+    val getTimerDetectionAllLanguages: Flow<Boolean> =
+        obs.getBooleanFlow(KEY_SETTINGS_BEHAVIOR_TIMER_DETECTION_ALL_LANGUAGES, true)
+
+    fun setTimerDetectionAllLanguages(enable: Boolean) =
+        obs.putBoolean(KEY_SETTINGS_BEHAVIOR_TIMER_DETECTION_ALL_LANGUAGES, enable)
 
     val getKeepScreenOnInRecipeDetails: Flow<Boolean> =
         obs.getBooleanFlow(KEY_SETTINGS_BEHAVIOR_KEEP_SCREEN_ON_IN_RECIPE_DETAILS, false)
