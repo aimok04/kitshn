@@ -220,6 +220,61 @@ class TimerDetectionTest {
     @Test fun fractionWithoutUnitIsNoTimer() =
         assertTrue("add 1/2 cup sugar and 2 \u00BD cups flour".timerUris().isEmpty())
 
+    // -- SPELLED OUT NUMBERS
+
+    private val spelled = timerDetectionDefs(activeLanguage = "de", allInstalledLanguages = false)
+
+    @Test fun spelledOutMinutes() =
+        assertEquals("(timer://300)", "f\u00FCnf Minuten k\u00F6cheln".timerUris(spelled).single())
+
+    @Test fun spelledOutIsCaseInsensitive() =
+        assertEquals("(timer://300)", "F\u00FCnf Minuten".timerUris(spelled).single())
+
+    @Test fun spelledOutHour() =
+        assertEquals("(timer://3600)", "eine Stunde ruhen".timerUris(spelled).single())
+
+    @Test fun spelledOutHalfHour() = assertEquals(
+        "[**\u23F2 eine halbe Stunde**](timer://1800) ruhen",
+        detectTimers("eine halbe Stunde ruhen", spelled)
+    )
+
+    @Test fun spelledOutQuarterHour() =
+        assertEquals("(timer://900)", "eine viertel Stunde".timerUris(spelled).single())
+
+    @Test fun spelledOutOneAndAHalf() =
+        assertEquals("(timer://5400)", "anderthalb Stunden backen".timerUris(spelled).single())
+
+    @Test fun spelledOutRange() =
+        assertEquals("(timer-range://1200/1800)", "zwanzig bis drei\u00DFig Minuten".timerUris(spelled).single())
+
+    @Test fun spelledOutMixesWithDigits() =
+        assertEquals("(timer-range://300/600)", "f\u00FCnf bis 10 Minuten".timerUris(spelled).single())
+
+    @Test fun spelledOutHoursAndMinutes() =
+        assertEquals("(timer://5400)", "eine Stunde und drei\u00DFig Minuten".timerUris(spelled).single())
+
+    @Test fun spelledOutEnglish() {
+        assertEquals("(timer://300)", "five minutes".timerUris(spelled).single())
+        assertEquals("(timer://2700)", "forty-five minutes".timerUris(spelled).single())
+        assertEquals("(timer://5400)", "one and a half hours".timerUris(spelled).single())
+        assertEquals("(timer-range://600/900)", "ten to fifteen minutes".timerUris(spelled).single())
+    }
+
+    @Test fun spelledOutMultiWordEnglish() = assertEquals(
+        "[**\u23F2 half an hour**](timer://1800)",
+        detectTimers("half an hour", spelled)
+    )
+
+    /** A spelled out number without a unit is an amount, not a timer. */
+    @Test fun spelledOutWithoutUnitIsNoTimer() {
+        assertTrue("Nimm f\u00FCnf \u00C4pfel".timerUris(spelled).isEmpty())
+        assertTrue("add five garlic cloves".timerUris(spelled).isEmpty())
+    }
+
+    /** A longer word starting with a number word must not be read as that number. */
+    @Test fun spelledOutDoesNotMatchInsideLongerWords() =
+        assertTrue("f\u00FCnfzig Minuten".timerUris(spelled).none { it == "(timer://300)" })
+
     // -- vocabulary resolution
 
     @Test fun defsAlwaysIncludeEnglishAndUnitSymbols() {

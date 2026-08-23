@@ -8,7 +8,8 @@ data class TimerDetectionDefs(
     val minuteDefs: Set<String>,
     val secondDefs: Set<String>,
     val rangeDefs: Set<String>,
-    val rangeQualifierDefs: Set<String> = emptySet()
+    val rangeQualifierDefs: Set<String> = emptySet(),
+    val numberDefs: Map<String, Double> = emptyMap()
 )
 
 /** combine languages */
@@ -18,7 +19,8 @@ operator fun TimerDetectionDefs.plus(other: TimerDetectionDefs) = TimerDetection
     minuteDefs = minuteDefs + other.minuteDefs,
     secondDefs = secondDefs + other.secondDefs,
     rangeDefs = rangeDefs + other.rangeDefs,
-    rangeQualifierDefs = rangeQualifierDefs + other.rangeQualifierDefs
+    rangeQualifierDefs = rangeQualifierDefs + other.rangeQualifierDefs,
+    numberDefs = numberDefs + other.numberDefs
 )
 
 fun Iterable<TimerDetectionDefs>.mergeDefs(): TimerDetectionDefs =
@@ -55,9 +57,11 @@ private val COMMON_FRACTIONS = mapOf(
 
 private val COMMON_FRACTIONS_CLASS = COMMON_FRACTIONS.keys.joinToString("", "[", "]")
 
-private fun parseNumber(value: String): Double {
+private fun parseNumber(value: String, numberDefs: Map<String, Double>): Double {
     val text = value.trim().replace(',', '.')
     if(text.isEmpty()) return 0.0
+
+    numberDefs[text.lowercase().replace(WHITESPACE, " ")]?.let { return it }
 
     COMMON_FRACTIONS[text.last()]?.let { fraction ->
         return (text.dropLast(1).trim().toDoubleOrNull() ?: 0.0) + fraction
@@ -74,12 +78,17 @@ private fun parseNumber(value: String): Double {
     return whole + numerator / denominator
 }
 
-private fun parseToSeconds(value: String, multiplier: Double): Int =
-    (parseNumber(value) * multiplier).roundToInt()
+private fun parseToSeconds(defs: TimerDetectionDefs, value: String, multiplier: Double): Int =
+    (parseNumber(value, defs.numberDefs) * multiplier).roundToInt()
 
-private fun Set<String>.toRegexAlt(): String =
+private val WHITESPACE = Regex("""\s+""")
+
+/** Literal whitespace has to survive the pattern's COMMENTS mode. */
+private fun Iterable<String>.toRegexAlt(): String =
     sortedByDescending(String::length)
-        .joinToString("|") { Regex.escape(it) }
+        .joinToString("|") { definition ->
+            definition.split(WHITESPACE).joinToString("""\s+""") { Regex.escape(it) }
+        }
 
 fun detectTimers(markdown: String, defs: TimerDetectionDefs): String {
 
@@ -87,6 +96,10 @@ fun detectTimers(markdown: String, defs: TimerDetectionDefs): String {
     val minutes = defs.minuteDefs.toRegexAlt()
     val seconds = defs.secondDefs.toRegexAlt()
     val andWords = defs.andDefs.toRegexAlt()
+    val numberWords = defs.numberDefs.keys
+        .takeIf(Set<String>::isNotEmpty)
+        ?.let { "|${it.toRegexAlt()}" }
+        .orEmpty()
     // Mixed fractions ("2 1/2", "2 1/2") come first so the whole figure wins over its parts.
     val number = """(?:
         [0-9]+\s+[0-9]+/[0-9]+
@@ -94,6 +107,7 @@ fun detectTimers(markdown: String, defs: TimerDetectionDefs): String {
         |[0-9]+/[0-9]+
         |$COMMON_FRACTIONS_CLASS
         |[0-9]+(?:[.,][0-9]+)?
+        $numberWords
     )"""
     val unit = "$hours|$minutes|$seconds"
 
@@ -162,27 +176,27 @@ fun detectTimers(markdown: String, defs: TimerDetectionDefs): String {
 
         when {
             named("crossFrom").isNotBlank() -> range(
-                parseToSeconds(named("crossFrom"), unitMultiplier(named("crossFromUnit"))),
-                parseToSeconds(named("crossTo"), unitMultiplier(named("crossToUnit")))
+                parseToSeconds(defs, named("crossFrom"), unitMultiplier(named("crossFromUnit"))),
+                parseToSeconds(defs, named("crossTo"), unitMultiplier(named("crossToUnit")))
             )
 
             named("sameFrom").isNotBlank() -> {
                 val mult = unitMultiplier(named("sameUnit"))
                 range(
-                    parseToSeconds(named("sameFrom"), mult),
-                    parseToSeconds(named("sameTo"), mult)
+                    parseToSeconds(defs, named("sameFrom"), mult),
+                    parseToSeconds(defs, named("sameTo"), mult)
                 )
             }
 
             named("hoursOnly").isNotBlank() ->
-                timer(parseToSeconds(named("hoursOnly"), 3600.0))
+                timer(parseToSeconds(defs, named("hoursOnly"), 3600.0))
 
             named("secondsOnly").isNotBlank() ->
-                timer(parseToSeconds(named("secondsOnly"), 1.0))
+                timer(parseToSeconds(defs, named("secondsOnly"), 1.0))
 
             else -> timer(
-                parseToSeconds(named("comboHours").ifBlank { "0" }, 3600.0) +
-                        parseToSeconds(named("comboMinutes").ifBlank { "0" }, 60.0)
+                parseToSeconds(defs, named("comboHours").ifBlank { "0" }, 3600.0) +
+                        parseToSeconds(defs, named("comboMinutes").ifBlank { "0" }, 60.0)
             )
         }
     }
