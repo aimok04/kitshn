@@ -23,6 +23,8 @@ import platform.Foundation.dataUsingEncoding
 import platform.Security.SecItemAdd
 import platform.Security.SecItemCopyMatching
 import platform.Security.SecItemDelete
+import platform.Security.SecItemUpdate
+import platform.Security.errSecItemNotFound
 import platform.Security.errSecSuccess
 import platform.Security.kSecAttrAccessible
 import platform.Security.kSecAttrAccessibleWhenUnlockedThisDeviceOnly
@@ -79,24 +81,62 @@ actual class SecureCredentialStore actual constructor() {
         }
     }
 
+    @OptIn(ExperimentalForeignApi::class)
     private fun writeToKeychain(value: String) {
-        deleteFromKeychain()
-
         memScoped {
             val nsData = (value as NSString).dataUsingEncoding(NSUTF8StringEncoding) ?: return
 
+            // build query identifying the item
             val query = CFDictionaryCreateMutable(kCFAllocatorDefault, 5, null, null)
             CFDictionaryAddValue(query, kSecClass, kSecClassGenericPassword)
             CFDictionaryAddValue(query, kSecAttrService, CFBridgingRetain(SERVICE_NAME))
             CFDictionaryAddValue(query, kSecAttrAccount, CFBridgingRetain(ACCOUNT_NAME))
-            CFDictionaryAddValue(query, kSecValueData, CFBridgingRetain(nsData))
-            CFDictionaryAddValue(
-                query,
-                kSecAttrAccessible,
-                kSecAttrAccessibleWhenUnlockedThisDeviceOnly
-            )
 
-            SecItemAdd(query, null)
+            // attributes to update (replace kSecValueData)
+            val attrs = CFDictionaryCreateMutable(kCFAllocatorDefault, 1, null, null)
+            CFDictionaryAddValue(attrs, kSecValueData, CFBridgingRetain(nsData))
+
+            val statusUpdate = SecItemUpdate(query, attrs)
+            if(statusUpdate == errSecSuccess) {
+                // updated in place
+                return
+            }
+
+            // If not found, add a new item
+            if(statusUpdate == errSecItemNotFound) {
+                val addQuery = CFDictionaryCreateMutable(kCFAllocatorDefault, 6, null, null)
+                CFDictionaryAddValue(addQuery, kSecClass, kSecClassGenericPassword)
+                CFDictionaryAddValue(addQuery, kSecAttrService, CFBridgingRetain(SERVICE_NAME))
+                CFDictionaryAddValue(addQuery, kSecAttrAccount, CFBridgingRetain(ACCOUNT_NAME))
+                CFDictionaryAddValue(addQuery, kSecValueData, CFBridgingRetain(nsData))
+                CFDictionaryAddValue(
+                    addQuery,
+                    kSecAttrAccessible,
+                    kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+                )
+
+                val statusAdd = SecItemAdd(addQuery, null)
+                if(statusAdd != errSecSuccess) {
+                    // handle add error if desired (log/throw). For now, swallow similar to previous behavior.
+                }
+                return
+            }
+
+            // Any other error: fallback to safer delete+add (keeps behavior consistent with prior code)
+            deleteFromKeychain()
+            memScoped {
+                val addQuery = CFDictionaryCreateMutable(kCFAllocatorDefault, 6, null, null)
+                CFDictionaryAddValue(addQuery, kSecClass, kSecClassGenericPassword)
+                CFDictionaryAddValue(addQuery, kSecAttrService, CFBridgingRetain(SERVICE_NAME))
+                CFDictionaryAddValue(addQuery, kSecAttrAccount, CFBridgingRetain(ACCOUNT_NAME))
+                CFDictionaryAddValue(addQuery, kSecValueData, CFBridgingRetain(nsData))
+                CFDictionaryAddValue(
+                    addQuery,
+                    kSecAttrAccessible,
+                    kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+                )
+                SecItemAdd(addQuery, null)
+            }
         }
     }
 
