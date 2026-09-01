@@ -411,6 +411,8 @@
     <string name="settings_section_behavior_ios_install_timer_shortcut_label">Install iOS timer shortcut</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Prevent the screen from sleeping while viewing recipe details, just like in Cooking Mode</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Keep screen on in recipe overview</string>
+    <string name="settings_section_behavior_timer_detection_all_languages_description">Recognize timers written in any language installed on this device, else only the kitshn language + English are recognized</string>
+    <string name="settings_section_behavior_timer_detection_all_languages_label">Detect timers in all installed languages</string>
     <string name="settings_section_behavior_shopping_item_double_click_check_label">Double-click to check shopping items</string>
     <string name="settings_section_behavior_shopping_item_double_click_check_description">Quickly mark shopping items as completed by double-clicking</string>
     <string name="settings_section_behavior_label">Behavior</string>
@@ -471,6 +473,35 @@
 
 
 
+    <string-array name="timer_detection_number_definitions">
+        <item>1=one</item>
+        <item>2=two</item>
+        <item>3=three</item>
+        <item>4=four</item>
+        <item>5=five</item>
+        <item>6=six</item>
+        <item>7=seven</item>
+        <item>8=eight</item>
+        <item>9=nine</item>
+        <item>10=ten</item>
+        <item>11=eleven</item>
+        <item>12=twelve</item>
+        <item>15=fifteen</item>
+        <item>20=twenty</item>
+        <item>30=thirty</item>
+        <item>45=forty-five</item>
+        <item>45=forty five</item>
+        <item>60=sixty</item>
+        <item>90=ninety</item>
+        <item>0.25=quarter</item>
+        <item>0.25=a quarter</item>
+        <item>0.5=half</item>
+        <item>0.5=a half</item>
+        <item>0.5=half an</item>
+        <item>0.75=three quarters</item>
+        <item>1.5=one and a half</item>
+    </string-array>
+
     <string-array name="timer_detection_hour_definitions">
         <item>hours</item>
         <item>hour</item>
@@ -478,6 +509,7 @@
 
     <string-array name="timer_detection_and_definitions">
         <item>and</item>
+        <item>&amp;</item>
     </string-array>
 
     <string-array name="timer_detection_minute_definitions">
@@ -496,6 +528,9 @@
 
     <string-array name="timer_detection_to_definitions">
         <item>to</item>
+        <item>or</item>
+        <item>until</item>
+        <item>till</item>
     </string-array>
 
     <string-array name="timer_detection_range_qualifier_definitions">

@@ -391,6 +391,39 @@
     <string name="common_select_users_for_sharing">Wähle Nutzer zum teilen</string>
     <string name="common_select_users_for_sharing_empty">Wähle Nutzer, mit denen du diesen Eintrag teilen möchtest.</string>
     <string name="search_users">Nutzer suchen</string>
+    <string-array name="timer_detection_number_definitions">
+        <item>1=eine</item>
+        <item>1=ein</item>
+        <item>2=zwei</item>
+        <item>3=drei</item>
+        <item>4=vier</item>
+        <item>5=fünf</item>
+        <item>6=sechs</item>
+        <item>7=sieben</item>
+        <item>8=acht</item>
+        <item>9=neun</item>
+        <item>10=zehn</item>
+        <item>11=elf</item>
+        <item>12=zwölf</item>
+        <item>15=fünfzehn</item>
+        <item>20=zwanzig</item>
+        <item>30=dreißig</item>
+        <item>30=dreissig</item>
+        <item>45=fünfundvierzig</item>
+        <item>60=sechzig</item>
+        <item>90=neunzig</item>
+        <item>0.25=viertel</item>
+        <item>0.25=eine viertel</item>
+        <item>0.5=halbe</item>
+        <item>0.5=halben</item>
+        <item>0.5=eine halbe</item>
+        <item>0.75=dreiviertel</item>
+        <item>0.75=eine dreiviertel</item>
+        <item>1.5=anderthalb</item>
+        <item>1.5=eineinhalb</item>
+        <item>2.5=zweieinhalb</item>
+    </string-array>
+
     <string-array name="timer_detection_hour_definitions">
         <item>stündchen</item>
         <item>stunden</item>
@@ -400,6 +433,7 @@
     </string-array>
     <string-array name="timer_detection_and_definitions">
         <item>und</item>
+        <item>&amp;</item>
     </string-array>
     <string-array name="timer_detection_minute_definitions">
         <item>minütchen</item>
@@ -418,6 +452,7 @@
     </string-array>
     <string-array name="timer_detection_to_definitions">
         <item>bis</item>
+        <item>oder</item>
     </string-array>
 
     <string-array name="timer_detection_range_qualifier_definitions">
@@ -427,6 +462,11 @@
         <item>ungefähr</item>
         <item>etwa</item>
         <item>ca.</item>
+        <item>circa</item>
+        <item>zirka</item>
+        <item>max.</item>
+        <item>knapp</item>
+        <item>rund</item>
     </string-array>
     <string name="error_outdated_v1_instance">Diese Version von kitshn unterstützt Tandoor v1 nicht. Bitte aktualisiere entweder auf Tandoor v2 oder installiere eine ältere Version von kitshn.</string>
     <string name="kofi_support_description">Du kannst die Entwicklung von kitshn auf Ko-Fi unterstützen</string>

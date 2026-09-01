@@ -27,8 +27,8 @@ class TimerDetectionTest {
         )
     )
 
-    private fun String.timerUris(): List<String> =
-        Regex("""\(timer[^)]+\)""").findAll(detectTimers(this, defs)).map { it.value }.toList()
+    private fun String.timerUris(withDefs: TimerDetectionDefs = defs): List<String> =
+        Regex("""\(timer[^)]+\)""").findAll(detectTimers(this, withDefs)).map { it.value }.toList()
 
     private fun String.singleUri() = timerUris().also {
         assertEquals(1, it.size, "Expected exactly one timer in: \"$this\", got: $it")
@@ -66,7 +66,7 @@ class TimerDetectionTest {
 
     @Test fun germanDiminutiveSekuendchen() = assertEquals("(timer://30)", "30 Sekündchen".singleUri())
 
-    @Test fun decimalSeconds() = assertEquals("(timer://2)", "2.5 s".singleUri())
+    @Test fun decimalSeconds() = assertEquals("(timer://3)", "2.5 s".singleUri())
 
     // -- Combos
 
@@ -90,9 +90,11 @@ class TimerDetectionTest {
 
     @Test fun wordRangeTo() = assertEquals("(timer-range://600/900)", "10 to 15 min".singleUri())
 
-    @Test fun dashRangeSeconds() = assertEquals("(timer-range://15/23)", "15-23.5 sec".singleUri())
+    @Test fun dashRangeSeconds() = assertEquals("(timer-range://15/24)", "15-23.5 sec".singleUri())
 
     @Test fun dashRangeHours() = assertEquals("(timer-range://3600/7200)", "1-2 Stunden".singleUri())
+
+    @Test fun dashSpecialMinutes() = assertEquals("(timer-range://600/900)", "10–15 Min.".singleUri())
 
     @Test fun decimalCommaRangeMinutes() = assertEquals("(timer-range://90/150)", "1,5-2,5 min".singleUri())
 
@@ -148,4 +150,179 @@ class TimerDetectionTest {
     @Test fun noMatchNumberAlone() = assertTrue("Nimm 5 Äpfel".timerUris().isEmpty())
 
     @Test fun noMatchNumberAloneMisleadingSeconds() = assertTrue("Die 2 Sekundarstufe :D".timerUris().isEmpty())
+
+    // -- dash variants
+
+    @Test fun emDashRangeMinutes() = assertEquals("(timer-range://600/900)", "10\u201415 min".singleUri())
+
+    @Test fun figureDashRangeMinutes() = assertEquals("(timer-range://600/900)", "10\u201215 min".singleUri())
+
+    @Test fun horizontalBarRangeMinutes() = assertEquals("(timer-range://600/900)", "10\u201515 min".singleUri())
+
+    @Test fun nonBreakingHyphenRangeMinutes() = assertEquals("(timer-range://600/900)", "10\u201115 min".singleUri())
+
+    @Test fun minusSignRangeMinutes() = assertEquals("(timer-range://600/900)", "10\u221215 min".singleUri())
+
+    @Test fun fullwidthHyphenRangeMinutes() = assertEquals("(timer-range://600/900)", "10\uFF0D15 min".singleUri())
+
+    @Test fun waveDashRangeMinutes() = assertEquals("(timer-range://600/900)", "10\u301C15 min".singleUri())
+
+    @Test fun spacedEmDashRangeHours() = assertEquals("(timer-range://3600/7200)", "1 \u2014 2 Stunden".singleUri())
+
+    // -- non-latin vocabularies
+
+    private val cyrillicDefs = TimerDetectionDefs(
+        hourDefs = setOf("\u0447\u0430\u0441\u043E\u0432", "\u0447\u0430\u0441\u0430", "\u0447"),
+        andDefs = setOf("\u0438"),
+        minuteDefs = setOf("\u043C\u0438\u043D\u0443\u0442", "\u043C\u0438\u043D"),
+        secondDefs = setOf("\u0441\u0435\u043A\u0443\u043D\u0434", "\u0441\u0435\u043A"),
+        rangeDefs = setOf("\u0434\u043E")
+    )
+
+    private fun String.cyrillicUris(): List<String> =
+        Regex("""\(timer[^)]+\)""").findAll(detectTimers(this, cyrillicDefs)).map { it.value }.toList()
+
+    @Test fun cyrillicMinutes() =
+        assertEquals(listOf("(timer://900)"), "\u0432\u0430\u0440\u0438\u0442\u044C 15 \u043C\u0438\u043D\u0443\u0442".cyrillicUris())
+
+    @Test fun cyrillicDashRange() =
+        assertEquals(listOf("(timer-range://600/900)"), "10\u201315 \u043C\u0438\u043D".cyrillicUris())
+
+    /** "\u043C\u0438\u043D" is a prefix of "\u043C\u0438\u043D\u0434\u0430\u043B\u044C" (almond); the ASCII-only (?!\w) guard cannot catch that. */
+    @Test fun cyrillicNoMatchInsideLongerWord() =
+        assertTrue("\u0434\u043E\u0431\u0430\u0432\u044C 5 \u043C\u0438\u043D\u0434\u0430\u043B\u044C".cyrillicUris().isEmpty())
+
+    // -- FRACTIONS
+
+    @Test fun mixedAsciiFractionHours() = assertEquals("(timer://9000)", "2 1/2 hours".singleUri())
+
+    @Test fun mixedVulgarFractionHours() = assertEquals("(timer://9000)", "2 \u00BD hours".singleUri())
+
+    @Test fun gluedVulgarFractionHours() = assertEquals("(timer://9000)", "2\u00BD Stunden".singleUri())
+
+    @Test fun asciiFractionOnly() = assertEquals("(timer://1800)", "1/2 hour".singleUri())
+
+    @Test fun vulgarFractionOnly() = assertEquals("(timer://1800)", "\u00BD Stunde".singleUri())
+
+    @Test fun vulgarFractionQuarterHour() = assertEquals("(timer://900)", "\u00BC h".singleUri())
+
+    @Test fun thirdOfAnHourRoundsCleanly() = assertEquals("(timer://1200)", "\u2153 Stunde".singleUri())
+
+    @Test fun fractionRange() =
+        assertEquals("(timer-range://5400/7200)", "1 1/2 bis 2 Stunden".singleUri())
+
+    @Test fun fractionKeepsWholeFigureInLinkText() = assertEquals(
+        "[**\u23F2 2 1/2 hours**](timer://9000)",
+        detectTimers("2 1/2 hours", defs)
+    )
+
+    /** A fraction without a unit is an amount, not a timer. */
+    @Test fun fractionWithoutUnitIsNoTimer() =
+        assertTrue("add 1/2 cup sugar and 2 \u00BD cups flour".timerUris().isEmpty())
+
+    // -- SPELLED OUT NUMBERS
+
+    private val spelled = timerDetectionDefs(activeLanguage = "de", allInstalledLanguages = false)
+
+    @Test fun spelledOutMinutes() =
+        assertEquals("(timer://300)", "f\u00FCnf Minuten k\u00F6cheln".timerUris(spelled).single())
+
+    @Test fun spelledOutIsCaseInsensitive() =
+        assertEquals("(timer://300)", "F\u00FCnf Minuten".timerUris(spelled).single())
+
+    @Test fun spelledOutHour() =
+        assertEquals("(timer://3600)", "eine Stunde ruhen".timerUris(spelled).single())
+
+    @Test fun spelledOutHalfHour() = assertEquals(
+        "[**\u23F2 eine halbe Stunde**](timer://1800) ruhen",
+        detectTimers("eine halbe Stunde ruhen", spelled)
+    )
+
+    @Test fun spelledOutQuarterHour() =
+        assertEquals("(timer://900)", "eine viertel Stunde".timerUris(spelled).single())
+
+    @Test fun spelledOutOneAndAHalf() =
+        assertEquals("(timer://5400)", "anderthalb Stunden backen".timerUris(spelled).single())
+
+    @Test fun spelledOutRange() =
+        assertEquals("(timer-range://1200/1800)", "zwanzig bis drei\u00DFig Minuten".timerUris(spelled).single())
+
+    @Test fun spelledOutMixesWithDigits() =
+        assertEquals("(timer-range://300/600)", "f\u00FCnf bis 10 Minuten".timerUris(spelled).single())
+
+    @Test fun spelledOutHoursAndMinutes() =
+        assertEquals("(timer://5400)", "eine Stunde und drei\u00DFig Minuten".timerUris(spelled).single())
+
+    @Test fun spelledOutEnglish() {
+        assertEquals("(timer://300)", "five minutes".timerUris(spelled).single())
+        assertEquals("(timer://2700)", "forty-five minutes".timerUris(spelled).single())
+        assertEquals("(timer://5400)", "one and a half hours".timerUris(spelled).single())
+        assertEquals("(timer-range://600/900)", "ten to fifteen minutes".timerUris(spelled).single())
+    }
+
+    @Test fun spelledOutMultiWordEnglish() = assertEquals(
+        "[**\u23F2 half an hour**](timer://1800)",
+        detectTimers("half an hour", spelled)
+    )
+
+    /** A spelled out number without a unit is an amount, not a timer. */
+    @Test fun spelledOutWithoutUnitIsNoTimer() {
+        assertTrue("Nimm f\u00FCnf \u00C4pfel".timerUris(spelled).isEmpty())
+        assertTrue("add five garlic cloves".timerUris(spelled).isEmpty())
+    }
+
+    /** A longer word starting with a number word must not be read as that number. */
+    @Test fun spelledOutDoesNotMatchInsideLongerWords() =
+        assertTrue("f\u00FCnfzig Minuten".timerUris(spelled).none { it == "(timer://300)" })
+
+    // -- vocabulary resolution
+
+    @Test fun defsAlwaysIncludeEnglishAndUnitSymbols() {
+        val defs = timerDetectionDefs(activeLanguage = "fr", allInstalledLanguages = false)
+        assertTrue("minutes" in defs.minuteDefs)
+        assertTrue("min" in defs.minuteDefs)
+        assertTrue("h" in defs.hourDefs)
+    }
+
+    @Test fun defsMergeActiveLanguageWithEnglish() {
+        val defs = timerDetectionDefs(activeLanguage = "de", allInstalledLanguages = false)
+        assertTrue("minuten" in defs.minuteDefs)
+        assertTrue("minutes" in defs.minuteDefs)
+        assertTrue("bis" in defs.rangeDefs)
+        assertTrue("to" in defs.rangeDefs)
+    }
+
+    @Test fun mergedDefsDetectBothLanguages() {
+        val defs = timerDetectionDefs(activeLanguage = "de", allInstalledLanguages = false)
+        assertEquals("[**\u23F2 10 bis 15 Minuten**](timer-range://600/900)", detectTimers("10 bis 15 Minuten", defs))
+        assertEquals("[**\u23F2 10 to 15 minutes**](timer-range://600/900)", detectTimers("10 to 15 minutes", defs))
+    }
+
+    @Test fun alternativeRangeWordsAreDetected() {
+        val defs = timerDetectionDefs(activeLanguage = "de", allInstalledLanguages = false)
+        assertEquals("[**\u23F2 3 or 4 minutes**](timer-range://180/240)", detectTimers("3 or 4 minutes", defs))
+        assertEquals("[**\u23F2 10 until 15 minutes**](timer-range://600/900)", detectTimers("10 until 15 minutes", defs))
+        assertEquals("[**\u23F2 10 till 15 min**](timer-range://600/900)", detectTimers("10 till 15 min", defs))
+        assertEquals("[**\u23F2 10 oder 15 Minuten**](timer-range://600/900)", detectTimers("10 oder 15 Minuten", defs))
+    }
+
+    @Test fun ampersandJoinsHoursAndMinutes() {
+        val defs = timerDetectionDefs(activeLanguage = "de", allInstalledLanguages = false)
+        assertEquals("[**\u23F2 1 hour & 30 minutes**](timer://5400)", detectTimers("1 hour & 30 minutes", defs))
+        assertEquals("[**\u23F2 1 Stunde & 30 Minuten**](timer://5400)", detectTimers("1 Stunde & 30 Minuten", defs))
+    }
+
+    @Test fun germanRangeQualifiersAreDetected() {
+        val defs = timerDetectionDefs(activeLanguage = "de", allInstalledLanguages = false)
+        assertEquals("[**\u23F2 10 bis max. 15 Minuten**](timer-range://600/900)", detectTimers("10 bis max. 15 Minuten", defs))
+        assertEquals("[**\u23F2 10 bis knapp 15 Minuten**](timer-range://600/900)", detectTimers("10 bis knapp 15 Minuten", defs))
+    }
+
+    /** A merged vocabulary must not turn ordinary words into timers. */
+    @Test fun mergedDefsDoNotMisreadOrdinaryWords() {
+        val defs = timerDetectionDefs(activeLanguage = "de", allInstalledLanguages = false)
+        assertTrue("Nimm 5 \u00C4pfel".timerUris(defs).isEmpty())
+        assertTrue("Die 2 Sekundarstufe :D".timerUris(defs).isEmpty())
+        assertTrue("add 3 minced garlic cloves".timerUris(defs).isEmpty())
+    }
 }

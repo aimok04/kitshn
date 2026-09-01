@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.isSpecified
@@ -25,17 +27,11 @@ import androidx.compose.ui.unit.sp
 import com.mikepenz.markdown.coil3.Coil3ImageTransformerImpl
 import com.mikepenz.markdown.m3.Markdown
 import com.mikepenz.markdown.m3.markdownTypography
+import de.kitshn.SettingsViewModel
 import de.kitshn.isLaunchTimerHandlerImplemented
-import de.kitshn.time.TimerDetectionDefs
 import de.kitshn.time.detectTimers
-import kitshn.shared.generated.resources.Res
-import kitshn.shared.generated.resources.timer_detection_and_definitions
-import kitshn.shared.generated.resources.timer_detection_hour_definitions
-import kitshn.shared.generated.resources.timer_detection_minute_definitions
-import kitshn.shared.generated.resources.timer_detection_range_qualifier_definitions
-import kitshn.shared.generated.resources.timer_detection_second_definitions
-import kitshn.shared.generated.resources.timer_detection_to_definitions
-import org.jetbrains.compose.resources.getStringArray
+import de.kitshn.time.timerDetectionDefs
+import org.koin.compose.koinInject
 
 class MarkdownUriHandler(
     val onTimerClick: (seconds: Int) -> Unit,
@@ -66,28 +62,17 @@ fun MarkdownRichTextWithTimerDetection(
 ) {
     val uriHandler = LocalUriHandler.current
 
+    val settings = koinInject<SettingsViewModel>()
+    val allLanguages by settings.getTimerDetectionAllLanguages.collectAsState(initial = true)
+    val activeLanguage = Locale.current.language
+
+    val defs = remember(activeLanguage, allLanguages) {
+        timerDetectionDefs(activeLanguage, allLanguages)
+    }
+
     var md by remember { mutableStateOf("") }
-    LaunchedEffect(markdown) {
-        if(isLaunchTimerHandlerImplemented) {
-            val defs = TimerDetectionDefs(
-                hourDefs = mutableSetOf("h", "hr", "hrs", "hour", "hours")
-                    .apply { addAll(getStringArray(Res.array.timer_detection_hour_definitions)) },
-                andDefs = mutableSetOf<String>()
-                    .apply { addAll(getStringArray(Res.array.timer_detection_and_definitions)) },
-                minuteDefs = mutableSetOf("min", "mins", "minute", "minutes")
-                    .apply { addAll(getStringArray(Res.array.timer_detection_minute_definitions)) },
-                secondDefs = mutableSetOf("s", "sec", "secs", "second", "seconds")
-                    .apply { addAll(getStringArray(Res.array.timer_detection_second_definitions)) },
-                rangeDefs = mutableSetOf<String>()
-                    .apply { addAll(getStringArray(Res.array.timer_detection_to_definitions)) },
-                rangeQualifierDefs = mutableSetOf(
-                    "about", "around", "approx", "approximately", "at most", "at least", "up to"
-                ).apply { addAll(getStringArray(Res.array.timer_detection_range_qualifier_definitions)) }
-            )
-            md = detectTimers(markdown, defs)
-        } else {
-            md = markdown
-        }
+    LaunchedEffect(markdown, defs) {
+        md = if(isLaunchTimerHandlerImplemented) detectTimers(markdown, defs) else markdown
     }
 
     val markdownUriHandler = remember {

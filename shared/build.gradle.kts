@@ -255,3 +255,147 @@ buildConfig {
 tasks.withType<CompileArtProfileTask> {
     enabled = false
 }
+
+abstract class GenerateLocalizedResources : DefaultTask() {
+
+    @get:InputFiles
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    abstract val resourceDirectory: DirectoryProperty
+
+    @get:OutputDirectory
+    abstract val outputDirectory: DirectoryProperty
+
+    @get:Input
+    abstract val packageName: Property<String>
+
+    @get:Input
+    abstract val stringNames: ListProperty<String>
+
+    @get:Input
+    abstract val stringArrayNames: ListProperty<String>
+
+    private fun languageOf(directoryName: String): String? {
+        if(directoryName == "values") return "en"
+        val qualifiers = directoryName.removePrefix("values-").takeIf { it != directoryName }
+            ?: return null
+        val language = if(qualifiers.startsWith("b+")) {
+            qualifiers.removePrefix("b+").substringBefore('+')
+        } else {
+            qualifiers.substringBefore('-')
+        }
+        return language.lowercase().takeIf { it.isNotBlank() }
+    }
+
+    private fun String.matchesAny(patterns: List<String>) = patterns.any { pattern ->
+        if(pattern.endsWith("*")) startsWith(pattern.dropLast(1)) else this == pattern
+    }
+
+    private fun String.escapeKotlin() = replace("\\", "\\\\")
+        .replace("\"", "\\\"")
+        .replace("$", "\\$")
+
+    private fun org.w3c.dom.Node.childElements(tag: String): List<org.w3c.dom.Element> {
+        val nodes = when(this) {
+            is org.w3c.dom.Document -> getElementsByTagName(tag)
+            is org.w3c.dom.Element -> getElementsByTagName(tag)
+            else -> return emptyList()
+        }
+        return (0 until nodes.length).map { nodes.item(it) as org.w3c.dom.Element }
+    }
+
+    private fun renderMap(entries: Map<String, Map<String, String>>): String {
+        if(entries.isEmpty()) return "emptyMap()"
+        return entries.entries.joinToString(",\n", "mapOf(\n", "\n)") { (name, byLanguage) ->
+            val languages = byLanguage.entries.joinToString(",\n") { (language, value) ->
+                """        "$language" to $value"""
+            }
+            "    \"$name\" to mapOf(\n$languages\n    )"
+        }
+    }
+
+    @TaskAction
+    fun generate() {
+        val builder = javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder()
+
+        val strings = sortedMapOf<String, MutableMap<String, String>>()
+        val arrays = sortedMapOf<String, MutableMap<String, MutableList<String>>>()
+
+        resourceDirectory.get().asFile.listFiles()
+            .orEmpty()
+            .filter { it.isDirectory }
+            .sortedBy { it.name }
+            .forEach { directory ->
+                val language = languageOf(directory.name) ?: return@forEach
+                val file = directory.resolve("strings.xml").takeIf { it.isFile } ?: return@forEach
+                val document = builder.parse(file)
+
+                document.childElements("string")
+                    .filter { it.getAttribute("name").matchesAny(stringNames.get()) }
+                    .forEach { element ->
+                        val value = element.textContent.trim().takeIf(String::isNotEmpty)
+                            ?: return@forEach
+                        // Locale variants of the same language (values-pt-rBR, values-pt) are
+                        // merged
+                        strings.getOrPut(element.getAttribute("name")) { sortedMapOf() }
+                            .putIfAbsent(language, value)
+                    }
+
+                document.childElements("string-array")
+                    .filter { it.getAttribute("name").matchesAny(stringArrayNames.get()) }
+                    .forEach { element ->
+                        val items = element.childElements("item")
+                            .map { it.textContent.trim() }
+                            .filter { it.isNotEmpty() }
+                        if(items.isEmpty()) return@forEach
+
+                        arrays.getOrPut(element.getAttribute("name")) { sortedMapOf() }
+                            .getOrPut(language) { mutableListOf() }
+                            .addAll(items)
+                    }
+            }
+
+        val stringEntries = renderMap(
+            strings.mapValues { (_, byLanguage) ->
+                byLanguage.mapValues { (_, value) -> "\"${value.escapeKotlin()}\"" }
+            }
+        )
+
+        val arrayEntries = renderMap(
+            arrays.mapValues { (_, byLanguage) ->
+                byLanguage.mapValues { (_, items) ->
+                    items.distinct().joinToString(", ", "listOf(", ")") {
+                        "\"${it.escapeKotlin()}\""
+                    }
+                }
+            }
+        )
+
+        val output = outputDirectory.get().asFile
+            .resolve(packageName.get().replace('.', '/'))
+        output.mkdirs()
+        output.resolve("MultiLocalizeGenerated.kt").writeText(
+            """
+            |// Generated by :shared:generateLocalizedResources -- do not edit.
+            |// Source: shared/src/commonMain/composeResources/values*/strings.xml
+            |package ${packageName.get()}
+            |
+            |internal val LOCALIZED_STRINGS: Map<String, Map<String, String>> = $stringEntries
+            |
+            |internal val LOCALIZED_STRING_ARRAYS: Map<String, Map<String, List<String>>> = $arrayEntries
+            |
+            """.trimMargin()
+        )
+    }
+}
+
+val generateLocalizedResources =
+    tasks.register<GenerateLocalizedResources>("generateLocalizedResources") {
+        description = "Generate locale maps for multi language sections of the App"
+        resourceDirectory.set(layout.projectDirectory.dir("src/commonMain/composeResources"))
+        outputDirectory.set(layout.buildDirectory.dir("generated/localizedResources/kotlin"))
+        packageName.set("de.kitshn.language")
+        stringNames.set(emptyList<String>()) // resources to include everywhere
+        stringArrayNames.set(listOf("timer_detection_*"))
+    }
+
+kotlin.sourceSets.commonMain { kotlin.srcDir(generateLocalizedResources) }
