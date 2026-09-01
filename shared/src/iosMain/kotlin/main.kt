@@ -18,6 +18,7 @@ import co.touchlab.kermit.ExperimentalKermitApi
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.NSLogWriter
 import co.touchlab.kermit.OSLogWriter
+import co.touchlab.kermit.Severity
 import co.touchlab.kermit.bugsnag.BugsnagLogWriter
 import de.kitshn.App
 import de.kitshn.KitshnViewModel
@@ -41,7 +42,11 @@ private val koinInitialized: Unit by lazy { initKoin(); Unit }
 fun MainViewController(
     subscriptionUI: () -> UIViewController
 ): UIViewController = ComposeUIViewController {
-    Logger.setLogWriters(OSLogWriter(), NSLogWriter(), BugsnagLogWriter())
+    Logger.setLogWriters(
+        OSLogWriter(),
+        NSLogWriter(),
+        BugsnagLogWriter(minSeverity = Severity.Debug)
+    )
 
     koinInitialized
 

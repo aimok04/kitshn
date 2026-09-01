@@ -37,6 +37,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         if let window = window {
+            if(UserDefaults.standard.bool(forKey: KEY_ALLOW_CRASH_REPORTING)) {
+                print("kitshn/iOS: User allowed crash reporting.")
+                self.startCrashReporting()
+            }else{
+                print("kitshn/iOS: User denied crash reporting.")
+            }
+
             window.rootViewController = MainKt.MainViewController(subscriptionUI: {
                 return UIHostingController(rootView: SubscriptionView())
             })
@@ -54,13 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }))
                                               
                 window.rootViewController?.present(alert, animated: true, completion: nil)
-            }else{
-                if(UserDefaults.standard.bool(forKey: KEY_ALLOW_CRASH_REPORTING)) {
-                    print("kitshn/iOS: User allowed crash reporting.")
-                    self.startCrashReporting()
-                }else{
-                    print("kitshn/iOS: User denied crash reporting.")
-                }
             }
         }
         return true
