@@ -8,11 +8,17 @@
         <include
             domain="sharedpref"
             path="." />
+        <exclude
+            domain="sharedpref"
+            path="kitshn_secure_credentials.xml" />
     </cloud-backup>
 
     <device-transfer>
         <include
             domain="sharedpref"
             path="." />
+        <exclude
+            domain="sharedpref"
+            path="kitshn_secure_credentials.xml" />
     </device-transfer>
 </data-extraction-rules>

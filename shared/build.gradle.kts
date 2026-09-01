@@ -152,6 +152,7 @@ kotlin {
                 implementation(libs.accompanist.systemuicontroller)
 
                 implementation(libs.androidx.browser)
+                implementation(libs.androidx.security.crypto)
 
                 implementation(libs.androidx.ui.android)
                 implementation(libs.compose.video)

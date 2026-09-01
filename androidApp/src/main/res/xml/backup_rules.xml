@@ -9,4 +9,7 @@
     <include
         domain="sharedpref"
         path="." />
+    <exclude
+        domain="sharedpref"
+        path="kitshn_secure_credentials.xml" />
 </full-backup-content>
