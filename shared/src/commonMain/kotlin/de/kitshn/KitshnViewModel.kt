@@ -3,6 +3,7 @@
 package de.kitshn
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
@@ -10,7 +11,6 @@ import co.touchlab.kermit.Logger
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorRequestsError
-import androidx.compose.runtime.snapshotFlow
 import de.kitshn.repo.FoodRepo
 import de.kitshn.repo.ShoppingListRepo
 import de.kitshn.repo.ShoppingRepo
@@ -119,6 +119,8 @@ class KitshnViewModel(
         viewModelScope.launch {
             if(settings.getFirstRunTime.first() == -1L)
                 settings.setFirstRunTime()
+
+            settings.migrateCredentialsIfNeeded()
 
             val credentials = session.loadPersistedCredentials()
             if(onBeforeCredentialsCheck(credentials)) return@launch
