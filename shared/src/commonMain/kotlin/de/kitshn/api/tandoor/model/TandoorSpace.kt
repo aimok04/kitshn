@@ -88,7 +88,7 @@ data class TandoorSpace(
     val logo_color_svg: TandoorImage? = null,
     val ai_credits_monthly: Int = 0,
     val ai_credits_balance: Double = 0.0,
-    val ai_monthly_credits_used: Int = 0,
+    val ai_monthly_credits_used: Double = 0.0,
     val ai_enabled: Boolean = false,
     val ai_default_provider: TandoorAIProvider? = null,
     val ai_image_recipe_provider: TandoorAIProvider? = null,
