@@ -25,8 +25,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -60,7 +60,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -76,6 +75,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
@@ -87,28 +87,26 @@ import androidx.compose.ui.semantics.contentType
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
 import com.eygraber.uri.Uri
 import de.kitshn.Platforms
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
-import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.TandoorCredentialsCustomHeader
 import de.kitshn.api.tandoor.TandoorCredentialsToken
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.api.tandoor.TandoorRequestStateState
+import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.rememberTandoorRequestState
 import de.kitshn.crash.crashReportHandler
 import de.kitshn.platformDetails
 import de.kitshn.ui.component.HorizontalDividerWithLabel
-import de.kitshn.utils.ClientCertificateData
-import de.kitshn.utils.rememberClientCertificateSelector
 import de.kitshn.ui.component.buttons.LoadingMediumExtendedFloatingActionButton
 import de.kitshn.ui.route.RouteParameters
 import de.kitshn.ui.state.ErrorLoadingSuccessState
-import de.kitshn.ui.theme.Success
+import de.kitshn.utils.ClientCertificateData
+import de.kitshn.utils.rememberClientCertificateSelector
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_abort
 import kitshn.shared.generated.resources.action_add_custom_header
@@ -140,7 +138,6 @@ import kitshn.shared.generated.resources.onboarding_sign_in_error_instance_not_r
 import kitshn.shared.generated.resources.onboarding_sign_in_error_instance_not_reachable_sso_hint
 import kitshn.shared.generated.resources.onboarding_sign_in_error_sign_in_failed
 import kitshn.shared.generated.resources.onboarding_sign_in_hint_credentials_required
-import org.jetbrains.compose.resources.getString
 import kitshn.shared.generated.resources.onboarding_sign_in_mtls_required_dialog_description
 import kitshn.shared.generated.resources.onboarding_sign_in_mtls_required_dialog_title
 import kitshn.shared.generated.resources.onboarding_sign_in_title
@@ -148,6 +145,7 @@ import kitshn.shared.generated.resources.onboarding_sign_in_using_web_browser
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import kotlin.io.encoding.ExperimentalEncodingApi
 
@@ -876,6 +874,7 @@ private fun InstanceUrlStatusIndicator(
             modifier = Modifier
                 .size(32.dp)
                 .background(containerColor, CircleShape)
+                .clip(CircleShape)
                 .then(
                     if (targetState == ErrorLoadingSuccessState.ERROR) {
                         Modifier.clickable(onClick = onRetry)
