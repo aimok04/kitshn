@@ -91,7 +91,22 @@ import kitshn.shared.generated.resources.recipe_import_type_social_media_label
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
+
+private fun buildSocialMediaImportText(
+    url: String,
+    description: String
+): String {
+    return buildString {
+        appendLine("Extracted from social media post")
+        if(url.isNotBlank()) {
+            appendLine("Source URL: $url")
+        }
+        appendLine()
+        append(description)
+    }
+}
 
 val SOCIAL_MEDIA_IMPORT_DOMAINS = listOf(
     "instagram.com",
@@ -171,14 +186,37 @@ fun RecipeImportSocialMediaDialog(
     val fetchAiRequestState = rememberTandoorRequestState()
     fun fetchAi() = coroutineScope.launch {
         fetchAiRequestState.wrapRequest {
-            if(state.recipeDescription.length <= 3)
-                throw Error("Recipe description has to be longer than three characters.")
+            if(aiProvider == null) {
+                throw Error(getString(Res.string.error_recipe_import_ai_select_provider))
+            }
 
-            val response = client.aiImport.fetch(
-                file = null,
-                text = state.recipeDescription,
-                aiProviderId = aiProvider?.id ?: -1
+            if(state.recipeDescription.length <= 3)
+                throw Error(getString(Res.string.error_recipe_import_social_media_description_too_short))
+
+            val aiInput = buildSocialMediaImportText(
+                url = state.data.url,
+                description = state.recipeDescription
             )
+
+            val response = try {
+                client.aiImport.fetch(
+                    file = null,
+                    text = aiInput,
+                    aiProviderId = aiProvider?.id ?: -1
+                )
+            } catch(aiException: TandoorRequestsError) {
+                if(state.data.url.isBlank()) {
+                    throw aiException
+                }
+
+                // Fallback for servers/providers that return invalid schema from AI import.
+                try {
+                    client.recipeFromSource.fetch(state.data.url)
+                } catch(_: Exception) {
+                    throw aiException
+                }
+            }
+
             if(response.recipe == null && response.recipeId != null) {
                 state.dismiss()
                 vm.viewRecipe(response.recipeId)
@@ -373,14 +411,18 @@ fun RecipeImportSocialMediaDialog(
 
                                         singleLine = true,
 
-                                        keyboardActions = KeyboardActions(onGo = { fetchWebsite() }),
+                                        keyboardActions = KeyboardActions(onGo = {
+                                            if(aiProvider != null) fetchWebsite()
+                                        }),
                                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
 
                                         isError = fetchWebsiteRequestState.state == TandoorRequestStateState.ERROR,
                                         supportingText = {
                                             Text(
-                                                text = when(fetchWebsiteRequestState.state) {
-                                                    TandoorRequestStateState.ERROR -> "${
+                                                text = when {
+                                                    aiProvider == null -> stringResource(Res.string.error_recipe_import_ai_select_provider)
+
+                                                    fetchWebsiteRequestState.state == TandoorRequestStateState.ERROR -> "${
                                                         stringResource(
                                                             Res.string.error_recipe_could_not_be_loaded
                                                         )
@@ -397,6 +439,7 @@ fun RecipeImportSocialMediaDialog(
                                     IconButton(
                                         modifier = Modifier.padding(start = 8.dp, top = 4.dp),
                                         colors = IconButtonDefaults.filledIconButtonColors(),
+                                        enabled = aiProvider != null,
                                         onClick = { fetchWebsite() }
                                     ) {
                                         Icon(
