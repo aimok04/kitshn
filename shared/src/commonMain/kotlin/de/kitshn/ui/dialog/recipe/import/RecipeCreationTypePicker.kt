@@ -18,7 +18,6 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,7 +31,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
-import androidx.window.core.layout.WindowWidthSizeClass
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.ui.component.settings.ListItemPositionNeedsPadding
@@ -42,14 +40,14 @@ import de.kitshn.ui.modifier.fullWidthAlertDialogPadding
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_abort
 import kitshn.shared.generated.resources.action_add_or_import_recipe
-import kitshn.shared.generated.resources.recipe_import_type_ai_description
-import kitshn.shared.generated.resources.recipe_import_type_ai_label
-import kitshn.shared.generated.resources.recipe_import_type_manual_description
-import kitshn.shared.generated.resources.recipe_import_type_manual_label
-import kitshn.shared.generated.resources.recipe_import_type_social_media_description
-import kitshn.shared.generated.resources.recipe_import_type_social_media_label
-import kitshn.shared.generated.resources.recipe_import_type_url_description
-import kitshn.shared.generated.resources.recipe_import_type_url_label
+import kitshn.shared.generated.resources.recipe_creation_type_ai_description
+import kitshn.shared.generated.resources.recipe_creation_type_ai_label
+import kitshn.shared.generated.resources.recipe_creation_type_import_social_media_description
+import kitshn.shared.generated.resources.recipe_creation_type_import_social_media_label
+import kitshn.shared.generated.resources.recipe_creation_type_import_url_description
+import kitshn.shared.generated.resources.recipe_creation_type_import_url_label
+import kitshn.shared.generated.resources.recipe_creation_type_manual_description
+import kitshn.shared.generated.resources.recipe_creation_type_manual_label
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -62,27 +60,27 @@ enum class RecipeCreationType(
 ) {
     MANUAL(
         icon = Icons.Rounded.Draw,
-        label = Res.string.recipe_import_type_manual_label,
-        description = Res.string.recipe_import_type_manual_description,
-        position = SettingsListItemPosition.SINGULAR,
-    ),
-    URL(
-        icon = Icons.Rounded.Language,
-        label = Res.string.recipe_import_type_url_label,
+        label = Res.string.recipe_creation_type_manual_label,
+        description = Res.string.recipe_creation_type_manual_description,
         position = SettingsListItemPosition.TOP,
-        description = Res.string.recipe_import_type_url_description
     ),
     AI(
         icon = Icons.Rounded.AutoAwesome,
-        label = Res.string.recipe_import_type_ai_label,
-        description = Res.string.recipe_import_type_ai_description,
-        position = SettingsListItemPosition.BETWEEN,
+        label = Res.string.recipe_creation_type_ai_label,
+        description = Res.string.recipe_creation_type_ai_description,
+        position = SettingsListItemPosition.BOTTOM,
         requiresAI = true
+    ),
+    URL(
+        icon = Icons.Rounded.Language,
+        label = Res.string.recipe_creation_type_import_url_label,
+        position = SettingsListItemPosition.TOP,
+        description = Res.string.recipe_creation_type_import_url_description
     ),
     SOCIAL_MEDIA(
         icon = Icons.Rounded.Tag,
-        label = Res.string.recipe_import_type_social_media_label,
-        description = Res.string.recipe_import_type_social_media_description,
+        label = Res.string.recipe_creation_type_import_social_media_label,
+        description = Res.string.recipe_creation_type_import_social_media_description,
         position = SettingsListItemPosition.BOTTOM,
         requiresAI = true
     )

@@ -146,7 +146,6 @@
     <string name="error_video_playback_not_supported">Воспроизведение видео не поддерживается на этой платформе.</string>
     <string name="ios_support_manage_subscription_description">Управление подпиской спонсора</string>
     <string name="home_section_burger">🍔</string>
-    <string name="recipe_import_type_ai_label">Импорт с помощью ИИ</string>
     <string name="recipe_sorting_relevance">Релевантность</string>
     <string name="settings_section_appearance_color_scheme_label">Цветовая схема</string>
     <string name="settings_section_behavior_hide_funding_banner_this_year_description">Скрыть баннер финансирования на текущий год</string>
@@ -172,9 +171,8 @@
     <string name="onboarding_sign_in_error_instance_not_reachable_sso_hint">Вы можете попробовать » Войти с помощью веб-обозревателя «, если вы используете единую авторизацию (SSO).</string>
     <string name="permissions_camera_alert">Пожалуйста, разрешите kitshn доступ к вашей камере, чтобы использовать эту функцию.</string>
     <string name="recipe_import_divide_steps_description">Разделение шагов переносами строк</string>
-    <string name="recipe_import_type_ai_description">Загрузите изображения или введите рецепт в текстовой форме</string>
-    <string name="recipe_import_type_url_label">Импорт с веб-сайта</string>
-    <string name="recipe_import_type_url_description">Введите URL-адрес и импортируйте рецепт из Интернета</string>
+    <string name="recipe_creation_type_import_url_label">Импорт с веб-сайта</string>
+    <string name="recipe_creation_type_import_url_description">Введите URL-адрес и импортируйте рецепт из Интернета</string>
     <string name="recipe_sorting_creation_date">Дата создания</string>
     <string name="recipe_sorting_last_cooked">Время последнего приготовления</string>
     <string name="recipe_step_timer_error_no_app">Вам необходимо установить поддерживаемое приложение таймера для этого действия!</string>
@@ -401,9 +399,9 @@
     <string name="ios_timer_dialog_shortcut_installed_switch">Shortcut установлен?</string>
     <string name="ios_timer_dialog_title">Необходим Shortcut</string>
     <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">Включите разрешение » Локальная сеть « для kitshn в системный настройках когда подключаетесь к локальному серверу.</string>
-    <string name="recipe_import_type_social_media_label">Импорт из Социальных Сетей</string>
-    <string name="recipe_import_type_social_media_description">Добавить рецепты из Instagram или TikTok используя ИИ</string>
-    <string name="recipe_import_type_social_media_disclaimer">На данный момент активно поддерживаются только Instagram иTikTok. Другие платформы так же могут поддерживаться.</string>
+    <string name="recipe_creation_type_import_social_media_label">Импорт из Социальных Сетей</string>
+    <string name="recipe_creation_type_import_social_media_description">Добавить рецепты из Instagram или TikTok используя ИИ</string>
+    <string name="recipe_creation_type_import_social_media_disclaimer">На данный момент активно поддерживаются только Instagram иTikTok. Другие платформы так же могут поддерживаться.</string>
     <string name="search_providers">Поисковые системы</string>
     <string name="settings_section_behavior_enable_compact_home_screen_description">Показывать списком вместо больших картинок</string>
     <string name="settings_section_behavior_enable_compact_home_screen_label">Включить компактный домашний экран</string>

@@ -57,7 +57,7 @@ import kitshn.shared.generated.resources.action_download
 import kitshn.shared.generated.resources.action_import
 import kitshn.shared.generated.resources.common_recipe_url
 import kitshn.shared.generated.resources.error_recipe_could_not_be_loaded
-import kitshn.shared.generated.resources.recipe_import_type_url_label
+import kitshn.shared.generated.resources.recipe_creation_type_import_url_label
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
@@ -175,7 +175,7 @@ fun RecipeImportUrlDialog(
 
     AdaptiveFullscreenDialog(
         onDismiss = { state.dismiss() },
-        title = { Text(text = stringResource(Res.string.recipe_import_type_url_label)) },
+        title = { Text(text = stringResource(Res.string.recipe_creation_type_import_url_label)) },
         topAppBarActions = {
             if(state.data.recipeFromSource != null) FilledIconButton(
                 onClick = {

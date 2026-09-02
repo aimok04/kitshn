@@ -393,10 +393,8 @@
     <string name="action_take_photo">Зробіть фото</string>
     <string name="common_image">Зображення</string>
     <string name="permissions_camera_alert">Щоб скористатися цією функцією, надайте kitshn доступ до камери.</string>
-    <string name="recipe_import_type_ai_label">Імпорт за допомогою ШІ</string>
-    <string name="recipe_import_type_url_label">Імпорт із веб-сайту</string>
-    <string name="recipe_import_type_url_description">Введіть URL-адресу та імпортуйте рецепт з Інтернету</string>
-    <string name="recipe_import_type_ai_description">Завантажте зображення або введіть рецепт у текстовій формі</string>
+    <string name="recipe_creation_type_import_url_label">Імпорт із веб-сайту</string>
+    <string name="recipe_creation_type_import_url_description">Введіть URL-адресу та імпортуйте рецепт з Інтернету</string>
     <string name="action_edit_step">Редагувати крок</string>
     <string name="action_create_step">Новий крок</string>
     <string name="action_add_ingredient">Додати інгредієнт</string>
@@ -411,9 +409,9 @@
     <string name="ios_timer_dialog_shortcut_installed_switch">Ярлик встановлено?</string>
     <string name="ios_timer_dialog_title">Потрібне скорочення</string>
     <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">Увімкніть дозвіл »Локальна мережа« для kitshn у системних налаштуваннях під час підключення до локального сервера.</string>
-    <string name="recipe_import_type_social_media_label">Імпорт із соціальних мереж</string>
-    <string name="recipe_import_type_social_media_description">Додайте рецепти з Instagram або TikTok за допомогою ШІ</string>
-    <string name="recipe_import_type_social_media_disclaimer">Наразі активно підтримуються лише Instagram та TikTok. Можливо, також підтримуватимуться інші платформи.</string>
+    <string name="recipe_creation_type_import_social_media_label">Імпорт із соціальних мереж</string>
+    <string name="recipe_creation_type_import_social_media_description">Додайте рецепти з Instagram або TikTok за допомогою ШІ</string>
+    <string name="recipe_creation_type_import_social_media_disclaimer">Наразі активно підтримуються лише Instagram та TikTok. Можливо, також підтримуватимуться інші платформи.</string>
     <string name="settings_section_behavior_enable_compact_home_screen_description">Показувати список замість великих карток</string>
     <string name="settings_section_behavior_enable_compact_home_screen_label">Увімкнути компактний головний екран</string>
     <string name="settings_section_behavior_ios_install_timer_shortcut_description">Потрібно запускати таймери безпосередньо з програми Kitshn</string>

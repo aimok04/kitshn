@@ -86,8 +86,8 @@ import kitshn.shared.generated.resources.action_import
 import kitshn.shared.generated.resources.common_ai_provider
 import kitshn.shared.generated.resources.common_recipe_url
 import kitshn.shared.generated.resources.error_recipe_could_not_be_loaded
-import kitshn.shared.generated.resources.recipe_import_type_social_media_disclaimer
-import kitshn.shared.generated.resources.recipe_import_type_social_media_label
+import kitshn.shared.generated.resources.recipe_creation_type_import_social_media_disclaimer
+import kitshn.shared.generated.resources.recipe_creation_type_import_social_media_label
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
@@ -275,7 +275,7 @@ fun RecipeImportSocialMediaDialog(
 
     AdaptiveFullscreenDialog(
         onDismiss = { state.dismiss() },
-        title = { Text(text = stringResource(Res.string.recipe_import_type_social_media_label)) },
+        title = { Text(text = stringResource(Res.string.recipe_creation_type_import_social_media_label)) },
         topAppBarActions = {
             if(state.data.recipeFromSource != null) FilledIconButton(
                 onClick = {
@@ -386,7 +386,7 @@ fun RecipeImportSocialMediaDialog(
                                                         )
                                                     }: ${fetchAiRequestState.error?.message}"
 
-                                                    else -> stringResource(Res.string.recipe_import_type_social_media_disclaimer)
+                                                    else -> stringResource(Res.string.recipe_creation_type_import_social_media_disclaimer)
                                                 }
                                             )
                                         },

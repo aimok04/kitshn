@@ -321,9 +321,7 @@
     <string name="home_meal_plan_promotion_tomorrow_title">El menú de mañana</string>
     <string name="kofi_support_description">Puedes soportar el desarrollo de kitshn en Ko-Fi</string>
     <string name="permissions_camera_alert">Por favor, permite a kitshn acceder a tu cámara para usar esta función.</string>
-    <string name="recipe_import_type_ai_label">Importar con IA</string>
-    <string name="recipe_import_type_ai_description">Sube imágenes o ingresa una receta en modo texto</string>
-    <string name="recipe_import_type_url_description">Ingresa una URL e importa una receta desde la página web</string>
+    <string name="recipe_creation_type_import_url_description">Ingresa una URL e importa una receta desde la página web</string>
     <string name="search_users">Buscar usuarios</string>
     <string name="settings_section_appearance_color_scheme_custom_from_image_error_message">No se puedo extraer el color principal desde la imagen seleccionada. Por favor, intenta con otra imagen o usa un esquema predefinido.</string>
     <string name="settings_section_appearance_enlarge_shopping_mode_description">Proporciona mayor facilidad de lectura en el modo compras</string>
@@ -359,7 +357,7 @@
     <string name="action_clear">Limpiar</string>
     <string name="common_none">Nada</string>
     <string name="common_supermarket">Supermercado</string>
-    <string name="recipe_import_type_url_label">Importar desde página web</string>
+    <string name="recipe_creation_type_import_url_label">Importar desde página web</string>
     <string name="common_select_users_for_sharing">Seleccionar usuarios para compartir</string>
     <string name="common_select_users_for_sharing_empty">Selecciona a los usuarios con los que quieras compartir esto.</string>
     <string name="common_ungrouped">Desagrupado</string>
