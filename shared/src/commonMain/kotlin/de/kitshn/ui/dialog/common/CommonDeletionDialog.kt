@@ -50,13 +50,35 @@ fun <T> CommonDeletionDialog(
     onConfirm: (model: T) -> Unit,
     onDismiss: () -> Unit = { }
 ) {
-    if(!state.shown.value) return
+    CommonDeletionDialog(
+        model = if (state.shown.value) state.model else null,
+        onConfirm = {
+            state.dismiss()
+            onConfirm(it)
+        },
+        onDismiss = {
+            state.dismiss()
+            onDismiss()
+        }
+    )
+}
+
+/**
+ * Stateless variant for MVI-style consumers. Visibility is driven entirely by
+ * [model]: non-null shows the dialog, null hides it. The parent reducer is
+ * responsible for clearing [model] in response to [onConfirm] / [onDismiss].
+ */
+@Composable
+fun <T> CommonDeletionDialog(
+    model: T?,
+    onConfirm: (model: T) -> Unit,
+    onDismiss: () -> Unit
+) {
+    if (model == null) return
 
     AlertDialog(
         modifier = Modifier.padding(16.dp),
-        onDismissRequest = {
-            state.dismiss()
-        },
+        onDismissRequest = onDismiss,
         icon = {
             Icon(Icons.Rounded.Delete, stringResource(Res.string.action_delete))
         },
@@ -69,22 +91,12 @@ fun <T> CommonDeletionDialog(
             )
         },
         confirmButton = {
-            Button(
-                onClick = {
-                    state.dismiss()
-                    onConfirm(state.model!!)
-                }
-            ) {
+            Button(onClick = { onConfirm(model) }) {
                 Text(stringResource(Res.string.action_confirm))
             }
         },
         dismissButton = {
-            FilledTonalButton(
-                onClick = {
-                    state.dismiss()
-                    onDismiss()
-                }
-            ) {
+            FilledTonalButton(onClick = onDismiss) {
                 Text(stringResource(Res.string.action_abort))
             }
         }

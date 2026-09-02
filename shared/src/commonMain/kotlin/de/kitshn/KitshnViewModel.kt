@@ -12,6 +12,7 @@ import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorCredentials
 import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.repo.FoodRepo
+import de.kitshn.repo.HouseholdRepo
 import de.kitshn.repo.ShoppingListRepo
 import de.kitshn.repo.ShoppingRepo
 import de.kitshn.repo.SupermarketCategoryRepo
@@ -57,6 +58,7 @@ class KitshnViewModel(
     val supermarketCategoryRepo: SupermarketCategoryRepo,
     val foodRepo: FoodRepo,
     val shoppingRepo: ShoppingRepo,
+    val householdRepo: HouseholdRepo,
     val shoppingListRepo: ShoppingListRepo,
     val supermarketRepo: SupermarketRepo,
     private val applicationScope: CoroutineScope,
@@ -215,6 +217,7 @@ class KitshnViewModel(
                 launch { supermarketCategoryRepo.sync() }
                 launch { supermarketRepo.sync() }
                 launch { foodRepo.sync() }
+                launch { householdRepo.sync() }
             }
         }
     }
@@ -227,6 +230,7 @@ class KitshnViewModel(
             supermarketCategoryRepo,
             supermarketRepo,
             foodRepo,
+            householdRepo,
         )
 
     fun resetLocalDatabase() {

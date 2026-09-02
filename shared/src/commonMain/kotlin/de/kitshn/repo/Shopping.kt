@@ -2,6 +2,8 @@ package de.kitshn.repo
 
 import co.touchlab.kermit.Logger
 import de.kitshn.AppDatabase
+import de.kitshn.AppEvent
+import de.kitshn.AppEventBus
 import de.kitshn.api.tandoor.TandoorClient
 import de.kitshn.api.tandoor.TandoorRequestsError
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
@@ -20,6 +22,7 @@ import de.kitshn.session.TandoorSession
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -63,6 +66,13 @@ class ShoppingRepo(
     init { datasetSize = DatasetSize.FEW }
 
     private val dao = db.shoppingDao()
+
+    init {
+        scope.launch {
+            AppEventBus.events.filterIsInstance<AppEvent.HouseholdChanged>()
+                .collect { reconcileInteractive() }
+        }
+    }
 
     fun observe(): Flow<List<TandoorShoppingListEntry>> =
         dao.getAllAsFlow().map { entries -> entries.mapNotNull { it.toModel() } }
