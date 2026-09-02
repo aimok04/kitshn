@@ -2,7 +2,6 @@ package de.kitshn
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import coil3.PlatformContext
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
@@ -34,6 +33,7 @@ fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
 @OptIn(ExperimentalForeignApi::class)
 actual suspend fun AppDatabase.wipeAllData() = deleteAllData()
 
+@OptIn(ExperimentalForeignApi::class)
 actual fun AppDatabase.closeAndDelete() {
     try { close() } catch (_: Exception) { }
     val path = getDatabasePath()
