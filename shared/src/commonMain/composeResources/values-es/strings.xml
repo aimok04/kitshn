@@ -156,8 +156,6 @@
     <string name="settings_section_about_label">Acerca de</string>
     <string name="settings_section_appearance_dark_mode_description">Usar el esquema de color oscuro</string>
     <string name="settings_section_appearance_dark_mode_label">Modo oscuro</string>
-    <string name="settings_section_appearance_dynamic_color_description">Usar el esquema de color dinámico de tu sistema operativo</string>
-    <string name="settings_section_appearance_dynamic_color_label">Esquema de color dinámico</string>
     <string name="settings_section_appearance_follow_system_description">Usar el esquema de colores del sistema operativo</string>
     <string name="settings_section_appearance_label">Apariencia</string>
     <string name="settings_section_behavior_description">Cambia el comportamiento de kitshn</string>

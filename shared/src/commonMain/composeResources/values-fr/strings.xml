@@ -230,7 +230,6 @@
     <string name="settings_section_about_item_review_ios_description">Évaluez kitshn dans l'App Store</string>
     <string name="settings_section_about_label">À propos</string>
     <string name="settings_section_appearance_dark_mode_label">Thème sombre</string>
-    <string name="settings_section_appearance_dynamic_color_label">Palette de couleurs dynamique</string>
     <string name="settings_section_appearance_label">Apparence</string>
     <string name="settings_section_behavior_description">Changer le comportement de kitshn</string>
     <string name="settings_section_behavior_enable_crash_reporting">Autoriser le rapport d'erreur</string>
@@ -286,7 +285,6 @@
     <string name="search_ingredients_filter">Filtrer par ingrédients</string>
     <string name="search_tags_filter">Filtrer par tags</string>
     <string name="settings_section_appearance_description">Modifier la palette de couleurs et thème dynamique</string>
-    <string name="settings_section_appearance_dynamic_color_description">Utilisez la palette de couleurs dynamique de votre système d'exploitation</string>
     <string name="settings_section_behavior_hide_funding_banner_this_year_description">Masquer la bannière de financement pour l'année en cours</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_label">Ignorer les ingrédients non alloués</string>
     <string name="settings_section_server_delete_and_manage_data_dialog_line_3">puisque vous utilisez l'instance officielle et publique.</string>

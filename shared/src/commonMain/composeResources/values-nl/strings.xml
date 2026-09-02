@@ -261,7 +261,6 @@
     <string name="settings_section_appearance_dark_mode_description">Gebruik donker kleurenschema</string>
     <string name="settings_section_appearance_follow_system_description">Gebruik het kleurenschema van je apparaat</string>
     <string name="settings_section_appearance_dark_mode_label">Donkere modus</string>
-    <string name="settings_section_appearance_dynamic_color_label">Dynamisch kleuren schema</string>
     <string name="settings_section_appearance_follow_system_label">Volg systeem</string>
     <string name="settings_section_behavior_description">Bewerk kitshn's gedrag</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_label">Negeer ongedefineerde ingrediënten</string>
@@ -272,7 +271,6 @@
     <string name="settings_section_about_label">Over</string>
     <string name="settings_section_appearance_label">Uiterlijk</string>
     <string name="tandoor_compatibility_incompatible_label">Incompatibel</string>
-    <string name="settings_section_appearance_dynamic_color_description">Gebruik het dynamische kleuren schema van je apparaat</string>
     <string name="tandoor_compatibility_incompatible_description">Je Tandoor server is niet compatibel met deze app. Update je server naar een van de volgende versies.</string>
     <string name="tandoor_compatibility_not_checkable_description">De versie van je Tandoor server kon niet opgevraagd worden. Controleer of de versie van de server overeenkomt met de volgende versies zodat alle functionaliteiten gebruikt kunnen worden.</string>
     <string name="settings_section_server_label">Server</string>
@@ -332,7 +330,6 @@
     <string name="ios_support_thanks">Bedankt voor je steun aan kitshn! Dankzij jouw bijdrage kunnen we dit project blijven voortzetten.</string>
     <string name="search_users">Zoek gebruikers</string>
     <string name="common_not_supported">Niet ondersteund</string>
-    <string name="error_space_switching_not_supported_with_api_token">Kitshn ondersteunt deze functie momenteel niet bij gebruik van een API-token. Gebruik indien mogelijk een andere authenticatiemethode.</string>
     <string name="bugsnag_dialog_button_negative">Nee, niet toestaan</string>
     <string name="common_amount">Hoeveelheid</string>
     <string name="common_category">Categorie</string>

@@ -176,7 +176,6 @@
     <string name="search_tags_filter">Фільтрувати за тегами</string>
     <string name="search_tags_filter_empty">Виберіть теги, які ви хочете знайти.</string>
     <string name="settings_section_appearance_description">Змініть колірну схему та динамічну тему</string>
-    <string name="settings_section_appearance_dynamic_color_description">Використовуйте динамічну кольорову схему вашої операційної системи</string>
     <string name="settings_section_appearance_label">Зовнішній вигляд</string>
     <string name="settings_section_behavior_description">Змініть поведінку kitshn</string>
     <string name="settings_section_behavior_ingredients_show_fractional_values_label">Дробові значення інгредієнтів</string>
@@ -302,7 +301,6 @@
     <string name="search_recipes">Пошук рецептів</string>
     <string name="settings_section_about_description">Інформація про цю програму</string>
     <string name="settings_section_appearance_dark_mode_description">Використовуйте темну колірну схему</string>
-    <string name="settings_section_appearance_dynamic_color_label">Динамічна колірна схема</string>
     <string name="settings_section_behavior_hide_ingredient_allocation_action_chip_description">Сховати всі попередження «Нерозподілені інгредієнти»</string>
     <string name="share_incentive">привіт! Перегляньте цей рецепт, який я знайшов на Tandoor:</string>
     <string name="share_wrapper_dialog_message">Додавання %1$s перед URL-адресою спільного доступу дає змогу іншим користувачам kitshn відкривати посилання безпосередньо в програмі.</string>
