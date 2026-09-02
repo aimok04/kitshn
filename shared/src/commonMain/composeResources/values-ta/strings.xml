@@ -257,8 +257,6 @@
     <string name="settings_section_appearance_dark_mode_description">இருண்ட வண்ணத் திட்டத்தைப் பயன்படுத்தவும்</string>
     <string name="settings_section_appearance_dark_mode_label">இருண்ட முறை</string>
     <string name="settings_section_appearance_description">வண்ணத் திட்டம் மற்றும் மாறும் தீமிங் ஆகியவற்றை மாற்றவும்</string>
-    <string name="settings_section_appearance_dynamic_color_description">உங்கள் இயக்க முறைமையின் மாறும் வண்ணத் திட்டத்தைப் பயன்படுத்தவும்</string>
-    <string name="settings_section_appearance_dynamic_color_label">மாறும் வண்ணத் திட்டம்</string>
     <string name="settings_section_appearance_follow_system_description">இயக்க முறைமையின் வண்ணத் திட்டத்தைப் பயன்படுத்தவும்</string>
     <string name="settings_section_appearance_follow_system_label">அமைப்பைப் பின்தொடரவும்</string>
     <string name="settings_section_appearance_label">தோற்றம்</string>

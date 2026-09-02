@@ -158,7 +158,6 @@
     <string name="settings_section_about_item_review_description">Ocenite kitshn v Trgovini Play</string>
     <string name="settings_section_about_item_review_ios_description">Ocenite kitshn v App Store</string>
     <string name="settings_section_appearance_description">Spremenite barvno shemo in dinamično temo</string>
-    <string name="settings_section_appearance_dynamic_color_description">Uporabite dinamično barvno shemo vašega operacijskega sistema</string>
     <string name="settings_section_behavior_ingredients_show_fractional_values_label">Delne vrednosti za sestavine</string>
     <string name="settings_section_server_delete_and_manage_data_dialog_line_3">ker uporabljate uradno javno instanco.</string>
     <string name="share_incentive">hej Oglejte si ta recept, ki sem ga našel na Tandoorju:</string>
@@ -170,7 +169,6 @@
     <string name="action_sign_out">Odjavite se</string>
     <string name="common_create_argument">Ustvari » %1$s «</string>
     <string name="common_delete_permanently_text">Tega procesa ni mogoče obrniti. Ali res želite nadaljevati?</string>
-    <string name="settings_section_appearance_dynamic_color_label">Dinamična barvna shema</string>
     <string name="search_recipes">Iskanje receptov</string>
     <string name="settings_section_appearance_dark_mode_description">Uporabite temno barvno shemo</string>
     <string name="settings_section_behavior_properties_show_fractional_values_description">Morda je lažje brati, a tudi manj natančno</string>
