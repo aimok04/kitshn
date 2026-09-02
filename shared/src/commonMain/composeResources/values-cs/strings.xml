@@ -294,4 +294,5 @@
     <string name="search_keyword_including_all_description">Recepty musí obsahovat všechna klíčová slova</string>
     <string name="search_keyword_including_all_label">Obsahuje všechna klíčová slova</string>
     <string name="search_rating_filter">Filtrovat podle hodnocení</string>
+    <string name="action_expand_less">Zmenšit</string>
 </resources>
