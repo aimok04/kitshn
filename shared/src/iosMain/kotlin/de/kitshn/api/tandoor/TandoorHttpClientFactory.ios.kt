@@ -4,6 +4,7 @@ import co.touchlab.kermit.Logger
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.darwin.ChallengeHandler
 import io.ktor.client.engine.darwin.Darwin
+import io.ktor.client.plugins.HttpTimeout
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
@@ -66,6 +67,7 @@ private class IosCertificateBundle(
 @OptIn(ExperimentalEncodingApi::class, ExperimentalForeignApi::class, BetaInteropApi::class)
 actual fun createTandoorHttpClient(
     credentials: TandoorCredentials,
+    timeoutMillis: Long,
     onCertificateRequested: () -> Unit,
 ): HttpClient {
     val bundle = loadIosClientCertBundle(credentials)
@@ -74,6 +76,12 @@ actual fun createTandoorHttpClient(
         followRedirects = true
         engine {
             handleChallenge(buildChallengeHandler(bundle, onCertificateRequested))
+        }
+
+        install(HttpTimeout) {
+            connectTimeoutMillis = timeoutMillis
+            requestTimeoutMillis = timeoutMillis
+            socketTimeoutMillis = timeoutMillis
         }
     }
 }

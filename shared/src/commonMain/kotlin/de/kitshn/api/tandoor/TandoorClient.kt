@@ -20,8 +20,6 @@ import de.kitshn.api.tandoor.route.TandoorUserPreferenceRoute
 import de.kitshn.api.tandoor.route.TandoorUserRoute
 import de.kitshn.isTlsException
 import de.kitshn.json
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.HttpTimeout
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -75,24 +73,12 @@ class TandoorClient(
     /** `true` when the last connection failure was a cert error */
     val needsClientCertificate: Boolean get() = certificateRequested || tlsHandshakeFailed
 
-    var httpClient = createTandoorHttpClient(credentials) {
+    var httpClient = createTandoorHttpClient(credentials, timeoutSettings.shortTimeout) {
         certificateRequested = true
-    }.config {
-        install(HttpTimeout) {
-            connectTimeoutMillis = timeoutSettings.shortTimeout
-            requestTimeoutMillis = timeoutSettings.shortTimeout
-            socketTimeoutMillis = timeoutSettings.shortTimeout
-        }
     }
 
-    var longHttpClient = createTandoorHttpClient(credentials) {
+    var longHttpClient = createTandoorHttpClient(credentials, timeoutSettings.longTimeout) {
         certificateRequested = true
-    }.config {
-        install(HttpTimeout) {
-            connectTimeoutMillis = timeoutSettings.longTimeout
-            requestTimeoutMillis = timeoutSettings.longTimeout
-            socketTimeoutMillis = timeoutSettings.longTimeout
-        }
     }
 
     fun configureTimeouts(settings: TandoorTimeoutSettings) {
@@ -102,24 +88,12 @@ class TandoorClient(
         httpClient.close()
         longHttpClient.close()
 
-        httpClient = createTandoorHttpClient(credentials) {
+        httpClient = createTandoorHttpClient(credentials, timeoutSettings.shortTimeout) {
             certificateRequested = true
-        }.config {
-            install(HttpTimeout) {
-                connectTimeoutMillis = timeoutSettings.shortTimeout
-                requestTimeoutMillis = timeoutSettings.shortTimeout
-                socketTimeoutMillis = timeoutSettings.shortTimeout
-            }
         }
 
-        longHttpClient = createTandoorHttpClient(credentials) {
+        longHttpClient = createTandoorHttpClient(credentials, timeoutSettings.longTimeout) {
             certificateRequested = true
-        }.config {
-            install(HttpTimeout) {
-                connectTimeoutMillis = timeoutSettings.longTimeout
-                requestTimeoutMillis = timeoutSettings.longTimeout
-                socketTimeoutMillis = timeoutSettings.longTimeout
-            }
         }
     }
 

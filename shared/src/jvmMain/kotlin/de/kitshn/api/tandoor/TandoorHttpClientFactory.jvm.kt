@@ -2,6 +2,7 @@ package de.kitshn.api.tandoor
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.HttpTimeout
 import java.net.Socket
 import java.security.Principal
 import java.security.PrivateKey
@@ -10,6 +11,7 @@ import javax.net.ssl.X509KeyManager
 
 actual fun createTandoorHttpClient(
     credentials: TandoorCredentials,
+    timeoutMillis: Long,
     onCertificateRequested: () -> Unit,
 ): HttpClient {
     val pkcs12 = loadPkcs12CertificateBundle(
@@ -29,6 +31,12 @@ actual fun createTandoorHttpClient(
                     trustManager,
                 )
             }
+        }
+
+        install(HttpTimeout) {
+            connectTimeoutMillis = timeoutMillis
+            requestTimeoutMillis = timeoutMillis
+            socketTimeoutMillis = timeoutMillis
         }
     }
 }

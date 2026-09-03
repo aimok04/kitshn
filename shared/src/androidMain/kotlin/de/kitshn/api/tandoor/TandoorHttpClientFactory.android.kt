@@ -5,6 +5,7 @@ import android.security.KeyChain
 import co.touchlab.kermit.Logger
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.HttpTimeout
 import org.koin.mp.KoinPlatform
 import java.net.Socket
 import java.security.Principal
@@ -16,6 +17,7 @@ private const val TAG = "TandoorHttpClientFactory"
 
 actual fun createTandoorHttpClient(
     credentials: TandoorCredentials,
+    timeoutMillis: Long,
     onCertificateRequested: () -> Unit,
 ): HttpClient {
     val pkcs12 = loadPkcs12CertificateBundle(
@@ -40,6 +42,12 @@ actual fun createTandoorHttpClient(
                     trustManager,
                 )
             }
+        }
+
+        install(HttpTimeout) {
+            connectTimeoutMillis = timeoutMillis
+            requestTimeoutMillis = timeoutMillis
+            socketTimeoutMillis = timeoutMillis
         }
     }
 }
