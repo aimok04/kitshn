@@ -1,5 +1,11 @@
 package de.kitshn.ui.view.settings
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -7,10 +13,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.rounded.Logout
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Numbers
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.Web
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -40,6 +48,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
+import de.kitshn.BackHandler
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.closeAppHandler
@@ -64,6 +73,8 @@ import kitshn.shared.generated.resources.settings_section_server_delete_and_mana
 import kitshn.shared.generated.resources.settings_section_server_delete_and_manage_data_dialog_line_3
 import kitshn.shared.generated.resources.settings_section_server_delete_and_manage_data_label
 import kitshn.shared.generated.resources.settings_section_server_label
+import kitshn.shared.generated.resources.settings_section_server_advanced_description
+import kitshn.shared.generated.resources.settings_section_server_advanced_label
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -79,189 +90,251 @@ fun ViewSettingsServer(
     val closeAppHandler = closeAppHandler()
 
     val serverVersion = p.vm.tandoorClient?.container?.serverSettings?.version
-    val compatibilityState = TandoorServerVersionCompatibility.getCompatibilityStateOfVersion(serverVersion ?: "")
+    val compatibilityState =
+        TandoorServerVersionCompatibility.getCompatibilityStateOfVersion(serverVersion ?: "")
 
     var showVersionCompatibilityBottomSheet by remember { mutableStateOf(false) }
 
     var showDataManagementDialog by remember { mutableStateOf(false) }
+    var showAdvancedSettings by remember { mutableStateOf(false) }
+
+    val navigateBack: (() -> Unit)? = if (showAdvancedSettings) {
+        { showAdvancedSettings = false }
+    } else {
+        p.back
+    }
 
     LaunchedEffect(Unit) {
         TandoorRequestState().wrapRequest {
             val user = p.vm.tandoorClient?.user?.get()
-            if(user != null) p.vm.uiState.userDisplayName = user.display_name
+            if (user != null) p.vm.uiState.userDisplayName = user.display_name
         }
+    }
+
+    BackHandler(showAdvancedSettings) {
+        showAdvancedSettings = false
     }
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                navigationIcon = { BackButton(p.back) },
-                title = { Text(stringResource(Res.string.settings_section_server_label)) },
+                navigationIcon = { BackButton(navigateBack) },
+                title = {
+                    Text(
+                        stringResource(
+                            if (showAdvancedSettings) {
+                                Res.string.settings_section_server_advanced_label
+                            } else {
+                                Res.string.settings_section_server_label
+                            }
+                        )
+                    )
+                },
                 scrollBehavior = scrollBehavior
             )
         }
     ) {
-        LazyColumn(
+        AnimatedContent(
+            targetState = showAdvancedSettings,
             modifier = Modifier
                 .padding(it)
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
+            transitionSpec = {
+                if (targetState) {
+                    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left) + fadeIn() togetherWith
+                            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left) + fadeOut()
+                } else {
+                    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right) + fadeIn() togetherWith
+                            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right) + fadeOut()
+                }.using(SizeTransform(clip = false))
+            },
+            label = "server-settings-content"
         ) {
-            item {
-                SettingsListItem(
-                    position = SettingsListItemPosition.TOP,
-                    label = { Text(stringResource(Res.string.common_account)) },
-                    description = {
-                        Text(
-                            p.vm.uiState.userDisplayName.ifBlank {
-                                stringResource(Res.string.common_unknown)
-                            }
-                        )
-                    },
-                    icon = Icons.Rounded.AccountCircle,
-                    enabled = p.vm.uiState.userDisplayName.isNotBlank(),
-                    contentDescription = stringResource(Res.string.common_account)
-                )
-            }
-
-            item {
-                SettingsListItem(
-                    position = SettingsListItemPosition.BETWEEN,
-                    label = { Text(stringResource(Res.string.common_instance_url)) },
-                    description = {
-                        Text(
-                            p.vm.tandoorClient?.credentials?.instanceUrl
-                                ?: stringResource(Res.string.common_unknown)
-                        )
-                    },
-                    icon = Icons.Rounded.Web,
-                    contentDescription = stringResource(Res.string.common_instance_url)
-                )
-            }
-
-            item {
-                SettingsListItem(
-                    position = SettingsListItemPosition.BOTTOM,
-                    label = { Text(stringResource(Res.string.common_version)) },
-                    description = {
-                        Text(
-                            serverVersion ?: stringResource(Res.string.common_unknown)
-                        )
-                    },
-                    icon = Icons.Rounded.Numbers,
-                    trailingContent = {
-                        Icon(
-                            modifier = Modifier
-                                .padding(4.dp),
-                            imageVector = compatibilityState.icon,
-                            contentDescription = compatibilityState.label.toString(),
-                            tint = compatibilityState.iconTint()
-                        )
-                    },
-                    containerColor = compatibilityState.tint().copy(alpha = 0.1f),
-                    enabled = serverVersion != null,
-                    contentDescription = stringResource(Res.string.common_version),
+            if (it) {
+                SettingsServerAdvancedContent(p)
+            } else {
+                LazyColumn(
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
                 ) {
-                    coroutineScope.launch {
-                        showVersionCompatibilityBottomSheet = true
+                    item {
+                        SettingsListItem(
+                            position = SettingsListItemPosition.TOP,
+                            label = { Text(stringResource(Res.string.common_account)) },
+                            description = {
+                                Text(
+                                    p.vm.uiState.userDisplayName.ifBlank {
+                                        stringResource(Res.string.common_unknown)
+                                    }
+                                )
+                            },
+                            icon = Icons.Rounded.AccountCircle,
+                            enabled = p.vm.uiState.userDisplayName.isNotBlank(),
+                            contentDescription = stringResource(Res.string.common_account)
+                        )
                     }
-                }
-            }
 
-            item {
-                Spacer(Modifier.height(16.dp))
-            }
+                    item {
+                        SettingsListItem(
+                            position = SettingsListItemPosition.BETWEEN,
+                            label = { Text(stringResource(Res.string.common_instance_url)) },
+                            description = {
+                                Text(
+                                    p.vm.tandoorClient?.credentials?.instanceUrl
+                                        ?: stringResource(Res.string.common_unknown)
+                                )
+                            },
+                            icon = Icons.Rounded.Web,
+                            contentDescription = stringResource(Res.string.common_instance_url)
+                        )
+                    }
 
-            item {
-                SettingsListItem(
-                    position = SettingsListItemPosition.SINGULAR,
-                    label = { Text(stringResource(Res.string.action_sign_out)) },
-                    description = { Text(stringResource(Res.string.action_sign_out_description)) },
-                    icon = Icons.AutoMirrored.Rounded.Logout,
-                    contentDescription = stringResource(Res.string.action_sign_out)
-                ) {
-                    p.vm.signOut()
-                    closeAppHandler()
-                }
-            }
-
-            item {
-                Spacer(Modifier.height(16.dp))
-            }
-
-            item {
-                // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)
-                SettingsListItem(
-                    position = SettingsListItemPosition.SINGULAR,
-                    label = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_label)) },
-                    description = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_description)) },
-                    icon = Icons.Rounded.Delete,
-                    contentDescription = stringResource(Res.string.settings_section_server_delete_and_manage_data_description)
-                ) {
-                    showDataManagementDialog = true
-                }
-            }
-        }
-    }
-
-    TandoorServerVersionCompatibilityDialog(
-        vm = p.vm,
-        shown = showVersionCompatibilityBottomSheet,
-        autoDisplay = false
-    ) {
-        showVersionCompatibilityBottomSheet = false
-    }
-
-    // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)
-    if(showDataManagementDialog) AlertDialog(
-        onDismissRequest = {
-            showDataManagementDialog = false
-        },
-        icon = {
-            Icon(
-                Icons.Rounded.Delete,
-                stringResource(Res.string.settings_section_server_delete_and_manage_data_label)
-            )
-        },
-        title = {
-            Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_label))
-        },
-        text = {
-            Text(
-                buildAnnotatedString {
-                    append(stringResource(Res.string.settings_section_server_delete_and_manage_data_dialog_line_1))
-
-                    if(p.vm.tandoorClient?.credentials?.instanceUrl?.contains("app.tandoor.dev") == true) {
-                        append("\n\n")
-                        append("${stringResource(Res.string.settings_section_server_delete_and_manage_data_dialog_line_2)} ")
-                        withStyle(
-                            SpanStyle(
-                                textDecoration = TextDecoration.Underline,
-                                color = MaterialTheme.colorScheme.primary,
-                                fontWeight = FontWeight.Medium
-                            )
+                    item {
+                        SettingsListItem(
+                            position = SettingsListItemPosition.BOTTOM,
+                            label = { Text(stringResource(Res.string.common_version)) },
+                            description = {
+                                Text(
+                                    serverVersion ?: stringResource(Res.string.common_unknown)
+                                )
+                            },
+                            icon = Icons.Rounded.Numbers,
+                            trailingContent = {
+                                Icon(
+                                    modifier = Modifier
+                                        .padding(4.dp),
+                                    imageVector = compatibilityState.icon,
+                                    contentDescription = compatibilityState.label.toString(),
+                                    tint = compatibilityState.iconTint()
+                                )
+                            },
+                            containerColor = compatibilityState.tint().copy(alpha = 0.1f),
+                            enabled = serverVersion != null,
+                            contentDescription = stringResource(Res.string.common_version),
                         ) {
-                            withLink(LinkAnnotation.Url("mailto:info@tandoor.dev")) {
-                                append("info@tandoor.dev")
+                            coroutineScope.launch {
+                                showVersionCompatibilityBottomSheet = true
                             }
                         }
-                        append(" ${stringResource(Res.string.settings_section_server_delete_and_manage_data_dialog_line_3)}")
+                    }
+
+                    item {
+                        Spacer(Modifier.height(16.dp))
+                    }
+
+                    item {
+                        SettingsListItem(
+                            position = SettingsListItemPosition.SINGULAR,
+                            label = { Text(stringResource(Res.string.settings_section_server_advanced_label)) },
+                            description = { Text(stringResource(Res.string.settings_section_server_advanced_description)) },
+                            icon = Icons.Rounded.Tune,
+                            trailingContent = {
+                                Icon(
+                                    Icons.AutoMirrored.Rounded.KeyboardArrowRight,
+                                    null
+                                )
+                            },
+                            contentDescription = stringResource(Res.string.settings_section_server_advanced_label)
+                        ) {
+                            showAdvancedSettings = true
+                        }
+                    }
+
+                    item {
+                        Spacer(Modifier.height(16.dp))
+                    }
+
+                    item {
+                        SettingsListItem(
+                            position = SettingsListItemPosition.SINGULAR,
+                            label = { Text(stringResource(Res.string.action_sign_out)) },
+                            description = { Text(stringResource(Res.string.action_sign_out_description)) },
+                            icon = Icons.AutoMirrored.Rounded.Logout,
+                            contentDescription = stringResource(Res.string.action_sign_out)
+                        ) {
+                            p.vm.signOut()
+                            closeAppHandler()
+                        }
+                    }
+
+                    item {
+                        Spacer(Modifier.height(16.dp))
+                    }
+
+                    item {
+                        // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)
+                        SettingsListItem(
+                            position = SettingsListItemPosition.SINGULAR,
+                            label = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_label)) },
+                            description = { Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_description)) },
+                            icon = Icons.Rounded.Delete,
+                            contentDescription = stringResource(Res.string.settings_section_server_delete_and_manage_data_description)
+                        ) {
+                            showDataManagementDialog = true
+                        }
                     }
                 }
-            )
-        },
-        confirmButton = {
-            Button(
-                onClick = {
-                    coroutineScope.launch {
-                        val spaceId = p.vm.tandoorClient?.space?.current()?.id ?: -1
-                        launchWebsiteHandler.invoke("${p.vm.tandoorClient?.credentials?.instanceUrl}/space-manage/${spaceId}")
-                    }
-                }
-            ) {
-                Text(stringResource(Res.string.common_manage_space))
             }
         }
-    )
+
+        TandoorServerVersionCompatibilityDialog(
+            vm = p.vm,
+            shown = showVersionCompatibilityBottomSheet,
+            autoDisplay = false
+        ) {
+            showVersionCompatibilityBottomSheet = false
+        }
+
+        // needed for iOS because app gets denied (reason: https://developer.apple.com/app-store/review/guidelines/#data-collection-and-storage)
+        if (showDataManagementDialog) AlertDialog(
+            onDismissRequest = {
+                showDataManagementDialog = false
+            },
+            icon = {
+                Icon(
+                    Icons.Rounded.Delete,
+                    stringResource(Res.string.settings_section_server_delete_and_manage_data_label)
+                )
+            },
+            title = {
+                Text(stringResource(Res.string.settings_section_server_delete_and_manage_data_label))
+            },
+            text = {
+                Text(
+                    buildAnnotatedString {
+                        append(stringResource(Res.string.settings_section_server_delete_and_manage_data_dialog_line_1))
+
+                        if (p.vm.tandoorClient?.credentials?.instanceUrl?.contains("app.tandoor.dev") == true) {
+                            append("\n\n")
+                            append("${stringResource(Res.string.settings_section_server_delete_and_manage_data_dialog_line_2)} ")
+                            withStyle(
+                                SpanStyle(
+                                    textDecoration = TextDecoration.Underline,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            ) {
+                                withLink(LinkAnnotation.Url("mailto:info@tandoor.dev")) {
+                                    append("info@tandoor.dev")
+                                }
+                            }
+                            append(" ${stringResource(Res.string.settings_section_server_delete_and_manage_data_dialog_line_3)}")
+                        }
+                    }
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        coroutineScope.launch {
+                            val spaceId = p.vm.tandoorClient?.space?.current()?.id ?: -1
+                            launchWebsiteHandler.invoke("${p.vm.tandoorClient?.credentials?.instanceUrl}/space-manage/${spaceId}")
+                        }
+                    }
+                ) {
+                    Text(stringResource(Res.string.common_manage_space))
+                }
+            }
+        )
+    }
 }

@@ -30,6 +30,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
@@ -136,6 +137,14 @@ class KitshnViewModel(
 
             session.hydrate(credentials)
             favorites.init(session.client!!)
+
+            viewModelScope.launch {
+                snapshotFlow { session.client!! }
+                    .combine(settings.getTandoorTimeoutSettings) { client, timeout -> client to timeout }
+                    .collect { (client, timeout) ->
+                        client.configureTimeouts(timeout)
+                    }
+            }
 
             try {
                 session.client!!.serverSettings.current()
