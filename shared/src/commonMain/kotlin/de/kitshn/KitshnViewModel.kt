@@ -3,9 +3,6 @@
 package de.kitshn
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,8 +29,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
@@ -145,7 +142,7 @@ class KitshnViewModel(
                 snapshotFlow { session.client!! }
                     .combine(settings.getTandoorTimeoutSettings) { client, timeout -> client to timeout }
                     .collect { (client, timeout) ->
-                        client?.configureTimeouts(timeout)
+                        client.configureTimeouts(timeout)
                     }
             }
 

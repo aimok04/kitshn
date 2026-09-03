@@ -17,6 +17,7 @@ import de.kitshn.api.tandoor.TandoorTimeoutSettings
 import de.kitshn.api.tandoor.model.shopping.TandoorShoppingList
 import de.kitshn.api.tandoor.model.shopping.TandoorSupermarket
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
