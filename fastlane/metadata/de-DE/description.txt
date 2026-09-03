@@ -1,0 +1,7 @@
+kitshn ist eine inoffizielle App für Tandoor Recipes, die self-hosted Rezeptverwaltung. Gebaut mit Compose und Material 3 Expressive bietet sie eine moderne, intuitive und anpassungsfähige Benutzeroberfläche für deine Rezeptsammlung.
+
+kitshn ist Open-Source-Software
+Mehr erfahren und mitgestalten: https://github.com/aimok04/kitshn
+
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Icon made by Freepik from www.flaticon.com
