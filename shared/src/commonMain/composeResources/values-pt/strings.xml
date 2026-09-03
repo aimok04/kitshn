@@ -280,13 +280,6 @@
     <string name="recipe_import_auto_sort_ingredients_description">Atribuir ingrediente se o texto da etapa incluir o nome do ingrediente</string>
     <string name="recipe_import_divide_steps">Dividir em passos</string>
     <string name="recipe_import_divide_steps_description">Dividir em passos usando as quebras de linha</string>
-    <string name="recipe_import_type_ai_label">Importar usando IA</string>
-    <string name="recipe_import_type_ai_description">Faça upload de imagens ou insira uma receita em formato de texto</string>
-    <string name="recipe_import_type_social_media_label">Importar de Redes Sociais</string>
-    <string name="recipe_import_type_social_media_description">Adicione receitas do Instagram ou TikTok usando IA</string>
-    <string name="recipe_import_type_social_media_disclaimer">Atualmente, apenas Instagram e TikTok têm apoio ativo. Outras plataformas também podem ser suportadas.</string>
-    <string name="recipe_import_type_url_label">Importar de um site</string>
-    <string name="recipe_import_type_url_description">Insira uma URL e importe a receita da internet</string>
     <string name="recipe_not_found">Esta receita não pôde ser encontrada.</string>
     <string name="recipe_sorting_cooking_frequency">Frequência de preparação</string>
     <string name="recipe_sorting_creation_date">Data de criação</string>

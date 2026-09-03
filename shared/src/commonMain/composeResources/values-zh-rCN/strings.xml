@@ -355,10 +355,6 @@
     <string name="action_take_photo">拍照</string>
     <string name="common_image">图片</string>
     <string name="permissions_camera_alert">请允许 kitshn 访问您的摄像头以使用此功能。</string>
-    <string name="recipe_import_type_ai_label">AI 导入</string>
-    <string name="recipe_import_type_ai_description">上传图片或以文本形式输入食谱</string>
-    <string name="recipe_import_type_url_label">从网站导入</string>
-    <string name="recipe_import_type_url_description">输入 URL 并从网页导入食谱</string>
     <string name="action_add_ingredient">添加食材</string>
     <string name="action_create_step">新建步骤</string>
     <string name="action_edit_step">编辑步骤</string>
@@ -373,9 +369,6 @@
     <string name="ios_timer_dialog_shortcut_installed_switch">快捷指令已安装？</string>
     <string name="ios_timer_dialog_title">需要快捷指令</string>
     <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">连接本地服务器时，请在系统设置中为 kitshn 启用「本地网络」权限。</string>
-    <string name="recipe_import_type_social_media_label">从社交媒体导入</string>
-    <string name="recipe_import_type_social_media_description">使用 AI 从 Instagram 或 TikTok 添加食谱</string>
-    <string name="recipe_import_type_social_media_disclaimer">目前仅积极支持 Instagram 和 TikTok。其他平台也可能被支持。</string>
     <string name="settings_section_behavior_enable_compact_home_screen_description">显示列表视图而非大卡片</string>
     <string name="settings_section_behavior_enable_compact_home_screen_label">启用紧凑首页</string>
     <string name="settings_section_behavior_ios_install_timer_shortcut_description">需要在 kitshn 应用内直接启动计时器</string>
