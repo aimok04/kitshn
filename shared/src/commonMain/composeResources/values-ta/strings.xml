@@ -353,10 +353,8 @@
     <string name="meal_plan_form_review_add_to_shopping_list_label">சாப்பிங்கில் சேர்ப்பதற்கு முன் பொருட்களை மதிப்பாய்வு செய்யவும்</string>
     <string name="onboarding_sign_in_ios_social_login_unsupported">இந்த பயன்பாடு சமூக உள்நுழைவை ஆதரிக்காது. தயவுசெய்து ஒரு API- கிள்ளாக்கு உருவாக்கவும் அல்லது பயனர்பெயர்/கடவுச்சொல் அங்கீகாரத்தைப் பயன்படுத்தவும்.</string>
     <string name="permissions_camera_alert">இந்த அம்சத்தைப் பயன்படுத்த உங்கள் கேமராவை அணுக கிட்ச்னை அனுமதிக்கவும்.</string>
-    <string name="recipe_import_type_ai_label">AI உடன் இறக்குமதி செய்யுங்கள்</string>
-    <string name="recipe_import_type_ai_description">படங்களை பதிவேற்றவும் அல்லது உரை வடிவத்தில் செய்முறையை உள்ளிடவும்</string>
-    <string name="recipe_import_type_url_label">வலைத்தளத்திலிருந்து இறக்குமதி</string>
-    <string name="recipe_import_type_url_description">ஒரு முகவரி ஐ உள்ளிட்டு வலையிலிருந்து ஒரு செய்முறையை இறக்குமதி செய்யுங்கள்</string>
+    <string name="recipe_creation_type_import_url_label">வலைத்தளத்திலிருந்து இறக்குமதி</string>
+    <string name="recipe_creation_type_import_url_description">ஒரு முகவரி ஐ உள்ளிட்டு வலையிலிருந்து ஒரு செய்முறையை இறக்குமதி செய்யுங்கள்</string>
     <string name="recipe_step_timer_error_no_app">இந்த செயலுக்கு நீங்கள் ஆதரிக்கப்பட்ட நேரங்குறிகருவி பயன்பாட்டை நிறுவ வேண்டும்!</string>
     <string name="search_categories">வகைகளைத் தேடுங்கள்</string>
     <string name="search_users">பயனர்களைத் தேடுங்கள்</string>
@@ -402,9 +400,9 @@
     <string name="onboarding_sign_in_error_instance_not_reachable_local_network_hint">உள்ளக சேவையகத்துடன் இணைக்கும்போது கணினி அமைப்புகளில் »உள்ளூர் பிணையம் « kitshnக்கான அனுமதியை இயக்கவும்.</string>
     <string name="recipe_import_auto_sort_ingredients">பொருட்களை தானாக வரிசைப்படுத்துங்கள்</string>
     <string name="recipe_import_auto_sort_ingredients_description">படி உரையில் மூலப்பொருளின் பெயர் இருந்தால் மூலப்பொருளை ஒதுக்கவும்</string>
-    <string name="recipe_import_type_social_media_label">சமூக ஊடகத்திலிருந்து இறக்குமதி</string>
-    <string name="recipe_import_type_social_media_description">AI ஐப் பயன்படுத்தி Instagram அல்லது TikTok இலிருந்து சமையல் குறிப்புகளைச் சேர்க்கவும்</string>
-    <string name="recipe_import_type_social_media_disclaimer">தற்போது, இன்ச்டாகிராம் மற்றும் டிக்டோக் மட்டுமே தீவிரமாக ஆதரிக்கப்படுகின்றன. மற்ற தளங்களும் ஆதரிக்கப்படலாம்.</string>
+    <string name="recipe_creation_type_import_social_media_label">சமூக ஊடகத்திலிருந்து இறக்குமதி</string>
+    <string name="recipe_creation_type_import_social_media_description">AI ஐப் பயன்படுத்தி Instagram அல்லது TikTok இலிருந்து சமையல் குறிப்புகளைச் சேர்க்கவும்</string>
+    <string name="recipe_creation_type_import_social_media_disclaimer">தற்போது, இன்ச்டாகிராம் மற்றும் டிக்டோக் மட்டுமே தீவிரமாக ஆதரிக்கப்படுகின்றன. மற்ற தளங்களும் ஆதரிக்கப்படலாம்.</string>
     <string name="search_providers">தேடல் வழங்குநர்கள்</string>
     <string name="settings_section_appearance_hide_activity_label">செயல்பாட்டுப் பகுதியை மறை</string>
     <string name="settings_section_appearance_hide_activity_description">செய்முறை விவரக் காட்சியில் செயல்பாட்டுப் பகுதியை மறைக்கிறது</string>

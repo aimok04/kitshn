@@ -24,6 +24,10 @@ enum class SettingsListItemPosition {
     SINGULAR
 }
 
+fun ListItemPositionNeedsPadding(position: SettingsListItemPosition): Boolean {
+    return position == SettingsListItemPosition.SINGULAR || position == SettingsListItemPosition.TOP
+}
+
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SettingsListItem(

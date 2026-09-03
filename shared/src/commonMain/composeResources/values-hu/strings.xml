@@ -294,10 +294,8 @@
     <string name="recipe_edit_no_steps_added">Ehhez a recepthez még nem adtak hozzá lépéseket.</string>
     <string name="recipe_import_divide_steps">Lépések felosztása</string>
     <string name="recipe_import_divide_steps_description">Lépések felosztása sortörésekkel</string>
-    <string name="recipe_import_type_ai_label">Importálás mesterséges intelligenciával</string>
-    <string name="recipe_import_type_ai_description">Töltsön fel képeket, vagy írjon be egy receptet szöveges formában</string>
-    <string name="recipe_import_type_social_media_label">Importálás a közösségi médiából</string>
-    <string name="recipe_import_type_social_media_description">Adjon hozzá recepteket az Instagramból vagy a TikTok-ból mesterséges intelligencia segítségével</string>
-    <string name="recipe_import_type_social_media_disclaimer">Jelenleg csak az Instagram és a TikTok támogatott aktívan. Más platformok is támogatottak lehetnek.</string>
-    <string name="recipe_import_type_url_label">Importálás weboldalról</string>
+    <string name="recipe_creation_type_import_social_media_label">Importálás a közösségi médiából</string>
+    <string name="recipe_creation_type_import_social_media_description">Adjon hozzá recepteket az Instagramból vagy a TikTok-ból mesterséges intelligencia segítségével</string>
+    <string name="recipe_creation_type_import_social_media_disclaimer">Jelenleg csak az Instagram és a TikTok támogatott aktívan. Más platformok is támogatottak lehetnek.</string>
+    <string name="recipe_creation_type_import_url_label">Importálás weboldalról</string>
 </resources>

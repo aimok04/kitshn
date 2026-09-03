@@ -103,7 +103,7 @@
     <string name="recipe_cook_done_title">Smacznego 🤌</string>
     <string name="recipe_edit_no_keywords_added">Słowa kluczowe nie zostały dodane do tego przepisu.</string>
     <string name="recipe_edit_no_steps_added">Kroki nie zostały dodane do tego przepisu.</string>
-    <string name="recipe_import_type_url_label">Importuj ze strony</string>
+    <string name="recipe_creation_type_import_url_label">Importuj ze strony</string>
     <string name="recipe_step_timer_created">Timer został ustawiony.</string>
     <string name="recipe_step_timer_error_no_app">Musisz zainstalować wspieraną aplikację Timer dla tej czynności!</string>
     <string name="search_food_including_all_description">Przepis musi zawierać wszystkie składniki</string>
@@ -186,7 +186,6 @@
     <string name="common_supermarket">Supermarket</string>
     <string name="home_section_dinner">Pomysły na kolację</string>
     <string name="common_today">Dzisiaj</string>
-    <string name="recipe_import_type_ai_label">Importuj za pomocą AI</string>
     <string name="common_total">razem</string>
     <string name="common_unknown_recipe">Nieznany przepis</string>
     <string name="common_version">Wersja</string>
@@ -268,8 +267,7 @@
     <string name="recipe_book_empty">Żadne przepisy nie zostały dodane do tej książki kucharskiej.</string>
     <string name="recipe_book_favorites_description">Kolekcja twoich ulubionych przepisów</string>
     <string name="recipe_books_empty">Nie utworzono książek kucharskich - stwórz swoją pierwszą książkę!</string>
-    <string name="recipe_import_type_ai_description">Prześlij zdjęcia lub wpisz przepis tekstowo</string>
-    <string name="recipe_import_type_url_description">Wpisz adres URL i importuj ze strony</string>
+    <string name="recipe_creation_type_import_url_description">Wpisz adres URL i importuj ze strony</string>
     <string name="recipe_sorting_cooking_frequency">Częstotliwość gotowania</string>
     <string name="recipe_sorting_last_cooked">Ostatnio przygotowane</string>
     <string name="recipe_sorting_last_viewed">Ostatnio wyświetlone</string>

@@ -75,7 +75,7 @@ import kitshn.shared.generated.resources.common_ai_provider
 import kitshn.shared.generated.resources.common_or_upper
 import kitshn.shared.generated.resources.common_recipe
 import kitshn.shared.generated.resources.error_recipe_could_not_be_loaded
-import kitshn.shared.generated.resources.recipe_import_type_ai_label
+import kitshn.shared.generated.resources.recipe_creation_type_ai_label
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -202,7 +202,7 @@ fun RecipeImportAIDialog(
 
     AdaptiveFullscreenDialog(
         onDismiss = { state.dismiss() },
-        title = { Text(text = stringResource(Res.string.recipe_import_type_ai_label)) },
+        title = { Text(text = stringResource(Res.string.recipe_creation_type_ai_label)) },
         topAppBarActions = {
             if(state.data.recipeFromSource != null) FilledIconButton(
                 onClick = {
