@@ -198,7 +198,6 @@
     <string name="common_welcome">Willkommen</string>
     <string name="common_yesterday">Gestern</string>
     <string name="common_default">Standard</string>
-
     <string name="error">Fehler</string>
     <string name="error_couldnt_connect_to_tandoor">Es konnte keine Verbindung zu deinem Tandoor-Server hergestellt werden.</string>
     <string name="error_instance_inaccessible">Die Instanz, mit der du dich verbinden möchtest, ist nicht in dieser App eingerichtet.</string>
@@ -351,7 +350,7 @@
     <string name="settings_section_behavior_ingredients_show_fractional_values_label">Werte für Zutaten als Brüche anzeigen</string>
     <string name="settings_section_behavior_ios_install_timer_shortcut_description">Wird benötigt, um Timer direkt aus kitshn zu starten</string>
     <string name="settings_section_behavior_ios_install_timer_shortcut_label">iOS-Timer-Kurzbefehl installieren</string>
-    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Verhindert, dass der Bildschirm beim Ansehen von Rezeptdetails in den Ruhezustand wechselt – genau wie im Kochmodus.</string>
+    <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Verhindert, dass der Bildschirm beim Ansehen von Rezeptdetails in den Ruhezustand wechselt – genau wie im Kochmodus</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Bildschirm in Rezeptübersicht eingeschaltet lassen</string>
     <string name="settings_section_behavior_shopping_item_double_click_check_label">Einkäufe per Doppelklick abhaken</string>
     <string name="settings_section_behavior_shopping_item_double_click_check_description">Einkaufslisteneinträge durch schnelles Doppelklicken als erledigt markieren</string>
@@ -375,7 +374,6 @@
     <string name="settings_section_server_advanced_long_timeout_description">Für zeitintensive Vorgänge wie KI-Importe (%1$d Sekunden)</string>
     <string name="settings_section_server_advanced_reset_label">Auf Standard zurücksetzen</string>
     <string name="settings_section_server_advanced_reset_description">Alle Netzwerkeinstellungen auf die Standardwerte zurücksetzen</string>
-
     <string name="settings_section_server_advanced_timeout_selection_title">Timeout auswählen</string>
     <string name="share_incentive">Hey! Schau dir dieses Rezept in Tandoor an:</string>
     <string name="share_title">Teile dieses Rezept von Tandoor</string>
@@ -458,7 +456,7 @@
     <string name="settings_section_appearance_hide_activity_label">Aktivität-Bereich verstecken</string>
     <string name="settings_section_appearance_hide_activity_description">Versteckt den Aktivität-Bereich in der Rezept-Detail-Ansicht</string>
     <string name="shopping_list_dialog_clear_title">Einkaufsliste leeren</string>
-    <string name="recipe_creation_type_import_url_description">Gebe eine URL ein und importiere ein Rezept aus dem Netz</string>
+    <string name="recipe_creation_type_import_url_description">Gebe eine URL ein und importiere ein Rezept aus dem Netz.</string>
     <string name="common_image">Bild</string>
     <string name="action_take_photo">Foto aufnehmen</string>
     <string name="permissions_camera_alert">Bitte erlaube kitshn den Zugriff auf deine Kamera um diese Funktion zu nutzen.</string>
@@ -493,4 +491,28 @@
     <string name="color_cyan">Türkis</string>
     <string name="color_yellow">Gelb</string>
     <string name="color_olive">Olivgrün</string>
+    <string name="action_add_or_import_recipe">Rezept erstellen oder importieren</string>
+    <string name="action_add_custom_header">HTTP-Header hinzufügen</string>
+    <string name="action_add_mtls_certificate">mTLS-Zertifikat hinzufügen</string>
+    <string name="action_edit_custom_header">HTTP-Header bearbeiten</string>
+    <string name="common_advanced_settings">Erweiterte Einstellungen</string>
+    <string name="common_mtls">mTLS-Zertifikat</string>
+    <string name="onboarding_sign_in_custom_header_duplicate">Das Header-Feld wurde bereits gesetzt</string>
+    <string name="onboarding_sign_in_hint_credentials_required">Bitte gebe einen Nutzernamen und Passwort oder einen API-Token an, oder nutze » Mit Webbrowser anmelden «.</string>
+    <string name="recipe_creation_type_ai_label">Mit KI erstellen</string>
+    <string name="recipe_creation_type_ai_description">Lade Bilder hoch oder gib ein Rezept in Textform ein und lasse der KI den Rest übernehmen.</string>
+    <string name="recipe_creation_type_manual_label">Manuell erstellen</string>
+    <string name="recipe_creation_type_manual_description">Gib die Zutaten, Schritte und Details manuell ein.</string>
+    <string name="settings_section_server_mtls_label">Client-Zertifikat (mTLS)</string>
+    <string name="settings_section_server_mtls_description_none">Kein Zertifikat konfiguriert</string>
+    <string name="settings_section_server_mtls_remove">Zertifikat entfernen</string>
+    <string name="settings_section_server_mtls_remove_dialog_title">Zertifikat entfernen?</string>
+    <string name="settings_section_server_mtls_remove_dialog_description">Das Client-Zertifikat wird entfernt. Für die Serververbindung wird kein gegenseitiges TLS (mTLS) mehr verwendet.</string>
+    <string name="settings_section_server_mtls_description_pkcs12">PKCS12-Zertifikat (Importiert)</string>
+    <string name="settings_section_server_mtls_password_dialog_title">Passwort des Zertifikats</string>
+    <string name="settings_section_server_mtls_password_dialog_label">Passwort</string>
+    <string name="onboarding_sign_in_mtls_required_dialog_title">Client-Zertifikat benötigt</string>
+    <string name="onboarding_sign_in_mtls_required_dialog_description">Der Server kann ohne Client-Zertifikat nicht erreicht werden. Das bedeutet meistens, dass der Server mTLS oder ein selbstsigniertes Zertifikat nutzt. Wähle eine PKCS12-Datei (.p12) aus, um fortzufahren.</string>
+    <string name="onboarding_sign_in_error_client_certificate_required">Ein Client-Zertifikat (mTLS) wird benötigt um den Server zu erreichen.</string>
+    <string name="action_select_certificate">Zertifikat wählen</string>
 </resources>
