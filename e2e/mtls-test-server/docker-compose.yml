@@ -1,0 +1,47 @@
+services:
+  db_recipes:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: djangod
+      POSTGRES_PASSWORD: djangod
+      POSTGRES_DB: djangod
+    tmpfs:
+      - /var/lib/postgresql/data
+
+  web_recipes:
+    image: vabene1111/recipes
+    restart: unless-stopped
+    environment:
+      SECRET_KEY: dev-only-not-secret
+      DB_ENGINE: django.db.backends.postgresql
+      POSTGRES_HOST: db_recipes
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: djangod
+      POSTGRES_PASSWORD: djangod
+      POSTGRES_DB: djangod
+      ALLOWED_HOSTS: '*'
+      DEBUG: 0
+      GUNICORN_MEDIA: 1
+    volumes:
+      - staticfiles:/opt/recipes/staticfiles
+      - mediafiles:/opt/recipes/mediafiles
+    depends_on:
+      - db_recipes
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "8443:8443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+      - staticfiles:/static:ro
+      - mediafiles:/media:ro
+    depends_on:
+      - web_recipes
+
+volumes:
+  staticfiles:
+  mediafiles:

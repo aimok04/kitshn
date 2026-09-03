@@ -77,7 +77,7 @@ actual fun InitializeWebView(
                         modifier = Modifier.padding(
                             top = 8.dp
                         ),
-                        progress = progress
+                        progress = { progress }
                     )
 
                     Text(

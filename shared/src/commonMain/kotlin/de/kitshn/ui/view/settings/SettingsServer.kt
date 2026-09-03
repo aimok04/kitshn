@@ -48,8 +48,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
-import de.kitshn.BackHandler
 import androidx.compose.ui.unit.dp
+import de.kitshn.BackHandler
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.closeAppHandler
 import de.kitshn.launchWebsiteHandler
@@ -67,14 +67,14 @@ import kitshn.shared.generated.resources.common_instance_url
 import kitshn.shared.generated.resources.common_manage_space
 import kitshn.shared.generated.resources.common_unknown
 import kitshn.shared.generated.resources.common_version
+import kitshn.shared.generated.resources.settings_section_server_advanced_description
+import kitshn.shared.generated.resources.settings_section_server_advanced_label
 import kitshn.shared.generated.resources.settings_section_server_delete_and_manage_data_description
 import kitshn.shared.generated.resources.settings_section_server_delete_and_manage_data_dialog_line_1
 import kitshn.shared.generated.resources.settings_section_server_delete_and_manage_data_dialog_line_2
 import kitshn.shared.generated.resources.settings_section_server_delete_and_manage_data_dialog_line_3
 import kitshn.shared.generated.resources.settings_section_server_delete_and_manage_data_label
 import kitshn.shared.generated.resources.settings_section_server_label
-import kitshn.shared.generated.resources.settings_section_server_advanced_description
-import kitshn.shared.generated.resources.settings_section_server_advanced_label
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -104,10 +104,13 @@ fun ViewSettingsServer(
         p.back
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(p.vm.tandoorClient) {
         TandoorRequestState().wrapRequest {
             val user = p.vm.tandoorClient?.user?.get()
             if (user != null) p.vm.uiState.userDisplayName = user.display_name
+        }
+        TandoorRequestState().wrapRequest {
+            p.vm.tandoorClient?.serverSettings?.current()
         }
     }
 

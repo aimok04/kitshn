@@ -18,9 +18,8 @@ import de.kitshn.api.tandoor.route.TandoorSupermarketRoute
 import de.kitshn.api.tandoor.route.TandoorUnitRoute
 import de.kitshn.api.tandoor.route.TandoorUserPreferenceRoute
 import de.kitshn.api.tandoor.route.TandoorUserRoute
+import de.kitshn.isTlsException
 import de.kitshn.json
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.HttpTimeout
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -57,7 +56,10 @@ data class TandoorCredentials(
     val password: String = "",
     var token: TandoorCredentialsToken? = null,
     val cookie: String? = null,
-    val customHeaders: List<TandoorCredentialsCustomHeader> = listOf()
+    val customHeaders: List<TandoorCredentialsCustomHeader> = listOf(),
+    val mtlsCertificateAlias: String? = null,
+    val mtlsCertificateData: String? = null,
+    val mtlsCertificatePassword: String? = null,
 )
 
 class TandoorClient(
@@ -65,28 +67,18 @@ class TandoorClient(
     var timeoutSettings: TandoorTimeoutSettings = TandoorTimeoutSettings()
 ) {
 
-    var httpClient = createHttpClient(timeoutSettings.shortTimeout)
+    var certificateRequested: Boolean = false
+    var tlsHandshakeFailed: Boolean = false
 
-    var longHttpClient = createLongHttpClient(timeoutSettings.longTimeout)
+    /** `true` when the last connection failure was a cert error */
+    val needsClientCertificate: Boolean get() = certificateRequested || tlsHandshakeFailed
 
-    private fun createHttpClient(timeout: Long) = HttpClient {
-        followRedirects = true
-
-        install(HttpTimeout) {
-            connectTimeoutMillis = timeout
-            requestTimeoutMillis = timeout
-            socketTimeoutMillis = timeout
-        }
+    var httpClient = createTandoorHttpClient(credentials, timeoutSettings.shortTimeout) {
+        certificateRequested = true
     }
 
-    private fun createLongHttpClient(timeout: Long) = HttpClient {
-        followRedirects = true
-
-        install(HttpTimeout) {
-            connectTimeoutMillis = timeout
-            requestTimeoutMillis = timeout
-            socketTimeoutMillis = timeout
-        }
+    var longHttpClient = createTandoorHttpClient(credentials, timeoutSettings.longTimeout) {
+        certificateRequested = true
     }
 
     fun configureTimeouts(settings: TandoorTimeoutSettings) {
@@ -96,8 +88,13 @@ class TandoorClient(
         httpClient.close()
         longHttpClient.close()
 
-        httpClient = createHttpClient(settings.shortTimeout)
-        longHttpClient = createLongHttpClient(settings.longTimeout)
+        httpClient = createTandoorHttpClient(credentials, timeoutSettings.shortTimeout) {
+            certificateRequested = true
+        }
+
+        longHttpClient = createTandoorHttpClient(credentials, timeoutSettings.longTimeout) {
+            certificateRequested = true
+        }
     }
 
     val container = TandoorContainer(this)
@@ -161,6 +158,7 @@ class TandoorClient(
             getObject("/")
             return true
         } catch(e: TandoorRequestsError) {
+            if (e.isTlsException) tlsHandshakeFailed = true
             if(ignoreAuth) return e.response?.status == HttpStatusCode.Forbidden
             return false
         } catch(_: SerializationException) {
