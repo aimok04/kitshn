@@ -100,7 +100,11 @@ fun SettingsListItem(
                 Icon(
                     modifier = Modifier
                         .background(
-                            MaterialTheme.colorScheme.surfaceContainerHigh,
+                            if(selected) {
+                                MaterialTheme.colorScheme.secondaryContainer
+                            } else {
+                                MaterialTheme.colorScheme.surfaceContainerHigh
+                            },
                             RoundedCornerShape(8.dp)
                         )
                         .padding(4.dp),
