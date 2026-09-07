@@ -267,7 +267,7 @@
     <string name="onboarding_sign_in_error_sign_in_failed">Falha no login. Por favor, verifique os dados inseridos!</string>
     <string name="onboarding_sign_in_ios_social_login_unsupported">Este aplicativo não suporta login via redes sociais. Por favor, gere um API-Token ou faça login usando nome de usuário e senha.</string>
     <string name="onboarding_sign_in_title">Faça login no Tandoor</string>
-    <string name="onboarding_sign_in_using_web_browser">Faça login usando o navegador</string>
+    <string name="onboarding_sign_in_using_web_browser">Faça login via navegador</string>
     <string name="onboarding_welcome">Divirta-se cozinhando com kitshn. Para bugs, comentários e ideias de recursos, verifique a página » Sobre « nas configurações para ver as de opções de contato.</string>
     <string name="permissions_camera_alert">Por favor, permita que o kitshn acesse sua câmera para usar este recurso.</string>
     <string name="recipe_book_empty">Nenhuma receita foi adicionada a este livro de culinária ainda.</string>
@@ -385,4 +385,25 @@
     <string name="common_day_before_yesterday">null</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_description">Evite que a tela apague enquanto visualiza os detalhes da receita, assim como no Modo de Culinária</string>
     <string name="settings_section_behavior_keep_screen_on_in_recipe_details_label">Manter a tela ativa na visão geral da receita</string>
+    <string name="action_add_or_import_recipe">Adicionar ou importar receita</string>
+    <string name="action_add_custom_header">Adicionar cabeçalho HTTP</string>
+    <string name="action_add_mtls_certificate">Adicionar certificado mTLS</string>
+    <string name="action_edit_custom_header">Editar cabeçalho HTTP</string>
+    <string name="action_create_meal_type">Novo tipo de refeição</string>
+    <string name="action_edit_meal_type">Editar tipo de refeição</string>
+    <string name="common_advanced_settings">Configurações avançadas</string>
+    <string name="common_color">Cor</string>
+    <string name="common_mtls">Certificado mTLS</string>
+    <string name="common_shopping_list">Lista de compras</string>
+    <string name="common_time">Horário</string>
+    <string name="common_default">Padrão</string>
+    <string name="onboarding_sign_in_custom_header_duplicate">Cabeçalho duplicado ou já utilizado</string>
+    <string name="onboarding_sign_in_hint_credentials_required">Favor inserir um nome de usuário e senha, token de API, ou use » Faça login via navegador «.</string>
+    <string name="recipe_creation_type_ai_label">Criar com IA</string>
+    <string name="recipe_creation_type_ai_description">Suba imagens ou insira uma receita em formato de texto e deixe a IA escrever para você.</string>
+    <string name="recipe_creation_type_manual_label">Criar manualmente</string>
+    <string name="recipe_creation_type_manual_description">Inserir ingredientes, instruções e detalhes manualmente.</string>
+    <string name="recipe_step_step_description">Adicionar instruções para esse passo</string>
+    <string name="settings_section_appearance_hide_activity_label">Ocultar seção de atividades</string>
+    <string name="settings_section_appearance_hide_activity_description">Oculta a seção de atividades na visão geral da receita</string>
 </resources>
