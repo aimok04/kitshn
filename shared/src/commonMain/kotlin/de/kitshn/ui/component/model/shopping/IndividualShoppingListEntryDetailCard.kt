@@ -24,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -37,6 +36,7 @@ import de.kitshn.ui.theme.playfairDisplay
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_edit_entry
 import kitshn.shared.generated.resources.action_mark_as_done
+import kitshn.shared.generated.resources.common_by
 import kitshn.shared.generated.resources.common_plural_portion
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
@@ -54,6 +54,23 @@ fun IndividualShoppingListEntryDetailCard(
         onClick = onClick
     ) {
         Box {
+            val createdBy =
+                " · ${stringResource(Res.string.common_by)} ${entry.created_by.display_name}"
+
+            val overlineText = entry.list_recipe_data?.let {
+                entry.list_recipe_data.recipe_data?.name
+                    ?: entry.list_recipe_data.meal_plan_data?.title
+                    ?: ""
+            }
+
+            val headlineText = when(entry.list_recipe_data?.meal_plan_data?.from_date != null) {
+                true -> entry.list_recipe_data.meal_plan_data.from_date.parseTandoorDate()
+                    .toHumanReadableDateLabel()
+
+                false -> (entry.created_at?.parseTandoorDate()
+                    ?.toHumanReadableDateLabel() ?: "")
+            } + createdBy
+
             ListItem(
                 modifier = Modifier.alpha(
                     when(entry.checked) {
@@ -61,69 +78,34 @@ fun IndividualShoppingListEntryDetailCard(
                         else -> 1f
                     }
                 ),
-                overlineContent = if(entry.list_recipe_data != null) {
+                overlineContent = overlineText?.let { overlineText ->
                     {
-                        if(entry.list_recipe_data.meal_plan_data?.from_date != null) {
-                            Text(
-                                text = entry.list_recipe_data.meal_plan_data.from_date.parseTandoorDate()
-                                    .toHumanReadableDateLabel(),
-                                textDecoration = if(entry.checked) {
-                                    TextDecoration.LineThrough
-                                } else {
-                                    TextDecoration.None
-                                }
-                            )
-                        } else {
-                            Text(
-                                text = entry.created_at?.parseTandoorDate()
-                                    ?.toHumanReadableDateLabel()
-                                    ?: "",
-                                textDecoration = if(entry.checked) {
-                                    TextDecoration.LineThrough
-                                } else {
-                                    TextDecoration.None
-                                }
-                            )
-                        }
+                        Text(
+                            text = overlineText,
+                            textDecoration = if(entry.checked) {
+                                TextDecoration.LineThrough
+                            } else {
+                                TextDecoration.None
+                            },
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
                     }
-                } else {
-                    null
                 },
                 headlineContent = {
-                    if(entry.list_recipe_data != null) {
-                        Text(
-                            text = entry.list_recipe_data.recipe_data?.name
-                                ?: entry.list_recipe_data.meal_plan_data?.title
-                                ?: "",
-                            textDecoration = if(entry.checked) {
-                                TextDecoration.LineThrough
-                            } else {
-                                TextDecoration.None
-                            },
-                            style = Typography().bodyLarge.copy(
-                                fontFamily = playfairDisplay()
-                            ),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    } else {
-                        Text(
-                            text = entry.created_at?.parseTandoorDate()
-                                ?.toHumanReadableDateLabel()
-                                ?: "",
-                            textDecoration = if(entry.checked) {
-                                TextDecoration.LineThrough
-                            } else {
-                                TextDecoration.None
-                            },
-                            style = Typography().bodyLarge.copy(
-                                fontFamily = playfairDisplay()
-                            ),
-                            fontStyle = FontStyle.Italic,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
+                    Text(
+                        text = headlineText,
+                        textDecoration = if(entry.checked) {
+                            TextDecoration.LineThrough
+                        } else {
+                            TextDecoration.None
+                        },
+                        style = Typography().bodyLarge.copy(
+                            fontFamily = playfairDisplay()
+                        ),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 },
                 supportingContent = {
                     Row(
