@@ -133,7 +133,7 @@ fun IndividualShoppingListEntryDetailCard(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        ElevatedAssistChip(
+                        if(entry.amount != 0.0) ElevatedAssistChip(
                             label = {
                                 Text(
                                     text = buildString {
@@ -159,7 +159,7 @@ fun IndividualShoppingListEntryDetailCard(
                         )
 
                         if(entry.list_recipe_data != null) {
-                            VerticalDivider(
+                            if(entry.amount != 0.0) VerticalDivider(
                                 modifier = Modifier.height(32.dp)
                             )
 
