@@ -139,10 +139,10 @@ class KitshnViewModel(
             favorites.init(session.client!!)
 
             viewModelScope.launch {
-                snapshotFlow { session.client!! }
+                snapshotFlow { session.client }
                     .combine(settings.getTandoorTimeoutSettings) { client, timeout -> client to timeout }
                     .collect { (client, timeout) ->
-                        client.configureTimeouts(timeout)
+                        client?.configureTimeouts(timeout)
                     }
             }
 
