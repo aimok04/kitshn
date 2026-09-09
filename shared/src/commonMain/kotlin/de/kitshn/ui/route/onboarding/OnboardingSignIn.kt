@@ -840,6 +840,7 @@ fun RouteOnboardingSignIn(
 }
 
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 private fun InstanceUrlStatusIndicator(
     state: ErrorLoadingSuccessState,
