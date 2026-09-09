@@ -25,10 +25,10 @@ val prop by extra(Properties().apply {
 
 val date by extra(LocalDate.now().toString())
 
-val kitshnVersionName by extra("2.1.1")
-val kitshnVersionCode by extra(20101)
+val kitshnVersionName by extra("2.1.3")
+val kitshnVersionCode by extra(20103)
 
-val kitshnAlternateVersionName by extra("2.1.1")
+val kitshnAlternateVersionName by extra("2.1.3")
 val kitshnAlternateBuildVersionName by extra(kitshnAlternateVersionName.split(".").run {
     this[0] + "." + this[1] + "." + kitshnVersionCode
 })
