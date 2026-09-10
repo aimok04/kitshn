@@ -9,16 +9,16 @@
 
 [<img src="/images/badge_github.png"
 alt="Get it on GitHub"
-height="80">](https://github.com/kitshn-app/kitshn/releases)
+height="70">](https://github.com/kitshn-app/kitshn/releases)
 [<img src="/images/badge_fdroid.png"
 alt="Get it on F-Droid"
-height="80">](https://f-droid.org/packages/de.kitshn.android/)
+height="70">](https://f-droid.org/packages/de.kitshn.android/)
 [<img src="/images/badge_google.png"
 alt="Get it on Google Play"
-height="80">](https://play.google.com/store/apps/details?id=de.kitshn.android)
+height="70">](https://play.google.com/store/apps/details?id=de.kitshn.android)
 [<img src="/images/badge_apple.png"
 alt="Download on the App Store"
-height="80">](https://apps.apple.com/us/app/kitshn-for-tandoor/id6740168361)
+height="70">](https://apps.apple.com/us/app/kitshn-for-tandoor/id6740168361)
 
 ## 🔑 Certificate Fingerprints (.apk)
 ```
