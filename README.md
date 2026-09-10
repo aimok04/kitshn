@@ -10,7 +10,7 @@
 [<img src="/images/badge_github.png"
 alt="Get it on GitHub"
 height="80">](https://github.com/kitshn-app/kitshn/releases)
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+[<img src="/images/badge_fdroid.png"
 alt="Get it on F-Droid"
 height="80">](https://f-droid.org/packages/de.kitshn.android/)
 [<img src="/images/badge_google.png"
