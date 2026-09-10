@@ -30,14 +30,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import de.kitshn.api.tandoor.TandoorRequestState
 import de.kitshn.ui.component.onboarding.KitshnLogoAnimationWrapper
 import de.kitshn.ui.randomBackgroundShape
 import de.kitshn.ui.route.RouteParameters
-import de.kitshn.ui.theme.KitshnYellowBright
-import de.kitshn.ui.theme.KitshnYellowDark
+import de.kitshn.ui.theme.KitshnYellow
 import de.kitshn.ui.theme.Typography
 import kitshn.shared.generated.resources.Res
 import kitshn.shared.generated.resources.action_next
@@ -129,14 +127,8 @@ fun RouteOnboardingWelcome(
                                 text = p.vm.uiState.userDisplayName.ifBlank {
                                     p.vm.tandoorClient?.credentials?.username ?: ""
                                 },
-                                style = Typography().displaySmall.copy(
-                                    brush = Brush.horizontalGradient(
-                                        colors = listOf(
-                                            KitshnYellowBright,
-                                            KitshnYellowDark
-                                        )
-                                    )
-                                )
+                                style = Typography().displaySmall,
+                                color = KitshnYellow
                             )
                         }
 

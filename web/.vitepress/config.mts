@@ -60,11 +60,11 @@ export default defineConfig({
 
     footer: {
       message: "Icon made by Freepik from www.flaticon.com",
-      copyright: "kitshn.app and kitshn are available under <a href='https://github.com/aimok04/kitshn/blob/main/LICENSE'>GNU General Public License v3.0</a>"
+      copyright: "kitshn.app and kitshn are available under <a href='https://github.com/kitshn-app/kitshn/blob/main/LICENSE'>GNU General Public License v3.0</a>"
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/aimok04/kitshn' },
+      { icon: 'github', link: 'https://github.com/kitshn-app/kitshn' },
       { icon: 'kofi', link: 'https://ko-fi.com/aimok04' }
     ],
 
@@ -76,8 +76,6 @@ export default defineConfig({
     hostname: "https://kitshn.app"
   },
   head: [
-    ["script", { defer: "defer", src: "https://keepandroidopen.org/banner.js" }],
-    ["link", { rel: "stylesheet", href: "/style.css" }],
     ["meta", { name: "darkreader-lock" }],
     ["link", { rel: "apple-touch-icon", sizes: "57x57", href: "/apple-icon-57x57.png" }],
     ["link", { rel: "apple-touch-icon", sizes: "60x60", href: "/apple-icon-60x60.png" }],
@@ -93,8 +91,8 @@ export default defineConfig({
     ["link", { rel: "icon", sizes: "96x96", href: "/favicon-96x96.png" }],
     ["link", { rel: "icon", sizes: "16x16", href: "/favicon-16x16.png" }],
     ["link", { rel: "manifest", href: "/manifest.json" }],
-    ["meta", { name: "msapplication-TileColor", content: "#FED506" }],
+    ["meta", { name: "msapplication-TileColor", content: "#e8b616" }],
     ["meta", { name: "msapplication-TileImage", content: "/ms-icon-144x144.png" }],
-    ["meta", { name: "theme-color", content: "#FED506" }]
+    ["meta", { name: "theme-color", content: "#e8b616" }]
   ]
 })

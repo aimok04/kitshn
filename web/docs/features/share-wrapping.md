@@ -6,12 +6,12 @@ For the sake of transparency, the » **x.kitshn.app** « website is hosted on Gi
 
 ---
 
-The share wrapping url can be changed in the [`kitshn.properties`](https://github.com/aimok04/kitshn/blob/main/kitshn.properties) file.
+The share wrapping url can be changed in the [`kitshn.properties`](https://github.com/kitshn-app/kitshn/blob/main/kitshn.properties) file.
 ```txt{2}
 # default kitshn share wrapper
 share.wrapper.url="https://x.kitshn.app/#"
 ```
-You should also change the [`AndroidManifest.xml`](https://github.com/aimok04/kitshn/blob/main/app/src/main/AndroidManifest.xml) when changing the share wrapping url.
+You should also change the [`AndroidManifest.xml`](https://github.com/kitshn-app/kitshn/blob/main/app/src/main/AndroidManifest.xml) when changing the share wrapping url.
 ```xml{11}
 ...
 <intent-filter android:autoVerify="true">

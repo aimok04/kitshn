@@ -16,11 +16,11 @@ You can build Desktop binaries on Linux and Windows by running `./gradlew[.bat] 
 
 # kitshn.properties
 
-Consider changing the [`kitshn.properties`](https://github.com/aimok04/kitshn/blob/main/kitshn.properties).
+Consider changing the [`kitshn.properties`](https://github.com/kitshn-app/kitshn/blob/main/kitshn.properties).
 
 ```txt
-about.github=https://www.github.com/aimok04/kitshn
-about.github.new.issue=https://www.github.com/aimok04/kitshn/issues/new
+about.github=https://www.github.com/kitshn-app/kitshn
+about.github.new.issue=https://www.github.com/kitshn-app/kitshn/issues/new
 about.contact.website=https://kitshn.app
 about.contact.mailto=contact@kitshn.app
 about.apple.appstore=https://apps.apple.com/us/app/kitshn-for-tandoor/id6740168361

@@ -9,7 +9,7 @@ import { ref, onMounted } from 'vue'
 const gh = ref([])
 
 onMounted(async () => {
-  const ghres = await fetch('https://api.github.com/repos/aimok04/kitshn/releases')
+  const ghres = await fetch('https://api.github.com/repos/kitshn-app/kitshn/releases')
   gh.value = await ghres.json()
   
   if(gh.value[0]?.name === "nightly") gh.value.shift()
@@ -29,8 +29,8 @@ F-Droid releases are delayed by up to one week. Use **IzzyOnDroid**, **Obtainium
 ### Built and signed by myself
 <div style="display: flex; flex-direction: row; flex-wrap: wrap">
     <badge src="izzyondroid" label="IzzyOnDroid" link="https://android.izzysoft.de/repo/apk/de.kitshn.android" />
-    <badge src="obtainium" label="Obtainium" link="obtainium://add/github.com/aimok04/kitshn" />
-    <badge src="github" label="GitHub" link="https://github.com/aimok04/kitshn/releases" />
+    <badge src="obtainium" label="Obtainium" link="obtainium://add/github.com/kitshn-app/kitshn" />
+    <badge src="github" label="GitHub" link="https://github.com/kitshn-app/kitshn/releases" />
 </div>
 
 #### Verified open source
@@ -63,4 +63,4 @@ Reject Google, return to privacy.
 
 New versions include `.flatpak` binaries. These are **experimental** and some features might be broken.
 
-<badge src="github" label="GitHub" link="https://github.com/aimok04/kitshn/releases" />
+<badge src="github" label="GitHub" link="https://github.com/kitshn-app/kitshn/releases" />

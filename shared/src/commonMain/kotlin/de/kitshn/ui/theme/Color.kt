@@ -2,9 +2,7 @@ package de.kitshn.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val KitshnYellowBright = Color(0xFFFFF39E)
-val KitshnYellow = Color(0xFFFBB034)
-val KitshnYellowDark = Color(0xFFC18728)
+val KitshnYellow = Color(0xFFE8B616)
 
 val Success = Color(0xFF66DD66)
 

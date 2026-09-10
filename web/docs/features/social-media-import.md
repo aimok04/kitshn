@@ -13,4 +13,4 @@ You can share a post with *kitshn* or open the *kitshn* app, click the **Import*
 
 kitshn will scrape the *post description* and *cover image* and will try to convert the post into a Tandoor recipe.
 
-This feature is **not very stable** yet. Please feel free to report any issues on [GitHub](https://github.com/aimok04/kitshn).
+This feature is **not very stable** yet. Please feel free to report any issues on [GitHub](https://github.com/kitshn-app/kitshn).

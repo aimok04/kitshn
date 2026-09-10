@@ -1,22 +1,15 @@
-> [!CAUTION]
-> ‼️ Android will become a locked-down platform. Learn more: https://keepandroidopen.org/
-
 ![kitshn (for Tandoor)](/images/title_light.png#gh-light-mode-only)
 ![kitshn (for Tandoor)](/images/title_dark.png#gh-dark-mode-only)
 ---
-![GitHub](https://img.shields.io/github/license/aimok04/kitshn?style=for-the-badge) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/aimok04/kitshn?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/kitshn-app/kitshn?style=for-the-badge&color=e8b616&labelColor=1c140c) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/kitshn-app/kitshn?style=for-the-badge&color=e8b616&labelColor=1c140c)
 
-**kitshn** is an unofficial multiplatform client for the self-hosted [Tandoor recipe management software](https://github.com/TandoorRecipes/recipes). The app is built with **Compose**, and **Material 3 Expressive** to deliver a modern, intuitive and responsive user experience and is developed for Android, iOS and Desktop.
-
-> [!IMPORTANT]
-> Although kitshn is available to multiple platforms, the main focus is still on Android.
-> Some features are exclusive to that platform.
+**kitshn** is an unofficial multiplatform client for the self-hostable [Tandoor Recipes](https://github.com/TandoorRecipes/recipes) application. The app is built with **Compose** and **Material 3 Expressive** to deliver a modern, intuitive and responsive user experience. It is developed for Android, iOS and Desktop.
 
 ## 📦 Installation
 
 [<img src="/images/badge_github.png"
 alt="Get it on GitHub"
-height="80">](https://github.com/aimok04/kitshn/releases)
+height="80">](https://github.com/kitshn-app/kitshn/releases)
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
 alt="Get it on F-Droid"
 height="80">](https://f-droid.org/packages/de.kitshn.android/)

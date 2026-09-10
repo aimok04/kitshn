@@ -55,7 +55,7 @@ jobs:
           VERSION: ${{ steps.version.outputs.name }}
         run: |
           ./appimagetool \
-            --updateinformation "gh-releases-zsync|aimok04|kitshn|latest|kitshn-*-x86_64.AppImage.zsync" \
+            --updateinformation "gh-releases-zsync|kitshn-app|kitshn|latest|kitshn-*-x86_64.AppImage.zsync" \
             kitshn.AppDir \
             "kitshn-${VERSION}-x86_64.AppImage"
 
