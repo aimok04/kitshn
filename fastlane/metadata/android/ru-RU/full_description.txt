@@ -1,0 +1,36 @@
+Создано с использованием Compose и Material 3 Expressive для современного, интуитивно понятного и отзывчивого пользовательского интерфейса.
+
+<b>💪 Основные возможности</b>
+<ul>
+    <li>Динамический <i>главный экран</i></li>
+    <li>Интерфейс</i>
+    <ul>
+      <li>Персонализация Material You</li>
+      <li>Material 3 <i>Expressive</i></li>
+      <li>Адаптивная компоновка для <i>телефонов</i>, <i>планшетов</i> и <i>складных устройств</i></li>
+    </ul>
+    <li>Рецепты</li>
+    <ul>
+      <li>Поддержка <i>Markdown</i></li>
+      <li>Режим приготовления</li>
+        <li>Создание таймеров с помощью <a href="https://kitshn.app/docs/features/timer-detection">распознавания таймеров</a></li>
+      <li><a href="https://kitshn.app/docs/features/share-wrapping.html">Ссылки приложения</a></li>
+      <li><a href="https://kitshn.app/docs/features/embedding-videos-inside-steps.html">Встраивание видео</a> в шаги приготовления</li>
+      <li>Импорт</li>
+        <li><a href="https://kitshn.app/docs/features/social-media-import.html">Импорт из социальных сетей</a> <i>с помощью ИИ</i></li>
+        <li>Отправка ссылок в <i>kitshn</i> для импорта</li>
+      <li>Удобный инструмент распределения ингредиентов</li>
+    </ul>
+    <li>План питания</li>
+    <li>Список покупок</li>
+    <ul>
+      <li>Режим покупок</li>
+      <li>Офлайн-синхронизация</li>
+    </ul>
+    <li>Книги рецептов</li>
+    <ul>
+      <li>Система <a href="https://kitshn.app/docs/features/favorites.html">избранного</a></li>
+    </ul>
+</ul>
+
+Иконка создана Freepik с сайта www.flaticon.com
